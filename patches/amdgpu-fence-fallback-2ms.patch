@@ -1,0 +1,8 @@
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -278,7 +278,11 @@
+-#define AMDGPU_FENCE_JIFFIES_TIMEOUT		(HZ / 2)
++/* BC-250 (gfx1013 Cyan Skillfish): SDMA fence trap interrupts are not delivered
++ * on this board, so ring fences only complete via this fallback timer. HZ/2
++ * (500ms) makes KFD map/unmap during model loading take ~30 min. Poll at 2ms. */
++#define AMDGPU_FENCE_JIFFIES_TIMEOUT		(HZ / 500)
