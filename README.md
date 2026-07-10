@@ -17,15 +17,15 @@ community 40-CU unlock applied, and the oberon governor capping the GPU at 1500 
 
 ## TL;DR
 
-- The gfx1013 compute-only queue is defective. Mesa/RADV disables it and routes compute through
-  the graphics queue; its driver comment reads `GFX1013 is known to have broken compute queue`.
-  A minimal test here reproduces the defect directly: small compute kernels are fine, large ones
-  intermittently hang or return wrong results, and the queue degrades under sustained load.
+- The gfx1013 compute-only queue does not work reliably (root cause unknown; it may or may not
+  be fixable). Mesa/RADV disables it and routes compute through the graphics queue; its driver
+  comment reads `GFX1013 is known to have broken compute queue`. A minimal test here reproduces
+  the problem directly: small compute kernels are fine, large ones intermittently hang or return
+  wrong results, and the queue degrades under sustained load.
 - ROCm/HIP runs all compute on that compute queue via KFD and cannot avoid it, so on real
   (large-kernel) workloads it is slow, non-deterministic, hangs, and degrades the board. The
   process-exit hang can be mitigated (userspace `sched_policy=2`, or a kernel-side change tracked
-  in ROCm/ROCm#6313), but no tweak tested here makes large-kernel compute reliable or correct,
-  because a driver cannot repair a broken compute queue.
+  in ROCm/ROCm#6313), but no tweak tested here makes large-kernel compute reliable or correct.
 - Compute works through the graphics queue: Vulkan (llama.cpp) runs full inference reliably,
   and RustiCL runs an OpenCL kernel correctly on the same board.
 - On this board, Vulkan is the practical choice for inference and RustiCL for OpenCL, and
@@ -34,12 +34,13 @@ community 40-CU unlock applied, and the oberon governor capping the GPU at 1500 
 ## Summary
 
 The short version: on this board the Vulkan (RADV) backend seems to be the better path. It works
-well, needs no workarounds, and runs on the part of the GPU that is actually functional. ROCm/HIP
+well, needs no workarounds, and runs on the part of the GPU that behaves. ROCm/HIP
 can be coaxed into running, but it tends to be slow, non-deterministic, and unstable, because it
-depends on a part of the GPU that appears to be hardware-broken on this APU.
+depends on a part of the GPU that does not work reliably on this APU as the upstream drivers
+currently run it.
 
-The root cause is not specific to ROCm. The compute-only queue (the MEC, or MicroEngine
-Compute, pipes) on gfx1013 has a hardware defect. Mesa/RADV already ships a workaround for it:
+The problem is not specific to ROCm. The compute-only queue (the MEC, or MicroEngine
+Compute, pipes) on gfx1013 misbehaves. Mesa/RADV already ships a workaround for it:
 [merge request !33116](https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33116),
 included in Mesa 25.1 and enabled by default for gfx1013, detects the chip and disables the
 compute-only queue, routing all work through the graphics/universal queue. The merge request
@@ -57,10 +58,14 @@ if (device_info.family == FAMILY_NV && ASICREV_IS(device_info.external_rev, GFX1
 
 Setting the number of compute queues to zero forces all work onto the graphics/universal
 queue. HIP/ROCm dispatches all compute to the MEC compute queues through KFD, and unlike RADV,
-RustiCL, or Vulkan, it has no way to avoid them. That is why Vulkan and OpenCL-via-RustiCL
-work while ROCm does not. Even RADV's author does not know the exact silicon mechanism (hence
-"until the root cause is known"), so "hardware defect in the compute queue" is the accurate
-framing, but the precise cause is not published.
+RustiCL, or Vulkan, it has no way to avoid them. That is likely why Vulkan and OpenCL-via-RustiCL
+work while ROCm does not. The root cause of the queue's misbehaviour is not publicly known
+(hence "until the root cause is known" in the merge request, written by the community
+contributor who added BC-250 support to Mesa). Whether it is a silicon defect, missing or
+different firmware, or a configuration the upstream drivers do not apply is an open question.
+Notably, the board originally shipped running vendor mining OS images, and it has been
+speculated upstream that those images had compute working, which, if true, would point at
+firmware or configuration rather than unfixable silicon. Nothing tested here settles that.
 
 ## Backends and the compute queue
 
@@ -74,7 +79,7 @@ A quick model of what runs where explains the whole situation:
 
 An OpenCL vector-add of about a million elements ([`patches/ocl_vecadd.c`](patches/ocl_vecadd.c))
 run under RustiCL (`RUSTICL_ENABLE=radeonsi`) computes correctly with zero mismatches on the
-`AMD BC-250 (radeonsi, gfx1013)` device. That confirms the silicon can do compute when the work
+`AMD BC-250 (radeonsi, gfx1013)` device. That shows the silicon can do compute when the work
 goes through the graphics queue. The problem is confined to the dedicated compute queue that
 ROCm requires. This was only a minimal kernel, though. How well RustiCL holds up on larger or
 real-world OpenCL workloads was not tested here, so it is better read as a working proof of
@@ -105,11 +110,13 @@ are unreliable, both for correctness and for liveness, and the queue degrades un
 matches what Mesa observed (simple apps work, CTS tests and games fail) and explains the ROCm/HIP
 behaviour directly, since LLM inference is entirely large GEMM and attention kernels.
 
-Because of this, a driver-side fix for the compute-queue defect itself is not expected to be
-possible. A driver cannot repair broken silicon. RADV's fix is avoidance, and ROCm has no
-equivalent option. The separate process-exit hang described below is mitigable, and is being
-worked on kernel-side upstream, but making the hang go away does not make the compute queue's
-results reliable.
+No fix for the compute-queue defect itself is known today: RADV's merged solution is avoidance,
+and ROCm has no equivalent option because it cannot route compute anywhere else. Whether a real
+fix is possible depends on the root cause, which nobody has published. If it turns out to be
+firmware or configuration (as the mining-OS speculation would suggest), a fix could eventually
+appear; if it is silicon, avoidance is all there is. The separate process-exit hang described
+below is mitigable, and is being worked on kernel-side upstream, but making the hang go away
+does not make the compute queue's results reliable.
 
 ## Getting HIP to run at all
 
@@ -226,7 +233,7 @@ HIP use: after enough activity even trivial allocations become slow, and eventua
 dbus stop responding and a hard power-cycle is required. GPU temperature stayed normal (around
 64 C), so this is not thermal throttling.
 
-All of this is consistent with the compute-queue hardware defect. It is the same class of
+All of this is consistent with the compute-queue defect. It is the same class of
 failure as the freezes in [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313) and the
 `Fence fallback timer expired on ring sdma0` messages that appear at every boot, tracked more
 generally in [kernel bug #216645](https://bugzilla.kernel.org/show_bug.cgi?id=216645).
@@ -247,10 +254,9 @@ them:
 - `GGML_CUDA_ENABLE_UNIFIED_MEMORY=1` (managed memory, in-place weights on UMA): no improvement.
 - `amdgpu.gartsize`: hardware-fixed at 512 MB on this ASIC, no effect.
 - `amdgpu.num_kcq=1` with `amdgpu.compute_multipipe=0` (restrict compute to a single queue and
-  pipe): still hangs, so it is not one bad pipe, the whole compute queue is broken.
+  pipe): still hangs, so it does not look like one bad pipe.
 - `amdgpu.cwsr_enable=0` (disable compute wave save/restore preemption) plus `amd_iommu=on
-  iommu=pt`: still hangs. These parameters help on a functioning compute queue but cannot
-  revive a broken one.
+  iommu=pt`: still hangs.
 - Stock 24 CU instead of the 40-CU unlock: just as flaky, so the unlock is not the cause.
 - Larger or smaller staging chunks, and reduced `--gpu-layers`: no effect, because the cost is
   in per-operation completion, not in the upload.
@@ -322,7 +328,7 @@ is set. The large-kernel result is non-deterministic, so a few repeats are expec
 |------|------------|
 | [`reproduce.sh`](reproduce.sh) | Builds and runs the probes below and prints the key results |
 | [`patches/compute_probe.c`](patches/compute_probe.c) | Bare HIP compute reproducer: small kernels correct and fast, large kernels intermittently wrong and degrade the queue |
-| [`patches/ocl_vecadd.c`](patches/ocl_vecadd.c) | Minimal OpenCL vector-add that proves compute works on the graphics queue via RustiCL |
+| [`patches/ocl_vecadd.c`](patches/ocl_vecadd.c) | Minimal OpenCL vector-add showing compute works on the graphics queue via RustiCL |
 | [`patches/rocblas_probe.c`](patches/rocblas_probe.c) | Standalone rocBLAS SGEMM that tests gfx1013 kernel availability and returns on error instead of aborting |
 | [`patches/loadmimic.c`](patches/loadmimic.c) | Microbenchmark that replicates llama.cpp's asynchronous upload loop, used to isolate the slowness |
 | [`patches/evtlat.c`](patches/evtlat.c) | Small HIP event-synchronisation latency microbenchmark |
@@ -334,7 +340,7 @@ is set. The large-kernel result is non-deterministic, so a few repeats are expec
 - [Mesa merge request !33116](https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33116) and [Mesa 25.1 release notes](https://docs.mesa3d.org/relnotes/25.1.0.html): RADV disables the broken gfx1013 compute-only queue. Commit `7271b8ee`, "radv,radeonsi: disable compute queue for BC250".
 - [Mesa issue #11982](https://gitlab.freedesktop.org/mesa/mesa/-/issues/11982): AMD Cyan Skillfish support discussion, including that RustiCL works and the compute-queue artifacting.
 - [drm/amd issue #3356](https://gitlab.freedesktop.org/drm/amd/-/issues/3356): a kernel-side Cyan Skillfish system-freeze regression (now closed).
-- [AMD BC250 documentation, RADV page](https://elektricm.github.io/amd-bc250-docs/drivers/radv/): the compute-queue issue and the `RADV_DEBUG=nocompute` workaround.
+- [Community BC-250 documentation, RADV page](https://elektricm.github.io/amd-bc250-docs/drivers/radv/): the compute-queue issue and the `RADV_DEBUG=nocompute` workaround.
 - [kernel bug #216645](https://bugzilla.kernel.org/show_bug.cgi?id=216645): Fence fallback timer expired.
 - [ROCm/rocm-libraries PR #8838](https://github.com/ROCm/rocm-libraries/pull/8838): adding gfx1013 support to rocBLAS.
 - [duggasco/bc250-40cu-unlock](https://github.com/duggasco/bc250-40cu-unlock): the 40-CU unlock and the module-build pipeline reused here.
@@ -343,9 +349,10 @@ is set. The large-kernel result is non-deterministic, so a few repeats are expec
 ## Conclusion
 
 ROCm/HIP on the BC-250 leans on the compute queue, which seems to be the part of this APU that
-does not work. The slow and non-deterministic completion, the wrong results on large dispatches,
-and the degradation under load all look downstream of that defect, and a driver-level fix for it
-is probably not possible, for the same reason RADV could only work around it by avoidance. The
+does not work reliably. The slow and non-deterministic completion, the wrong results on large
+dispatches, and the degradation under load all look downstream of that defect. No fix for it is
+known today (RADV's merged solution is avoidance, and the root cause has not been identified),
+and whether one is possible in firmware, configuration, or the driver remains open. The
 separate board freeze on process exit is more tractable: it can be mitigated with the userspace
 `amdgpu.sched_policy=2`, and a kernel-side change for it is being worked on in ROCm/ROCm#6313,
 though stopping the freeze does not make the compute queue's results reliable. Vulkan runs on the
