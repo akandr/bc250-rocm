@@ -1,0 +1,96 @@
+=== sweep fixed_1500_1000 mode=fixed freq=1500 mv=1000 2026-07-10T20:39:35+02:00 ===
+6.18.9-200.fc43.x86_64
+BOOT_IMAGE=(hd0,gpt2)/vmlinuz-6.18.9-200.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root rhgb quiet ttm.pages_limit=4194304 quiet mitigations=off amdgpu.sched_policy=2
+3
+lip 10 22:36:49 bc250 kernel: amdgpu 0000:01:00.0: amdgpu: SE 2, SH per SE 2, CU per SH 10, active_cu_number 40
+--- clock state after setup:
+OD_SCLK:
+0: 1500Mhz *
+OD_VDDC:
+0: 993mV *
+OD_RANGE:
+SCLK:    1000Mhz       2000Mhz
+VDDC:     700mV        1129mV
+	1500 MHz (SCLK)
+	0 MHz (PSTATE_SCLK)
+	993 mV (VDDGFX)
+GPU Temperature: 59 C
+=== sanity small kernel ===
+--- RUN sanity nblocks=4096 inner=1000 temp=59C 2026-07-10T20:39:42+02:00
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=1000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=89.0 ms  wrong=0/1048576  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- RUN 16384_r1 nblocks=16384 inner=6000 temp=60C 2026-07-10T20:39:43+02:00
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=1880.0 ms  wrong=0/4194304  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- RUN 16384_r2 nblocks=16384 inner=6000 temp=63C 2026-07-10T20:39:45+02:00
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=1913.2 ms  wrong=0/4194304  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- RUN 16384_r3 nblocks=16384 inner=6000 temp=63C 2026-07-10T20:39:48+02:00
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+:0:rocdevice.cpp            :2994: 0191030523 us:  Callback: Queue 0x7f1a58200000 aborting with error : HSA_STATUS_ERROR_INVALID_PACKET_FORMAT: The AQL packet is malformed. code: 0x1009
+timeout: monitowane polecenie zrobio zrzut pamici
+/home/akandr/sweep_cfg.sh: linia 52:  1687 Przerwane                  HSA_ENABLE_SDMA=0 timeout -k 10 240 ~/compute_probe_fresh "$nb" "$inner" 1
+--- RC=134 (124=timeout/hang)
+--- dmesg had output, see dmesg_16384_r3.log
+--- RUN 16384_r4 nblocks=16384 inner=6000 temp=61C 2026-07-10T20:39:49+02:00
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=1937.2 ms  wrong=0/4194304  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- RUN 32768_r1 nblocks=32768 inner=6000 temp=64C 2026-07-10T20:39:51+02:00
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=3915.4 ms  wrong=525308/8388608  MISMATCH
+   first mismatch at index 0: got 0, want -2109779631
+RESULT: total_wrong=525308 -> COMPUTE PRODUCES WRONG RESULTS
+--- RC=3 (124=timeout/hang)
+--- RUN 32768_r2 nblocks=32768 inner=6000 temp=64C 2026-07-10T20:39:55+02:00
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+--- RC=124 (124=timeout/hang)
+--- dmesg had output, see dmesg_32768_r2.log
+--- RUN 32768_r3 nblocks=32768 inner=6000 temp=63C 2026-07-10T20:43:56+02:00
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+--- RC=124 (124=timeout/hang)
+--- dmesg had output, see dmesg_32768_r3.log
+--- RUN 32768_r4 nblocks=32768 inner=6000 temp=63C 2026-07-10T20:48:00+02:00
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=3757.4 ms  wrong=0/8388608  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- dmesg had output, see dmesg_32768_r4.log
+--- RUN 65536_r1 nblocks=65536 inner=6000 temp=67C 2026-07-10T20:48:08+02:00
+=== compute_probe gfx1013:xnack- nblocks=65536 (16777216 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=7744.5 ms  wrong=0/16777216  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- RUN 65536_r2 nblocks=65536 inner=6000 temp=67C 2026-07-10T20:48:16+02:00
+=== compute_probe gfx1013:xnack- nblocks=65536 (16777216 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+--- RC=124 (124=timeout/hang)
+--- dmesg had output, see dmesg_65536_r2.log
+=== 3 hangs, aborting sweep (degraded)
+=== post-sweep small kernel (degradation check) ===
+--- RUN post_sanity nblocks=4096 inner=1000 temp=63C 2026-07-10T20:52:20+02:00
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=1000 iters=1 ===
+HSA_ENABLE_SDMA=0
+*** stack smashing detected ***: terminated
+timeout: monitowane polecenie zrobio zrzut pamici
+/home/akandr/sweep_cfg.sh: linia 52:  5367 Przerwane                  HSA_ENABLE_SDMA=0 timeout -k 10 240 ~/compute_probe_fresh "$nb" "$inner" 1
+--- RC=134 (124=timeout/hang)
+--- dmesg had output, see dmesg_post_sanity.log
+=== sweep fixed_1500_1000 done 2026-07-10T20:52:29+02:00, hangs=3 ===

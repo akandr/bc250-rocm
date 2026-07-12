@@ -1,0 +1,35 @@
+=== RustiCL (graphics queue) compute probe A/B vs HIP compute queue 2026-07-12T00:26:21
+--- build ocl_compute_probe:
+/home/akandr/ocl_compute_probe.c: In function main:
+/home/akandr/ocl_compute_probe.c:58:5: warning: clCreateCommandQueue is deprecated [-Wdeprecated-declarations]
+   58 |     if(err){ q = clCreateCommandQueue(ctx,dev,0,&err); } CK(err);
+      |     ^~
+In file included from /home/akandr/ocl_compute_probe.c:16:
+/usr/include/CL/cl.h:1910:1: note: declared here
+ 1910 | clCreateCommandQueue(cl_context                     context,
+      | ^~~~~~~~~~~~~~~~~~~~
+  build OK
+--- RustiCL at the sizes where HIP compute-queue wedges/corrupts (nblocks inner iters):
+  == size 1048576 threads (nblocks=4096):
+iter 0: sync=2.0 ms  wrong=0/1048576  ok
+iter 1: sync=2.0 ms  wrong=0/1048576  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+    rc=0 (0=all correct, 3=wrong, 124=hang)
+  == size 4194304 threads (nblocks=16384):
+iter 0: sync=46.1 ms  wrong=0/4194304  ok
+iter 1: sync=46.1 ms  wrong=0/4194304  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+    rc=0 (0=all correct, 3=wrong, 124=hang)
+  == size 8388608 threads (nblocks=32768):
+iter 0: sync=91.9 ms  wrong=0/8388608  ok
+iter 1: sync=91.9 ms  wrong=0/8388608  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+    rc=0 (0=all correct, 3=wrong, 124=hang)
+  == size 16777216 threads (nblocks=65536):
+iter 0: sync=183.5 ms  wrong=0/16777216  ok
+iter 1: sync=183.5 ms  wrong=0/16777216  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+    rc=0 (0=all correct, 3=wrong, 124=hang)
+--- board still healthy (RustiCL uses graphics queue, should never wedge)?
+  preemption timeouts: 0
+=== rusticl_test done 2026-07-12T00:26:23

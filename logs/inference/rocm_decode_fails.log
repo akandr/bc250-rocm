@@ -1,0 +1,25 @@
+=== tg_investigate 2026-07-11T01:30:04
+######## pp128: -p 128 -n 0
+pp128 RC=0
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       | 999 |   1 |    0 |           pp128 |         35.51  0.00 |
+######## tg2: -p 0 -n 2
+tg2 RC=124
+######## tg4: -p 0 -n 4
+tg4 RC=139
+######## tg8: -p 0 -n 8
+tg8 RC=139
+######## tg16: -p 0 -n 16
+tg16 RC=124
+######## coherence: llama-cli single-turn generation
+cli RC=137
+--no-conversation is not supported by llama-cli
+please use llama-completion instead
+Loading model... 
+=== dmesg:
+[  362.816901] amdgpu: cp queue preemption time out.
+[  362.819928] amdgpu: Failed to quiesce KFD
+[  366.911973] amdgpu: cp queue preemption time out.
+[  546.918540] amdgpu: cp queue preemption time out.
+[  546.918555] amdgpu: Failed to quiesce KFD
+[  551.009522] amdgpu: cp queue preemption time out.
+=== tg_investigate done 2026-07-11T01:39:05

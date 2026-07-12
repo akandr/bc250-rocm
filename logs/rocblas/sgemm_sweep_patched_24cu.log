@@ -1,0 +1,27 @@
+# Native gfx1013 rocBLAS SGEMM sweep — PATCHED amdgpu module (flush_pasid_uses_kiq = false).
+# Board: Fedora 43, kernel 6.18.9-200.fc43, ROCm 6.4.2. No HSA_OVERRIDE.
+#
+# Why 24 CU: in the kernel tree used here the BC-250 40-CU unlock write lives inside
+# gfx_v10_0_kiq_reset_hw_queue(), i.e. it only fires when a KIQ hardware queue is reset. The
+# correctness patch removes the KIQ activity that (on the stock driver) incidentally triggers
+# that reset, so the unlock never fires and the board comes up at 24 CU. We verified the loaded
+# module was the patched one (its decompressed binary matched the freshly built .ko and differed
+# from stock) and that dmesg reported "active_cu_number 24".
+
+# --- single-size sweep: every size wedges ---
+N=256   -> timeout / wedge   (dmesg: "cp queue preemption time out")
+N=512   -> timeout / wedge   (dmesg: "cp queue preemption time out")
+N=1024  -> timeout / wedge   (dmesg: "cp queue preemption time out")
+N=2048  -> timeout / wedge   (dmesg: "cp queue preemption time out")
+
+# dmesg during the sweep:
+#   amdgpu: cp queue preemption time out.
+#   amdgpu: cp queue preemption time out.
+#   amdgpu: cp queue preemption time out.
+#   amdgpu: Resetting wave fronts (nocpsch) on dev 00000000a3f1a4ab
+
+# Reading of this (offered tentatively): at 24 CU even a tiny GEMM wedges, so the correctness
+# patch and a working 40-CU compute queue could not be had at the same time on this board — the
+# unlock is entangled with the very KIQ reset the patch removes. A soft reboot after these wedges
+# did not recover the queue; a hard power-cycle was needed. Back on the stock module at 40 CU the
+# same GEMMs (N=512, N=2048) were correct again.

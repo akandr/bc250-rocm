@@ -1,0 +1,13 @@
+=== bench_prefill 2026-07-11T02:03:01
+	adev->gmc.flush_pasid_uses_kiq = false; /* BC-250 ROCm#6313 */
+active_cu_number 40
+######## ROCm prefill (native gfx1013 + FA + MMQ), pp128/pp256/pp512, r3
+  (pp128 ROCm rc=124)
+  (pp256 ROCm rc=139)
+  (pp512 ROCm rc=137)
+######## Vulkan pp128/256/512 + tg128 (reference), r3
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     | 999 |   1 |    0 |           pp128 |       1275.72  0.71 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     | 999 |   1 |    0 |           pp256 |       1597.66  1.98 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     | 999 |   1 |    0 |           pp512 |       1845.60  0.41 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     | 999 |   1 |    0 |           tg128 |        211.01  0.02 |
+=== bench_prefill done 2026-07-11T02:09:39

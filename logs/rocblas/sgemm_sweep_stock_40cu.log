@@ -1,0 +1,25 @@
+# Native gfx1013 rocBLAS SGEMM sweep (patches/sgemm_sweep.cpp)
+# Board: Fedora 43, kernel 6.18.9-200.fc43, ROCm 6.4.2. STOCK amdgpu module
+# (flush_pasid_uses_kiq = true), 40 CU active. No HSA_OVERRIDE_GFX_VERSION.
+# CPU-verified (column-major, alpha=1, beta=0). Each run wrapped in `timeout 90`.
+#
+# The library itself: librocblas.so.4.4 = 38.8 MB, 56 gfx1013 Tensile libraries,
+# Kernels.so-000-gfx1013.hsaco -> ELF "AMD GPU", Flags 0x142, gfx1013 (native code, not an override).
+
+# --- single-size sweep ---
+N=256   iters=1    st=0 sync=0    6.6ms    5.1 GFLOP/s  chk(3050/3050,3087/3087) CORRECT
+N=512   iters=1    st=0 sync=0    6.7ms   40.1 GFLOP/s  chk(6125/6125,6138/6138) CORRECT
+N=1024  iters=1    st=0 sync=0    7.2ms  299.1 GFLOP/s  chk(12271/12271,12279/12279) CORRECT
+N=2048  iters=1    st=0 sync=0   10.4ms 1659.7 GFLOP/s  chk(24545/24545,24576/24576) CORRECT
+
+# --- sustained (many iterations of a small/medium GEMM) ---
+N=512   iters=2000 st=0 sync=0  230.7ms 2327.4 GFLOP/s  chk(6125/6125,6138/6138) CORRECT
+N=1024  iters=500  st=0 sync=0  286.6ms 3746.4 GFLOP/s  chk(12271/12271,12279/12279) CORRECT
+
+# --- large dispatches: intermittent wedge (timeout, no result) ---
+N=2048  iters=200  -> timeout / wedge   (dmesg: "cp queue preemption time out")
+N=4096  iters=1    -> timeout / wedge   (dmesg: "cp queue preemption time out")
+
+# Note: N=1024 (single) hung once on a first pass and then ran correctly twice on immediate
+# retry — i.e. the wedge looks intermittent, not a hard size threshold. Every run that COMPLETES
+# is numerically exact; we did not see silent-wrong results from rocBLAS at these sizes on stock.

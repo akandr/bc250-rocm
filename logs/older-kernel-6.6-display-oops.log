@@ -1,0 +1,24 @@
+# Trying an older (pre-regression) kernel to see whether the compute-queue wedge is a software
+# regression. We installed a stock Fedora 39 kernel-6.6.14-200.fc39 and booted it once via a
+# one-time grub2-reboot entry (default kept at 6.18.9 as a fallback).
+#
+# Result: the board booted 6.6.14 but never became reachable (no sshd/network). The persistent
+# journal from that boot shows amdgpu's display (Display Core) code faulting during KMS bringup,
+# and GPU-probe udev workers hanging on the render nodes. So a stock old kernel can't bring this
+# board up far enough to even try the compute test.
+#
+# BC-250 support (both the 40-CU unlock module param and, evidently, the display fixes) only
+# appears upstream from kernel ~6.18 — Fedora's 6.18.9 amdgpu exposes bc250_cc_write_mode, its
+# 6.17.1 does not. So a clean old-kernel test would need those BC-250 amdgpu patches backported,
+# which is a much larger job than we took on here.
+
+--- journal excerpt, boot of 6.6.14-200.fc39 ---
+kernel: [drm] Failed to add display topology, DTM TA is not initialized.
+kernel: Hardware name: Default string AMD BC-250/AMD BC-250, BIOS P3.00 12/09/2021
+kernel: RIP: 0010:commit_planes_for_stream+0xdd7/0x13d0 [amdgpu]
+kernel:  dc_update_planes_and_stream+0x3ae/0xa50 [amdgpu]
+kernel:  amdgpu_dm_atomic_commit_tail+0x17d6/0x3a30 [amdgpu]
+kernel:  amdgpu_drm_ioctl+0x4e/0x90 [amdgpu]
+(udev-worker): card1: '/usr/libexec/switcheroo-control-check-discrete-amdgpu /dev/dri/card1' timed out after 2min 59s, killing.
+(udev-worker): renderD128: '/usr/libexec/switcheroo-control-check-discrete-amdgpu /dev/dri/renderD128' timed out after 2min 59s, killing.
+--- board recovered by power-cycling back to the default 6.18.9 kernel ---

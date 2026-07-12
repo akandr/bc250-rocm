@@ -1,0 +1,12 @@
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+@@ -984,7 +984,8 @@ static int gmc_v10_0_hw_init(struct amdgpu_ip_block *ip_block)
+ 	struct amdgpu_device *adev = ip_block->adev;
+ 	int r;
+
+-	adev->gmc.flush_pasid_uses_kiq = !amdgpu_emu_mode;
++	/* BC-250/gfx1013: route PASID TLB flushes via MMIO, not the KIQ ring (ROCm/ROCm#6313) */
++	adev->gmc.flush_pasid_uses_kiq = false;
+
+ 	/* The sequence of these two function calls matters.*/
+ 	gmc_v10_0_init_golden_registers(adev);

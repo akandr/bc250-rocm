@@ -1,372 +1,456 @@
-# ROCm / HIP on the AMD BC-250 (gfx1013, Cyan Skillfish)
+# ROCm / HIP on the AMD BC-250 (gfx1013, Cyan Skillfish): field notes
 
-This document collects what an investigation into AMD ROCm/HIP compute on the BC-250 mining
-board turned up: what works, what does not, why, and the workarounds that were tried. The
-board is built around AMD's Cyan Skillfish APU (Zen 2 CPU plus a gfx1013 RDNA1 GPU, 16 GB
-GDDR6 unified memory), a design related to the PlayStation 5 silicon and sold cheaply as
-salvaged mining hardware. gfx1013 is not on ROCm's supported-GPU list, so nothing works out
-of the box.
+These are notes from testing GPU compute on an AMD BC-250, from one board and one software stack.
+The measurements are reproducible and included as logs; the explanations are working theories and
+may be wrong or incomplete. Corrections and "have you tried X" comments are welcome; see
+[Open questions](#open-questions) at the end.
 
-These are field notes from a single board with a community-patched BIOS. Some conclusions are
-best-effort inferences from observed behaviour and from upstream reports rather than confirmed
-silicon errata, and that is noted where it applies.
+This is the ROCm/HIP companion to [akandr/bc250](https://github.com/akandr/bc250), which covers the
+board itself and its (working) Vulkan setup; that background is not repeated here. The Vulkan side
+is the settled one: for running LLM inference on the board today, Vulkan via Mesa RADV is the
+reliable, fast path. What follows is the other side, how far the ROCm/HIP compute stack can be
+pushed, and where it keeps hitting a wall.
 
-Environment used throughout: Fedora 43, kernel 6.18.9-200.fc43 (also cross-checked on stock
-6.17.1), ROCm 6.4.2 with rocBLAS 6.4.4, LLVM 19, Mesa RADV for the Vulkan comparison, the
-community 40-CU unlock applied, and the oberon governor capping the GPU at 1500 MHz.
+Environment throughout: Fedora 43, kernel 6.18.9-200.fc43, ROCm 6.4.2 (rocBLAS 6.4.4 as shipped,
+plus a native gfx1013 rocBLAS built locally), LLVM/clang 19, Mesa 25.3 RADV for the Vulkan
+comparison, the community 40-CU unlock, the oberon governor around 1500 MHz.
 
-## TL;DR
+## Contents
 
-- The gfx1013 compute-only queue does not work reliably (root cause unknown; it may or may not
-  be fixable). Mesa/RADV disables it and routes compute through the graphics queue; its driver
-  comment reads `GFX1013 is known to have broken compute queue`. A minimal test here reproduces
-  the problem directly: small compute kernels are fine, large ones intermittently hang or return
-  wrong results, and the queue degrades under sustained load.
-- ROCm/HIP runs all compute on that compute queue via KFD and cannot avoid it, so on real
-  (large-kernel) workloads it is slow, non-deterministic, hangs, and degrades the board. The
-  process-exit hang can be mitigated (userspace `sched_policy=2`, or a kernel-side change tracked
-  in ROCm/ROCm#6313), but no tweak tested here makes large-kernel compute reliable or correct.
-- Compute works through the graphics queue: Vulkan (llama.cpp) runs full inference reliably,
-  and RustiCL runs an OpenCL kernel correctly on the same board.
-- On this board, Vulkan is the practical choice for inference and RustiCL for OpenCL, and
-  ROCm/HIP is probably best treated as unsupported for now.
+- [A short primer: the AMD compute stack](#a-short-primer-the-amd-compute-stack)
+- [The claim this repo tests](#the-claim-this-repo-tests)
+- [Observation 1: occasional silent wrong results](#observation-1-occasional-silent-wrong-results)
+- [Observation 2: the compute queue wedges under load](#observation-2-the-compute-queue-wedges-under-load)
+- [Building a native gfx1013 rocBLAS](#building-a-native-gfx1013-rocblas)
+- [Observation 3: the unlock, the fix, and the wedge are entangled](#observation-3-the-unlock-the-fix-and-the-wedge-are-entangled)
+- [How far ROCm inference gets](#how-far-rocm-inference-gets)
+- [ROCm vs Vulkan](#rocm-vs-vulkan)
+- [Status snapshot](#status-snapshot)
+- [Open questions](#open-questions)
+- [Reproducing](#reproducing)
+- [Files](#files)
+- [References](#references)
 
-## Summary
+## A short primer: the AMD compute stack
 
-The short version: on this board the Vulkan (RADV) backend seems to be the better path. It works
-well, needs no workarounds, and runs on the part of the GPU that behaves. ROCm/HIP
-can be coaxed into running, but it tends to be slow, non-deterministic, and unstable, because it
-depends on a part of the GPU that does not work reliably on this APU as the upstream drivers
-currently run it.
+This section lays out the vocabulary the rest of the document uses, working from an application down
+to the silicon. It is a simplified picture.
 
-The problem is not specific to ROCm. The compute-only queue (the MEC, or MicroEngine
-Compute, pipes) on gfx1013 misbehaves. Mesa/RADV already ships a workaround for it:
-[merge request !33116](https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33116),
-included in Mesa 25.1 and enabled by default for gfx1013, detects the chip and disables the
-compute-only queue, routing all work through the graphics/universal queue. The merge request
-description states it plainly: "Compute-only queue doesn't work properly, leading to massive
-Vulkan CTS tests failures and visual glitches in games. This MR disables it for now, until the
-root cause is known." The disabling code that commit `7271b8ee` added to
-`src/amd/common/ac_gpu_info.c` is direct (later refactored in Mesa main, but unchanged in intent):
+### The one-picture version
+
+A program like llama.cpp can reach the same GPU by two completely separate software roads. One is
+built for graphics (and works on this board), the other for general-purpose compute (and is the one
+that struggles):
+
+```
+                    llama.cpp  (the application)
+                   /                            \
+        COMPUTE road (ROCm)              GRAPHICS road (Vulkan)
+   HIP        a CUDA-like API          Vulkan      graphics + compute API
+   rocBLAS    math libraries           (shaders)   the GPU programs
+   ROCr/HSA   userspace runtime        Mesa RADV   userspace driver
+   KFD        in the amdgpu driver     amdgpu DRM  kernel driver
+        |                                    |
+   MEC compute queue                  graphics (universal) queue
+         \                                  /
+                 one shared set of GPU shader cores
+```
+
+Everything below just names the boxes in that diagram.
+
+### Architectures, cores, and the word "kernel"
+
+**GPU architectures have ISA names.** AMD GPUs carry an instruction-set name such as `gfx900`,
+`gfx1030`, or `gfx1100`, and GPU programs are compiled for a specific one. This board's GPU is
+**gfx1013** (RDNA1-class), which is not on ROCm's official supported-GPU list, so "is gfx1013
+supported?" recurs throughout.
+
+**Shader cores, CUs, and wavefronts.** A GPU runs work on many small parallel cores grouped into
+**compute units (CUs)**; vendors often disable some at the factory ("harvesting"), and threads
+execute in lockstep groups called **wavefronts**. How many CUs end up enabled turns out to matter
+later.
+
+**"Kernel" means two things.** A **GPU kernel** is a
+small program that runs on the GPU (one launch of it is a **dispatch**). The **Linux kernel** is
+the operating system, and the `amdgpu` **kernel driver** lives inside it. "A compute kernel wedges"
+means a GPU program; "kernel 6.18" means Linux.
+
+### The two software roads
+
+**Graphics (works here).** OpenGL and Vulkan are served on Linux mostly by **Mesa**; AMD's Vulkan
+driver in Mesa is **RADV**. llama.cpp's Vulkan backend uses this road, and it runs well on the
+BC-250.
+
+**Compute (the hard one).** AMD's general-purpose compute stack is **ROCm**. Its CUDA-like
+programming API is **HIP** (close enough to CUDA that code often ports with a rename), and on top
+sit math libraries such as **rocBLAS**. Underneath HIP is the **ROCr / HSA runtime**, the userspace
+layer that talks to the driver and hands work to the GPU; environment variables like
+`HSA_OVERRIDE_GFX_VERSION` and errors like `HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION` come from
+here. llama.cpp's HIP backend uses this road, and it is the one that struggles on this chip.
+
+**KFD.** The kernel-side half of ROCm is the **KFD** (Kernel Fusion Driver), part of the `amdgpu`
+module. It sets up the compute queues, doorbells, and per-process GPU memory maps that HIP programs
+use. "The compute queue is broken" points at something in this path.
+
+### How work actually reaches the GPU: queues
+
+The driver hands work to the GPU through hardware **queues** (command rings the GPU pulls from, like
+a to-do list). Two matter here:
+
+- the **graphics / universal queue**, driven by the GFX engine, and
+- the **compute queue(s)**, driven by the **MEC** (MicroEngine Compute), a small firmware processor
+  on the GPU dedicated to compute dispatches.
+
+The single most important fact for this whole document: **ROCm/HIP sends its compute to the MEC
+compute queue**, while Vulkan/RADV normally uses the graphics queue. Same shader cores at the
+bottom, different route to reach them. (An OpenCL path called **RustiCL**, part of Mesa, also goes
+by the graphics-queue route, which makes it a handy control later.)
+
+**KIQ, PASID, and TLB flushes.** The **KIQ** (Kernel Interface Queue) is a special ring the driver
+uses to ask the MEC firmware to do privileged jobs. One such job is invalidating the GPU's
+address-translation cache (a **TLB flush**, the GPU equivalent of a CPU's TLB) for a given process,
+which is identified by a **PASID**. Newer kernels route that PASID TLB flush through the KIQ/MEC
+firmware; older kernels did it directly from the CPU over memory-mapped registers (**MMIO**). That
+choice is the crux of Observation 1.
+
+**rocBLAS, Tensile, and code objects.** rocBLAS is AMD's matrix-multiply (BLAS) library; **Tensile**
+is the part that generates its GPU programs per architecture. Those compiled GPU programs are
+**code objects** (files ending `.hsaco`, an ELF holding GPU machine code). Stock rocBLAS ships no
+gfx1013 code objects, so matrix operations have nothing to run and fall over. Building them is one
+of the sections below.
+
+### How Mesa handles it
+
+Mesa's source, for this chip, carries the comment `GFX1013 is known to have broken compute queue`,
+and RADV
+[disables the compute-only queue for it](https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33116),
+routing compute through the graphics queue instead. ROCm has no equivalent escape hatch: its
+compute goes to the compute queue, so it cannot side-step the problem the same way.
+
+## The claim this repo tests
+
+Getting ROCm working would open up the wider GPGPU ecosystem on the board (rocBLAS, PyTorch-shaped
+workloads, image generation, and so on). The stock answer is that it cannot: the compute queue is
+broken. The notes below test that claim. A tentative reading of the results is that the single label
+"broken compute queue" appears to cover **two different problems** that behave very differently.
+That split is an interpretation of the observed behaviour, not a proven account.
+
+## Observation 1: occasional silent wrong results
+
+### What the probe showed
+
+A bare HIP kernel ([`patches/compute_probe.c`](patches/compute_probe.c), native gfx1013, no
+rocBLAS, no override) fills an array by arithmetic and checks every element against a CPU
+reference. On the stock driver it sometimes returns wrong answers with no error reported. In one
+run at about 8.4 million threads, 525,308 elements were wrong, and each wrong element still held its
+pre-kernel value, as if some stores were dropped. Silent wrong results are the most dangerous
+failure mode, so this was worth chasing.
+
+| module | 1M | 4M | 8M | 16M | silent-wrong runs | kiq-fence freeze |
+|--------|:--:|:--:|:--:|:---:|:-----------------:|:----------------:|
+| stock (`flush_pasid_uses_kiq = true`) | ok | ok / abort | 525,308 wrong / hang | hang | yes | yes |
+| patched (`= false`) | ok | ok | ok (mostly) | 16.7M correct once; some recoverable hangs | 0 | no |
+
+Full logs: [`logs/stock/`](logs/stock/), [`logs/patched/`](logs/patched/).
+
+### A likely explanation (tentative)
+
+The dropped-store pattern points at address translation. The PASID TLB flush
+(`amdgpu_gmc_flush_gpu_tlb_pasid()`) branches on `adev->gmc.flush_pasid_uses_kiq`. When true (the
+mainline default), the flush is submitted to the KIQ ring, so the MEC firmware performs it while
+compute is in flight, and this path is also the source of a `timeout waiting for kiq fence`
+board-freeze. When false, the flush is done from the CPU over MMIO, with no MEC involvement.
+
+A plausible reading, and it is only that, is that routing the invalidation through the MEC while a
+compute kernel is running lets a translation get invalidated out from under an in-flight wavefront
+on this Navi-1x part, so the store lands nowhere. Setting that field to false appears to make the
+wrong answers go away in these tests:
 
 ```c
-/* GFX1013 is known to have broken compute queue */
-if (device_info.family == FAMILY_NV && ASICREV_IS(device_info.external_rev, GFX1013)) {
-   info->ip[AMD_IP_COMPUTE].num_queues = 0;
-}
+/* BC-250/gfx1013: route PASID TLB flushes via MMIO, not the KIQ ring */
+adev->gmc.flush_pasid_uses_kiq = false;
 ```
 
-Setting the number of compute queues to zero forces all work onto the graphics/universal
-queue. HIP/ROCm dispatches all compute to the MEC compute queues through KFD, and unlike RADV,
-RustiCL, or Vulkan, it has no way to avoid them. That is likely why Vulkan and OpenCL-via-RustiCL
-work while ROCm does not. The root cause of the queue's misbehaviour is not publicly known
-(hence "until the root cause is known" in the merge request, written by the community
-contributor who added BC-250 support to Mesa). Whether it is a silicon defect, missing or
-different firmware, or a configuration the upstream drivers do not apply is an open question.
-Notably, the board originally shipped running vendor mining OS images, and it has been
-speculated upstream that those images had compute working, which, if true, would point at
-firmware or configuration rather than unfixable silicon. Nothing tested here settles that.
+The change is [`patches/amdgpu-flush-pasid-mmio.patch`](patches/amdgpu-flush-pasid-mmio.patch),
+built with [`scripts/build_patched_amdgpu.sh`](scripts/build_patched_amdgpu.sh). The same change
+also stops the `kiq fence` board-freeze and greatly speeds up model loading.
 
-## Backends and the compute queue
+Credit for the `flush_pasid_uses_kiq = false` idea belongs to **anrp** and **ahorek** in
+[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313), who found that it stops the freeze. What
+these tests seem to add is that it also removes the silent wrong results in an A/B comparison. That
+is an n=1 hardware result, so independent reproduction or refutation would be valuable.
 
-A quick model of what runs where explains the whole situation:
+This comes with an important caveat, though. The patched runs above were captured on a boot where
+the patched module happened to come up at 40 CU. More often the same patch seems to leave the board
+at 24 CU, where even a trivial compute dispatch wedges, so getting the correct flush and a working
+compute queue at the same time was not something these tests could do reliably. Why that might
+happen is [Observation 3](#observation-3-the-unlock-the-fix-and-the-wedge-are-entangled); it is part
+of why "fixed" would overstate this.
 
-| Path | Queue used | Status on BC-250 |
-|------|-----------|------------------|
-| Vulkan (RADV) | graphics / universal | works, fast, reliable |
-| OpenCL (RustiCL) | graphics / universal | runs a compute kernel correctly |
-| ROCm / HIP | MEC compute (via KFD) | broken: slow, non-deterministic, hangs |
+### A useful contrast: the graphics queue runs the same compute cleanly
 
-An OpenCL vector-add of about a million elements ([`patches/ocl_vecadd.c`](patches/ocl_vecadd.c))
-run under RustiCL (`RUSTICL_ENABLE=radeonsi`) computes correctly with zero mismatches on the
-`AMD BC-250 (radeonsi, gfx1013)` device. That shows the silicon can do compute when the work
-goes through the graphics queue. The problem is confined to the dedicated compute queue that
-ROCm requires. This was only a minimal kernel, though. How well RustiCL holds up on larger or
-real-world OpenCL workloads was not tested here, so it is better read as a working proof of
-concept than as a verified general OpenCL path (TBD).
+The clearest single test runs the identical kernel on the graphics queue instead of the compute
+queue, by porting it to OpenCL ([`patches/ocl_compute_probe.c`](patches/ocl_compute_probe.c)) and
+running under **RustiCL** (`RUSTICL_ENABLE=radeonsi`), which dispatches through the
+graphics/universal queue as RADV does:
 
-A bare HIP reproducer ([`patches/compute_probe.c`](patches/compute_probe.c), native gfx1013, no
-rocBLAS, no override) narrows what "broken" means. It dispatches a plain arithmetic kernel of a
-chosen size and checks every element against a CPU reference. Findings, on freshly reset boards
-(a fresh board is needed per measurement because of the degradation described below):
+| size (threads) | HIP (MEC compute queue) | RustiCL (graphics queue) |
+|----------------|-------------------------|--------------------------|
+| 1,048,576 | ok | 0 wrong, 2.0 ms |
+| 4,194,304 | ok | 0 wrong, 46 ms |
+| 8,388,608 | 525,308 wrong / wedge | 0 wrong, 92 ms |
+| 16,777,216 | wrong / hang | 0 wrong, 184 ms |
 
-- Kernels up to about two million threads (block size 256) are correct, fast, and deterministic,
-  and sync time scales cleanly with the work done.
-- From about four million threads upward the dispatch becomes unreliable. On repeated runs of the
-  same size it will sometimes complete correctly, sometimes hang (a single dispatch never returns,
-  and is killed by a timeout while the board survives if `amdgpu.sched_policy=2` is set), and
-  sometimes complete with wrong results. Wrong elements keep their pre-kernel value, meaning those
-  wavefronts' outputs were lost. The magnitude varies widely between runs: one sixteen-million-thread
-  run had 896 of 16,777,216 elements wrong, an eight-million-thread run had 1,764,388 of 8,388,608
-  wrong (about twenty-one percent).
-- The same size gives different outcomes on repeat, so this is a reliability defect, not a fixed
-  cutoff.
-- It is cumulative. After enough large-dispatch stress in one boot, all compute hangs, including
-  small kernels that were fine minutes earlier, until a hard reset. GPU temperature stays around
-  64 C, so it is not thermal.
+The graphics queue was correct and fast at every size, including a sustained
+many-small-dispatch pattern (1M threads times 200 sequential launches), with no wedges
+([`logs/rusticl_graphics_queue_ok.log`](logs/rusticl_graphics_queue_ok.log),
+[`logs/rusticl_sustained_ok.log`](logs/rusticl_sustained_ok.log)). One reading is that the shader
+hardware, memory, and ALUs are fine, and the fault lives specifically in the MEC compute-queue
+path, which would also explain why Mesa's route-through-graphics fix works and why ROCm, unable to
+do that, is stuck. That is offered as the most consistent interpretation, not a proof.
 
-So the precise statement is that large or complex compute dispatches on the gfx1013 compute queue
-are unreliable, both for correctness and for liveness, and the queue degrades under load. That
-matches what Mesa observed (simple apps work, CTS tests and games fail) and explains the ROCm/HIP
-behaviour directly, since LLM inference is entirely large GEMM and attention kernels.
+## Observation 2: the compute queue wedges under load
 
-No fix for the compute-queue defect itself is known today: RADV's merged solution is avoidance,
-and ROCm has no equivalent option because it cannot route compute anywhere else. Whether a real
-fix is possible depends on the root cause, which nobody has published. If it turns out to be
-firmware or configuration (as the mining-OS speculation would suggest), a fix could eventually
-appear; if it is silicon, avoidance is all there is. The separate process-exit hang described
-below is mitigable, and is being worked on kernel-side upstream, but making the hang go away
-does not make the compute queue's results reliable.
+Separately from the wrong results, a large or sustained stream of compute dispatches intermittently
+wedges the queue. This appears even in the 40-CU configuration where smaller dispatches are correct,
+and the measurements below are from that configuration. The teardown in dmesg reads:
 
-## Getting HIP to run at all
+```
+amdgpu: cp queue preemption time out.
+amdgpu: Pasid 0x8004 destroy queue 1 failed, ret -62      (-62 = ETIME)
+amdgpu: Resetting wave fronts (nocpsch) on dev ...
+```
 
-Even though it is not usable for real work, getting HIP far enough to demonstrate the above
-took three independent workarounds. They are documented here because each corresponds to a
-separate real issue.
+A lost completion interrupt was one theory, plausible on a board that prints
+`Fence fallback timer expired` every boot. But memory-polled completion (`HSA_ENABLE_INTERRUPT=0`)
+hangs the same way, and the message is specifically a preemption timeout: the driver asks the MEC
+to preempt a queue and the kernel never yields. The current reading is therefore that a compute
+kernel gets stuck mid-flight and cannot be preempted, rather than a signal going missing. This
+resembles the "compute-only queue doesn't work properly" that Mesa documented and chose to route
+around.
 
-### 1. Board freeze when a HIP process exits
+No driver knob removed it in these tests. Tried without effect: `amdgpu.sched_policy` 0 and 2, CWSR
+on and off, `HSA_ENABLE_INTERRUPT` 0 and 1, HIP graphs on and off, flash-attention on and off, 24
+versus 40 CU, and native-versus-override builds. That is a list of things that did not help, not a
+claim that nothing can.
 
-Any HIP process, including a trivial one that only creates and destroys a stream, could hang
-the whole board when it exited (clean exit, abort, or SIGKILL). dmesg showed a cascade of
-`timeout waiting for kiq fence`, `TLB flush failed for PASID`, `Failed to quiesce KFD`,
-followed by a freeze.
+### Seeing it with a real library GEMM
 
-Setting the KFD scheduler away from the hardware scheduler mitigates this:
+To watch this without llama.cpp in the way, a native gfx1013 rocBLAS was built (next section) and a
+tiny CPU-checked SGEMM run at various sizes ([`patches/sgemm_sweep.cpp`](patches/sgemm_sweep.cpp)):
+
+| GEMM | stock module, 40 CU | note |
+|------|---------------------|------|
+| N=256 / 512 / 1024 / 2048 (single) | correct | up to about 1660 GFLOP/s at N=2048 |
+| N=512 times 2000 (sustained) | correct, about 2327 GFLOP/s | thousands of small GEMMs are fine |
+| N=1024 times 500 (sustained) | correct, about 3746 GFLOP/s | |
+| N=2048 times 200 (sustained) | wedge (timeout) | |
+| N=4096 (single) | wedge (timeout) | |
+
+Full log: [`logs/rocblas/sgemm_sweep_stock_40cu.log`](logs/rocblas/sgemm_sweep_stock_40cu.log). Two
+points stood out. Every GEMM that completed was numerically exact; with rocBLAS's structured
+kernels these tests saw no silent-wrong results at these sizes, only the wedge. And the wedge
+looked intermittent rather than a clean size threshold: N=1024 hung once and then ran fine on
+retry. That intermittency is why "just keep dispatches small" seems unlikely to be made reliable.
+
+## Building a native gfx1013 rocBLAS
+
+A long-standing workaround for the missing gfx1013 matrix kernels is to build for **gfx1010** and
+run with `HSA_OVERRIDE_GFX_VERSION=10.1.0`, since gfx1010 and gfx1013 share an ISA. In these tests
+that override is a dead end for real workloads: the memory-aperture layout differs, so anything
+using scratch or private addressing hits `HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION`. Only a tiny
+scratch-free SGEMM survives, which is probably why the override has looked promising.
+
+Following the approach of
+[ROCm/rocm-libraries PR #8838](https://github.com/ROCm/rocm-libraries/pull/8838), rocBLAS was
+instead built natively for gfx1013 on Fedora's system ROCm. That meant working through a chain of
+Fedora-specific issues: system ROCm lives in `/usr` rather than `/opt/rocm`; `amdclang++`,
+`msgpack-cxx`, and `roctracer` were missing; and gfx1013 had to be added to Tensile's `SupportedISA`
+and `AsmCaps` and to the Tensile and rocBLAS C++ architecture enums. The full worked recipe is in
+[`scripts/build_rocblas_gfx1013.sh`](scripts/build_rocblas_gfx1013.sh).
+
+The result is a real `librocblas.so.4.4` (about 38.8 MB) with 56 gfx1013 Tensile libraries and
+genuine gfx1013 code objects (`Kernels.so-000-gfx1013.hsaco` reports ELF machine "AMD GPU" with
+gfx1013 flags, native rather than an override). It runs on the board with no `HSA_OVERRIDE` and
+computes correct GEMMs, per the table above. The main value is that it removes the override from
+the picture: where a native rocBLAS GEMM works it is correct, and where it does not it is the
+wedge, not an aperture mismatch. On its own it is not enough for reliable inference, because the
+wedge still applies to the large fused matmuls that inference leans on.
+
+## Observation 3: the unlock, the fix, and the wedge are entangled
+
+Two facts collided here. First, without the 40-CU unlock the board runs at 24 CU, and at 24 CU even
+a trivial compute dispatch wedges: `compute_probe` returns correct results at 40 CU and hangs at 24
+CU. So the community
+**40-CU unlock** ([duggasco/bc250-40cu-unlock](https://github.com/duggasco/bc250-40cu-unlock))
+appears to be a prerequisite for any ROCm compute here, not just inference, which is
+counterintuitive (more CUs, more stable) and hints the wedge is tied to the harvested-CU / WGP-mask
+configuration.
+
+Second, in the kernel tree used here the 40-CU unlock's register write lives inside
+`gfx_v10_0_kiq_reset_hw_queue()`, a function that only runs when a KIQ hardware queue is reset. On
+the stock driver, the KIQ-fence bug triggers such a reset during boot, which incidentally fires the
+unlock, so the board comes up at 40 CU.
+
+Together those appear to undercut the correctness change on this board:
+`flush_pasid_uses_kiq = false` removes the KIQ activity that was triggering the reset, so the unlock
+tends not to fire, the board comes up at 24 CU, and at 24 CU compute wedges. Testing this directly with
+the native rocBLAS GEMM, on the patched module at 24 CU every size wedged, including N=256
+([`logs/rocblas/sgemm_sweep_patched_24cu.log`](logs/rocblas/sgemm_sweep_patched_24cu.log)). An
+earlier session did once boot the patched module at 40 CU, which is where the correct patched
+`compute_probe` results (Observation 1) and the prefill pass below came from, but that
+patched-and-40-CU state did not reproduce on later boots.
+
+So on this board the available states appear to be the correct TLB flush at 24 CU (where compute
+wedges) or the working 40-CU configuration with the buggy flush (wrong results and freeze), but not
+both. The obvious escape, moving the unlock write out of the reset path into normal init, did not
+compute cleanly in attempts here: the module reported 40 CU but wedged on the first dispatch, as if
+reconfiguring the shader arrays around init corrupts the compute setup. That relocation may simply
+have been done wrong; a clean way to decouple the two would be very welcome.
+
+The direct "is the wedge a regression" experiment was attempted two ways, both inconclusive for
+frustrating reasons. A stock older kernel (Fedora 6.6.14) does not bring this board up at all:
+amdgpu's display code faults during KMS init
+([`logs/older-kernel-6.6-display-oops.log`](logs/older-kernel-6.6-display-oops.log)), and on the
+kernels tested, BC-250 support appears only from about kernel 6.18 (Fedora's 6.18.9 amdgpu exposes
+`bc250_cc_write_mode`; its 6.17.1 does not). Reverting the one named TLB regression on 6.18 lands
+back in the 24-CU-wedges-everything state above. So whether the wedge itself is a regression or a
+hardware limit is unresolved here; the graphics-queue contrast leans toward a hardware or firmware
+cause, held loosely.
+
+## How far ROCm inference gets
+
+With the patched module, and subject to its 40-CU caveat, llama.cpp's HIP backend gets further than
+before, though not to a usable state.
+
+A correct prompt-processing pass was achievable with a native gfx1013 build and rocBLAS kept out of
+the hot path:
 
 ```bash
-sudo grubby --update-kernel=ALL --args="amdgpu.sched_policy=2"
-sudo reboot
+cmake -B build-hip -S . -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1013 \
+  -DCMAKE_HIP_COMPILER=/usr/lib64/rocm/llvm/bin/clang++ -DCMAKE_BUILD_TYPE=Release -G Ninja
+ninja -C build-hip llama-bench
+
+HSA_ENABLE_SDMA=0 GGML_CUDA_FORCE_MMQ=1 \
+  ./build-hip/bin/llama-bench -m qwen2.5-1.5b-q4km.gguf -ngl 999 -fa 1 -p 128 -n 0 -mmp 0
+# qwen2.5-1.5B Q4_K_M, pp128 about 35 tok/s, correct, RC=0
 ```
 
-With this set, HIP processes exit cleanly, including under SIGKILL, and the board stays up.
-This was re-checked across a fresh reboot (two clean exit cycles and a SIGKILL, no KFD errors),
-and with the parameter absent a process abort hung the board again. It is a mitigation, not a
-complete fix: a process that aborts while the GPU is already in a fault state can still wedge
-the board. Underlying issue: [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313).
+`-fa 1` (flash attention) and `GGML_CUDA_FORCE_MMQ=1` route around rocBLAS via ggml's own gfx1013
+kernels; `HSA_ENABLE_SDMA=0` is still needed on this board. Recipe:
+[`scripts/native_fa.sh`](scripts/native_fa.sh).
 
-The same hang is being addressed kernel-side in that thread. Contributors there report that
-setting `adev->gmc.flush_pasid_uses_kiq = false` in `gmc_v10_0.c` (routing PASID TLB flushes
-through MMIO instead of the KIQ ring) removes the `kiq fence` timeouts and the full-system hang,
-at the cost of building a patched amdgpu module. That is a more thorough fix for the exit hang
-than the userspace `sched_policy=2` mitigation used here, though reports in the thread note the
-board is still not fully stable under all compute workloads. Neither change is aimed at the
-compute-queue correctness defect above: both concern the TLB-flush and process-exit path rather
-than compute execution. The kernel patch was not tested here against the wrong-results behaviour,
-but Mesa's evidence suggests the two are separate, since its compute-queue failures appear on the
-pure-Vulkan path with no KFD TLB flush involved.
+Token generation faults immediately, non-deterministically as a hang, a segfault, or an aperture
+violation, even for a single token, on the native build. The high-frequency decode dispatch pattern
+appears to hit the wedge reliably, and even repeated prefill (`-r 3`) is only marginally reliable.
+Logs: [`logs/inference/`](logs/inference/). This is the wedge from Observation 2, not a separate
+problem. For scale, even where ROCm prefill completes it was roughly 36 times slower than Vulkan on
+the same model and did not survive repetition, so it is "interesting that it runs at all" rather
+than a usable backend.
 
-### 2. rocBLAS has no gfx1013 code objects
+## ROCm vs Vulkan
 
-GEMM, and therefore inference, aborts immediately with:
+Vulkan appears here only as the baseline the ROCm path is measured against; the full Vulkan
+characterization of the board (many models, context scaling, memory ceilings) lives in
+[akandr/bc250](https://github.com/akandr/bc250) and is not repeated here. On the one model where both
+backends reach a working point, qwen2.5-1.5B Q4_K_M (`llama-bench`, flash attention on, `-mmp 0`, 40
+CU, tokens/sec):
 
-```
-Cannot find CO in the bundle /usr/lib64/librocblas.so.4.4 for ISA: amdgcn-amd-amdhsa--gfx1013:xnack-
-```
+| backend | pp128 | pp256 | pp512 | tg128 | reliable? |
+|---------|:-----:|:-----:|:-----:|:-----:|-----------|
+| Vulkan (RADV) | 1275.8 | 1597.7 | 1845.6 | 210.7 | yes, every run |
+| ROCm / HIP (patched, native gfx1013, 40 CU) | about 35 | fault | fault | fault | no |
 
-`strings /usr/lib64/librocblas.so.4.4 | grep -oE 'gfx10[0-9]+'` shows the embedded code
-objects cover gfx1010/1011/1012 and gfx1030 through 1035, but not gfx1013. On rocBLAS 6.4.4
-the kernels are code objects embedded in `librocblas.so`, matched by exact ISA, so the older
-workaround of symlinking the external `library/*gfx1010*` Tensile files to gfx1013 names no
-longer covers this path.
+Even where ROCm prompt processing completes it is roughly 36 times slower than Vulkan on pp128, does
+not survive repetition, and does not generate tokens at all
+([`logs/inference/bench_rocm_vs_vulkan.log`](logs/inference/bench_rocm_vs_vulkan.log)).
 
-gfx1013 is the same GFX10.1 instruction set as gfx1010, so the fix is to make the whole stack
-report and target gfx1010:
+## Status snapshot
 
-```bash
-# build llama.cpp for gfx1010
-cmake -B build-g1010 -S . -DGGML_HIP=ON \
-  -DAMDGPU_TARGETS=gfx1010 -DGPU_TARGETS=gfx1010 \
-  -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=OFF \
-  -DCMAKE_HIP_COMPILER=/usr/lib64/rocm/llvm/bin/clang++ \
-  -DCMAKE_PREFIX_PATH=/usr -DHIP_PATH=/usr -G Ninja
-ninja -C build-g1010 llama-bench llama-cli
+Offered as a current read, not a verdict; several rows could change with better ideas or newer
+firmware.
 
-# run with the ISA override so runtime, rocBLAS, and llama.cpp all agree on gfx1010
-export HSA_ENABLE_SDMA=0
-export HSA_OVERRIDE_GFX_VERSION=10.1.0
-export LD_LIBRARY_PATH=$PWD/build-g1010/bin
-./build-g1010/bin/llama-cli --no-mmap --gpu-layers 999 -fa off -m model.gguf -p "..." -n 16
-```
+| Thing | Where it landed |
+|-------|-----------------|
+| Silent wrong results on large compute | Appears addressable in isolation via `flush_pasid_uses_kiq = false`, but entangled with the 40-CU unlock (Observation 3), so not usable end to end yet |
+| KIQ board-freeze on HIP exit | Mitigable: the same patch, or userspace `amdgpu.sched_policy=2` |
+| Multi-minute model load | Much faster with the same patch |
+| rocBLAS has no gfx1013 kernels | Buildable natively (the PR #8838 approach), or bypass via flash attention plus `GGML_CUDA_FORCE_MMQ=1` |
+| gfx1010 override aperture violations | Avoided by building native gfx1013 |
+| Compute wedges at 24 CU or under large / sustained load | Not resolved here; looks like a MEC/compute-queue liveness limit, consistent with why Mesa disables the queue |
+| Token generation | Not working, blocked by the wedge |
 
-A standalone rocBLAS SGEMM ([`patches/rocblas_probe.c`](patches/rocblas_probe.c)) confirmed
-the mechanism: native gfx1013 returns `rocblas_status_internal_error`; with
-`HSA_OVERRIDE_GFX_VERSION=10.1.0` it returns a correct result. The override needs to be paired
-with a gfx1010 build; using it with a gfx1013-compiled binary produces
-`HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION` from the ISA-tag mismatch.
+In short, the correctness side looks like it may be software (a change that removes it in isolation
+was found), and the liveness/wedge side looks like hardware or firmware. Both are inferences from
+one board, and the entanglement in Observation 3 prevented turning the correctness finding into a
+working end-to-end ROCm setup. Any of it could be wrong.
 
-The clean fix belongs in rocBLAS, which should ship gfx1013 code objects since it is the same
-ISA as gfx1010. That is tracked in
-[ROCm/rocm-libraries PR #8838](https://github.com/ROCm/rocm-libraries/pull/8838).
+## Open questions
 
-### 3. Flash attention faults
+Places where other eyes would help most:
 
-With `-fa on`, compute aborts with `HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION` as soon as it
-starts, most likely in the flash-attention kernel since that is what the flag changes. This was
-hidden at first because full-offload runs did not always reach compute. Running with `-fa off`
-avoids the fault, so HIP inference on this board additionally requires `-fa off`. Whether this
-is a distinct bug or another face of the compute-queue defect was not determined.
+- Can the 40-CU unlock be decoupled from the KIQ reset, so a `flush_pasid`-patched module also comes
+  up at 40 CU and computes? Relocation attempts here wedged.
+- Is the compute-queue wedge a regression or a hardware/firmware limit? The clean test, an old
+  pre-regression kernel that also supports the BC-250, is blocked because BC-250 support landed
+  upstream only around 6.18. A backported old kernel might settle it.
+- Would newer or different MEC/MES firmware change the preemption behaviour? (MES, MicroEngine
+  Scheduler, is a newer firmware scheduler that can manage the compute queues instead of the older
+  path.) This board runs with `mes=0` and no Cyan Skillfish MES firmware present, which feels like
+  the most likely source of a
+  real fix, but is out of reach here.
+- Did the mining stacks really run sustained compute on this exact path, and if so what did their
+  kernel and firmware combination do differently? [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313)
+  hints that gfx1013 worked under older ROCm and kernel combinations.
 
-## What the slowness actually is
-
-Early on the symptom looked like pathologically slow model loading (tens of minutes for a few
-GB). Instrumenting the ggml loader to time each phase of its asynchronous upload loop showed
-that this framing was wrong.
-
-The upload loop is fast when the GPU-to-CPU completion signalling cooperates:
-
-```
-LOADTIMING: n_sync=1206 sync=1ms read=183ms upload=12ms
-```
-
-The entire weight upload (1206 chunk syncs, file reads, and async submits) completes in about
-0.2 seconds, yet the run still took many minutes and produced no throughput numbers. The time
-is not spent loading. It is spent in compute and in per-operation completion.
-
-The real problem is that HIP's GPU-to-CPU completion signalling on this board is unreliable.
-Each `hipEventQuery` or `hipStreamSynchronize` can return in microseconds or take several
-seconds, non-deterministically, for the same work. Two identical minimal runs, both on a
-freshly reset board, produced opposite outcomes: one finished a prompt-processing pass in about
-15 seconds, the next timed out at 200 seconds. Because every inference step depends on these
-syncs, and because a larger workload issues more of them, prompt processing occasionally
-squeaks through while token generation never completed. The board also degrades under sustained
-HIP use: after enough activity even trivial allocations become slow, and eventually systemd and
-dbus stop responding and a hard power-cycle is required. GPU temperature stayed normal (around
-64 C), so this is not thermal throttling.
-
-All of this is consistent with the compute-queue defect. It is the same class of
-failure as the freezes in [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313) and the
-`Fence fallback timer expired on ring sdma0` messages that appear at every boot, tracked more
-generally in [kernel bug #216645](https://bugzilla.kernel.org/show_bug.cgi?id=216645).
-
-## Things that did not help
-
-These were tried against the slowness and instability, and are listed so others do not repeat
-them:
-
-- `amdgpu.vm_update_mode=3` (CPU-based page-table updates): caused `APERTURE_VIOLATION` in
-  compute.
-- `amdgpu.msi=0` (force legacy INTx): delivered no amdgpu interrupts at all during GPU activity,
-  strictly worse.
-- A kernel-module patch reducing the fence fallback timer from 500 ms to 2 ms
-  ([`patches/amdgpu-fence-fallback-2ms.patch`](patches/amdgpu-fence-fallback-2ms.patch)):
-  moved the stall out of the kernel in stack samples but did not change total run time.
-- `HSA_ENABLE_INTERRUPT=0` (memory-polled signals): no improvement.
-- `GGML_CUDA_ENABLE_UNIFIED_MEMORY=1` (managed memory, in-place weights on UMA): no improvement.
-- `amdgpu.gartsize`: hardware-fixed at 512 MB on this ASIC, no effect.
-- `amdgpu.num_kcq=1` with `amdgpu.compute_multipipe=0` (restrict compute to a single queue and
-  pipe): still hangs, so it does not look like one bad pipe.
-- `amdgpu.cwsr_enable=0` (disable compute wave save/restore preemption) plus `amd_iommu=on
-  iommu=pt`: still hangs.
-- Stock 24 CU instead of the 40-CU unlock: just as flaky, so the unlock is not the cause.
-- Larger or smaller staging chunks, and reduced `--gpu-layers`: no effect, because the cost is
-  in per-operation completion, not in the upload.
-
-An isolated microbenchmark of the upload pattern (`hipMalloc` plus copy plus event,
-[`patches/loadmimic.c`](patches/loadmimic.c)) is usually fast and does not reproduce the full
-llama slowness, which reinforces that the problem lives in the full compute path plus the
-board's degrading state rather than in any single primitive.
-
-The fence-fallback patch is kept in this repository for the record even though it is
-ineffective, so the attempt is documented rather than silently dropped.
-
-## Performance
-
-Model: qwen2.5-1.5B Q4_K_M. Board at 24 CU, `-fa off`, so that the ROCm and Vulkan arms match.
-
-| backend | pp128 (t/s) | tg16 (t/s) | reliable |
-|---------|:-----------:|:----------:|----------|
-| Vulkan (RADV) | 1000.6 | 156.8 | yes, every run |
-| ROCm / HIP | about 670 (a single run) | not measurable | no, usually hangs or segfaults |
-
-Even in the one run where HIP produced a number, Vulkan was roughly 1.5 times faster on prompt
-processing, and HIP never produced a token-generation figure. That single pp128 result did not
-reproduce on subsequent attempts.
-
-For the general picture, here are reliable Vulkan numbers (llama.cpp, `-fa on`, `-p 128 -n 128`,
-median of 3), at stock 24 CU and at the 40-CU unlock, tokens per second:
-
-| model | params | pp128, 24 -> 40 CU | tg128, 24 -> 40 CU |
-|-------|:------:|:------------------:|:------------------:|
-| qwen2.5-1.5B Q4_K_M | 1.8 B | 1011 -> 1276 | 158 -> 207 |
-| granite-4.0-h-tiny Q4_K_M (hybrid) | 6.9 B | 398 -> 576 | 107 -> 133 |
-| gpt-oss-20b MXFP4 (MoE) | 20.9 B | 197 -> 309 | 77 -> 105 |
-| moe-coder-30b IQ2_M (MoE) | 30.5 B | 144 -> 230 | 69 -> 96 |
-| qwen3.5-35b-a3b IQ2_M (MoE) | 34.7 B | 157 -> 244 | 65 -> 87 |
-| qwen3.6-35b-a3b IQ2_M (MoE) | 34.7 B | 158 -> 246 | 65 -> 87 |
-| deepseek-r1-14b Q4_K_M (dense) | 14.8 B | 114 -> 178 | 23 -> 34 |
-| mistral-small-3.2 Q3_K_M (dense) | 23.6 B | 66 -> 99 | 12 -> 19 |
-| qwq-32b IQ2_M (dense) | 32.8 B | 51 -> 81 | 10 -> 16 |
-
-The 40-CU unlock scales prefill by roughly +45 to +60 percent for the larger models (only about
-+26 percent for the smallest, qwen2.5-1.5B, which is less compute-bound), and generation by
-roughly +25 to +60 percent. The sparse MoE models decode far faster than their total parameter
-count would suggest, close to their active parameter count, which is why the 20 to 35 billion
-parameter MoEs generate at 87 to 105 tokens per second while the dense 32 billion qwq manages
-16. More models, long-context behaviour, and full methodology are in the reference repository
-below.
+Data, corrections, or a "you are holding it wrong" are all welcome, as an issue here or a note on
+[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313).
 
 ## Reproducing
 
-Exact versions used for the results here:
+- kernel 6.18.9-200.fc43, rocm-hip 6.4.2, rocblas 6.4.4, ROCm LLVM/clang 19, mesa 25.3, llama.cpp
+  build 2da6686.
+- [`reproduce.sh`](reproduce.sh) runs the compute probe (small and large) and the rocBLAS probe.
+  Boot with `amdgpu.sched_policy=2` first, since the HIP probes can hang the board on process exit
+  at the default scheduler.
+- Correctness change: build the patched module
+  ([`scripts/build_patched_amdgpu.sh`](scripts/build_patched_amdgpu.sh)), reboot, rerun the probe.
+- Native gfx1013 rocBLAS: [`scripts/build_rocblas_gfx1013.sh`](scripts/build_rocblas_gfx1013.sh),
+  then [`patches/sgemm_sweep.cpp`](patches/sgemm_sweep.cpp).
 
-- kernel 6.18.9-200.fc43.x86_64 (also cross-checked on 6.17.1-300.fc43)
-- rocm-hip 6.4.2-2.fc43, rocblas 6.4.4-1.fc43, ROCm LLVM/clang 19
-- mesa-vulkan-drivers 25.3.4-7.fc43 (RADV, RustiCL)
-- llama.cpp build 2da6686
-- GPU memory as reported by the driver: 512 MB VRAM carveout, 16 GB GTT
-
-[`reproduce.sh`](reproduce.sh) builds and runs the probes on the board: it prints the rocBLAS
-embedded ISAs (no gfx1013), runs the rocBLAS SGEMM native and with the override, runs the
-OpenCL vector-add on RustiCL, and runs the HIP compute probe at a small and a large size. Boot
-with `amdgpu.sched_policy=2` first: the HIP probes can hang the machine on process exit at the
-default scheduler (Problem 1 above), and the script refuses to run without it unless `FORCE=1`
-is set. The large-kernel result is non-deterministic, so a few repeats are expected.
+Two things that cost time. A rebuilt kernel module must be compressed with `xz --check=crc32` (the
+build script does this): the xz default is CRC64, which loads via userspace `modprobe` but fails the
+in-kernel decompressor from the initramfs (`decompression failed with status 6`), while `xz -t`
+still passes, so it looks like a bricked board. Keep a verified-good module backup. And after a
+compute wedge a soft reboot often does not recover the queue; a hard power-cycle does. Always verify
+`active_cu_number 40` in dmesg and a good `compute_probe` or GEMM run before trusting a setup.
 
 ## Files
 
 | Path | What it is |
 |------|------------|
-| [`reproduce.sh`](reproduce.sh) | Builds and runs the probes below and prints the key results |
-| [`patches/compute_probe.c`](patches/compute_probe.c) | Bare HIP compute reproducer: small kernels correct and fast, large kernels intermittently wrong and degrade the queue |
-| [`patches/ocl_vecadd.c`](patches/ocl_vecadd.c) | Minimal OpenCL vector-add showing compute works on the graphics queue via RustiCL |
-| [`patches/rocblas_probe.c`](patches/rocblas_probe.c) | Standalone rocBLAS SGEMM that tests gfx1013 kernel availability and returns on error instead of aborting |
-| [`patches/loadmimic.c`](patches/loadmimic.c) | Microbenchmark that replicates llama.cpp's asynchronous upload loop, used to isolate the slowness |
-| [`patches/evtlat.c`](patches/evtlat.c) | Small HIP event-synchronisation latency microbenchmark |
-| [`patches/amdgpu-fence-fallback-2ms.patch`](patches/amdgpu-fence-fallback-2ms.patch) | Kernel-module patch reducing the fence fallback timer, kept for the record; ineffective |
+| [`patches/amdgpu-flush-pasid-mmio.patch`](patches/amdgpu-flush-pasid-mmio.patch) | The one-line kernel change for the correctness observation |
+| [`patches/compute_probe.c`](patches/compute_probe.c) | Bare HIP compute reproducer (native gfx1013, CPU-checked) |
+| [`patches/ocl_compute_probe.c`](patches/ocl_compute_probe.c) | OpenCL port of the probe (graphics-queue comparison via RustiCL) |
+| [`patches/sgemm_sweep.cpp`](patches/sgemm_sweep.cpp) | Native gfx1013 rocBLAS SGEMM sweep with CPU check and timing |
+| [`patches/rocblas_probe.c`](patches/rocblas_probe.c) | Standalone rocBLAS SGEMM availability/correctness test |
+| [`scripts/build_patched_amdgpu.sh`](scripts/build_patched_amdgpu.sh) | Build the patched amdgpu module (module-only) |
+| [`scripts/build_rocblas_gfx1013.sh`](scripts/build_rocblas_gfx1013.sh) | Build a native gfx1013 rocBLAS on Fedora system ROCm |
+| [`scripts/native_fa.sh`](scripts/native_fa.sh) | The native gfx1013 plus FA plus MMQ inference recipe |
+| [`logs/`](logs/) | Captured run logs: correctness, rocBLAS sweeps, RustiCL comparison, inference, benchmarks, older-kernel attempt |
 
 ## References
 
-- [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313): BC-250 system freeze after compute workloads (the ROCm-side tracking issue).
-- [Mesa merge request !33116](https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33116) and [Mesa 25.1 release notes](https://docs.mesa3d.org/relnotes/25.1.0.html): RADV disables the broken gfx1013 compute-only queue. Commit `7271b8ee`, "radv,radeonsi: disable compute queue for BC250".
-- [Mesa issue #11982](https://gitlab.freedesktop.org/mesa/mesa/-/issues/11982): AMD Cyan Skillfish support discussion, including that RustiCL works and the compute-queue artifacting.
-- [drm/amd issue #3356](https://gitlab.freedesktop.org/drm/amd/-/issues/3356): a kernel-side Cyan Skillfish system-freeze regression (now closed).
-- [Community BC-250 documentation, RADV page](https://elektricm.github.io/amd-bc250-docs/drivers/radv/): the compute-queue issue and the `RADV_DEBUG=nocompute` workaround.
-- [kernel bug #216645](https://bugzilla.kernel.org/show_bug.cgi?id=216645): Fence fallback timer expired.
+- [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313): BC-250 system freeze after compute workloads. anrp and ahorek found `flush_pasid_uses_kiq = false`; AMD is engaged in the thread.
+- [Mesa MR !33116](https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33116) and [Mesa 25.1 release notes](https://docs.mesa3d.org/relnotes/25.1.0.html): RADV disables the gfx1013 compute-only queue (commit `7271b8ee`). The MR is by Ivan Avdeev (`provod` on GitLab, `w23` on GitHub), a community contributor, not an AMD employee and not "RADV's author".
+- [Mesa issue #11982](https://gitlab.freedesktop.org/mesa/mesa/-/issues/11982): AMD Cyan Skillfish support discussion.
 - [ROCm/rocm-libraries PR #8838](https://github.com/ROCm/rocm-libraries/pull/8838): adding gfx1013 support to rocBLAS.
+- [kernel bug #216645](https://bugzilla.kernel.org/show_bug.cgi?id=216645): a different system (a Dell laptop with a Navi/RDNA1 RX 5600M) hanging with "Fence fallback timer expired" and amdgpu interrupts ceasing. Not a BC-250 report, but the same fence-fallback / lost-interrupt symptom this board prints every boot, so it is useful background.
 - [duggasco/bc250-40cu-unlock](https://github.com/duggasco/bc250-40cu-unlock): the 40-CU unlock and the module-build pipeline reused here.
-- [github.com/akandr/bc250](https://github.com/akandr/bc250): the production Vulkan stack, full benchmark methodology, and the paper.
-
-## Conclusion
-
-ROCm/HIP on the BC-250 leans on the compute queue, which seems to be the part of this APU that
-does not work reliably. The slow and non-deterministic completion, the wrong results on large
-dispatches, and the degradation under load all look downstream of that defect. No fix for it is
-known today (RADV's merged solution is avoidance, and the root cause has not been identified),
-and whether one is possible in firmware, configuration, or the driver remains open. The
-separate board freeze on process exit is more tractable: it can be mitigated with the userspace
-`amdgpu.sched_policy=2`, and a kernel-side change for it is being worked on in ROCm/ROCm#6313,
-though stopping the freeze does not make the compute queue's results reliable. Vulkan runs on the
-functional graphics queue, tends to be faster, and looks like the better backend to reach for
-here. RustiCL ran a simple OpenCL kernel correctly on the same graphics queue and may be worth a
-look if OpenCL compute is needed, though its suitability for larger workloads was not verified in
-this investigation.
+- [github.com/akandr/bc250](https://github.com/akandr/bc250): the related BC-250 Vulkan setup.
 
 ## Author and license
 
-Author: Artur Andrzejczak. Prepared with assistance from Claude Opus.
+Author: Artur Andrzejczak. Prepared with assistance from Claude.
 
-Code: [AGPL-3.0](LICENSE) · Docs: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
-
-The code in this repository (the probes and patches under `patches/`, and `reproduce.sh`) is
-licensed under the GNU Affero General Public License v3.0. The documentation (this README) is
-licensed under the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0).
+Code: [AGPL-3.0](LICENSE). Docs: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)

@@ -1,0 +1,9 @@
+=== RustiCL SUSTAINED dispatch (graphics queue) 2026-07-12T00:27:38
+--- 8M threads x 40 iterations (sustained, like decode s many dispatches):
+RESULT: total_wrong=0 -> ALL CORRECT
+  rc=0
+--- 1M threads x 200 iterations (many tiny sequential dispatches):
+RESULT: total_wrong=0 -> ALL CORRECT
+  rc=0
+  preemption timeouts: 0
+=== rusticl_sustained done 2026-07-12T00:27:43
