@@ -1,0 +1,86 @@
+=== Instrumented eviction profiling and wedge ordering (2026-07-14) ===
+Board: BC-250, Fedora 43, Linux 6.18.9, stock amdgpu module, 40 CU,
+amdgpu.sched_policy=2, THP=madvise. Native gfx1013 rocBLAS SGEMM reproducer
+(sgemm_iter N iters). Method: ftrace function_profile / function tracer on the
+KFD eviction path, with the reproducer's per-iteration stdout written into
+trace_marker so iterations and eviction calls share one clock.
+
+These are the captured tool outputs behind the quantitative claims in
+Section "A Native gfx1013 rocBLAS, and the Liveness Wedge".
+
+--------------------------------------------------------------------------
+[E1] function_profile over a full sgemm_iter 1024 500 run (completed, correct)
+     ($T/trace_stat, filtered to the eviction path)
+
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  kgd_hqd_destroy                          6    5334.487 us     889.081 us      33532.81 us
+  svm_range_evict.isra.0                   2    3027.417 us     1513.708 us     4580804 us
+  evict_process_queues_nocpsch             1    3024.072 us     3024.072 us     0.000 us
+  restore_process_queues_nocpsch           1      85.899 us       85.899 us     0.000 us
+
+  Reading: over a 500-GEMM run the process is evicted once or twice
+  (evict_process_queues_nocpsch=1, svm_range_evict=2); each eviction preempts
+  the process's ~3 queues (kgd_hqd_destroy 6 hits / ~2 evictions = 3 per
+  eviction) at ~0.9 ms per queue on a HEALTHY queue; queues are restored
+  ~0.09 ms later. Evictions are rare per-process events, not per-GEMM.
+
+--------------------------------------------------------------------------
+[E2] munmap count per process (strace -c -f -e trace=munmap), completed runs
+
+     iters=5    munmap=266
+     iters=25   munmap=266
+     iters=105  munmap=266
+
+  Reading: the runtime issues a CONSTANT ~266 munmap calls per process
+  (init/teardown code-object and module management), independent of GEMM
+  count. So evictions are driven by process-lifetime unmap activity, not a
+  per-dispatch drumbeat.
+
+--------------------------------------------------------------------------
+[E3] RustiCL (graphics queue) eviction control, profiler armed on the same
+     eviction-path functions:
+
+     RUSTICL_ENABLE=radeonsi ocl_compute_probe 32768 6000 40  -> total_wrong=0 -> ALL CORRECT
+     RUSTICL_ENABLE=radeonsi ocl_compute_probe 4096 1000 200  -> total_wrong=0 -> ALL CORRECT
+     function_profile after both runs: ZERO hits on svm_range_evict.isra.0,
+       evict_process_queues_nocpsch, restore_process_queues_nocpsch,
+       kgd_hqd_destroy.
+
+  Reading: the graphics path takes no KFD evictions and never wedges.
+
+--------------------------------------------------------------------------
+[E4-ordering] function tracer on the eviction path with per-iteration markers,
+     sgemm_iter 2048 200, sequential fresh-boot runs.
+
+  Runs 1 and 2 (COMPLETED, 202 markers each). An eviction lands mid-dispatch
+  and is preempted cleanly, ~1 ms per queue, then restored; run completes:
+
+    sgemm_iter-1635 [007]  94.394576: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    sgemm_iter-1635 [007]  94.394578: evict_process_queues_nocpsch <-kfd_process_evict_queues
+    sgemm_iter-1635 [007]  94.394579: kgd_hqd_destroy <-kfd_destroy_mqd_cp
+    sgemm_iter-1635 [007]  94.395587: kgd_hqd_destroy <-kfd_destroy_mqd_cp
+    sgemm_iter-1635 [007]  94.396595: kgd_hqd_destroy <-kfd_destroy_mqd_cp
+    sgemm_iter-1635 [007]  94.397604: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    kworker/7:0-74  [007]  94.400731: restore_process_queues_nocpsch <-kfd_process_restore_queues
+    ...
+    sh-1736 [004] 112.950137: tracing_mark_write: iter 199 sync=0  3.8ms OK g0=24545/24545 nwrong=0
+    sh-1736 [004] 112.950178: tracing_mark_write: DONE iters=200 nwrong=0
+
+  Run 3 (WEDGED). Zero iteration markers were produced (stall before iter 0);
+  the ONLY eviction activity is the kill-time teardown, whose preemption then
+  times out ~4 s later:
+
+    (trace) sgemm_iter-1835 [011] 377.294557: evict_process_queues_nocpsch <-kfd_process_evict_queues
+    (trace) sgemm_iter-1835 [011] 377.294560: kgd_hqd_destroy <-kfd_destroy_mqd_cp
+    (dmesg) [381.334156] amdgpu: cp queue preemption time out.
+    (dmesg) [381.334166] amdgpu: Failed to evict process queues
+    (dmesg) [381.334171] amdgpu: Failed to quiesce KFD
+    (dmesg) [385.404015] amdgpu: cp queue preemption time out.
+    (dmesg) [385.404023] amdgpu: Resetting wave fronts (nocpsch)
+
+  Reading: on a healthy queue an eviction is harmless; on the wedged
+  invocation the dispatch stops making progress FIRST (no markers, no
+  eviction/preemption activity), and the preemption timeout is emitted only
+  when the queue is later torn down. See logs/umr/ for the wave-level cause
+  (shader memory-violation exception).

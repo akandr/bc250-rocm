@@ -1,0 +1,75 @@
+BC-250 gfx1013 compute-queue wedge: root-cause ftrace captures (2026, kernel 6.18.9)
+=====================================================================================
+
+Method: sched_policy=2 (nocpsch). Arm a function-tracer stack trace on the KFD
+queue-eviction entry point, run a single long-lived HIP process (native gfx1013
+rocBLAS SGEMM, one allocation, many dispatches), and read the stack when the
+compute queue is evicted:
+
+  cd /sys/kernel/debug/tracing
+  echo function > current_tracer
+  echo evict_process_queues_nocpsch > set_ftrace_filter
+  echo 1 > options/func_stack_trace
+  echo 1 > tracing_on
+  # ... run the workload; dmesg shows "Evicting process pid N queues" and,
+  #     when it wedges, "cp queue preemption time out." ...
+
+The "cp queue preemption time out" message is emitted only by kgd_hqd_destroy
+(drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c), which on this scheduler is
+reached only through the queue evict/destroy path. So a mid-run timeout in a
+single long-lived process can only come from a queue eviction.
+
+
+CAPTURE A -- eviction triggered mid-run by the process's own munmap (memory churn)
+----------------------------------------------------------------------------------
+sgemm process, mid-run (this eviction happened to complete; the process was NOT
+exiting):
+
+  evict_process_queues_nocpsch
+  <- kfd_process_evict_queues
+  <- kgd2kfd_quiesce_mm
+  <- svm_range_evict
+  <- svm_range_cpu_invalidate_pagetables
+  <- __mmu_notifier_invalidate_range_start
+  <- __split_huge_pmd
+  <- vma_adjust_trans_huge
+  <- __split_vma
+  <- do_vmi_munmap
+  <- __x64_sys_munmap
+  <- do_syscall_64
+
+
+CAPTURE B -- a wedging run, captured mid-flight (process HUNG at iter 16, not exiting)
+-------------------------------------------------------------------------------------
+Same as A: the eviction immediately preceding "cp queue preemption time out" is
+the mid-run munmap path, not process teardown. Long userspace timeout so the
+hung process is not killed while the trace is read.
+
+  evict_process_queues_nocpsch
+  <- kgd2kfd_quiesce_mm
+  <- svm_range_evict
+  <- svm_range_cpu_invalidate_pagetables
+  <- __mmu_notifier_invalidate_range_start
+  <- __split_huge_pmd
+  <- __x64_sys_munmap
+
+
+CAPTURE C -- a second eviction trigger: process teardown (userptr invalidate on exit)
+-------------------------------------------------------------------------------------
+  evict_process_queues_nocpsch
+  <- kgd2kfd_quiesce_mm
+  <- amdgpu_amdkfd_evict_userptr
+  <- amdgpu_hmm_invalidate_hsa
+  <- __mmu_notifier_release
+  <- exit_mmap
+  <- do_exit
+
+
+Reading: the ROCm/HIP runtime does heavy address-space churn (~30 munmap per
+GEMM, code-object/module management, not application malloc). Each unmap that
+overlaps a KFD SVM range fires an MMU notifier, and KFD conservatively evicts
+(quiesces) all of the process's compute queues. Evicting a compute queue means
+preempting it on the MEC; on this board that preemption intermittently times out
+when a dispatch is in flight, which is the wedge. Process exit is a second
+eviction trigger. The eviction itself is normal KFD behaviour (it happens on any
+ROCm system); the MEC preemption timing out is the board-specific part.

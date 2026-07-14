@@ -1,0 +1,72 @@
+=== fresh_stall (NO degrade) wto, 14 lip 2026, 15:51:45 CEST ===
+boot dmesg sq_intr count at start: 0
+attempt=1 ok (total_wrong=0)
+attempt=2 ok (total_wrong=0)
+attempt=3 ok ()
+==== NATURAL STALL attempt=4 pid=1834 ====
+--- stack ---
+[<0>] kfd_wait_on_events+0x450/0x530 [amdgpu]
+[<0>] kfd_ioctl+0x2e1/0x4f0 [amdgpu]
+[<0>] __x64_sys_ioctl+0x97/0xe0
+[<0>] kfd_wait_on_events+0x450/0x530 [amdgpu]
+[<0>] kfd_ioctl+0x2e1/0x4f0 [amdgpu]
+[<0>] __x64_sys_ioctl+0x97/0xe0
+[<0>] kfd_wait_on_events+0x450/0x530 [amdgpu]
+[<0>] kfd_ioctl+0x2e1/0x4f0 [amdgpu]
+[<0>] __x64_sys_ioctl+0x97/0xe0
+--- WAVE COUNT: 3 ---
+--- wave STATUS/TRAPSTS sample ---
+se1.sa0.wgp0.simd2.wave0
+	    ixSQ_WAVE_STATUS: 00012441 |      ixSQ_WAVE_PC_LO: efa7a20c |      ixSQ_WAVE_PC_HI: 00007fcd |    ixSQ_WAVE_EXEC_LO: ffffffff | 
+	 ixSQ_WAVE_GPR_ALLOC: 0f000200 |  ixSQ_WAVE_LDS_ALLOC: 00000000 |    ixSQ_WAVE_TRAPSTS: 50000100 |     ixSQ_WAVE_IB_STS: 00000000 | 
+	                 SCC: 00000001 |             SPI_PRIO: 00000000 |            USER_PRIO: 00000000 |                 PRIV: 00000000 | 
+	                VCCZ: 00000001 |                IN_TG: 00000000 |           IN_BARRIER: 00000000 |                 HALT: 00000001 | 
+	                TRAP: 00000000 |       TTRACE_SIMD_EN: 00000000 |                VALID: 00000001 |              ECC_ERR: 00000000 | 
+	         SKIP_EXPORT: 00000000 |              PERF_EN: 00000000 |           FATAL_HALT: 00000000 |          MUST_EXPORT: 00000000 | 
+ixSQ_WAVE_PC_LO[efa7a20c]:
+ixSQ_WAVE_PC_HI[00007fcd]:
+ixSQ_WAVE_TRAPSTS[50000100]:
+	                EXCP: 00000100 |              SAVECTX: 00000000 |         ILLEGAL_INST: 00000000 |              EXCP_HI: 00000000 | 
+	          BUFFER_OOB: 00000000 |           EXCP_CYCLE: 00000000 |      EXCP_GROUP_MASK: 00000000 |        EXCP_WAVE64HI: 00000000 | 
+se1.sa0.wgp1.simd0.wave0
+	    ixSQ_WAVE_STATUS: 00012441 |      ixSQ_WAVE_PC_LO: efa7a1b0 |      ixSQ_WAVE_PC_HI: 00007fcd |    ixSQ_WAVE_EXEC_LO: ffffffff | 
+	 ixSQ_WAVE_GPR_ALLOC: 0f000200 |  ixSQ_WAVE_LDS_ALLOC: 00000000 |    ixSQ_WAVE_TRAPSTS: 50000100 |     ixSQ_WAVE_IB_STS: 00000000 | 
+	                 SCC: 00000001 |             SPI_PRIO: 00000000 |            USER_PRIO: 00000000 |                 PRIV: 00000000 | 
+	                VCCZ: 00000001 |                IN_TG: 00000000 |           IN_BARRIER: 00000000 |                 HALT: 00000001 | 
+	                TRAP: 00000000 |       TTRACE_SIMD_EN: 00000000 |                VALID: 00000001 |              ECC_ERR: 00000000 | 
+	         SKIP_EXPORT: 00000000 |              PERF_EN: 00000000 |           FATAL_HALT: 00000000 |          MUST_EXPORT: 00000000 | 
+ixSQ_WAVE_PC_LO[efa7a1b0]:
+ixSQ_WAVE_PC_HI[00007fcd]:
+ixSQ_WAVE_TRAPSTS[50000100]:
+	                EXCP: 00000100 |              SAVECTX: 00000000 |         ILLEGAL_INST: 00000000 |              EXCP_HI: 00000000 | 
+	          BUFFER_OOB: 00000000 |           EXCP_CYCLE: 00000000 |      EXCP_GROUP_MASK: 00000000 |        EXCP_WAVE64HI: 00000000 | 
+se1.sa0.wgp2.simd2.wave0
+	    ixSQ_WAVE_STATUS: 00012441 |      ixSQ_WAVE_PC_LO: efa7a20c |      ixSQ_WAVE_PC_HI: 00007fcd |    ixSQ_WAVE_EXEC_LO: ffffffff | 
+	 ixSQ_WAVE_GPR_ALLOC: 0f000200 |  ixSQ_WAVE_LDS_ALLOC: 00000000 |    ixSQ_WAVE_TRAPSTS: 50000100 |     ixSQ_WAVE_IB_STS: 00000000 | 
+	                 SCC: 00000001 |             SPI_PRIO: 00000000 |            USER_PRIO: 00000000 |                 PRIV: 00000000 | 
+	                VCCZ: 00000001 |                IN_TG: 00000000 |           IN_BARRIER: 00000000 |                 HALT: 00000001 | 
+	                TRAP: 00000000 |       TTRACE_SIMD_EN: 00000000 |                VALID: 00000001 |              ECC_ERR: 00000000 | 
+	         SKIP_EXPORT: 00000000 |              PERF_EN: 00000000 |           FATAL_HALT: 00000000 |          MUST_EXPORT: 00000000 | 
+ixSQ_WAVE_PC_LO[efa7a20c]:
+ixSQ_WAVE_PC_HI[00007fcd]:
+ixSQ_WAVE_TRAPSTS[50000100]:
+	                EXCP: 00000100 |              SAVECTX: 00000000 |         ILLEGAL_INST: 00000000 |              EXCP_HI: 00000000 | 
+	          BUFFER_OOB: 00000000 |           EXCP_CYCLE: 00000000 |      EXCP_GROUP_MASK: 00000000 |        EXCP_WAVE64HI: 00000000 | 
+--- FULL dmesg (sq_intr + preempt) since probe ---
+[    0.000000] DMI: Default string AMD BC-250/AMD BC-250, BIOS P3.00 12/09/2021
+[    0.131646] pid_max: default: 32768 minimum: 301
+[    0.276786] iommu: Default domain type: Translated
+[    0.281159] NetLabel:  unlabeled traffic allowed by default
+[    0.312762] PCI: CLS 64 bytes, default 64
+[    1.085015] systemd[1]: Queued start job for default target initrd.target.
+[    1.519096] nvme nvme0: 8/0/0 default/read/poll queues
+[    5.666829] amdgpu 0000:01:00.0: amdgpu: Trusted Memory Zone (TMZ) feature disabled as experimental (default)
+[   10.452699] Hardware name: Default string AMD BC-250/AMD BC-250, BIOS P3.00 12/09/2021
+[   10.458978] Hardware name: Default string AMD BC-250/AMD BC-250, BIOS P3.00 12/09/2021
+[  134.038328] amdgpu: Freeing queue vital buffer 0x7fa9bf200000, queue evicted
+[  134.038338] amdgpu: Freeing queue vital buffer 0x7fa9c5400000, queue evicted
+--- CP status ---
+mmCP_MEC_CNTL     =gfx1010.mmCP_MEC_CNTL => 0x00000000
+mmCP_CPC_STATUS   =gfx1010.mmCP_CPC_STATUS => 0x80000001
+mmGRBM_STATUS2    =gfx1010.mmGRBM_STATUS2 => 0x30000008
+=== fresh_stall done ===

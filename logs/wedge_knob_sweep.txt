@@ -1,0 +1,48 @@
+Compute-queue wedge: driver/firmware knobs tried, all on native gfx1013 rocBLAS
+SGEMM (patches/sgemm_iter.cpp and sgemm_sweep.cpp), 40 CU, kernel 6.18.9.
+Summary of results behind the "no knob removed it" note in the README.
+rc: 0 = completed all iterations correct, 124 = wedge (preemption timeout),
+137 = killed after leaked/degraded state, 134/139 = abort/segfault.
+
+amdgpu.sched_policy
+  0, 2 : same intermittent wedge.
+  1 (HWS without over-subscription): WORSE. N=8192 -> segfault (rc=139) with
+        dmesg "amdgpu: GPU reset begin!. Source:  4" (a full GPU reset, not a
+        per-queue eviction); a follow-up run hard-hung the board. Reverted to 2.
+
+amdgpu.cwsr_enable (compute wave save/restore)
+  0 : N=8192 x100 completed, N=12288 wedged, N=16384 x20 completed. Same
+      intermittent pattern as cwsr=1; ~6 evictions in dmesg either way.
+
+HSA_ENABLE_INTERRUPT (interrupt vs memory-polled completion)
+  0, 1 : both show the same wedge/complete intermittency (paper's earlier note).
+
+amdgpu.mcbp (mid-command-buffer preemption)
+  0 : N=8192 x100 completed, N=12288 and N=16384 wedged. Same pattern.
+
+amdgpu.queue_preemption_timeout_ms (default 9000)
+  90000 : looked promising once (a wedged run then completed) but did not
+          reproduce; a fresh boot showed the reverse. Not causal.
+
+transparent_hugepage/enabled
+  never : N=8192, N=12288, N=16384 all wedged; evictions still fired (the
+          munmap MMU-notifier path does not depend on huge-page splits).
+
+MEC/CP firmware version (extracted from linux-firmware git history)
+  21.40 (MEC ucode 0x8e) vs current 21.50 (0x90), force-loaded as raw .bin +
+  dracut, board boots on either. Fresh leak-free N=16384 x15: 21.40 = 15/15,
+  21.50 = 15/15; both wedge intermittently on other runs. No difference.
+
+XNACK (retry-fault memory coherence, which would replace the eviction path)
+  HSA_XNACK=1 and amdgpu.noretry=0 : agent still reports gfx1013:xnack-.
+  Not available in hardware on this chip.
+
+Pacing dispatches (idle gaps between GEMMs)
+  Clean 2-boot comparison, N=16384: back-to-back wedged by the 2nd run;
+  paced (400 ms gaps) wedged 7 of 10 runs. Pacing does not avoid the wedge;
+  earlier single-run "paced looks clean" results were intermittency.
+
+Newer kernel (checked at source rather than by booting one)
+  gfx_v10_0_kiq_reset_hw_queue and gfx_v10_0_reset_kcq are byte-for-byte
+  identical between 6.18.9 and current mainline; no gfx1013-specific
+  preemption code upstream. A newer kernel would not change this path.

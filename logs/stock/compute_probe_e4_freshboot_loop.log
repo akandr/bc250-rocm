@@ -1,0 +1,73 @@
+# NOTE (provenance): this file contains TWO appended sessions.
+#  - 14:59 session (target=30): MIS-ARMED with heavy sustained args
+#    (compute_probe_fresh 65536 6000 8 = 16M-thread x8 sustained). Both
+#    invocations hung by tripping the LIVENESS wedge, not the correctness
+#    path. STOPPED after 2. These are EXCLUDED from the paper's count.
+#  - 15:25 session (target=25): recalibrated single-dispatch correctness
+#    probe (compute_probe_fresh 32768 6000 1 = 8,388,608-thread single
+#    dispatch), matching the archived silent-wrong run's size. This is the
+#    session the paper cites: 25 invocations = 19 correct, 6 hangs,
+#    0 silent-wrong.
+#
+=== E4 probe loop start 2026-07-14T14:59:01 target=30 invocations ===
+15:00:31 inv=1 HANG rc=124
+15:00:31 RESET
+[15:00:31] BC-250 reset: switching switch.100266c6a6 OFF
+[15:00:33] BC-250 reset: switching switch.100266c6a6 ON
+[15:00:33] Done.
+15:02:01 inv=2 HANG rc=139
+15:02:01 RESET
+[15:02:01] BC-250 reset: switching switch.100266c6a6 OFF
+[15:02:03] BC-250 reset: switching switch.100266c6a6 ON
+[15:02:03] Done.
+=== E4 probe loop start 2026-07-14T15:25:03 target=25 invocations ===
+15:25:08 inv=1 CORRECT
+15:26:39 inv=2 HANG rc=124
+15:26:39 RESET
+[15:26:39] BC-250 reset: switching switch.100266c6a6 OFF
+[15:26:41] BC-250 reset: switching switch.100266c6a6 ON
+[15:26:41] Done.
+15:27:56 inv=3 CORRECT
+15:28:01 inv=4 CORRECT
+15:28:06 inv=5 CORRECT
+15:28:11 inv=6 CORRECT
+15:29:41 inv=7 HANG rc=124
+15:29:41 RESET
+[15:29:41] BC-250 reset: switching switch.100266c6a6 OFF
+[15:29:43] BC-250 reset: switching switch.100266c6a6 ON
+[15:29:43] Done.
+15:30:59 inv=8 CORRECT
+15:32:33 inv=9 HANG rc=124
+15:32:33 RESET
+[15:32:33] BC-250 reset: switching switch.100266c6a6 OFF
+[15:32:35] BC-250 reset: switching switch.100266c6a6 ON
+[15:32:35] Done.
+15:33:51 inv=10 CORRECT
+15:33:55 inv=11 CORRECT
+15:34:00 inv=12 CORRECT
+15:34:05 inv=13 CORRECT
+15:34:10 inv=14 CORRECT
+15:34:15 inv=15 CORRECT
+15:34:20 inv=16 CORRECT
+15:35:50 inv=17 HANG rc=124
+15:35:50 RESET
+[15:35:50] BC-250 reset: switching switch.100266c6a6 OFF
+[15:35:52] BC-250 reset: switching switch.100266c6a6 ON
+[15:35:52] Done.
+15:37:08 inv=18 CORRECT
+15:38:46 inv=19 HANG rc=124
+15:38:46 RESET
+[15:38:46] BC-250 reset: switching switch.100266c6a6 OFF
+[15:38:48] BC-250 reset: switching switch.100266c6a6 ON
+[15:38:48] Done.
+15:40:04 inv=20 CORRECT
+15:40:09 inv=21 CORRECT
+15:40:13 inv=22 CORRECT
+15:40:18 inv=23 CORRECT
+15:41:49 inv=24 HANG rc=124
+15:41:49 RESET
+[15:41:49] BC-250 reset: switching switch.100266c6a6 OFF
+[15:41:51] BC-250 reset: switching switch.100266c6a6 ON
+[15:41:51] Done.
+15:43:06 inv=25 CORRECT
+=== E4 probe loop end 2026-07-14T15:43:06 ===

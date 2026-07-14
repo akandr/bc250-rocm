@@ -1,0 +1,105 @@
+=== catch_stall wto, 14 lip 2026, 15:46:07 CEST ===
+--- degrade: one heavy sustained run ---
+degrade rc=0
+attempt=1 completed (rc via log: total_wrong=0)
+==== STALL CAUGHT attempt=2 pid=2167 (etimes=     12) ====
+--- proc kernel stack ---
+tid 2167 compute_probe_f
+tid 2170 compute_probe_f
+[<0>] kfd_wait_on_events+0x450/0x530 [amdgpu]
+[<0>] kfd_ioctl+0x2e1/0x4f0 [amdgpu]
+[<0>] __x64_sys_ioctl+0x97/0xe0
+[<0>] do_syscall_64+0x7e/0x7f0
+[<0>] entry_SYSCALL_64_after_hwframe+0x76/0x7e
+tid 2173 compute_probe_f
+[<0>] kfd_wait_on_events+0x450/0x530 [amdgpu]
+[<0>] kfd_ioctl+0x2e1/0x4f0 [amdgpu]
+[<0>] __x64_sys_ioctl+0x97/0xe0
+[<0>] do_syscall_64+0x7e/0x7f0
+[<0>] entry_SYSCALL_64_after_hwframe+0x76/0x7e
+tid 2208 compute_probe_f
+[<0>] kfd_wait_on_events+0x450/0x530 [amdgpu]
+[<0>] kfd_ioctl+0x2e1/0x4f0 [amdgpu]
+[<0>] __x64_sys_ioctl+0x97/0xe0
+[<0>] do_syscall_64+0x7e/0x7f0
+[<0>] entry_SYSCALL_64_after_hwframe+0x76/0x7e
+--- WAVE COUNT: 48 ---
+--- wave sample (first, bits) ---
+
+------------------------------------------------------
+se0.sa0.wgp0.simd0.wave0
+
+
+Main Registers:
+	    ixSQ_WAVE_STATUS: 00818461 |      ixSQ_WAVE_PC_LO: ffbfe004 |      ixSQ_WAVE_PC_HI: 0000ffff |    ixSQ_WAVE_EXEC_LO: ffffffff | 
+	   ixSQ_WAVE_EXEC_HI: ffffffff |     ixSQ_WAVE_HW_ID1: 00000000 |     ixSQ_WAVE_HW_ID2: 08000112 |   ixSQ_WAVE_INST_DW0: 0100b200 | 
+	 ixSQ_WAVE_GPR_ALLOC: 0f000200 |  ixSQ_WAVE_LDS_ALLOC: 00000000 |    ixSQ_WAVE_TRAPSTS: 50000900 |     ixSQ_WAVE_IB_STS: 00000000 | 
+	   ixSQ_WAVE_IB_STS2: 00000803 |    ixSQ_WAVE_IB_DBG1: 01000009 |         ixSQ_WAVE_M0: 00010000 |       ixSQ_WAVE_MODE: 000002c0 | 
+
+
+Register Bits:
+	
+
+ixSQ_WAVE_STATUS[00818461]:
+	                 SCC: 00000001 |             SPI_PRIO: 00000000 |            USER_PRIO: 00000000 |                 PRIV: 00000001 | 
+	             TRAP_EN: 00000001 |            TTRACE_EN: 00000000 |           EXPORT_RDY: 00000000 |                EXECZ: 00000000 | 
+	                VCCZ: 00000001 |                IN_TG: 00000000 |           IN_BARRIER: 00000000 |                 HALT: 00000000 | 
+	                TRAP: 00000000 |       TTRACE_SIMD_EN: 00000001 |                VALID: 00000001 |              ECC_ERR: 00000000 | 
+	         SKIP_EXPORT: 00000000 |              PERF_EN: 00000000 |           FATAL_HALT: 00000001 |          MUST_EXPORT: 00000000 | 
+
+
+ixSQ_WAVE_PC_LO[ffbfe004]:
+	               PC_LO: ffbfe004 | 
+
+
+ixSQ_WAVE_PC_HI[0000ffff]:
+	               PC_HI: 0000ffff | 
+
+
+ixSQ_WAVE_EXEC_LO[ffffffff]:
+	             EXEC_LO: ffffffff | 
+
+
+ixSQ_WAVE_EXEC_HI[ffffffff]:
+	             EXEC_HI: ffffffff | 
+
+
+ixSQ_WAVE_HW_ID1[00000000]:
+	             WAVE_ID: 00000000 |              SIMD_ID: 00000000 |               WGP_ID: 00000000 |                SA_ID: 00000000 | 
+	               SE_ID: 00000000 | 
+
+
+ixSQ_WAVE_HW_ID2[08000112]:
+	            QUEUE_ID: 00000002 |              PIPE_ID: 00000001 |                ME_ID: 00000001 |             STATE_ID: 00000000 | 
+	               WG_ID: 00000000 |                VM_ID: 00000008 |         COMPAT_LEVEL: 00000000 | 
+
+
+ixSQ_WAVE_INST_DW0[0100b200]:
+	            INST_DW0: 0100b200 | 
+
+
+ixSQ_WAVE_GPR_ALLOC[0f000200]:
+	           VGPR_BASE: 00000000 |            VGPR_SIZE: 00000002 |            SGPR_BASE: 00000000 |            SGPR_SIZE: 0000000f | 
+
+
+ixSQ_WAVE_LDS_ALLOC[00000000]:
+	            LDS_BASE: 00000000 |             LDS_SIZE: 00000000 |     VGPR_SHARED_SIZE: 00000000 | 
+
+--- CP/CPC/GRBM status ---
+mmCP_MEC_CNTL          = gfx1010.mmCP_MEC_CNTL => 0x00000000
+mmCP_CPC_STATUS        = gfx1010.mmCP_CPC_STATUS => 0x80000001
+mmCP_CPF_STATUS        = gfx1010.mmCP_CPF_STATUS => 0xa0000001
+mmGRBM_STATUS          = gfx1010.mmGRBM_STATUS_SE3 => 0x00000006
+mmGRBM_STATUS2         = gfx1010.mmGRBM_STATUS2 => 0x30000008
+mmSDMA0_STATUS_REG     = gfx1010.mmSDMA0_STATUS_REG => 0x46deed57
+--- dmesg tail ---
+[  248.041641] amdgpu 0000:01:00.0: amdgpu: sq_intr: error, se 0, data 0x100000, sa 1, priv 1, wave_id 0, simd_id 2, wgp_id 9, err_type 2
+[  248.041646] amdgpu 0000:01:00.0: amdgpu: sq_intr: error, se 0, data 0x100000, sa 1, priv 1, wave_id 0, simd_id 1, wgp_id 1, err_type 2
+[  248.041652] amdgpu 0000:01:00.0: amdgpu: sq_intr: error, se 1, data 0x100000, sa 1, priv 1, wave_id 0, simd_id 1, wgp_id 1, err_type 2
+[  248.041657] amdgpu 0000:01:00.0: amdgpu: sq_intr: error, se 1, data 0x100000, sa 1, priv 1, wave_id 0, simd_id 0, wgp_id 9, err_type 2
+[  248.041662] amdgpu 0000:01:00.0: amdgpu: sq_intr: error, se 0, data 0x100000, sa 1, priv 1, wave_id 0, simd_id 1, wgp_id 8, err_type 2
+[  248.041677] amdgpu 0000:01:00.0: amdgpu: sq_intr: error, se 0, data 0x100000, sa 1, priv 1, wave_id 0, simd_id 2, wgp_id 0, err_type 2
+--- letting it sit 20s then re-checking waves (retire?) ---
+WAVE COUNT after +20s: 48
+still running: yes
+=== done, capture at /home/akandr/stall_capture_154607.txt ===
