@@ -538,6 +538,7 @@ compute wedge a soft reboot often does not recover the queue; a hard power-cycle
 - [kernel bug #216645](https://bugzilla.kernel.org/show_bug.cgi?id=216645): a different system (a Dell laptop with a Navi/RDNA1 RX 5600M) hanging with "Fence fallback timer expired" and amdgpu interrupts ceasing. Not a BC-250 report, but the same fence-fallback / lost-interrupt symptom this board prints every boot, so it is useful background.
 - [duggasco/bc250-40cu-unlock](https://github.com/duggasco/bc250-40cu-unlock): the 40-CU unlock and the module-build pipeline reused here.
 - [github.com/akandr/bc250](https://github.com/akandr/bc250): the related BC-250 Vulkan setup.
+- [Preprint on Zenodo](https://doi.org/10.5281/zenodo.21364833): the write-up of these notes as a single paper (doi:10.5281/zenodo.21364833).
 
 ## Author and license
 
