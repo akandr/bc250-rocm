@@ -407,19 +407,35 @@ HSA_ENABLE_SDMA=0 GGML_CUDA_FORCE_MMQ=1 \
 kernels; `HSA_ENABLE_SDMA=0` is still needed on this board. Recipe:
 [`scripts/native_fa.sh`](scripts/native_fa.sh).
 
-Token generation faults immediately, non-deterministically as a hang, a segfault, or an aperture
-violation, even for a single token, on the native build. The high-frequency decode dispatch pattern
-fails consistently, and even repeated prefill (`-r 3`) is only marginally reliable. Logs:
-[`logs/inference/`](logs/inference/).
+Token generation is more workable than earlier runs suggested, and what gates it is mostly not the
+compute queue. On a later stack (`llama.cpp` b9265, native gfx1013, 40 CU), decode ran and generated
+tokens (around 40 tok/s) in most of the runs where the model finished loading, so the earlier read of
+decode as hard-blocked was too strong. Two things gate
+it, and a compute-kernel scratch fault is not the main one. Logs: [`logs/inference/`](logs/inference/).
 
-Decode looks blocked by two things at once, not just the wedge. With `AMD_LOG_LEVEL=3` the aperture
-violation lands on a specific ggml kernel: the batch-1 output matmul `mul_mat_vec_q` over the vocab
-(`HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION`). Keeping the output layer on the CPU (`-ngl` short of
-the full model) does not avoid it, so it is not only the last projection. On this native gfx1013
-build that reads like a scratch/private-memory addressing problem in the decode kernels, separate
-from the eviction wedge, though which of the two hits first varies run to run. The trace is in
-[`logs/inference/decode_aperture_violation.txt`](logs/inference/decode_aperture_violation.txt). So
-getting decode working would mean clearing both, not one.
+First, an intermittent aperture violation. It does not fire on most decode-reaching runs: the
+single-boot campaign below reached decode six times and faulted on none. It does recur across
+sessions, though, and every instance captured has the same shape. Under `AMD_LOG_LEVEL=3` the fault is not
+inside a compute kernel: on the runs that fault, the abort happens before any ggml kernel dispatches
+at all, on a runtime host-to-device copy (`__amd_rocclr_copyBuffer`) whose host source is past the
+GPU's legal aperture
+([`logs/inference/decode_copybuffer_aperture_violation.txt`](logs/inference/decode_copybuffer_aperture_violation.txt),
+zero compute kernels dispatched before the abort). That points at this board's UMA host-buffer mapping (only `hipHostMalloc`'d
+memory is GPU-legal here), a memory-mapping fault rather than a scratch/private-memory problem in
+`mul_mat_vec_q`. An earlier trace on a different llama.cpp build had read as the latter; the two
+builds may simply differ, so this is stated for the current one.
+[`logs/inference/decode_aperture_violation.txt`](logs/inference/decode_aperture_violation.txt) is that
+earlier trace. `GGML_CUDA_ENABLE_UNIFIED_MEMORY=1`, which removes that host copy on a UMA APU, did not
+reliably remove the fault.
+
+Second, and far more limiting in practice, the flaky and slow model load. In one single-boot run the
+model failed to finish loading 15 of 21 attempts, and it got worse with cumulative GPU use; the runs
+that did load then decoded cleanly, with no aperture fault in that run
+([`logs/inference/decode_campaign_stats.txt`](logs/inference/decode_campaign_stats.txt), collected by
+[`scripts/decode_stats.sh`](scripts/decode_stats.sh)). This is HSA-signal-level (the `hipEventSynchronize` overhead this
+board is known for), not the kernel fence timeout: a module rebuilt with a fence-fallback timer at
+2 ms did not speed the load. So in practice the wall for decode is getting the model loaded, not a
+decode-kernel fault.
 
 For scale, even where ROCm prefill completes it was roughly 36 times slower than Vulkan on the same
 model and did not survive repetition, so it is "interesting that it runs at all" rather than a
@@ -438,8 +454,10 @@ CU, tokens/sec):
 | Vulkan (RADV) | 1275.8 | 1597.7 | 1845.6 | 210.7 | yes, every run |
 | ROCm / HIP (patched, native gfx1013, 40 CU) | about 35 | fault | fault | fault | no |
 
-Even where ROCm prompt processing completes it is roughly 36 times slower than Vulkan on pp128, does
-not survive repetition, and does not generate tokens at all
+Even where ROCm prompt processing completes it is roughly 36 times slower than Vulkan on pp128 and
+does not survive the benchmark's repetition. The `llama-bench` token-generation pass faults here; short
+single decode runs do produce tokens (around 40 tok/s), but are gated by the flaky load described
+above, so neither is a usable path
 ([`logs/inference/bench_rocm_vs_vulkan.log`](logs/inference/bench_rocm_vs_vulkan.log)).
 
 ## Status snapshot
@@ -455,7 +473,7 @@ firmware.
 | rocBLAS has no gfx1013 kernels | Buildable natively (the PR #8838 approach), or bypass via flash attention plus `GGML_CUDA_FORCE_MMQ=1` |
 | gfx1010 override aperture violations | Avoided by building native gfx1013 |
 | Compute wedges at 24 CU or under large / sustained load | Not resolved here; traces to a MEC compute-queue preemption timing out during a routine KFD queue eviction (Observation 2). No scheduler knob, preemption-timeout setting, firmware version (21.40 vs 21.50), or dispatch pacing changed it, and the driver path is unchanged in mainline, so it reads as a firmware or silicon limit, consistent with why Mesa disables the queue |
-| Token generation | Not working; blocked by the wedge and, separately, by an aperture violation in the gfx1013 decode kernels |
+| Token generation | Runs when the model loads (around 40 tok/s); gated mainly by a flaky, slow HIP model load, and occasionally by an intermittent host-copy aperture violation |
 
 In short, the correctness side looks like it may be software (a change that removes it in isolation
 was found), and the liveness/wedge side looks like hardware or firmware. Both are inferences from
@@ -481,10 +499,11 @@ Places where other eyes would help most:
   gfx1013-specific handling upstream. And the clean regression test, an old pre-regression kernel
   that also supports the BC-250, is blocked because BC-250 support landed upstream only around 6.18.
   So the remaining question is really about firmware or silicon, not driver C.
-- The decode aperture violation (above) is a separate, more tractable target: a scratch/private-memory
-  addressing fault in specific ggml gfx1013 kernels. Someone able to rebuild ggml's HIP kernels with
-  lower register/scratch pressure, or to confirm it is a real gfx1013 scratch-aperture limit, could
-  settle whether decode is fixable independently of the queue wedge.
+- The intermittent decode aperture violation (above) looks like a UMA host-buffer mapping problem on
+  the runtime host-to-device copy, not a compute-kernel scratch fault, and it is the smaller of the two
+  decode blockers. Anyone able to pin down why the runtime occasionally hands a non-`hipHostMalloc`'d
+  host pointer to the copy, or to reproduce it deterministically, could settle whether it is a runtime
+  or a board-mapping issue. The larger blocker is the flaky HIP model load, which is HSA-signal-level.
 - Did the mining stacks really run sustained compute on this exact path, and if so what did their
   kernel and firmware combination do differently? [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313)
   hints that gfx1013 worked under older ROCm and kernel combinations.
@@ -526,7 +545,10 @@ compute wedge a soft reboot often does not recover the queue; a hard power-cycle
 | [`scripts/native_fa.sh`](scripts/native_fa.sh) | The native gfx1013 plus FA plus MMQ inference recipe |
 | [`logs/ftrace/wedge_eviction_stack.txt`](logs/ftrace/wedge_eviction_stack.txt) | Function-tracer stacks showing the wedge is a queue eviction (triggered by the process's `munmap`) whose MEC preemption times out, plus the recipe to reproduce it |
 | [`logs/wedge_knob_sweep.txt`](logs/wedge_knob_sweep.txt) | Per-knob results behind "no knob removed it": scheduler, CWSR, interrupt, mcbp, preemption timeout, hugepages, firmware version, XNACK, pacing, newer-kernel source check |
-| [`logs/inference/decode_aperture_violation.txt`](logs/inference/decode_aperture_violation.txt) | `AMD_LOG_LEVEL=3` trace pinning the decode fault to the `mul_mat_vec_q` output matmul |
+| [`logs/inference/decode_aperture_violation.txt`](logs/inference/decode_aperture_violation.txt) | Earlier `AMD_LOG_LEVEL=3` decode aperture-violation trace (on a different llama.cpp build; later runs place the fault on the runtime host-to-device copy) |
+| [`logs/inference/decode_copybuffer_aperture_violation.txt`](logs/inference/decode_copybuffer_aperture_violation.txt) | Later `AMD_LOG_LEVEL=3` trace (llama.cpp b9265): the aperture violation aborts on `__amd_rocclr_copyBuffer` with no compute kernel dispatched first (second sample in `...violation2.txt`) |
+| [`logs/inference/decode_campaign_stats.txt`](logs/inference/decode_campaign_stats.txt) | Single-boot decode campaign: per-attempt verdict (clean / aperture fault / load timeout), showing the intermittent load as the dominant blocker |
+| [`scripts/decode_stats.sh`](scripts/decode_stats.sh) | Runs the decode campaign above, classifying each attempt by its last GPU dispatch |
 | [`logs/`](logs/) | Captured run logs: correctness, rocBLAS sweeps, RustiCL comparison, inference, benchmarks, older-kernel attempt |
 
 ## References

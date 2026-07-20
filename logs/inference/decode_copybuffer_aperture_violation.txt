@@ -1,0 +1,70 @@
+###### DECODE TEST [baseline] 2026-07-20T00:55:45+02:00 ######
+model=/opt/models/qwen2.5-1.5b-q4km.gguf extra_env=[]
+CU=active_cu_number 40  mod=eccc85
+:3:hip_stream.cpp           :271 : 1869513407 us:  [32m hipStreamCreateWithFlags ( 0x28541940, 1 ) [0m
+:3:rocdevice.cpp            :3052: 1869513414 us:  Number of allocated hardware queues with low priority: 0, with normal priority: 2, with high priority: 0, maximum per priority is: 4
+:3:rocdevice.cpp            :3131: 1869516487 us:  Created SWq=0x7f7865cae000 to map on HWq=0x7f76f8c00000 with size 16384 with priority 1, cooperative: 0
+:3:rocdevice.cpp            :3223: 1869516500 us:  acquireQueue refCount: 0x7f76f8c00000 (1)
+:3:hip_stream.cpp           :277 : 1869517227 us:  hipStreamCreateWithFlags: Returned hipSuccess : stream:0x24cc1350
+:3:hip_stream.cpp           :384 : 1869517237 us:  [32m hipStreamSynchronize ( stream:0x24cc1350 ) [0m
+:3:hip_stream.cpp           :385 : 1869517244 us:  hipStreamSynchronize: Returned hipSuccess : 
+:3:hip_device_runtime.cpp   :657 : 1869517716 us:  [32m hipGetDevice ( 0x7ffd6d3bfa2c ) [0m
+:3:hip_device_runtime.cpp   :669 : 1869517719 us:  hipGetDevice: Returned hipSuccess : 0
+:3:hip_device_runtime.cpp   :657 : 1869517721 us:  [32m hipGetDevice ( 0x7ffd6d3bfa0c ) [0m
+:3:hip_device_runtime.cpp   :669 : 1869517722 us:  hipGetDevice: Returned hipSuccess : 0
+:3:hip_memory.cpp           :756 : 1869517727 us:  [32m hipMalloc ( 0x7ffd6d3bfa98, 98052224 ) [0m
+:3:rocdevice.cpp            :2411: 1869525045 us:  Device=0x24881bc0, freeMem_ = 0x387bca180
+:3:hip_memory.cpp           :758 : 1869525060 us:  hipMalloc: Returned hipSuccess : 0x7f766c400000: duration: 7333 us
+:3:hip_memory.cpp           :762 : 1869525075 us:  [32m hipHostMalloc ( 0x7ffd6d3bfaa8, 39858208, 0 ) [0m
+:3:hip_memory.cpp           :768 : 1869528886 us:  hipHostMalloc: Returned hipSuccess : 0x7f7669c00000: duration: 3811 us
+:3:hip_stream.cpp           :384 : 1869529264 us:  [32m hipStreamSynchronize ( stream:0x24cc1350 ) [0m
+:3:hip_stream.cpp           :385 : 1869529270 us:  hipStreamSynchronize: Returned hipSuccess : 
+:3:hip_stream.cpp           :384 : 1869529820 us:  [32m hipStreamSynchronize ( stream:0x24cc1350 ) [0m
+:3:hip_stream.cpp           :385 : 1869529823 us:  hipStreamSynchronize: Returned hipSuccess : 
+:3:hip_device_runtime.cpp   :657 : 1869530367 us:  [32m hipGetDevice ( 0x7ffd6d3c730c ) [0m
+:3:hip_device_runtime.cpp   :669 : 1869530372 us:  hipGetDevice: Returned hipSuccess : 0
+:3:hip_memory.cpp           :3487: 1869530379 us:  [32m hipMemsetAsync ( 0x7f7675800000, 0, 939524096, stream:0x2 ) [0m
+:3:rocvirtual.cpp           :763 : 1869530394 us:  Arg0: void* buf = ptr:0x7f7675800000
+:3:rocvirtual.cpp           :781 : 1869530396 us:  Arg0: void* buf = ptr:0x7f7675800000 obj:[0x7f7675800000-0x7f76ad800000]
+:3:rocvirtual.cpp           :763 : 1869530398 us:  Arg1: uchar* pattern = ptr:0x7f7714200300
+:3:rocvirtual.cpp           :857 : 1869530400 us:  Arg2: uint pattern_size = val:1
+:3:rocvirtual.cpp           :857 : 1869530401 us:  Arg3: uint alignment = val:16
+:3:rocvirtual.cpp           :857 : 1869530403 us:  Arg4: ulong end_ptr = val:140147693715456
+:3:rocvirtual.cpp           :857 : 1869530404 us:  Arg5: uint next_chunk = val:5120
+:3:rocvirtual.cpp           :3237: 1869530406 us:  ShaderName : __amd_rocclr_fillBufferAligned
+:3:rocvirtual.cpp           :3451: 1869530409 us:  KernargSegmentByteSize = 296 KernargSegmentAlignment = 128
+:3:hip_memory.cpp           :3488: 1869530415 us:  hipMemsetAsync: Returned hipSuccess : 
+:3:hip_stream.cpp           :384 : 1869530417 us:  [32m hipStreamSynchronize ( stream:0x2 ) [0m
+:3:rocvirtual.cpp           :534 : 1869530432 us:  Set Handler: handle(0x7f78187fa180), timestamp(0x248288f0)
+:3:rocvirtual.hpp           :57  : 1869530434 us:  Host active wait for Signal = (0x7f78187fa180) for -1 ns
+:3:hip_stream.cpp           :385 : 1869530442 us:  hipStreamSynchronize: Returned hipSuccess : 
+:3:rocvirtual.cpp           :227 : 1869530445 us:  Handler: value(0), timestamp(0x24be8cd0), handle(0x7f78187fa180)
+:3:hip_stream.cpp           :384 : 1869531075 us:  [32m hipStreamSynchronize ( stream:0x24cc1350 ) [0m
+:3:hip_stream.cpp           :385 : 1869531079 us:  hipStreamSynchronize: Returned hipSuccess : 
+:3:hip_stream.cpp           :384 : 1869531083 us:  [32m hipStreamSynchronize ( stream:0x24cc1350 ) [0m
+:3:hip_stream.cpp           :385 : 1869531085 us:  hipStreamSynchronize: Returned hipSuccess : 
+:3:hip_device_runtime.cpp   :657 : 1869531088 us:  [32m hipGetDevice ( 0x7ffd6d3c009c ) [0m
+:3:hip_device_runtime.cpp   :669 : 1869531090 us:  hipGetDevice: Returned hipSuccess : 0
+:3:hip_memory.cpp           :1631: 1869531096 us:  [32m hipMemcpyAsync ( 0x7f766c400000, 0x7f766bf03020, 12288, hipMemcpyHostToDevice, stream:0x2 ) [0m
+:3:rocvirtual.cpp           :763 : 1869531107 us:  Arg0: uchar* src = ptr:0x7f766bf03020
+:3:rocvirtual.cpp           :763 : 1869531108 us:  Arg1: uchar* dst = ptr:0x7f766c400000
+:3:rocvirtual.cpp           :857 : 1869531109 us:  Arg2: ulong size = val:12288
+:3:rocvirtual.cpp           :857 : 1869531111 us:  Arg3: uint remainder = val:0
+:3:rocvirtual.cpp           :857 : 1869531112 us:  Arg4: uint aligned_size = val:16
+:3:rocvirtual.cpp           :857 : 1869531113 us:  Arg5: ulong end_ptr = val:140146599014400
+:3:rocvirtual.cpp           :857 : 1869531114 us:  Arg6: uint next_chunk = val:1024
+:3:rocvirtual.cpp           :3237: 1869531116 us:  ShaderName : __amd_rocclr_copyBuffer
+:3:rocvirtual.cpp           :3451: 1869531117 us:  KernargSegmentByteSize = 304 KernargSegmentAlignment = 128
+:3:hip_memory.cpp           :1632: 1869531120 us:  hipMemcpyAsync: Returned hipSuccess : : duration: 24 us
+:3:hip_stream.cpp           :384 : 1869531122 us:  [32m hipStreamSynchronize ( stream:0x2 ) [0m
+:3:rocvirtual.cpp           :534 : 1869531127 us:  Set Handler: handle(0x7f78187fa100), timestamp(0x2849b600)
+:3:rocvirtual.hpp           :57  : 1869531130 us:  Host active wait for Signal = (0x7f78187fa100) for -1 ns
+:0:rocdevice.cpp            :2994: 1869532153 us:  Callback: Queue 0x7f76f9c00000 aborting with error : HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION: The agent attempted to access memory beyond the largest legal address. code: 0x29
+timeout: monitowane polecenie zrobiło zrzut pamięci
+--- exit=134  wall=12s ---
+--- dmesg ---
+[ 1871.437180] amdgpu: Freeing queue vital buffer 0x7f76f6200000, queue evicted
+[ 1871.437190] amdgpu: Freeing queue vital buffer 0x7f76f7e00000, queue evicted
+[ 1871.437193] amdgpu: Freeing queue vital buffer 0x7f76f8e00000, queue evicted
+[ 1871.437195] amdgpu: Freeing queue vital buffer 0x7f7715600000, queue evicted
+###### DONE [baseline] ######
