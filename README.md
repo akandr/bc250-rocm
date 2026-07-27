@@ -244,10 +244,19 @@ about as often as back-to-back. That is a list of things that did not help, not 
 nothing can; the per-knob results are in
 [`logs/wedge_knob_sweep.txt`](logs/wedge_knob_sweep.txt).
 
-A newer kernel looks unlikely to help for a reason that can be checked without booting one: the
-compute-queue reset and preemption functions in this path (`gfx_v10_0_kiq_reset_hw_queue`,
-`gfx_v10_0_reset_kcq`) are byte-for-byte identical between 6.18.9 and current mainline, and mainline
-carries no gfx1013-specific preemption code. `HSA_XNACK=1` is also a dead end here: the chip reports
+A newer kernel does not fix it. That was first apparent from source: the compute-queue reset and
+preemption functions in this path (`gfx_v10_0_kiq_reset_hw_queue`, `gfx_v10_0_reset_kcq`) are
+byte-for-byte identical between 6.18.9 and current mainline, and mainline carries no gfx1013-specific
+preemption code. It also holds when actually booted. Fedora's kernel 7.1.5 (about a year newer than
+6.18.9, and newer than the ROCm 7.1 / kernel 7.0 stack others report on in
+[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313)), with the same amdgpu rebuilt to carry
+only the 40-CU unlock and the stock flush, comes up at 40 CU and reproduces both problems: the bare
+compute probe is correct at 1M threads but, across four fresh boots, failed every time at 8M, twice
+with silent wrong results (about 2.3M and 3.3M dropped-store elements of 8.4M) and twice with a GPU
+memory-access fault, and wedges at 16M with `cp queue preemption time out`; native gfx1013 rocBLAS is
+correct at N=1024 (about 219 GFLOP/s) but faults at N=2048 and N=4096 with a `GCVM_L2_PROTECTION_FAULT`,
+the same fault class others flag in that thread. Logs:
+[`logs/kernel-7.1.5/`](logs/kernel-7.1.5/). `HSA_XNACK=1` is also a dead end here: the chip reports
 `gfx1013:xnack-` and stays that way even with `amdgpu.noretry=0`, so retry-fault memory coherence
 (which would replace the eviction path below) is not available in hardware.
 
@@ -494,11 +503,11 @@ Places where other eyes would help most:
   here. The untested lever is MES (MicroEngine Scheduler, a newer firmware scheduler that manages the
   compute queues instead of the older path): this board runs `mes=0` with no Cyan Skillfish MES
   firmware present, so it could not be tried, and it feels like the most likely source of a real fix.
-- Is the wedge a kernel regression? A newer kernel looks unlikely to help by itself: the reset and
-  preemption functions in this path are byte-identical between 6.18.9 and current mainline, with no
-  gfx1013-specific handling upstream. And the clean regression test, an old pre-regression kernel
-  that also supports the BC-250, is blocked because BC-250 support landed upstream only around 6.18.
-  So the remaining question is really about firmware or silicon, not driver C.
+- Is the wedge a kernel regression? A newer kernel does not help: both the correctness defect and the
+  wedge reproduce on kernel 7.1.5 (about a year newer than 6.18.9), matching the source, which shows
+  the reset and preemption functions byte-identical between 6.18.9 and mainline with no gfx1013-specific
+  handling. The clean *older* regression test is still blocked because BC-250 support landed upstream
+  only around 6.18. So the remaining question is really about firmware or silicon, not driver C.
 - The intermittent decode aperture violation (above) looks like a UMA host-buffer mapping problem on
   the runtime host-to-device copy, not a compute-kernel scratch fault, and it is the smaller of the two
   decode blockers. Anyone able to pin down why the runtime occasionally hands a non-`hipHostMalloc`'d
@@ -545,6 +554,7 @@ compute wedge a soft reboot often does not recover the queue; a hard power-cycle
 | [`scripts/native_fa.sh`](scripts/native_fa.sh) | The native gfx1013 plus FA plus MMQ inference recipe |
 | [`logs/ftrace/wedge_eviction_stack.txt`](logs/ftrace/wedge_eviction_stack.txt) | Function-tracer stacks showing the wedge is a queue eviction (triggered by the process's `munmap`) whose MEC preemption times out, plus the recipe to reproduce it |
 | [`logs/wedge_knob_sweep.txt`](logs/wedge_knob_sweep.txt) | Per-knob results behind "no knob removed it": scheduler, CWSR, interrupt, mcbp, preemption timeout, hugepages, firmware version, XNACK, pacing, newer-kernel source check |
+| [`logs/kernel-7.1.5/`](logs/kernel-7.1.5/) | Newer-kernel test: `compute_probe` (fresh-boot samples + first sweep) and native rocBLAS on Fedora kernel 7.1.5 with the 40-CU unlock, showing the correctness defect and the wedge both persist. Sampler: [`scripts/probe_kernel_sweep.sh`](scripts/probe_kernel_sweep.sh) |
 | [`logs/inference/decode_aperture_violation.txt`](logs/inference/decode_aperture_violation.txt) | Earlier `AMD_LOG_LEVEL=3` decode aperture-violation trace (on a different llama.cpp build; later runs place the fault on the runtime host-to-device copy) |
 | [`logs/inference/decode_copybuffer_aperture_violation.txt`](logs/inference/decode_copybuffer_aperture_violation.txt) | Later `AMD_LOG_LEVEL=3` trace (llama.cpp b9265): the aperture violation aborts on `__amd_rocclr_copyBuffer` with no compute kernel dispatched first (second sample in `...violation2.txt`) |
 | [`logs/inference/decode_campaign_stats.txt`](logs/inference/decode_campaign_stats.txt) | Single-boot decode campaign: per-attempt verdict (clean / aperture fault / load timeout), showing the intermittent load as the dominant blocker |
