@@ -1,0 +1,16 @@
+### PHASE A: GCVM_L2 fault decode, kernel 6.18.9-200.fc43.x86_64, 01:06:48
+[ 4750.706925] amdgpu 0000:01:00.0: amdgpu: [gfxhub] page fault (src_id:0 ring:156 vmid:8 pasid:0)
+[ 4750.706935] amdgpu 0000:01:00.0: amdgpu:   in page starting at address 0x00007f76254cc000 from client 0x1b (UTCL2)
+[ 4750.706940] amdgpu 0000:01:00.0: amdgpu: GCVM_L2_PROTECTION_FAULT_STATUS:0x00801031
+[ 4750.706944] amdgpu 0000:01:00.0: amdgpu: 	 Faulty UTCL2 client ID: TCP (0x8)
+[ 4750.706947] amdgpu 0000:01:00.0: amdgpu: 	 MORE_FAULTS: 0x1
+[ 4750.706950] amdgpu 0000:01:00.0: amdgpu: 	 WALKER_ERROR: 0x0
+[ 4750.706952] amdgpu 0000:01:00.0: amdgpu: 	 PERMISSION_FAULTS: 0x3
+[ 4750.706954] amdgpu 0000:01:00.0: amdgpu: 	 MAPPING_ERROR: 0x0
+[ 4750.706957] amdgpu 0000:01:00.0: amdgpu: 	 RW: 0x0
+[ 4750.706961] amdgpu 0000:01:00.0: amdgpu: [gfxhub] page fault (src_id:0 ring:156 vmid:8 pasid:0)
+[ 4750.706965] amdgpu 0000:01:00.0: amdgpu:   in page starting at address 0x00007f76254cc000 from client 0x1b (UTCL2)
+[ 4750.706971] amdgpu 0000:01:00.0: amdgpu: [gfxhub] page fault (src_id:0 ring:220 vmid:8 pasid:0)
+[ 4750.706974] amdgpu 0000:01:00.0: amdgpu:   in page starting at address 0x00007f76254ca000 from client 0x1b (UTCL2)
+[ 4750.706979] amdgpu 0000:01:00.0: amdgpu: [gfxhub] page fault (src_id:0 ring:156 vmid:8 pasid:0)
+[ 4750.706982] amdgpu 0000:01:00.0: amdgpu:   in page starting at address 0x00007f76254be000 from client 0x1b (UTCL2)

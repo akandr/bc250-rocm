@@ -65,8 +65,9 @@ CAPTURE C -- a second eviction trigger: process teardown (userptr invalidate on 
   <- do_exit
 
 
-Reading: the ROCm/HIP runtime does heavy address-space churn (~30 munmap per
-GEMM, code-object/module management, not application malloc). Each unmap that
+Reading: the ROCm/HIP runtime does heavy address-space churn (a couple hundred
+munmap over a run, roughly constant rather than scaling per GEMM,
+code-object/module management, not application malloc). Each unmap that
 overlaps a KFD SVM range fires an MMU notifier, and KFD conservatively evicts
 (quiesces) all of the process's compute queues. Evicting a compute queue means
 preempting it on the MEC; on this board that preemption intermittently times out

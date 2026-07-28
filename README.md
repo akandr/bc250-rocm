@@ -254,8 +254,8 @@ only the 40-CU unlock and the stock flush, comes up at 40 CU and reproduces both
 compute probe is correct at 1M threads but, across four fresh boots, failed every time at 8M, twice
 with silent wrong results (about 2.3M and 3.3M dropped-store elements of 8.4M) and twice with a GPU
 memory-access fault, and wedges at 16M with `cp queue preemption time out`; native gfx1013 rocBLAS is
-correct at N=1024 (about 219 GFLOP/s) but faults at N=2048 and N=4096 with a `GCVM_L2_PROTECTION_FAULT`,
-the same fault class others flag in that thread. Logs:
+correct at N=1024 and N=2048 (about 226 and 1400 GFLOP/s) but faults at N=4096 with a
+`GCVM_L2_PROTECTION_FAULT`, the same fault class others flag in that thread. Logs:
 [`logs/kernel-7.1.5/`](logs/kernel-7.1.5/). `HSA_XNACK=1` is also a dead end here: the chip reports
 `gfx1013:xnack-` and stays that way even with `amdgpu.noretry=0`, so retry-fault memory coherence
 (which would replace the eviction path below) is not available in hardware.
@@ -277,10 +277,9 @@ Full log: [`logs/rocblas/sgemm_sweep_stock_40cu.log`](logs/rocblas/sgemm_sweep_s
 points stood out. Almost every GEMM that completed was numerically exact, and within a single
 long-lived process (one allocation, many dispatches, [`patches/sgemm_iter.cpp`](patches/sgemm_iter.cpp))
 the failures were wedges, not wrong answers.
-The exception was at larger sizes: a single N=8192 GEMM once returned a wrong result (about 6
-percent of elements holding their pre-kernel value, the same dropped-store signature as
-Observation 1), so "structured kernels never corrupt" would be too strong; wrong results are rarer
-with them, not absent. And the wedge
+The exception was at larger sizes: a single N=8192 GEMM once returned a wrong result in an earlier
+run (checksum mismatch, not captured in the logs here), so "structured kernels never corrupt" would
+be too strong; wrong results are rarer with them, not absent. And the wedge
 looked intermittent rather than a clean size threshold: N=1024 hung once and then ran fine on
 retry. That intermittency is why "just keep dispatches small" seems unlikely to be made reliable.
 On a fresh boot the queue tends to tolerate roughly one large sustained dispatch and then wedge on
@@ -305,8 +304,9 @@ evict_process_queues_nocpsch  <-  kgd2kfd_quiesce_mm  <-  svm_range_evict
 ```
 
 The trigger is the process's own `munmap`. The ROCm/HIP/Tensile runtime churns its address space
-heavily (on the order of thirty `munmap` calls per GEMM, from code-object and module management,
-not application `malloc`). Each unmap that overlaps a KFD SVM range fires an MMU notifier, and KFD
+(a couple hundred `munmap` calls over a run, from code-object and module management,
+not application `malloc`, and roughly constant rather than scaling per GEMM). Each unmap that overlaps
+a KFD SVM range fires an MMU notifier, and KFD
 responds by quiescing, that is evicting, all of the process's compute queues. Evicting a compute
 queue means preempting it on the MEC, and on this board that preemption intermittently times out
 when a dispatch is in flight. Process exit is a second trigger for the same eviction path (via a
@@ -319,6 +319,25 @@ likelier to land while one is running; pacing does not help because the runtime 
 memory regardless; and no scheduler or timeout knob helps because the failing step is the MEC
 preemption, below all of them. This is one board's trace and an inference from it, not a proof, but
 it is more specific than the earlier guess and it is reproducible with the recipe in the log file.
+
+When a large dispatch fails as a page fault rather than as a wedge or wrong results, amdgpu decodes
+it. In one captured instance the faulting client is **TCP** (the shader's vector-L1 / vector-memory
+path), the page is mapped and the page-table walk succeeds (`MAPPING_ERROR: 0x0`, `WALKER_ERROR:
+0x0`), and the access is rejected on **permission** (`PERMISSION_FAULTS: 0x3`) on a **read** (`RW:
+0x0`). So this is a permission rejection on a mapped page, not a missing one. That is a single decode,
+and the rest is interpretation rather than measurement. A permission fault on a mapped page, on a
+read, matches the known pattern of a buffer unmapped while a shader still references it (a
+use-after-free on the GPU side), which is exactly the runtime `munmap` churn and queue eviction of
+Observation 2 seen from the memory controller. Read that way, the same eviction that usually times out
+the MEC preemption and wedges the queue can instead let an in-flight read land on a just-revoked page
+and fault; the fault address being in the process's SVM range fits. A stale translation left by the
+PASID flush (Observation 1) could also leave a wrong permission, so one trace does not cleanly
+separate the two. Offered as a hypothesis, from one board. The full decode is in
+[`logs/deep-dive-2026-07-28/l2_fault_decode.log`](logs/deep-dive-2026-07-28/l2_fault_decode.log), and
+the same `GCVM_L2_PROTECTION_FAULT` is the fault class others report from an image-bandwidth test in
+[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313). A bare HIP streaming-read kernel
+([`patches/bw_probe.cpp`](patches/bw_probe.cpp), no arithmetic, no rocBLAS) reproduces the
+size-dependent failure on its own.
 
 ## Building a native gfx1013 rocBLAS
 
@@ -336,13 +355,23 @@ Fedora-specific issues: system ROCm lives in `/usr` rather than `/opt/rocm`; `am
 and `AsmCaps` and to the Tensile and rocBLAS C++ architecture enums. The full worked recipe is in
 [`scripts/build_rocblas_gfx1013.sh`](scripts/build_rocblas_gfx1013.sh).
 
-The result is a real `librocblas.so.4.4` (about 38.8 MB) with 56 gfx1013 Tensile libraries and
+The result is a real `librocblas.so.4.4` (about 37 MB) with 56 gfx1013 Tensile libraries and
 genuine gfx1013 code objects (`Kernels.so-000-gfx1013.hsaco` reports ELF machine "AMD GPU" with
 gfx1013 flags, native rather than an override). It runs on the board with no `HSA_OVERRIDE` and
 computes correct GEMMs, per the table above. The main value is that it removes the override from
 the picture: where a native rocBLAS GEMM works it is correct, and where it does not it is the
 wedge, not an aperture mismatch. On its own it is not enough for reliable inference, because the
 wedge still applies to the large fused matmuls that inference leans on.
+
+Two related notes. Fedora's own system rocBLAS "supports gfx1013" only by symlinking its gfx1013
+Tensile files to the gfx1010 ones, so a stock install is silently running the gfx1010 override, which
+is a fair part of why "rocBLAS works on gfx1013" reports coexist with real workloads failing. And the
+same wedge reaches a mainstream framework: the official `torch 2.9.1+rocm6.4` wheel detects the board
+but ships no gfx1013 (or gfx1010) kernels, so a matmul fails immediately out of the box; with a native
+gfx1013 rocBLAS grafted in, PyTorch matmuls are correct up to N=4096 single, but a sustained loop
+(N=4096 repeated) wedges the compute queue the same way the probes and rocBLAS do
+([`logs/deep-dive-2026-07-28/`](logs/deep-dive-2026-07-28/)). A real training or inference workload is
+many sustained matmuls, so it would be expected to hit the same wedge.
 
 ## Observation 3: the unlock, the fix, and the wedge are entangled
 
@@ -555,6 +584,8 @@ compute wedge a soft reboot often does not recover the queue; a hard power-cycle
 | [`logs/ftrace/wedge_eviction_stack.txt`](logs/ftrace/wedge_eviction_stack.txt) | Function-tracer stacks showing the wedge is a queue eviction (triggered by the process's `munmap`) whose MEC preemption times out, plus the recipe to reproduce it |
 | [`logs/wedge_knob_sweep.txt`](logs/wedge_knob_sweep.txt) | Per-knob results behind "no knob removed it": scheduler, CWSR, interrupt, mcbp, preemption timeout, hugepages, firmware version, XNACK, pacing, newer-kernel source check |
 | [`logs/kernel-7.1.5/`](logs/kernel-7.1.5/) | Newer-kernel test: `compute_probe` (fresh-boot samples + first sweep) and native rocBLAS on Fedora kernel 7.1.5 with the 40-CU unlock, showing the correctness defect and the wedge both persist. Sampler: [`scripts/probe_kernel_sweep.sh`](scripts/probe_kernel_sweep.sh) |
+| [`logs/deep-dive-2026-07-28/`](logs/deep-dive-2026-07-28/) | Follow-up round: the amdgpu VM-fault decode (TCP/UTCL2 read permission fault), a PyTorch native-gfx1013 matmul sweep (correct single, wedges sustained), and the gfx1010-symlink note. Summary in that folder's README |
+| [`patches/bw_probe.cpp`](patches/bw_probe.cpp) | Bare HIP streaming-read kernel (no arithmetic, no rocBLAS) that reproduces the size-dependent wedge/fault |
 | [`logs/inference/decode_aperture_violation.txt`](logs/inference/decode_aperture_violation.txt) | Earlier `AMD_LOG_LEVEL=3` decode aperture-violation trace (on a different llama.cpp build; later runs place the fault on the runtime host-to-device copy) |
 | [`logs/inference/decode_copybuffer_aperture_violation.txt`](logs/inference/decode_copybuffer_aperture_violation.txt) | Later `AMD_LOG_LEVEL=3` trace (llama.cpp b9265): the aperture violation aborts on `__amd_rocclr_copyBuffer` with no compute kernel dispatched first (second sample in `...violation2.txt`) |
 | [`logs/inference/decode_campaign_stats.txt`](logs/inference/decode_campaign_stats.txt) | Single-boot decode campaign: per-attempt verdict (clean / aperture fault / load timeout), showing the intermittent load as the dominant blocker |

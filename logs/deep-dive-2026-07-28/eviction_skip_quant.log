@@ -1,0 +1,13 @@
+### eviction-skip quantification 6.18.9-200.fc43.x86_64 10:01:40
+run 1: HANG (rc=124)
+run 2: COMPLETE (rc=0)
+run 3: HANG (rc=124)
+run 4: HANG (rc=124)
+run 5: HANG (rc=124)
+run 6: HANG (rc=124)
+run 7: HANG (rc=124)
+run 8: HANG (rc=124)
+run 9: HANG (rc=124)
+run 10: COMPLETE (rc=0)
+### TALLY completed=0 hung=0 /10
+### board survived all runs (this line means no freeze); preempt-timeouts=28
