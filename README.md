@@ -5,13 +5,15 @@ The measurements are reproducible and included as logs; the explanations are wor
 may be wrong or incomplete. Corrections and "have you tried X" comments are welcome; see
 [Open questions](#open-questions) at the end.
 
-**The result first: ROCm compute now works on this board.** On kernel 7.1.5, with a corrected TLB
-flush, hardware scheduling, the community 40-CU unlock, and a flush-on-unmap workaround (the full
-recipe is in [A working configuration](#a-working-configuration-kernel-715)), the failure modes
-documented below largely stop reproducing. Native gfx1013 rocBLAS sustains about 4.6 TFLOP/s of
-verified-correct SGEMM, llama.cpp generates text-verified output at 107 t/s on a 1.5B model and
-32 t/s on a 35B MoE, and PyTorch matmul and FP64 both work. Limits remain: Vulkan keeps a roughly
-10x prefill advantage, two inference-path defects need attention, and everything here is one
+**The short version: on the testing here, much of the ROCm compute stack works on this board.** On
+kernel 7.1.5, with a corrected TLB flush, hardware scheduling, the community 40-CU unlock, and a
+flush-on-unmap workaround (the full recipe is in
+[A working configuration](#a-working-configuration-kernel-715)), the failure modes documented
+below largely stop reproducing. Native gfx1013 rocBLAS sustained about 4.6 TFLOP/s of
+verified-correct SGEMM, llama.cpp generated text-verified output at 107 t/s on a 1.5B model and
+32 t/s on a 35B MoE, and PyTorch matmul and FP64 both ran. How much of this is stable over time,
+rather than a good run on one board, is not something a single board can answer. Limits remain: Vulkan keeps a roughly
+10x prefill advantage, flash attention is only intermittently correct (boot-dependent), and everything here is one
 board. This took the combined work of several community projects, credited inline and in the
 references.
 
@@ -202,7 +204,9 @@ scheduling unsurvivable, and hardware scheduling removes the eviction path that 
 wedge. On 6.18 cell A was unreachable, because the corrected flush forced 24 CU there
 (Observation 3); the knob sweep's `sched_policy=0` negative on that kernel was in effect a cell-C
 or 24-CU measurement. Which 7.x kernel change decoupled the unlock, and whether the HWS path also
-improved independently, were not isolated here.
+improved independently, were not isolated here. Two boots per cell is thin for a board that varies
+this much between boots (the flash-attention section is a caution on exactly that), so this is the
+pattern that held across these boots, not a settled law.
 
 This also reframes the kernel-7.1.5 test reported in Observation 2, which found both defects
 persisting on the newer kernel: that boot carried `sched_policy=2` on its command line, because at
@@ -272,31 +276,35 @@ Tensile build.
 
 ![SGEMM throughput](figures/fig-sgemm-curve.png)
 
-### Two inference-path defects
+### Two inference-path caveats, and why the numbers use `-fa off`
 
-Before the inference numbers, a warning that applies to all of them. A seed-fixed generation
-check caught that llama.cpp's HIP backend, run the obvious way, produces
-fluent token rates and garbage text on this board. Bisecting it on fresh boots:
+Before the inference numbers, a warning: a seed-fixed generation check is essential here, because
+token rate and a clean exit do not prove the tokens are right. Two things surfaced.
 
-| configuration | result |
-|---|---|
-| `-fa on`, any batch size, any rocBLAS, MMQ on or off | runs at full speed, output is garbage |
-| `-fa off`, default batch | crashes in `hipblasGemmEx` (fp16 GEMM); a q8_0 model errors `CUBLAS_STATUS_INTERNAL_ERROR` on the same call |
-| `-fa off -ub 8 -b 8` | **correct, coherent output**, full GPU offload |
-| same binary, GPU hidden (CPU only) | correct (the binary is fine) |
-| Vulkan, same source and model | correct |
+**Flash attention is intermittently correct, by boot.** On some boots `-fa on` produces correct,
+coherent output at full speed; on others it produces garbage (destroyed logits, repeated
+punctuation) at the same full speed. The state is fixed for the duration of a boot: on a "bad"
+boot every `-fa on` run garbles identically, and on a "good" boot every run is correct. A day of
+digging narrowed what it is **not**: not fp16 (bare-HIP fp16 arithmetic and `rocblas_hgemm` are
+verified correct on this chip), not a stale llama.cpp build (current master garbles on a bad boot
+too, and an older build garbled 6/6 on its boot), not the ggml RDNA-arch macro (a one-line patch
+that looked like the fix was falsified when the unpatched build was equally correct on a good
+boot), and not rescuable by any software knob on a bad boot (KV-cache precision, `GGML_CUDA_FORCE_MMQ`,
+micro-batch size, a warm-up dispatch, and lowering the core clock all leave it garbled). Only
+`-fa off` is reliable across boots. The most consistent reading is boot-dependent hardware
+marginality below the software layer, plausibly in the board's bottom-binned GDDR6, of the kind
+that hits a bandwidth-heavy kernel like flash attention while sparing the lighter `-fa off` path.
+That is an inference from one board, not a proof, and it is why no upstream bug was filed.
 
-So two distinct defects, both showing only on the HIP inference path. First, the **flash-attention path produces wrong
-results on this board**: whether that is a bug in llama.cpp's kernel, a compiler problem for
-gfx1013, or the chip mis-executing a valid kernel cannot be separated with one board, but the
-wrong output is reproducible in a minute with a fixed seed. Second, the **fp16 batch-GEMM path**
-(dequant plus `hipblasGemmEx`) crashes; that one sits in the rocBLAS layer, where the native
-Tensile build's fp16 HPA kernels were never validated here (only FP32 and FP64 were) and the
-system library is the gfx1010 symlink described below. Every HIP token rate published anywhere for this board without a text check should be
-treated as suspect; a day of fa-on numbers was discarded here for that reason.
+**The fp16 batch-GEMM path crashes.** `-fa off` at the default batch size hits a crash in
+`hipblasGemmEx` (a q8_0 model reports `CUBLAS_STATUS_INTERNAL_ERROR` on the same call). That sits
+in the rocBLAS layer, where the native Tensile build's fp16 HPA kernels were never validated here
+(only FP32 and FP64 were). Using a small micro-batch avoids it.
 
-The working inference configuration is therefore `-fa off -ub 8 -b 8` (plus `HSA_ENABLE_SDMA=0`),
-and all numbers below are from it, each model's output text-verified first.
+The configuration used for the numbers below is therefore `-fa off -ub 8 -b 8` (plus
+`HSA_ENABLE_SDMA=0`), which is reliable regardless of the boot's flash-attention state, with each
+model's output text-verified first. On a good boot `-fa on` also works and is faster at depth;
+it just cannot be relied on boot to boot.
 
 ### llama.cpp: ROCm vs Vulkan, same build, same boot configuration
 
@@ -323,7 +331,7 @@ deepseek-r1-14B likewise passes the text check (a coherent reasoning trace) and 
 ### Decode at context depth
 
 Generation speed with the KV cache primed to the stated depth (tg64), qwen2.5-1.5B. Without a
-working flash-attention kernel the non-FA attention path pays the full quadratic cost, and it
+reliable flash-attention path the non-FA attention path pays the full quadratic cost, and it
 shows:
 
 | depth | ROCm/HIP (fa off) | Vulkan (fa on) | HIP as share of Vulkan |
@@ -337,8 +345,8 @@ shows:
 
 An earlier revision of this table, measured with `-fa on` before the garbage-output discovery,
 showed ROCm nearly flat with depth; that flatness belonged to the broken kernel, not to the board.
-The corrected picture is the opposite: a flash-attention path that computes correctly on this
-chip is probably the most valuable missing piece for ROCm inference at depth, and Vulkan remains the long-context
+The corrected picture is the opposite: a flash-attention path that is reliable across boots on
+this chip is probably the most valuable missing piece for ROCm inference at depth, and Vulkan remains the long-context
 backend until one exists.
 
 ### The allocation-reuse defect, a reproducer, and a flush that mostly fixes it
@@ -439,10 +447,11 @@ Things the Vulkan path cannot offer on this board, now usable:
   every model load with SDMA on hung to its timeout, so `HSA_ENABLE_SDMA=0` remains required in
   practice; the SDMA H2D path is still broken for bulk transfers.
 
-  When a large model does load it runs at full speed indefinitely, so this is a load-time
-  problem, not a runtime one. The last column is the resolution: the load fault is the
-  allocation-reuse defect (the section above), and with the runlist flush enabled large-model
-  loads become reliable here, including the MoE that never loaded plain.
+  When a large model does load it runs at full speed, so this reads as a load-time problem, not a
+  runtime one. The last column is what helped: the load fault looks like the allocation-reuse
+  defect (the section above), and with the runlist flush enabled the large-model loads that had
+  been failing went through in these trials, including the MoE that never loaded plain. The
+  residual noted above still applies, so "more reliable" rather than "solved".
 - **A rare extreme-size dispatch fault.** Across the day's boots the 16.7M-thread probe faulted
   once and the 8.4M probe once (a fresh boot's first run); the two dedicated benchmark boots ran
   the full sweep 30/30 clean. Far rarer than before, not gone.
@@ -735,7 +744,7 @@ patched-and-40-CU state did not reproduce on later boots.
 
 So on this board the available states appear to be the correct TLB flush at 24 CU (where compute
 wedges) or the working 40-CU configuration with the buggy flush (wrong results and freeze), but not
-both. A controlled rebuild confirmed the entanglement directly: with `flush_pasid_uses_kiq = false`
+both. A controlled rebuild reproduced the entanglement: with `flush_pasid_uses_kiq = false`
 and the unlock present only in the reset path, the board comes up at 24 CU and the bare probe
 wedges, the predicted state.
 
@@ -792,7 +801,7 @@ HSA_ENABLE_SDMA=0 GGML_CUDA_FORCE_MMQ=1 \
 `-fa 1` (flash attention) and `GGML_CUDA_FORCE_MMQ=1` route around rocBLAS via ggml's own gfx1013
 kernels; `HSA_ENABLE_SDMA=0` is still needed on this board. A warning applied in hindsight: this
 recipe and every rate in this section ran with flash attention on, and the later text check (the
-two-defects section above) showed that path produces wrong output on this board. These runs were
+inference-caveats section above) showed that path is only intermittently correct on this board. These runs were
 judged by completion and return code only, so their output correctness is unknown; the recipe
 ([`scripts/native_fa.sh`](scripts/native_fa.sh)) is kept for the record, and the working
 inference configuration above is the one to use.
@@ -857,20 +866,20 @@ firmware.
 
 | Thing | Where it landed |
 |-------|-----------------|
-| Silent wrong results on large compute | Not observed under the working configuration (17/17 counterbalanced at the old failing size, 30/30 sweep on the benchmark boots, two isolated faults across the day as the residual). On 6.18, addressable in isolation but entangled with the unlock; on 7.1.5 the entanglement is gone |
+| Silent wrong results on large compute | Not observed under the working configuration (17/17 counterbalanced at the old failing size, 30/30 sweep on the benchmark boots, two isolated faults across the day as the residual). On 6.18, addressable in isolation but entangled with the unlock; on 7.1.5 the entanglement did not appear in these tests |
 | KIQ board-freeze on HIP exit | Gone under the corrected flush. `amdgpu.sched_policy=2` is no longer needed for it, and on 7.1.5 works against compute (it selects the eviction path that wedges) |
-| Compute wedge under large / sustained load | Does not reproduce under hardware scheduling on 7.1.5: SGEMM to N=8192 sustained, streaming reads to 2 GB, and teardown churn all run clean. The historical wedge belongs to the software-scheduling eviction path (Observation 2), and on 6.18 the kernel version also mattered |
+| Compute wedge under large / sustained load | Did not reproduce under hardware scheduling on 7.1.5 in these runs: SGEMM to N=8192 sustained, streaming reads to 2 GB, and teardown churn all ran clean. The historical wedge belongs to the software-scheduling eviction path (Observation 2), and on 6.18 the kernel version also mattered |
 | Multi-minute model load | Fast under the corrected flush; small models load essentially always |
 | Large-model loads | Addressed by the runlist-rebuild flush (the load fault appears to be the allocation-reuse defect): 14B and the 10.7 GiB MoE both load 3/3 with `bc250_flush_by_runlist=1`; roughly a ten percent residual remains under sustained heavy alloc/free sequences |
 | rocBLAS has no gfx1013 kernels | Built natively (the PR #8838 approach) and now usable end to end: about 4.6 TFLOP/s FP32 at N=4096, FP64 DGEMM at about 95 percent of its rate peak. Untuned, so batch/prefill work is slow |
-| llama.cpp inference | Working with text-verified output at `-fa off -ub 8`: decode 107 t/s on a 1.5B (half of Vulkan), prefill about 10x behind. Decode falls off steeply with context depth pending a working gfx1013 flash-attention kernel; two inference-path defects (wrong results on the flash-attention path, fp16 batch-GEMM crash in the rocBLAS layer) documented above |
+| llama.cpp inference | Working with text-verified output at `-fa off -ub 8`: decode 107 t/s on a 1.5B (half of Vulkan), prefill about 10x behind. Decode falls off steeply with context depth because `-fa off` is used; `-fa on` is faster at depth but only intermittently correct (boot-dependent, see above). The fp16 batch-GEMM crash in the rocBLAS layer is the other caveat |
 | PyTorch | Working for preallocated-buffer matmul (about 4.5 TFLOP/s at N=8192); blocked for full training by the wheel's missing gfx1013 elementwise kernels, and per-iteration alloc/free churn still faults |
 | Vulkan vs ROCm | Vulkan remains the fast, reliable default for prompt-heavy inference. ROCm is now the path for GPGPU (BLAS, FP64, PyTorch matmul, custom HIP kernels) and is competitive for decode-dominated inference |
 
-In short: what looked like one broken compute queue separates, on current kernels, into a
+In short: what looked like one broken compute queue seems, on current kernels and this testing, to separate into a
 configuration problem (scheduler policy plus the flush fix plus the unlock, all three finally
-compatible), an unmap-flush defect with a workable mitigation, and two inference-path defects
-plus a prefill gap. All of it is one board, and any of it could still be
+compatible), an unmap-flush defect with a workable mitigation, and an intermittent boot-dependent
+flash-attention corruption plus a prefill gap. All of it is one board, and any of it could still be
 wrong.
 
 ## Open questions
@@ -891,12 +900,12 @@ Places where other eyes would help most:
   would be a reasonable upstream proposal, and the underlying question (why the PASID
   invalidation covers nothing on gfx10 under hardware scheduling, and why direct invalidation is
   never acknowledged on this part) deserves AMD eyes.
-- The two inference-path defects look like the most promising items now. The flash-attention
-  path produces wrong results on this board (kernel bug, compiler problem, or hardware
-  mis-execution is undetermined; a llama.cpp issue with the one-minute reproducer would be the
-  next step, and gating FA off for gfx1013 by default would at least make defaults correct). The
-  fp16 batch-GEMM crash sits in the rocBLAS layer, where the gfx1013 fp16 HPA Tensile kernels
-  are unvalidated. A working attention path would substantially improve decode at depth; the
+- What makes a boot "good" or "bad" for flash attention, and whether it can be forced. On a bad
+  boot every software knob tried leaves `-fa on` garbled and only `-fa off` works, so the lever, if
+  there is one, is below the software layer (memory training or a boot-time GPU state). Anyone able
+  to correlate it with a boot-time register or memory-clock reading, or to show a memory-timing
+  change that stabilises it, would turn "reboot until it works" into a real fix. The fp16 batch-GEMM
+  crash sits in the rocBLAS layer, where the gfx1013 fp16 HPA Tensile kernels are unvalidated. A working attention path would substantially improve decode at depth; the
   GEMM repair plus Tensile tuning would close most of the prefill gap.
 - The per-iteration alloc/free fault in PyTorch: torch's caching allocator does not unmap between
   iterations, so this does not look like a stale-translation pattern; what exactly faults there is
