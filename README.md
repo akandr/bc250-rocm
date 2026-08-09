@@ -6,19 +6,27 @@ may be wrong or incomplete. Corrections and "have you tried X" comments are welc
 [Open questions](#open-questions) at the end.
 
 This is the ROCm/HIP companion to [akandr/bc250](https://github.com/akandr/bc250), which covers the
-board itself and its (working) Vulkan setup; that background is not repeated here. The Vulkan side
-is the settled one: for running LLM inference on the board today, Vulkan via Mesa RADV is the
-reliable, fast path. What follows is the other side, how far the ROCm/HIP compute stack can be
-pushed, and where it keeps hitting a wall.
+board itself and its (working) Vulkan setup; that background is not repeated here. For a long time
+the Vulkan side was the only usable one, and these notes documented how far the ROCm/HIP stack
+could be pushed before hitting a wall. As of kernel 7.1.5 that has changed: a configuration exists
+under which the failures documented here largely stop reproducing, and ROCm becomes genuinely
+usable for inference and GPGPU work, with known limits (see
+[A working configuration](#a-working-configuration-kernel-715)). The investigation is kept intact
+below, both because the observations remain real on older kernels and configurations, and because
+they explain what the working configuration actually changes.
 
-Environment throughout: Fedora 43, kernel 6.18.9-200.fc43, ROCm 6.4.2 (rocBLAS 6.4.4 as shipped,
-plus a native gfx1013 rocBLAS built locally), LLVM/clang 19, Mesa 25.3 RADV for the Vulkan
-comparison, the community 40-CU unlock, the oberon governor around 1500 MHz.
+Environment throughout: Fedora 43, ROCm 6.4.2 (rocBLAS 6.4.4 as shipped, plus a native gfx1013
+rocBLAS built locally), LLVM/clang 19, Mesa 25.3 RADV for the Vulkan comparison, the community
+40-CU unlock, the oberon governor around 1500 MHz. The historical observations were taken on
+kernel 6.18.9-200.fc43; the working configuration and the new benchmarks are on kernel
+7.1.5-100.fc43.
 
 ## Contents
 
 - [A short primer: the AMD compute stack](#a-short-primer-the-amd-compute-stack)
 - [The claim this repo tests](#the-claim-this-repo-tests)
+- [A working configuration (kernel 7.1.5)](#a-working-configuration-kernel-715)
+- [What the working configuration measures](#what-the-working-configuration-measures)
 - [Observation 1: occasional silent wrong results](#observation-1-occasional-silent-wrong-results)
 - [Observation 2: the compute queue wedges under load](#observation-2-the-compute-queue-wedges-under-load)
 - [Building a native gfx1013 rocBLAS](#building-a-native-gfx1013-rocblas)
@@ -133,7 +141,264 @@ Getting ROCm working would open up the wider GPGPU ecosystem on the board (rocBL
 workloads, image generation, and so on). The stock answer is that it cannot: the compute queue is
 broken. The notes below test that claim. A tentative reading of the results is that the single label
 "broken compute queue" appears to cover **two different problems** that behave very differently.
-That split is an interpretation of the observed behaviour, not a proven account.
+That split is an interpretation of the observed behaviour, not a proven account. The two sections
+that follow give the current answer; the observations after them are the investigation that led to
+it, kept as recorded, with notes where later results corrected them.
+
+## A working configuration (kernel 7.1.5)
+
+The short version: on kernel 7.1.5, three ingredients that could not previously be combined turn
+out to compose, and together they remove the failure modes that made ROCm unusable here.
+
+```
+kernel 7.1.5 (Fedora 43 updates)
++ the 40-CU unlock                   amdgpu.bc250_cc_write_mode=3
++ the corrected PASID TLB flush      flush_pasid_uses_kiq = false (the patch from Observation 1)
++ hardware scheduling                do NOT set amdgpu.sched_policy=2
++ HSA_ENABLE_SDMA=0 in the environment for HIP processes
+```
+
+Two findings make this possible. Both are corrections to observations below, and both are scoped to
+the kernel version, which is why they were missed earlier.
+
+**The unlock and the flush fix no longer conflict.** On 6.18 the corrected flush forced the board
+to 24 CU, where compute wedges (Observation 3): the unlock only fired from a KIQ reset context that
+the flush fix removed. On 7.1.5 the unlock fires from ordinary driver init, and the board comes up
+at 40 CU with the corrected flush, verified on every test boot by the boot log (the patched module
+prints its flush state at init, so a stale-initramfs mixup is excluded). The entanglement was a
+property of that kernel era, not of the hardware.
+
+**The flush and the scheduler interact; both changes are required.** `amdgpu.sched_policy=2` was
+adopted here early, from the community freeze workaround, and every wedge measurement below was
+taken under it. To untangle the two variables properly, a full two-by-two factorial was run on
+7.1.5: `flush_pasid_uses_kiq` (false / true) crossed with `sched_policy` (default hardware
+scheduling / 2), two boots per cell in a mirror-balanced order (A B C D D C B A), a fixed
+measurement battery per boot (three 8.4M-thread correctness probes, SGEMM N=2048 x10 and N=4096
+x50, dmesg counters, a health check), and everything else identical:
+
+| cell | flush | scheduling | result (2 boots each) |
+|---|---|---|---|
+| A | false | hardware (default) | clean both boots (and a third pilot): probes 3/3 correct, both GEMMs complete correct, zero preemption timeouts, board responsive |
+| B | false | 2 (software) | probes hang 3/3, both GEMMs wedge, 19 `cp queue preemption time out` per boot, queue degraded |
+| C | true | hardware (default) | board lost mid-battery, both boots (the KIQ-flush freeze; recovered by power cycle) |
+| D | true | 2 (software) | the historical configuration: probes mostly pass, sustained N=4096 wedges or faults on both boots |
+
+The table reads cleanly as an interaction. Cell C is why `sched_policy=2` existed at all: under
+hardware scheduling with the stock flush, the KIQ PASID flush freezes the board, so the software
+scheduler was the rational mitigation. Cell B and D show the price: under software scheduling,
+queue evictions preempt through `kgd_hqd_destroy`, which is exactly where the wedge message is
+printed (Observation 2), and sustained compute wedges with either flush setting. Only cell A,
+both changes together, is clean: the corrected flush removes the freeze that made hardware
+scheduling unsurvivable, and hardware scheduling removes the eviction path that made compute
+wedge. On 6.18 cell A was unreachable, because the corrected flush forced 24 CU there
+(Observation 3); the knob sweep's `sched_policy=0` negative on that kernel was in effect a cell-C
+or 24-CU measurement. Which 7.x kernel change decoupled the unlock, and whether the HWS path also
+improved independently, were not isolated here.
+
+This also reframes the kernel-7.1.5 test reported in Observation 2, which found both defects
+persisting on the newer kernel: that boot carried `sched_policy=2` on its command line, because at
+the time that was standard practice here. The failures it recorded were real, but they belong to
+the software-scheduling path, not to the kernel version.
+
+### Why this was missed
+
+A short methodological accounting, since the earlier conclusions leaned toward hardware and were
+wrong in their scope. Four things compounded:
+
+- **A workaround became an unexamined constant.** `sched_policy=2` was adopted early as the freeze
+  mitigation and then carried on every command line, including the newer-kernel test. Under it,
+  evictions preempt through the exact driver path that emits the wedge message. Every wedge
+  measurement was taken inside the failure mode the mitigation itself selected.
+- **Two interacting blockers defeated one-variable experiments.** On 6.18 the correctness fix cost
+  16 CUs (Observation 3), and at 24 CU everything wedges; without the fix, correctness failed. Each
+  single fix therefore failed, and repeated single-fix failures look exactly like an intrinsic
+  hardware limit. The combination that works was never reachable one change at a time on that
+  kernel.
+- **Intermittency degraded the knob sweep.** The 6.18 sweep sampled each knob a few times in a
+  regime where the base failure rate drifts by boot and by session, so a false negative on any
+  single knob (including `sched_policy=0`) was likely enough.
+- **Throughput was mistaken for correctness in inference.** Token rates and clean exits do not
+  prove the tokens are right (see the flash-attention note below). A seed-fixed text check now
+  accompanies every inference claim here.
+
+What remains fairly attributed to the hardware or firmware: the underlying TLB-invalidation
+oddities, the load-time host-aperture fault, the rare extreme-size dispatch fault, and the
+`hqd_destroy` preemption timeout itself. What does not: the practical unusability, which was a
+stack of driver-path and userspace choices that newer kernels and different configuration avoid.
+
+## What the working configuration measures
+
+All numbers in this section are from kernel 7.1.5 at 40 CU with the corrected flush and hardware
+scheduling, native gfx1013 code throughout, no `HSA_OVERRIDE`, llama.cpp build 2da6686, one
+`llama-bench` invocation per test. Logs: [`logs/bench-2026-08/`](logs/bench-2026-08/).
+
+### Everything that used to fail, rerun
+
+| workload | historical result | working configuration |
+|---|---|---|
+| SGEMM N=2048 x10 | protection fault | correct |
+| SGEMM N=4096 x50 sustained | wedge, near-every-run | correct, about 4.6 TFLOP/s |
+| SGEMM N=4096 x200 sustained | never survived | correct |
+| SGEMM N=8192 x20 sustained | wedge / occasional corruption | correct, about 4.7 TFLOP/s |
+| 10 rapid single-GEMM processes | queue degradation, stalls | 10/10 clean |
+| streaming-read probe, 1 and 2 GB | abort at 1 GB, wedge at 2 GB | 0/10 failures at both |
+| compute probe, 8.4M threads | failed on 4/4 boots (July, policy 2) | 17/17 correct in a counterbalanced A/B |
+| compute probe sweep 1M to 16.7M | wrong results / faults / hangs | 40/40 correct across two benchmark boots |
+| HIP process exit | freeze risk | clean exits throughout |
+
+### SGEMM throughput (native gfx1013 rocBLAS)
+
+Twenty iterations per size, every result checked against a CPU reference, all correct:
+
+| N | median ms per GEMM | GFLOP/s |
+|---|---|---|
+| 512 | 0.2 | about 1340 |
+| 1024 | 0.8 | about 2680 |
+| 2048 | 5.7 | about 3010 |
+| 4096 | 30.0 | about 4580 |
+| 8192 | 236.0 | about 4660 |
+
+About 61 percent of the 7.68 TFLOP/s FP32 peak at the governor's 1500 MHz cap, from an untuned
+Tensile build.
+
+![SGEMM throughput](figures/fig-sgemm-curve.png)
+
+### Two userspace defects, found the hard way
+
+Before the inference numbers, the caveat that gates all of them. A seed-fixed generation check
+(the habit recommended above) caught that llama.cpp's HIP backend, run the obvious way, produces
+fluent token rates and garbage text on this board. Bisecting it on fresh boots:
+
+| configuration | result |
+|---|---|
+| `-fa on`, any batch size, any rocBLAS, MMQ on or off | runs at full speed, output is garbage |
+| `-fa off`, default batch | crashes in `hipblasGemmEx` (fp16 GEMM); a q8_0 model errors `CUBLAS_STATUS_INTERNAL_ERROR` on the same call |
+| `-fa off -ub 8 -b 8` | **correct, coherent output**, full GPU offload |
+| same binary, GPU hidden (CPU only) | correct (the binary is fine) |
+| Vulkan, same source and model | correct |
+
+So two distinct userspace defects: llama.cpp's **flash-attention kernel silently computes wrong
+results on gfx1013**, and the **fp16 batch-GEMM path** (dequant plus `hipblasGemmEx`) crashes with
+the native Tensile library, whose fp16 HPA kernels were never validated here (only FP32 and FP64
+were). Neither is a driver or hardware problem; both are reproducible in one minute with a fixed
+seed. Every HIP token rate published anywhere for this board without a text check should be
+treated as suspect; a day of fa-on numbers was discarded here for exactly that reason.
+
+The working inference configuration is therefore `-fa off -ub 8 -b 8` (plus `HSA_ENABLE_SDMA=0`),
+and all numbers below are from it, each model's output text-verified first.
+
+### llama.cpp: ROCm vs Vulkan, same build, same boot configuration
+
+![ROCm vs Vulkan](figures/fig-rocm-vs-vulkan.png)
+
+qwen2.5-1.5B Q4_K_M (tokens/s; Vulkan runs with flash attention on, which is correct there):
+
+| test | ROCm/HIP (fa off, ub 8) | Vulkan | HIP as share of Vulkan |
+|---|---|---|---|
+| pp512 | 182.2 | 1844.2 | 10 percent |
+| pp2048 | 170.6 | 1711.5 | 10 percent |
+| tg128 | 106.8 | 210.7 | 51 percent |
+| tg1024 sustained | 102.2 | | |
+
+A side finding: the small-microbatch prefill is five times faster than the broken large-batch
+path was (182 versus 38 t/s), so avoiding the defective fp16 GEMM also closes most of what looked
+like a 50x prefill deficit; what remains is about 10x.
+
+Larger models, text-verified in the same configuration: the qwen3.6-35B-A3B MoE (IQ2_M,
+10.7 GiB) generates coherent output and decodes at 31.6 t/s against 85.6 on Vulkan (37 percent);
+deepseek-r1-14B likewise passes the text check (a coherent reasoning trace), though its rebench
+load faulted on the second load of that boot, so its correct-configuration rate is pending a
+clean rerun (the fa-on run measured about 20 t/s on the same batch-1 decode path).
+
+### Decode at context depth
+
+Generation speed with the KV cache primed to the stated depth (tg64), qwen2.5-1.5B. Without a
+working flash-attention kernel the non-FA attention path pays the full quadratic cost, and it
+shows:
+
+| depth | ROCm/HIP (fa off) | Vulkan (fa on) | HIP as share of Vulkan |
+|---|---|---|---|
+| 0 | 106.8 | 210.7 | 51 percent |
+| 4096 | 74.2 | | |
+| 8192 | 54.6 | 158.0 | 35 percent |
+| 16384 | 35.4 | 137.1 | 26 percent |
+
+![Decode vs depth](figures/fig-decode-vs-depth.png)
+
+An earlier revision of this table, measured with `-fa on` before the garbage-output discovery,
+showed ROCm nearly flat with depth; that flatness belonged to the broken kernel, not to the board.
+The honest picture is the opposite: a working gfx1013 flash-attention kernel is the single most
+valuable missing piece for ROCm inference at depth, and Vulkan is the long-context backend until
+one exists.
+
+### PyTorch, and a note on allocation discipline
+
+The official `torch 2.9.1+rocm6.4` wheel with the native gfx1013 rocBLAS grafted in, matmul with
+preallocated buffers, thirty iterations per size, all checked and correct:
+
+| N | GFLOP/s |
+|---|---|
+| 1024 | about 1210 |
+| 2048 | about 3050 |
+| 4096 | about 4270 |
+| 8192 | about 4550 |
+
+Two disciplines make this work, and they define what PyTorch is currently for on this board.
+First, allocation: loops that allocate and free GPU tensors every iteration (`c = a @ b`, old `c`
+dropped each time) fault after 20 to 40 iterations; with preallocated outputs (`torch.mm(a, b,
+out=c)`) and a reused host buffer the same loop is clean indefinitely. Second, kernel coverage:
+the official wheel ships no gfx1013 elementwise kernels, so only the rocBLAS-backed matmul path
+runs on the GPU; tensor creation and activations must happen on the CPU, and a full autograd
+training step fails on the missing kernels (`invalid device function`). A from-source torch build
+with `PYTORCH_ROCM_ARCH=gfx1013` should lift that; it was not attempted here.
+
+### ROCm-only capabilities
+
+Things the Vulkan path cannot offer on this board, now usable:
+
+- **Double precision.** rocBLAS DGEMM at N=2048 runs at about 456 GFLOP/s steady state, all
+  results correct, which is about 95 percent of the chip's 480 GFLOP/s FP64 peak (RDNA1 executes
+  FP64 at one sixteenth of FP32 rate). Vulkan compute has no practical double-precision path on
+  this board, so for scientific workloads this capability is exclusive to ROCm.
+- **PyTorch.** There is no Vulkan PyTorch backend; the matmul-offload path above makes
+  torch-based GPGPU work possible at all, within the disciplines noted.
+- **Custom HIP C++ kernels.** Single-source GPU programming with the CUDA-style toolchain: the
+  probes in this repo are exactly that, and a small Mandelbrot renderer
+  ([`patches/mandelbrot.cpp`](patches/mandelbrot.cpp), FP64 iteration on the GPU) is included as a
+  friendly example. An unoptimized FP64 Jacobi stencil (2048x2048, five-point) sustains about
+  6.9 ms per sweep (roughly 24 GB/s of effective FP64 memory traffic) for two thousand
+  back-to-back GPU sweeps without a hiccup.
+- **A practical shape: retrieval.** Cosine-similarity search over one million 384-dimensional
+  document embeddings, resident on the GPU, runs at about 960 queries per second through the
+  PyTorch matmul path (CPU top-k), with results matching a CPU reference. Small vector-search and
+  RAG-style workloads fit entirely in the part of the stack that is now solid.
+
+### What still fails, measured
+
+- **Large-model loads intermittently fault.** The load-time host-to-device staging fault (the
+  same aperture violation documented in the inference section) becomes likelier the more bytes are
+  staged, and a faulted load degrades the boot, so subsequent loads tend to fault too until a
+  reboot. On a clean boot the picture is much better than the size trend first suggested:
+
+| model (file size) | plain | unified memory | mmap on | SDMA on |
+|---|---|---|---|---|
+| qwen2.5-1.5B (1.0 GiB) | 3/3, and about 15/15 across the day | | | |
+| deepseek-r1-14B (8.4 GiB) | 3/3 clean boot; repeated faults on boots where an earlier process had faulted | 3/3 | 3/3 | 0/3 (hang) |
+| qwen3.6-35B MoE (10.7 GiB) | 0/3 | 1/3 | | |
+
+  A related control: decode itself runs fine with SDMA enabled (105.7 t/s in a one-off tg64), but
+  every model load with SDMA on hung to its timeout, so `HSA_ENABLE_SDMA=0` remains required in
+  practice; the SDMA H2D path is still broken for bulk transfers.
+
+  When a large model does load it runs at full speed indefinitely, so this is a load-time
+  problem, not a runtime one. The MoE at 10.7 GiB is past the current reliability line.
+- **A rare extreme-size dispatch fault.** Across the day's boots the 16.7M-thread probe faulted
+  once and the 8.4M probe once (a fresh boot's first run); the two dedicated benchmark boots ran
+  the full sweep 40/40 clean. Orders of magnitude better than before, not extinct.
+- **One hard crash.** In roughly sixty heavy runs, one power-cut-level crash (a large dispatch on
+  an already heavily used boot). Rarer, not extinct.
+- **Prefill**, as above: about 40x behind Vulkan pending Tensile tuning.
+- All of it is one board, as ever.
 
 ## Observation 1: occasional silent wrong results
 
@@ -208,6 +473,12 @@ many-small-dispatch pattern (1M threads times 200 sequential launches), with no 
 hardware, memory, and ALUs are fine, and the fault lives specifically in the MEC compute-queue
 path, which would also explain why Mesa's route-through-graphics fix works and why ROCm, unable to
 do that, is stuck. That is offered as the most consistent interpretation, not a proof.
+
+**Where this lands now:** under the working configuration (kernel 7.1.5, corrected flush at 40 CU,
+hardware scheduling) the silent wrong results were not observed at all: the old failing size ran
+17/17 correct in a counterbalanced A/B and the full 1M-to-16.7M sweep ran 40/40 clean across two
+benchmark boots, with two isolated faults elsewhere in the day as the residual. The 40-CU caveat
+above no longer applies on 7.1.5 (see Observation 3).
 
 ## Observation 2: the compute queue wedges under load
 
@@ -339,6 +610,17 @@ the same `GCVM_L2_PROTECTION_FAULT` is the fault class others report from an ima
 ([`patches/bw_probe.cpp`](patches/bw_probe.cpp), no arithmetic, no rocBLAS) reproduces the
 size-dependent failure on its own.
 
+**Where this lands now:** the wedge described in this section belongs to the software-scheduling
+path. Every measurement above was taken under `amdgpu.sched_policy=2` (including the
+kernel-7.1.5 test, whose command line carried it), and the message itself is printed from the
+nocpsch eviction path this section traced. On 7.1.5 with hardware scheduling the same workloads
+run clean, up to N=8192 sustained, and the two-by-two factorial isolating flush and scheduler is in
+[A working configuration](#a-working-configuration-kernel-715). The eviction analysis here still
+describes what happens under policy 2, and the 6.18 knob sweep shows policy alone was not enough
+on that kernel; but the "firmware or silicon limit" conclusion was too broad. The MEC preempts
+fine on 7.1.5 when the firmware scheduler asks; what fails is the driver-initiated `hqd_destroy`
+preemption path.
+
 ## Building a native gfx1013 rocBLAS
 
 A long-standing workaround for the missing gfx1013 matrix kernels is to build for **gfx1010** and
@@ -360,18 +642,21 @@ genuine gfx1013 code objects (`Kernels.so-000-gfx1013.hsaco` reports ELF machine
 gfx1013 flags, native rather than an override). It runs on the board with no `HSA_OVERRIDE` and
 computes correct GEMMs, per the table above. The main value is that it removes the override from
 the picture: where a native rocBLAS GEMM works it is correct, and where it does not it is the
-wedge, not an aperture mismatch. On its own it is not enough for reliable inference, because the
-wedge still applies to the large fused matmuls that inference leans on.
+wedge, not an aperture mismatch. At the time of the original investigation it was not enough for
+reliable inference, because the wedge still applied to the large fused matmuls that inference
+leans on; under the working configuration that limit is gone and this library is the one behind
+the SGEMM and PyTorch numbers above.
 
 Two related notes. Fedora's own system rocBLAS "supports gfx1013" only by symlinking its gfx1013
 Tensile files to the gfx1010 ones, so a stock install is silently running the gfx1010 override, which
 is a fair part of why "rocBLAS works on gfx1013" reports coexist with real workloads failing. And the
-same wedge reaches a mainstream framework: the official `torch 2.9.1+rocm6.4` wheel detects the board
+same wedge reached a mainstream framework: the official `torch 2.9.1+rocm6.4` wheel detects the board
 but ships no gfx1013 (or gfx1010) kernels, so a matmul fails immediately out of the box; with a native
-gfx1013 rocBLAS grafted in, PyTorch matmuls are correct up to N=4096 single, but a sustained loop
-(N=4096 repeated) wedges the compute queue the same way the probes and rocBLAS do
-([`logs/deep-dive-2026-07-28/`](logs/deep-dive-2026-07-28/)). A real training or inference workload is
-many sustained matmuls, so it would be expected to hit the same wedge.
+gfx1013 rocBLAS grafted in, PyTorch matmuls were correct up to N=4096 single, but a sustained loop
+(N=4096 repeated) wedged the compute queue the same way the probes and rocBLAS did
+([`logs/deep-dive-2026-07-28/`](logs/deep-dive-2026-07-28/)). Under the working configuration the
+sustained loop is clean (the PyTorch table above); what remains on the torch side is the wheel's
+missing gfx1013 elementwise kernels and the allocation discipline, both described there.
 
 ## Observation 3: the unlock, the fix, and the wedge are entangled
 
@@ -423,10 +708,22 @@ back in the 24-CU-wedges-everything state above. So whether the wedge itself is 
 hardware limit is unresolved here; the graphics-queue contrast leans toward a hardware or firmware
 cause, held loosely.
 
+**Where this lands now:** the entanglement is specific to kernel 6.18. On 7.1.5 the unlock's
+register writes run during ordinary driver init and the board comes up at 40 CU with
+`flush_pasid_uses_kiq = false`, on every boot, with the module's own init log line confirming both
+states together. The "correct flush at 24 CU, or working 40 CU with the buggy flush, but not both"
+trade that this section documents was real on 6.18 and is gone on 7.1.5. Which kernel change
+between the two decoupled them was not isolated here.
+
 ## How far ROCm inference gets
 
-With the patched module, and subject to its 40-CU caveat, llama.cpp's HIP backend gets further than
-before, though not to a usable state.
+This section records the inference attempts from the 6.18-era investigation; the working numbers
+now live in [What the working configuration measures](#what-the-working-configuration-measures).
+Its lasting value is the fault analysis: the load-time aperture violation documented here is the
+one failure that survives into the working configuration, where it gates large-model loads.
+
+With the patched module, and subject to its 40-CU caveat on 6.18, llama.cpp's HIP backend got
+further than before, though not to a usable state on that kernel.
 
 A correct prompt-processing pass was achievable with a native gfx1013 build and rocBLAS kept out of
 the hot path:
@@ -475,27 +772,22 @@ board is known for), not the kernel fence timeout: a module rebuilt with a fence
 2 ms did not speed the load. So in practice the wall for decode is getting the model loaded, not a
 decode-kernel fault.
 
-For scale, even where ROCm prefill completes it was roughly 36 times slower than Vulkan on the same
-model and did not survive repetition, so it is "interesting that it runs at all" rather than a
-usable backend.
+For scale at the time: on 6.18 even where ROCm prefill completed it was roughly 36 times slower
+than Vulkan on the same model and did not survive repetition. That ratio still roughly holds for
+prefill under the working configuration; what changed is that decode, sustained generation, and
+the compute path under it now work (the tables above).
 
 ## ROCm vs Vulkan
 
 Vulkan appears here only as the baseline the ROCm path is measured against; the full Vulkan
 characterization of the board (many models, context scaling, memory ceilings) lives in
-[akandr/bc250](https://github.com/akandr/bc250) and is not repeated here. On the one model where both
-backends reach a working point, qwen2.5-1.5B Q4_K_M (`llama-bench`, flash attention on, `-mmp 0`, 40
-CU, tokens/sec):
-
-| backend | pp128 | pp256 | pp512 | tg128 | reliable? |
-|---------|:-----:|:-----:|:-----:|:-----:|-----------|
-| Vulkan (RADV) | 1275.8 | 1597.7 | 1845.6 | 210.7 | yes, every run |
-| ROCm / HIP (patched, native gfx1013, 40 CU) | about 35 | fault | fault | fault | no |
-
-Even where ROCm prompt processing completes it is roughly 36 times slower than Vulkan on pp128 and
-does not survive the benchmark's repetition. The `llama-bench` token-generation pass faults here; short
-single decode runs do produce tokens (around 40 tok/s), but are gated by the flaky load described
-above, so neither is a usable path
+[akandr/bc250](https://github.com/akandr/bc250) and is not repeated here. The current side-by-side
+is in [What the working configuration measures](#what-the-working-configuration-measures); the
+summary is that Vulkan keeps prefill by a wide margin (about 40 to 50x), ROCm reaches half to
+three quarters of Vulkan's decode depending on model and context depth, and ROCm alone offers
+FP64, PyTorch, and custom HIP kernels. The historical 6.18-era comparison, kept for the record: on
+qwen2.5-1.5B Q4_K_M, Vulkan ran pp128/pp256/pp512/tg128 at 1275.8/1597.7/1845.6/210.7 t/s on
+every run, while patched ROCm managed about 35 t/s on pp128 and faulted on the rest
 ([`logs/inference/bench_rocm_vs_vulkan.log`](logs/inference/bench_rocm_vs_vulkan.log)).
 
 ## Status snapshot
@@ -505,61 +797,75 @@ firmware.
 
 | Thing | Where it landed |
 |-------|-----------------|
-| Silent wrong results on large compute | Appears addressable in isolation via `flush_pasid_uses_kiq = false`, but entangled with the 40-CU unlock (Observation 3), so not usable end to end yet |
-| KIQ board-freeze on HIP exit | Mitigable: the same patch, or userspace `amdgpu.sched_policy=2` |
-| Multi-minute model load | Much faster with the same patch |
-| rocBLAS has no gfx1013 kernels | Buildable natively (the PR #8838 approach), or bypass via flash attention plus `GGML_CUDA_FORCE_MMQ=1` |
-| gfx1010 override aperture violations | Avoided by building native gfx1013 |
-| Compute wedges at 24 CU or under large / sustained load | Not resolved here; traces to a MEC compute-queue preemption timing out during a routine KFD queue eviction (Observation 2). No scheduler knob, preemption-timeout setting, firmware version (21.40 vs 21.50), or dispatch pacing changed it, and the driver path is unchanged in mainline, so it reads as a firmware or silicon limit, consistent with why Mesa disables the queue |
-| Token generation | Runs when the model loads (around 40 tok/s); gated mainly by a flaky, slow HIP model load, and occasionally by an intermittent host-copy aperture violation |
+| Silent wrong results on large compute | Not observed under the working configuration (17/17 counterbalanced at the old failing size, 40/40 sweep on the benchmark boots, two isolated faults across the day as the residual). On 6.18, addressable in isolation but entangled with the unlock; on 7.1.5 the entanglement is gone |
+| KIQ board-freeze on HIP exit | Gone under the corrected flush. `amdgpu.sched_policy=2` is no longer needed for it, and on 7.1.5 is actively harmful (it is the wedge variable) |
+| Compute wedge under large / sustained load | Does not reproduce under hardware scheduling on 7.1.5: SGEMM to N=8192 sustained, streaming reads to 2 GB, and teardown churn all run clean. The historical wedge belongs to the software-scheduling eviction path (Observation 2), and on 6.18 the kernel version also mattered |
+| Multi-minute model load | Fast under the corrected flush; small models load essentially always |
+| Large-model loads | The main practical limit now: the load-time aperture fault becomes likelier with model size and with a previously faulted boot; a dense 14B is reliable on a clean boot, the 10.7 GiB MoE is not yet |
+| rocBLAS has no gfx1013 kernels | Built natively (the PR #8838 approach) and now usable end to end: about 4.6 TFLOP/s FP32 at N=4096, FP64 DGEMM at about 95 percent of its rate peak. Untuned, so batch/prefill work is slow |
+| llama.cpp inference | Working with text-verified output at `-fa off -ub 8`: decode 107 t/s on a 1.5B (half of Vulkan), prefill about 10x behind. Decode falls off steeply with context depth pending a working gfx1013 flash-attention kernel; two userspace defects (FA kernel wrong results, fp16 batch GEMM crash) documented above |
+| PyTorch | Working for preallocated-buffer matmul (about 4.5 TFLOP/s at N=8192); blocked for full training by the wheel's missing gfx1013 elementwise kernels, and per-iteration alloc/free churn still faults |
+| Vulkan vs ROCm | Vulkan remains the fast, reliable default for prompt-heavy inference. ROCm is now the path for GPGPU (BLAS, FP64, PyTorch matmul, custom HIP kernels) and is competitive for decode-dominated inference |
 
-In short, the correctness side looks like it may be software (a change that removes it in isolation
-was found), and the liveness/wedge side looks like hardware or firmware. Both are inferences from
-one board, and the entanglement in Observation 3 prevented turning the correctness finding into a
-working end-to-end ROCm setup. Any of it could be wrong.
+In short: what looked like one broken compute queue resolves, on current kernels, into a
+configuration problem (scheduler policy plus the flush fix plus the unlock, all three finally
+compatible) with a residual load-time fault and a prefill tuning gap on top. All of it is one
+board, and any of it could still be wrong.
 
 ## Open questions
 
 Places where other eyes would help most:
 
-- Can the 40-CU unlock be decoupled from the KIQ reset, so a `flush_pasid`-patched module also comes
-  up at 40 CU and computes? Moving the register writes to the end of `gfx_v10_0_hw_init` here left
-  the board reporting 24 CU (the writes run but the 40-CU state seems to need the queue-reset
-  context), and firing a reset deliberately was gated or hung the board. Someone who knows the SPI /
-  WGP-mask sequencing on Navi-1x could likely see the right place and order.
-- Is the wedge in the MEC firmware, and could a different firmware change it? The two Cyan Skillfish
-  microcode versions in linux-firmware (releases 21.40 and 21.50, different MEC/CP) behaved the same
-  here. The untested lever is MES (MicroEngine Scheduler, a newer firmware scheduler that manages the
-  compute queues instead of the older path): this board runs `mes=0` with no Cyan Skillfish MES
-  firmware present, so it could not be tried, and it feels like the most likely source of a real fix.
-- Is the wedge a kernel regression? A newer kernel does not help: both the correctness defect and the
-  wedge reproduce on kernel 7.1.5 (about a year newer than 6.18.9), matching the source, which shows
-  the reset and preemption functions byte-identical between 6.18.9 and mainline with no gfx1013-specific
-  handling. The clean *older* regression test is still blocked because BC-250 support landed upstream
-  only around 6.18. So the remaining question is really about firmware or silicon, not driver C.
-- The intermittent decode aperture violation (above) looks like a UMA host-buffer mapping problem on
-  the runtime host-to-device copy, not a compute-kernel scratch fault, and it is the smaller of the two
-  decode blockers. Anyone able to pin down why the runtime occasionally hands a non-`hipHostMalloc`'d
-  host pointer to the copy, or to reproduce it deterministically, could settle whether it is a runtime
-  or a board-mapping issue. The larger blocker is the flaky HIP model load, which is HSA-signal-level.
+- Which kernel change between 6.18 and 7.1.5 made the difference, twice over: hardware-scheduling
+  preemption surviving on this MEC, and the 40-CU unlock decoupling from the KIQ reset context?
+  Bisecting either would turn "works on 7.1.5" into an explanation. (The old questions about
+  decoupling the unlock by hand and about MEC firmware versions are answered or mooted by the
+  working configuration; MES remains unavailable on this chip, `mes=0`, no Cyan Skillfish MES
+  firmware.)
+- The load-time aperture violation is now the highest-value target: the host source of a runtime
+  staging copy is occasionally outside the GPU's legal aperture, with probability growing with the
+  bytes staged and with a previously faulted boot. Unified memory and mmap did not remove it here.
+  Pinning down how the runtime chooses those host buffers would likely make 10 GiB and larger
+  model loads reliable, which is the last practical blocker for inference.
+- The two llama.cpp userspace defects are the highest-leverage inference items now: a gfx1013
+  flash-attention kernel that computes correctly (the current one produces garbage silently), and
+  the fp16 batch-GEMM path (crashes with the native Tensile library, whose fp16 HPA kernels are
+  unvalidated). Both are reproducible in a minute with a fixed seed. Fixing FA alone would
+  transform decode at depth; fixing the GEMM path plus Tensile tuning would close most of the
+  prefill gap.
+- The per-iteration alloc/free fault in PyTorch: torch's caching allocator does not unmap between
+  iterations, so this does not look like a stale-translation pattern; what exactly faults there is
+  unresolved.
+- Whether the same configuration works on other gfx1013 boards. Everything here is one board.
 - Did the mining stacks really run sustained compute on this exact path, and if so what did their
   kernel and firmware combination do differently? [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313)
-  hints that gfx1013 worked under older ROCm and kernel combinations.
+  hints that gfx1013 worked under older ROCm and kernel combinations; the scheduler-policy finding
+  above may be part of that story.
 
 Data, corrections, or a "you are holding it wrong" are all welcome, as an issue here or a note on
 [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313).
 
 ## Reproducing
 
-- kernel 6.18.9-200.fc43, rocm-hip 6.4.2, rocblas 6.4.4, ROCm LLVM/clang 19, mesa 25.3, llama.cpp
-  build 2da6686.
+- rocm-hip 6.4.2, rocblas 6.4.4, ROCm LLVM/clang 19, mesa 25.3, llama.cpp build 2da6686. Historical
+  observations: kernel 6.18.9-200.fc43. Working configuration: kernel 7.1.5-100.fc43.
+- The working configuration: kernel 7.1.5, the patched module carrying the flush change and the
+  40-CU unlock ([`scripts/build_patched_amdgpu.sh`](scripts/build_patched_amdgpu.sh)),
+  `amdgpu.bc250_cc_write_mode=3` on the command line, **no `amdgpu.sched_policy` argument**
+  (hardware scheduling is the default), and `HSA_ENABLE_SDMA=0` in the environment of every HIP
+  process. Verify `active_cu_number 40` and the module's flush-state line in dmesg before trusting
+  a boot.
+- Reproducing the historical observations: kernel 6.18.9 with `amdgpu.sched_policy=2`, which the
+  earlier revision of this document recommended as a safety measure. Do not carry that setting to
+  7.1.5; on the newer kernel it is the difference between the wedge and clean runs.
 - [`reproduce.sh`](reproduce.sh) runs the compute probe (small and large) and the rocBLAS probe.
-  Boot with `amdgpu.sched_policy=2` first, since the HIP probes can hang the board on process exit
-  at the default scheduler.
-- Correctness change: build the patched module
-  ([`scripts/build_patched_amdgpu.sh`](scripts/build_patched_amdgpu.sh)), reboot, rerun the probe.
 - Native gfx1013 rocBLAS: [`scripts/build_rocblas_gfx1013.sh`](scripts/build_rocblas_gfx1013.sh),
   then [`patches/sgemm_sweep.cpp`](patches/sgemm_sweep.cpp).
+- llama.cpp: build with `-DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1013`, run with `--no-mmap` (or
+  `--mmap 0` for llama-bench). Run one benchmark per invocation: multi-size sweeps reallocate
+  between tests and can trip the load-time fault mid-run. (A control run loaded a 14B with mmap on
+  3/3 under the working configuration, so the old hard mmap prohibition may have relaxed; not
+  characterized beyond that.)
 
 Two things that cost time. A rebuilt kernel module must be compressed with `xz --check=crc32` (the
 build script does this): the xz default is CRC64, which loads via userspace `modprobe` but fails the
@@ -572,6 +878,12 @@ compute wedge a soft reboot often does not recover the queue; a hard power-cycle
 
 | Path | What it is |
 |------|------------|
+| [`logs/bench-2026-08/`](logs/bench-2026-08/) | The working-configuration benchmark campaign: per-test llama-bench logs (HIP and Vulkan), SGEMM curve, probe sweeps, depth ladder, load-reliability trials, PyTorch runs |
+| [`figures/`](figures/) | The three figures above, with [`scripts/make_figures.py`](scripts/make_figures.py) to regenerate them from the logged numbers |
+| [`logs/factorial/`](logs/factorial/) | The two-by-two flush-by-scheduler factorial: per-boot raw logs and verdicts, results table, and the battery/orchestration scripts ([`scripts/factorial_battery.sh`](scripts/factorial_battery.sh), [`scripts/factorial_orchestrate.sh`](scripts/factorial_orchestrate.sh)) |
+| [`patches/dgemm_iter.cpp`](patches/dgemm_iter.cpp) | FP64 DGEMM probe via native gfx1013 rocBLAS (spot-checked against CPU) |
+| [`patches/mandelbrot.cpp`](patches/mandelbrot.cpp) | Custom HIP kernel example (FP64 Mandelbrot to PGM) |
+| [`patches/torch_matmul_bench.py`](patches/torch_matmul_bench.py) | PyTorch preallocated-buffer matmul benchmark (the allocation-discipline demonstration) |
 | [`patches/amdgpu-flush-pasid-mmio.patch`](patches/amdgpu-flush-pasid-mmio.patch) | The one-line kernel change for the correctness observation |
 | [`patches/compute_probe.c`](patches/compute_probe.c) | Bare HIP compute reproducer (native gfx1013, CPU-checked) |
 | [`patches/ocl_compute_probe.c`](patches/ocl_compute_probe.c) | OpenCL port of the probe (graphics-queue comparison via RustiCL) |

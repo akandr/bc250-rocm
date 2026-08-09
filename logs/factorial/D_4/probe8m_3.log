@@ -1,0 +1,4 @@
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=3755.1 ms  wrong=0/8388608  ok
+RESULT: total_wrong=0 -> ALL CORRECT

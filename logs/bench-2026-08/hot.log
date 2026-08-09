@@ -1,0 +1,27 @@
+=== [17:01:26] HOT MODELS HIP ===
+[moe_tg128] 
+[moe_pp512] 
+[q15_d4096_tg64] | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |    tg64 @ d4096 |        106.21 ± 0.00 |
+[q15_d8192_tg64] | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |    tg64 @ d8192 |        103.41 ± 0.00 |
+[q15_d16384_tg64] | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |   tg64 @ d16384 |         97.66 ± 0.00 |
+[q9_tg128] | model                          |       size |     params | backend    | ngl |  fa | mmap |            test |                  t/s |
+[q9_pp512] | model                          |       size |     params | backend    | ngl |  fa | mmap |            test |                  t/s |
+[g4_tg128] | model                          |       size |     params | backend    | ngl |  fa | mmap |            test |                  t/s |
+[q314_tg128] 
+[ds14_retry_tg128] 
+=== [17:18:28] HOT MODELS VULKAN ===
+[vk_q15_d8192_tg64] | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     |  99 |   1 |    0 |    tg64 @ d8192 |        158.00 ± 0.00 |
+[vk_q15_d16384_tg64] | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     |  99 |   1 |    0 |   tg64 @ d16384 |        137.08 ± 0.00 |
+[vk_moe_tg128] | qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |   1 |    0 |           tg128 |         85.59 ± 0.00 |
+[vk_moe_pp512] | qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |   1 |    0 |           pp512 |        457.90 ± 0.00 |
+[vk_q9_tg128] | model                          |       size |     params | backend    | ngl |  fa | mmap |            test |                  t/s |
+[vk_q9_pp512] | model                          |       size |     params | backend    | ngl |  fa | mmap |            test |                  t/s |
+[vk_g4_tg128] | model                          |       size |     params | backend    | ngl |  fa | mmap |            test |                  t/s |
+[vk_q314_tg128] | qwen3 14B Q4_K - Medium        |   8.63 GiB |    14.77 B | Vulkan     |  99 |   1 |    0 |           tg128 |         34.05 ± 0.00 |
+=== HOT ROUND DONE ===
+=== [17:37:36] UMA-LOAD RETRIES (HIP) ===
+[moe_uma_tg128] 
+[moe_uma_pp512] 
+[ds14_uma_tg128] | qwen2 14B Q4_K - Medium        |   8.37 GiB |    14.77 B | ROCm       |  99 |   1 |    0 |           tg128 |         20.75 ± 0.00 |
+[g4_uma_tg128] | model                          |       size |     params | backend    | ngl |  fa | mmap |            test |                  t/s |
+=== UMA ROUND DONE ===

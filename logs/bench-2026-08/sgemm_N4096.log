@@ -1,0 +1,22 @@
+N=4096 iters=20 start
+iter   0 sync=0   36.6ms OK g0=49141/49141 nwrong=0
+iter   1 sync=0   30.1ms OK g0=49141/49141 nwrong=0
+iter   2 sync=0   29.9ms OK g0=49141/49141 nwrong=0
+iter   3 sync=0   30.0ms OK g0=49141/49141 nwrong=0
+iter   4 sync=0   30.0ms OK g0=49141/49141 nwrong=0
+iter   5 sync=0   29.8ms OK g0=49141/49141 nwrong=0
+iter   6 sync=0   29.9ms OK g0=49141/49141 nwrong=0
+iter   7 sync=0   29.9ms OK g0=49141/49141 nwrong=0
+iter   8 sync=0   29.9ms OK g0=49141/49141 nwrong=0
+iter   9 sync=0   30.0ms OK g0=49141/49141 nwrong=0
+iter  10 sync=0   30.0ms OK g0=49141/49141 nwrong=0
+iter  11 sync=0   30.0ms OK g0=49141/49141 nwrong=0
+iter  12 sync=0   30.0ms OK g0=49141/49141 nwrong=0
+iter  13 sync=0   29.9ms OK g0=49141/49141 nwrong=0
+iter  14 sync=0   29.9ms OK g0=49141/49141 nwrong=0
+iter  15 sync=0   30.1ms OK g0=49141/49141 nwrong=0
+iter  16 sync=0   30.0ms OK g0=49141/49141 nwrong=0
+iter  17 sync=0   30.0ms OK g0=49141/49141 nwrong=0
+iter  18 sync=0   29.9ms OK g0=49141/49141 nwrong=0
+iter  19 sync=0   29.9ms OK g0=49141/49141 nwrong=0
+DONE iters=20 nwrong=0

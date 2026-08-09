@@ -1,0 +1,9 @@
+seq	cell	flush	policy	boot_outcome	verdict
+1	A	0	0	OK	VERDICT cell=A idx=1 cu=40 flush=0 policy=0 probe8m_ok=3 wrong=0 fault=0 hang=0 sgemm2048=CLEAN sgemm4096=CLEAN sgemm4096_secs=2 dmesg_errs_delta=0 preempt_timeouts=0 health=RESPONSIVE
+2	B	0	2	OK	VERDICT cell=B idx=2 cu=40 flush=0 policy=2 probe8m_ok=0 wrong=0 fault=0 hang=3 sgemm2048=WEDGE_OR_FAULT sgemm4096=WEDGE_OR_FAULT sgemm4096_secs=435 dmesg_errs_delta=19 preempt_timeouts=19 health=DEGRADED
+3	C	1	0	OK+LOST	VERDICT cell=C idx=3 BOARD_LOST_MID_BATTERY
+4	D	1	2	OK	VERDICT cell=D idx=4 cu=40 flush=1 policy=2 probe8m_ok=3 wrong=0 fault=0 hang=0 sgemm2048=WEDGE_OR_FAULT sgemm4096=WEDGE_OR_FAULT sgemm4096_secs=420 dmesg_errs_delta=14 preempt_timeouts=0 health=DEGRADED
+5	D	1	2	OK	VERDICT cell=D idx=5 cu=40 flush=1 policy=2 probe8m_ok=2 wrong=0 fault=1 hang=0 sgemm2048=CLEAN sgemm4096=WEDGE_OR_FAULT sgemm4096_secs=1 dmesg_errs_delta=14 preempt_timeouts=0 health=RESPONSIVE
+6	C	1	0	OK+LOST	VERDICT cell=C idx=6 BOARD_LOST_MID_BATTERY
+7	B	0	2	OK	VERDICT cell=B idx=7 cu=40 flush=0 policy=2 probe8m_ok=0 wrong=0 fault=0 hang=3 sgemm2048=WEDGE_OR_FAULT sgemm4096=WEDGE_OR_FAULT sgemm4096_secs=435 dmesg_errs_delta=19 preempt_timeouts=19 health=DEGRADED
+8	A	0	0	OK	VERDICT cell=A idx=8 cu=40 flush=0 policy=0 probe8m_ok=3 wrong=0 fault=0 hang=0 sgemm2048=CLEAN sgemm4096=CLEAN sgemm4096_secs=2 dmesg_errs_delta=0 preempt_timeouts=0 health=RESPONSIVE

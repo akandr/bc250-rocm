@@ -1,0 +1,44 @@
+=== [16:20:31] A sgemm curve ===
+N=512 rc=0 DONE iters=20 nwrong=0
+N=1024 rc=0 DONE iters=20 nwrong=0
+N=2048 rc=0 DONE iters=20 nwrong=0
+N=4096 rc=0 DONE iters=20 nwrong=0
+N=8192 rc=0 DONE iters=20 nwrong=0
+=== [16:20:39] B probe sweep ===
+nblocks=4096 ok=5 wrong=0 fault=0 hang=0
+nblocks=16384 ok=5 wrong=0 fault=0 hang=0
+nblocks=32768 ok=5 wrong=0 fault=0 hang=0
+nblocks=65536 ok=5 wrong=0 fault=0 hang=0
+=== [16:21:57] C llama HIP qwen1.5b ===
+rc=134
+=== [16:22:51] C2 llama HIP qwen1.5b FORCE_MMQ ===
+rc=134
+=== [16:23:55] C3 llama HIP 14B ===
+rc=134
+=== [16:24:21] C4 llama HIP 14B FORCE_MMQ ===
+rc=134
+=== [16:24:44] D context depth qwen1.5b (gp at 4k/8k depth) ===
+rc=1
+=== [16:24:52] E long generation 1024 tokens ===
+rc=0
+=== [16:25:12] F llama-cli sanity generation ===
+=== [16:27:08] SUPPLEMENT per-size HIP ===
+[q15_pp1024] rc=0 | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |          pp1024 |         38.21 ± 0.02 |
+[q15_pp2048] rc=0 | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |          pp2048 |         37.93 ± 0.01 |
+[q15_pp4096] rc=0 | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |          pp4096 |         37.53 ± 0.01 |
+[q15_tg128] rc=0 | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |           tg128 |        111.05 ± 0.56 |
+[q15_gp4096] rc=0 FAILED
+[q15_gp8192] rc=0 FAILED
+[q15_mmq_pp2048] rc=0 | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |          pp2048 |         38.01 ± 0.01 |
+[ds14_tg128] rc=0 FAILED
+[ds14_mmq_pp512] rc=0 FAILED
+=== SUPPLEMENT DONE ===
+[ds14_pp512] rc=0 FAILED
+[q15_longgen] rc=0 | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |    0 |          tg1024 |        111.34 ± 0.00 |
+=== [16:42:29] SUPPLEMENT Vulkan ===
+[vk_q15_all] rc=0 | qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     |  99 |   1 |    0 |           tg128 |        210.70 ± 0.06 |
+[vk_q15_gp8192] rc=1 
+[vk_ds14] rc=0 | qwen2 14B Q4_K - Medium        |   8.37 GiB |    14.77 B | Vulkan     |  99 |   1 |    0 |           tg128 |         34.50 ± 0.00 |
+=== [16:43:17] SUPPLEMENT cli sanity ===
+[cli_sanity] rc=1
+=== SUPPLEMENT ALL DONE ===
