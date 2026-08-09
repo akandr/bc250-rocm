@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # reproduce.sh - build and run the probes from this repository on a BC-250.
 #
-# IMPORTANT: boot with amdgpu.sched_policy=2 before running. On this board a HIP
-# process (rocBLAS or the compute probe) can hang the whole machine when it exits or
-# when a dispatch hangs, unless the KFD scheduler is set to MEC-managed queues:
-#   sudo grubby --update-kernel=ALL --args="amdgpu.sched_policy=2" && sudo reboot
-# This script refuses to run the HIP sections without it (set FORCE=1 to override).
+# Scheduler guidance depends on the module, see the README:
+# - Stock flush (flush_pasid_uses_kiq true, e.g. an unpatched module): boot with
+#   amdgpu.sched_policy=2, or a HIP process can freeze the board on exit.
+# - The working configuration (patched module, flush_pasid_uses_kiq false, kernel
+#   7.1.5): do NOT set sched_policy; the default hardware scheduling is required,
+#   and sched_policy=2 is what makes sustained compute wedge there.
+# The gate below warns when the combination looks wrong (set FORCE=1 to override).
 #
 # Requires: ROCm clang++ (/usr/lib64/rocm/llvm/bin/clang++), OpenCL headers
 # (ocl-icd-devel, opencl-headers), and the OpenCL ICD loader plus RustiCL.
@@ -14,10 +16,24 @@ CLXX=/usr/lib64/rocm/llvm/bin/clang++
 HERE="$(cd "$(dirname "$0")" && pwd)/patches"
 
 SCHED=$(cat /sys/module/amdgpu/parameters/sched_policy 2>/dev/null || echo '?')
-if [ "$SCHED" != "2" ] && [ "${FORCE:-0}" != "1" ]; then
-    echo "amdgpu.sched_policy is '$SCHED', not 2. HIP processes can freeze this board on exit."
-    echo "Boot with amdgpu.sched_policy=2 first, or re-run with FORCE=1 to proceed anyway."
-    exit 1
+FLUSHPARAM=/sys/module/amdgpu/parameters/bc250_flush_pasid_kiq
+if [ -e "$FLUSHPARAM" ] && [ "$(cat $FLUSHPARAM)" = "0" ]; then
+    # working configuration: corrected flush, hardware scheduling expected
+    if [ "$SCHED" = "2" ] && [ "${FORCE:-0}" != "1" ]; then
+        echo "Corrected flush is active but amdgpu.sched_policy=2 is set; on this"
+        echo "combination sustained compute wedges. Remove the sched_policy argument"
+        echo "and reboot, or re-run with FORCE=1 to proceed anyway."
+        exit 1
+    fi
+else
+    # stock flush: the exit freeze applies, policy 2 protects against it
+    if [ "$SCHED" != "2" ] && [ "${FORCE:-0}" != "1" ]; then
+        echo "Stock flush with amdgpu.sched_policy '$SCHED': a HIP process can freeze"
+        echo "this board on exit. Boot with amdgpu.sched_policy=2 for the historical"
+        echo "reproduction, or use the working configuration from the README, or"
+        echo "re-run with FORCE=1 to proceed anyway."
+        exit 1
+    fi
 fi
 
 echo "== versions =="

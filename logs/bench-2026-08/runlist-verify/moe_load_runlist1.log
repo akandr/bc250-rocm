@@ -1,0 +1,7 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+| model                          |       size |     params | backend    | ngl | n_batch | n_ubatch |  fa | mmap |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------: | -------: | --: | ---: | --------------: | -------------------: |
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | ROCm       |  99 |       8 |        8 |   0 |    0 |            tg32 |         32.15 ± 0.00 |
+
+build: 2da6686 (1)

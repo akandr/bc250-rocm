@@ -30,8 +30,8 @@ plt.rcParams.update({
 # ROCm values: -fa off -ub 8 (the text-verified configuration). Vulkan: -fa on.
 MODELS = {
     "qwen2.5 1.5B Q4_K_M":        (106.80, 210.70, 182.17, 1844.23),
-    "deepseek-r1 14B Q4_K_M":     (None, 34.50, None, 198.88),
-    "qwen3.6 35B-A3B MoE IQ2_M":  (31.59, 85.59, None, 457.90),
+    "deepseek-r1 14B Q4_K_M *":   (19.6, 34.50, None, 198.88),
+    "qwen3.6 35B-A3B MoE IQ2_M":  (31.6, 85.59, None, 457.90),
 }
 
 # depth ladder (qwen2.5-1.5b): depth -> (hip_tg64, vk_tg64)
@@ -65,8 +65,9 @@ def fig_backends():
         if log: ax.set_xscale("log"); ax.set_xlim(1, max(vk_pp) * 4)
         else: ax.set_xlim(0, max(vk_tg) * 1.22)
     a1.legend(loc="lower right", fontsize=7.5, frameon=False)
-    fig.text(0.01, -0.02, "ROCm at -fa off -ub 8, the configuration whose output passes a "
-             "text check; missing ROCm bars await a text-verified run.", fontsize=7, color="#444")
+    fig.text(0.01, -0.02, "ROCm at -fa off -ub 8, the configuration whose output passes a text "
+             "check. * 14B ROCm decode is tg32 (three loads, 19.5 to 19.7); its ROCm pp512 was "
+             "not measured.", fontsize=7, color="#444")
     fig.suptitle("llama.cpp on the BC-250 at 40 CU: ROCm/HIP vs Vulkan (same build, same boot config)",
                  fontsize=10, y=1.0)
     fig.tight_layout()

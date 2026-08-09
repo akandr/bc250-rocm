@@ -6,8 +6,8 @@
 set -u
 K=/boot/vmlinuz-7.1.5-100.fc43.x86_64
 RES=/Users/akandr/projects/bc250_rocm/validation-2026-08/factorial_results.tsv
-HAIP=http://192.168.3.159:8123
-source ~/.config/bc250_reset.env   # HASS_TOKEN, HASS_SWITCH
+HAIP="${BC250_HA_URL:?set BC250_HA_URL to the Home Assistant base URL}"
+source ~/.config/bc250_reset.env   # provides HASS_TOKEN and HASS_SWITCH
 [ -f "$RES" ] || echo -e "seq\tcell\tflush\tpolicy\tboot_outcome\tverdict" > "$RES"
 
 ha () { curl -s -m 10 -X POST -H "Authorization: Bearer $HASS_TOKEN" \
