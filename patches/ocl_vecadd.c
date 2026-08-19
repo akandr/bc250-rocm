@@ -1,6 +1,11 @@
 // ocl_vecadd.c - minimal OpenCL compute test.
-// Proves that GPU compute works via the graphics/universal queue on the BC-250
-// (RustiCL / radeonsi), as opposed to ROCm/HIP which uses the broken MEC compute queue.
+// Shows that GPU compute works via the graphics/universal queue on the BC-250
+// (RustiCL / radeonsi). This was originally written as a contrast against
+// ROCm/HIP on the MEC compute queue, which was failing at the time. That
+// contrast no longer holds: under the working configuration described in the
+// README, HIP on the compute queue is correct at the same sizes, so this
+// remains useful as a smoke test of the graphics-queue path rather than as
+// evidence that the compute queue is broken.
 //
 // Build: cc ocl_vecadd.c -o ocl_vecadd -lOpenCL
 // Run:   RUSTICL_ENABLE=radeonsi ./ocl_vecadd

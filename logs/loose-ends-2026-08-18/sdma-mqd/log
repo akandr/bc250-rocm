@@ -1,0 +1,14 @@
+[01:21:54] === baseline: SDMA queues visible in mqds with no HIP process running
+[01:21:54] === starting a copy that will hang (16385 bytes, SDMA enabled)
+[01:22:06] === sampling the queue descriptors during the hang
+[01:22:27]   sdma entries seen during the hang: 1
+[01:22:27]   queue kinds present: Compute queue SDMA queue 
+[01:22:27] === did any descriptor change across the samples?
+[01:22:27]   sample 2: identical to sample 1
+[01:22:27]   sample 3: identical to sample 1
+[01:22:27]   sample 4: identical to sample 1
+[01:22:27]   sample 5: identical to sample 1
+[01:22:55] === probe outcome: HUNG: H2D pageable of 16385 bytes did not complete in 30 s
+[01:22:55] === rls (runlists) during the hang, for context
+[01:22:55]   runlist entries: 2
+[01:22:55] done

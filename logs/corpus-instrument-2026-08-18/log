@@ -1,0 +1,31 @@
+[21:06:20] waiting for the previous job
+[23:12:21] === building two more corpora
+[23:12:21]   wiki.test.raw: 1290590 bytes
+[23:12:21]   wiki_tail.raw: 586216 bytes
+[23:12:21]   code.txt: 835054 bytes
+[23:12:21] === ROCm against Vulkan on three corpora, small model
+[23:12:44]   q15_wiki_rocm: 10.2894
+[23:12:53]   q15_wiki_vk: 10.2804
+[23:13:13]   q15_tail_rocm: 7.8733
+[23:13:20]   q15_tail_vk: 7.9023
+[23:13:40]   q15_code_rocm: 2.6935
+[23:13:47]   q15_code_vk: 2.6990
+[23:13:47] === the same on the 8B, and with fp16 compute, to see if the defect is corpus dependent
+[23:14:53]   q8b_wiki_rocm_f32: 9.3047
+[23:15:33]   q8b_wiki_vk: 9.3311
+[23:16:35]   q8b_wiki_rocm_f16: 21.1043
+[23:17:38]   q8b_tail_rocm_f32: 7.4915
+[23:18:18]   q8b_tail_vk: 7.5462
+[23:19:21]   q8b_tail_rocm_f16: 15.8278
+[23:20:25]   q8b_code_rocm_f32: 2.5566
+[23:21:05]   q8b_code_vk: 2.5551
+[23:22:09]   q8b_code_rocm_f16: 6.4424
+[23:22:09] === second instrument: llama-cli decode rate against llama-bench, same model and config
+[23:22:17]   llama-bench tg64 run 1: 114.92
+[23:22:23]   llama-bench tg64 run 2: 113.74
+[23:22:30]   llama-bench tg64 run 3: 117.54
+[23:22:37]   llama-cli eval rate run 1: 
+[23:22:44]   llama-cli eval rate run 2: 
+[23:22:50]   llama-cli eval rate run 3: 
+[23:22:50] === dmesg faults: 
+[23:22:50] done

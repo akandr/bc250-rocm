@@ -1,0 +1,25 @@
+[07:08:48] === 1. deepseek-r1-14B with fp16 compute: the correct quantized-value control
+[07:10:03]   ds14 fp16 run 1: 5.9756
+[07:11:17]   ds14 fp16 run 2: 5.9756
+[07:12:31]   ds14 fp16 run 3: 5.9756
+[07:13:45]   ds14 fp16 run 4: 5.9756
+[07:14:59]   ds14 f32  run 1: 5.9756
+[07:16:11]   ds14 f32  run 2: 5.9756
+[07:16:11] === 2. 1.5B decode at depth, ten runs: does a model far from the memory ceiling stay stable?
+[07:17:25]   q15 d16128 run 1: 79.79
+[07:18:37]   q15 d16128 run 2: 79.75
+[07:19:49]   q15 d16128 run 3: 79.01
+[07:21:02]   q15 d16128 run 4: 78.77
+[07:22:14]   q15 d16128 run 5: 78.78
+[07:23:26]   q15 d16128 run 6: 78.97
+[07:24:38]   q15 d16128 run 7: 78.86
+[07:25:50]   q15 d16128 run 8: 78.73
+[07:27:02]   q15 d16128 run 9: 78.91
+[07:28:14]   q15 d16128 run 10: 80.07
+[07:28:14] === 3. the fp16 defect with flash attention OFF (a different graph shape)
+[07:28:52]   8b fp16 fa-off run 1: 14.0876
+[07:29:29]   8b fp16 fa-off run 2: 17.9343
+[07:30:07]   8b fp16 fa-off run 3: 15.3261
+[07:30:44]   8b fp16 fa-off run 4: 14.8765
+[07:30:44] === dmesg faults: 0
+[07:30:44] done

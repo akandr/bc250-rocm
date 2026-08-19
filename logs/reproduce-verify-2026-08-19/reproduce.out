@@ -1,0 +1,33 @@
+== versions ==
+kernel:  7.1.5-100.fc43.x86_64
+rocblas: rocblas-6.4.4-1.fc43.x86_64
+mesa:    mesa-vulkan-drivers-25.3.4-7.fc43.x86_64
+CUs:     40 (simd_count 80), the community unlock is active
+
+== 1. rocBLAS gfx1013 code objects ==
+librocblas embedded ISAs:
+gfx1010 gfx1011 gfx1012 gfx1030 gfx1031 gfx1032 gfx1034 gfx1035 
+(gfx1013 absent is the reason GEMM aborts; see README Problem 2)
+
+== 2. rocBLAS SGEMM: system library, override, and native build ==
+system rocBLAS, no override:
+=== rocblas_probe N=512 ===
+ROCBLAS FAIL rocblas_sgemm(h, rocblas_operation_none, rocblas_operation_none, N,N,N, &alpha, dA,N, dB,N, &beta, dC,N): status=6 (rocblas_status_internal_error)
+system rocBLAS with HSA_OVERRIDE_GFX_VERSION=10.1.0:
+C[0]=1024.0 expected=1024.0  CORRECT
+ROCBLAS_PROBE_OK
+with the native gfx1013 rocBLAS (/home/akandr/rocBLAS/build/release/rocblas-install):
+C[0]=1024.0 expected=1024.0  CORRECT
+ROCBLAS_PROBE_OK
+
+== 3. compute correctness: graphics queue (RustiCL, OpenCL) ==
+device:   AMD BC-250 (radeonsi, gfx1013, LLVM 21.1.8, DRM 3.64, 7.1.5-100.fc43.x86_64)
+OPENCL_COMPUTE_OK
+
+== 4. compute correctness: MEC compute queue (HIP), small vs large ==
+small kernel (1M threads):
+RESULT: total_wrong=0 -> ALL CORRECT
+large kernel (16M threads), may hang or produce wrong results:
+RESULT: total_wrong=0 -> ALL CORRECT
+(under the working configuration these are correct; the non-determinism this line used to
+warn about belonged to the stock flush and to sched_policy=2. See README.)

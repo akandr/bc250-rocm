@@ -1,0 +1,13 @@
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index 2be3b75..3942bbc 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -2608,6 +2608,8 @@ ggml_tensor * llm_graph_context::build_attn_mha(
+ 
+         ggml_tensor * kqv = ggml_mul_mat(ctx0, v, kq);
+         cb(kqv, "kqv", il);
++        // BC-250 test: f16 V aggregation in half precision corrupts at long context
++        ggml_mul_mat_set_prec(kqv, GGML_PREC_F32);
+ 
+         // for MLA with the absorption optimization, we need to "decompress" from MQA back to MHA
+         if (v_mla) {

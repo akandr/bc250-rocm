@@ -1,5 +1,11 @@
 #!/bin/bash
-# The untested winning combination: NATIVE gfx1013 build (correct apertures) + flash
+# HISTORICAL, July 2026: a hypothesis about which combination might work, kept as the
+# record of it. Two parts have since been settled. GGML_CUDA_FORCE_MMQ is compile-time
+# only in current llama.cpp, so setting it in the environment as this script does has no
+# effect. And flash attention was garbling on this board for a different reason entirely,
+# a missing RDNA1 macro entry, fixed by patches/llamacpp/0003. The working recipe is in
+# the README's Reproducing section; use that instead.
+# Original note: NATIVE gfx1013 build (correct apertures) + flash
 # attention (-fa on, avoids batched rocBLAS GEMM) + FORCE_MMQ (quantized via ggml native
 # kernels). NO HSA_OVERRIDE, NO rocBLAS. On the patched (fixed compute queue) module.
 # Runs ON THE BOARD, fresh boot.

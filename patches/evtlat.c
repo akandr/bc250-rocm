@@ -22,6 +22,12 @@
 // Safety: uses only known-good paths on this board (hipHostMalloc + H2D).
 // No D2H copies, no device printf, no kernels.
 
+//
+// Build (verified 2026-08-17). Without --offload-arch=gfx1013 a HIP source
+// still compiles and links, but its kernels never run on this board, which
+// reads as a clean pass rather than a failure:
+//   /usr/lib64/rocm/llvm/bin/clang++ -x hip --offload-arch=gfx1013 -O2 \
+//       evtlat.c -o evtlat
 #include <hip/hip_runtime.h>
 #include <stdio.h>
 #include <stdlib.h>

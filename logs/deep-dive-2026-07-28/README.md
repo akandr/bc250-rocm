@@ -100,3 +100,5 @@ eviction of GTT compute memory that the no-MES gfx1013 MEC cannot preempt), and 
 mitigations: skipping the KFD eviction (stops the board freeze), and forcing VRAM >= GTT so compute
 sits in pinned VRAM (`bc250_memcfg` + `amdgpu.gttsize`, cuts the wedge to about 4 of 15). Neither is a
 full fix. Vulkan remains the working path.
+
+Historical, from the July investigation; collected by ad hoc invocations rather than a single harness, and kept for the record rather than as a reproducible run.

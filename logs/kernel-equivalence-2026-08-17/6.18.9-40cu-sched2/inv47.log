@@ -1,0 +1,10 @@
+[23:11:46] kernel=6.18.9-200.fc43.x86_64
+[23:11:46] simd=simd_count 80
+[23:11:46] runlist=3
+[23:11:46] kiq=0
+[23:11:46] === compute probe
+[23:16:54]   nblocks=4096 rc=124 NO RESULT (hang)
+[23:22:02]   nblocks=16384 rc=124 NO RESULT (hang)
+[23:27:11]   nblocks=32768 rc=124 NO RESULT (hang)
+[23:27:11] === SGEMM sweep, native gfx1013 rocBLAS
+[23:37:19]   N=256 rc=124 NO DONE LINE (wedge) wrong_lines=0

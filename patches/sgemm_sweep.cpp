@@ -1,11 +1,11 @@
-// sgemm_sweep.cpp — minimal native-gfx1013 rocBLAS SGEMM, CPU-verified, with timing.
+// sgemm_sweep.cpp: minimal native-gfx1013 rocBLAS SGEMM, CPU-verified, with timing.
 //
 // Purpose: a tiny, dependency-light way to see what the gfx1013 compute queue does with a
 // *real* library GEMM at different sizes and under sustained iteration, without llama.cpp in
 // the way. Column-major, C = alpha*A*B + beta*C with alpha=1, beta=0. Two elements are checked
 // against a double-precision CPU reference, and GFLOP/s is reported.
 //
-// Build (native gfx1013, against a locally-built rocBLAS — see scripts/build_rocblas_gfx1013.sh):
+// Build (native gfx1013, against a locally-built rocBLAS, see scripts/build_rocblas_gfx1013.sh):
 //   RB=~/rocBLAS/build/release
 //   /usr/lib64/rocm/llvm/bin/clang++ -std=c++17 -x hip --offload-arch=gfx1013 \
 //     -I$RB/rocblas-install/include sgemm_sweep.cpp -o sgemm_sweep \

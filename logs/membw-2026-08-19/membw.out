@@ -1,0 +1,6 @@
+=== run 1
+buffer 2048 MiB, best read bandwidth 432.2 GB/s (402.5 GiB/s)
+=== run 2
+buffer 2048 MiB, best read bandwidth 431.7 GB/s (402.0 GiB/s)
+=== run 3
+buffer 2048 MiB, best read bandwidth 431.7 GB/s (402.1 GiB/s)

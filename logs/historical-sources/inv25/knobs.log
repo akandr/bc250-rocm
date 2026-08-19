@@ -1,0 +1,8 @@
+base4096 rc=0 PPL = 328.6688
+base4096_rep rc=0 PPL = 180.8362
+nkvo rc=0 PPL = 11.0467
+kvf32 rc=0 PPL = 11.0571
+ngl20 rc=0 PPL = 78.3949
+--- vulkan reference ctx4096 chunks=2 ---
+vk4096 rc=0 PPL = 11.0279
+KNOBS_DONE

@@ -1,0 +1,20 @@
+[20:42:00] waiting for the previous job
+[21:32:01] === preparing a clean tree at the campaign commit
+[21:32:03]   HEAD: 7ba604f  dirty: 0
+[21:32:03] === applying only the three shipped patches
+[21:32:03]   integrated=false: 2
+[21:32:03]   rdna1 macro: 1
+[21:32:03]   kqv precision: 1
+[21:32:03] === building (this takes a while)
+[21:32:08]   configure rc=0
+[21:41:05]   build rc=0 errors=0
+[21:41:05] === clean build: the campaign measurement (2026-08-12 gave pp512 241.01, tg64 39.20)
+[21:41:37]   clean 8B pp512 241.42  tg64 36.40
+[21:42:07]   clean 8B pp512 241.84  tg64 36.66
+[21:42:07] === instrumented build, same measurement, same boot
+[21:42:37]   instr 8B pp512 242.26  tg64 38.15
+[21:43:07]   instr 8B pp512 242.81  tg64 38.34
+[21:43:07] === small model both ways (campaign: pp512 806, tg64 113.5)
+[21:43:18]   clean q15 pp512 807.60  tg64 113.72
+[21:43:28]   instr q15 pp512 807.40  tg64 113.51
+[21:43:28] done

@@ -1,0 +1,780 @@
+ test-backend-op-43587   [006] ..... 39414.304101: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000335e0 end:0x00000335f3, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304104: amdgpu_vm_set_ptes: pe=ffffcedfd872ef00, addr=0000000000, incr=4096, flags=67, count=19, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304105: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000335f3 end:0x00000335f4, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304105: amdgpu_vm_set_ptes: pe=ffffcedfd872ef98, addr=035b126000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304105: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000335f4 end:0x00000335f8, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304106: amdgpu_vm_set_ptes: pe=ffffcedfd872efa0, addr=035b127000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304106: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000335f8 end:0x00000335fc, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304106: amdgpu_vm_set_ptes: pe=ffffcedfd872efc0, addr=035b121000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304107: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000335fc end:0x00000335fd, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304107: amdgpu_vm_set_ptes: pe=ffffcedfd872efe0, addr=035b125000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304107: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000335fd end:0x0000033600, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304107: amdgpu_vm_set_ptes: pe=ffffcedfd872efe8, addr=000001d000, incr=4096, flags=67, count=3, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304120: amdgpu_vm_set_ptes: pe=ffffcedfd873b000, addr=0000000000, incr=0, flags=10, count=512, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304122: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033600 end:0x0000033607, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304122: amdgpu_vm_set_ptes: pe=ffffcedfd873b000, addr=0000020000, incr=4096, flags=67, count=7, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304123: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033607 end:0x0000033608, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304123: amdgpu_vm_set_ptes: pe=ffffcedfd873b038, addr=024b130000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304123: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033608 end:0x0000033610, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304123: amdgpu_vm_set_ptes: pe=ffffcedfd873b040, addr=024b131000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304124: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033610 end:0x0000033620, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304124: amdgpu_vm_set_ptes: pe=ffffcedfd873b080, addr=024b139000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304124: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033620 end:0x0000033640, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304124: amdgpu_vm_set_ptes: pe=ffffcedfd873b100, addr=024b149000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304124: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033640 end:0x0000033680, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304124: amdgpu_vm_set_ptes: pe=ffffcedfd873b200, addr=024b169000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304125: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033680 end:0x00000336c0, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304125: amdgpu_vm_set_ptes: pe=ffffcedfd873b400, addr=024b1a9000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304125: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000336c0 end:0x00000336d0, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304125: amdgpu_vm_set_ptes: pe=ffffcedfd873b600, addr=024b1e9000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304125: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000336d0 end:0x00000336d4, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304126: amdgpu_vm_set_ptes: pe=ffffcedfd873b680, addr=024b1f9000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304126: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000336d4 end:0x00000336d6, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304126: amdgpu_vm_set_ptes: pe=ffffcedfd873b6a0, addr=024b1fd000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304126: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000336d6 end:0x00000336d7, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304126: amdgpu_vm_set_ptes: pe=ffffcedfd873b6b0, addr=024b1ff000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304127: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000336d7 end:0x00000336d8, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304127: amdgpu_vm_set_ptes: pe=ffffcedfd873b6b8, addr=03d2300000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304127: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000336d8 end:0x00000336e0, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304127: amdgpu_vm_set_ptes: pe=ffffcedfd873b6c0, addr=03d2301000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304127: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000336e0 end:0x0000033700, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304127: amdgpu_vm_set_ptes: pe=ffffcedfd873b700, addr=03d2309000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304128: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033700 end:0x0000033780, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304128: amdgpu_vm_set_ptes: pe=ffffcedfd873b800, addr=03d2329000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304128: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033780 end:0x00000337c0, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304129: amdgpu_vm_set_ptes: pe=ffffcedfd873bc00, addr=03d23a9000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304129: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000337c0 end:0x00000337d0, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304129: amdgpu_vm_set_ptes: pe=ffffcedfd873be00, addr=03d23e9000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304129: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000337d0 end:0x00000337d4, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304129: amdgpu_vm_set_ptes: pe=ffffcedfd873be80, addr=03d23f9000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304129: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000337d4 end:0x00000337d6, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304130: amdgpu_vm_set_ptes: pe=ffffcedfd873bea0, addr=03d23fd000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304130: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000337d6 end:0x00000337d7, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304130: amdgpu_vm_set_ptes: pe=ffffcedfd873beb0, addr=03d23ff000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304130: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000337d7 end:0x00000337d8, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304130: amdgpu_vm_set_ptes: pe=ffffcedfd873beb8, addr=0241300000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304131: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000337d8 end:0x00000337e0, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304131: amdgpu_vm_set_ptes: pe=ffffcedfd873bec0, addr=0241301000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304131: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000337e0 end:0x0000033800, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304131: amdgpu_vm_set_ptes: pe=ffffcedfd873bf00, addr=0241309000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304134: amdgpu_vm_set_ptes: pe=ffffcedfd8739000, addr=0000000000, incr=0, flags=10, count=512, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304136: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033800 end:0x0000033840, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304136: amdgpu_vm_set_ptes: pe=ffffcedfd8739000, addr=0241329000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304136: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033840 end:0x0000033844, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304136: amdgpu_vm_set_ptes: pe=ffffcedfd8739200, addr=0241369000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304136: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033844 end:0x0000033846, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304136: amdgpu_vm_set_ptes: pe=ffffcedfd8739220, addr=024136d000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304137: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033846 end:0x0000033852, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304137: amdgpu_vm_set_ptes: pe=ffffcedfd8739230, addr=0000266000, incr=4096, flags=67, count=12, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304137: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033852 end:0x0000033854, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304137: amdgpu_vm_set_ptes: pe=ffffcedfd8739290, addr=0218665000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304138: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033854 end:0x000003387e, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304138: amdgpu_vm_set_ptes: pe=ffffcedfd87392a0, addr=0000274000, incr=4096, flags=67, count=42, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304138: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x000003387e end:0x0000033880, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304138: amdgpu_vm_set_ptes: pe=ffffcedfd87393f0, addr=0377ed5000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304139: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033880 end:0x00000338ac, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304139: amdgpu_vm_set_ptes: pe=ffffcedfd8739400, addr=00002a0000, incr=4096, flags=67, count=44, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304139: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338ac end:0x00000338ae, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304139: amdgpu_vm_set_ptes: pe=ffffcedfd8739560, addr=023a19a000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304140: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338ae end:0x00000338b0, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304140: amdgpu_vm_set_ptes: pe=ffffcedfd8739570, addr=0218642000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304140: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338b0 end:0x00000338b2, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304140: amdgpu_vm_set_ptes: pe=ffffcedfd8739580, addr=0218660000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304140: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338b2 end:0x00000338b4, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304141: amdgpu_vm_set_ptes: pe=ffffcedfd8739590, addr=021866a000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304141: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338b4 end:0x00000338b6, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304141: amdgpu_vm_set_ptes: pe=ffffcedfd87395a0, addr=021867c000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304141: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338b6 end:0x00000338b8, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304141: amdgpu_vm_set_ptes: pe=ffffcedfd87395b0, addr=0218688000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304141: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338b8 end:0x00000338ba, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304142: amdgpu_vm_set_ptes: pe=ffffcedfd87395c0, addr=0218728000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304142: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338ba end:0x00000338bc, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304142: amdgpu_vm_set_ptes: pe=ffffcedfd87395d0, addr=0218726000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304142: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338bc end:0x00000338be, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304142: amdgpu_vm_set_ptes: pe=ffffcedfd87395e0, addr=021871c000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304143: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338be end:0x00000338c0, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304143: amdgpu_vm_set_ptes: pe=ffffcedfd87395f0, addr=023a1b4000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304143: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338c0 end:0x00000338c4, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304143: amdgpu_vm_set_ptes: pe=ffffcedfd8739600, addr=023a1b0000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304143: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338c4 end:0x00000338c8, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304144: amdgpu_vm_set_ptes: pe=ffffcedfd8739620, addr=023a19c000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304144: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338c8 end:0x00000338cc, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304144: amdgpu_vm_set_ptes: pe=ffffcedfd8739640, addr=0218670000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304144: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338cc end:0x00000338d0, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304144: amdgpu_vm_set_ptes: pe=ffffcedfd8739660, addr=023a1a0000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304145: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338d0 end:0x00000338d8, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304145: amdgpu_vm_set_ptes: pe=ffffcedfd8739680, addr=023a1a4000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304145: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338d8 end:0x00000338dc, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304145: amdgpu_vm_set_ptes: pe=ffffcedfd87396c0, addr=023a1ac000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304145: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338dc end:0x00000338e0, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304146: amdgpu_vm_set_ptes: pe=ffffcedfd87396e0, addr=0241370000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304146: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x00000338e0 end:0x0000033900, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304146: amdgpu_vm_set_ptes: pe=ffffcedfd8739700, addr=0241374000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304146: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033900 end:0x0000033940, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304146: amdgpu_vm_set_ptes: pe=ffffcedfd8739800, addr=0241394000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304147: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033940 end:0x0000033960, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304147: amdgpu_vm_set_ptes: pe=ffffcedfd8739a00, addr=02413d4000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304147: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033960 end:0x0000033968, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304147: amdgpu_vm_set_ptes: pe=ffffcedfd8739b00, addr=02413f4000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304147: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033968 end:0x000003396c, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304147: amdgpu_vm_set_ptes: pe=ffffcedfd8739b40, addr=02413fc000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304148: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x000003396c end:0x0000033970, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304148: amdgpu_vm_set_ptes: pe=ffffcedfd8739b60, addr=0199200000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304148: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033970 end:0x0000033980, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304148: amdgpu_vm_set_ptes: pe=ffffcedfd8739b80, addr=0199204000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304149: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033980 end:0x0000033a00, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304149: amdgpu_vm_set_ptes: pe=ffffcedfd8739c00, addr=0199214000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304150: amdgpu_vm_set_ptes: pe=ffffcedfd8738000, addr=0000000000, incr=0, flags=10, count=512, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304152: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033a00 end:0x0000033a40, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304152: amdgpu_vm_set_ptes: pe=ffffcedfd8738000, addr=0199294000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304152: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033a40 end:0x0000033a60, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304152: amdgpu_vm_set_ptes: pe=ffffcedfd8738200, addr=01992d4000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304153: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033a60 end:0x0000033a68, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304153: amdgpu_vm_set_ptes: pe=ffffcedfd8738300, addr=01992f4000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304153: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033a68 end:0x0000033a6c, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304153: amdgpu_vm_set_ptes: pe=ffffcedfd8738340, addr=01992fc000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304153: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033a6c end:0x0000033a70, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304153: amdgpu_vm_set_ptes: pe=ffffcedfd8738360, addr=0188f00000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304154: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033a70 end:0x0000033a80, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304154: amdgpu_vm_set_ptes: pe=ffffcedfd8738380, addr=0188f04000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304154: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033a80 end:0x0000033ac0, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304154: amdgpu_vm_set_ptes: pe=ffffcedfd8738400, addr=0188f14000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304154: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x0000033ac0 end:0x0000033ac4, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [006] ..... 39414.304154: amdgpu_vm_set_ptes: pe=ffffcedfd8738600, addr=0188f54000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304157: amdgpu_vm_set_ptes: pe=ffffcedfde89ace8, addr=0468738000, incr=0, flags=1, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304157: amdgpu_vm_set_ptes: pe=ffffcedfde89ace0, addr=0468739000, incr=0, flags=1, count=1, immediate=0
+ test-backend-op-43587   [006] ..... 39414.304158: amdgpu_vm_set_ptes: pe=ffffcedfde89acd8, addr=046873b000, incr=0, flags=1, count=1, immediate=0
+          <idle>-0       [009] d.h1. 39414.304442: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:52 vmid:8 timestamp: 3944434410721 pasid:206 src_data: 00000000 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.304460: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:39 vmid:8 timestamp: 3944434412961 pasid:206 src_data: 0000004a 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.314472: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:52 vmid:8 timestamp: 3944435412173 pasid:206 src_data: 00000000 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.314481: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:39 vmid:8 timestamp: 3944435413085 pasid:206 src_data: 0000004b 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.314843: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:39 vmid:8 timestamp: 3944435449301 pasid:206 src_data: 0000004c 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.315041: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944435469053 pasid:206 src_data: 00000073 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.322961: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944436259497 pasid:206 src_data: 00000000 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.382951: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944442246993 pasid:206 src_data: 00000000 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.388522: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944442803273 pasid:206 src_data: 00000074 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.440150: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944447956441 pasid:206 src_data: 00000075 00000000 00000000 00000000
+ test-backend-op-43587   [007] ..... 39414.449914: amdgpu_vm_bo_map: bo=000000005f47925a, start=7f7c7dc00, last=7f7c7dcff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.449918: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc00 end:0x07f7c7dc33, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449920: amdgpu_vm_set_ptes: pe=ffffcedfde82b000, addr=0000000000, incr=4096, flags=67, count=51, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449921: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc33 end:0x07f7c7dc34, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449921: amdgpu_vm_set_ptes: pe=ffffcedfde82b198, addr=0236b1e000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449922: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc34 end:0x07f7c7dc35, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449922: amdgpu_vm_set_ptes: pe=ffffcedfde82b1a0, addr=0236b1f000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449922: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc35 end:0x07f7c7dc36, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449922: amdgpu_vm_set_ptes: pe=ffffcedfde82b1a8, addr=0236b22000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449922: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc36 end:0x07f7c7dc37, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449922: amdgpu_vm_set_ptes: pe=ffffcedfde82b1b0, addr=0236b23000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449923: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc37 end:0x07f7c7dc38, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449923: amdgpu_vm_set_ptes: pe=ffffcedfde82b1b8, addr=0236b26000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449923: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc38 end:0x07f7c7dc3a, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449923: amdgpu_vm_set_ptes: pe=ffffcedfde82b1c0, addr=0236b27000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449923: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc3a end:0x07f7c7dc3b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449924: amdgpu_vm_set_ptes: pe=ffffcedfde82b1d0, addr=000003a000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449924: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc3b end:0x07f7c7dc3c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449924: amdgpu_vm_set_ptes: pe=ffffcedfde82b1d8, addr=0236b29000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449924: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc3c end:0x07f7c7dc3e, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449924: amdgpu_vm_set_ptes: pe=ffffcedfde82b1e0, addr=0236b2a000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449925: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc3e end:0x07f7c7dc4f, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449925: amdgpu_vm_set_ptes: pe=ffffcedfde82b1f0, addr=000003e000, incr=4096, flags=67, count=17, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449925: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc4f end:0x07f7c7dc50, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449925: amdgpu_vm_set_ptes: pe=ffffcedfde82b278, addr=0236b3b000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449925: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc50 end:0x07f7c7dc51, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449926: amdgpu_vm_set_ptes: pe=ffffcedfde82b280, addr=0236b3c000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449926: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc51 end:0x07f7c7dc6c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449926: amdgpu_vm_set_ptes: pe=ffffcedfde82b288, addr=0000051000, incr=4096, flags=67, count=27, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449926: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc6c end:0x07f7c7dc6e, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449927: amdgpu_vm_set_ptes: pe=ffffcedfde82b360, addr=0236b46000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449927: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc6e end:0x07f7c7dc80, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449927: amdgpu_vm_set_ptes: pe=ffffcedfde82b370, addr=000006e000, incr=4096, flags=67, count=18, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449927: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc80 end:0x07f7c7dc82, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449927: amdgpu_vm_set_ptes: pe=ffffcedfde82b400, addr=0236ba3000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449928: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dc82 end:0x07f7c7dcbf, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449928: amdgpu_vm_set_ptes: pe=ffffcedfde82b410, addr=0000082000, incr=4096, flags=67, count=61, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449929: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dcbf end:0x07f7c7dcc0, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449929: amdgpu_vm_set_ptes: pe=ffffcedfde82b5f8, addr=0236b15000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449929: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dcc0 end:0x07f7c7dcc1, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449929: amdgpu_vm_set_ptes: pe=ffffcedfde82b600, addr=0236b16000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449930: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dcc1 end:0x07f7c7dcff, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449930: amdgpu_vm_set_ptes: pe=ffffcedfde82b608, addr=00000c1000, incr=4096, flags=67, count=62, immediate=0
+ test-backend-op-43587   [007] ..... 39414.449930: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7dcff end:0x07f7c7dd00, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.449931: amdgpu_vm_set_ptes: pe=ffffcedfde82b7f8, addr=01b7c90000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.450416: amdgpu_vm_bo_map: bo=00000000be226185, start=7f7c7d600, last=7f7c7d9ff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.450420: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7d600 end:0x07f7c7d800, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.450422: amdgpu_vm_set_ptes: pe=ffffcedfde8b3f58, addr=03f9c00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.450422: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c7d800 end:0x07f7c7da00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.450423: amdgpu_vm_set_ptes: pe=ffffcedfde8b3f60, addr=03f7a00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+          <idle>-0       [009] d.h1. 39414.580837: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944461998837 pasid:206 src_data: 00000076 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.580840: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944461999077 pasid:206 src_data: 00000077 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.580844: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944461999493 pasid:206 src_data: 00000078 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.705904: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944474482061 pasid:206 src_data: 00000079 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.705905: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944474482305 pasid:206 src_data: 0000000f 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.705910: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944474482713 pasid:206 src_data: 0000000e 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.830862: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944486954457 pasid:206 src_data: 0000000d 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.830863: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944486954713 pasid:206 src_data: 0000000c 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.830868: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944486955121 pasid:206 src_data: 0000000b 00000000 00000000 00000000
+ test-backend-op-43587   [007] ..... 39414.830900: amdgpu_vm_bo_unmap: bo=00000000b2139732, start=7f7c78c00, last=7f7c78cff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.830905: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c78c00 end:0x07f7c78d00, flags:0x400, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.830907: amdgpu_vm_set_ptes: pe=ffffcedfde824000, addr=0000000000, incr=4096, flags=410, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39414.831048: amdgpu_vm_bo_unmap: bo=00000000d3d0104d, start=7f7c78600, last=7f7c789ff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.831049: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c78600 end:0x07f7c78800, flags:0x480, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.831049: amdgpu_vm_set_ptes: pe=ffffcedfde8b3e18, addr=0000000000, incr=2097152, flags=40000000000480, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.831049: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c78800 end:0x07f7c78a00, flags:0x480, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.831049: amdgpu_vm_set_ptes: pe=ffffcedfde8b3e20, addr=0000200000, incr=2097152, flags=40000000000480, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.835126: amdgpu_vm_bo_unmap: bo=00000000bc14e242, start=7f7c79800, last=7f7c798ff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.835130: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c79800 end:0x07f7c79900, flags:0x400, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.835132: amdgpu_vm_set_ptes: pe=ffffcedfd8775000, addr=0000000000, incr=4096, flags=410, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39414.835268: amdgpu_vm_bo_unmap: bo=0000000074ad0aed, start=7f7c79200, last=7f7c795ff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.835268: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c79200 end:0x07f7c79400, flags:0x480, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.835269: amdgpu_vm_set_ptes: pe=ffffcedfde8b3e48, addr=0000000000, incr=2097152, flags=40000000000480, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.835269: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c79400 end:0x07f7c79600, flags:0x480, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.835269: amdgpu_vm_set_ptes: pe=ffffcedfde8b3e50, addr=0000200000, incr=2097152, flags=40000000000480, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.839339: amdgpu_vm_bo_unmap: bo=00000000eebb60d1, start=7f7c73e00, last=7f7c73eff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.839343: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c73e00 end:0x07f7c73f00, flags:0x400, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.839345: amdgpu_vm_set_ptes: pe=ffffcedfde829000, addr=0000000000, incr=4096, flags=410, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39414.839471: amdgpu_vm_bo_unmap: bo=000000002f951908, start=7f7c73800, last=7f7c73bff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.839471: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c73800 end:0x07f7c73c00, flags:0x500, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.839471: amdgpu_vm_set_ptes: pe=ffffcedfde8b3ce0, addr=0000000000, incr=2097152, flags=40000000000500, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39414.843157: amdgpu_vm_bo_unmap: bo=00000000e5b3b78b, start=7f7c71000, last=7f7c710ff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.843161: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71000 end:0x07f7c71100, flags:0x400, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39414.843163: amdgpu_vm_set_ptes: pe=ffffcedfde803000, addr=0000000000, incr=4096, flags=410, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39414.843289: amdgpu_vm_bo_unmap: bo=000000008287e308, start=7f7c70a00, last=7f7c70dff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39414.843290: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c70a00 end:0x07f7c70c00, flags:0x480, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.843290: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c28, addr=0000000000, incr=2097152, flags=40000000000480, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39414.843290: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c70c00 end:0x07f7c70e00, flags:0x480, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39414.843291: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c30, addr=0000200000, incr=2097152, flags=40000000000480, count=1, immediate=0
+          <idle>-0       [009] d.h1. 39414.972306: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944501072277 pasid:206 src_data: 0000001f 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.972309: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944501072525 pasid:206 src_data: 00000020 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39414.972311: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944501072933 pasid:206 src_data: 00000021 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.097271: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944513545481 pasid:206 src_data: 00000022 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.097274: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944513545721 pasid:206 src_data: 00000023 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.097277: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944513546129 pasid:206 src_data: 00000024 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.222264: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944526021381 pasid:206 src_data: 00000025 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.222265: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944526021617 pasid:206 src_data: 00000026 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.222270: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944526022033 pasid:206 src_data: 0000002a 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.347195: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944538491041 pasid:206 src_data: 0000002b 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.347197: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944538491297 pasid:206 src_data: 00000031 00000000 00000000 00000000
+          <idle>-0       [009] d.h1. 39415.347200: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:38 vmid:8 timestamp: 3944538491705 pasid:206 src_data: 00000032 00000000 00000000 00000000
+ test-backend-op-43587   [007] ..... 39415.347402: amdgpu_vm_bo_unmap: bo=000000002be83464, start=7f7c71200, last=7f7c731ff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39415.347407: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71200 end:0x07f7c71400, flags:0x480, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.347408: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c48, addr=0000000000, incr=2097152, flags=40000000000480, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.347409: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71400 end:0x07f7c71800, flags:0x500, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.347409: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c50, addr=0000200000, incr=2097152, flags=40000000000500, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39415.347409: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71800 end:0x07f7c72000, flags:0x580, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.347409: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c60, addr=0000600000, incr=2097152, flags=40000000000580, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39415.347410: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72000 end:0x07f7c73000, flags:0x600, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.347410: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c80, addr=0000e00000, incr=2097152, flags=40000000000600, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39415.347410: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c73000 end:0x07f7c73200, flags:0x480, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.347410: amdgpu_vm_set_ptes: pe=ffffcedfde8b3cc0, addr=0001e00000, incr=2097152, flags=40000000000480, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350913: amdgpu_vm_bo_map: bo=000000002be83464, start=7f7c70a00, last=7f7c731ff, offset=0000000000, flags=6
+ test-backend-op-43587   [007] ..... 39415.350919: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c70a00 end:0x07f7c70c00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350920: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c28, addr=01f0c00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350920: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c70c00 end:0x07f7c70e00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350921: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c30, addr=01f0e00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350922: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c70e00 end:0x07f7c71000, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350923: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c38, addr=020ec00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350923: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71000 end:0x07f7c71200, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350923: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c40, addr=020ee00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350924: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71200 end:0x07f7c71400, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350924: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c48, addr=0253400000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350924: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71400 end:0x07f7c71600, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350925: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c50, addr=0253600000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350926: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71600 end:0x07f7c71800, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350926: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c58, addr=027dc00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350926: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71800 end:0x07f7c71a00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350926: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c60, addr=027de00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350928: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71a00 end:0x07f7c71c00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350928: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c68, addr=03cd800000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350928: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71c00 end:0x07f7c71e00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350928: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c70, addr=03cda00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350929: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c71e00 end:0x07f7c72000, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350929: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c78, addr=02f1800000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350929: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72000 end:0x07f7c72200, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350930: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c80, addr=02f1a00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350931: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72200 end:0x07f7c72400, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350931: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c88, addr=042c800000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350931: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72400 end:0x07f7c72600, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350931: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c90, addr=042ca00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350932: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72600 end:0x07f7c72800, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350933: amdgpu_vm_set_ptes: pe=ffffcedfde8b3c98, addr=01f9000000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350933: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72800 end:0x07f7c72a00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350933: amdgpu_vm_set_ptes: pe=ffffcedfde8b3ca0, addr=01f9200000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350934: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72a00 end:0x07f7c72c00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350934: amdgpu_vm_set_ptes: pe=ffffcedfde8b3ca8, addr=01e8800000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350934: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72c00 end:0x07f7c72e00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350935: amdgpu_vm_set_ptes: pe=ffffcedfde8b3cb0, addr=01e8a00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350936: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c72e00 end:0x07f7c73000, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350936: amdgpu_vm_set_ptes: pe=ffffcedfde8b3cb8, addr=02c6c00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39415.350936: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c73000 end:0x07f7c73200, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39415.350936: amdgpu_vm_set_ptes: pe=ffffcedfde8b3cc0, addr=02c6e00000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198717: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b73 end:0x07f7c59b88, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198720: amdgpu_vm_set_ptes: pe=ffffcedfde857b98, addr=0000000000, incr=4096, flags=67, count=21, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198721: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b88 end:0x07f7c59b8a, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198722: amdgpu_vm_set_ptes: pe=ffffcedfde857c40, addr=024b121000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198722: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b8a end:0x07f7c59b8b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198722: amdgpu_vm_set_ptes: pe=ffffcedfde857c50, addr=024b123000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198723: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b8b end:0x07f7c59b8f, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198723: amdgpu_vm_set_ptes: pe=ffffcedfde857c58, addr=0000018000, incr=4096, flags=67, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198723: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b8f end:0x07f7c59b90, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198723: amdgpu_vm_set_ptes: pe=ffffcedfde857c78, addr=024b11c000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198724: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b90 end:0x07f7c59b92, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198724: amdgpu_vm_set_ptes: pe=ffffcedfde857c80, addr=024b11d000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198724: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b92 end:0x07f7c59b96, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198724: amdgpu_vm_set_ptes: pe=ffffcedfde857c90, addr=000001f000, incr=4096, flags=67, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198724: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b96 end:0x07f7c59b98, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198725: amdgpu_vm_set_ptes: pe=ffffcedfde857cb0, addr=0188f5a000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198725: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b98 end:0x07f7c59b99, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198725: amdgpu_vm_set_ptes: pe=ffffcedfde857cc0, addr=0188f5c000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198725: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b99 end:0x07f7c59b9d, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198725: amdgpu_vm_set_ptes: pe=ffffcedfde857cc8, addr=0000026000, incr=4096, flags=67, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198726: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b9d end:0x07f7c59b9e, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198726: amdgpu_vm_set_ptes: pe=ffffcedfde857ce8, addr=0188f5f000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198726: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59b9e end:0x07f7c59ba0, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198726: amdgpu_vm_set_ptes: pe=ffffcedfde857cf0, addr=0188f60000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198726: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59ba0 end:0x07f7c59ba3, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198727: amdgpu_vm_set_ptes: pe=ffffcedfde857d00, addr=000002d000, incr=4096, flags=67, count=3, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198727: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59ba3 end:0x07f7c59ba4, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198727: amdgpu_vm_set_ptes: pe=ffffcedfde857d18, addr=022de33000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198727: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59ba4 end:0x07f7c59ba8, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198728: amdgpu_vm_set_ptes: pe=ffffcedfde857d20, addr=022de34000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198728: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59ba8 end:0x07f7c59bb0, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198728: amdgpu_vm_set_ptes: pe=ffffcedfde857d40, addr=022de38000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198728: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59bb0 end:0x07f7c59bc0, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198728: amdgpu_vm_set_ptes: pe=ffffcedfde857d80, addr=022de40000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198729: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59bc0 end:0x07f7c59c00, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198729: amdgpu_vm_set_ptes: pe=ffffcedfde857e00, addr=022de50000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198729: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59c00 end:0x07f7c59d00, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198729: amdgpu_vm_set_ptes: pe=ffffcedfde856000, addr=022de90000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198730: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59d00 end:0x07f7c59d40, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198730: amdgpu_vm_set_ptes: pe=ffffcedfde856800, addr=022df90000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198731: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59d40 end:0x07f7c59d60, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198731: amdgpu_vm_set_ptes: pe=ffffcedfde856a00, addr=022dfd0000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198731: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59d60 end:0x07f7c59d70, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198731: amdgpu_vm_set_ptes: pe=ffffcedfde856b00, addr=022dff0000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198732: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59d70 end:0x07f7c59d80, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198732: amdgpu_vm_set_ptes: pe=ffffcedfde856b80, addr=01c7400000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198732: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59d80 end:0x07f7c59e00, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198732: amdgpu_vm_set_ptes: pe=ffffcedfde856c00, addr=01c7410000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198745: amdgpu_vm_set_ptes: pe=ffffcedfde821000, addr=0000000000, incr=0, flags=10, count=512, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198747: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59e00 end:0x07f7c59f00, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198748: amdgpu_vm_set_ptes: pe=ffffcedfde821000, addr=01c7490000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198748: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59f00 end:0x07f7c59f40, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198748: amdgpu_vm_set_ptes: pe=ffffcedfde821800, addr=01c7590000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198749: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59f40 end:0x07f7c59f60, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198749: amdgpu_vm_set_ptes: pe=ffffcedfde821a00, addr=01c75d0000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198749: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59f60 end:0x07f7c59f70, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198749: amdgpu_vm_set_ptes: pe=ffffcedfde821b00, addr=01c75f0000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198750: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59f70 end:0x07f7c59f80, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198750: amdgpu_vm_set_ptes: pe=ffffcedfde821b80, addr=0314a00000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198750: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59f80 end:0x07f7c59fc0, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198750: amdgpu_vm_set_ptes: pe=ffffcedfde821c00, addr=0314a10000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198750: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59fc0 end:0x07f7c59fe0, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198751: amdgpu_vm_set_ptes: pe=ffffcedfde821e00, addr=0314a50000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198751: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59fe0 end:0x07f7c59ff0, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198751: amdgpu_vm_set_ptes: pe=ffffcedfde821f00, addr=0314a70000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198751: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59ff0 end:0x07f7c59ff4, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198751: amdgpu_vm_set_ptes: pe=ffffcedfde821f80, addr=0314a80000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198751: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59ff4 end:0x07f7c59ff6, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198752: amdgpu_vm_set_ptes: pe=ffffcedfde821fa0, addr=0314a84000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198752: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c59ff6 end:0x07f7c5a000, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198752: amdgpu_vm_set_ptes: pe=ffffcedfde821fb0, addr=0000483000, incr=4096, flags=67, count=10, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198752: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a000 end:0x07f7c5a073, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198753: amdgpu_vm_set_ptes: pe=ffffcedfde854000, addr=000048d000, incr=4096, flags=67, count=115, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198753: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a073 end:0x07f7c5a074, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198754: amdgpu_vm_set_ptes: pe=ffffcedfde854398, addr=0218536000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198754: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a074 end:0x07f7c5a075, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198754: amdgpu_vm_set_ptes: pe=ffffcedfde8543a0, addr=0218537000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198754: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a075 end:0x07f7c5a076, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198754: amdgpu_vm_set_ptes: pe=ffffcedfde8543a8, addr=0218560000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198754: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a076 end:0x07f7c5a077, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198755: amdgpu_vm_set_ptes: pe=ffffcedfde8543b0, addr=0218561000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198755: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a077 end:0x07f7c5a078, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198755: amdgpu_vm_set_ptes: pe=ffffcedfde8543b8, addr=0218584000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198755: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a078 end:0x07f7c5a079, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198755: amdgpu_vm_set_ptes: pe=ffffcedfde8543c0, addr=0218585000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198756: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a079 end:0x07f7c5a07a, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198756: amdgpu_vm_set_ptes: pe=ffffcedfde8543c8, addr=02185a4000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198756: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a07a end:0x07f7c5a07b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198756: amdgpu_vm_set_ptes: pe=ffffcedfde8543d0, addr=02185a5000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198756: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a07b end:0x07f7c5a07c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198756: amdgpu_vm_set_ptes: pe=ffffcedfde8543d8, addr=02185ba000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198757: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a07c end:0x07f7c5a07d, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198757: amdgpu_vm_set_ptes: pe=ffffcedfde8543e0, addr=02185bb000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198757: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a07d end:0x07f7c5a07e, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198757: amdgpu_vm_set_ptes: pe=ffffcedfde8543e8, addr=02185ce000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198757: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a07e end:0x07f7c5a07f, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198757: amdgpu_vm_set_ptes: pe=ffffcedfde8543f0, addr=02185cf000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198758: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a07f end:0x07f7c5a080, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198758: amdgpu_vm_set_ptes: pe=ffffcedfde8543f8, addr=02185d2000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198758: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a080 end:0x07f7c5a081, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198758: amdgpu_vm_set_ptes: pe=ffffcedfde854400, addr=02185d3000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198758: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a081 end:0x07f7c5a082, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198758: amdgpu_vm_set_ptes: pe=ffffcedfde854408, addr=02185d8000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198759: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a082 end:0x07f7c5a083, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198759: amdgpu_vm_set_ptes: pe=ffffcedfde854410, addr=02185d9000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198759: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a083 end:0x07f7c5a084, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198759: amdgpu_vm_set_ptes: pe=ffffcedfde854418, addr=02185e0000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198759: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a084 end:0x07f7c5a085, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198759: amdgpu_vm_set_ptes: pe=ffffcedfde854420, addr=02185e1000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198760: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a085 end:0x07f7c5a086, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198760: amdgpu_vm_set_ptes: pe=ffffcedfde854428, addr=02185f2000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198760: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a086 end:0x07f7c5a087, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198760: amdgpu_vm_set_ptes: pe=ffffcedfde854430, addr=02185f3000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198760: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a087 end:0x07f7c5a088, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198760: amdgpu_vm_set_ptes: pe=ffffcedfde854438, addr=02185f6000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198761: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a088 end:0x07f7c5a08a, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198761: amdgpu_vm_set_ptes: pe=ffffcedfde854440, addr=02185f7000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198761: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a08a end:0x07f7c5a08b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198761: amdgpu_vm_set_ptes: pe=ffffcedfde854450, addr=02185f9000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198761: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a08b end:0x07f7c5a08c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198762: amdgpu_vm_set_ptes: pe=ffffcedfde854458, addr=0314a86000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198762: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a08c end:0x07f7c5a08d, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198762: amdgpu_vm_set_ptes: pe=ffffcedfde854460, addr=0314a87000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198762: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a08d end:0x07f7c5a08e, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198762: amdgpu_vm_set_ptes: pe=ffffcedfde854468, addr=0218520000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198762: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a08e end:0x07f7c5a08f, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198763: amdgpu_vm_set_ptes: pe=ffffcedfde854470, addr=0218521000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198763: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a08f end:0x07f7c5a090, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198763: amdgpu_vm_set_ptes: pe=ffffcedfde854478, addr=021851c000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198763: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a090 end:0x07f7c5a092, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198763: amdgpu_vm_set_ptes: pe=ffffcedfde854480, addr=021851d000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198763: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a092 end:0x07f7c5a093, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198764: amdgpu_vm_set_ptes: pe=ffffcedfde854490, addr=021851f000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198764: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a093 end:0x07f7c5a094, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198764: amdgpu_vm_set_ptes: pe=ffffcedfde854498, addr=0218524000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198764: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a094 end:0x07f7c5a098, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198764: amdgpu_vm_set_ptes: pe=ffffcedfde8544a0, addr=0218525000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198765: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a098 end:0x07f7c5a09a, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198765: amdgpu_vm_set_ptes: pe=ffffcedfde8544c0, addr=0218529000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198765: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a09a end:0x07f7c5a09b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198765: amdgpu_vm_set_ptes: pe=ffffcedfde8544d0, addr=021852b000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198765: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a09b end:0x07f7c5a09c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198765: amdgpu_vm_set_ptes: pe=ffffcedfde8544d8, addr=021855c000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198766: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a09c end:0x07f7c5a09e, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198766: amdgpu_vm_set_ptes: pe=ffffcedfde8544e0, addr=021855d000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198766: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a09e end:0x07f7c5a09f, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198766: amdgpu_vm_set_ptes: pe=ffffcedfde8544f0, addr=021855f000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198766: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a09f end:0x07f7c5a0a0, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198766: amdgpu_vm_set_ptes: pe=ffffcedfde8544f8, addr=021857c000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198767: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a0a0 end:0x07f7c5a0a2, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198767: amdgpu_vm_set_ptes: pe=ffffcedfde854500, addr=021857d000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198767: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a0a2 end:0x07f7c5a0a3, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198767: amdgpu_vm_set_ptes: pe=ffffcedfde854510, addr=021857f000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198768: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a0a3 end:0x07f7c5a0a4, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198768: amdgpu_vm_set_ptes: pe=ffffcedfde854518, addr=0314a88000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198768: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a0a4 end:0x07f7c5a0a8, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198768: amdgpu_vm_set_ptes: pe=ffffcedfde854520, addr=0314a89000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198768: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a0a8 end:0x07f7c5a0b0, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198768: amdgpu_vm_set_ptes: pe=ffffcedfde854540, addr=0314a8d000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198769: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a0b0 end:0x07f7c5a0c0, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198769: amdgpu_vm_set_ptes: pe=ffffcedfde854580, addr=0314a95000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198769: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a0c0 end:0x07f7c5a100, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198769: amdgpu_vm_set_ptes: pe=ffffcedfde854600, addr=0314aa5000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198769: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a100 end:0x07f7c5a200, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198769: amdgpu_vm_set_ptes: pe=ffffcedfde854800, addr=0314ae5000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198771: amdgpu_vm_set_ptes: pe=ffffcedfde803000, addr=0000000000, incr=0, flags=10, count=512, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198773: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a200 end:0x07f7c5a210, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198773: amdgpu_vm_set_ptes: pe=ffffcedfde803000, addr=0314be5000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198773: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a210 end:0x07f7c5a218, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198773: amdgpu_vm_set_ptes: pe=ffffcedfde803080, addr=0314bf5000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198774: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a218 end:0x07f7c5a21a, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198774: amdgpu_vm_set_ptes: pe=ffffcedfde8030c0, addr=0314bfd000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198774: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a21a end:0x07f7c5a21b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198774: amdgpu_vm_set_ptes: pe=ffffcedfde8030d0, addr=0314bff000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198775: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a21b end:0x07f7c5a21c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198775: amdgpu_vm_set_ptes: pe=ffffcedfde8030d8, addr=0189c00000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198775: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a21c end:0x07f7c5a220, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198776: amdgpu_vm_set_ptes: pe=ffffcedfde8030e0, addr=0189c01000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198776: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a220 end:0x07f7c5a240, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198776: amdgpu_vm_set_ptes: pe=ffffcedfde803100, addr=0189c05000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198776: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a240 end:0x07f7c5a280, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198776: amdgpu_vm_set_ptes: pe=ffffcedfde803200, addr=0189c25000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198777: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a280 end:0x07f7c5a300, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198777: amdgpu_vm_set_ptes: pe=ffffcedfde803400, addr=0189c65000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198777: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a300 end:0x07f7c5a400, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198777: amdgpu_vm_set_ptes: pe=ffffcedfde803800, addr=0189ce5000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198778: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a400 end:0x07f7c5a600, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39416.198779: amdgpu_vm_set_ptes: pe=ffffcedfde8b3690, addr=0189de5000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198781: amdgpu_vm_set_ptes: pe=ffffcedfd872d000, addr=0000000000, incr=0, flags=10, count=512, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198783: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a600 end:0x07f7c5a610, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198783: amdgpu_vm_set_ptes: pe=ffffcedfd872d000, addr=0189fe5000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198783: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a610 end:0x07f7c5a618, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198784: amdgpu_vm_set_ptes: pe=ffffcedfd872d080, addr=0189ff5000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198784: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a618 end:0x07f7c5a61a, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198784: amdgpu_vm_set_ptes: pe=ffffcedfd872d0c0, addr=0189ffd000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198784: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a61a end:0x07f7c5a61b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198784: amdgpu_vm_set_ptes: pe=ffffcedfd872d0d0, addr=0189fff000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198785: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a61b end:0x07f7c5a61c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198785: amdgpu_vm_set_ptes: pe=ffffcedfd872d0d8, addr=0393400000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198785: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a61c end:0x07f7c5a620, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198786: amdgpu_vm_set_ptes: pe=ffffcedfd872d0e0, addr=0393401000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198786: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a620 end:0x07f7c5a640, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198786: amdgpu_vm_set_ptes: pe=ffffcedfd872d100, addr=0393405000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198786: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a640 end:0x07f7c5a680, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198787: amdgpu_vm_set_ptes: pe=ffffcedfd872d200, addr=0393425000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198787: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a680 end:0x07f7c5a700, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198787: amdgpu_vm_set_ptes: pe=ffffcedfd872d400, addr=0393465000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198787: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a700 end:0x07f7c5a800, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198788: amdgpu_vm_set_ptes: pe=ffffcedfd872d800, addr=03934e5000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198788: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5a800 end:0x07f7c5aa00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39416.198789: amdgpu_vm_set_ptes: pe=ffffcedfde8b36a0, addr=03935e5000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198790: amdgpu_vm_set_ptes: pe=ffffcedfd872c000, addr=0000000000, incr=0, flags=10, count=512, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198791: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa00 end:0x07f7c5aa10, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198791: amdgpu_vm_set_ptes: pe=ffffcedfd872c000, addr=03937e5000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198791: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa10 end:0x07f7c5aa18, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198792: amdgpu_vm_set_ptes: pe=ffffcedfd872c080, addr=03937f5000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198792: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa18 end:0x07f7c5aa1a, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198792: amdgpu_vm_set_ptes: pe=ffffcedfd872c0c0, addr=03937fd000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198792: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa1a end:0x07f7c5aa1b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198792: amdgpu_vm_set_ptes: pe=ffffcedfd872c0d0, addr=03937ff000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198793: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa1b end:0x07f7c5aa1c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198793: amdgpu_vm_set_ptes: pe=ffffcedfd872c0d8, addr=03d1c00000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198794: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa1c end:0x07f7c5aa20, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198794: amdgpu_vm_set_ptes: pe=ffffcedfd872c0e0, addr=03d1c01000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198794: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa20 end:0x07f7c5aa40, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198794: amdgpu_vm_set_ptes: pe=ffffcedfd872c100, addr=03d1c05000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198794: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa40 end:0x07f7c5aa80, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198794: amdgpu_vm_set_ptes: pe=ffffcedfd872c200, addr=03d1c25000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198795: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5aa80 end:0x07f7c5ab00, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198795: amdgpu_vm_set_ptes: pe=ffffcedfd872c400, addr=03d1c65000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198795: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ab00 end:0x07f7c5ac00, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198795: amdgpu_vm_set_ptes: pe=ffffcedfd872c800, addr=03d1ce5000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198796: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ac00 end:0x07f7c5ae00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39416.198796: amdgpu_vm_set_ptes: pe=ffffcedfde8b36b0, addr=03d1de5000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198797: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae00 end:0x07f7c5ae10, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198797: amdgpu_vm_set_ptes: pe=ffffcedfde84d000, addr=03d1fe5000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198797: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae10 end:0x07f7c5ae18, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198797: amdgpu_vm_set_ptes: pe=ffffcedfde84d080, addr=03d1ff5000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198797: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae18 end:0x07f7c5ae1a, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198797: amdgpu_vm_set_ptes: pe=ffffcedfde84d0c0, addr=03d1ffd000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198798: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae1a end:0x07f7c5ae1b, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198798: amdgpu_vm_set_ptes: pe=ffffcedfde84d0d0, addr=03d1fff000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198799: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae1b end:0x07f7c5ae1c, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198799: amdgpu_vm_set_ptes: pe=ffffcedfde84d0d8, addr=01adc00000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198799: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae1c end:0x07f7c5ae20, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198799: amdgpu_vm_set_ptes: pe=ffffcedfde84d0e0, addr=01adc01000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198799: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae20 end:0x07f7c5ae40, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198800: amdgpu_vm_set_ptes: pe=ffffcedfde84d100, addr=01adc05000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198800: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae40 end:0x07f7c5ae80, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198800: amdgpu_vm_set_ptes: pe=ffffcedfde84d200, addr=01adc25000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198800: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ae80 end:0x07f7c5af00, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198800: amdgpu_vm_set_ptes: pe=ffffcedfde84d400, addr=01adc65000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198801: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5af00 end:0x07f7c5b000, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198801: amdgpu_vm_set_ptes: pe=ffffcedfde84d800, addr=01adce5000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198802: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b000 end:0x07f7c5b100, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198802: amdgpu_vm_set_ptes: pe=ffffcedfde84c000, addr=01adde5000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198803: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b100 end:0x07f7c5b120, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198803: amdgpu_vm_set_ptes: pe=ffffcedfde84c800, addr=01adee5000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198803: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b120 end:0x07f7c5b130, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198803: amdgpu_vm_set_ptes: pe=ffffcedfde84c900, addr=01adf05000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198804: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b130 end:0x07f7c5b16e, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198804: amdgpu_vm_set_ptes: pe=ffffcedfde84c980, addr=00015bd000, incr=4096, flags=67, count=62, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198805: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b16e end:0x07f7c5b170, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198805: amdgpu_vm_set_ptes: pe=ffffcedfde84cb70, addr=01adf15000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198805: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b170 end:0x07f7c5b180, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198805: amdgpu_vm_set_ptes: pe=ffffcedfde84cb80, addr=01adf17000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198805: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b180 end:0x07f7c5b200, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198805: amdgpu_vm_set_ptes: pe=ffffcedfde84cc00, addr=01adf27000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198806: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b200 end:0x07f7c5b240, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198806: amdgpu_vm_set_ptes: pe=ffffcedfde84b000, addr=01adfa7000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198806: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b240 end:0x07f7c5b250, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198806: amdgpu_vm_set_ptes: pe=ffffcedfde84b200, addr=01adfe7000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198807: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b250 end:0x07f7c5b258, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198807: amdgpu_vm_set_ptes: pe=ffffcedfde84b280, addr=01adff7000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198807: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b258 end:0x07f7c5b259, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198807: amdgpu_vm_set_ptes: pe=ffffcedfde84b2c0, addr=01adfff000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198808: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b259 end:0x07f7c5b25a, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198808: amdgpu_vm_set_ptes: pe=ffffcedfde84b2c8, addr=02adc00000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198808: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b25a end:0x07f7c5b25c, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198809: amdgpu_vm_set_ptes: pe=ffffcedfde84b2d0, addr=02adc01000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198809: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b25c end:0x07f7c5b260, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198809: amdgpu_vm_set_ptes: pe=ffffcedfde84b2e0, addr=02adc03000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198809: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b260 end:0x07f7c5b280, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198809: amdgpu_vm_set_ptes: pe=ffffcedfde84b300, addr=02adc07000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198809: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b280 end:0x07f7c5b300, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198810: amdgpu_vm_set_ptes: pe=ffffcedfde84b400, addr=02adc27000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198810: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b300 end:0x07f7c5b400, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198810: amdgpu_vm_set_ptes: pe=ffffcedfde84b800, addr=02adca7000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198811: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b400 end:0x07f7c5b600, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39416.198811: amdgpu_vm_set_ptes: pe=ffffcedfde8b36d0, addr=02adda7000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198811: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b600 end:0x07f7c5b640, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198812: amdgpu_vm_set_ptes: pe=ffffcedfde849000, addr=02adfa7000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198812: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b640 end:0x07f7c5b650, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198812: amdgpu_vm_set_ptes: pe=ffffcedfde849200, addr=02adfe7000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198812: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b650 end:0x07f7c5b658, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198812: amdgpu_vm_set_ptes: pe=ffffcedfde849280, addr=02adff7000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198812: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b658 end:0x07f7c5b659, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198812: amdgpu_vm_set_ptes: pe=ffffcedfde8492c0, addr=02adfff000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198813: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b659 end:0x07f7c5b65a, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198813: amdgpu_vm_set_ptes: pe=ffffcedfde8492c8, addr=01eb800000, incr=4096, flags=67, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198813: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b65a end:0x07f7c5b65c, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198813: amdgpu_vm_set_ptes: pe=ffffcedfde8492d0, addr=01eb801000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198813: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b65c end:0x07f7c5b660, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198814: amdgpu_vm_set_ptes: pe=ffffcedfde8492e0, addr=01eb803000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198814: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b660 end:0x07f7c5b680, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198814: amdgpu_vm_set_ptes: pe=ffffcedfde849300, addr=01eb807000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198814: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b680 end:0x07f7c5b700, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198814: amdgpu_vm_set_ptes: pe=ffffcedfde849400, addr=01eb827000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198815: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b700 end:0x07f7c5b710, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198815: amdgpu_vm_set_ptes: pe=ffffcedfde849800, addr=01eb8a7000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198815: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b710 end:0x07f7c5b718, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198815: amdgpu_vm_set_ptes: pe=ffffcedfde849880, addr=01eb8b7000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198815: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b718 end:0x07f7c5b71a, flags:0x67, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198816: amdgpu_vm_set_ptes: pe=ffffcedfde8498c0, addr=0001ba5000, incr=4096, flags=67, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198816: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b71a end:0x07f7c5b71c, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198816: amdgpu_vm_set_ptes: pe=ffffcedfde8498d0, addr=0221538000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198816: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b71c end:0x07f7c5b71e, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198816: amdgpu_vm_set_ptes: pe=ffffcedfde8498e0, addr=02b37fe000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198817: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b71e end:0x07f7c5b720, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198817: amdgpu_vm_set_ptes: pe=ffffcedfde8498f0, addr=0221530000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198817: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b720 end:0x07f7c5b724, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198817: amdgpu_vm_set_ptes: pe=ffffcedfde849900, addr=0221532000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198817: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b724 end:0x07f7c5b726, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198817: amdgpu_vm_set_ptes: pe=ffffcedfde849920, addr=0221536000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198818: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b726 end:0x07f7c5b728, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198818: amdgpu_vm_set_ptes: pe=ffffcedfde849930, addr=0221520000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198818: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b728 end:0x07f7c5b730, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198818: amdgpu_vm_set_ptes: pe=ffffcedfde849940, addr=0221522000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198818: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b730 end:0x07f7c5b734, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198818: amdgpu_vm_set_ptes: pe=ffffcedfde849980, addr=022152a000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198819: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b734 end:0x07f7c5b736, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198819: amdgpu_vm_set_ptes: pe=ffffcedfde8499a0, addr=022152e000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198819: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b736 end:0x07f7c5b738, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198819: amdgpu_vm_set_ptes: pe=ffffcedfde8499b0, addr=0221500000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198819: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b738 end:0x07f7c5b740, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198820: amdgpu_vm_set_ptes: pe=ffffcedfde8499c0, addr=0221502000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198820: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b740 end:0x07f7c5b750, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198820: amdgpu_vm_set_ptes: pe=ffffcedfde849a00, addr=022150a000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198820: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b750 end:0x07f7c5b754, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198820: amdgpu_vm_set_ptes: pe=ffffcedfde849a80, addr=022151a000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198820: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b754 end:0x07f7c5b756, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198821: amdgpu_vm_set_ptes: pe=ffffcedfde849aa0, addr=022151e000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198821: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b756 end:0x07f7c5b758, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198822: amdgpu_vm_set_ptes: pe=ffffcedfde849ab0, addr=01eb8c0000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198822: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b758 end:0x07f7c5b760, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198822: amdgpu_vm_set_ptes: pe=ffffcedfde849ac0, addr=01eb8c2000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198822: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b760 end:0x07f7c5b780, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198822: amdgpu_vm_set_ptes: pe=ffffcedfde849b00, addr=01eb8ca000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198822: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b780 end:0x07f7c5b800, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198823: amdgpu_vm_set_ptes: pe=ffffcedfde849c00, addr=01eb8ea000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198823: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5b800 end:0x07f7c5ba00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39416.198823: amdgpu_vm_set_ptes: pe=ffffcedfde8b36e0, addr=01eb96a000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198823: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ba00 end:0x07f7c5ba80, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198824: amdgpu_vm_set_ptes: pe=ffffcedfde847000, addr=01ebb6a000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198824: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ba80 end:0x07f7c5ba90, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198824: amdgpu_vm_set_ptes: pe=ffffcedfde847400, addr=01ebbea000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198824: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ba90 end:0x07f7c5ba94, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198824: amdgpu_vm_set_ptes: pe=ffffcedfde847480, addr=01ebbfa000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198825: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ba94 end:0x07f7c5ba96, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198825: amdgpu_vm_set_ptes: pe=ffffcedfde8474a0, addr=01ebbfe000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198825: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ba96 end:0x07f7c5ba98, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198825: amdgpu_vm_set_ptes: pe=ffffcedfde8474b0, addr=01e3800000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198826: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5ba98 end:0x07f7c5baa0, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198826: amdgpu_vm_set_ptes: pe=ffffcedfde8474c0, addr=01e3802000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198826: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5baa0 end:0x07f7c5bac0, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198826: amdgpu_vm_set_ptes: pe=ffffcedfde847500, addr=01e380a000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198826: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bac0 end:0x07f7c5bb00, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198826: amdgpu_vm_set_ptes: pe=ffffcedfde847600, addr=01e382a000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198827: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bb00 end:0x07f7c5bb40, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198827: amdgpu_vm_set_ptes: pe=ffffcedfde847800, addr=01e386a000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198827: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bb40 end:0x07f7c5bb60, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198827: amdgpu_vm_set_ptes: pe=ffffcedfde847a00, addr=01e38aa000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198827: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bb60 end:0x07f7c5bb70, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198828: amdgpu_vm_set_ptes: pe=ffffcedfde847b00, addr=01e38ca000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198828: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bb70 end:0x07f7c5bb74, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.198828: amdgpu_vm_set_ptes: pe=ffffcedfde847b80, addr=01e38da000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198851: amdgpu_vm_set_ptes: pe=ffffcedfde8b36a8, addr=046872c000, incr=0, flags=1, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198851: amdgpu_vm_set_ptes: pe=ffffcedfde8b3698, addr=046872d000, incr=0, flags=1, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198851: amdgpu_vm_set_ptes: pe=ffffcedfde8b3688, addr=046e803000, incr=0, flags=1, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.198852: amdgpu_vm_set_ptes: pe=ffffcedfde8b3678, addr=046e821000, incr=0, flags=1, count=1, immediate=0
+          <idle>-0       [009] d.h1. 39416.199148: amdgpu_iv: ih:0 client_id:20 src_id:181 ring:52 vmid:8 timestamp: 3944623526497 pasid:206 src_data: 00000000 00000000 00000000 00000000
+ test-backend-op-43587   [007] ..... 39416.199202: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bb74 end:0x07f7c5bb78, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199202: amdgpu_vm_set_ptes: pe=ffffcedfde847ba0, addr=01e38de000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199202: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bb78 end:0x07f7c5bb80, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199202: amdgpu_vm_set_ptes: pe=ffffcedfde847bc0, addr=01e38e2000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199202: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bb80 end:0x07f7c5bc00, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199203: amdgpu_vm_set_ptes: pe=ffffcedfde847c00, addr=01e38ea000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199203: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bc00 end:0x07f7c5be00, flags:0x4e7, incr:2097152, dst:
+ test-backend-op-43587   [007] ..... 39416.199203: amdgpu_vm_set_ptes: pe=ffffcedfde8b36f0, addr=01e396a000, incr=2097152, flags=400000000004e7, count=1, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199204: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5be00 end:0x07f7c5be80, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199204: amdgpu_vm_set_ptes: pe=ffffcedfde853000, addr=01e3b6a000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199204: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5be80 end:0x07f7c5be90, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199205: amdgpu_vm_set_ptes: pe=ffffcedfde853400, addr=01e3bea000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199205: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5be90 end:0x07f7c5be94, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199205: amdgpu_vm_set_ptes: pe=ffffcedfde853480, addr=01e3bfa000, incr=4096, flags=167, count=4, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199205: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5be94 end:0x07f7c5be96, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199205: amdgpu_vm_set_ptes: pe=ffffcedfde8534a0, addr=01e3bfe000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199206: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5be96 end:0x07f7c5be98, flags:0xe7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199206: amdgpu_vm_set_ptes: pe=ffffcedfde8534b0, addr=0119000000, incr=4096, flags=e7, count=2, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199207: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5be98 end:0x07f7c5bea0, flags:0x1e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199207: amdgpu_vm_set_ptes: pe=ffffcedfde8534c0, addr=0119002000, incr=4096, flags=1e7, count=8, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199207: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bea0 end:0x07f7c5bec0, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199207: amdgpu_vm_set_ptes: pe=ffffcedfde853500, addr=011900a000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199207: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bec0 end:0x07f7c5bf00, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199208: amdgpu_vm_set_ptes: pe=ffffcedfde853600, addr=011902a000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199208: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5bf00 end:0x07f7c5c000, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199208: amdgpu_vm_set_ptes: pe=ffffcedfde853800, addr=011906a000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199209: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5c000 end:0x07f7c5c100, flags:0x467, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199209: amdgpu_vm_set_ptes: pe=ffffcedfde851000, addr=011916a000, incr=4096, flags=467, count=256, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199210: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5c100 end:0x07f7c5c180, flags:0x3e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199210: amdgpu_vm_set_ptes: pe=ffffcedfde851800, addr=011926a000, incr=4096, flags=3e7, count=128, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199210: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5c180 end:0x07f7c5c1c0, flags:0x367, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199211: amdgpu_vm_set_ptes: pe=ffffcedfde851c00, addr=01192ea000, incr=4096, flags=367, count=64, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199211: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5c1c0 end:0x07f7c5c1e0, flags:0x2e7, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199211: amdgpu_vm_set_ptes: pe=ffffcedfde851e00, addr=011932a000, incr=4096, flags=2e7, count=32, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199211: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5c1e0 end:0x07f7c5c1f0, flags:0x267, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199211: amdgpu_vm_set_ptes: pe=ffffcedfde851f00, addr=011934a000, incr=4096, flags=267, count=16, immediate=0
+ test-backend-op-43587   [007] ..... 39416.199211: amdgpu_vm_update_ptes: pid:43587 vm_ctx:0x5e5 start:0x07f7c5c1f0 end:0x07f7c5c1f4, flags:0x167, incr:4096, dst:
+ test-backend-op-43587   [007] ..... 39416.199212: amdgpu_vm_set_ptes: pe=ffffcedfde851f80, addr=011935a000, incr=4096, flags=167, count=4, immediate=0
+          <idle>-0       [009] d.h1. 39416.199247: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623536787 pasid:206 src_data: f7c5bc05 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199284: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623536819 pasid:206 src_data: f7c5bc03 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199296: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623536855 pasid:206 src_data: f7c5bc07 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199302: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623536887 pasid:206 src_data: f7c5bc01 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199308: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623536919 pasid:206 src_data: f7c5bc00 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199313: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623536955 pasid:206 src_data: f7c5bc04 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199319: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623536987 pasid:206 src_data: f7c5bc04 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199325: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537019 pasid:206 src_data: f7c5bc04 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199330: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537055 pasid:206 src_data: f7c5bc05 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199336: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537087 pasid:206 src_data: f7c5bc06 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199341: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537119 pasid:206 src_data: f7c5bc00 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199343: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537155 pasid:206 src_data: f7c5bc02 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199346: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537187 pasid:206 src_data: f7c5bc02 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199348: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537223 pasid:206 src_data: f7c5bc11 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199350: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537255 pasid:206 src_data: f7c5bc00 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199352: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537287 pasid:206 src_data: f7c5bc05 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199354: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537323 pasid:206 src_data: f7c5bc02 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199356: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537355 pasid:206 src_data: f7c5bc07 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199358: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537391 pasid:206 src_data: f7c5bc0e 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199360: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537423 pasid:206 src_data: f7c5bc0e 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199363: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537455 pasid:206 src_data: f7c5bc0f 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199365: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537491 pasid:206 src_data: f7c5bc0e 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199367: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537523 pasid:206 src_data: f7c5bc0f 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199369: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537555 pasid:206 src_data: f7c5bc09 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199371: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537591 pasid:206 src_data: f7c5bc0a 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199373: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537623 pasid:206 src_data: f7c5bc0b 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199375: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537659 pasid:206 src_data: f7c5bc0c 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199377: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537691 pasid:206 src_data: f7c5bc0c 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199379: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537723 pasid:206 src_data: f7c5bc0a 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199382: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537759 pasid:206 src_data: f7c5bc08 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199384: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537791 pasid:206 src_data: f7c5bc0f 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199386: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537823 pasid:206 src_data: f7c5bc0a 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199388: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537859 pasid:206 src_data: f7c5bc09 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199390: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537891 pasid:206 src_data: f7c5bc0c 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199392: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537927 pasid:206 src_data: f7c5bc0d 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199395: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537959 pasid:206 src_data: f7c5bc0d 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199397: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623537991 pasid:206 src_data: f7c5bc10 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199399: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538027 pasid:206 src_data: f7c5bc03 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199401: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538059 pasid:206 src_data: f7c5bc07 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199403: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538091 pasid:206 src_data: f7c5bc06 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199405: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538127 pasid:206 src_data: f7c5bc13 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199408: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538159 pasid:206 src_data: f7c5bc12 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199410: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538191 pasid:206 src_data: f7c5bc03 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199412: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538227 pasid:206 src_data: f7c5bc09 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199414: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538259 pasid:206 src_data: f7c5bc11 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199416: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538295 pasid:206 src_data: f7c5bc01 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199418: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538327 pasid:206 src_data: f7c5bc11 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199420: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538359 pasid:206 src_data: f7c5bc0b 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199422: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538395 pasid:206 src_data: f7c5bc10 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199425: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538427 pasid:206 src_data: f7c5bc12 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199427: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538459 pasid:206 src_data: f7c5bc13 00000047 00000000 00000000
+          <idle>-0       [009] dNh1. 39416.199429: amdgpu_iv: ih:0 client_id:27 src_id:0 ring:24 vmid:8 timestamp: 3944623538495 pasid:206 src_data: f7c5bc08 00000047 00000000 00000000

@@ -1,0 +1,25 @@
+BC250PATH Vcur-0 -> cublas (src0=f16 src1=f32 ne11=512)
+BC250CONV Vcur-0 converted src1 2097152 elems, nonzero_bytes=4133397/4194304
+STATS Vcur-0 MUL_MAT n=524288 sum=151.01724 sumsq=398.9972 maxabs=0.4934082
+STATS Vcur-0 RESHAPE n=524288 sum=151.01724 sumsq=398.9972 maxabs=0.4934082
+STATS Vcur-0 (view) VIEW n=524288 sum=151.01724 sumsq=398.9972 maxabs=0.4934082
+BC250PATH Vcur-0 -> cublas (src0=f16 src1=f32 ne11=512)
+BC250CONV Vcur-0 converted src1 2097152 elems, nonzero_bytes=4138403/4194304
+STATS Vcur-0 MUL_MAT n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 RESHAPE n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 (view) VIEW n=524288 sum=0 sumsq=0 maxabs=0
+BC250PATH Vcur-0 -> cublas (src0=f16 src1=f32 ne11=512)
+BC250CONV Vcur-0 converted src1 2097152 elems, nonzero_bytes=4138728/4194304
+STATS Vcur-0 MUL_MAT n=524288 sum=108.20404 sumsq=399.62802 maxabs=0.4934082
+STATS Vcur-0 RESHAPE n=524288 sum=108.20404 sumsq=399.62802 maxabs=0.4934082
+STATS Vcur-0 (view) VIEW n=524288 sum=108.20404 sumsq=399.62802 maxabs=0.4934082
+BC250PATH Vcur-0 -> cublas (src0=f16 src1=f32 ne11=512)
+BC250CONV Vcur-0 converted src1 2097152 elems, nonzero_bytes=4142836/4194304
+STATS Vcur-0 MUL_MAT n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 RESHAPE n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 (view) VIEW n=524288 sum=0 sumsq=0 maxabs=0
+BC250PATH Vcur-0 -> cublas (src0=f16 src1=f32 ne11=52)
+BC250CONV Vcur-0 converted src1 212992 elems, nonzero_bytes=420334/425984
+STATS Vcur-0 MUL_MAT n=53248 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 RESHAPE n=53248 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 (view) VIEW n=53248 sum=0 sumsq=0 maxabs=0

@@ -1,0 +1,11 @@
+[08:59:53] === run with fp16 compute and rocBLAS solution logging
+[09:00:37]   ppl: 9.5672
+[09:00:37]   log size: 82383 bytes
+[09:00:37] === the same with f32 compute, as the reference dispatch pattern
+[09:01:24]   ppl: 9.0975
+[09:01:25] === what the fp16 run dispatched
+[09:01:25]   distinct rocblas functions called: 0
+[09:01:25]   gemm_ex calls total: 289
+[09:01:25]   distinct solution indices seen: 0
+[09:01:25] === dmesg faults: 
+[09:01:25] done

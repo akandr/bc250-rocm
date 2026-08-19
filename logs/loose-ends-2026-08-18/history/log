@@ -1,0 +1,13 @@
+[00:37:07] === A: clean board, nothing large has run this boot
+[00:41:57]   A_clean_1: rate=18.00 free_before=14607MiB
+[00:46:30]   A_clean_2: rate=18.51 free_before=14582MiB
+[00:46:30] === B: immediately after loading and running a 10.7 GiB MoE
+[00:47:34]   (MoE run: tg8 |         20.35)
+[00:52:04]   B_after_moe_1: rate=17.88 free_before=14516MiB
+[00:56:34]   B_after_moe_2: rate=18.78 free_before=14507MiB
+[00:56:34] === C: after dropping caches and compacting memory
+[01:01:11]   C_after_drop_1: rate=19.23 free_before=14600MiB
+[01:05:54]   C_after_drop_2: rate=18.26 free_before=14506MiB
+[01:05:54] === summary
+  min=17.88 max=19.23 spread=8%
+[01:05:54] done

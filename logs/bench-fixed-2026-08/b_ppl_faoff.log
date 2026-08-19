@@ -1,0 +1,48 @@
+0.07.878.562 W DEPRECATED: --mmap and --no-mmap are deprecated. use --load-mode mmap instead
+0.08.740.811 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.09.223.286 I 
+0.09.223.388 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | ROCm : NO_VMM = 1 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.09.223.404 I perplexity: tokenizing the input ..
+0.09.952.994 I perplexity: tokenization took 729.58 ms
+0.09.953.313 I perplexity: calculating perplexity over 8 chunks, n_ctx=4096, batch_size=2048, n_seq=1
+0.09.977.316 E ROCm error: CUBLAS_STATUS_INTERNAL_ERROR
+0.09.977.324 E   current device: 0, in function ggml_cuda_mul_mat_cublas_impl at /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:1626
+0.09.977.329 E   hipblasGemmBatchedEx(ctx.cublas_handle(), HIPBLAS_OP_T, HIPBLAS_OP_N, ne01, ne11, ne10, alpha, (const void **) (ptrs_src.get() + 0*ne23), cu_data_type_a, s01, (const void **) (ptrs_src.get() + 1*ne23), cu_data_type_b, s11, beta, ( void **) (ptrs_dst.get() + 0*ne23), cu_data_type, ne0, ne23, cu_compute_type, HIPBLAS_GEMM_DEFAULT)
+/home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:106: ROCm error
+⚠️ warning: The current terminal doesn't support styling.  Styled output might not appear as expected.
+[New LWP 2338]
+[New LWP 2336]
+[New LWP 2335]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+0x00007f7427f929a2 in __syscall_cancel_arch () from /lib64/libc.so.6
+#0  0x00007f7427f929a2 in __syscall_cancel_arch () from /lib64/libc.so.6
+#1  0x00007f7427f86c3c in __internal_syscall_cancel () from /lib64/libc.so.6
+#2  0x00007f7427f86c84 in __syscall_cancel () from /lib64/libc.so.6
+#3  0x00007f7427ff6b8f in wait4 () from /lib64/libc.so.6
+#4  0x00007f7428537c33 in ggml_print_backtrace () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#5  0x00007f7428537d7f in ggml_abort () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#6  0x00007f74288b2eb2 in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#7  0x00007f74288c6e5e in ggml_cuda_mul_mat_cublas(ggml_backend_cuda_context&, ggml_tensor const*, ggml_tensor const*, ggml_tensor*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#8  0x00007f74288be88c in ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#9  0x00007f74288b92ac in ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#10 0x00007f7428554eff in ggml_backend_sched_graph_compute_async () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#11 0x00007f742c2478f0 in llama_context::graph_compute(ggml_cgraph*, bool) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#12 0x00007f742c24b59b in llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#13 0x00007f742c251fb8 in llama_context::decode(llama_batch const&) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#14 0x00007f742c253b8e in llama_decode () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#15 0x00007f742cb3319c in perplexity(llama_context*, common_params const&, int) () from /home/akandr/llama-master/build-hip/bin/libllama-perplexity-impl.so
+#16 0x00007f742cb3fd9d in llama_perplexity(int, char**) () from /home/akandr/llama-master/build-hip/bin/libllama-perplexity-impl.so
+#17 0x00007f7427f1b5b5 in __libc_start_call_main () from /lib64/libc.so.6
+#18 0x00007f7427f1b668 in __libc_start_main_impl () from /lib64/libc.so.6
+#19 0x00000000004003b5 in _start ()
+[Inferior 1 (process 2333) detached]
+timeout: monitowane polecenie zrobiło zrzut pamięci

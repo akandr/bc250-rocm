@@ -1,0 +1,7 @@
+# FP64 Jacobi, 2048x2048, convergence against iteration count
+iters=2000 0.19 ms/iter
+max_err vs analytic 9.515e-01
+iters=20000 0.19 ms/iter
+max_err vs analytic 8.664e-01
+iters=200000 0.19 ms/iter
+max_err vs analytic 6.485e-01

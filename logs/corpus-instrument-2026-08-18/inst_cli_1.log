@@ -1,0 +1,33 @@
+
+
+Loading model... |-\|/-\|/-\|/-\ 
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b1-7ba604f
+model      : /opt/models/qwen2.5-1.5b-q4km.gguf
+ftype      : Q4_K - Medium
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> Write a short paragraph about the sea.
+The sea is a vast and mysterious body of water that covers about 71% of the Earth's surface. It is home to a diverse array of marine life, from tiny plankton to massive whales. The sea is also a crucial part of the Earth's climate system, regulating the amount of heat that enters and
+
+[ Prompt: 337,0 t/s | Generation: 115,3 t/s ]
+
+
+Exiting...

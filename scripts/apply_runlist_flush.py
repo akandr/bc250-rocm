@@ -1,13 +1,26 @@
 #!/usr/bin/env python3
-"""Apply GabriWar's bc250_flush_by_runlist patch to the 7.1.5 tree.
+"""Apply GabriWar's bc250_flush_by_runlist patch to a kernel tree.
 
 Hand-port of GabriWar/bc250-rocm-working patches/bc250-flush-tlb-by-runlist.patch
 (their hunks use pseudo-context, not machine-applicable). Comments translated to
 English. Idempotent: skips any file already patched.
-"""
-import sys, os
 
-S = os.path.expanduser("~/k715/linux-7.1.5/drivers/gpu/drm/amd/amdkfd")
+Usage: apply_runlist_flush.py [path/to/drivers/gpu/drm/amd/amdkfd]
+
+The directory defaults to the tree this was developed against, which is almost
+certainly not yours, so pass it explicitly.
+"""
+import sys, os, re
+
+DEFAULT_S = os.path.expanduser("~/k715/linux-7.1.5/drivers/gpu/drm/amd/amdkfd")
+S = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_S
+if not os.path.isdir(S):
+    sys.exit("not a directory: %s\n"
+             "pass the amdkfd directory of the kernel tree to patch" % S)
+if not os.path.exists(os.path.join(S, "kfd_device_queue_manager.c")):
+    sys.exit("%s does not look like an amdkfd directory "
+             "(no kfd_device_queue_manager.c)" % S)
+print("patching tree: %s" % S)
 MARK = "kfd_bc250_flush_by_runlist"
 
 DQM_C_ADD = '''
@@ -107,22 +120,22 @@ patch(os.path.join(S, "kfd_device_queue_manager.h"), h_tx)
 # 3. kfd_chardev.c -- call site in kfd_ioctl_unmap_memory_from_gpu, after the
 #    flush_tlb-conditional kfd_flush_tlb (unique context: dmaunmap comment follows)
 def c_tx(s):
-    anchor = ("\t\tif (flush_tlb)\n"
-              "\t\t\tkfd_flush_tlb(peer_pdd);\n"
-              "\n"
-              "\t\t/* Remove dma mapping after tlb flush to avoid IO_PAGE_FAULT */")
-    if anchor not in s: return None
-    repl = ("\t\tif (flush_tlb)\n"
-            "\t\t\tkfd_flush_tlb(peer_pdd);\n"
-            "\n"
-            "\t\t/* BC-250: rebuild the runlist so the firmware invalidates the\n"
-            "\t\t * compute TLB (see kfd_device_queue_manager.c). Called here with\n"
-            "\t\t * p->mutex held and dqm_lock free.\n"
-            "\t\t */\n"
-            "\t\tkfd_bc250_flush_by_runlist(peer_pdd->dev);\n"
-            "\n"
-            "\t\t/* Remove dma mapping after tlb flush to avoid IO_PAGE_FAULT */")
-    return s.replace(anchor, repl, 1)
+    # kfd_flush_tlb takes one argument on 7.x and two on 6.x, so match either
+    # rather than only the tree this was written against. Anchoring on the
+    # comment that follows keeps the match unique in both cases.
+    tail = "\t\t/* Remove dma mapping after tlb flush to avoid IO_PAGE_FAULT */"
+    m = re.search(r"\t\tif \(flush_tlb\)\n\t\t\tkfd_flush_tlb\(peer_pdd[^)]*\);\n\n"
+                  + re.escape(tail), s)
+    if not m: return None
+    insert = ("\n"
+              "\t\t/* BC-250: rebuild the runlist so the firmware invalidates the\n"
+              "\t\t * compute TLB (see kfd_device_queue_manager.c). Called here with\n"
+              "\t\t * p->mutex held and dqm_lock free.\n"
+              "\t\t */\n"
+              "\t\tkfd_bc250_flush_by_runlist(peer_pdd->dev);\n")
+    matched = m.group(0)
+    repl = matched.replace("\n\n" + tail, insert + "\n" + tail, 1)
+    return s.replace(matched, repl, 1)
 patch(os.path.join(S, "kfd_chardev.c"), c_tx)
 
 print("all done")

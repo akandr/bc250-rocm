@@ -1,0 +1,5 @@
+N=1024 x1: rel_err=1.89e-06 OK
+N=2048 x1: rel_err=2.38e-06 OK
+N=4096 x1: rel_err=3.60e-06 OK
+N=4096 x50: rel_err=3.24e-06 OK
+N=8192 x1: rel_err=5.88e-06 OK

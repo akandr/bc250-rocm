@@ -1,0 +1,13 @@
+[02:23:17] === qwen2.5-1.5B Q4_K_M past the published 131072 (131072 took about 55 min before)
+[03:18:09]   q15 ctx=131072 OK after 3292s  | qwen2 1.5B Q4_K - Medium | 1.04 GiB | 1.78 B | ROCm | 99 | 1 | tg8 @ d130816 | 27.59 ± 0.00 |
+[06:57:13]   q15 ctx=262144 FAIL rc=134 after 13144s ROCm error
+[06:57:13] === qwen3-8B Q8_0, ceiling never measured
+[07:07:01]   q8b ctx=8192 OK after 588s  | qwen3 8B Q8_0 | 8.24 GiB | 8.19 B | ROCm | 99 | 1 | tg8 @ d7936 | 2.13 ± 0.00 |
+[07:11:17]   q8b ctx=16384 OK after 256s  | qwen3 8B Q8_0 | 8.24 GiB | 8.19 B | ROCm | 99 | 1 | tg8 @ d16128 | 16.58 ± 0.00 |
+[07:26:46]   q8b ctx=32768 FAIL rc=134 after 929s ROCm error
+[07:26:47] === qwen3-14B Q4_K_M, with graphs disabled (the graph limit bites at depth 12000)
+[07:29:46]   q14 ctx=8192 OK after 179s  | qwen3 14B Q4_K - Medium | 8.63 GiB | 14.77 B | ROCm | 99 | 1 | tg8 @ d7936 | 12.57 ± 0.00 |
+[07:36:22]   q14 ctx=16384 OK after 396s  | qwen3 14B Q4_K - Medium | 8.63 GiB | 14.77 B | ROCm | 99 | 1 | tg8 @ d16128 | 7.26 ± 0.00 |
+[07:37:23]   q14 ctx=32768 FAIL rc=1 after 61s failed to create context
+[07:37:23] === dmesg faults: 0
+[07:37:23] done

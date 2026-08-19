@@ -1,0 +1,15 @@
+[21:54:29] waiting for the queue to drain
+[23:30:29] === patched state (integrated forced false), the shipped configuration
+[23:30:29]   current: 1 BC-250 line(s)
+[23:30:55]   patched: 11.1910
+[23:30:55] === reverting to upstream behaviour (integrated = prop.integrated)
+[23:30:55]   now: 1 upstream line(s)
+[23:31:08]   build rc=0 errors=0
+[23:31:08] === upstream behaviour (write-up and patch header say about 167)
+[23:31:34]   upstream_1: 168.5483
+[23:31:59]   upstream_2: 168.1212
+[23:31:59] === restoring the patch
+[23:32:12]   rebuild rc=0
+[23:32:38]   restored: 11.1910
+[23:32:38] === dmesg faults: 
+[23:32:38] done

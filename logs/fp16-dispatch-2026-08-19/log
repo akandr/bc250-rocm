@@ -1,0 +1,14 @@
+[09:03:39] === does rocBLAS logging suppress the defect? alternated, four runs per arm
+[09:04:26]   nolog_r1a: 18.1127
+[09:05:10]   log_r1a: 12.3296
+[09:05:52]   log_r1b: 17.3015
+[09:06:35]   nolog_r1b: 19.3402
+[09:07:16]   nolog_r2a: 19.3402
+[09:07:59]   log_r2a: 17.0125
+[09:08:42]   log_r2b: 20.2471
+[09:09:25]   nolog_r2b: 18.2958
+[09:09:25] === what alpha and beta does llama.cpp actually pass on the fp16 path?
+[09:09:56]   distinct alpha/beta pairs seen: alpha=-0.0075111389 beta=0 
+[09:09:56]   BC250ALPHA lines: 144
+[09:09:56] === dmesg faults: 
+[09:09:56] done

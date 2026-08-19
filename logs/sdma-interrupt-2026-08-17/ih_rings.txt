@@ -1,0 +1,3 @@
+sie 17 23:22:49 bc250 kernel: amdgpu 0000:01:00.0: amdgpu: BC-250 ih ring0: base=0x00006090 cntl=0x403301a1 rptr=0x00000000 wptr=0x00000000
+sie 17 23:22:49 bc250 kernel: amdgpu 0000:01:00.0: amdgpu: BC-250 ih ring1: base=0x00000000 cntl=0x00000000 rptr=0x00000000 wptr=0x00000000
+sie 17 23:22:49 bc250 kernel: amdgpu 0000:01:00.0: amdgpu: BC-250 ih ring2: base=0x00000000 cntl=0x00000000

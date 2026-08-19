@@ -2,10 +2,13 @@
 # Build amdgpu.ko with flush_pasid_uses_kiq=false for gfx1013 (ROCm#6313 patch)
 # via the Duggan module-only pipeline. Runs ON THE BOARD.
 set -euo pipefail
-SRC=/usr/src/linux-6.18.9
+# Kernel source tree and target kernel. Defaults suit the 6.18-era work this
+# script was written for; pass others for the current configuration, e.g.
+#   SRC=~/k715/linux-7.1.5 KREL=7.1.5-100.fc43.x86_64 ./build_patched_amdgpu.sh
+SRC=${SRC:-/usr/src/linux-6.18.9}
 AMDDIR=$SRC/drivers/gpu/drm/amd
 GMC=$AMDDIR/amdgpu/gmc_v10_0.c
-KREL=$(uname -r)
+KREL=${KREL:-$(uname -r)}
 INST=/lib/modules/$KREL/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko.xz
 
 echo "=== pre-checks"
@@ -40,4 +43,21 @@ fi
 sudo sh -c "xz -c -f --check=crc32 --lzma2=preset=6,dict=1MiB $MOD > $INST"
 sudo depmod $KREL
 xz -t $INST && echo "module xz integrity OK (crc32)" || { echo "XZ INTEGRITY FAIL"; exit 1; }
-echo "=== done; reboot to activate. Restore: cp $INST.prepasidfix-backup $INST && depmod && reboot"
+
+# The running module comes from the INITRAMFS, not from /lib/modules. Skipping
+# this step is the single most repeated mistake in this project: the board
+# boots the previous module and every measurement afterwards describes the
+# wrong build.
+echo "=== rebuilding initramfs for $KREL (required, not optional)"
+sudo dracut -f --kver "$KREL" || { echo "DRACUT FAILED - do not trust a reboot"; exit 1; }
+
+cat <<NOTE
+=== done. Reboot into $KREL to activate.
+
+Verify after booting, before trusting any measurement:
+  uname -r                                          # expect $KREL
+  cat /sys/module/amdgpu/parameters/bc250_flush_pasid_kiq   # exists only in the patched module
+  grep -o 'simd_count [0-9]*' /sys/class/kfd/kfd/topology/nodes/1/properties
+
+Restore: cp $INST.prepasidfix-backup $INST && sudo depmod $KREL && sudo dracut -f --kver $KREL
+NOTE

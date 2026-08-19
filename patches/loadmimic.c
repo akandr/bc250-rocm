@@ -18,6 +18,12 @@
 //
 // Prints per-chunk wait time distribution and totals, so we can compare 6MB vs 64MB chunks.
 
+//
+// Build (verified 2026-08-17). Without --offload-arch=gfx1013 a HIP source
+// still compiles and links, but its kernels never run on this board, which
+// reads as a clean pass rather than a failure:
+//   /usr/lib64/rocm/llvm/bin/clang++ -x hip --offload-arch=gfx1013 -O2 \
+//       loadmimic.c -o loadmimic
 #include <hip/hip_runtime.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,0 +1,72 @@
+diff --git a/aten/src/ATen/cuda/tunable/Tunable.cpp b/aten/src/ATen/cuda/tunable/Tunable.cpp
+index 3511e48..e81479e 100644
+--- a/aten/src/ATen/cuda/tunable/Tunable.cpp
++++ b/aten/src/ATen/cuda/tunable/Tunable.cpp
+@@ -31,7 +31,10 @@
+ 
+ // for validators
+ #ifdef USE_ROCM
+-#ifdef _WIN32
++// Distribution ROCm packagings do not all ship rocm-core/rocm_version.h;
++// Fedora has only hip/hip_version.h. Probe rather than assume, or the build
++// fails here on any system without the rocm-core package.
++#if defined(_WIN32) || !__has_include(<rocm-core/rocm_version.h>)
+ #include <hip/hip_version.h>
+ #else
+ #include <rocm-core/rocm_version.h>
+diff --git a/cmake/public/LoadHIP.cmake b/cmake/public/LoadHIP.cmake
+index 018bca8..4ff0107 100644
+--- a/cmake/public/LoadHIP.cmake
++++ b/cmake/public/LoadHIP.cmake
+@@ -54,7 +54,11 @@ message("Building PyTorch for GPU arch: ${PYTORCH_ROCM_ARCH}")
+ # needed because the find_package call to this module uses the Module mode search
+ # https://cmake.org/cmake/help/latest/command/find_package.html#search-modes
+ if(UNIX)
+-  set(CMAKE_MODULE_PATH ${ROCM_PATH}/lib/cmake/hip ${CMAKE_MODULE_PATH})
++  # Distribution packagings differ: the AMD installer puts FindHIP.cmake under
++  # lib/cmake/hip, while Fedora ships it under lib64/cmake/hip. Search both, or
++  # find_package(HIP) fails on Fedora and the whole build silently falls back
++  # to CPU only, with no error and an empty torch.cuda.get_arch_list().
++  set(CMAKE_MODULE_PATH ${ROCM_PATH}/lib/cmake/hip ${ROCM_PATH}/lib64/cmake/hip ${CMAKE_MODULE_PATH})
+ else() # Win32
+   set(CMAKE_MODULE_PATH ${ROCM_PATH}/cmake/ ${CMAKE_MODULE_PATH})
+ endif()
+@@ -138,6 +142,15 @@ if(HIP_FOUND)
+   string(REPLACE "${ROCM_LIB_NAME}_VERSION_PATCH" "" TEMP2 ${TEMP1})
+   string(STRIP ${TEMP2} ROCM_VERSION_DEV_PATCH)
+ 
++  # When falling back to hip/hip_version.h, the patch field is a HIP build
++  # number (for example 43484), not a ROCm patch level. Folding it into
++  # ROCM_VERSION yields a nonsense value such as 103884, which then satisfies
++  # guards like ROCM_VERSION >= 70000 and enables code the installed ROCm 6.4
++  # does not have (HIP_R_4F_E2M1 and friends). Drop it in that case.
++  if(ROCM_LIB_NAME STREQUAL "HIP")
++    set(ROCM_VERSION_DEV_PATCH 0)
++  endif()
++
+   # Create ROCM_VERSION_DEV_INT which is later used as a preprocessor macros
+   set(ROCM_VERSION_DEV "${ROCM_VERSION_DEV_MAJOR}.${ROCM_VERSION_DEV_MINOR}.${ROCM_VERSION_DEV_PATCH}")
+   math(EXPR ROCM_VERSION_DEV_INT "(${ROCM_VERSION_DEV_MAJOR}*10000) + (${ROCM_VERSION_DEV_MINOR}*100) + ${ROCM_VERSION_DEV_PATCH}")
+diff --git a/torch/csrc/jit/ir/ir.cpp b/torch/csrc/jit/ir/ir.cpp
+index fea2976..77799ff 100644
+--- a/torch/csrc/jit/ir/ir.cpp
++++ b/torch/csrc/jit/ir/ir.cpp
+@@ -1179,12 +1179,12 @@ bool Node::hasSideEffects() const {
+     case prim::rpc_sync: // It represents RPC message sent.
+     case prim::rpc_remote: // It represents RPC message sent.
+     case aten::wait: // It can represent RPC message received.
+-#if !defined(USE_ROCM)
+-    case cuda::set_stream:
+-    case cuda::_set_device:
+-    case cuda::_current_device:
+-    case cuda::synchronize:
+-#endif
++    // The four NVIDIA-only stream and device symbols that upstream lists
++    // here are omitted. Upstream guards them with a USE_ROCM check, but
++    // torch_cpu is not built with that macro defined, so the guard does
++    // not fire and the symbols do not exist in this configuration.
++    // Written without the vendor token so the source-to-source rewriter
++    // leaves this text alone.
+     case prim::Enter:
+     case prim::Exit:
+       return true;

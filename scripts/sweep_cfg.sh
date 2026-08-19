@@ -54,7 +54,10 @@ run_one() { # run_one nblocks inner tag
   cool
   local m=$(dmesg_mark)
   echo "--- RUN $tag nblocks=$nb inner=$inner temp=$(temp)C $(date -Is)"
-  HSA_ENABLE_SDMA=0 timeout -k 10 240 ~/compute_probe_fresh "$nb" "$inner" 1
+  # compute_probe_fresh was a variant that re-created its context per run; the
+  # shipped patches/compute_probe.c does the same work and is the one this
+  # repository documents.
+  HSA_ENABLE_SDMA=0 timeout -k 10 240 ~/compute_probe "$nb" "$inner" 1
   local rc=$?
   echo "--- RC=$rc (124=timeout/hang)"
   dmesg_delta "$m" > "$D/dmesg_$tag.log"

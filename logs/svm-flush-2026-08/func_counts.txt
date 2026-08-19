@@ -1,0 +1,33 @@
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  svm_range_validate_and_map              14    2628.497 us     187.749 us      41186.35 us 
+  kfd_ioctl_map_memory_to_gpu             12    331.993 us      27.666 us       1378.773 us 
+  svm_range_unmap_from_gpus                7    206.755 us      29.536 us       2.328 us    
+  kfd_bc250_flush_by_runlist              14    78.642 us       5.617 us        68.880 us   
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  svm_range_validate_and_map              23    15084.84 us     655.863 us      1023325 us  
+  kfd_ioctl_map_memory_to_gpu             50    1196.640 us     23.932 us       231.393 us  
+  kfd_bc250_flush_by_runlist              53    611.124 us      11.530 us       18.769 us   
+  svm_range_unmap_from_gpus                7    108.475 us      15.496 us       97.601 us   
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  svm_range_validate_and_map               6    1075.979 us     179.329 us      42720.97 us 
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
+  Function                               Hit    Time            Avg             s^2
+  --------                               ---    ----            ---             ---
