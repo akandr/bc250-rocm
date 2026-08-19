@@ -1,0 +1,15 @@
+STATS Vcur-0 MUL_MAT n=524288 sum=151.01724 sumsq=398.9972 maxabs=0.4934082
+STATS Vcur-0 RESHAPE n=524288 sum=151.01724 sumsq=398.9972 maxabs=0.4934082
+STATS Vcur-0 (view) VIEW n=524288 sum=151.01724 sumsq=398.9972 maxabs=0.4934082
+STATS Vcur-0 MUL_MAT n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 RESHAPE n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 (view) VIEW n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 MUL_MAT n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 RESHAPE n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 (view) VIEW n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 MUL_MAT n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 RESHAPE n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 (view) VIEW n=524288 sum=0 sumsq=0 maxabs=0
+STATS Vcur-0 MUL_MAT n=53248 sum=-0.35556316 sumsq=39.826853 maxabs=0.29589844
+STATS Vcur-0 RESHAPE n=53248 sum=-0.35556316 sumsq=39.826853 maxabs=0.29589844
+STATS Vcur-0 (view) VIEW n=53248 sum=-0.35556316 sumsq=39.826853 maxabs=0.29589844

@@ -1,0 +1,13 @@
+SDMA=1
+watchdog 20 s per case, each in its own process
+
+  pageable H2D 16384 (known good)                completes
+  pageable H2D 16385 (known bad)                 HANGS
+  pinned   H2D 16385                             HANGS
+  pinned   H2D 1 MiB                             HANGS
+  device to device 16385                         completes
+  device to device 1 MiB                         completes
+  async on a stream, pageable H2D 16385          HANGS
+  hipMemset 16385                                completes
+  hipMemset 1 MiB                                completes
+  pageable D2H 16385                             HANGS

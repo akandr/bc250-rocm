@@ -1,0 +1,12 @@
+N=512 iters=10 start
+iter   0 sync=0    6.8ms OK g0=6125/6125 nwrong=0
+iter   1 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+iter   2 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+iter   3 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+iter   4 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+iter   5 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+iter   6 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+iter   7 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+iter   8 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+iter   9 sync=0    0.2ms OK g0=6125/6125 nwrong=0
+DONE iters=10 nwrong=0

@@ -1,0 +1,81 @@
+           PID: 382842 (llama-bench)
+           UID: 1000 (akandr)
+           GID: 1000 (akandr)
+        Signal: 7 (BUS)
+     Timestamp: Tue 2026-08-18 17:32:37 CEST (10min ago)
+  Command Line: /home/akandr/llama-master/build-hip/bin/llama-bench -m /opt/models/qwen3-8b-q8_0.gguf -ngl 99 -fa 1 -p 0 -n 8 -d 16128 -r 1
+    Executable: /home/akandr/llama-master/build-hip/bin/llama-bench
+ Control Group: /user.slice/user-1000.slice/session-3385.scope
+          Unit: session-3385.scope
+         Slice: user-1000.slice
+       Session: 3385
+     Owner UID: 1000 (akandr)
+       Boot ID: 4d35d064ef50452f9cf6ac3f0164b2a1
+    Machine ID: 9bca8abff4f34d0c918a839fbf659b1d
+      Hostname: bc250
+       Storage: /var/lib/systemd/coredump/core.llama-bench.1000.4d35d064ef50452f9cf6ac3f0164b2a1.382842.1787067157000000.zst (present)
+  Size on Disk: 52.5M
+       Message: Process 382842 (llama-bench) of user 1000 dumped core.
+                
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module libzstd.so.1 from rpm zstd-1.5.7-2.fc43.x86_64
+                Module libdrm.so.2 from rpm libdrm-2.4.131-1.fc43.x86_64
+                Module libelf.so.1 from rpm elfutils-0.195-1.fc43.x86_64
+                Module libdrm_amdgpu.so.1 from rpm libdrm-2.4.131-1.fc43.x86_64
+                Module libnuma.so.1 from rpm numactl-2.0.19-3.fc43.x86_64
+                Module libz.so.1 from rpm zlib-ng-2.3.3-2.fc43.x86_64
+                Module libcrypto.so.3 from rpm openssl-3.5.4-3.fc43.x86_64
+                Module libssl.so.3 from rpm openssl-3.5.4-3.fc43.x86_64
+                Stack trace of thread 382842:
+                #0  0x00007fadb1c3f21b _ZN4rocr3AMD8AqlQueue12StoreRelaxedEl (libhsa-runtime64.so.1 + 0x3f21b)
+                #1  0x00007fadb1c58fcc _ZN4rocr3HSA26hsa_signal_store_screleaseE12hsa_signal_sl (libhsa-runtime64.so.1 + 0x58fcc)
+                #2  0x00007fadf004d3c4 _ZN3amd3roc10VirtualGPU21dispatchBarrierPacketEtb12hsa_signal_s (libamdhip64.so.6 + 0x44d3c4)
+                #3  0x00007fadf0059d50 _ZN3amd3roc10VirtualGPU12submitMarkerERNS_6MarkerE (libamdhip64.so.6 + 0x459d50)
+                #4  0x00007fadf001fd92 _ZN3amd7Command7enqueueEv (libamdhip64.so.6 + 0x41fd92)
+                #5  0x00007fadf001f928 _ZN3amd5Event14notifyCmdQueueEb (libamdhip64.so.6 + 0x41f928)
+                #6  0x00007fadeff405e2 _ZN3hip21hipStreamQuery_commonEP12ihipStream_t (libamdhip64.so.6 + 0x3405e2)
+                #7  0x00007fadeff40e64 _ZN3hip14hipStreamQueryEP12ihipStream_t (libamdhip64.so.6 + 0x340e64)
+                #8  0x00007fadf221aeed rocblas_set_stream (librocblas.so.4 + 0xe1aeed)
+                #9  0x00007fadf3155bd4 hipblasSetStream (libhipblas.so.2 + 0x77bd4)
+                #10 0x00007fadf42c52dd _ZL24ggml_cuda_mul_mat_cublasR25ggml_backend_cuda_contextPK11ggml_tensorS3_PS1_ (libggml-hip.so.0 + 0x2c52dd)
+                #11 0x00007fadf42bfe5c _ZL36ggml_cuda_graph_evaluate_and_captureP25ggml_backend_cuda_contextP11ggml_cgraphbbPKv (libggml-hip.so.0 + 0x2bfe5c)
+                #12 0x00007fadf42ba87c _ZL31ggml_backend_cuda_graph_computeP12ggml_backendP11ggml_cgraph (libggml-hip.so.0 + 0x2ba87c)
+                #13 0x00007fadf3f54eff ggml_backend_sched_graph_compute_async (libggml-base.so.0 + 0x21eff)
+                #14 0x00007fadf7a478f0 _ZN13llama_context13graph_computeEP11ggml_cgraphb (libllama.so.0 + 0x478f0)
+                #15 0x00007fadf7a4b59b _ZN13llama_context14process_ubatchERK12llama_ubatch14llm_graph_typeP22llama_memory_context_iR11ggml_status (libllama.so.0 + 0x4b59b)
+                #16 0x00007fadf7a51fb8 _ZN13llama_context6decodeERK11llama_batch (libllama.so.0 + 0x51fb8)
+                #17 0x00007fadf7a53b8e llama_decode (libllama.so.0 + 0x53b8e)
+                #18 0x00007fadf844f8fb _ZL11test_promptP13llama_contextiii (libllama-bench-impl.so + 0x58fb)
+                #19 0x00007fadf8463214 _Z11llama_benchiPPc (libllama-bench-impl.so + 0x19214)
+                #20 0x00007fadf391b5b5 __libc_start_call_main (libc.so.6 + 0x35b5)
+                #21 0x00007fadf391b668 __libc_start_main@@GLIBC_2.34 (libc.so.6 + 0x3668)
+                #22 0x00000000004003b5 _start (/home/akandr/llama-master/build-hip/bin/llama-bench + 0x3b5)
+                
+                Stack trace of thread 382843:
+                #0  0x00007fadf3a093ad ioctl (libc.so.6 + 0xf13ad)
+                #1  0x00007fadb1d09010 hsakmt_ioctl (libhsa-runtime64.so.1 + 0x109010)
+                #2  0x00007fadb1d09831 hsaKmtWaitOnMultipleEvents_Ext.part.0 (libhsa-runtime64.so.1 + 0x109831)
+                #3  0x00007fadb1c94b87 _ZN4rocr4core7Runtime15AsyncEventsLoopEPv (libhsa-runtime64.so.1 + 0x94b87)
+                #4  0x00007fadb1c1d981 _ZN4rocr2os16ThreadTrampolineEPv (libhsa-runtime64.so.1 + 0x1d981)
+                #5  0x00007fadf398a464 start_thread (libc.so.6 + 0x72464)
+                #6  0x00007fadf3a0d5ec __clone3 (libc.so.6 + 0xf55ec)
+                
+                Stack trace of thread 382873:
+                #0  0x00007fadf3a093ad ioctl (libc.so.6 + 0xf13ad)
+                #1  0x00007fadb1d09010 hsakmt_ioctl (libhsa-runtime64.so.1 + 0x109010)
+                #2  0x00007fadb1d09831 hsaKmtWaitOnMultipleEvents_Ext.part.0 (libhsa-runtime64.so.1 + 0x109831)
+                #3  0x00007fadb1c941ea _ZN4rocr4core7Runtime15AsyncEventsLoopEPv (libhsa-runtime64.so.1 + 0x941ea)
+                #4  0x00007fadb1c1d981 _ZN4rocr2os16ThreadTrampolineEPv (libhsa-runtime64.so.1 + 0x1d981)
+                #5  0x00007fadf398a464 start_thread (libc.so.6 + 0x72464)
+                #6  0x00007fadf3a0d5ec __clone3 (libc.so.6 + 0xf55ec)
+                ELF object binary architecture: AMD x86-64

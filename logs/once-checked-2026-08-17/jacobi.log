@@ -1,0 +1,2 @@
+Jacobi FP64 2048x2048, 2000 iters: 13758.6 ms total, 6.88 ms/iter, 2.4 GFLOP/s (FP64), ~24 GB/s effective, max_err vs analytic 9.515e-01 (85849 samples)
+CHECK: err large

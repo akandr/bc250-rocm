@@ -1,0 +1,12 @@
+0.04.311.529 W DEPRECATED: --mmap and --no-mmap are deprecated. use --load-mode mmap instead
+0.05.023.108 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 99, abort
+0.05.239.679 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.26.910.481 I 
+0.26.910.686 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | ROCm : NO_VMM = 1 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.26.910.864 I perplexity: tokenizing the input ..
+0.30.739.684 I perplexity: tokenization took 3828.8 ms
+0.30.965.867 I perplexity: calculating perplexity over 1 chunks, n_ctx=16384, batch_size=2048, n_seq=1
+7.27.621.237 I perplexity: 416.62 seconds per pass - ETA 6.93 minutes
+[1]4.5489,
+7.47.511.055 I Final estimate: PPL = 4.5489 +/- 0.11664
+

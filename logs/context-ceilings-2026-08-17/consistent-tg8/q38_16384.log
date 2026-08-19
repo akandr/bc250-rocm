@@ -1,0 +1,39 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |
+/home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:109: ROCm error
+⚠️ warning: The current terminal doesn't support styling.  Styled output might not appear as expected.
+[New LWP 58143]
+[New LWP 58090]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+0x00007fe1a0d929a2 in __syscall_cancel_arch () from /lib64/libc.so.6
+#0  0x00007fe1a0d929a2 in __syscall_cancel_arch () from /lib64/libc.so.6
+#1  0x00007fe1a0d86c3c in __internal_syscall_cancel () from /lib64/libc.so.6
+#2  0x00007fe1a0d86c84 in __syscall_cancel () from /lib64/libc.so.6
+#3  0x00007fe1a0df6b8f in wait4 () from /lib64/libc.so.6
+#4  0x00007fe1a1337c33 in ggml_print_backtrace () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#5  0x00007fe1a1337d7f in ggml_abort () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#6  0x00007fe1a16b4482 in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#7  0x00007fe1a16c257f in ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#8  0x00007fe1a16ba87c in ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#9  0x00007fe1a1354eff in ggml_backend_sched_graph_compute_async () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#10 0x00007fe1a4e478f0 in llama_context::graph_compute(ggml_cgraph*, bool) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#11 0x00007fe1a4e4b59b in llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#12 0x00007fe1a4e51fb8 in llama_context::decode(llama_batch const&) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#13 0x00007fe1a4e53b8e in llama_decode () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#14 0x00007fe1a5883435 in llama_bench(int, char**) () from /home/akandr/llama-master/build-hip/bin/libllama-bench-impl.so
+#15 0x00007fe1a0d1b5b5 in __libc_start_call_main () from /lib64/libc.so.6
+#16 0x00007fe1a0d1b668 in __libc_start_main_impl () from /lib64/libc.so.6
+#17 0x00000000004003b5 in _start ()
+[Inferior 1 (process 58088) detached]
+timeout: monitowane polecenie zrobiło zrzut pamięci

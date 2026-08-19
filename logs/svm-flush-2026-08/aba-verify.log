@@ -1,0 +1,31 @@
+[07:12:28] boot: 7.1.5-100.fc43.x86_64, param=1, CU=
+[    0.000000] Command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.5-100.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root rhgb quiet ttm.pages_limit=4194304 quiet mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=1
+[    0.035243] Kernel command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.5-100.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root rhgb quiet ttm.pages_limit=4194304 quiet mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=1
+[07:12:28] === A: fix ON (param=3), TBO churn x3
+[07:12:28] param=3
+[07:22:17]   tbo on1 run 1: rc=0 fault=0
+[07:32:11]   tbo on1 run 2: rc=0 fault=0
+[07:42:05]   tbo on1 run 3: rc=0 fault=0
+[07:42:05] TBO on1: 0/3 faulted
+[07:42:05] === B: fix OFF (param=1), TBO churn x2 (expect faults)
+[07:42:05] param=1
+[07:42:19]   tbo off run 1: rc=134 fault=1
+[07:42:33]   tbo off run 2: rc=134 fault=1
+[07:42:33] TBO off: 2/2 faulted
+[07:42:33] === A2: fix ON again (param=3), TBO churn x3
+[07:42:33] param=3
+[07:52:24]   tbo on2 run 1: rc=0 fault=0
+[08:02:14]   tbo on2 run 2: rc=0 fault=0
+[08:12:03]   tbo on2 run 3: rc=0 fault=0
+[08:12:03] TBO on2: 0/3 faulted
+[08:12:03] === C: correctness + perf with fix ON
+[08:13:19] ppl (expect 8.9442): Final estimate: PPL = 8.9442 +/- 0.17287
+[08:13:41] bench: pp512 |        807.92 ± 8.06 pp2048 |        660.76 ± 0.27 tg64 |        113.68 ± 0.65 
+[08:13:41] === D: 14B load time, param=3 vs param=1 (map-side rebuild cost)
+[08:14:04]   14B load param=3 trial=1: rc=0 wall=23.13s
+[08:14:24]   14B load param=3 trial=2: rc=0 wall=19.02s
+[08:14:42]   14B load param=1 trial=1: rc=0 wall=18.16s
+[08:15:00]   14B load param=1 trial=2: rc=0 wall=17.83s
+[08:15:00] === E: gen_reuse x10 with fix ON
+[08:15:48] gen_reuse: 10/10 clean
+[08:15:48] INV28 VERIFY DONE (param left at 3)

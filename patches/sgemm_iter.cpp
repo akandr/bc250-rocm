@@ -1,3 +1,7 @@
+// Build (needs the native gfx1013 rocBLAS, see scripts/build_rocblas_gfx1013.sh):
+//   /usr/lib64/rocm/llvm/bin/clang++ -x hip --offload-arch=gfx1013 -O2 sgemm_iter.cpp \
+//       -o sgemm_iter -I<rocblas-install>/include -L<rocblas-install>/lib -lrocblas
+// Run: LD_LIBRARY_PATH=<rocblas-install>/lib ./sgemm_iter <N> <iterations>
 #include <rocblas/rocblas.h>
 #include <hip/hip_runtime.h>
 #include <vector>

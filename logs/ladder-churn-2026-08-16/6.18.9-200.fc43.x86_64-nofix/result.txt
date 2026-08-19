@@ -1,0 +1,5 @@
+rc=124
+elapsed_s=1500
+completed=0
+faults=0
+verdict=STALL

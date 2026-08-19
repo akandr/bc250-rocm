@@ -1,0 +1,48 @@
+[07:32:28] soak start, target 8h, reference ppl 8.9442
+[07:43:46] round=1 pp2048=663.61 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[07:55:07] round=2 pp2048=662.06 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[08:06:57] round=3 pp2048=661.93 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[08:18:16] round=4 pp2048=661.27 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[08:29:34] round=5 pp2048=662.36 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[08:41:22] round=6 pp2048=662.72 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=63.0 faults=0
+[08:52:53] round=7 pp2048=662.00 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[09:04:21] round=8 pp2048=662.39 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[09:16:13] round=9 pp2048=661.87 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=63.0 faults=0
+[09:27:44] round=10 pp2048=663.33 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[09:38:59] round=11 pp2048=661.78 ppl=8.9442 churn_rc=0 torch='skipped' tmax=71.0 faults=0
+[09:50:43] round=12 pp2048=662.53 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=63.0 faults=0
+[10:02:05] round=13 pp2048=662.50 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[10:13:27] round=14 pp2048=661.76 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[10:25:17] round=15 pp2048=662.30 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[10:36:36] round=16 pp2048=662.25 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[10:47:54] round=17 pp2048=662.29 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[10:59:36] round=18 pp2048=662.64 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[11:10:55] round=19 pp2048=661.79 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[11:22:23] round=20 pp2048=662.12 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[11:34:16] round=21 pp2048=662.42 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[11:45:42] round=22 pp2048=662.41 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[11:57:05] round=23 pp2048=663.08 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[12:08:48] round=24 pp2048=661.38 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=63.0 faults=0
+[12:20:19] round=25 pp2048=662.15 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[12:31:36] round=26 pp2048=662.28 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[12:43:29] round=27 pp2048=662.04 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[12:54:56] round=28 pp2048=662.37 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[13:06:21] round=29 pp2048=662.41 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[13:18:11] round=30 pp2048=662.52 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=63.0 faults=0
+[13:29:33] round=31 pp2048=663.20 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[13:40:57] round=32 pp2048=661.79 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[13:52:44] round=33 pp2048=662.57 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[14:04:14] round=34 pp2048=662.63 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[14:15:33] round=35 pp2048=662.32 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[14:27:24] round=36 pp2048=662.89 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[14:38:48] round=37 pp2048=661.95 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[14:50:10] round=38 pp2048=661.74 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[15:01:58] round=39 pp2048=661.99 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[15:13:20] round=40 pp2048=662.11 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[15:24:41] round=41 pp2048=662.44 ppl=8.9442 churn_rc=0 torch='skipped' tmax=70.0 faults=0
+[15:36:32] round=42 pp2048=662.35 ppl=8.9442 churn_rc=0 torch='last loss 0.00048' tmax=62.0 faults=0
+[15:36:32] === summary over 42 rounds
+[15:36:32]   distinct ppl values: ppl=8.9442 
+[15:36:32]   prefill range: 661.27 663.61 
+[15:36:32]   churn failures: 0
+[15:36:32] done

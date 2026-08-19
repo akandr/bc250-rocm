@@ -1,0 +1,9 @@
+[00:25:18] 8b HIP  chunks8: Final estimate: PPL = 7.3503 +/- 0.23195
+[00:26:25] 8b VK   chunks8: Final estimate: PPL = 7.3792 +/- 0.23335
+[00:30:04] q14 HIP  chunks8: Final estimate: PPL = 6.3970 +/- 0.19280
+[00:32:14] q14 VK   chunks8: Final estimate: PPL = 6.4548 +/- 0.19533
+[00:35:56] ds14 HIP  chunks8: Final estimate: PPL = 6.0013 +/- 0.17277
+[00:38:04] ds14 VK   chunks8: Final estimate: PPL = 6.0416 +/- 0.17465
+[00:39:39] moe HIP  chunks8: Final estimate: PPL = 5.1887 +/- 0.13383
+[00:40:39] moe VK   chunks8: Final estimate: PPL = 5.2041 +/- 0.13431
+[00:40:39] STRONG GATES DONE

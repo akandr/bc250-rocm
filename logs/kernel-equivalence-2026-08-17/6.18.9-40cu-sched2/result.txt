@@ -1,0 +1,4 @@
+probe_4096 rc=124 NORESULT
+probe_16384 rc=124 NORESULT
+probe_32768 rc=124 NORESULT
+sgemm_256 rc=124 NODONE wrong=0

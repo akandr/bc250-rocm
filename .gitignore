@@ -1,6 +1,5 @@
-*.o
-*.ko
-*.log
-!logs/
-!logs/**
+__pycache__/
+*.pyc
 .DS_Store
+texput.log
+*.aux

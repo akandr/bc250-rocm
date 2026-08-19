@@ -1,6 +1,9 @@
 #!/bin/bash
 # Solid decode statistics: N fresh-process decode attempts in one boot, classify each.
 # Assumes fast loads (fence patch). Writes per-run verdict + running tally to ~/decode_stats.txt
+# HISTORICAL note: the slow and flaky loads this script was written around were later
+# traced to the allocation-reuse defect, not to fencing, and are fixed by the runlist
+# flush. The fence patch it mentions was a dead end.
 N="${1:-25}"
 export LD_LIBRARY_PATH=$HOME/llama.cpp/build-hip/bin:$LD_LIBRARY_PATH
 u=$(cut -d. -f1 /proc/uptime); [ $u -lt 130 ] && sleep $((130-u))

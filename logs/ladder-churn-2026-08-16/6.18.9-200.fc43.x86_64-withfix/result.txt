@@ -1,0 +1,5 @@
+rc=0
+elapsed_s=590
+completed=1
+faults=0
+verdict=CLEAN

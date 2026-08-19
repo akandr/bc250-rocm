@@ -1,0 +1,11 @@
+[18:32:43] === RUNG 6.19.14-200.fc43.x86_64
+[18:32:43] cmdline: amdgpu.bc250_cc_write_mode=3 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=1 
+[18:32:43] (i) CU= unlock_lines=4 flush='[    0.000000] Command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-6.19.14-200.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root rhgb quiet ttm.pages_limit=4194304 quiet mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=1'
+[18:32:43] (ii) sustained GEMM x20 N=4096 (wedge test)
+[18:32:45] (ii) rc=0 preemption_timeouts=0 last='DONE iters=20 nwrong=0'
+[18:32:45] (iii) ppl gate chunks2 ctx1024 (expect ~9.83)
+[18:32:57] (iii) rc=0 Final estimate: PPL = 8.1991 +/- 0.65879
+[18:32:57] (iv) TBO churn x1 (fault behavior, param=1 runlist v1)
+[18:47:57] (iv) rc=124 faults=0
+[18:47:57] RUNG 6.19.14-200.fc43.x86_64 DONE; arming boot back to 7.1.5
+[18:47:57] run: sudo reboot

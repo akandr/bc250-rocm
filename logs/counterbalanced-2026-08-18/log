@@ -1,0 +1,35 @@
+[21:04:46] waiting for the previous job
+[21:43:46] === PART A: graph capture on and off, ABBA order, depth 16128
+[21:48:13]   A_r1_1_graphsoff: 18.25  temp_before=61.0C clk=1000Mhz
+[21:52:45]   A_r1_2_graphson: 17.34  temp_before=69.0C clk=1000Mhz
+[21:57:17]   A_r1_3_graphson: 14.21  temp_before=69.0C clk=1000Mhz
+[22:01:51]   A_r1_4_graphsoff: 17.14  temp_before=69.0C clk=1000Mhz
+[22:06:21]   A_r2_1_graphson: 16.23  temp_before=69.0C clk=1000Mhz
+[22:10:51]   A_r2_2_graphsoff: 20.24  temp_before=70.0C clk=1000Mhz
+[22:15:20]   A_r2_3_graphsoff: 19.33  temp_before=70.0C clk=1000Mhz
+[22:19:48]   A_r2_4_graphson: 19.55  temp_before=70.0C clk=1000Mhz
+[22:24:27]   A_r3_1_graphsoff: 19.45  temp_before=70.0C clk=1000Mhz
+[22:28:57]   A_r3_2_graphson: 17.57  temp_before=70.0C clk=1000Mhz
+[22:33:29]   A_r3_3_graphson: 16.67  temp_before=71.0C clk=1000Mhz
+[22:37:58]   A_r3_4_graphsoff: 19.92  temp_before=70.0C clk=1000Mhz
+[22:37:58] === PART B: three models at depth 8192, graph capture on, model order rotated
+[22:38:28]   B_r1_q15: 88.75  temp_before=70.0C clk=1500Mhz
+[22:40:22]   B_r1_q8b: 23.28  temp_before=75.0C clk=1000Mhz
+[22:43:40]   B_r1_q14: 11.88  temp_before=70.0C clk=1000Mhz
+[22:45:37]   B_r2_q8b: 22.08  temp_before=70.0C clk=1000Mhz
+[22:48:51]   B_r2_q14: 11.33  temp_before=70.0C clk=1000Mhz
+[22:49:21]   B_r2_q15: 90.05  temp_before=70.0C clk=1500Mhz
+[22:52:44]   B_r3_q14: 11.67  temp_before=74.0C clk=1000Mhz
+[22:53:14]   B_r3_q15: 88.83  temp_before=70.0C clk=1500Mhz
+[22:55:10]   B_r3_q8b: 22.17  temp_before=73.0C clk=1000Mhz
+[22:55:40]   B_r4_q15: 88.36  temp_before=69.0C clk=1500Mhz
+[22:57:36]   B_r4_q8b: 21.18  temp_before=73.0C clk=1000Mhz
+[23:00:53]   B_r4_q14: 10.60  temp_before=69.0C clk=1000Mhz
+[23:02:50]   B_r5_q8b: 21.39  temp_before=70.0C clk=1000Mhz
+[23:06:05]   B_r5_q14: 10.60  temp_before=69.0C clk=1000Mhz
+[23:06:35]   B_r5_q15: 88.55  temp_before=69.0C clk=1500Mhz
+[23:09:43]   B_r6_q14: 12.25  temp_before=73.0C clk=1000Mhz
+[23:10:13]   B_r6_q15: 88.85  temp_before=70.0C clk=1500Mhz
+[23:12:09]   B_r6_q8b: 23.78  temp_before=73.0C clk=1000Mhz
+[23:12:09] === dmesg faults: 
+[23:12:09] done

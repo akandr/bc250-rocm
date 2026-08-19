@@ -1,0 +1,6 @@
+ggml_cuda_init: failed to initialize ROCm: no ROCm-capable device is detected
+| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |
+| qwen3 8B Q8_0                  |   8.24 GiB |     8.19 B | ROCm       |  99 |   1 |     tg8 @ d7936 |          2.13 ± 0.00 |
+
+build: 7ba604f (1)

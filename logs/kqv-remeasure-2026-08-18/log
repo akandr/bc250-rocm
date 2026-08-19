@@ -1,0 +1,19 @@
+[21:29:12] waiting for the queue to drain
+[23:27:12] === removing the KQV precision line
+[23:27:12]   set_prec(kqv lines now: 0
+[23:27:21]   build rc=0 errors=0
+[23:27:21] === patch removed, the exact configuration the figures came from
+[23:27:21]     (write-up quotes 276.29 fa-off no-variable, 11.0631 fa-off with it, 11.0521 fa-on)
+[23:27:41]   nopatch_faoff_novar: 4199.4123
+[23:28:00]   nopatch_faoff_f32: 11.0631
+[23:28:24]   nopatch_faon_f32: 11.0521
+[23:28:24] === the same three without GGML_CUDA_NO_VMM, to check that constant is inert
+[23:28:43]   nopatch_faoff_novar_novmm: 624.1276
+[23:29:02]   nopatch_faoff_f32_novmm: 11.0631
+[23:29:02] === restoring the patch
+[23:29:11]   rebuild rc=0 set_prec lines back: 1
+[23:29:30]   restored_faoff_novar: 11.0631
+[23:29:54]   restored_faon_f32: 11.0521
+[23:29:54] === vulkan reference, same configuration (write-up quotes 11.0279)
+[23:30:03]   vulkan: 11.0468
+[23:30:04] done

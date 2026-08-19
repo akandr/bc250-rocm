@@ -1,0 +1,31 @@
+Counter-patch for the prop.integrated regression on gfx1013.
+
+Upstream commit c7d8722 ("ggml-cuda: restore prop.integrated on HIP builds",
+PR #24233) makes the HIP backend trust prop.integrated. On this board that
+selects host-memory buffer paths which produce corrupted output: wikitext
+perplexity reads 168.5 and 168.1 on two runs where 11.1910 is correct, at every
+setting. Bisected in this repository, and confirmed by an A/B/A within one boot
+that rebuilds each way and returns the correct value bit-identically when the
+change is restored. An earlier revision of this header quoted the corrupted
+figure as 167 from memory; it was re-measured rather than left uncheckable. The non-HIP branch immediately below still carries upstream's own
+comment about the same class of corruption.
+
+That comment is the precedent for this change rather than an aside. Upstream
+disabled the flag for non-HIP builds because of llama.cpp issue #15034,
+"Broken/no Gemma 3n output on CUDA (Nvidia Jetson Orin Nano)", which is the same
+failure on the same kind of device: an integrated GPU where trusting the flag
+selects host-memory buffer paths and the output comes out wrong. This patch
+applies that decision to the HIP branch, where the condition was verified still
+present on llama.cpp master in August 2026.
+
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -302,7 +302,7 @@
+         info.default_tensor_split[id] = total_vram;
+         total_vram += device_vram;
+ #if defined(GGML_USE_HIP)
+-        info.devices[id].integrated = prop.integrated;
++        info.devices[id].integrated = false; // BC-250 test: integrated path corrupts output on gfx1013
+ #else
+         info.devices[id].integrated = false; // Temporarily disabled due to issues with corrupted output (e.g. #15034)
+ #endif

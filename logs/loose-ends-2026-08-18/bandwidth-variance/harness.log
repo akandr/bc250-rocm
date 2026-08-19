@@ -1,0 +1,32 @@
+[16:11:36] === GAP 1: does pass count control the defect? (fp16 compute, 8B)
+[16:12:07]   chunks=1 run 1: 11.7443
+[16:12:39]   chunks=1 run 2: 11.7443
+[16:13:20]   chunks=2 run 1: 16.6232
+[16:14:00]   chunks=2 run 2: 18.7373
+[16:15:02]   chunks=4 run 1: 20.8293
+[16:16:05]   chunks=4 run 2: 28.9338
+[16:16:05]   (f32 control at each chunk count, for the reference value)
+[16:16:34]   f32 chunks=1: 7.2672
+[16:17:14]   f32 chunks=2: 9.0975
+[16:18:16]   f32 chunks=4: 9.3047
+[16:18:16] === GAP 2: does the SDMA threshold move with GPU_STAGING_BUFFER_SIZE?
+[16:18:41]   GPU_STAGING_BUFFER_SIZE=unset -> HUNG
+[16:19:06]   GPU_STAGING_BUFFER_SIZE=4 -> HUNG
+[16:19:31]   GPU_STAGING_BUFFER_SIZE=64 -> HUNG
+[16:19:33]   GPU_STAGING_BUFFER_SIZE=1024 -> HUNG
+[16:19:33]   (control: the knob already known to move it)
+[16:19:58]   GPU_FORCE_BLIT_COPY_SIZE=512 -> HUNG
+[16:19:59]   GPU_FORCE_BLIT_COPY_SIZE=1024 -> done 1048576
+[16:19:59] === GAP 3: decode variance for a model at intermediate bandwidth utilisation (14B, ~42 percent)
+[16:26:39]   q14 d16128 run 1: 7.87
+[16:33:15]   q14 d16128 run 2: 6.32
+[16:39:51]   q14 d16128 run 3: 5.79
+[16:46:28]   q14 d16128 run 4: 6.94
+[16:53:06]   q14 d16128 run 5: 5.25
+[16:59:46]   q14 d16128 run 6: 7.03
+[17:06:31]   q14 d16128 run 7: 6.66
+[17:13:11]   q14 d16128 run 8: 7.20
+[17:19:52]   q14 d16128 run 9: 6.23
+[17:26:31]   q14 d16128 run 10: 7.30
+[17:26:31] === dmesg faults: 0
+[17:26:31] done

@@ -1,0 +1,105 @@
+[17:28:33] round=1 model=8b pp512=243.16 ppl=7.3503 (ref 7.3503) tmax=89.0
+[17:32:57] round=2 model=q14 pp512=97.91 ppl=6.3970 (ref 6.3970) tmax=89.0
+[17:35:00] round=3 model=moe pp512=290.70 ppl=5.1887 (ref 5.1887) tmax=89.0
+[17:44:46]   churn: complete=1 faults=0
+[17:46:58] round=4 model=8b pp512=242.81 ppl=7.3503 (ref 7.3503) tmax=92.0
+[17:51:27] round=5 model=q14 pp512=97.84 ppl=6.3970 (ref 6.3970) tmax=92.0
+[17:53:31] round=6 model=moe pp512=290.41 ppl=5.1887 (ref 5.1887) tmax=92.0
+[18:03:25]   churn: complete=1 faults=0
+[18:05:37] round=7 model=8b pp512=242.66 ppl=7.3503 (ref 7.3503) tmax=92.0
+[18:10:06] round=8 model=q14 pp512=97.90 ppl=6.3970 (ref 6.3970) tmax=92.0
+[18:12:11] round=9 model=moe pp512=289.93 ppl=5.1887 (ref 5.1887) tmax=92.0
+[18:21:58]   churn: complete=1 faults=0
+[18:24:10] round=10 model=8b pp512=243.07 ppl=7.3503 (ref 7.3503) tmax=92.0
+[18:28:39] round=11 model=q14 pp512=97.97 ppl=6.3970 (ref 6.3970) tmax=92.0
+[18:30:44] round=12 model=moe pp512=290.08 ppl=5.1887 (ref 5.1887) tmax=92.0
+[18:40:33]   churn: complete=1 faults=0
+[18:42:46] round=13 model=8b pp512=242.93 ppl=7.3503 (ref 7.3503) tmax=92.0
+[18:47:15] round=14 model=q14 pp512=97.85 ppl=6.3970 (ref 6.3970) tmax=92.0
+[18:49:19] round=15 model=moe pp512=290.77 ppl=5.1887 (ref 5.1887) tmax=92.0
+[18:59:11]   churn: complete=1 faults=0
+[19:01:23] round=16 model=8b pp512=243.39 ppl=7.3503 (ref 7.3503) tmax=92.0
+[19:05:52] round=17 model=q14 pp512=97.65 ppl=6.3970 (ref 6.3970) tmax=92.0
+[19:07:58] round=18 model=moe pp512=288.70 ppl=5.1887 (ref 5.1887) tmax=92.0
+[19:17:48]   churn: complete=1 faults=0
+[19:20:00] round=19 model=8b pp512=243.01 ppl=7.3503 (ref 7.3503) tmax=92.0
+[19:24:29] round=20 model=q14 pp512=97.98 ppl=6.3970 (ref 6.3970) tmax=92.0
+[19:26:33] round=21 model=moe pp512=290.24 ppl=5.1887 (ref 5.1887) tmax=92.0
+[19:36:26]   churn: complete=1 faults=0
+[19:38:37] round=22 model=8b pp512=242.97 ppl=7.3503 (ref 7.3503) tmax=92.0
+[19:43:07] round=23 model=q14 pp512=97.70 ppl=6.3970 (ref 6.3970) tmax=92.0
+[19:45:11] round=24 model=moe pp512=289.17 ppl=5.1887 (ref 5.1887) tmax=92.0
+[19:54:55]   churn: complete=1 faults=0
+[19:57:07] round=25 model=8b pp512=243.46 ppl=7.3503 (ref 7.3503) tmax=92.0
+[20:01:36] round=26 model=q14 pp512=97.84 ppl=6.3970 (ref 6.3970) tmax=92.0
+[20:03:41] round=27 model=moe pp512=290.28 ppl=5.1887 (ref 5.1887) tmax=92.0
+[20:13:30]   churn: complete=1 faults=0
+[20:15:42] round=28 model=8b pp512=240.84 ppl=7.3503 (ref 7.3503) tmax=92.0
+[20:20:11] round=29 model=q14 pp512=97.87 ppl=6.3970 (ref 6.3970) tmax=92.0
+[20:22:16] round=30 model=moe pp512=290.12 ppl=5.1887 (ref 5.1887) tmax=92.0
+[20:32:06]   churn: complete=1 faults=0
+[20:34:18] round=31 model=8b pp512=242.69 ppl=7.3503 (ref 7.3503) tmax=92.0
+[20:38:47] round=32 model=q14 pp512=97.93 ppl=6.3970 (ref 6.3970) tmax=92.0
+[20:40:54] round=33 model=moe pp512=290.42 ppl=5.1887 (ref 5.1887) tmax=92.0
+[20:50:42]   churn: complete=1 faults=0
+[20:52:54] round=34 model=8b pp512=242.90 ppl=7.3503 (ref 7.3503) tmax=92.0
+[20:57:23] round=35 model=q14 pp512=97.84 ppl=6.3970 (ref 6.3970) tmax=92.0
+[20:59:28] round=36 model=moe pp512=290.91 ppl=5.1887 (ref 5.1887) tmax=92.0
+[21:09:19]   churn: complete=1 faults=0
+[21:11:32] round=37 model=8b pp512=243.20 ppl=7.3503 (ref 7.3503) tmax=92.0
+[21:16:01] round=38 model=q14 pp512=97.90 ppl=6.3970 (ref 6.3970) tmax=92.0
+[21:18:03] round=39 model=moe pp512=288.51 ppl=5.1887 (ref 5.1887) tmax=92.0
+[21:27:45]   churn: complete=1 faults=0
+[21:29:56] round=40 model=8b pp512=242.99 ppl=7.3503 (ref 7.3503) tmax=92.0
+[21:34:26] round=41 model=q14 pp512=97.82 ppl=6.3970 (ref 6.3970) tmax=92.0
+[21:36:30] round=42 model=moe pp512=289.79 ppl=5.1887 (ref 5.1887) tmax=92.0
+[21:46:20]   churn: complete=1 faults=0
+[21:48:32] round=43 model=8b pp512=242.97 ppl=7.3503 (ref 7.3503) tmax=94.0
+[21:53:02] round=44 model=q14 pp512=97.90 ppl=6.3970 (ref 6.3970) tmax=94.0
+[21:55:05] round=45 model=moe pp512=288.56 ppl=5.1887 (ref 5.1887) tmax=94.0
+[22:04:55]   churn: complete=1 faults=0
+[22:07:08] round=46 model=8b pp512=242.18 ppl=7.3503 (ref 7.3503) tmax=94.0
+[22:11:37] round=47 model=q14 pp512=97.51 ppl=6.3970 (ref 6.3970) tmax=94.0
+[22:13:39] round=48 model=moe pp512=289.23 ppl=5.1887 (ref 5.1887) tmax=94.0
+[22:23:28]   churn: complete=1 faults=0
+[22:25:40] round=49 model=8b pp512=242.95 ppl=7.3503 (ref 7.3503) tmax=94.0
+[22:30:10] round=50 model=q14 pp512=97.88 ppl=6.3970 (ref 6.3970) tmax=94.0
+[22:32:13] round=51 model=moe pp512=287.89 ppl=5.1887 (ref 5.1887) tmax=94.0
+[22:42:00]   churn: complete=1 faults=0
+[22:44:12] round=52 model=8b pp512=242.99 ppl=7.3503 (ref 7.3503) tmax=94.0
+[22:48:41] round=53 model=q14 pp512=97.56 ppl=6.3970 (ref 6.3970) tmax=94.0
+[22:50:49] round=54 model=moe pp512=289.24 ppl=5.1887 (ref 5.1887) tmax=94.0
+[23:00:43]   churn: complete=1 faults=0
+[23:02:56] round=55 model=8b pp512=240.88 ppl=7.3503 (ref 7.3503) tmax=94.0
+[23:07:25] round=56 model=q14 pp512=97.95 ppl=6.3970 (ref 6.3970) tmax=94.0
+[23:09:30] round=57 model=moe pp512=290.15 ppl=5.1887 (ref 5.1887) tmax=94.0
+[23:19:26]   churn: complete=1 faults=0
+[23:21:38] round=58 model=8b pp512=243.12 ppl=7.3503 (ref 7.3503) tmax=94.0
+[23:26:08] round=59 model=q14 pp512=97.63 ppl=6.3970 (ref 6.3970) tmax=94.0
+[23:28:12] round=60 model=moe pp512=290.28 ppl=5.1887 (ref 5.1887) tmax=94.0
+[23:38:03]   churn: complete=1 faults=0
+[23:40:15] round=61 model=8b pp512=243.00 ppl=7.3503 (ref 7.3503) tmax=94.0
+[23:44:45] round=62 model=q14 pp512=97.95 ppl=6.3970 (ref 6.3970) tmax=94.0
+[23:46:49] round=63 model=moe pp512=289.99 ppl=5.1887 (ref 5.1887) tmax=94.0
+[23:56:39]   churn: complete=1 faults=0
+[23:58:52] round=64 model=8b pp512=243.08 ppl=7.3503 (ref 7.3503) tmax=94.0
+[00:03:21] round=65 model=q14 pp512=97.65 ppl=6.3970 (ref 6.3970) tmax=94.0
+[00:05:28] round=66 model=moe pp512=290.54 ppl=5.1887 (ref 5.1887) tmax=94.0
+[00:15:23]   churn: complete=1 faults=0
+[00:17:35] round=67 model=8b pp512=243.41 ppl=7.3503 (ref 7.3503) tmax=94.0
+[00:22:05] round=68 model=q14 pp512=97.88 ppl=6.3970 (ref 6.3970) tmax=94.0
+[00:24:11] round=69 model=moe pp512=290.83 ppl=5.1887 (ref 5.1887) tmax=94.0
+[00:34:02]   churn: complete=1 faults=0
+[00:36:14] round=70 model=8b pp512=243.44 ppl=7.3503 (ref 7.3503) tmax=94.0
+[00:40:44] round=71 model=q14 pp512=97.80 ppl=6.3970 (ref 6.3970) tmax=94.0
+[00:42:48] round=72 model=moe pp512=290.37 ppl=5.1887 (ref 5.1887) tmax=94.0
+[00:52:37]   churn: complete=1 faults=0
+[00:54:49] round=73 model=8b pp512=243.24 ppl=7.3503 (ref 7.3503) tmax=94.0
+[00:59:20] round=74 model=q14 pp512=97.94 ppl=6.3970 (ref 6.3970) tmax=94.0
+[01:01:26] round=75 model=moe pp512=290.22 ppl=5.1887 (ref 5.1887) tmax=94.0
+[01:11:21]   churn: complete=1 faults=0
+[01:13:33] round=76 model=8b pp512=243.26 ppl=7.3503 (ref 7.3503) tmax=94.0
+[01:18:02] round=77 model=q14 pp512=97.85 ppl=6.3970 (ref 6.3970) tmax=94.0
+[01:20:09] round=78 model=moe pp512=288.17 ppl=5.1887 (ref 5.1887) tmax=94.0
+[01:30:03]   churn: complete=1 faults=0
+[01:30:03] LARGE SOAK DONE after 78 model-rounds

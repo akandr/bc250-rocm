@@ -1,0 +1,10 @@
+# Fresh-boot A/B/A, judged by whether the suite printed its own pass line
+# rather than by exit status, since the harness reported exit status wrongly.
+# The first run was executed before the rest were detached, so it is absent
+# from aba-verify-freshboot.log; its own log is the source for the line below.
+#
+fresh_on_1     completed=1 faults=0
+fresh_on_2     completed=1 faults=0
+fresh_on_3     completed=1 faults=0
+fresh_off_1    completed=0 faults=1
+fresh_off_2    completed=0 faults=1

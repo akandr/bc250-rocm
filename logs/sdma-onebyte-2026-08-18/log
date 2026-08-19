@@ -1,0 +1,17 @@
+[23:29:41] waiting for the queue to drain
+[23:32:41] === below_1: 16384 bytes (expected to loop freely)
+[23:33:05]   probe: COMPLETED copies=1652160
+[23:33:05]   descriptor lines changed across four samples: 48
+[23:33:05] === above_1: 16385 bytes (expected to hang on the first copy)
+[23:33:50]   probe: 
+[23:33:50]   descriptor lines changed across four samples: 0
+[23:33:50] === above_2: 16385 bytes (expected to hang on the first copy)
+[23:34:35]   probe: 
+[23:34:35]   descriptor lines changed across four samples: 0
+[23:34:35] === below_2: 16384 bytes (expected to loop freely)
+[23:35:00]   probe: COMPLETED copies=1693568
+[23:35:00]   descriptor lines changed across four samples: 48
+[23:35:00] === control: the hanging size with SDMA disabled, which takes the blit path
+[23:35:10]   probe: COMPLETED copies=576960
+[23:35:10] === dmesg faults: 
+[23:35:10] done

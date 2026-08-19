@@ -1,0 +1,40 @@
+########## native gfx1013 build
+case                       state value or error
+h2d copy + d2h copy        OK    0.0
+matmul (library)           OK    0.000122
+matmul fp16 (library)      OK    0.0504
+addmm (library)            OK    0.00012
+randn on device            OK    (512, 512)
+elementwise add            OK    0.0
+elementwise mul            OK    0.0
+sum reduction              OK    0.0
+relu                       OK    0.0
+softmax                    OK    0.0
+zeros + fill               OK    48.0
+
+11 of 11 cases ran
+arch list: ['gfx1013']
+
+########## stock wheel, pristine
+/opt/amdgpu/share/libdrm/amdgpu.ids: No such file or directory
+case                       state value or error
+h2d copy + d2h copy        OK    0.0
+matmul (library)           OK    8.6e-05
+matmul fp16 (library)      FAIL  HIP error: invalid device function
+addmm (library)            OK    9e-05
+randn on device            FAIL  HIP error: invalid device function
+elementwise add            FAIL  HIP error: invalid device function
+elementwise mul            FAIL  HIP error: invalid device function
+sum reduction              FAIL  HIP error: invalid device function
+relu                       FAIL  HIP error: invalid device function
+softmax                    FAIL  HIP error: invalid device function
+zeros + fill               FAIL  HIP error: invalid device function
+
+3 of 11 cases ran
+arch list: ['gfx900', 'gfx906', 'gfx908', 'gfx90a', 'gfx942', 'gfx1030', 'gfx1100', 'gfx1101', 'gfx1102', 'gfx1200', 'gfx1201']
+
+########## wheel rocBLAS identity
+path: /home/akandr/torchvenv/lib/python3.14/site-packages/torch/lib/librocblas.so
+md5:  525ae625ba77ac8a831f33a7f7ba190d
+gfx targets: gfx1010 gfx1011 gfx1012 gfx1030 gfx1031 gfx1032 gfx1034 gfx1035 
+native md5: 2f3fa0222581c2e80ff3dd5871353552

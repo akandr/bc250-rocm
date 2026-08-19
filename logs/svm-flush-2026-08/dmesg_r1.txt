@@ -1,0 +1,45 @@
+[39416.339805] gmc_v10_0_process_interrupt: 42 callbacks suppressed
+[39416.339813] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339818] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339821] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc05000 from client 0x1b (UTCL2)
+[39416.339823] amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00801031
+[39416.339824] amdgpu 0000:01:00.0: 	 Faulty UTCL2 client ID: TCP (0x8)
+[39416.339825] amdgpu 0000:01:00.0: 	 MORE_FAULTS: 0x1
+[39416.339826] amdgpu 0000:01:00.0: 	 WALKER_ERROR: 0x0
+[39416.339827] amdgpu 0000:01:00.0: 	 PERMISSION_FAULTS: 0x3
+[39416.339828] amdgpu 0000:01:00.0: 	 MAPPING_ERROR: 0x0
+[39416.339829] amdgpu 0000:01:00.0: 	 RW: 0x0
+[39416.339833] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339834] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339836] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc03000 from client 0x1b (UTCL2)
+[39416.339837] amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00801031
+[39416.339838] amdgpu 0000:01:00.0: 	 Faulty UTCL2 client ID: TCP (0x8)
+[39416.339839] amdgpu 0000:01:00.0: 	 MORE_FAULTS: 0x1
+[39416.339839] amdgpu 0000:01:00.0: 	 WALKER_ERROR: 0x0
+[39416.339840] amdgpu 0000:01:00.0: 	 PERMISSION_FAULTS: 0x3
+[39416.339841] amdgpu 0000:01:00.0: 	 MAPPING_ERROR: 0x0
+[39416.339842] amdgpu 0000:01:00.0: 	 RW: 0x0
+[39416.339845] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339846] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339847] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc07000 from client 0x1b (UTCL2)
+[39416.339851] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339852] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339853] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc01000 from client 0x1b (UTCL2)
+[39416.339856] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339858] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339859] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc00000 from client 0x1b (UTCL2)
+[39416.339862] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339863] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339864] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc04000 from client 0x1b (UTCL2)
+[39416.339868] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339869] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339870] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc04000 from client 0x1b (UTCL2)
+[39416.339873] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339874] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339875] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc04000 from client 0x1b (UTCL2)
+[39416.339879] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339880] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339881] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc05000 from client 0x1b (UTCL2)
+[39416.339884] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:206)
+[39416.339885] amdgpu 0000:01:00.0:  Process test-backend-op pid 43587 thread test-backend-op pid 43587
+[39416.339887] amdgpu 0000:01:00.0:   in page starting at address 0x00007f7c5bc06000 from client 0x1b (UTCL2)

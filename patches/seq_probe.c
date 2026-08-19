@@ -2,6 +2,13 @@
 // sizes in one process; verifies each generation. Distinguishes VA-reuse
 // stale-translation corruption from tail/partial-threadgroup effects.
 // Usage: seq_probe <inner> <n1> <n2> [n3...]
+//   inner  arithmetic iterations per element (6000 gives a few seconds at 8.4M)
+//   nN     element count for each generation, e.g. 8388608 repeated
+// Prints "RESULT bad_gens=N"; zero means every generation verified.
+//
+// Build:
+//   /usr/lib64/rocm/llvm/bin/clang++ -x hip --offload-arch=gfx1013 -O2 \
+//       seq_probe.c -o seq_probe
 #include <hip/hip_runtime.h>
 #include <stdio.h>
 #include <stdlib.h>

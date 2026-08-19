@@ -1,0 +1,14 @@
+[18:20:37] waiting for the campaign to finish
+[19:28:38] === current macro line: 232:#if defined(__gfx1010__) || defined(__gfx1012__) || defined(__gfx1013__)
+[19:28:38] === after removal: 232-#if defined(__gfx1010__) || defined(__gfx1012__) 233:#define RDNA1 
+[19:28:38] === rebuilding the HIP backend without the gfx1013 RDNA1 entry
+[19:36:10]   build rc=0 (0 errors)
+[19:36:10] === perplexity with the macro removed (write-up says about 8.94, healthy-looking)
+[19:41:14]   ppl: 8.9425
+[19:41:14] === generation with the macro removed (write-up says garbled)
+[19:51:15]   generated: > The capital of France is
+[19:51:15] === restoring the macro and rebuilding
+[19:56:08]   rebuild rc=0
+[19:57:23]   ppl restored: 8.9442
+[20:07:24]   generated restored: The capital of France is Paris.
+[20:07:24] done

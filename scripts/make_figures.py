@@ -27,18 +27,41 @@ plt.rcParams.update({
 
 # ---------------- data (fill/verify from logs) ----------------
 # model label -> (hip_tg, vk_tg, hip_pp512, vk_pp512); None = not measured/failed
-# ROCm values: -fa off -ub 8 (the text-verified configuration). Vulkan: -fa on.
+# ROCm: fixed stack (integrated flag, KQV precision, RDNA1 macro), fa on,
+# native gfx1013 rocBLAS, f32 cuBLAS compute type. Vulkan: same build, same
+# boot, fa on. All rows perplexity-gated against Vulkan (2026-08-12 campaign).
 MODELS = {
-    "qwen2.5 1.5B Q4_K_M":        (106.80, 210.70, 182.17, 1844.23),
-    "deepseek-r1 14B Q4_K_M *":   (19.6, 34.50, None, 198.88),
-    "qwen3.6 35B-A3B MoE IQ2_M":  (31.6, 85.59, None, 457.90),
+    "qwen2.5 1.5B Q4_K_M":        (113.50, 210.95, 805.61, 1842.18),
+    "qwen3 8B Q8_0":              (39.20, 39.14, 241.01, 401.10),
+    "deepseek-r1 14B Q4_K_M":     (20.26, 34.52, 95.41, 199.04),
+    "qwen3 14B Q4_K_M":           (21.47, 34.15, 97.40, 202.82),
+    "qwen3.6 35B-A3B MoE IQ2_M":  (34.34, 86.45, 287.58, 455.40),
+    # qwen3.8 decode is tg128, not tg64 like the rows above; decode falls
+    # with depth, so the two are not interchangeable. Noted on the axis.
+    "qwen3.8 27B UD-IQ3_XXS":     (7.84, 17.18, 69.23, 97.94),
 }
 
 # depth ladder (qwen2.5-1.5b): depth -> (hip_tg64, vk_tg64)
-DEPTH = {0: (106.80, 210.70), 4096: (74.15, None), 8192: (54.60, 158.00), 16384: (35.35, 137.08), 24576: (None, 126.49), 30720: (None, 116.79)}
+DEPTH = {0: (117.59, 210.95), 4096: (103.36, 178.45), 8192: (96.14, 163.76), 16384: (84.38, 143.13), 24576: (74.15, 126.52), 30720: (68.22, 116.50)}
 
 # sgemm: N -> median ms/iter (20 iters, all correct)
 SGEMM = {512: 0.2, 1024: 0.8, 2048: 5.7, 4096: 30.0, 8192: 236.0}
+
+# rocBLAS fp16 GEMM throughput by shape (GFLOP/s), f32 accumulate, measured
+# 2026-08-17. The layer shapes are what a transformer actually issues; the
+# squares are the reference. This is the prefill gap: ROCm prefill lands on the
+# layer-shape numbers, Vulkan runs above the whole table because it multiplies
+# against quantized weights without materialising an fp16 copy.
+GEMM_SHAPES = [
+    ("2048^3\nsquare", 4181, "square"),
+    ("4096^3\nsquare", 4248, "square"),
+    ("1536x512x1536\nattn proj", 2637, "layer"),
+    ("8960x512x1536\nffn up", 2838, "layer"),
+    ("1536x512x8960\nffn down", 3917, "layer"),
+]
+# Implied prefill rates are kept out of this figure on purpose: the ROCm
+# prefill path for the measured model uses llama.cpp's own quantized kernels
+# and issues no rocBLAS calls, so it is not bounded by these bars.
 
 def gflops(n, ms): return 2 * n**3 / (ms / 1e3) / 1e9
 
@@ -51,7 +74,7 @@ def fig_backends():
     y = np.arange(len(rows)); h = 0.36
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(9, 0.7 + 0.62 * len(rows) + 0.8))
     for ax, hipv, vkv, title, log in (
-        (a1, hip_tg, vk_tg, "decode (tg128, tokens/s)", False),
+        (a1, hip_tg, vk_tg, "decode (tokens/s; tg64, qwen3.8 tg128)", False),
         (a2, hip_pp, vk_pp, "prefill (pp512, tokens/s, log scale)", True),
     ):
         vkp = [v or 0 for v in vkv]; hipp = [v or 0 for v in hipv]
@@ -64,10 +87,10 @@ def fig_backends():
         ax.invert_yaxis(); ax.set_title(title, fontsize=9)
         if log: ax.set_xscale("log"); ax.set_xlim(1, max(vk_pp) * 4)
         else: ax.set_xlim(0, max(vk_tg) * 1.22)
-    a1.legend(loc="lower right", fontsize=7.5, frameon=False)
-    fig.text(0.01, -0.02, "ROCm at -fa off -ub 8, the configuration whose output passes a text "
-             "check. * 14B ROCm decode is tg32 (three loads, 19.5 to 19.7); its ROCm pp512 was "
-             "not measured.", fontsize=7, color="#444")
+    a1.legend(loc="center right", fontsize=7.5, frameon=False)
+    fig.text(0.01, -0.02, "ROCm: llama.cpp master with the three gfx1013 fixes, flash attention on, "
+             "native gfx1013 rocBLAS, f32 cuBLAS compute type. Vulkan: same build and boot. "
+             "Every row passes a wikitext perplexity gate against Vulkan.", fontsize=7, color="#444")
     fig.suptitle("llama.cpp on the BC-250 at 40 CU: ROCm/HIP vs Vulkan (same build, same boot config)",
                  fontsize=10, y=1.0)
     fig.tight_layout()
@@ -109,5 +132,28 @@ def fig_sgemm():
     fig.savefig(os.path.join(OUT, "fig-sgemm-curve.png"), bbox_inches="tight")
     print("fig-sgemm-curve.png")
 
+# ---------------- fig 4: why prefill trails, by GEMM shape ----------------
+def fig_gemm_shapes():
+    labels = [x[0] for x in GEMM_SHAPES]
+    vals = [x[1] / 1000.0 for x in GEMM_SHAPES]
+    kinds = [x[2] for x in GEMM_SHAPES]
+    colors = [VK if k == "square" else HIP for k in kinds]
+    fig, ax = plt.subplots(figsize=(7.2, 3.6))
+    x = np.arange(len(labels))
+    ax.bar(x, vals, 0.6, color=colors, edgecolor="black", linewidth=0.6)
+    for i, v in enumerate(vals):
+        ax.text(i, v + 0.08, "%.1f" % v, ha="center", fontsize=8)
+
+    # No prefill lines here. ROCm prefill on the model measured does not go
+    # through rocBLAS at all (zero calls under ROCBLAS_LAYER=1), so drawing it
+    # against these bars would imply a relationship that does not exist.
+    ax.set_xticks(x); ax.set_xticklabels(labels, fontsize=7.5)
+    ax.set_ylabel("TFLOP/s")
+    ax.set_ylim(0, max(vals) * 1.18)
+    ax.set_title("rocBLAS fp16 GEMM: layer shapes against square references", fontsize=9.5)
+    fig.savefig(os.path.join(OUT, "fig-gemm-shapes.png"), bbox_inches="tight")
+    print("fig-gemm-shapes.png")
+
+
 if __name__ == "__main__":
-    fig_backends(); fig_depth(); fig_sgemm()
+    fig_backends(); fig_depth(); fig_sgemm(); fig_gemm_shapes()

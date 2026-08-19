@@ -1,5 +1,5 @@
 #!/bin/bash
-# build_rocblas_gfx1013.sh — build a NATIVE gfx1013 rocBLAS (no gfx1010 override) on a
+# build_rocblas_gfx1013.sh: build a NATIVE gfx1013 rocBLAS (no gfx1010 override) on a
 # Fedora-system ROCm install. This follows the intent of ROCm/rocm-libraries PR #8838
 # (add gfx1013 to rocBLAS/Tensile) and adapts it to Fedora 43's system ROCm 6.4.2, where
 # everything lives under /usr rather than /opt/rocm.
@@ -74,5 +74,5 @@ if [ -n "$L" ]; then
   echo "gfx1013 code objects: $(ls build/release/Tensile/library/*gfx1013* 2>/dev/null | wc -l) files"
   echo "e.g. $(file build/release/Tensile/library/Kernels.so-000-gfx1013.hsaco 2>/dev/null)"
 else
-  echo "no librocblas.so yet — see the gfx1013 Tensile-enablement note in step 4 and the README."
+  echo "no librocblas.so yet, see the gfx1013 Tensile-enablement note in step 4 and the README."
 fi

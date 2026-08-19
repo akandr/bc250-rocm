@@ -1,6 +1,9 @@
 #!/bin/bash
 # ROCm (patched module, native gfx1013 + FA + MMQ) vs Vulkan, PREFILL benchmark.
-# ROCm decode faults, so ROCm = prefill only; Vulkan = pp + tg for the full reference.
+# HISTORICAL, July 2026. It measures prefill only because ROCm decode was faulting
+# at the time. That is no longer true: under the working configuration in the README
+# decode runs, and on one model it matches Vulkan. Kept because it produced the
+# 6.18-era comparison in logs/inference/, not as a harness to use now.
 # Same board, same models, llama-bench, fresh boot.
 set -u
 L=~/sweeplogs/bench_prefill; mkdir -p $L

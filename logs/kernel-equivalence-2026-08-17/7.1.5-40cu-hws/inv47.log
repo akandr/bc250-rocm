@@ -1,0 +1,21 @@
+[23:04:12] kernel=7.1.5-100.fc43.x86_64
+[23:04:12] simd=simd_count 80
+[23:04:12] runlist=3
+[23:04:12] kiq=0
+[23:04:12] === compute probe
+[23:04:13]   nblocks=4096 rc=0 ALL CORRECT
+[23:04:15]   nblocks=16384 rc=0 ALL CORRECT
+[23:04:19]   nblocks=32768 rc=0 ALL CORRECT
+[23:04:19] === SGEMM sweep, native gfx1013 rocBLAS
+[23:04:20]   N=256 rc=0 DONE iters=10 nwrong=0 wrong_lines=0
+[23:04:20]   N=512 rc=0 DONE iters=10 nwrong=0 wrong_lines=0
+[23:04:21]   N=1024 rc=0 DONE iters=10 nwrong=0 wrong_lines=0
+[23:04:21]   N=2048 rc=0 DONE iters=10 nwrong=0 wrong_lines=0
+[23:04:22]   N=4096 rc=0 DONE iters=10 nwrong=0 wrong_lines=0
+[23:04:22] === perplexity gate (reference 8.9442)
+[23:05:44]   rc=0 Final estimate: PPL = 8.9442
+[23:05:44] === sustained N=4096 x50
+[23:05:46]   rc=0 DONE iters=50 nwrong=0
+[23:05:46] === faults in dmesg
+[23:05:46]   fault lines: 0
+[23:05:46] done

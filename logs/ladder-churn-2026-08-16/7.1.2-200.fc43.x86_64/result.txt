@@ -1,0 +1,5 @@
+rc=134
+elapsed_s=11
+completed=0
+faults=1
+verdict=FAULT

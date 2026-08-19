@@ -1,0 +1,19 @@
+[17:45:17] waiting for the previous job
+[19:20:18] === small model: prefill and decode (README quotes pp512 806, forced-BLAS 936, tg64 113.5)
+[19:20:30]   q15 pp512: 803.50   tg64: 113.27 
+[19:20:38]   q15 pp512 forced-BLAS: 802.12 
+[19:20:38] === large models: pp512 and tg64 at depth 0
+[19:21:05]   Q8B pp512: 242.35   tg64: 36.30 
+[19:21:50]   DS14 pp512: 95.30   tg64: 20.76 
+[19:22:40]   Q14 pp512: 97.61   tg64: 20.85 
+[19:23:12]   MOE pp512: 290.10   tg64: 33.72 
+[19:23:12] === perplexity gates (chunks 2, ctx 2048), the campaign gate condition
+[19:23:28]   Q15 ppl: 10.0244
+[19:24:08]   Q8B ppl: 9.0975
+[19:25:23]   DS14 ppl: 5.9756
+[19:26:42]   Q14 ppl: 7.7600
+[19:27:25]   MOE ppl: 6.4064
+[19:27:25] === Vulkan spot check on the 8B decode (README quotes 39.1)
+[19:27:42]   vulkan 8B tg64: 39.03 
+[19:27:42] === dmesg faults: 
+[19:27:42] done
