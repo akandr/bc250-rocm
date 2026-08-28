@@ -9,11 +9,18 @@
 #
 # Vulkan is not re-measured: it does not use any part of the ROCm stack that
 # changed. One Vulkan decode point is taken as a spot check on the comparison.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/inv64; mkdir -p "$D"
 HIP=~/llama-master/build-hip/bin
 VK=~/llama-master/build-vk/bin
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 WIKI=~/wiki.test.raw
 Q15=/opt/models/qwen2.5-1.5b-q4km.gguf
 Q8B=/opt/models/qwen3-8b-q8_0.gguf

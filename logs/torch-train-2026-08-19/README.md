@@ -2,7 +2,8 @@ The 50-step training loop from `patches/pytorch/torch_train.py`, run twice on th
 native gfx1013 build against its CPU reference. Kept because the figure it backs
 was quoted with no shipped log.
 
-Both runs are identical:
+Both runs are identical in every measured quantity, and differ only in wall time,
+20.38 against 20.33 seconds on the CPU and 0.26 against 0.25 on the GPU:
 
 | quantity | value |
 |---|---|

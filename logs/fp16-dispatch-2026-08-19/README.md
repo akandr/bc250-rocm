@@ -22,7 +22,18 @@ suggested it might be: rocBLAS's bench layer prints `alpha` and `beta` as
 `-0.00014782` for every call, and llama.cpp's own debug hook printed
 `alpha=-0.0075111389`, where the source passes half `1.0` and `0.0`. Printing the
 raw bits instead of the converted value settles it: `alpha=0x3c00`, which is
-exactly half 1.0, and `beta=0x0000`. The arguments are correct.
+exactly 1.0 in half precision, and `beta=0x0000`. The arguments are correct.
+
+What is captured and what is not, checked 26 August. Both misleading values are
+in the files: `-0.00014782` in `f16_distinct_calls.txt` and `-0.0075111389` in
+`alpha.log` and `log`. The raw bit patterns that settle the question are not.
+`0x3c00` appears in no capture anywhere in this repository, so the reader has the
+two wrong readings and not the right one. The conclusion stands on other
+evidence, since the arguments were later shown byte-identical between a zeroed
+call and a clean one, with the operands intact on device
+([`../fp16-operands-2026-08-23/`](../fp16-operands-2026-08-23/)), and that
+directory does ship its capture. But the sentence above reads as though the hex
+were observed here, and it was not kept.
 
 Both misleading readings have the same cause, and it is a trap worth naming for
 anyone reading these traces: `__half2float` is a device function, and calling it

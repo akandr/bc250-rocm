@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# bc250_power — switch the AMD BC-250 board on or off, and wait for it.
+#
+# The board is kept powered down by default and brought up only for a
+# measurement, so the common operations are "on, wait until I can ssh" and
+# "off". bc250_reset already power-cycles through the same Home Assistant
+# switch; this exposes the two halves separately and waits for the result, so a
+# script can bracket a measurement without polling by hand.
+#
+# Usage:
+#   bc250_power on      bring it up and wait until ssh answers (default 300s)
+#   bc250_power off     shut it down cleanly if reachable, then cut the switch
+#   bc250_power status  report whether ssh answers
+#
+# Environment, same as bc250_reset:
+#   HASS_URL, HASS_TOKEN, HASS_SWITCH (default switch.100266c6a6)
+#   BC250_HOST   ssh target, default bc250
+#   BC250_WAIT   seconds to wait for ssh on "on", default 300
+#   OFF_GRACE    seconds to let shutdown finish before cutting power, default 30
+set -euo pipefail
+
+if [[ -f "${HOME}/.config/bc250_reset.env" ]]; then
+  # shellcheck disable=SC1091
+  source "${HOME}/.config/bc250_reset.env"
+fi
+: "${HASS_URL:?HASS_URL not set}"
+: "${HASS_TOKEN:?HASS_TOKEN not set}"
+HASS_SWITCH="${HASS_SWITCH:-switch.100266c6a6}"
+BC250_HOST="${BC250_HOST:-bc250}"
+BC250_WAIT="${BC250_WAIT:-300}"
+# seconds to let the board finish shutting down before the switch is cut
+OFF_GRACE="${OFF_GRACE:-30}"
+
+log () { echo "[$(date '+%H:%M:%S')] bc250_power: $*"; }
+
+call_service() {
+  curl -fsS -X POST \
+    -H "Authorization: Bearer ${HASS_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -d "{\"entity_id\":\"${HASS_SWITCH}\"}" \
+    "${HASS_URL}/api/services/switch/$1" >/dev/null
+}
+
+reachable() { ssh -o ConnectTimeout=5 -o BatchMode=yes "${BC250_HOST}" true 2>/dev/null; }
+
+case "${1:-}" in
+  on)
+    if reachable; then log "already up"; exit 0; fi
+    log "switching ${HASS_SWITCH} ON"
+    call_service turn_on
+    deadline=$(( $(date +%s) + BC250_WAIT ))
+    while [[ $(date +%s) -lt $deadline ]]; do
+      if reachable; then log "up after $(( BC250_WAIT - (deadline - $(date +%s)) ))s"; exit 0; fi
+      sleep 5
+    done
+    log "did not answer ssh within ${BC250_WAIT}s"; exit 1
+    ;;
+  off)
+    if reachable; then
+      # A clean shutdown first: cutting power under a mounted filesystem is how
+      # a board that boots reliably stops booting reliably.
+      log "shutting down cleanly"
+      ssh -o ConnectTimeout=10 -o BatchMode=yes "${BC250_HOST}" 'sudo systemctl poweroff' >/dev/null 2>&1 || true
+      # ssh stops answering as soon as sshd goes down, which is long before the
+      # filesystem is flushed and the machine is actually off. Waiting only for
+      # unreachability therefore cuts power mid-shutdown, which is how a board
+      # that boots reliably stops doing so. Give it a fixed grace period first.
+      log "waiting ${OFF_GRACE}s for shutdown to complete"
+      sleep "${OFF_GRACE}"
+      if reachable; then
+        log "still reachable after ${OFF_GRACE}s, waiting up to 60s more"
+        for _ in $(seq 1 12); do reachable || break; sleep 5; done
+        reachable && log "still reachable, cutting power anyway"
+      fi
+    else
+      log "not reachable, cutting power directly"
+    fi
+    log "switching ${HASS_SWITCH} OFF"
+    call_service turn_off
+    log "off"
+    ;;
+  status)
+    if reachable; then
+      echo "up: $(ssh -o ConnectTimeout=5 -o BatchMode=yes "${BC250_HOST}" 'uptime | cut -d, -f1' 2>/dev/null)"
+    else
+      echo "down (or not answering ssh)"
+    fi
+    ;;
+  *)
+    echo "usage: bc250_power {on|off|status}" >&2; exit 2
+    ;;
+esac

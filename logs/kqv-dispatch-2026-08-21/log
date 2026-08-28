@@ -1,0 +1,17 @@
+[08:23:06] === removing the KQV precision line
+[08:23:15]   build rc=0 set_prec(kqv lines now: 0
+[08:23:16] === eight runs at ctx 2048 with every rocBLAS call logged
+[08:23:31]   run 1: ppl=172.3724 calls=448 distinct_signatures=8
+[08:23:46]   run 2: ppl=91.3845 calls=448 distinct_signatures=8
+[08:23:59]   run 3: ppl=10.0103 calls=448 distinct_signatures=8
+[08:24:11]   run 4: ppl=10.0103 calls=448 distinct_signatures=8
+[08:24:24]   run 5: ppl=91.3845 calls=448 distinct_signatures=8
+[08:24:36]   run 6: ppl=1057.5494 calls=448 distinct_signatures=8
+[08:24:49]   run 7: ppl=10.0103 calls=448 distinct_signatures=8
+[08:25:01]   run 8: ppl=1057.5494 calls=448 distinct_signatures=8
+[08:25:02] === restoring the patch
+[08:25:10]   rebuild rc=0 set_prec lines back: 1
+[08:25:11] === comparing a correct run against a wrong one
+[08:25:11]   correct run: run   wrong run: none
+[08:25:11]   cannot compare: need at least one correct and one wrong run
+[08:25:11] done

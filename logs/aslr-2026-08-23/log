@@ -1,0 +1,21 @@
+[14:27:52] === eight rounds, arms alternated ABBA so drift cannot masquerade as an arm effect
+[14:32:40]   r1 aslr=off: 16.82
+[14:37:10]   r1 aslr=on: 16.44
+[14:41:40]   r2 aslr=on: 18.52
+[14:46:10]   r2 aslr=off: 19.06
+[14:50:38]   r3 aslr=off: 19.25
+[14:55:08]   r3 aslr=on: 17.23
+[14:59:39]   r4 aslr=on: 17.72
+[15:04:27]   r4 aslr=off: 16.32
+[15:09:08]   r5 aslr=off: 14.81
+[15:13:37]   r5 aslr=on: 16.04
+[15:18:13]   r6 aslr=on: 17.17
+[15:22:42]   r6 aslr=off: 17.38
+[15:27:17]   r7 aslr=off: 17.45
+[15:31:46]   r7 aslr=on: 17.62
+[15:36:15]   r8 aslr=on: 18.42
+[15:40:43]   r8 aslr=off: 17.74
+[15:40:43] === summary
+  aslr off: n=8 mean=17.35 sd=1.44 spread=4.44 cv=8.3%
+  aslr on: n=8 mean=17.39 sd=0.87 spread=2.48 cv=5.0%
+[15:40:43] done

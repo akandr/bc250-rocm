@@ -1,0 +1,16 @@
+=== counts this boot ===
+page fault (src_id               3
+Queue preemption failed          1193
+runlist rebuild flush failed     1074
+GPU reset begin                  0
+=== first fault timestamp ===
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] 
+=== coredumps since the fault ===
+TIME                            PID  UID  GID SIG     COREFILE EXE                                                       SIZE
+Mon 2026-08-24 14:46:48 CEST 450623 1000 1000 SIGABRT present  /home/akandr/llama-master/build-hip/bin/llama-bench      42.8M
+Mon 2026-08-24 14:54:26 CEST 450642 1000 1000 SIGABRT present  /home/akandr/llama-master/build-hip/bin/llama-perplexity   37M
+Mon 2026-08-24 15:08:37 CEST 450988 1000 1000 SIGSEGV present  /home/akandr/llama-master/build-hip/bin/test-backend-ops 33.3M
+Mon 2026-08-24 15:16:13 CEST 451842 1000 1000 SIGSEGV present  /home/akandr/llama-master/build-hip/bin/llama-bench      38.3M
+Mon 2026-08-24 15:23:54 CEST 452266 1000 1000 SIGABRT present  /home/akandr/llama-master/build-hip/bin/llama-perplexity   37M
+Mon 2026-08-24 15:38:06 CEST 452602 1000 1000 SIGSEGV present  /home/akandr/llama-master/build-hip/bin/test-backend-ops 33.3M
+Mon 2026-08-24 15:49:44 CEST 453903 1000 1000 SIGSEGV present  /home/akandr/llama-master/build-hip/bin/llama-bench      38.3M

@@ -25,7 +25,7 @@ each, graph capture on throughout so the flag is not in play.
 | model | share of the 402 GiB/s ceiling | mean t/s | sd | coefficient of variation |
 |---|---|---|---|---|
 | qwen2.5-1.5B Q4_K | 29 percent | 88.90 | 0.59 | 0.7 percent |
-| qwen3-14B Q4_K | 42 percent | 11.39 | 0.68 | 6.0 percent |
+| qwen3-14B Q4_K | 46 percent | 11.39 | 0.68 | 6.0 percent |
 | qwen3-8B Q8_0 | 80 percent | 22.31 | 1.03 | 4.6 percent |
 
 Variability does not rise with bandwidth utilisation: the middle model is again

@@ -11,7 +11,14 @@ bytes are non-zero.
 |---|---|
 | `8b_pure-vcur.txt`, `ds14_pure-vcur.txt` | the same `Vcur-0 MUL_MAT` on consecutive runs: once with `sum=151.01724`, once with `sum=0 sumsq=0 maxabs=0`, while `src0=blk.0.attn_v.weight` reports the identical 8256831 non-zero bytes of 8388608 both times. The weight is intact and the product is empty |
 | `conv-vcur.txt` | the ops downstream of it, showing the zeros propagating through RESHAPE and VIEW rather than being introduced later |
-| `long_mmq-stats.txt`, `ds14_long_mmq-stats.txt` | the full per-tensor dumps the above were extracted from |
+| `long_mmq-stats.txt`, `ds14_long_mmq-stats.txt` | every tensor's statistics line from those runs, which is what the rows above were extracted from |
+
+What is not here, noted 27 August: the runs' full output. These directories once
+carried `long_mmq.log` and its siblings, about 16 MB each, and they were trimmed
+to the `STATS` lines they contain, which are the instrumentation this page rests
+on; the rest was llama.cpp's ordinary output. The trim is in the history rather
+than the working tree, so a reader who wants the discarded lines can recover them
+from the commit that removed them.
 
 The pattern is that it is the *first* such multiply in a graph execution, one
 of 36, and that it follows unrelated work. It is not reproducible in a
@@ -24,7 +31,12 @@ pattern rather than at the library or the silicon. The practical avoidance is
 
 `long_truth-stats.txt` and `long_mmq-stats.txt` are a clean run and a faulting
 run of the same graph, 5790 comparable tensor records each, so they can be
-compared position by position. The faulting run contains four zeroed
+compared position by position. Where 5790 comes from, added 26 August because
+recovering it took longer than stating it: each file holds 6330 `STATS` records,
+of which 540 are `PERMUTE`, and a permute carries its source's data rather than
+producing any, so excluding them leaves 5790. Every record is positionally
+identical in name, operation and element count between the two files, which is
+what makes the position-by-position comparison legitimate in the first place. The faulting run contains four zeroed
 `Vcur-0 MUL_MAT` records.
 
 Taking the flash attention that follows each zeroed tensor, against the same

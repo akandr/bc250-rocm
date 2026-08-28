@@ -1,0 +1,3 @@
+allocated 4 buffers, queueing work
+queued, now faulting at element offset 1073741824
+exit=124

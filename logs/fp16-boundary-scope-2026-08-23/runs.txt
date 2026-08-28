@@ -1,0 +1,9 @@
+chunks2 run 1: 4 zeros at [37 73 109 181 ] ppl=13.0359
+chunks2 run 2: 32 zeros at [37 73 109 181 253 254 255 256 257 258 ] ppl=39.3517
+chunks2 run 3: 9 zeros at [37 73 109 181 253 254 255 256 257 ] ppl=16.1657
+chunks2 run 4: 40 zeros at [37 73 109 181 253 254 255 256 257 258 ] ppl=42.0691
+chunks2 run 5: 5 zeros at [37 73 109 181 253 ] ppl=14.2918
+chunks2 run 6: 4 zeros at [37 73 109 181 ] ppl=13.0359
+chunks1 run 6: 3 zeros at [37 73 109 ] ppl=14.1344
+chunks1 run 7: 3 zeros at [37 73 109 ] ppl=14.1344
+chunks1 run 8: 3 zeros at [37 73 109 ] ppl=14.1344

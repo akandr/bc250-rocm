@@ -1,10 +1,15 @@
 Ten decode runs of qwen3-14B Q4_K at a primed depth of 16128, the third model in
-the decode-variance comparison. At about 42 percent of the board's measured
+the decode-variance comparison. At about 46 percent of the board's measured
 memory bandwidth it should have fallen between the 1.5B (29 percent, 0.6 percent
 coefficient of variation) and the 8B (80 percent, 4.3 percent). It does not:
 mean 6.66 t/s, sd 0.78, coefficient of variation 11.7 percent, the most variable
 of the three. That refutes the bandwidth-headroom explanation the README
 previously offered as an inference.
+
+That share read 42 percent here until 26 August, which is deepseek-r1-14B's
+share and not this model's. These runs are qwen3-14B Q4_K_M, whose 8.63 GiB at
+21.5 t/s is 46 percent of the 402 GiB/s ceiling, and 46 is the figure the
+companion uses in all three places it makes this comparison.
 
 Caveat recorded in the README: these runs used `GGML_CUDA_DISABLE_GRAPHS=1`,
 which the 14B requires at this depth and the other two models did not use.

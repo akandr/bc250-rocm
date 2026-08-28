@@ -1,0 +1,16 @@
+[13:54:32] === configuration: kernel 7.1.8-100.fc43.x86_64, gpu_recovery=0
+[13:54:32]     cmdline: amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 
+[13:54:32] === throughput, pp512 and tg64, both backends
+[13:54:45]   qwen2.5-1.5B Q4_K_M: HIP pp512=805.71 tg64=113.44 | VK pp512=1845.58 tg64=210.81
+[13:55:33]   qwen3-8B Q8_0: HIP pp512=237.27 tg64=36.39 | VK pp512=401.15 tg64=39.04
+[13:56:43]   deepseek-r1-14B Q4_K_M: HIP pp512=95.19 tg64=20.90 | VK pp512=199.06 tg64=34.47
+[13:57:56]   qwen3-14B Q4_K_M: HIP pp512=97.88 tg64=21.52 | VK pp512=202.77 tg64=34.11
+[13:58:49]   qwen3.6-35B-A3B MoE IQ2_M: HIP pp512=289.83 tg64=33.58 | VK pp512=458.19 tg64=86.26
+[13:58:49] === correctness gates, wikitext perplexity, context 2048 over eight chunks
+[14:01:56]   qwen3-8B Q8_0: HIP 7.3503 +/- 0.23195 | VK 7.3792 +/- 0.23335
+[14:07:54]   qwen3-14B Q4_K_M: HIP 6.3970 +/- 0.19280 | VK 6.4548 +/- 0.19533
+[14:13:57]   deepseek-r1-14B Q4_K_M: HIP 6.0013 +/- 0.17277 | VK 6.0416 +/- 0.17465
+[14:16:38]   qwen3.6-35B-A3B MoE IQ2_M: HIP 5.1887 +/- 0.13383 | VK 5.2041 +/- 0.13431
+[14:16:38] === faults during the campaign
+[14:16:41]   this boot: 0
+[14:16:41] done

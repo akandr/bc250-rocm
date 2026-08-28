@@ -11,9 +11,16 @@
 # batch 8, 8 chunks), not guessed. That log came from an older build (2da6686);
 # this runs on the commit everything else here is measured at, 7ba604f, which
 # also answers whether the patch is still needed there.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/inv73; mkdir -p "$D"
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 Q15=/opt/models/qwen2.5-1.5b-q4km.gguf
 WIKI=~/wiki.test.raw
 SRC=~/llama-master

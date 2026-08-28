@@ -1,0 +1,29 @@
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:2460)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 1520299 thread llama-bench pid 1520299
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007fa800005000 from client 0x1b (UTCL2)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00841051
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          Faulty UTCL2 client ID: TCP (0x8)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          MORE_FAULTS: 0x1
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          WALKER_ERROR: 0x0
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          PERMISSION_FAULTS: 0x5
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          MAPPING_ERROR: 0x0
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          RW: 0x1
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:2460)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 1520299 thread llama-bench pid 1520299
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007fa800005000 from client 0x1b (UTCL2)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:2460)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 1520299 thread llama-bench pid 1520299
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007fa800005000 from client 0x1b (UTCL2)
+sie 20 22:14:52 bc250 audit[1520299]: ANOM_ABEND auid=1000 uid=1000 gid=1000 ses=1659 subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 pid=1520299 comm="llama-bench" exe="/home/akandr/llama-master/build-hip/bin/llama-bench" sig=7 res=1
+sie 20 22:14:52 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 20 22:14:52 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 20 22:14:52 bc250 kernel: amdgpu 0000:01:00.0: GPU reset begin!. Source:  4
+sie 20 22:14:52 bc250 kernel: amdgpu 0000:01:00.0: The cp might be in an unrecoverable state due to an unsuccessful queues preemption
+sie 20 22:14:52 bc250 kernel: amdgpu 0000:01:00.0: sq_intr: error, se 1, data 0x100000, sa 0, priv 1, wave_id 0, simd_id 0, wgp_id 2, err_type 2
+sie 20 22:14:52 bc250 systemd-coredump[1520304]: Process 1520299 (llama-bench) of user 1000 terminated abnormally with signal 7/BUS, processing...
+sie 20 22:14:52 bc250 systemd[1]: Started systemd-coredump@16-16386-1520304_30872951-0.service - Process Core Dump (PID 1520304/UID 0).
+sie 20 22:14:52 bc250 audit[1]: SERVICE_START pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-coredump@16-16386-1520304_30872951-0 comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+sie 20 22:14:52 bc250 oberon-governor[844]: terminate called after throwing an instance of 'std::__ios_failure'
+sie 20 22:14:52 bc250 oberon-governor[844]:   what():  basic_filebuf::underflow error reading the file: Device or resource busy
+sie 20 22:14:52 bc250 audit[844]: ANOM_ABEND auid=4294967295 uid=0 gid=0 ses=4294967295 subj=system_u:system_r:unconfined_service_t:s0 pid=844 comm="oberon-governor" exe="/usr/bin/oberon-governor" sig=6 res=1
+sie 20 22:14:54 bc250 systemd-coredump[1520305]: Process 1520299 (llama-bench) of user 1000 dumped core.

@@ -1,0 +1,10 @@
+[14:02:51] === configuration: kernel 7.1.8-100.fc43.x86_64, sdma fw md5 3febefa5396a646fee8f1bd4f453062a
+[14:02:51] === navi12_sdma.bin.xz md5 3febefa5396a646fee8f1bd4f453062a
+[14:02:55]   rep1 q15: VK pp512=1842.93 tg64=210.74
+[14:03:18]   rep1 8b: VK pp512=400.75 tg64=39.11
+[14:03:22]   rep2 q15: VK pp512=1842.21 tg64=211.11
+[14:03:41]   rep2 8b: VK pp512=400.78 tg64=39.10
+[14:03:45]   rep3 q15: VK pp512=1843.42 tg64=210.71
+[14:04:03]   rep3 8b: VK pp512=400.81 tg64=39.05
+[14:04:03] === faults this boot: 0
+[14:04:03] done

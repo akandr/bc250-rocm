@@ -1,0 +1,5 @@
+[01:19:46] waiting for the previous job
+[01:58:46] === PART 1: thirty deep-decode runs, counting SIGBUS
+[02:43:47]   run 10: 18.42 (clean so far: 10/10)
+[03:28:41]   run 20: 17.91 (clean so far: 20/20)
+[04:01:03]   run 28: NO RESULT rc=134 zrzut pamięci

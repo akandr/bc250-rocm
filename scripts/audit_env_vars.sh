@@ -22,6 +22,22 @@ VARS="AMD_LOG_LEVEL GGML_CUDA_CUBLAS_COMPUTE_TYPE GGML_CUDA_DISABLE_GRAPHS
       HSA_ENABLE_SDMA HSA_OVERRIDE_GFX_VERSION HSA_XNACK ROCBLAS_LAYER
       ROCBLAS_TENSILE_LIBPATH"
 
+# Refuse to run anywhere the libraries are not present. Run from a workstation
+# instead of the board, every variable reports "not read by any of them", which
+# reads exactly like fourteen findings and is really zero: the script simply
+# found no library to look in. That output was taken at face value across several
+# review passes before anyone noticed the header saying "run on the board".
+missing=""
+for pair in "hip:$HIPLIB" "hsa:$HSALIB" "rocblas:$BLASLIB" "ggml:$GGML"; do
+  n=${pair%%:*}; f=${pair#*:}
+  [ -n "$f" ] && [ -e "$f" ] || missing="$missing $n"
+done
+if [ -n "$missing" ]; then
+  echo "libraries not found:$missing" >&2
+  echo "This audit only means anything on the board. Nothing was checked." >&2
+  exit 2
+fi
+
 printf "%-34s %s\n" VARIABLE "read by"
 for v in $VARS; do
   out=""

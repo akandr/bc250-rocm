@@ -9,10 +9,17 @@
 #
 # Three arms, all 8B at a primed depth of 16128, to separate flag from depth
 # from chance. Each run is independent so a crash does not stop the arm.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/inv63; mkdir -p "$D"
 HIP=~/llama-master/build-hip/bin
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 M8=/opt/models/qwen3-8b-q8_0.gguf
 log () { echo "[$(date +%H:%M:%S)] $*" | tee -a "$D/log"; sync; }
 

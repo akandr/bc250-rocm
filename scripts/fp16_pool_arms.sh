@@ -16,9 +16,16 @@
 #
 # Arms alternated, since this board has already produced two opposite answers
 # from blocked designs.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/inv77; mkdir -p "$D"
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 HIP=~/llama-master/build-hip/bin
 M8=/opt/models/qwen3-8b-q8_0.gguf
 WIKI=~/wiki.test.raw

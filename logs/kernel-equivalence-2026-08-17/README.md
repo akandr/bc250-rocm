@@ -47,6 +47,11 @@ did capture. It is kept because it shows the effect is not specific to one kerne
 but note that it is a different kernel from the four factorial cells and should
 not be read as a fifth cell of that table.
 
+A stray copy removed on 26 August: this directory also held
+`logs/kernel-equivalence-2026-08-17/factorial-cells/7.1.5-40cu-sched2/`, a doubled
+path left by the copy that brought the cells off the board. It was byte-identical
+to the real cell above and is gone; nothing was measured twice.
+
 ## Note on the earlier version of this evidence
 
 An earlier draft of the top-level README presented the factorial with its

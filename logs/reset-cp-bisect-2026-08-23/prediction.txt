@@ -1,0 +1,28 @@
+Pre-registered 2026-08-23, before running.
+
+gfx_v10_0_cp_resume() is entered during reset recovery and never returns. Its
+sequence, from the source, is:
+
+  1. cp_gfx_load_microcode / cp_compute_load_microcode  (FW_LOAD_DIRECT only)
+  2. gfx_v10_0_kiq_resume        the Kernel Interface Queue
+  3. gfx_v10_0_kcq_resume        the Kernel Compute Queues
+  4. cp_gfx_resume / cp_async_gfx_ring_resume
+  5. amdgpu_ring_test_helper on each graphics ring
+
+Prediction: the hang is in step 2 or 3, the KIQ or KCQ resume, rather than in the
+graphics ring path.
+
+The reason to expect it there is this board's own history. Its correctness defect
+was a PASID flush issued through the KIQ, fixed by bc250_flush_pasid_kiq=0. Its
+compute queues are the ones Mesa disables on gfx1013. Its preemption timeouts are
+on compute queues. If a reset leaves one part of the CP unable to come back, the
+compute side is where this hardware has always been weakest.
+
+If instead the hang is in step 4 or 5, the graphics ring path, that is a newer
+statement and would not connect to any existing defect here.
+
+If it is in step 1, microcode loading, that is different again and would point at
+firmware rather than queues.
+
+Being wrong is informative in all three directions, which is why the prediction
+is worth writing down.

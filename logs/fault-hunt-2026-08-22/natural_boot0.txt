@@ -1,0 +1,40 @@
+sie 20 09:06:01 bc250 systemd-coredump[26151]: Process 26139 (llama-perplexit) of user 1000 dumped core.
+sie 20 09:20:52 bc250 systemd-coredump[27299]: Process 27279 (llama-perplexit) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+sie 20 09:20:52 bc250 systemd[1]: Started systemd-coredump@9-12291-27299_14013-0.service - Process Core Dump (PID 27299/UID 0).
+sie 20 09:20:58 bc250 systemd-coredump[27300]: Process 27279 (llama-perplexit) of user 1000 dumped core.
+sie 20 09:21:18 bc250 systemd-coredump[27391]: Process 27333 (llama-perplexit) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+sie 20 09:21:18 bc250 systemd[1]: Started systemd-coredump@10-20482-27391_22283-0.service - Process Core Dump (PID 27391/UID 0).
+sie 20 09:21:24 bc250 systemd-coredump[27392]: Process 27333 (llama-perplexit) of user 1000 dumped core.
+sie 20 09:22:21 bc250 systemd-coredump[27485]: Process 27475 (llama-perplexit) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+sie 20 09:22:21 bc250 systemd[1]: Started systemd-coredump@11-24577-27485_18091-0.service - Process Core Dump (PID 27485/UID 0).
+sie 20 09:22:27 bc250 systemd-coredump[27486]: Process 27475 (llama-perplexit) of user 1000 dumped core.
+sie 20 09:22:45 bc250 systemd-coredump[27511]: Process 27500 (llama-perplexit) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+sie 20 09:22:45 bc250 systemd[1]: Started systemd-coredump@12-4-27511_27245-0.service - Process Core Dump (PID 27511/UID 0).
+sie 20 09:22:52 bc250 systemd-coredump[27512]: Process 27500 (llama-perplexit) of user 1000 dumped core.
+sie 20 10:31:34 bc250 systemd-coredump[33712]: Process 33701 (python) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+sie 20 10:31:34 bc250 systemd[1]: Started systemd-coredump@13-5-33712_46930-0.service - Process Core Dump (PID 33712/UID 0).
+sie 20 10:31:36 bc250 systemd-coredump[33713]: Process 33701 (python) of user 1000 dumped core.
+sie 20 10:32:15 bc250 systemd-coredump[33799]: Process 33789 (python) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+sie 20 10:32:15 bc250 systemd[1]: Started systemd-coredump@14-12292-33799_18540-0.service - Process Core Dump (PID 33799/UID 0).
+sie 20 10:32:17 bc250 systemd-coredump[33800]: Process 33789 (python) of user 1000 dumped core.
+sie 20 10:32:43 bc250 systemd-coredump[33862]: Process 33852 (python) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+sie 20 10:32:43 bc250 systemd[1]: Started systemd-coredump@15-12293-33862_46932-0.service - Process Core Dump (PID 33862/UID 0).
+sie 20 10:32:45 bc250 systemd-coredump[33863]: Process 33852 (python) of user 1000 dumped core.
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:2460)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 1520299 thread llama-bench pid 1520299
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007fa800005000 from client 0x1b (UTCL2)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          Faulty UTCL2 client ID: TCP (0x8)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          PERMISSION_FAULTS: 0x5
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:          RW: 0x1
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:2460)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 1520299 thread llama-bench pid 1520299
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007fa800005000 from client 0x1b (UTCL2)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:2460)
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 1520299 thread llama-bench pid 1520299
+sie 20 22:14:48 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007fa800005000 from client 0x1b (UTCL2)
+sie 20 22:14:52 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 20 22:14:52 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 20 22:14:52 bc250 kernel: amdgpu 0000:01:00.0: GPU reset begin!. Source:  4
+sie 20 22:14:52 bc250 systemd-coredump[1520304]: Process 1520299 (llama-bench) of user 1000 terminated abnormally with signal 7/BUS, processing...
+sie 20 22:14:52 bc250 systemd[1]: Started systemd-coredump@16-16386-1520304_30872951-0.service - Process Core Dump (PID 1520304/UID 0).
+sie 20 22:14:54 bc250 systemd-coredump[1520305]: Process 1520299 (llama-bench) of user 1000 dumped core.

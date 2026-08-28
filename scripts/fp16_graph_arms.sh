@@ -11,6 +11,13 @@
 # If the defect disappears with GGML_CUDA_DISABLE_GRAPHS=1 it belongs to the
 # capture-and-replay machinery rather than to rocBLAS or the hardware, which
 # would be the single most useful thing left to learn about it.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/fp16-graphs; mkdir -p "$D"
 HIP=~/llama-master/build-hip/bin

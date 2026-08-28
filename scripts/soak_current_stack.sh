@@ -10,6 +10,13 @@
 # Each round: a prefill benchmark, a perplexity gate against the reference, an
 # allocation-churn sweep, and (every third round) a PyTorch training loop, so
 # the soak covers the paths that were added since the earlier ones.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/soak-current; mkdir -p "$D"
 HIP=~/llama-master/build-hip/bin

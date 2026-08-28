@@ -1,0 +1,22 @@
+Pre-registered 2026-08-23, before running.
+
+The zeroed fp16 GEMM has byte-identical arguments to a clean one and verifiably
+intact operands, so what differs is execution rather than data. The output goes
+into a temporary taken from the CUDA memory pool. A batch boundary is exactly
+where a pool would hand back a buffer that a previous batch had used.
+
+This repository already records that bypassing the pool "changes nothing", but
+that was judged on perplexity, which is a coarse instrument for this: it moves
+for many reasons. Counting the zeros directly is far sharper, and the count is
+known precisely, three at calls 37, 73 and 109 for ctx 2048 at ubatch 512.
+
+Predictions:
+  GGML_CUDA_POOL_NOREUSE=1 -- if reuse between batches is the mechanism, the
+      zeros disappear or drop below three.
+  GGML_CUDA_NO_POOL=1 -- same expectation, by a blunter route.
+  If both still show exactly three zeros at 37, 73 and 109, the pool is cleared
+      and the earlier "changes nothing" is confirmed on a sharper instrument.
+
+Also to be checked: that each switch is actually taking effect, since a probe
+that silently does nothing would produce the same three zeros and read as a
+clean negative.

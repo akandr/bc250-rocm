@@ -1,0 +1,21 @@
+Pre-registered 2026-08-23, before running.
+
+The zeroed fp16 GEMM has identical arguments to a clean one and verifiably intact
+operands, so the difference is in execution. Two possibilities have not been
+separated:
+
+  A. The GEMM runs and writes zeros.
+  B. The GEMM does not write at all, and what is read back is whatever the
+     output temporary already held, which is zero because it was fresh.
+
+BC250_TEMP_SENTINEL stamps the output temporary with 0x3c before the GEMM. As
+half precision, 0x3c3c is about 1.0586, so a stamped buffer that is never written
+sums to a large non-zero value, while a buffer the GEMM zeroes sums to zero.
+
+Predictions:
+  If A, the zeroed calls still report abs_sum=0 with the sentinel on.
+  If B, the zeroed calls report a large non-zero sum, roughly the element count
+     times about 1.06, and the zeros disappear from the count.
+
+This distinguishes a kernel that computes the wrong answer from a dispatch that
+never lands, which are different defects with different owners.

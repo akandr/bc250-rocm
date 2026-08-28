@@ -1,0 +1,80 @@
+sie 24 09:56:54 bc250 systemd[1]: Listening on systemd-coredump.socket - Process Core Dump Socket.
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:1722)
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 450623 thread llama-bench pid 450623
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f4200005000 from client 0x1b (UTCL2)
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:          Faulty UTCL2 client ID: TCP (0x8)
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:          PERMISSION_FAULTS: 0x5
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:          RW: 0x1
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:1722)
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 450623 thread llama-bench pid 450623
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f4200005000 from client 0x1b (UTCL2)
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:1722)
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:  Process llama-bench pid 450623 thread llama-bench pid 450623
+sie 24 14:46:39 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f4200005000 from client 0x1b (UTCL2)
+sie 24 14:46:43 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:46:43 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:46:47 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:46:47 bc250 audit[450623]: ANOM_ABEND auid=4294967295 uid=1000 gid=1000 ses=4294967295 subj=system_u:system_r:unconfined_service_t:s0 pid=450623 comm="llama-bench" exe="/home/akandr/llama-master/build-hip/bin/llama-bench" sig=6 res=1
+sie 24 14:46:47 bc250 systemd-coredump[450630]: Process 450623 (llama-bench) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+sie 24 14:46:47 bc250 systemd[1]: Started systemd-coredump@0-1-450630_21412586-0.service - Process Core Dump (PID 450630/UID 0).
+sie 24 14:46:48 bc250 systemd-coredump[450631]: Process 450623 (llama-bench) of user 1000 dumped core.
+sie 24 14:46:52 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:46:53 bc250 audit[450622]: ANOM_ABEND auid=4294967295 uid=1000 gid=1000 ses=4294967295 subj=system_u:system_r:unconfined_service_t:s0 pid=450622 comm="timeout" exe="/usr/bin/timeout" sig=6 res=1
+sie 24 14:46:57 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:46:57 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:01 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:01 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:05 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:05 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:09 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:09 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:13 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:13 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:17 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:17 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:21 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:21 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:25 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:25 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:29 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:29 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:33 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:33 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:42 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:42 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:46 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:46 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:50 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:50 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:54 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:54 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:47:58 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:47:58 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:02 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:02 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:06 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:10 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:10 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:14 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:14 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:18 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:18 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:22 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:22 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:26 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:26 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:30 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:30 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:34 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:34 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:38 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:38 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:42 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:42 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:46 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:46 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:50 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:54 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:54 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+sie 24 14:48:58 bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004018
+sie 24 14:48:58 bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)

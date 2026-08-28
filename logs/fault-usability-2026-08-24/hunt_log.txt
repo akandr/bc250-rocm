@@ -1,0 +1,30 @@
+[2026-08-24 10:02:12]   battery written to hits/healthy-control.usability
+[2026-08-24 10:08:02]   battery written to hits/healthy-control.usability
+[2026-08-24 10:08:28] === resumed, boot 1, 0 iterations so far, gpu_recovery=0, uptime 704s
+[2026-08-24 10:09:12]   netconsole armed
+[2026-08-24 10:09:12] === resumed, boot 2, 1 iterations so far, gpu_recovery=0, uptime 748s
+[2026-08-24 10:26:48]   iteration 10: clean (rc=0 rate=30.35)
+[2026-08-24 10:33:04]   netconsole armed
+[2026-08-24 10:33:04] === resumed, boot 3, 0 iterations so far, gpu_recovery=0, uptime 2180s
+[2026-08-24 10:46:10]   iteration 10: clean (rc=0 rate=19.76 gate=none sdma=1)
+[2026-08-24 10:59:07]   iteration 20: clean (rc=0 rate=29.86 gate=none sdma=1)
+[2026-08-24 11:11:45]   iteration 30: clean (rc=0 rate=34.30 gate=none sdma=1)
+[2026-08-24 11:24:51]   iteration 40: clean (rc=0 rate=18.92 gate=none sdma=1)
+[2026-08-24 11:37:53]   iteration 50: clean (rc=0 rate=31.85 gate=none sdma=1)
+[2026-08-24 11:50:33]   iteration 60: clean (rc=0 rate=33.23 gate=none sdma=1)
+[2026-08-24 12:04:22]   iteration 70: clean (rc=0 rate=19.96 gate=none sdma=1)
+[2026-08-24 12:17:22]   iteration 80: clean (rc=0 rate=29.07 gate=none sdma=1)
+[2026-08-24 12:29:57]   iteration 90: clean (rc=0 rate=33.76 gate=none sdma=1)
+[2026-08-24 12:43:08]   iteration 100: clean (rc=0 rate=18.95 gate=none sdma=1)
+[2026-08-24 12:56:14]   iteration 110: clean (rc=0 rate=28.33 gate=none sdma=1)
+[2026-08-24 13:08:49]   iteration 120: clean (rc=0 rate=34.26 gate=none sdma=1)
+[2026-08-24 13:22:05]   iteration 130: clean (rc=0 rate=19.99 gate=none sdma=1)
+[2026-08-24 13:35:20]   iteration 140: clean (rc=0 rate=29.00 gate=none sdma=1)
+[2026-08-24 13:47:55]   iteration 150: clean (rc=0 rate=32.51 gate=none sdma=1)
+[2026-08-24 14:01:01]   iteration 160: clean (rc=0 rate=18.96 gate=none sdma=1)
+[2026-08-24 14:14:07]   iteration 170: clean (rc=0 rate=30.96 gate=none sdma=1)
+[2026-08-24 14:26:54]   iteration 180: clean (rc=0 rate=32.83 gate=none sdma=1)
+[2026-08-24 14:39:55]   iteration 190: clean (rc=0 rate=19.35 gate=none sdma=1)
+[2026-08-24 15:42:16]   netconsole armed
+[2026-08-24 15:42:17] === resumed, boot 4, 198 iterations so far, gpu_recovery=0, uptime 20732s
+[2026-08-24 16:11:01]   battery written to hits/post-fault-2026-08-24.usability

@@ -1,0 +1,47 @@
+0.05.465.052 W DEPRECATED: --mmap and --no-mmap are deprecated. use --load-mode mmap instead
+0.06.339.550 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.20.393.229 I 
+0.20.393.395 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | ROCm : NO_VMM = 1 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.20.393.968 I perplexity: tokenizing the input ..
+0.21.120.536 I perplexity: tokenization took 726.557 ms
+0.21.120.776 I perplexity: calculating perplexity over 1 chunks, n_ctx=2048, batch_size=2048, n_seq=1
+BC250TEMP Vcur-0 gemm_output_abs_sum=38213.1 (ne_dst=2097152)
+BC250TEMP Vcur-1 gemm_output_abs_sum=81087.3 (ne_dst=2097152)
+BC250TEMP Vcur-2 gemm_output_abs_sum=106676 (ne_dst=2097152)
+BC250TEMP Vcur-3 gemm_output_abs_sum=144400 (ne_dst=2097152)
+BC250TEMP Vcur-4 gemm_output_abs_sum=177879 (ne_dst=2097152)
+BC250TEMP Vcur-5 gemm_output_abs_sum=192571 (ne_dst=2097152)
+BC250TEMP Vcur-6 gemm_output_abs_sum=232418 (ne_dst=2097152)
+BC250TEMP Vcur-7 gemm_output_abs_sum=338688 (ne_dst=2097152)
+BC250TEMP Vcur-8 gemm_output_abs_sum=441159 (ne_dst=2097152)
+BC250TEMP Vcur-9 gemm_output_abs_sum=447348 (ne_dst=2097152)
+BC250TEMP Vcur-10 gemm_output_abs_sum=634222 (ne_dst=2097152)
+BC250TEMP Vcur-11 gemm_output_abs_sum=448183 (ne_dst=2097152)
+BC250TEMP Vcur-12 gemm_output_abs_sum=516563 (ne_dst=2097152)
+BC250TEMP Vcur-13 gemm_output_abs_sum=477581 (ne_dst=2097152)
+BC250TEMP Vcur-14 gemm_output_abs_sum=627699 (ne_dst=2097152)
+BC250TEMP Vcur-15 gemm_output_abs_sum=621139 (ne_dst=2097152)
+BC250TEMP Vcur-16 gemm_output_abs_sum=800348 (ne_dst=2097152)
+BC250TEMP Vcur-17 gemm_output_abs_sum=735403 (ne_dst=2097152)
+BC250TEMP Vcur-18 gemm_output_abs_sum=805004 (ne_dst=2097152)
+BC250TEMP Vcur-19 gemm_output_abs_sum=1.04632e+06 (ne_dst=2097152)
+BC250TEMP Vcur-20 gemm_output_abs_sum=1.03785e+06 (ne_dst=2097152)
+BC250TEMP Vcur-21 gemm_output_abs_sum=1.16729e+06 (ne_dst=2097152)
+BC250TEMP Vcur-22 gemm_output_abs_sum=1.4512e+06 (ne_dst=2097152)
+BC250TEMP Vcur-23 gemm_output_abs_sum=1.46929e+06 (ne_dst=2097152)
+BC250TEMP Vcur-24 gemm_output_abs_sum=2.06222e+06 (ne_dst=2097152)
+BC250TEMP Vcur-25 gemm_output_abs_sum=1.85875e+06 (ne_dst=2097152)
+BC250TEMP Vcur-26 gemm_output_abs_sum=2.25501e+06 (ne_dst=2097152)
+BC250TEMP Vcur-27 gemm_output_abs_sum=2.56842e+06 (ne_dst=2097152)
+BC250TEMP Vcur-28 gemm_output_abs_sum=2.73171e+06 (ne_dst=2097152)
+BC250TEMP Vcur-29 gemm_output_abs_sum=4.22802e+06 (ne_dst=2097152)
+BC250TEMP Vcur-30 gemm_output_abs_sum=4.33723e+06 (ne_dst=2097152)
+BC250TEMP Vcur-31 gemm_output_abs_sum=5.12295e+06 (ne_dst=2097152)
+BC250TEMP Vcur-32 gemm_output_abs_sum=6.19768e+06 (ne_dst=2097152)
+BC250TEMP Vcur-33 gemm_output_abs_sum=9.21968e+06 (ne_dst=2097152)
+BC250TEMP Vcur-34 gemm_output_abs_sum=8.01851e+06 (ne_dst=2097152)
+BC250TEMP Vcur-35 gemm_output_abs_sum=5.28345e+06 (ne_dst=2097152)
+0.31.547.297 I perplexity: 10.43 seconds per pass - ETA 0.17 minutes
+[1]7.2768,
+0.31.656.376 I Final estimate: PPL = 7.2768 +/- 0.65276
+

@@ -1,0 +1,41 @@
+
+	return r;
+}
+
+/* BC-250 probe: call the KFD reset path on demand, to test whether
+ * amdgpu.gpu_recovery=0 suppresses it. Writing 1 to the parameter invokes the
+ * same function the fatal resets take, without needing a GPU fault to trigger
+ * one. Harmless when the parameter is never written.
+ */
+
+void amdgpu_amdkfd_gpu_reset(struct amdgpu_device *adev)
+{
+	bc250_probe_adev = adev;
+	if (amdgpu_device_should_recover_gpu(adev))
+		(void)amdgpu_reset_domain_schedule(adev->reset_domain, &adev->kfd.reset_work);
+}
+
+static int bc250_test_kfd_reset_set(const char *val, const struct kernel_param *kp)
+{
+	struct amdgpu_device *adev = bc250_probe_adev;
+
+	if (!adev) {
+		pr_warn("BC250KFDRESET: no device recorded yet, run something on the GPU first\n");
+		return -ENODEV;
+	}
+	pr_warn("BC250KFDRESET: calling amdgpu_amdkfd_gpu_reset, gpu_recovery=%d, should_recover=%d\n",
+		amdgpu_gpu_recovery, amdgpu_device_should_recover_gpu(adev) ? 1 : 0);
+	amdgpu_amdkfd_gpu_reset(adev);
+	pr_warn("BC250KFDRESET: returned\n");
+	return 0;
+}
+
+static const struct kernel_param_ops bc250_test_kfd_reset_ops = {
+	.set = bc250_test_kfd_reset_set,
+};
+module_param_cb(bc250_test_kfd_reset, &bc250_test_kfd_reset_ops, NULL, 0644);
+
+
+void amdgpu_amdkfd_clear_kfd_mapping(struct amdgpu_device *adev)
+{
+#if IS_ENABLED(CONFIG_HSA_AMD)

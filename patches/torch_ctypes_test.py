@@ -5,10 +5,18 @@ it ships no gfx1013 code objects. If a kernel built for gfx1013 computes
 correctly on the wheel's own device memory, in the wheel's process and on its
 stream, then the runtime, driver, allocator and hardware are all fine, and the
 missing code objects are the whole of the problem.
-"""
-import ctypes, torch
 
-lib = ctypes.CDLL("/home/akandr/bc250_ext.so")
+Build the shared object from `bc250_ext.hip` beside this file, then point
+`BC250_EXT` at it, or drop it next to this script:
+
+    hipcc --offload-arch=gfx1013 -shared -fPIC -o bc250_ext.so bc250_ext.hip
+    BC250_EXT=./bc250_ext.so python3 torch_ctypes_test.py
+"""
+import ctypes, os, torch
+
+_here = os.path.dirname(os.path.abspath(__file__))
+SO = os.environ.get("BC250_EXT") or os.path.join(_here, "bc250_ext.so")
+lib = ctypes.CDLL(SO)
 lib.bc250_add_scale.restype = ctypes.c_int
 lib.bc250_add_scale.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
                                 ctypes.c_float, ctypes.c_int]

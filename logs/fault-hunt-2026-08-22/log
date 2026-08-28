@@ -1,0 +1,58 @@
+[2026-08-21 19:15:15] === hunt resumed, boot 1, 0 iterations so far, uptime 75411s
+[2026-08-21 19:15:16]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-21 19:15:16]   archived 40 lines; map snapshot missing
+[2026-08-21 20:14:58] === hunt resumed, boot 2, 12 iterations so far, uptime 14s
+[2026-08-21 20:23:42] === hunt resumed, boot 3, 13 iterations so far, uptime 14s
+[2026-08-21 20:26:13] === hunt resumed, boot 4, 14 iterations so far, uptime 14s
+[2026-08-21 20:30:35] === hunt resumed, boot 5, 15 iterations so far, uptime 277s
+[2026-08-21 21:00:49] === hunt resumed, boot 6, 21 iterations so far, uptime 14s
+[2026-08-21 21:19:02]   iteration 25: clean (rate=16.45)
+[2026-08-21 22:03:32] === hunt resumed, boot 7, 35 iterations so far, uptime 3777s
+[2026-08-21 23:12:04]   iteration 50: clean (rate=18.26)
+[2026-08-21 23:59:13] === hunt resumed, boot 8, 60 iterations so far, uptime 14s
+[2026-08-22 00:17:42] === hunt resumed, boot 9, 60 iterations so far, uptime 14s
+[2026-08-22 00:17:42]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-22 00:17:42]   archived 35 lines; map snapshot kept
+[2026-08-22 01:25:53]   iteration 75: clean (rate=19.63)
+[2026-08-22 03:19:07]   iteration 100: clean (rate=15.66)
+[2026-08-22 05:12:54]   iteration 125: clean (rate=16.95)
+[2026-08-22 07:06:34]   iteration 150: clean (rate=17.75)
+[2026-08-22 08:41:44] === resumed, boot 10, 171 iterations so far, gpu_recovery=0, uptime 30257s
+[2026-08-22 08:41:44]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-22 08:41:44]   fault lines archived; GPU reset begin lines in that boot: 0
+0
+[2026-08-22 08:43:34] === resumed, boot 11, 172 iterations so far, gpu_recovery=0, uptime 30367s
+[2026-08-22 08:43:35]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-22 08:43:35]   fault lines archived; GPU reset begin lines in that boot: 0
+0
+[2026-08-22 08:44:37] === resumed, boot 12, 173 iterations so far, gpu_recovery=0, uptime 30430s
+[2026-08-22 08:44:38]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-22 08:44:38]   fault lines archived; GPU reset begin lines in that boot: 0
+0
+[2026-08-22 08:45:48] === resumed, boot 13, 174 iterations so far, gpu_recovery=0, uptime 30501s
+[2026-08-22 08:45:49]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-22 08:45:49]   those faults were raised on purpose by the probes, not natural; archived as deliberate
+[2026-08-22 08:52:13]   iteration 175: clean (rate=17.07) gate=8.9442 ok
+[2026-08-22 09:17:01]   iteration 180: clean (rate=17.10) gate=8.9442 ok
+[2026-08-22 09:41:48]   iteration 185: clean (rate=17.93) gate=8.9442 ok
+[2026-08-22 10:06:39]   iteration 190: clean (rate=17.84) gate=8.9442 ok
+[2026-08-22 10:31:26]   iteration 195: clean (rate=18.89) gate=8.9442 ok
+[2026-08-22 10:56:27]   iteration 200: clean (rate=17.95) gate=8.9442 ok
+[2026-08-22 11:21:17]   iteration 205: clean (rate=16.90) gate=8.9442 ok
+[2026-08-22 11:46:09]   iteration 210: clean (rate=18.94) gate=8.9442 ok
+[2026-08-22 12:10:51]   iteration 215: clean (rate=19.19) gate=8.9442 ok
+[2026-08-22 12:34:16] === resumed, boot 14, 219 iterations so far, gpu_recovery=0, uptime 44208s
+[2026-08-22 12:34:16]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-22 12:34:16]   those faults were raised on purpose by the probes, not natural; archived as deliberate
+[2026-08-22 12:40:50]   iteration 220: clean (rate=17.49) gate=8.9442 ok
+[2026-08-22 13:05:34]   iteration 225: clean (rate=16.40) gate=8.9442 ok
+[2026-08-22 13:30:34]   iteration 230: clean (rate=19.48) gate=8.9442 ok
+[2026-08-22 14:19:17] === resumed, boot 15, 235 iterations so far, gpu_recovery=0, uptime 50510s
+[2026-08-22 14:19:18]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-22 14:19:18]   those faults were raised on purpose by the probes, not natural; archived as deliberate
+[2026-08-22 14:44:04]   iteration 240: clean (rate=19.50) gate=8.9442 ok
+[2026-08-22 15:09:10]   iteration 245: clean (rate=16.23) gate=8.9442 ok
+[2026-08-22 15:17:45] === resumed, boot 16, 246 iterations so far, gpu_recovery=0, uptime 54018s
+[2026-08-22 15:17:45]   PREVIOUS BOOT FAULTED, archiving
+[2026-08-22 15:17:46]   those faults were raised on purpose by the probes, not natural; archived as deliberate
+[2026-08-22 15:37:49]   iteration 250: clean (rate=17.77) gate=8.9442 ok

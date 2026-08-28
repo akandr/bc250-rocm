@@ -11,6 +11,13 @@
 # The claim under test: the SDMA failure sits at the submission end, because the
 # queue descriptor never advances during a hang. That rested on comparing a hang
 # against a different workload. Here the only difference is one byte.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/inv74; mkdir -p "$D"
 log () { echo "[$(date +%H:%M:%S)] $*" | tee -a "$D/log"; sync; }

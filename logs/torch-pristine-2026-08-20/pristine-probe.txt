@@ -1,0 +1,20 @@
+/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+/opt/amdgpu/share/libdrm/amdgpu.ids: No such file or directory
+
+rocBLAS error: Cannot read /home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary.dat: No such file or directory for GPU arch : gfx1013
+ List of available TensileLibrary Files : 
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx1030.dat"
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx1100.dat"
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx1101.dat"
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx1102.dat"
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx1200.dat"
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx1201.dat"
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx908.dat"
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx90a.dat"
+"/home/akandr/torchpristine/lib64/python3.14/site-packages/torch/lib/rocblas/library/TensileLibrary_lazy_gfx942.dat"
+timeout: monitowane polecenie zrobiło zrzut pamięci
+pristine gfx1013 files: 0
+grafted venv gfx1013 files: 56
+pristine Tensile libraries present:
+gfx1030 gfx1100 gfx1101 gfx1102 gfx1200 gfx1201 gfx90 gfx908 gfx942 

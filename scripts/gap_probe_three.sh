@@ -7,10 +7,17 @@
 # of forward passes, which it does not (one chunk at -c 2048 is already several).
 # The measurement it produces is still informative, but not as the pass-count
 # test it was written as. See the README section on the zeroed fp16 GEMM.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/inv61; mkdir -p "$D"
 HIP=~/llama-master/build-hip/bin
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 WIKI=~/wiki.test.raw
 M8=/opt/models/qwen3-8b-q8_0.gguf
 Q14=/opt/models/qwen3-14b.gguf

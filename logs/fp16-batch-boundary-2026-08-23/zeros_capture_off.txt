@@ -1,0 +1,6 @@
+BC250TEMP Vcur-34 gemm_output_abs_sum=2.12204e+06 (ne_dst=524288)
+BC250TEMP Vcur-35 gemm_output_abs_sum=1.38543e+06 (ne_dst=524288)
+BC250TEMP Vcur-0 gemm_output_abs_sum=0 (ne_dst=524288)
+BC250TEMP Vcur-1 gemm_output_abs_sum=23911 (ne_dst=524288)
+BC250TEMP Vcur-2 gemm_output_abs_sum=28877.6 (ne_dst=524288)
+BC250TEMP Vcur-3 gemm_output_abs_sum=38454.2 (ne_dst=524288)

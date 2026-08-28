@@ -1,0 +1,7 @@
+[13:57:11] === 1.5B perplexity gate with mapping ENABLED, three runs (reference 8.9442, no-mmap)
+[13:58:29]   mmap ON run 1: 8.9442 +/- 0.17287
+[13:59:43]   mmap ON run 2: 8.9442 +/- 0.17287
+[14:00:58]   mmap ON run 3: 8.9442 +/- 0.17287
+[14:00:58] === control: the same gate with mapping disabled, one run
+[14:02:12]   mmap OFF: 8.9442 +/- 0.17287
+[14:02:12] done

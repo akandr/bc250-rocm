@@ -1,0 +1,21 @@
+[13:58:27] === removing the KQV line and adding a counted per-node sync
+[13:58:44]   build rc=0 errors=0
+[13:58:44] === A as normal against B synchronised after every node, six rounds, alternated
+[13:58:57]   r1 arm=A: 17258.4513 wall=13s syncs=0
+[13:59:09]   r1 arm=B: 10.0103 wall=12s syncs=1
+[13:59:22]   r2 arm=B: 137.6897 wall=13s syncs=1
+[13:59:34]   r2 arm=A: 10.0103 wall=12s syncs=0
+[13:59:47]   r3 arm=A: 172.3724 wall=13s syncs=0
+[13:59:59]   r3 arm=B: 91.3845 wall=12s syncs=1
+[14:00:12]   r4 arm=B: 10.0103 wall=13s syncs=1
+[14:00:24]   r4 arm=A: 343.5732 wall=12s syncs=0
+[14:00:37]   r5 arm=A: 10.0103 wall=13s syncs=0
+[14:00:49]   r5 arm=B: 10.0103 wall=12s syncs=1
+[14:01:02]   r6 arm=B: 91.3845 wall=13s syncs=1
+[14:01:14]   r6 arm=A: 10.0103 wall=12s syncs=0
+[14:01:14] === restoring both files
+[14:01:32]   rebuild rc=0 set_prec back: 1  probe removed: 0
+[14:01:32] === summary (correct is 10.0103)
+[14:01:32]   arm A: 3 of 6 correct; median wall 13s; syncs observed 0; distinct: 10.0103 172.3724 17258.4513 343.5732 
+[14:01:32]   arm B: 3 of 6 correct; median wall 13s; syncs observed 1; distinct: 10.0103 137.6897 91.3845 
+[14:01:32] done

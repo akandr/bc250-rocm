@@ -6,7 +6,7 @@
 set -u
 D=~/inv62; mkdir -p "$D"
 HIP=~/llama-master/build-hip/bin
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 M8=/opt/models/qwen3-8b-q8_0.gguf
 log () { echo "[$(date +%H:%M:%S)] $*" | tee -a "$D/log"; sync; }
 log "=== 8B at d16128 WITH GGML_CUDA_DISABLE_GRAPHS=1 (the 14B condition)"

@@ -13,7 +13,7 @@
 # the three shipped patches and measures the same thing.
 set -u
 D=~/inv68; mkdir -p "$D"
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 M8=/opt/models/qwen3-8b-q8_0.gguf
 Q15=/opt/models/qwen2.5-1.5b-q4km.gguf
 CLEAN=~/llama-clean

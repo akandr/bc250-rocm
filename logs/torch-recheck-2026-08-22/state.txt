@@ -1,0 +1,6 @@
+kernel: 7.1.8-100.fc43.x86_64
+cmdline: amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 
+gpu_recovery: 0
+sdma firmware: 58355d1f7857 (navi12 substituted)
+rocm: pakiet rocm-core nie jest zainstalowany
+unknown

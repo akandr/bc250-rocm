@@ -1,0 +1,19 @@
+[17:38:20] === throughput and load time, SDMA on against off, ABBA over three rounds
+[17:38:46]   r1_1_sdma1 sdma=1  wall=25.780979812s  pp512=242.99  tg64=39.39
+[17:39:11]   r1_2_sdma0 sdma=0  wall=24.992107845s  pp512=243.00  tg64=39.20
+[17:39:36]   r1_3_sdma0 sdma=0  wall=24.883492555s  pp512=243.08  tg64=39.21
+[17:40:01]   r1_4_sdma1 sdma=1  wall=24.820008382s  pp512=243.01  tg64=39.01
+[17:40:26]   r2_1_sdma0 sdma=0  wall=24.814441660s  pp512=243.15  tg64=39.22
+[17:40:51]   r2_2_sdma1 sdma=1  wall=24.780618848s  pp512=243.15  tg64=39.33
+[17:41:15]   r2_3_sdma1 sdma=1  wall=24.706905592s  pp512=242.98  tg64=39.26
+[17:41:40]   r2_4_sdma0 sdma=0  wall=24.792392726s  pp512=242.72  tg64=39.26
+[17:42:05]   r3_1_sdma1 sdma=1  wall=24.687496216s  pp512=243.19  tg64=39.38
+[17:42:30]   r3_2_sdma0 sdma=0  wall=24.806283829s  pp512=242.63  tg64=39.24
+[17:42:55]   r3_3_sdma0 sdma=0  wall=24.789376779s  pp512=242.96  tg64=39.30
+[17:43:19]   r3_4_sdma1 sdma=1  wall=24.711615295s  pp512=243.07  tg64=39.27
+[17:43:19] === gate stability with SDMA enabled, three repeats (reference 8.9442)
+[17:44:36]   gate 1: 8.9442
+[17:45:50]   gate 2: 8.9442
+[17:47:05]   gate 3: 8.9442
+[17:47:05] === dmesg faults: 
+[17:47:05] done

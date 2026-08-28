@@ -23,3 +23,13 @@ precedent that patch 0001 applies to the HIP branch.
 
 Reproduce with `git fetch origin master`, `git worktree add --detach <dir>
 FETCH_HEAD`, then `git apply --check` each patch.
+
+This directory holds no capture, noted 26 August. The `git apply --check` output,
+the upstream commit listing and the three line readings above were not kept, so
+the table is a report of a check rather than the check itself, and it needs the
+network to redo. What can be verified offline is consistent with it: the shipped
+patches target `ggml/src/ggml-cuda/ggml-cuda.cu`, `src/llama-graph.cpp` and
+`ggml/src/ggml-cuda/vendors/hip.h` at hunks starting on lines 302, 2608 and 229,
+against the upstream sites reported here as 305, 2627 and 232, which is the line
+drift the paragraph above describes. The page's own instruction, to repeat this
+rather than trust it, is the right reading and now has a reason attached.

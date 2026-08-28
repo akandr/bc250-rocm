@@ -1,0 +1,7 @@
+cpu   first loss 2.30348  last loss 0.00048  finite True  22.14 s
+cuda  first loss 2.30348  last loss 0.00048  finite True  0.26 s
+loss decreased on gpu: True
+max parameter difference against cpu after 50 steps: 9.312e-03
+agrees with cpu: False
+max loss difference across all steps: 1.799e-05
+EXIT=0

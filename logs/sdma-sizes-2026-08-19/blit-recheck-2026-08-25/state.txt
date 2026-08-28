@@ -1,0 +1,6 @@
+kernel 7.1.8-100.fc43.x86_64
+sdma fw md5 3febefa5396a646fee8f1bd4f453062a (= navi12; md5 of the DECOMPRESSED
+  blob. State files written on 22 August record 58355d1f7857 for the same
+  firmware, which is the md5 of the compressed .xz file. Both were checked on
+  the board on 26 August and both are correct; they digest different things.)
+gpu_recovery=0

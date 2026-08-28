@@ -11,7 +11,7 @@
 # against the working build with everything else identical.
 set -u
 D=~/inv65; mkdir -p "$D"
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 Q15=/opt/models/qwen2.5-1.5b-q4km.gguf
 WIKI=~/wiki.test.raw
 SRC=~/llama-master

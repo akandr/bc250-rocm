@@ -1,0 +1,49 @@
+Pre-registered before any trial was run, cycle 16, 2026-08-24.
+
+Question. Every KIQ configuration so far has been run once. Single captures
+cannot tell a stopping point that depends on where the prints sit from one that
+wanders between identical runs. This is the repetition that should have come
+first.
+
+Four configurations, three repetitions each, interleaved A B C D A B C D A B C D
+so that a campaign cut short still covers all four. One module throughout,
+selected at runtime, so the code is byte-identical across every trial:
+
+  A  pre=0 mid=0   nothing added
+  B  pre=3 mid=3   a print before the read and another after it
+  C  pre=1 mid=0   msleep(50) before the read
+  D  pre=3 mid=0   a print before the read only
+
+Readout. Six step markers inside gfx_v10_0_kiq_init_queue() report how far the
+reset path gets, and the mode-3 prints report whether the read was reached and
+whether it returned. The measure per trial is the highest marker printed.
+
+Predictions.
+
+  A reaches no marker, three times out of three, matching both earlier runs of
+  this configuration.
+
+  B reaches step 6, three times out of three, reproducing the fine run of
+  23 August that got to step 7 of its own numbering.
+
+  D reaches at least step 1, three times out of three. This is the claim that
+  the print before the read is what matters, stated so it can fail.
+
+  C reaches no marker, three times out of three, since delay before the KIQ
+  initialisation has already been shown not to help.
+
+What each outcome would mean.
+
+  All four as predicted: the stopping point is deterministic given the build, the
+  print before the read is what moves it, and delay is not a substitute.
+
+  Any configuration split across its three repetitions: the stopping point is not
+  determined by the build, every placement conclusion drawn so far is unsupported,
+  and the right description of this defect is a race rather than a bad access.
+
+  B failing to reproduce: the 23 August observation was noise and nothing has
+  ever moved the stall.
+
+  D reaching no marker while B reaches step 6: what matters is not the print
+  before the read but something about the pair, which the mid knob can then be
+  used to isolate.

@@ -23,6 +23,16 @@ measurement on record gives mean 37.34, sd 1.20, range 35.40 to 39.20. The
 campaign's 39.20 is 1.6 standard deviations above that mean, an ordinary sample.
 There was no regression.
 
+Ten of those eleven inputs can still be pointed at: 36.30 in
+`../campaign-rerun-2026-08-18/`, 36.40, 36.66, 38.15 and 38.34 here, 36.60, 37.38
+and 37.42 in `../flush-cost-2026-08-18/`, and 38.90 and 39.20 in
+`../bench-fixed-2026-08/`. The eleventh is the 35.40 that sets the lower bound,
+and no captured file in this repository holds it. Taking it as given, the ten
+recovered readings and it reproduce the mean and standard deviation exactly, at
+37.3409 and 1.1957. So the statistic is sound to the extent one of its inputs can
+be taken on trust, which is worth saying because six places in this repository now
+quote it.
+
 The useful residue: `llama-bench` reports an error bar computed across
 repetitions within one invocation, and for this model its median is 0.43 while
 the across-invocation spread is 1.20. Reported bars understate the real

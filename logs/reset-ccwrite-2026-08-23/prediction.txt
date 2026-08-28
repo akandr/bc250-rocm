@@ -1,0 +1,19 @@
+Pre-registered 2026-08-23, before running.
+
+The last driver line before the host stalls is the 40-CU unlock being reapplied
+to all four shader arrays during the resume that follows a GPU reset. Everything
+before it succeeds: the reset itself, PSP, SMU. The unlock is a patch this
+repository carries, writing CC_GC_SHADER_ARRAY_CONFIG and an SPI register per
+shader array.
+
+Being last in the log does not make it the cause. It could equally be the last
+thing that happens to print before an unrelated stall.
+
+Prediction: if the unlock write during resume is what wedges the host, then
+booting with amdgpu.bc250_cc_write_mode=0, which disables it, will let the board
+survive a deliberate reset. If the board dies anyway, the unlock is not the cause
+and its position in the log is incidental.
+
+Either outcome is worth having. A survival would mean this repository's own patch
+is what makes resets fatal, which would need saying loudly. A death would clear
+the patch and leave the stall unexplained.

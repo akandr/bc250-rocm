@@ -25,6 +25,19 @@ else
   grep -n "flush_pasid_uses_kiq" "$GMC"
 fi
 
+# Some kernel-devel packages ship the amdgpu directory without amdgpu_trace.h,
+# and the module build then dies on a trace include that resolves relative to
+# the kernel build tree rather than to the source. Copying the headers across
+# fixes it; this was hit porting to 7.1.8, whose kernel-devel omits that file.
+KBUILD=/lib/modules/$KREL/build
+if [ ! -f "$KBUILD/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h" ]; then
+  echo "=== kernel-devel is missing amdgpu_trace.h; copying headers from the source tree"
+  for sub in amdgpu amdkfd include display; do
+    [ -d "$AMDDIR/$sub" ] && sudo rsync -a --include='*/' --include='*.h' --exclude='*' \
+      "$AMDDIR/$sub/" "$KBUILD/drivers/gpu/drm/amd/$sub/" 2>/dev/null
+  done
+fi
+
 echo "=== building amdgpu module only"
 cd $SRC
 sudo make -C /lib/modules/$KREL/build M=$SRC/drivers/gpu/drm/amd/amdgpu -j4 modules 2>&1 | tail -5

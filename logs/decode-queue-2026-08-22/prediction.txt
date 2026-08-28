@@ -1,0 +1,13 @@
+Pre-registered before seeing runs 7 to 10, 2026-08-22.
+
+From the first six runs, dword 135 (offset 0x021c) of the compute MQD takes two
+values, 0x80000111 and 0x00000111, and splits perfectly along the rate ordering:
+the three slowest runs carry the top bit, the three fastest do not.
+
+That is not evidence yet. 60 dwords varied between runs; for a field with two
+values splitting three and three, the chance of aligning with any given ordering
+is 1 in 20, so roughly three of the sixty should look monotone by luck. Four did.
+
+Prediction, to be judged on runs 7 to 10 only: if the top bit of dword 135 is a
+real correlate, runs carrying 0x80000111 will be slower than runs carrying
+0x00000111. If the bit is unrelated, the two groups will overlap.

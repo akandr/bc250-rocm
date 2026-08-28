@@ -11,11 +11,18 @@
 # This varies both. Two additional corpora: a different slice of the same wiki
 # text, and concatenated C++ source, which is a large distribution shift. Then
 # the same decode measurement through a second instrument.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/inv70; mkdir -p "$D"
 HIP=~/llama-master/build-hip/bin
 VK=~/llama-master/build-vk/bin
-L=/home/akandr/rocBLAS/build/release/rocblas-install/lib
+L=${ROCBLAS_LIB_DIR:-/home/akandr/rocBLAS/build/release/rocblas-install/lib}
 Q15=/opt/models/qwen2.5-1.5b-q4km.gguf
 M8=/opt/models/qwen3-8b-q8_0.gguf
 E=(env HSA_ENABLE_SDMA=0 GGML_CUDA_CUBLAS_COMPUTE_TYPE=f32 LD_LIBRARY_PATH=$L)

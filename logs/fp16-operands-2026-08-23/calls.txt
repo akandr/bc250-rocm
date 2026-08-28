@@ -1,0 +1,14 @@
+BC250PTR Vcur-0 src0=0x7fb0a4be0000(al=131072) src1=0x7fb003200000(al=2097152) dst=0x7fb02f003000(al=4096) ne11=512
+BC250PTR Vcur-35 src0=0x7fb258ac0c00(al=1024) src1=0x7fb003200000(al=2097152) dst=0x7fb02f003000(al=4096) ne11=512
+BC250PTR Vcur-0 src0=0x7fb0a4be0000(al=131072) src1=0x7fb003200000(al=2097152) dst=0x7fb02f003000(al=4096) ne11=512
+BC250PTR Vcur-1 src0=0x7fb0b1328400(al=1024) src1=0x7fb003200000(al=2097152) dst=0x7fb02f003000(al=4096) ne11=512
+BC250PTR Vcur-0 src0=0x7fb0a4be0000(al=131072) src1=0x7fb003200000(al=2097152) dst=0x7fb02f003000(al=4096) ne11=512
+
+BC250DEV Vcur-0 device-sees weight_abs_sum=84296.1 activations_abs_sum=16499.4
+BC250DEV Vcur-35 device-sees weight_abs_sum=95834.8 activations_abs_sum=3.12632e+06
+BC250DEV Vcur-0 device-sees weight_abs_sum=84296.1 activations_abs_sum=17028.6
+BC250DEV Vcur-1 device-sees weight_abs_sum=88083.7 activations_abs_sum=32439.6
+BC250DEV Vcur-0 device-sees weight_abs_sum=84296.1 activations_abs_sum=17059.3
+BC250TEMP Vcur-35 gemm_output_abs_sum=1.38543e+06 (ne_dst=524288)
+BC250TEMP Vcur-0 gemm_output_abs_sum=0 (ne_dst=524288)
+BC250TEMP Vcur-1 gemm_output_abs_sum=23911 (ne_dst=524288)

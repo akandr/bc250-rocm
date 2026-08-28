@@ -3,6 +3,13 @@
 # Answers per rung: (i) 40-CU unlock fired? (ii) HWS sustained GEMM survives
 # (the 6.18 wedge)? (iii) compute correct (ppl gate)? (iv) churn-fault behavior.
 # Ends by arming a one-shot boot back to 7.1.5 (does not reboot itself).
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 KREL=$(uname -r)
 D=~/ladder-results/$KREL; mkdir -p $D

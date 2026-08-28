@@ -28,8 +28,12 @@ plt.rcParams.update({
 # ---------------- data (fill/verify from logs) ----------------
 # model label -> (hip_tg, vk_tg, hip_pp512, vk_pp512); None = not measured/failed
 # ROCm: fixed stack (integrated flag, KQV precision, RDNA1 macro), fa on,
-# native gfx1013 rocBLAS, f32 cuBLAS compute type. Vulkan: same build, same
-# boot, fa on. All rows perplexity-gated against Vulkan (2026-08-12 campaign).
+# native gfx1013 rocBLAS, f32 cuBLAS compute type. Vulkan: same build, fa on.
+# All rows perplexity-gated against Vulkan (2026-08-12 campaign). Not the same
+# boot: the Vulkan rows were taken on 12 August and four of the five HIP rows on
+# 13 August, thirteen hours apart, and whether the board stayed up between them
+# is not recorded. The figure said "same boot" until 26 August, after the prose
+# beside it had already been corrected.
 MODELS = {
     "qwen2.5 1.5B Q4_K_M":        (113.50, 210.95, 805.61, 1842.18),
     "qwen3 8B Q8_0":              (39.20, 39.14, 241.01, 401.10),
@@ -89,9 +93,10 @@ def fig_backends():
         else: ax.set_xlim(0, max(vk_tg) * 1.22)
     a1.legend(loc="center right", fontsize=7.5, frameon=False)
     fig.text(0.01, -0.02, "ROCm: llama.cpp master with the three gfx1013 fixes, flash attention on, "
-             "native gfx1013 rocBLAS, f32 cuBLAS compute type. Vulkan: same build and boot. "
+             "native gfx1013 rocBLAS, f32 cuBLAS compute type. Vulkan: same build, measured "
+             "thirteen hours earlier; not the same boot. "
              "Every row passes a wikitext perplexity gate against Vulkan.", fontsize=7, color="#444")
-    fig.suptitle("llama.cpp on the BC-250 at 40 CU: ROCm/HIP vs Vulkan (same build, same boot config)",
+    fig.suptitle("llama.cpp on the BC-250 at 40 CU: ROCm/HIP vs Vulkan (same build)",
                  fontsize=10, y=1.0)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-rocm-vs-vulkan.png"), bbox_inches="tight")

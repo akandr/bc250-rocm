@@ -1,0 +1,75 @@
+Written 2026-08-24, after the hunt started and before any fault, kept apart from
+predictions.txt so the pre-registration stands as registered.
+
+The method in predictions.txt said "rotate four workloads". It now runs a
+different round, and the reason is worth recording because it is the difference
+between days well spent and days wasted.
+
+Checking what actually produced faults, rather than assuming, turned up two
+things. The only complete kernel trail on record came from a soak round that was
+a 2048-token prefill, a correctness gate and an allocation-churn sweep, with SDMA
+alternated on and off, and it faulted during the prefill of an SDMA-enabled
+round. And five fatal resets came out of twenty retained boots of ordinary
+campaign activity, while the previous hunt's 255 iterations of one repeated
+llama-bench shape produced none at all.
+
+Both point the same way, and the working hypothesis is that varied work provokes
+this while hours of the same call do not. Stated as a hypothesis because that is
+what it is: the twenty boots are not a controlled comparison against the 255
+iterations, since they differ in duration, in configuration and in what was being
+run, and nobody designed them as arms of anything. It is enough to choose a round
+composition by, and not enough to conclude from. The round now mirrors the soak
+that faulted, on the small model so a round
+stays near two minutes, with every tenth round pulling in a 9 to 11 GiB model to
+exercise the KFD SVM paths that the flush family lives on.
+
+Two constants were being held fixed without justification, which this
+investigation has been caught doing before. The first is SDMA: every previous
+hunt ran with HSA_ENABLE_SDMA=0, including the one that found nothing, so it is
+now alternated round by round. That is not a claim that SDMA is required, since
+faults also appeared on boots predating the microcode substitution. The second is
+the workload shape itself, which is what the paragraph above is about.
+
+One check that the round is the round: its prefill returns 662.56 t/s against the
+soak's recorded range of 661.49 to 663.05.
+
+A gate check was also added inside the round. A perplexity value that moves is a
+correctness event even when no kernel fault is logged, and a hunt that only
+watches the journal would not see it.
+
+2026-08-24, the fault arrived.
+
+At 14:46:39, during round 191 or thereabouts, three gfxhub page faults on vmid 8,
+pasid 1722. Then the chain this repository has documented since the August soak:
+queue preemption failed on doorbell_id 80004018, then BC-250 runlist rebuild
+flush failed (-62), the same doorbell and the same error as the soak crash.
+
+And then nothing. No GPU reset begin, not one, in a boot that has since logged
+1193 preemption failures and 1074 runlist rebuild failures. amdgpu.gpu_recovery=0
+did exactly what reading the driver said it would: the reset was never requested,
+and the host stayed up. That is the pre-registered prediction confirmed, and it
+is the first time it has been observed against a natural fault rather than a
+parameter write.
+
+The host is alive an hour later: ssh answers, the journal is still being written,
+uptime is unbroken.
+
+What the machine is like in that state is the question the hunt exists for, and
+the answer is already visible in the coredumps without needing the battery. Every
+GPU process since the fault has died:
+
+  14:46:48  llama-bench        SIGABRT
+  14:54:26  llama-perplexity   SIGABRT
+  15:08:37  test-backend-ops   SIGSEGV
+  15:16:13  llama-bench        SIGSEGV
+  15:23:54  llama-perplexity   SIGABRT
+  15:38:06  test-backend-ops   SIGSEGV
+  15:49:44  llama-bench        SIGSEGV
+
+The 15:49 one segfaulted inside libamdhip64 itself. So the expectation this
+repository has been publishing, "a dead process and a wedged GPU on a live host",
+is right in shape and understates it: it is not one dead process, it is every
+process from then on, indefinitely, with the driver logging a preemption failure
+every few seconds for over an hour.
+
+The hunt was stopped at 15:56 to freeze this state before measuring it.

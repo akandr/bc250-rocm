@@ -1,0 +1,19 @@
+[   18.624050] MARK-A-3-1
+[   22.460034] amdgpu 0000:01:00.0: GPU reset begin!. Source:  5
+[   26.444613] amdgpu 0000:01:00.0: failed to suspend display audio
+[   26.469239] amdgpu 0000:01:00.0: MODE1 reset
+[   26.469261] amdgpu 0000:01:00.0: GPU mode1 reset
+[   26.469349] amdgpu 0000:01:00.0: GPU psp mode1 reset
+[   26.469446] amdgpu 0000:01:00.0: GPU reset succeeded, trying to resume
+[   26.469480] amdgpu 0000:01:00.0: BC-250: flush_pasid_uses_kiq=0 (param 0)
+[   26.469716] amdgpu 0000:01:00.0: [drm] PCIE GART of 512M enabled (table at 0x000000F41FE00000).
+[   26.469770] amdgpu 0000:01:00.0: VRAM is lost due to GPU reset!
+[   26.469791] amdgpu 0000:01:00.0: PSP is resuming...
+[   26.489966] amdgpu 0000:01:00.0: reserve 0x400000 from 0xf41f800000 for PSP TMR
+[   26.526178] amdgpu 0000:01:00.0: SMU is resuming...
+[   26.526389] amdgpu 0000:01:00.0: SMU is resumed successfully!
+[   26.526457] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   26.526504] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   26.526549] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   26.526603] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   29.851901] clocksource: Watchdog remote CPU 10 read timed out

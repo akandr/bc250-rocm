@@ -8,7 +8,7 @@ a transcript.
 | file | claim | measured |
 |---|---|---|
 | `dgemm.log` | FP64 DGEMM at N=2048 | 456.3 GFLOP/s, no wrong results, about 95 percent of the 480 GFLOP/s FP64 rate peak |
-| `torch_sweep.log` | PyTorch matmul agrees with a CPU reference | relative error 1.5e-06 at N=1024 to 5.9e-06 at N=8192 |
+| `torch_sweep.log` | PyTorch matmul agrees with a CPU reference | relative error 1.89e-06 at N=1024 to 5.88e-06 at N=8192 |
 | `retrieval.log` | cosine-similarity search over a million 384-dimensional embeddings | 928 queries per second, agreeing with the CPU reference to 2.1e-07 |
 | `server.log`, `completion.json` | `llama-server` over HTTP | `/health` answered in 8 seconds, a coherent completion at 114.6 tokens/s by the server's own timings |
 | `mandelbrot.log` | FP64 Mandelbrot render | writes its 2048x1536 image; the image itself is not kept here |

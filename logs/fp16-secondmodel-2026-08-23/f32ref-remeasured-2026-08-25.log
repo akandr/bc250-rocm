@@ -1,0 +1,4 @@
+=== 14B f32 reference at ubatch 2048, one chunk (repo says 6.3454) ===
+Final estimate: PPL = 6.3454
+=== and the fp16 arm for comparison (repo says 6.3539) ===
+Final estimate: PPL = 6.3539

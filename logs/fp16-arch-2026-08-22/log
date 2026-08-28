@@ -1,0 +1,7 @@
+[21:15:47] === dual-arch build, fp16 compute type, three rounds
+[21:17:32]   round 1: gfx1013=11.5415  gfx1010=9.1117  gfx1030=FAIL
+[21:19:13]   round 2: gfx1013=18.2958  gfx1010=9.1117  gfx1030=FAIL
+[21:20:50]   round 3: gfx1013=17.3015  gfx1010=9.1117  gfx1030=FAIL
+[21:20:50] === f32 control on the same build
+[21:21:30]   
+[21:21:30] done

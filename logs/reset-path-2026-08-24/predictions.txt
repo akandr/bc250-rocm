@@ -1,0 +1,54 @@
+Pre-registered before any trial, cycle 17, 2026-08-24.
+
+Two questions, one module. The module carries the register probe in gfx_v10_0.c
+and the KFD reset parameter in amdgpu_amdkfd.c, so the same instrumentation can
+be reached from both reset paths.
+
+Question 1: how much of the register block is unreachable?
+
+The stall is an MMIO read to the GC block that does not return, and it is
+intermittent. What is unknown is whether the block is unreachable at that moment
+or whether one register is. The probe reads, in order, PCI config space, then
+mmGRBM_STATUS, then mmSCRATCH_REG0, then mmRLC_STAT, then the scheduler register
+that the sequence normally hangs on, printing each value as it returns. Every
+line is numbered, because netconsole is UDP and a gap has to be distinguishable
+from a stall.
+
+Question 2: do the two reset paths fail the same way?
+
+Every localisation so far was triggered through debugfs, which enters by
+amdgpu_device_gpu_recover() with AMDGPU_RESET_SRC_USER. The resets that take this
+board down under load enter by amdgpu_amdkfd_gpu_reset() with
+AMDGPU_RESET_SRC_HWS. That the two fail identically has been assumed throughout
+and never observed.
+
+Arms, three repetitions each because a single capture of this stall has already
+been shown to be worth nothing:
+
+  debugfs   bc250_kiq_regprobe=1, triggered by reading amdgpu_gpu_recover
+  kfd       bc250_kiq_regprobe=1, triggered by writing bc250_test_kfd_reset,
+            booted with gpu_recovery at the driver default so the guard does not
+            swallow the call
+
+Predictions.
+
+  PCI config space reads return a valid vendor and device word, not all-ones, in
+  every trial of both arms. The device has not fallen off the bus; if it had, the
+  reset could not have logged its own success.
+
+  The first GC register read, mmGRBM_STATUS, hangs in most trials of both arms.
+  This is the prediction that carries information: the stall has been observed at
+  two different GC accesses already, which is more consistent with the block
+  being unreachable than with one register misbehaving.
+
+  If instead GRBM_STATUS, SCRATCH_REG0 and RLC_STAT all return and only the
+  scheduler register hangs, the RLC is implicated specifically and the shape of
+  the defect changes.
+
+  The two arms stop at the same place, trial for trial in distribution rather
+  than one for one, since the stall is a race. If they differ, the bisect
+  describes the deliberate reset and not the one that matters, and it needs
+  redoing on the KFD path.
+
+  The stall remains intermittent in both arms, so some trial is expected to get
+  further than the others. Nothing should be read into which one.

@@ -1,0 +1,7 @@
+allocated 4 buffers, queueing work
+queued, now faulting at element offset 1073741824
+Memory access fault by GPU node-1 (Agent handle: 0x55b0d71e1380) on address 0x7f0031200000. Reason: Page not present or supervisor privilege.
+Failed to fetch queues snapshot.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci
+exit=134

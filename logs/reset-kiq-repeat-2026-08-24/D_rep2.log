@@ -1,0 +1,24 @@
+[   38.165770] MARK-D-2-1
+[   42.019383] amdgpu 0000:01:00.0: GPU reset begin!. Source:  5
+[   46.019402] amdgpu 0000:01:00.0: failed to suspend display audio
+[   46.043929] amdgpu 0000:01:00.0: MODE1 reset
+[   46.043959] amdgpu 0000:01:00.0: GPU mode1 reset
+[   46.044061] amdgpu 0000:01:00.0: GPU psp mode1 reset
+[   46.044192] amdgpu 0000:01:00.0: GPU reset succeeded, trying to resume
+[   46.044242] amdgpu 0000:01:00.0: BC-250: flush_pasid_uses_kiq=0 (param 0)
+[   46.044544] amdgpu 0000:01:00.0: [drm] PCIE GART of 512M enabled (table at 0x000000F41FE00000).
+[   46.044626] amdgpu 0000:01:00.0: VRAM is lost due to GPU reset!
+[   46.044663] amdgpu 0000:01:00.0: PSP is resuming...
+[   46.064764] amdgpu 0000:01:00.0: reserve 0x400000 from 0xf41f800000 for PSP TMR
+[   46.100677] amdgpu 0000:01:00.0: SMU is resuming...
+[   46.100760] amdgpu 0000:01:00.0: SMU is resumed successfully!
+[   46.100840] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   46.100914] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   46.100988] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   46.101063] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   46.101269] amdgpu 0000:01:00.0: BC250ACT before read
+[   46.101313] amdgpu 0000:01:00.0: BC250ACT step 1 kiq_setting returned
+[   46.101358] amdgpu 0000:01:00.0: BC250ACT step 2 mqd restored
+[   46.101698] amdgpu 0000:01:00.0: BC250ACT step 3 ring cleared
+[   46.101761] amdgpu 0000:01:00.0: BC250ACT step 4 grbm selected
+[   46.408027] clocksource: Watchdog remote CPU 7 read timed out

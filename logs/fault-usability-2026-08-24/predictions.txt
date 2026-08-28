@@ -1,0 +1,51 @@
+Pre-registered before the hunt started, 2026-08-24.
+
+Question. `amdgpu.gpu_recovery=0` is confirmed to stop the reset: called
+directly, the guard returns and the board stays up. That is not the same as the
+machine being usable afterwards. Under the parameter a fault should leave a dead
+process and, in principle, a wedged GPU on a live host, and nobody has looked at
+the second half. It is the largest gap in the advice this repository gives.
+
+Method. Run rounds until a natural fault appears in the persistent journal,
+(the round composition was revised before any data was collected; see notes.txt) then stop and run a battery before anything else touches the GPU. The
+previous hunt could not answer this: on a fault it logged "board still up" and
+launched the next round, which conflates the loop continuing with the machine
+being healthy.
+
+The battery, in increasing order of ambition, so the first step that fails says
+how far usability survived:
+
+  1  did a reset happen at all, which the parameter says it should not
+  2  does the kernel still see the device on the bus
+  3  does the runtime still enumerate it and report free memory
+  4  can a fresh process allocate and run a kernel, and is the answer correct
+  5  does a real workload still run and still return the right perplexity
+
+Every step has a timeout, because a hang is an answer here and must not be
+allowed to look like a long wait. A control battery was run with the board
+healthy, using the same code path, and is kept beside this file: every step
+passes, the gate returning 8.4240.
+
+Predictions.
+
+  A fault will be rare. The previous hunt saw none in 255 iterations across 16
+  boots. Rotating four shapes rather than repeating one is an attempt to improve
+  on that and may not.
+
+  When one arrives, no `GPU reset begin` line accompanies it. This is the
+  parameter doing its job and is the one part already supported by evidence.
+
+  The host survives, the device stays on the bus, and step 2 passes.
+
+  Steps 3 to 5 are the real question and I do not have a confident prediction.
+  The stated expectation in the repository has been "a dead process and a wedged
+  GPU on a live host", which predicts step 3 or 4 failing. If instead all five
+  pass, the parameter is a better mitigation than has been claimed, and the
+  advice on the front page should say so.
+
+  If the host does not survive, that is also an answer, and netconsole is armed
+  at every boot to capture where it stops.
+
+What this cannot settle. The fault has to arrive on its own. A deliberate one
+does not reach the same path, which is why every earlier attempt to force this
+question failed.

@@ -14,7 +14,16 @@ per-model ceilings in `../context-ceilings-2026-08-17/` re-measure everything at
 8 tokens for that reason.
 
 The 14B failure at 16384 recorded here is not a memory limit. It was later
-traced to HIP graph instantiation failing at a primed depth of 12000, and the
-model runs a 16384-token context correctly with `GGML_CUDA_DISABLE_GRAPHS=1`.
+attributed to HIP graph instantiation failing at a primed depth of 12000, and the
+model is reported to run a 16384-token context correctly with
+`GGML_CUDA_DISABLE_GRAPHS=1`.
+
+Two things about that, noted 26 August. The failing run above is deepseek-r1-14B,
+not qwen3-14B, which matters because other pages attribute the same limit to the
+other model. And the success it is contrasted with is a perplexity run at that
+context rather than the primed-depth decode that failed here, so the pair is not
+a before and after of the same measurement. No run of this configuration with the
+flag set survives anywhere. The attribution may well be right; it is not
+demonstrated by what is kept.
 
 Collected by repeated `llama-bench` invocations at increasing `-d` depth, the same measurement the context-ceiling table uses; see `scripts/decode_variance.sh` for the same call shape.

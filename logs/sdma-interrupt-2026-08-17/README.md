@@ -121,10 +121,27 @@ otherwise never finishes loading runs at 119.3 t/s and returns perplexity
 repetitions each puts it level with `HSA_ENABLE_SDMA=0` (117.6 and 118.0 against
 118.1 and 119.7).
 
+None of those six figures is captured, noted 26 August. What this directory
+ships for the knob is `blit-knob/knob.txt`, the boundary table above, and the
+three traces; no benchmark or perplexity output from the run described in this
+paragraph was kept, so the throughputs and the 8.9442 are recollections of it.
+The boundary result they are attached to does not depend on them, and it is the
+one this page is cited for. The reference perplexity itself is well captured
+elsewhere; what is missing is a run of it in this configuration.
+
 It is not the better workaround, though. `HSA_ENABLE_SDMA=0` has no ceiling to
 get wrong, while this knob only covers copies below whatever value is set and a
 single larger one falls back to SDMA and hangs. Its value is as evidence: a
 second, independent way of forcing the blit path produces the same result.
+
+Neither workaround is needed now, noted 26 August. Two days after this run, the
+board's own `cyan_skillfish2` SDMA microcode was replaced with the navi12 blobs
+that `linux-firmware` already ships, and every transfer completes: the full sweep
+runs 4 KiB to 2 GiB with zero faults where 16385 bytes previously never returned
+([`../sdma-firmware-2026-08-19/`](../sdma-firmware-2026-08-19/)). So the threshold
+measured here, and the trap instrumentation showing no interrupt arriving above
+it, are properties of the wrong firmware rather than of the board or the engine.
+The measurements stand; the framing of SDMA as broken does not.
 
 `knob.txt` also lists the other copy-related runtime variables found in
 `libamdhip64`, none of which were needed here.

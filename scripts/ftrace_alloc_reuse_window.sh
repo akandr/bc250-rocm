@@ -4,6 +4,13 @@
 # ftrace and freeze the buffer the moment the process exits, then classify
 # by the process log and dmesg (pattern: "gfxhub.*page fault").
 # INDUCES FAULTS - run when nothing else needs the GPU.
+#
+# Fault counts below come from dmesg, which sees only the current boot and
+# only what is still in the ring buffer. If a run ends in a GPU reset the
+# board goes down and the following check reads an empty buffer; and on a long
+# run the buffer wraps, so early messages are gone. A zero here means "nothing
+# dmesg can still see", not "nothing happened". Use scripts/fault_count.sh in
+# new work.
 set -u
 D=~/inv28; mkdir -p $D
 T=/sys/kernel/tracing

@@ -21,5 +21,16 @@ three runs in the same session gave 431.6, 431.5 and 432.1, which is the same
 answer; the table matches `membw.out` in this directory rather than that first
 set, because the shipped log is what a reader can check.
 
+A fourth reading, added 26 August. The same probe on 25 August returned
+430.3 GB/s (400.7 GiB/s) in
+[`../rocm-only-verify-2026-08-25/`](../rocm-only-verify-2026-08-25/), on kernel
+7.1.8 rather than the stack here. That is 0.4 percent below the lowest reading in
+the table, which is small but larger than the 0.12 percent spread within this
+session, so the steadiness claimed above is a within-session steadiness and the
+between-session spread is the wider of the two. The 432 GB/s the write-up quotes
+is the value measured here across three shipped runs; a reader comparing against
+a fresh run of their own should expect about 430 to 432 rather than a repeat to
+one decimal.
+
 Built with `clang++ -x hip --offload-arch=gfx1013 -O3` from the shipped source,
 run with `HSA_ENABLE_SDMA=0`, 2048 MiB buffer.

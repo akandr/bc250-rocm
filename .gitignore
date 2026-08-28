@@ -3,3 +3,7 @@ __pycache__/
 .DS_Store
 texput.log
 *.aux
+# The hunt's live netconsole capture grows for as long as the hunt runs and is
+# mostly routine kernel chatter. It lives outside the repository while running and
+# is copied in only if it catches something.
+logs/fault-usability-2026-08-24/netconsole.log

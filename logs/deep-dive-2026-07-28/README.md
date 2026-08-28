@@ -57,6 +57,22 @@ OpenCL platforms for gfx1013, so clpeak cannot run on the compute queue.
   evicted` / preemption timeout). So the defect bites PyTorch exactly as it bites rocBLAS and the
   probes; a real training or inference workload (many sustained matmuls) wedges.
 
+Two quoted strings on this page are not in its captures, noted 26 August. What
+`pytorch_native_gfx1013_matmul.log` holds is three successful single matmuls at
+1.48e-06, 2.26e-06 and 2.74e-06 relative error, and then `rc=124`. The sweep
+script confirms the fourth case was `(4096,50)`, so the wedge itself is captured:
+the run timed out where the three before it returned. What is not captured is the
+mechanism named in the parenthesis, since neither `queue evicted` nor a
+preemption timeout appears in any file here, only in this prose. Nor does
+`Illegal seek for GPU arch : gfx1013` appear anywhere; the wheel's inability to
+dispatch is independently established, and with a different error message, in
+[`../torch-pristine-2026-08-20/`](../torch-pristine-2026-08-20/), which captures
+`Cannot read ... TensileLibrary.dat ... for GPU arch : gfx1013`.
+
+This is the oldest material in the repository and predates the practice of
+keeping the output that a sentence quotes. The measurements it reports are sound
+where they are captured; the error strings are recollections.
+
 Also noted: Fedora's system rocBLAS "supports gfx1013" only by **symlinking gfx1013 to gfx1010**
 kernels (`rocblas_gfx1013_symlinks.log`), i.e. the override approach baked into the package. This
 explains "rocBLAS works on gfx1013" reports (it is gfx1010 code) and why they fail on real
@@ -81,7 +97,27 @@ Details and the patch: [`eviction-skip-experiment.md`](eviction-skip-experiment.
 ## 6. Memory placement and workarounds (follow-up)
 
 `debug_evictions` confirms the wedge is a userptr eviction of GTT-mapped compute memory that the MEC
-fails to preempt. Compute lands in GTT because the driver sets `apu_prefer_gtt` when VRAM < GTT (here
+fails to preempt.
+
+Read this section knowing what came later, added 26 August. Every wedge
+measurement in this round, and the mitigation below, was taken under
+`amdgpu.sched_policy=2`, adopted here early from the community freeze workaround.
+Two separate two-by-two factorials on 7.1.5 later found that the scheduler is the
+variable, and this sentence merged them until 26 August. One crosses the flush
+parameter with the scheduler setting and runs every one of its cells at 40 CU
+([`../factorial/`](../factorial/)); the other crosses the scheduler setting with
+CU count, and it is that one whose hardware-scheduling cells are clean and whose
+policy-2 cells wedge at 24 and 40 CU alike
+([`../kernel-equivalence-2026-08-17/`](../kernel-equivalence-2026-08-17/),
+`INVESTIGATION.md`, Observation 3). The recipe this repository now recommends
+simply does not set that parameter, and the memory-configuration mitigation below
+is not part of it.
+
+What survives is the eviction path itself, which the function tracer captured
+directly and which [`../ftrace/`](../ftrace/) holds: the trigger is the process's
+own `munmap` and the timeout is a queue eviction whose MEC preemption does not
+complete. What does not survive is this round's implied conclusion that memory
+placement is the thing to fix. Compute lands in GTT because the driver sets `apu_prefer_gtt` when VRAM < GTT (here
 512 MB vs 16 GB). Forcing VRAM >= GTT (`bc250_memcfg UMA_SIZE 8192` for 8 GB VRAM **and**
 `amdgpu.gttsize=4096` to cap GTT at 4 GB) flips that: compute then sits in VRAM (`VRAM_used` ~700 MB,
 `GTT_used` ~12 MB during a GEMM), and the wedge drops from near-every heavy run to about 4 of 15. It is

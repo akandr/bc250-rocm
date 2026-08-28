@@ -1,0 +1,22 @@
+[12:57:34] === removing the KQV precision line
+[12:57:43]   build rc=0 set_prec(kqv lines now: 0
+[12:57:43] === arm 1, control: the perplexity configuration that shows the defect, six runs
+[12:57:56]   ppl run 1: 1057.5494
+[12:58:08]   ppl run 2: 91.3845
+[12:58:21]   ppl run 3: 10.0103
+[12:58:33]   ppl run 4: 10.0103
+[12:58:46]   ppl run 5: 10.0103
+[12:58:58]   ppl run 6: 115.8450
+[12:58:58]   distinct values: 10.0103 1057.5494 115.8450 91.3845 
+[12:58:58] === arm 2: dumps of a prompt spanning four ubatches
+[12:59:07]   dump 1: rc=134 lines=2137
+[12:59:16]   dump 2: rc=134 lines=2137
+[12:59:24]   dump 3: rc=134 lines=2137
+[12:59:33]   dump 4: rc=134 lines=2137
+[12:59:41]   dump 5: rc=134 lines=2137
+[12:59:50]   dump 6: rc=134 lines=2137
+[12:59:50] === restoring the patch
+[12:59:59]   rebuild rc=0 set_prec lines back: 1
+[12:59:59] === first divergence between dump pairs
+[12:59:59]   identical pairs: 15   differing pairs: 0
+[12:59:59] done

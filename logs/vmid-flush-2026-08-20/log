@@ -1,0 +1,6 @@
+[00:09:39] === does the model load survive each configuration?
+[00:10:05]   runlist=3 vmid_mode=0 (current recipe: runlist rebuild, no vmid flush): rc=0 tg64=39.24 aperture_aborts=0 wall=25s
+[00:10:30]   runlist=0 vmid_mode=0 (no flush at all: expected to abort): rc=134 tg64=NONE aperture_aborts=0 wall=24s
+[00:17:33]   runlist=0 vmid_mode=2 (KFD-scoped vmid flush only: the candidate): rc=124 tg64=NONE aperture_aborts=0 wall=421s
+[00:21:07]   runlist=0 vmid_mode=1 (all-VMID flush only: known bad, for contrast): rc=134 tg64=NONE aperture_aborts=0 wall=213s
+[00:21:07] === repeat the two that matter, order reversed

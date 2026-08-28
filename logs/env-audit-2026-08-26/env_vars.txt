@@ -1,0 +1,25 @@
+date: 2026-08-26T20:41:01+02:00
+kernel: 7.1.8-100.fc43.x86_64
+hip:     /usr/lib64/libamdhip64.so.6.4.43484
+hsa:     /usr/lib64/libhsa-runtime64.so.1.15.0
+rocblas: /home/akandr/rocBLAS/build/release/rocblas-install/lib/librocblas.so.4.4
+ggml:    /home/akandr/llama-master/build-hip/bin/libggml-hip.so
+
+VARIABLE                           read by
+AMD_LOG_LEVEL                       hip
+GGML_CUDA_CUBLAS_COMPUTE_TYPE       ggml
+GGML_CUDA_DISABLE_GRAPHS            ggml
+GGML_CUDA_ENABLE_UNIFIED_MEMORY     ggml
+GGML_CUDA_FORCE_CUBLAS             ** NOT READ BY ANY OF THEM **
+GGML_CUDA_FORCE_MMQ                ** NOT READ BY ANY OF THEM **
+GPU_FORCE_BLIT_COPY_SIZE            hip
+GPU_STAGING_BUFFER_SIZE             hip
+HSA_ENABLE_INTERRUPT                hsa
+HSA_ENABLE_SDMA                     hsa
+HSA_OVERRIDE_GFX_VERSION            hsa
+HSA_XNACK                           hsa
+ROCBLAS_LAYER                       rocblas
+ROCBLAS_TENSILE_LIBPATH             rocblas
+
+Expected: the two FORCE_ variables report not-read (they are compile-time).
+Anything else reporting not-read is a variable being set for no effect.

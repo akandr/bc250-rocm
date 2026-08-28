@@ -4,7 +4,14 @@ Copyright (c) 2026 Artur Andrzejczak <andrzejczak.artur@gmail.com>
 SPDX-License-Identifier: AGPL-3.0-or-later
 
 Code is licensed under the GNU Affero General Public License v3.0.
-Documentation (README.md) is licensed under CC BY-SA 4.0.
+Documentation (Markdown files) is licensed under CC BY-SA 4.0.
+
+The five .patch files under patches/ are modifications to third-party projects
+and carry a few lines of those projects' code as diff context. They remain under
+the upstream licence, not this one: patches/amdgpu-*.patch apply to the Linux
+kernel and are GPL-2.0-only, and patches/llamacpp/*.patch apply to llama.cpp and
+are MIT. Everything else under patches/, the probe sources and the Python
+patchers, is original work under the AGPL above.
 
                     GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007

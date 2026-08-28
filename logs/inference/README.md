@@ -9,7 +9,7 @@ it was mostly failing, and the top-level README cites them for that.
 
 | file | what it shows |
 |---|---|
-| `bench_rocm_vs_vulkan.log` | the historical comparison: Vulkan running the small model at 1275 to 1845 t/s prefill on every run, ROCm managing about 35 t/s on pp128 and faulting on the rest |
+| `bench_rocm_vs_vulkan.log` | the historical comparison: Vulkan running the small model at 1275.72 to 1845.60 t/s prefill, each a three-run mean, while every ROCm cell in that run failed (`rc=124`, `rc=139`, `rc=137`). The 35 t/s pp128 this row used to credit ROCm with belongs to `rocm_prefill_works.log`, a different run, corrected 26 August |
 | `rocm_prefill_works.log`, `rocm_decode_fails.log` | the split that shaped the early reading: prefill completing while decode faulted |
 | `decode_aperture_violation.txt` | an `AMD_LOG_LEVEL=3` trace of the decode fault on one llama.cpp build |
 | `decode_copybuffer_aperture_violation.txt`, `decode_copybuffer_aperture_violation2.txt` | the same fault on a later build, where it aborts on `__amd_rocclr_copyBuffer` with no compute kernel dispatched first, which moved the reading from a decode-kernel bug to a memory-mapping one |

@@ -45,10 +45,22 @@ each item belongs to; this directory holds the raw runs.
 intrinsic to decode at depth, coefficient of variation 4.3 percent over ten runs
 in one boot, with clock, temperature and free memory all steady. It is not the
 model or the board: prefill on the same model varies 1.1 percent. The
-explanation is bandwidth headroom, and `controls/` demonstrates it rather than
-inferring it, by running the identical measurement on a model at 29 percent of
-the memory ceiling instead of 80: coefficient of variation 0.6 percent against
-4.3, a factor of 6.7 in the predicted direction.
+explanation offered here was bandwidth headroom, supported by `controls/`
+running the identical measurement on a model at 29 percent of the memory ceiling
+instead of 80: coefficient of variation 0.6 percent against 4.3, a factor of 6.7
+in the predicted direction.
+
+That explanation did not survive the same day and this page should not be read
+without the sequel. The comparison here presents each model in a block, all runs
+of one before any of the next, so anything drifting over the hour it took is not
+separated from the model. Rotating the model order instead gives 0.7, 6.0 and
+4.6 percent at 29, 46 and 80 percent of the ceiling, which is not monotone: the
+middle model is the most variable
+([`../counterbalanced-2026-08-18/`](../counterbalanced-2026-08-18/)). The front
+page states the bandwidth explanation as unsupported for that reason. The two
+measurements above are correct, 0.634 percent recomputed against ten runs and
+4.28 against the variance series, and what they do not establish is the
+mechanism.
 
 A correction came out of this. The 12.9 figure previously quoted for this model
 exists in no shipped log; it was taken interactively and never captured. The

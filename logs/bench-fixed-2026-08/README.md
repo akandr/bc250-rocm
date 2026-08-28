@@ -20,5 +20,15 @@ set. The `ab_*` files are follow-up runs with the native gfx1013 rocBLAS. The
 `recipe_*` files are the final re-measurement with every model under one
 configuration (native rocBLAS, `GGML_CUDA_CUBLAS_COMPUTE_TYPE=f32`, prefill and
 decode in a single invocation), and those are the numbers the README tables
-quote. The earlier files are kept because they are what showed the system
-library aborting on shapes it has no gfx1013 code object for.
+quote for four of the five models. The earlier files are kept because they are
+what showed the system library aborting on shapes it has no gfx1013 code object
+for.
+
+The 8B is the exception, noted 26 August. There is no `recipe_8b.log`: that row's
+241.0 and 39.2 come from `ab_8b_bench_f32c.log`, a follow-up run of 12 August
+under the same native-plus-f32 configuration and with both rates in one
+invocation, but not part of the unified re-measurement described above. The
+figures are exact against that file, 241.01 and 39.20. Worth knowing which row
+came from where, since the 8B is the model this work repeatedly documents as the
+noisy one, and its published rate is a single sample from a different sitting
+than its four table-mates.

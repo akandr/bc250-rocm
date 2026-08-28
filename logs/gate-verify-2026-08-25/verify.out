@@ -1,0 +1,4 @@
+=== 1.5B wikitext gate, 8 chunks (repo says 8.9442) ===
+Final estimate: PPL = 8.9442
+=== the fp16 defect: same model, f16 compute type ===
+Final estimate: PPL = 8.9442

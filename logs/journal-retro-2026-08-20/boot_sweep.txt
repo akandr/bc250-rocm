@@ -1,0 +1,20 @@
+boot=-19 kernel=? sched_policy=default events=0 
+boot=-18 kernel=6.18.16 sched_policy=default events=0 
+boot=-17 kernel=7.1.5 sched_policy=default events=0 
+boot=-16 kernel=7.1.5 sched_policy=2 events=12  12 preemption time out;
+boot=-15 kernel=7.1.5 sched_policy=default events=0 
+boot=-14 kernel=6.18.16 sched_policy=default events=0 
+boot=-13 kernel=7.1.5 sched_policy=default events=10  1 GPU reset begin; 3 page fault; 1 Queue preemption failed; 4 runlist rebuild flush failed; 1 signal 7/BUS;
+boot=-12 kernel=7.1.5 sched_policy=default events=0 
+boot=-11 kernel=7.1.5 sched_policy=default events=0 
+boot=-10 kernel=7.1.5 sched_policy=default events=0 
+boot=-9 kernel=7.1.5 sched_policy=default events=0 
+boot=-8 kernel=7.1.5 sched_policy=default events=11  1 GPU reset begin; 10 runlist rebuild flush failed;
+boot=-7 kernel=7.1.5 sched_policy=default events=0 
+boot=-6 kernel=7.1.5 sched_policy=default events=0 
+boot=-5 kernel=7.1.8 sched_policy=default events=0 
+boot=-4 kernel=7.1.8 sched_policy=default events=0 
+boot=-3 kernel=7.1.8 sched_policy=default events=2  1 GPU reset begin; 1 page fault;
+boot=-2 kernel=7.1.8 sched_policy=default events=8  1 GPU reset begin; 3 page fault; 1 Queue preemption failed; 3 runlist rebuild flush failed;
+boot=-1 kernel=7.1.8 sched_policy=default events=7  1 GPU reset begin; 3 page fault; 1 Queue preemption failed; 1 runlist rebuild flush failed; 1 signal 7/BUS;
+boot=0 kernel=7.1.8 sched_policy=default events=0 

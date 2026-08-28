@@ -1,0 +1,14 @@
+=== boot -2: 2 probe lines
+sie 22 23:28:33 bc250 kernel: Command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.8-100.fc43.x86_64 root=UUID=2f69acf9-5d80-
+sie 22 23:28:33 bc250 kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.8-100.fc43.x86_64 root=UUID=2f69acf
+sie 22 23:28:33 bc250 dracut-cmdline[291]: Using kernel command line parameters:  rd.driver.pre=btrfs   BOOT_IMAGE=(hd0,
+sie 22 23:28:38 bc250 kernel: Setting dangerous option gpu_recovery - tainting kernel
+amdgpu: BC250KFDRESET: calling amdgpu_amdkfd_gpu_reset, gpu_recovery=0, should_recover=0
+amdgpu: BC250KFDRESET: returned
+sie 22 21:30:00 bc250 sudo[1560]:   akandr : PWD=/home/akandr ; USER=root ; COMMAND=/usr/sbin/grubby --update-kernel=ALL
+=== boot -3: 1 probe lines
+sie 22 23:25:16 bc250 kernel: Command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.8-100.fc43.x86_64 root=UUID=2f69acf9-5d80-
+sie 22 23:25:16 bc250 kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.8-100.fc43.x86_64 root=UUID=2f69acf
+sie 22 23:25:16 bc250 dracut-cmdline[289]: Using kernel command line parameters:  rd.driver.pre=btrfs   BOOT_IMAGE=(hd0,
+sie 22 23:25:21 bc250 kernel: Setting dangerous option gpu_recovery - tainting kernel
+amdgpu: BC250KFDRESET: no device recorded yet, run something on the GPU first

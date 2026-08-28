@@ -1,0 +1,29 @@
+[01:59:19] waiting for the queue to drain
+[03:47:19] === removing the KQV precision line
+[03:47:29]   build rc=0 set_prec(kqv lines now: 0
+[03:47:29] === twelve consecutive identical runs, ctx 2048
+[03:47:44]   run 1: 343.5732
+[03:47:56]   run 2: 1057.5494
+[03:48:08]   run 3: 85.0876
+[03:48:21]   run 4: 1491.3304
+[03:48:33]   run 5: 10.0103
+[03:48:46]   run 6: 115.8450
+[03:48:58]   run 7: 115.8450
+[03:49:10]   run 8: 91.3845
+[03:49:23]   run 9: 10.0103
+[03:49:35]   run 10: 10.0103
+[03:49:48]   run 11: 1994.7835
+[03:50:00]   run 12: 116.4559
+[03:50:00] === restoring the patch
+[03:50:09]   rebuild rc=0 set_prec lines back: 1
+[03:50:09] === summary: which positions were wrong (correct is near 10.01)
+  position 1 WRONG (343.5732)
+  position 2 WRONG (1057.5494)
+  position 3 WRONG (85.0876)
+  position 4 WRONG (1491.3304)
+  position 6 WRONG (115.8450)
+  position 7 WRONG (115.8450)
+  position 8 WRONG (91.3845)
+  position 11 WRONG (1994.7835)
+  position 12 WRONG (116.4559)
+[03:50:09] done

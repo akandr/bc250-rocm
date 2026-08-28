@@ -1,0 +1,3 @@
+kernel: 7.1.8-100.fc43.x86_64
+cmdline: amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 
+module: /lib/modules/7.1.8-100.fc43.x86_64/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko.xz

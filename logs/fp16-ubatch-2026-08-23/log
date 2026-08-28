@@ -1,0 +1,6 @@
+[19:12:41] === predicted: ub 2048 -> 0 zeros, ub 1024 -> 1, ub 512 -> 3, ub 256 -> 7
+[19:13:13]   ub 2048: 36 calls, 0 zeros at [] ppl=7.2768
+[19:13:41]   ub 1024: 72 calls, 1 zeros at [37 ] ppl=11.7443
+[19:14:09]   ub 512: 144 calls, 3 zeros at [37 73 109 ] ppl=14.1344
+[19:14:37]   ub 256: 288 calls, 8 zeros at [37 73 109 145 181 217 253 254 ] ppl=20.0773
+[19:14:37] done

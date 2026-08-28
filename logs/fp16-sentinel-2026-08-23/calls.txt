@@ -1,0 +1,15 @@
+=== sentinel run, calls 1/36/37/38:
+BC250TEMP Vcur-0 gemm_output_abs_sum=9361.13 (ne_dst=524288)
+BC250TEMP Vcur-35 gemm_output_abs_sum=1.38543e+06 (ne_dst=524288)
+BC250TEMP Vcur-0 gemm_output_abs_sum=0 (ne_dst=524288)
+BC250TEMP Vcur-1 gemm_output_abs_sum=23911 (ne_dst=524288)
+stamps applied: 144
+BC250TEMPSENT Vcur-0 stamped 0x7ff3c5000000
+BC250TEMPSENT Vcur-1 stamped 0x7ff3c5000000
+
+=== alpha run, calls 1/36/37/38:
+BC250ALPHA Vcur-0 alpha=0.00031995773 beta=0
+BC250ALPHA Vcur-35 alpha=0.00031995773 beta=0
+BC250ALPHA Vcur-0 alpha=0.00031995773 beta=0
+BC250ALPHA Vcur-1 alpha=0.00031995773 beta=0
+distinct alpha values: 1

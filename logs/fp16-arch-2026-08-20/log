@@ -1,0 +1,12 @@
+[08:58:06] === dual-arch build, native gfx1013 rocBLAS, as the reference
+[08:58:49]   gfx1013 native f32 r1: 9.0975
+[08:59:29]   gfx1013 native f16 r1: 17.3015
+[09:00:09]   gfx1013 native f32 r2: 9.0975
+[09:00:48]   gfx1013 native f16 r2: 13.9642
+[09:00:48] === dual-arch build as gfx1010, system rocBLAS servicing the GEMMs
+[09:01:32]   gfx1010 system f32 r1: 9.0975
+[09:02:16]   gfx1010 system f16 r1: 9.1117
+[09:02:59]   gfx1010 system f32 r2: 9.0975
+[09:03:43]   gfx1010 system f16 r2: 9.1117
+[09:03:43] === dmesg faults: 
+[09:03:43] done

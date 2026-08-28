@@ -12,8 +12,23 @@ governor left running. Wrong results appear at every setting tried, which is
 what retired that hypothesis.
 
 `compute_probe_e4_freshboot_loop.log` is the fresh-boot repetition: the same
-size run on successive cold boots, which is where the four-of-four failure rate
-quoted in the top-level README comes from.
+size run on successive cold boots, twenty-five invocations of a single 8.4M-thread
+dispatch with a power cycle after every hang.
+
+Its result is 19 correct, 6 hangs and **zero silent-wrong**, which the file states
+in its own provenance header and which counting its lines confirms. This
+paragraph used to say the file was where "the four-of-four failure rate quoted in
+the top-level README" comes from, corrected 26 August. It is not, in two ways.
+The four-fresh-boot failure at 8M belongs to
+[`../kernel-7.1.5/`](../kernel-7.1.5/), where all four outcomes are captured:
+`wrong=2256904/8388608` and `wrong=3343808/8388608` for the two silent-wrong
+boots, and two memory access faults. And that claim is in `INVESTIGATION.md`
+rather than the front page.
+
+So this file is evidence against silent-wrong results at this size in this
+session, not for them, which is worth keeping visible: the correctness defect is
+intermittent enough that a twenty-five-invocation run can miss it entirely while
+a four-boot run on another kernel hits it every time.
 
 Each log's header records the kernel, the full command line and the CU count of
 that boot. Note that these boots carry `amdgpu.sched_policy=2`, which was
