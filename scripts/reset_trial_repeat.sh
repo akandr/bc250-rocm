@@ -36,6 +36,8 @@ if ! mkdir "$LOCK" 2>/dev/null; then
 fi
 trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 PORT=${PORT:-6969}
+LISTENER_IP=${LISTENER_IP:-$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || hostname -I 2>/dev/null | awk '{print $1}')}
+[ -n "$LISTENER_IP" ] || { echo "cannot determine this machine's address; set LISTENER_IP" >&2; exit 1; }
 OUTDIR=${OUTDIR:-logs/reset-$LABEL-$(date +%Y-%m-%d)}
 mkdir -p "$OUTDIR"
 
@@ -50,7 +52,9 @@ echo "$LABEL: writing reps $FIRST to $LAST in $OUTDIR"
 
 for rep in $(seq "$FIRST" "$LAST"); do
 	out="$OUTDIR/${LABEL}_rep${rep}.log"
-	ssh -o ConnectTimeout=25 "$BOARD" "bash ~/netconsole_capture.sh >/dev/null 2>&1" </dev/null
+	# The workstation's address is DHCP-assigned and has moved at least once, so
+	# pass the current one rather than relying on the script's default.
+	ssh -o ConnectTimeout=25 "$BOARD" "LISTENER_IP=$LISTENER_IP bash ~/netconsole_capture.sh >/dev/null 2>&1" </dev/null
 	pkill -f "nc -u -l $PORT" 2>/dev/null; sleep 1
 	rm -f "$out"; (nc -u -l "$PORT" > "$out" 2>/dev/null &); sleep 2
 

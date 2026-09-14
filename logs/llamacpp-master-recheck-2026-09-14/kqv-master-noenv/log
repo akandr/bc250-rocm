@@ -1,0 +1,11 @@
+[21:38:05] === with 0002 (set_prec lines: 1)
+[21:38:17]   with run 1: PPL = 9.9850
+[21:38:30]   with run 2: PPL = 9.9850
+[21:38:42]   with run 3: PPL = 9.9850
+[21:38:54]   with run 4: PPL = 9.9850
+[21:39:00] === without 0002 (build rc=0, set_prec lines: 0)
+[21:39:12]   without run 1: PPL = 88.3441
+[21:39:25]   without run 2: PPL = 89.2649
+[21:39:37]   without run 3: PPL = 89.2649
+[21:39:49]   without run 4: PPL = 10.0008
+[21:39:55] === restored (rc=0, set_prec lines: 1)

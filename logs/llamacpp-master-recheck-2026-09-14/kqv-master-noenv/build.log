@@ -1,0 +1,43 @@
+[  2%] Built target llama-common-base
+[  4%] Built target cpp-httplib
+[  6%] Built target ggml-base
+[ 12%] Built target ggml-cpu
+[ 65%] Built target ggml-hip
+[ 65%] Built target ggml
+[ 65%] Building CXX object src/CMakeFiles/llama.dir/llama-graph.cpp.o
+[ 67%] Linking CXX shared library ../bin/libllama.so
+[ 81%] Built target llama
+[ 81%] Linking CXX shared library ../bin/libllama-common.so
+[100%] Built target llama-common
+[100%] Linking CXX shared library ../../bin/libllama-perplexity-impl.so
+[100%] Built target llama-perplexity-impl
+[100%] Linking CXX executable ../../bin/llama-perplexity
+[100%] Built target llama-perplexity
+[  2%] Built target llama-common-base
+[  2%] Built target cpp-httplib
+[  6%] Built target ggml-base
+[ 12%] Built target ggml-cpu
+[ 65%] Built target ggml-hip
+[ 65%] Built target ggml
+[ 65%] Building CXX object src/CMakeFiles/llama.dir/llama-graph.cpp.o
+/home/akandr/llama-new/src/llama-graph.cpp: In member function ‘ggml_tensor* llm_graph_context::build_attn_mha(ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, int64_t, float, int) const’:
+/home/akandr/llama-new/src/llama-graph.cpp:2707:30: warning: ‘void ggml_mul_mat_set_prec(ggml_tensor*, ggml_prec)’ is deprecated: use ggml_prec_set_acc() instead [-Wdeprecated-declarations]
+ 2707 |         ggml_mul_mat_set_prec(kqv, GGML_PREC_F32);
+      |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+In file included from /home/akandr/llama-new/src/llama-arch.h:3,
+                 from /home/akandr/llama-new/src/llama-graph.h:3,
+                 from /home/akandr/llama-new/src/llama-graph.cpp:1:
+/home/akandr/llama-new/ggml/src/../include/ggml.h:1489:35: note: declared here
+ 1489 |     GGML_DEPRECATED(GGML_API void ggml_mul_mat_set_prec(
+      |                                   ^~~~~~~~~~~~~~~~~~~~~
+/home/akandr/llama-new/ggml/src/../include/ggml.h:192:41: note: in definition of macro ‘GGML_DEPRECATED’
+  192 | #    define GGML_DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                         ^~~~
+[ 67%] Linking CXX shared library ../bin/libllama.so
+[ 81%] Built target llama
+[ 81%] Linking CXX shared library ../bin/libllama-common.so
+[100%] Built target llama-common
+[100%] Linking CXX shared library ../../bin/libllama-perplexity-impl.so
+[100%] Built target llama-perplexity-impl
+[100%] Linking CXX executable ../../bin/llama-perplexity
+[100%] Built target llama-perplexity

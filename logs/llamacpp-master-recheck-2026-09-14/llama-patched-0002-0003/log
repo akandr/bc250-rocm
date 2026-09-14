@@ -1,0 +1,8 @@
+[21:26:46] === patched-0002-0003: bfdc321 HIP: fattn-mma: use fp32 accumulation on MFMA devices (#28576) ; 5 modified files
+[21:26:46] kernel 7.1.8-100.fc43.x86_64 runlist=3
+[21:28:03] gate 1.5B (ref 8.9442): Final estimate: PPL = 8.9490
+[21:28:10] text: The capital of France is Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of Portugal is Lisbon. The  
+[21:28:52] 8B f32 (ref 9.0975): Final estimate: PPL = 9.1178
+[21:29:05] bench:            pp512         792.90 ± 6.23              tg64         119.37 ± 0.60  
+[21:29:05] dmesg faults: 0
+[21:29:05] === done

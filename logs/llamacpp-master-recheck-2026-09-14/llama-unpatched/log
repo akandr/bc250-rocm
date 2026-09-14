@@ -1,0 +1,8 @@
+[20:54:21] === unpatched: bfdc321 HIP: fattn-mma: use fp32 accumulation on MFMA devices (#28576) ; 3 modified files
+[20:54:21] kernel 7.1.8-100.fc43.x86_64 runlist=3
+[20:58:56] gate 1.5B (ref 8.9442): Final estimate: PPL = 8.9517
+[20:59:03] text: The capital of France is Paris???????????????????????  
+[20:59:46] 8B f32 (ref 9.0975): Final estimate: PPL = 9.1166
+[21:00:18] bench:            pp512         138.72 ± 0.39              tg64         119.35 ± 0.58  
+[21:00:18] dmesg faults: 0
+[21:00:18] === done

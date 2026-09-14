@@ -14,9 +14,11 @@ One caveat belongs up here rather than in the defect table. Under sustained load
 take itself down: a rare GPU page fault escalates through a preemption timeout to a GPU reset, and a
 reset takes the machine with it, twice out of two deliberate attempts from a completely idle GPU
 ([`logs/gpu-reset-fatal-2026-08-21/`](logs/gpu-reset-fatal-2026-08-21/)). Not in the way that
-phrase suggests, though: captured over netconsole, the GPU reset itself succeeds, `GPU reset
-succeeded, trying to resume`, and the host then stalls on a clocksource watchdog
-([`logs/reset-netconsole-2026-08-23/`](logs/reset-netconsole-2026-08-23/)). The deliberate-reset
+phrase suggests, though: captured over netconsole, the driver logs `GPU reset succeeded, trying
+to resume`, and the host then stalls on a clocksource watchdog
+([`logs/reset-netconsole-2026-08-23/`](logs/reset-netconsole-2026-08-23/)). The success message
+turns out to mean little, since on this chip the reset path has nothing to call and returns success
+without touching the hardware ([`logs/reset-smu-gc-2026-09-14/`](logs/reset-smu-gc-2026-09-14/)). The deliberate-reset
 directory establishes that a reset is fatal here but captures nothing of what the kernel was doing,
 since on those runs the board went away before anything reached the journal. The fault behind it
 appeared five times across the twenty boots the journal held, on both kernels tested
@@ -108,7 +110,12 @@ until reboot and still looks healthy to enumeration
 ([`logs/fault-usability-2026-08-24/`](logs/fault-usability-2026-08-24/)). A GPU reset does not
 appear to be survivable on this
 board, so the rare fault described under Known defects takes the whole machine down rather than
-just the process. That parameter stops the driver requesting a reset on the path those faults take.
+just the process. The driver source suggests why: neither MODE1 nor MODE2 has an implementation for
+this chip, both report success anyway, and the register state captured after a "reset" is the
+state from before it. Upstream also lists this chip as having recovery disabled by default, but
+that list is unreachable on devices without RAS support, which is why the parameter has to be set
+by hand. A PCI function-level reset, tried as an alternative, keeps the host alive but loses the GPU
+until power-off ([`logs/reset-smu-gc-2026-09-14/`](logs/reset-smu-gc-2026-09-14/)). That parameter stops the driver requesting a reset on the path those faults take.
 It is left out of the line above because it means a wedged GPU stays wedged until reboot instead of
 being reset, which is a trade rather than a pure gain. What it leaves behind is not a guess: a
 natural fault was caught under the parameter, and the sentence above describes that event. It costs
@@ -190,6 +197,15 @@ macro. Everything here is measured at master 7ba604f (2026-08-09); rechecked aga
 master ee4c505 on 2026-08-19, 174 commits later, all three sites are unchanged and all three
 patches still apply cleanly. Without the first, every number the board produces is wrong while
 looking plausible.
+
+Upstream has since caught up with the first. Master from 8 September 2026 onward (PR #28604)
+hard-codes the same decision, so on current master only the second and third are needed, and both
+still are: rechecked at master `bfdc321` on 14 September, removing the macro entry garbles
+generation and cuts prefill from 793 to 139 t/s, and removing the KQV request makes perplexity
+read 88 to 89 on three runs of four where 9.9850 is correct. `GGML_CUDA_CUBLAS_COMPUTE_TYPE=f32`
+happens to mask the KQV defect as well. Master also renamed `--no-mmap` to `--load-mode none`, and
+its perplexity values differ from 7ba604f's in the third decimal on both backends
+([`logs/llamacpp-master-recheck-2026-09-14/`](logs/llamacpp-master-recheck-2026-09-14/)).
 
 **6. Verify.** Run [`reproduce.sh`](reproduce.sh) from the repository root; it reports the CU count,
 which should read 40. Then gate real work on **both** perplexity and generated text, because they
@@ -372,7 +388,7 @@ wrong, are in [`logs/torch-pristine-2026-08-20/`](logs/torch-pristine-2026-08-20
 | PASID TLB flush covers nothing under hardware scheduling: silent wrong results, KIQ freeze | `amdgpu.bc250_flush_pasid_kiq=0` | fixed here, not upstream |
 | Software-scheduler eviction path wedges sustained compute | do not set `amdgpu.sched_policy=2` | understood; 2x2 factorial at both CU counts |
 | Allocation reuse on the KFD SVM paths faults after free and realloc | `amdgpu.bc250_flush_by_runlist=3` | fixed here; costs less than run-to-run noise |
-| rocBLAS ships no gfx1013 code objects | native build (PR #8838 approach) | fixed by building; PR still open |
+| rocBLAS ships no gfx1013 code objects | native build (PR #8838 approach) | fixed by building; the PR was closed unmerged by the stale bot on 2026-09-09 |
 | PyTorch ships no gfx1013 code objects | build with `PYTORCH_ROCM_ARCH=gfx1013` | fixed by building |
 | llama.cpp `prop.integrated` regression produces plausible-looking wrong output | [`patches/llamacpp/0001-hip-integrated-false.patch`](patches/llamacpp/0001-hip-integrated-false.patch) | bisected to c7d8722; the bisect's own output was not kept, so what is captured is the effect at that code line ([A/B/A](logs/integrated-remeasure-2026-08-18/)) rather than the search |
 | llama.cpp KQV fp16 accumulation corrupts batched attention, worse with context but present at 1024 | [`patches/llamacpp/0002-kqv-f32-precision.patch`](patches/llamacpp/0002-kqv-f32-precision.patch) | fixed here, not upstream |
@@ -380,7 +396,7 @@ wrong, are in [`logs/torch-pristine-2026-08-20/`](logs/torch-pristine-2026-08-20
 | HIP graph instantiation fails past a primed depth of 12000 on the 14B | `GGML_CUDA_DISABLE_GRAPHS=1` | workaround is not throughput-neutral, see below. The depth, the failing call and the model are stated more precisely in this repository than its captures support; what is captured is one failing primed-depth run on deepseek-r1-14B and no run of that configuration with the flag set (see INVESTIGATION.md) |
 | fp16 cuBLAS path returns an all-zero layer-0 value projection ([evidence](logs/fp16-arch-2026-08-20/)) | `GGML_CUDA_CUBLAS_COMPUTE_TYPE=f32` | **open**, and it hits the default path rather than an opt-in mode, so set the variable. Affects qwen3-8B and qwen3-14B; the 1.5B, deepseek-14B, the 35B MoE and the 27B are clean. The zeros land on the first fp16 GEMM of every evaluated batch after the first, so evaluating in a single batch also avoids it. Still reproducing on 25 August, with five distinct wrong perplexities on record against an f32 arm that has never moved ([`logs/fp16-recheck-2026-08-25/`](logs/fp16-recheck-2026-08-25/)). The mechanism, the seven hypotheses eliminated and the gfx1010 result that narrows it to the gfx1013 kernels are in [INVESTIGATION.md](INVESTIGATION.md) |
 | SDMA never completes a copy above 16384 bytes ([evidence](logs/sdma-firmware-2026-08-19/)) | substitute the navi12 microcode, or `HSA_ENABLE_SDMA=0` | **fixed.** It was the wrong microcode, not the board: with navi12's, every size from 4 KiB to 2 GiB completes and the gates stay bit-identical |
-| A GPU reset succeeds and then hangs the host bringing the KIQ back up ([evidence](logs/reset-kiq-repeat-2026-08-24/)) | `amdgpu.gpu_recovery=0`, **confirmed**: calling the KFD reset path directly returns harmlessly with the parameter set and kills the board without it ([`logs/kfd-reset-probe-2026-08-22/`](logs/kfd-reset-probe-2026-08-22/)) | **open, and the most serious defect here.** Asking the driver to reset the device kills the board even with the GPU idle, twice out of two. The parameter stops the driver asking, which converts a hung machine into one you can reboot deliberately; it does not keep the GPU usable, and recovery is a reboot. Do not reset the device by hand. Where the resume stalls, what has been ruled out and why the stopping point moves between identical runs are in [INVESTIGATION.md](INVESTIGATION.md) |
+| A GPU reset reports success without resetting anything, then hangs the host reinitialising live hardware ([evidence](logs/reset-smu-gc-2026-09-14/)) | `amdgpu.gpu_recovery=0`, **confirmed**: calling the KFD reset path directly returns harmlessly with the parameter set and kills the board without it ([`logs/kfd-reset-probe-2026-08-22/`](logs/kfd-reset-probe-2026-08-22/)) | **open, and the most serious defect here.** Asking the driver to reset the device kills the board even with the GPU idle, twice out of two. The parameter stops the driver asking, which converts a hung machine into one you can reboot deliberately; it does not keep the GPU usable, and recovery is a reboot. Do not reset the device by hand. Where the resume stalls, what has been ruled out and why the stopping point moves between identical runs are in [INVESTIGATION.md](INVESTIGATION.md) |
 
 Evidence for every row is under [`logs/`](logs/), and each defect is worked through in
 [INVESTIGATION.md](INVESTIGATION.md); the three open ones are linked directly above.
@@ -532,7 +548,8 @@ instrument could have produced it.
 - [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313): BC-250 freeze after compute
   workloads; anrp and ahorek found `flush_pasid_uses_kiq = false`. Open as of an August 2026 check.
 - [ROCm/rocm-libraries PR #8838](https://github.com/ROCm/rocm-libraries/pull/8838): gfx1013 support
-  in rocBLAS. Open as of an August 2026 check, which is why the native build here is necessary.
+  in rocBLAS. Closed unmerged by the stale bot on 2026-09-09, which is why the native build here is
+  necessary.
 - [Mesa MR !33116](https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33116) by Ivan Avdeev
   (w23), a community contributor: disables the gfx1013 compute queue in RADV.
 - [akandr/bc250](https://github.com/akandr/bc250): the board itself and its Vulkan setup.

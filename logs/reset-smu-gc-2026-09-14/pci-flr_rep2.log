@@ -1,0 +1,5 @@
+[  126.116510] MARK-pci-flr-2-1
+[  129.675242] Setting dangerous option reset_method - tainting kernel
+[  130.354182] amdgpu 0000:01:00.0: GPU reset begin!. Source:  5
+[  130.354241] amdgpu 0000:01:00.0: device lost from bus!
+[  130.354282] amdgpu 0000:01:00.0: GPU reset end with ret = -19
