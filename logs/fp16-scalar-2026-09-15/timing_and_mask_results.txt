@@ -1,0 +1,12 @@
+control1: ppl=PPL = 14.1344 gemms=144 zero_at=[37 73 109 ]
+log4: ppl=PPL = 7.2768 gemms=144 zero_at=[]
+log3: ppl=PPL = 7.2768 gemms=144 zero_at=[]
+serialize3: ppl=PPL = 14.1344 gemms=144 zero_at=[37 73 109 ]
+log1: ppl=PPL = 14.1344 gemms=144 zero_at=[37 73 109 ]
+control2: ppl=PPL = 14.1344 gemms=144 zero_at=[37 73 109 ]
+log4b: ppl=PPL = 7.2768 gemms=144 zero_at=[]
+41543456
+api_b: ppl=PPL = 7.2768 wall=28s log_lines=94482 zero_at=[]
+kern_b: ppl=PPL = 14.1344 wall=28s log_lines=108578 zero_at=[37 73 109 ]
+api_c: ppl=PPL = 7.2768 wall=28s log_lines=94482 zero_at=[]
+control_b: ppl=PPL = 14.1344 wall=28s log_lines=0 zero_at=[37 73 109 ]

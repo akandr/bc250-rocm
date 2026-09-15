@@ -1,0 +1,22 @@
+[    0.108833] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[   47.285539] netconsole armed
+[   47.304197] MARK-s2idle
+[   47.405658] PM: suspend entry (s2idle)
+[   47.405816] Filesystems sync: 0.000 seconds
+[   47.407251] Freezing user space processes
+[   47.408528] Freezing user space processes completed (elapsed 0.001 seconds)
+[   47.408539] OOM killer disabled.
+[   47.408542] Freezing remaining freezable tasks
+[   47.409507] Freezing remaining freezable tasks completed (elapsed 0.000 seconds)
+[   47.409515] printk: Suspending console(s) (use no_console_suspend to debug)

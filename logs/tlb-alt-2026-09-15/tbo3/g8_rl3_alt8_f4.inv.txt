@@ -1,0 +1,6 @@
+[  157.698472] amdgpu 0000:01:00.0: BC250INV eng=17 vmid=8 wrote=0x00fa0100 req_readback=0x00fa0100 ack_before=0x00000000 ack_after=0x00000000 sem_ok=-1 polls=2000
+[  157.702802] amdgpu 0000:01:00.0: BC250INV eng=17 vmid=8 wrote=0x00fa0100 req_readback=0x00fa0100 ack_before=0x00000000 ack_after=0x00000000 sem_ok=-1 polls=2000
+[  157.707079] amdgpu 0000:01:00.0: BC250INV eng=17 vmid=8 wrote=0x00fa0100 req_readback=0x00fa0100 ack_before=0x00000000 ack_after=0x00000000 sem_ok=-1 polls=2000
+[  157.711338] amdgpu 0000:01:00.0: BC250INV eng=17 vmid=8 wrote=0x00fa0100 req_readback=0x00fa0100 ack_before=0x00000000 ack_after=0x00000000 sem_ok=-1 polls=2000
+[  157.715606] amdgpu 0000:01:00.0: BC250INV eng=17 vmid=8 wrote=0x00fa0100 req_readback=0x00fa0100 ack_before=0x00000000 ack_after=0x00000000 sem_ok=-1 polls=2000
+[  157.723039] amdgpu 0000:01:00.0: BC250INV eng=17 vmid=8 wrote=0x00fa0100 req_readback=0x00fa0100 ack_before=0x00000000 ack_after=0x00000000 sem_ok=-1 polls=2000

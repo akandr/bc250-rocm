@@ -1,0 +1,87 @@
+[   33.079967] MARK-R0
+[   42.461549] MARK-R0-unbind
+[   42.883952] amdgpu 0000:01:00.0: VM memory stats for proc (0) task (0) is non-zero when fini
+[   42.885090] amdgpu 0000:01:00.0: finishing device.
+[   42.910394] amdgpu 0000:01:00.0: MODE1 reset
+[   42.910415] amdgpu 0000:01:00.0: GPU mode1 reset
+[   42.910468] amdgpu 0000:01:00.0: GPU psp mode1 reset
+[   42.915554] amdgpu 0000:01:00.0:  ttm finalized
+[   43.988237] MARK-R0-bind
+[   44.027647] amdgpu 0000:01:00.0: initializing kernel modesetting (CYAN_SKILLFISH 0x1002:0x13FE 0x1022:0x0000 0x00).
+[   44.027705] amdgpu 0000:01:00.0: register mmio base: 0xFE800000
+[   44.027727] amdgpu 0000:01:00.0: register mmio size: 524288
+[   44.030667] amdgpu 0000:01:00.0: detected ip block number 0 <common_v1_0_0> (nv_common)
+[   44.030683] amdgpu 0000:01:00.0: detected ip block number 1 <gmc_v10_0_0> (gmc_v10_0)
+[   44.030699] amdgpu 0000:01:00.0: detected ip block number 2 <ih_v5_0_0> (navi10_ih)
+[   44.030720] amdgpu 0000:01:00.0: detected ip block number 3 <psp_v11_0_8> (psp)
+[   44.030733] amdgpu 0000:01:00.0: detected ip block number 4 <smu_v11_0_0> (smu)
+[   44.030747] amdgpu 0000:01:00.0: detected ip block number 5 <dce_v1_0_0> (dm)
+[   44.030760] amdgpu 0000:01:00.0: detected ip block number 6 <gfx_v10_0_0> (gfx_v10_0)
+[   44.030775] amdgpu 0000:01:00.0: detected ip block number 7 <sdma_v5_0_0> (sdma_v5_0)
+[   44.030810] amdgpu 0000:01:00.0: Fetched VBIOS from VFCT
+[   44.030826] amdgpu 0000:01:00.0: [drm] ATOM BIOS: 113-AMDRBN-003, build: 584828  , ver: 016.002.000.006.000000, 2021/09/10
+[   44.095817] amdgpu 0000:01:00.0: vgaarb: deactivate vga console
+[   44.095844] amdgpu 0000:01:00.0: Trusted Memory Zone (TMZ) feature disabled as experimental (default)
+[   44.095922] amdgpu 0000:01:00.0: vm size is 262144 GB, 4 levels, block size is 9-bit, fragment size is 9-bit
+[   44.095948] amdgpu 0000:01:00.0: VRAM: 512M 0x000000F400000000 - 0x000000F41FFFFFFF (512M used)
+[   44.095964] amdgpu 0000:01:00.0: GART: 512M 0x0000000000000000 - 0x000000001FFFFFFF
+[   44.095986] amdgpu 0000:01:00.0: [drm] Detected VRAM RAM=512M, BAR=512M
+[   44.095997] amdgpu 0000:01:00.0: [drm] RAM width 1024bits UNKNOWN
+[   44.096275] amdgpu 0000:01:00.0:  512M of VRAM memory ready
+[   44.096286] amdgpu 0000:01:00.0: Capping GTT to 15196M to not exceed available system memory
+[   44.096300] amdgpu 0000:01:00.0:  15196M of GTT memory ready.
+[   44.096342] amdgpu 0000:01:00.0: [drm] GART: num cpu pages 131072, num gpu pages 131072
+[   44.096470] amdgpu 0000:01:00.0: BC-250: flush_pasid_uses_kiq=0 (param 0)
+[   44.096585] amdgpu 0000:01:00.0: [drm] PCIE GART of 512M enabled (table at 0x000000F41FE00000).
+[   44.097475] amdgpu 0000:01:00.0: GPU recovery disabled.
+[   44.097492] amdgpu 0000:01:00.0: GPU recovery disabled.
+[   44.097884] amdgpu 0000:01:00.0: GPU recovery disabled.
+[   44.119143] amdgpu 0000:01:00.0: reserve 0x400000 from 0xf41f800000 for PSP TMR
+[   44.155561] amdgpu 0000:01:00.0: SMU is initialized successfully!
+[   44.156836] amdgpu 0000:01:00.0: [drm] Display Core v3.2.378 initialized on DCN 2.0.1
+[   44.157758] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])
+[   44.162861] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 3
+[   44.163052] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.163116] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 3, st: 0
+[   44.163288] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.163339] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=3 on init
+[   44.163383] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 4
+[   44.163559] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.163620] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 4, st: 0
+[   44.163811] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.163865] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=4 on init
+[   44.163908] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 5
+[   44.164073] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.164130] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 5, st: 0
+[   44.164298] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.164354] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=5 on init
+[   44.164397] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 6
+[   44.164556] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.164611] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 6, st: 0
+[   44.164800] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.164853] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=6 on init
+[   44.164897] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 9
+[   44.165033] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.165083] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 9, st: 0
+[   44.165178] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.165204] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=9 on init
+[   44.165226] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 10
+[   44.165308] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.165335] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 10, st: 0
+[   44.165417] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.165443] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=10 on init
+[   44.165465] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 11
+[   44.165547] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.165573] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 11, st: 0
+[   44.165656] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.165683] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=11 on init
+[   44.165704] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 12
+[   44.165808] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.165849] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 12, st: 0
+[   44.165976] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[   44.166023] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=12 on init
+[   44.166101] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   44.166132] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   44.166162] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   44.166191] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   44.896928] clocksource: Watchdog remote CPU 4 read timed out

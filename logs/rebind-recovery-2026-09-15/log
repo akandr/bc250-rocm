@@ -1,0 +1,17 @@
+[07:45:21] R0: boot smoke tg16=114.51
+[07:45:23] R0: unbind rc=0 0s; host up
+[07:46:24] R0: bind client_loop: send disconnect: Broken pipe; host DOWN
+[07:46:31] R0: host lost; netconsole tail: [   44.166162] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000|[   44.166191] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000|[   44.896928] clocksource: Watchdog remote CPU 4 read timed out|
+[07:49:53] R1: boot smoke tg16=114.40
+[07:54:11] R1: wedged? preemption failures=4, smoke tg16=FAIL
+[07:54:16] R1: unbind rc=0 4s; host up
+[07:55:17] R1: bind client_loop: send disconnect: Broken pipe; host DOWN
+[07:55:25] R1: host lost; netconsole tail: [  294.335911] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000|[  294.335960] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000|[  296.073509] clocksource: Watchdog remote CPU 2 read timed out|
+[07:58:28]   reboot did not produce a new boot, power cycling
+[07:59:33] R2: boot smoke tg16=116.05
+[08:03:51] R2: wedged? preemption failures=4, smoke tg16=FAIL
+[08:03:56] R2: unbind rc=0 4s; host up
+[08:04:59] R2: bind client_loop: send disconnect: Broken pipe; host DOWN
+[08:05:06] R2: host lost; netconsole tail: [  291.662443] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000|[  291.662476] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000|[  293.708789] clocksource: Watchdog remote CPU 8 read timed out|
+[08:08:17]   reboot did not produce a new boot, power cycling
+[08:09:48] done

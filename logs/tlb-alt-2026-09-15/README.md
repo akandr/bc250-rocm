@@ -129,6 +129,43 @@ So neither route produced an observed acknowledgement: MMIO polled for it live a
 could in principle miss a bit that was set and cleared again, so the SDMA half is the weaker of
 the two observations.
 
+## Round 5: what the rebuild does that a driver write does not
+
+`tbo3/`, module [`scripts/apply_tlb_alt_v3.py`](../../scripts/apply_tlb_alt_v3.py) on top of the
+earlier two, same churn discriminator, one fresh boot per group. Two readings were open: a write to
+the context's page-table base might flush that context by itself, which is what the firmware does
+during `MAP_PROCESS`; or the invalidation engine might need RLC safe mode, its semaphore, or another
+engine once the firmware owns the hub. MMIO invalidation does acknowledge at boot, before the
+firmware runs, since no `VM flush ACK` timeout is ever logged then.
+
+| group | arm | result |
+|---|---|---|
+| g1 | production (3:0) / unmap side only (1:0) | survived 150 s / fault at 13 s |
+| g2 | rewrite the matched VMID's page-table base, same value (3:6) | fault at 14 s |
+| g3 | rewrite it through zero and back (3:7) | fault at 14 s |
+| g4 | MMIO invalidation, engine 17, register readback (3:9:4) | wedged to the cap, ACK never set |
+| g5 | same inside RLC safe mode (3:9:5) | same |
+| g6 | same holding the engine semaphore (3:9:6) | same; semaphore acquired (`sem_ok=1`) |
+| g7 | same on engine 15 (3:9:4:15) | same |
+| g8 | page-table rewrite then MMIO invalidation (3:8:4) | same |
+
+The first log line of g2 and g3 was printed before any queue existed, so those two were repeated with
+every call dumped (`tbo3/ptb_dump_mode6.txt`, `ptb_dump_mode7.txt`): 88 and 73 rewrites of VMID 8's
+page-table base, each read back correctly, the last 74 microseconds before the fault. So the rewrite
+happened on the right context and did not help.
+
+The readbacks (`tbo3/g4` to `g8` `.inv.txt`) say more than the outcomes. The request register latches
+exactly what is written (`wrote=0x00fa0100 req_readback=0x00fa0100`), and the ACK bit for VMID 8
+stays clear for the whole 2 ms poll, on both engines, with or without safe mode and with the
+semaphore genuinely held. The request is accepted into the register and never processed. The
+invalidation engine behaves as if nothing services it once the firmware has taken the hub, which is
+consistent with it acknowledging at boot.
+
+What remains is narrower. The runlist rebuild clears the stale translation without renumbering the
+VMID (every dump shows VMID 8), and without anything a driver-side register write reproduces: not the
+page-table base write, not an invalidation request by MMIO, SDMA or KIQ. Whatever does it happens
+inside the firmware's unmap and remap of the queue.
+
 ## Two board losses during setup
 
 The first attempt at the mid-run dump took the board down because the command also read the

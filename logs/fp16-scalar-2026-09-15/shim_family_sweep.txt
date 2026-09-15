@@ -1,0 +1,7 @@
+fam_all: PPL = 14.6752 shimlines=49189 zero_at=[73 74 109 ]
+fam_dev: PPL = 14.1344 shimlines=5911 zero_at=[37 73 109 ]
+fam_mem: PPL = 14.1344 shimlines=336 zero_at=[37 73 109 ]
+fam_copy: PPL = 14.1344 shimlines=8298 zero_at=[37 73 109 ]
+fam_sync: PPL = 14.1344 shimlines=16178 zero_at=[37 73 109 ]
+fam_err: PPL = 14.1344 shimlines=5497 zero_at=[37 73 109 ]
+fam_launch: PPL = 14.1344 shimlines=12969 zero_at=[37 73 109 ]

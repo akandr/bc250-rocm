@@ -11,7 +11,7 @@
 # still going at the cap counts as survived-to-cap.
 #
 # Usage: scripts/tlb_alt_tbo.sh "<group> <group> ..." where a group is cells joined
-# by '+', each cell <runlist>:<alt>. Example: "3:0+1:0 3:0+3:4 3:0+3:3"
+# by '+', each cell <runlist>:<alt>[:<flags>[:<eng>]]. Example: "3:0+1:0 3:0+3:4 3:9:5:15"
 #
 # Fault counting here reads dmesg on a boot that is still up, and was left that way once the run
 # was logged, since changing the counter would change what the log means. dmesg cannot see a
@@ -53,10 +53,13 @@ g=0
 for grp in $GROUPS_; do
   g=$((g+1)); fresh
   for c in ${grp//+/ }; do
-    rl=${c%%:*}; alt=${c##*:}; label="g${g}_rl${rl}_alt${alt}"
+    # cell syntax <runlist>:<alt>[:<flags>[:<eng>]]; flags and eng feed the v3 module arms
+    IFS=: read -r rl alt fl en <<< "$c"; fl=${fl:-0}; en=${en:-17}
+    label="g${g}_rl${rl}_alt${alt}"; [ "$fl" != 0 ] && label="${label}_f${fl}"; [ "$en" != 17 ] && label="${label}_e${en}"
     ssh -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=8 "$BOARD" "
       P=/sys/module/amdgpu/parameters
       echo MARK-$label | sudo tee /dev/kmsg >/dev/null
+      [ -e \$P/bc250_tlb_flags ] && { echo $fl | sudo tee \$P/bc250_tlb_flags >/dev/null; echo $en | sudo tee \$P/bc250_tlb_eng >/dev/null; }
       echo $rl | sudo tee \$P/bc250_flush_by_runlist >/dev/null; echo $alt | sudo tee \$P/bc250_tlb_alt >/dev/null
       n0=\$(sudo dmesg | grep -c BC250TLBALT)
       t0=\$(date +%s)
@@ -66,6 +69,7 @@ for grp in $GROUPS_; do
       echo 3 | sudo tee \$P/bc250_flush_by_runlist >/dev/null; echo 0 | sudo tee \$P/bc250_tlb_alt >/dev/null
       f=\$(grep -ac 'Memory access fault' ~/s0915/tbo/$label.log)
       alt_line=\$(sudo dmesg | grep BC250TLBALT | tail -n +\$((n0+1)) | tail -1 | sed 's/.*BC250TLBALT//')
+      sudo dmesg | grep -E 'BC250INV|BC250PTB' | tail -6 > ~/s0915/tbo/$label.inv.txt
       k=\$(sudo dmesg | grep -ciE 'page fault|preemption|create queue .* failed|ring .* timeout|Fence fallback timer expired on ring sdma')
       sync
       echo \"rc=\$rc fault=\$f wall=\$((t1-t0))s kernel_events_boot=\$k alt:[\$alt_line]\"

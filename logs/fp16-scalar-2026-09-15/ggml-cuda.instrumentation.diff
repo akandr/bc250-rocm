@@ -1,0 +1,343 @@
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index dec6193..5fb90c6 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -1,4 +1,8 @@
+ #include "ggml-cuda.h"
++#include <unistd.h>
++#ifdef GGML_USE_HIP
++#include <rocblas/rocblas.h>
++#endif
+ #include "ggml-impl.h"
+ #include "ggml-backend-impl.h"
+ 
+@@ -302,7 +306,7 @@ static ggml_cuda_device_info ggml_cuda_init() {
+         info.default_tensor_split[id] = total_vram;
+         total_vram += device_vram;
+ #if defined(GGML_USE_HIP)
+-        info.devices[id].integrated = prop.integrated;
++        info.devices[id].integrated = false; // BC-250 test: integrated path corrupts output on gfx1013
+ #else
+         info.devices[id].integrated = false; // Temporarily disabled due to issues with corrupted output (e.g. #15034)
+ #endif
+@@ -451,6 +455,13 @@ struct ggml_cuda_pool_leg : public ggml_cuda_pool {
+     }
+ 
+     void * alloc(size_t size, size_t * actual_size) override {
++        if (getenv("GGML_CUDA_NO_POOL") != nullptr) {
++            void * ptr;
++            ggml_cuda_set_device(device);
++            CUDA_CHECK(ggml_cuda_device_malloc(&ptr, size, device));
++            *actual_size = size;
++            return ptr;
++        }
+ #ifdef DEBUG_CUDA_MALLOC
+         int nnz = 0;
+         size_t max_size = 0;
+@@ -516,6 +527,16 @@ struct ggml_cuda_pool_leg : public ggml_cuda_pool {
+     }
+ 
+     void free(void * ptr, size_t size) override {
++        if (getenv("GGML_CUDA_POOL_NOREUSE") != nullptr) {
++            GGML_UNUSED(ptr); GGML_UNUSED(size);
++            return; // hold forever: no reuse, no unmap
++        }
++        if (getenv("GGML_CUDA_NO_POOL") != nullptr) {
++            ggml_cuda_set_device(device);
++            CUDA_CHECK(cudaFree(ptr));
++            return;
++        }
++
+         for (int i = 0; i < MAX_BUFFERS; ++i) {
+             ggml_cuda_buffer& b = buffer_pool[i];
+             if (b.ptr == nullptr) {
+@@ -1402,6 +1423,14 @@ struct batched_mul_mat_traits<GGML_TYPE_F16> {
+     static inline auto convert_nc(ggml_type src_type) { return ggml_get_to_fp16_nc_cuda(src_type); }
+ };
+ 
++static __global__ void bc250_devsum_f16(const half * __restrict__ p, size_t n, float * __restrict__ out) {
++    float acc = 0.0f;
++    for (size_t i = blockIdx.x * blockDim.x + threadIdx.x; i < n; i += gridDim.x * blockDim.x) {
++        acc += fabsf(__half2float(p[i]));
++    }
++    atomicAdd(out, acc);
++}
++
+ template<ggml_type compute_type>
+ static void ggml_cuda_mul_mat_cublas_impl(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+     using traits = batched_mul_mat_traits<compute_type>;
+@@ -1489,6 +1518,19 @@ static void ggml_cuda_mul_mat_cublas_impl(ggml_backend_cuda_context & ctx, const
+             is_src1_cont_2 = true;
+         }
+         src1_ptr = src1_alloc.get();
++
++        // BC-250 investigation: is the converted activation copy intact?
++        // Enable with BC250_CUBLAS_CHECK=1.
++        if (getenv("BC250_CUBLAS_CHECK")) {
++            CUDA_CHECK(cudaStreamSynchronize(main_stream));
++            const size_t nconv = ggml_nelements(src1);
++            std::vector<char> tmp(nconv * sizeof(cuda_t));
++            CUDA_CHECK(cudaMemcpy(tmp.data(), src1_alloc.get(), tmp.size(), cudaMemcpyDeviceToHost));
++            size_t nz = 0;
++            for (size_t b = 0; b < tmp.size(); b++) { if (tmp[b]) nz++; }
++            fprintf(stderr, "BC250CONV %s converted src1 %zu elems, nonzero_bytes=%zu/%zu\n",
++                          dst->name, nconv, nz, tmp.size());
++        }
+     }
+ 
+     ggml_cuda_pool_alloc<cuda_t> dst_temp(ctx.pool());
+@@ -1496,12 +1538,102 @@ static void ggml_cuda_mul_mat_cublas_impl(ggml_backend_cuda_context & ctx, const
+     size_t nbd2 = dst->nb[2];
+     size_t nbd3 = dst->nb[3];
+ 
++    if (getenv("BC250_PTR")) {
++        auto al = [](const void * q) { size_t v = (size_t) q; return v ? (v & -v) : (size_t) 0; };
++        fprintf(stderr, "BC250PTR %s src0=%p(al=%zu) src1=%p(al=%zu) dst=%p(al=%zu) ne11=%lld\n",
++                dst->name, (const void *) src0_ptr, al(src0_ptr), (const void *) src1_ptr, al(src1_ptr),
++                (void *) dst->data, al(dst->data), (long long) ne11);
++    }
++    if (getenv("BC250_DEVCHECK")) {
++        // what the shader cores actually see in the two operands
++        float * dsum = nullptr;
++        CUDA_CHECK(cudaMalloc(&dsum, 2 * sizeof(float)));
++        CUDA_CHECK(cudaMemsetAsync(dsum, 0, 2 * sizeof(float), main_stream));
++        bc250_devsum_f16<<<64, 256, 0, main_stream>>>((const half *) src0_ptr, (size_t) ne00 * ne01, dsum);
++        bc250_devsum_f16<<<64, 256, 0, main_stream>>>((const half *) src1_ptr, (size_t) ne10 * ne11, dsum + 1);
++        CUDA_CHECK(cudaStreamSynchronize(main_stream));
++        float hs[2] = {0.0f, 0.0f};
++        CUDA_CHECK(cudaMemcpy(hs, dsum, sizeof(hs), cudaMemcpyDeviceToHost));
++        fprintf(stderr, "BC250DEV %s device-sees weight_abs_sum=%.6g activations_abs_sum=%.6g\n",
++                dst->name, hs[0], hs[1]);
++        CUDA_CHECK(cudaFree(dsum));
++    }
++    const bool bc250_sent = getenv("BC250_DST_SENTINEL") != nullptr;
++    if (bc250_sent) {
++        CUDA_CHECK(cudaStreamSynchronize(main_stream));
++        CUDA_CHECK(cudaMemset(dst->data, 0x3c, ggml_nbytes(dst)));   // fp16 ~1.0 pattern
++        CUDA_CHECK(cudaStreamSynchronize(main_stream));
++    }
++    if (getenv("BC250_SYNC_BEFORE_GEMM")) {
++        CUDA_CHECK(cudaStreamSynchronize(main_stream));
++    }
++    if (getenv("BC250_DELAY_US") && compute_type == GGML_TYPE_F16) {
++        // host-side delay before every fp16 GEMM, standing in for AMD_LOG_LEVEL=3's logging cost
++        usleep((useconds_t) atoi(getenv("BC250_DELAY_US")));
++    }
++    if (getenv("BC250_PTRATTR") && compute_type == GGML_TYPE_F16) {
++        // what AMD_LOG_LEVEL=3 does per pointer argument, and nothing else: ask the runtime
++        // about each operand and the destination before the GEMM
++        hipPointerAttribute_t a;
++        const void * ptrs[3] = { src0_ptr, src1_ptr, dst->data };
++        for (int i = 0; i < 3; i++) { (void) hipPointerGetAttributes(&a, ptrs[i]); }
++    }
+     cublasComputeType_t cu_compute_type = traits::compute_type;
+     cudaDataType_t cu_data_type = traits::data_type;
+     cudaDataType_t cu_data_type_a = traits::data_type;
+     cudaDataType_t cu_data_type_b = traits::data_type;
+     const void * alpha = traits::get_alpha();
+     const void * beta = traits::get_beta();
++    if (getenv("BC250_BETA1") && compute_type == GGML_TYPE_F16) {
++        // built from the bit pattern: __float2half/__half2float are device functions and give
++        // garbage when called on the host, which already misled one trace here
++        static half bc250_one;
++        const uint16_t one_bits = 0x3c00;
++        memcpy(&bc250_one, &one_bits, sizeof(one_bits));
++        beta = &bc250_one;
++    }
++    if (getenv("BC250_WARM")) {
++        const int mode = atoi(getenv("BC250_WARM"));
++        static void * wa = nullptr; static void * wb = nullptr; static void * wc = nullptr;
++        if (!wa) {
++            CUDA_CHECK(cudaMalloc(&wa, 256 * 256 * 2));
++            CUDA_CHECK(cudaMalloc(&wb, 256 * 256 * 2));
++            CUDA_CHECK(cudaMalloc(&wc, 256 * 256 * 2));
++            CUDA_CHECK(cudaMemset(wa, 0x3c, 256 * 256 * 2));
++            CUDA_CHECK(cudaMemset(wb, 0x3c, 256 * 256 * 2));
++        }
++        const half h1 = __float2half(1.0f), h0 = __float2half(0.0f);
++        if (mode == 1) {
++            // different shape entirely
++            CUBLAS_CHECK(cublasGemmEx(ctx.cublas_handle(), CUBLAS_OP_T, CUBLAS_OP_N,
++                                      256, 256, 256, &h1, wa, CUDA_R_16F, 256,
++                                      wb, CUDA_R_16F, 256, &h0, wc, CUDA_R_16F, 256,
++                                      CUBLAS_COMPUTE_16F, CUBLAS_GEMM_DEFAULT));
++        } else if (mode == 2 && compute_type == GGML_TYPE_F16) {
++            // IDENTICAL shape, same operands, throwaway destination: if this
++            // also prevents the zeros then the trigger is not shape-specific
++            static void * scratch = nullptr; static size_t scratch_sz = 0;
++            const size_t need = (size_t) ne_dst * sizeof(cuda_t);
++            if (scratch_sz < need) {
++                if (scratch) CUDA_CHECK(cudaFree(scratch));
++                CUDA_CHECK(cudaMalloc(&scratch, need)); scratch_sz = need;
++            }
++            CUBLAS_CHECK(cublasGemmEx(ctx.cublas_handle(), CUBLAS_OP_T, CUBLAS_OP_N,
++                                      ne01, ne11, ne10, alpha, src0_ptr, CUDA_R_16F, ne00,
++                                      src1_ptr, CUDA_R_16F, ne10, beta, scratch, CUDA_R_16F, ne01,
++                                      CUBLAS_COMPUTE_16F, CUBLAS_GEMM_DEFAULT));
++        }
++    }
++    if (getenv("BC250_ALPHA")) {
++        float av, bv;
++        if (compute_type == GGML_TYPE_F16) {
++            av = __half2float(*(const half *) alpha);
++            bv = __half2float(*(const half *) beta);
++        } else {
++            av = *(const float *) alpha; bv = *(const float *) beta;
++        }
++        fprintf(stderr, "BC250ALPHA %s alpha=%.8g beta=%.8g\n", dst->name, av, bv);
++    }
+ 
+     const int cc = ggml_cuda_info().devices[ctx.device].cc;
+     bool prefer_f32_output = false;
+@@ -1522,6 +1654,13 @@ static void ggml_cuda_mul_mat_cublas_impl(ggml_backend_cuda_context & ctx, const
+             dst_ptr = (char *) dst_ddf;  // Direct F32 output
+         } else {
+             dst_ptr = (char *) dst_temp.alloc(ne_dst);
++            if (getenv("BC250_TEMP_SENTINEL")) {
++                // stamp the GEMM output buffer so "wrote zeros" and "did not
++                // write" can be told apart
++                CUDA_CHECK(cudaMemsetAsync(dst_ptr, 0x3c, ne_dst * sizeof(cuda_t), main_stream));
++                CUDA_CHECK(cudaStreamSynchronize(main_stream));
++                fprintf(stderr, "BC250TEMPSENT %s stamped %p\n", dst->name, (void *) dst_ptr);
++            }
+             nbd2 /= sizeof(float) / sizeof(cuda_t);
+             nbd3 /= sizeof(float) / sizeof(cuda_t);
+         }
+@@ -1545,6 +1684,57 @@ static void ggml_cuda_mul_mat_cublas_impl(ggml_backend_cuda_context & ctx, const
+                                            (const float *) src1_ptr, s11,
+                     (const float *) beta,  (float       *)  dst_ptr, ne0));
+     } else if (ne12 == 1 && ne13 == 1) {
++#ifdef GGML_USE_HIP
++        // BC250_SOLUTION=<n> routes this same call through rocBLAS asking for a
++        // specific Tensile solution, so a zeroed result can be tested against a
++        // kernel other than the default one.
++        if (getenv("BC250_PTRMODE_DEVICE") && compute_type == GGML_TYPE_F16) {
++            rocblas_handle rh = (rocblas_handle) ctx.cublas_handle();
++            static half * dev_scalars = nullptr;
++            if (!dev_scalars) {
++                CUDA_CHECK(cudaMalloc(&dev_scalars, 2 * sizeof(half)));
++            }
++            const half host_scalars[2] = { *(const half *) alpha, *(const half *) beta };
++            CUDA_CHECK(cudaMemcpy(dev_scalars, host_scalars, sizeof(host_scalars), cudaMemcpyHostToDevice));
++            rocblas_set_pointer_mode(rh, rocblas_pointer_mode_device);
++            rocblas_status st = rocblas_gemm_ex(rh,
++                    rocblas_operation_transpose, rocblas_operation_none,
++                    ne01, ne11, ne10,
++                    dev_scalars, src0_ptr, rocblas_datatype_f16_r, s01,
++                                 src1_ptr, rocblas_datatype_f16_r, s11,
++                    dev_scalars + 1, dst_ptr, rocblas_datatype_f16_r, ne0,
++                                     dst_ptr, rocblas_datatype_f16_r, ne0,
++                    rocblas_datatype_f16_r, rocblas_gemm_algo_standard, 0, rocblas_gemm_flags_none);
++            rocblas_set_pointer_mode(rh, rocblas_pointer_mode_host);
++            static bool once = false;
++            if (!once) {
++                fprintf(stderr, "BC250PTRMODE device pointer mode status=%d\n", (int) st);
++                once = true;
++            }
++            GGML_ASSERT(st == rocblas_status_success);
++        } else if (const char * bc250_sol = getenv("BC250_SOLUTION"); bc250_sol && compute_type == GGML_TYPE_F16) {
++            rocblas_status st = rocblas_gemm_ex((rocblas_handle) ctx.cublas_handle(),
++                    rocblas_operation_transpose, rocblas_operation_none,
++                    ne01, ne11, ne10,
++                    alpha, src0_ptr, rocblas_datatype_f16_r, s01,
++                           src1_ptr, rocblas_datatype_f16_r, s11,
++                    beta,   dst_ptr, rocblas_datatype_f16_r, ne0,
++                            dst_ptr, rocblas_datatype_f16_r, ne0,
++                    rocblas_datatype_f16_r, rocblas_gemm_algo_solution_index,
++                    atoi(bc250_sol), rocblas_gemm_flags_none);
++            static bool once = false;
++            if (!once) {
++                fprintf(stderr, "BC250SOL solution=%s status=%d\n", bc250_sol, (int) st);
++                once = true;
++            }
++            if (st != rocblas_status_success) {
++                CUBLAS_CHECK(cublasGemmEx(ctx.cublas_handle(), CUBLAS_OP_T, CUBLAS_OP_N,
++                        ne01, ne11, ne10, alpha, src0_ptr, cu_data_type_a, s01,
++                        src1_ptr, cu_data_type_b, s11, beta, dst_ptr, cu_data_type, ne0,
++                        cu_compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP));
++            }
++        } else
++#endif
+         CUBLAS_CHECK(
+             cublasGemmEx(ctx.cublas_handle(), CUBLAS_OP_T, CUBLAS_OP_N,
+                     ne01, ne11, ne10,
+@@ -1611,11 +1801,34 @@ static void ggml_cuda_mul_mat_cublas_impl(ggml_backend_cuda_context & ctx, const
+ 
+     // Convert output back to F32 if needed
+     if (cu_data_type != CUDA_R_32F) {
++        if (getenv("BC250_LASTERR")) {
++            // a launch that silently fails leaves a sticky error behind; read it after a full sync
++            hipError_t se = hipDeviceSynchronize();
++            hipError_t pe = hipPeekAtLastError();
++            static int n = 0;
++            fprintf(stderr, "BC250LASTERR %d %s sync=%d peek=%d (%s)\n", ++n, dst->name, (int) se, (int) pe, hipGetErrorName(pe));
++            if (pe != hipSuccess) hipGetLastError();
++        }
++        if (getenv("BC250_TEMP")) {
++            // what did the GEMM actually leave in the temporary, before the
++            // f16->f32 conversion writes it into the tensor?
++            float * ds = nullptr;
++            CUDA_CHECK(cudaMalloc(&ds, sizeof(float)));
++            CUDA_CHECK(cudaMemsetAsync(ds, 0, sizeof(float), main_stream));
++            bc250_devsum_f16<<<64, 256, 0, main_stream>>>((const half *) dst_temp.get(), (size_t) ne_dst, ds);
++            CUDA_CHECK(cudaStreamSynchronize(main_stream));
++            float h = 0.0f;
++            CUDA_CHECK(cudaMemcpy(&h, ds, sizeof(float), cudaMemcpyDeviceToHost));
++            fprintf(stderr, "BC250TEMP %s gemm_output_abs_sum=%.6g (ne_dst=%lld)\n",
++                    dst->name, h, (long long) ne_dst);
++            CUDA_CHECK(cudaFree(ds));
++        }
+         const to_fp32_cuda_t to_fp32_cuda = ggml_get_to_fp32_cuda(traits::ggml_type_val);
+         to_fp32_cuda(dst_temp.get(), dst_ddf, ne_dst, main_stream);
+     }
+ }
+ 
++
+ static void ggml_cuda_mul_mat_cublas(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+     ggml_type compute_type = src0->type;
+     if (ggml_is_quantized(compute_type)) {
+@@ -1657,6 +1870,17 @@ static void ggml_cuda_mul_mat_cublas(ggml_backend_cuda_context & ctx, const ggml
+         default:
+             GGML_ABORT("fatal error");
+     }
++
++    if (getenv("BC250_DST_SENTINEL")) {
++        CUDA_CHECK(cudaStreamSynchronize(ctx.stream()));
++        const size_t nb = ggml_nbytes(dst);
++        std::vector<uint8_t> chk(nb < 4096 ? nb : 4096);
++        CUDA_CHECK(cudaMemcpy(chk.data(), dst->data, chk.size(), cudaMemcpyDeviceToHost));
++        size_t sent = 0, zero = 0, other = 0;
++        for (uint8_t b : chk) { if (b == 0x3c) sent++; else if (b == 0) zero++; else other++; }
++        fprintf(stderr, "BC250DST %s sentinel=%zu zero=%zu other=%zu (of %zu sampled)\n",
++                dst->name, sent, zero, other, chk.size());
++    }
+ }
+ 
+ static bool ggml_cuda_should_fuse_mul_mat(const ggml_tensor * ffn_up,
+@@ -1847,21 +2071,26 @@ static void ggml_cuda_mul_mat(ggml_backend_cuda_context & ctx, const ggml_tensor
+         dst_vec.nb[1] = dst_vec.nb[0]*ne11;
+         dst_vec.nb[2] = dst_vec.nb[1];
+         dst_vec.nb[3] = dst_vec.nb[1];
++        if (getenv("BC250_PATH")) fprintf(stderr, "BC250PATH %s -> mul_mat_vec_f (src0=%s src1=%s ne11=%lld)\n", dst->name, ggml_type_name(src0->type), ggml_type_name(src1->type), (long long) ne11);
+         ggml_cuda_mul_mat_vec_f(ctx, src1, src0, nullptr, &dst_vec);
+         return;
+     }
+     if (ggml_cuda_should_use_mmf(src0->type, cc, warp_size, src0->ne, src0->nb, ne11, /*mul_mat_id =*/ false)) {
++        if (getenv("BC250_PATH")) fprintf(stderr, "BC250PATH %s -> MMF (src0=%s src1=%s ne11=%lld)\n", dst->name, ggml_type_name(src0->type), ggml_type_name(src1->type), (long long) ne11);
+         ggml_cuda_mul_mat_f(ctx, src0, src1, nullptr, dst);
+         return;
+     }
+     if (ggml_cuda_should_use_mmvq(src0->type, cc, ne11)) {
++        if (getenv("BC250_PATH")) fprintf(stderr, "BC250PATH %s -> MMVQ (src0=%s src1=%s ne11=%lld)\n", dst->name, ggml_type_name(src0->type), ggml_type_name(src1->type), (long long) ne11);
+         ggml_cuda_mul_mat_vec_q(ctx, src0, src1, nullptr, dst);
+         return;
+     }
+     if (ggml_cuda_should_use_mmq(src0->type, cc, ne11, /*n_experts =*/ 0)) {
++        if (getenv("BC250_PATH")) fprintf(stderr, "BC250PATH %s -> MMQ (src0=%s src1=%s ne11=%lld)\n", dst->name, ggml_type_name(src0->type), ggml_type_name(src1->type), (long long) ne11);
+         ggml_cuda_mul_mat_q(ctx, src0, src1, nullptr, dst);
+         return;
+     }
++        if (getenv("BC250_PATH")) fprintf(stderr, "BC250PATH %s -> cublas (src0=%s src1=%s ne11=%lld)\n", dst->name, ggml_type_name(src0->type), ggml_type_name(src1->type), (long long) ne11);
+     ggml_cuda_mul_mat_cublas(ctx, src0, src1, dst);
+ }
+ 

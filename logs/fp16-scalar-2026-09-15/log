@@ -1,0 +1,12 @@
+[08:20:25] === fp16 scalar probe, 7.1.8-100.fc43.x86_64
+[08:21:08]   f32_ref: rc=0 Final estimate: PPL = 9.0975 
+[08:21:48]   f16_base1: rc=0 Final estimate: PPL = 17.8338 
+[08:22:28]   f16_ptrdev1: rc=0 Final estimate: PPL = 20.4944 BC250PTRMODE device pointer mode status=0
+[08:23:09]   f16_base2: rc=0 Final estimate: PPL = 19.9354 
+[08:23:48]   f16_ptrdev2: rc=0 Final estimate: PPL = 21.5478 BC250PTRMODE device pointer mode status=0
+[08:24:27]   f16_ptrdev3: rc=0 Final estimate: PPL = 18.9806 BC250PTRMODE device pointer mode status=0
+[08:25:07]   f16_stamp_beta0: rc=0 Final estimate: PPL = 20.4944 
+[08:25:46]   f16_stamp_beta1: rc=0 Final estimate: PPL = 2358876.5399 
+[08:25:46]   f16_stamp_beta0: 288 GEMM outputs; zero sums at positions: 
+[08:25:46]   f16_stamp_beta1: 288 GEMM outputs; zero sums at positions: 
+[08:25:46] === done
