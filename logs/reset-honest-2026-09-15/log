@@ -1,0 +1,35 @@
+[01:01:06] === A. recovery default: removing amdgpu.gpu_recovery=0 for this test
+[01:01:53]   gpu_recovery=-1
+[01:02:02]   smoke job (records the device for the probe): OK
+[01:02:02]   [    6.395149] amdgpu 0000:01:00.0: GPU recovery disabled.
+[01:02:02]   [    6.395411] amdgpu 0000:01:00.0: GPU recovery disabled.
+[01:02:02]   [   43.534946] amdgpu: BC250RECOVER: no device recorded yet, run a GPU flush first
+[01:02:02] === B. honest reset
+[01:03:02] B1_mode1: params [bc250_honest_reset=1], pre-reset smoke OK
+[01:04:21] B1_mode1: host ALIVE after reset; post-reset smoke OK; trigger returned: -95 
+[01:04:21] B1_mode1: netconsole tail: [   46.974954] amdgpu 0000:01:00.0: BC250: PSP has no mode1_reset for this ASIC|[   46.974977] amdgpu 0000:01:00.0: GPU mode1 reset failed|[   46.974997] amdgpu 0000:01:00.0: ASIC reset failed with error, -95 for drm dev, 0000:01:00.0|[   46.975027] amdgpu 0000:01:00.0: GPU reset end with ret = -95|
+[01:07:08]   reboot did not produce a new boot, power cycling
+[01:08:14] B2_mode1: params [bc250_honest_reset=1], pre-reset smoke OK
+[01:09:33] B2_mode1: host ALIVE after reset; post-reset smoke OK; trigger returned: -95 
+[01:09:33] B2_mode1: netconsole tail: [   32.966011] amdgpu 0000:01:00.0: BC250: PSP has no mode1_reset for this ASIC|[   32.966035] amdgpu 0000:01:00.0: GPU mode1 reset failed|[   32.966055] amdgpu 0000:01:00.0: ASIC reset failed with error, -95 for drm dev, 0000:01:00.0|[   32.966088] amdgpu 0000:01:00.0: GPU reset end with ret = -95|
+[01:12:20]   reboot did not produce a new boot, power cycling
+[01:13:27] B3_mode2: params [reset_method=3 bc250_honest_reset=1], pre-reset smoke OK
+[01:14:46] B3_mode2: host ALIVE after reset; post-reset smoke OK; trigger returned: -95 
+[01:14:46] B3_mode2: netconsole tail: [   29.539127] amdgpu 0000:01:00.0: Mode2 reset failed!|[   29.539152] amdgpu 0000:01:00.0: GPU mode2 reset failed|[   29.539236] amdgpu 0000:01:00.0: ASIC reset failed with error, -95 for drm dev, 0000:01:00.0|[   29.539267] amdgpu 0000:01:00.0: GPU reset end with ret = -95|
+[01:17:33]   reboot did not produce a new boot, power cycling
+[01:18:40] B4_mode2: params [reset_method=3 bc250_honest_reset=1], pre-reset smoke OK
+[01:19:59] B4_mode2: host ALIVE after reset; post-reset smoke OK; trigger returned: -95 
+[01:19:59] B4_mode2: netconsole tail: [   29.279380] amdgpu 0000:01:00.0: Mode2 reset failed!|[   29.279403] amdgpu 0000:01:00.0: GPU mode2 reset failed|[   29.279491] amdgpu 0000:01:00.0: ASIC reset failed with error, -95 for drm dev, 0000:01:00.0|[   29.279523] amdgpu 0000:01:00.0: GPU reset end with ret = -95|
+[01:19:59] === C. per-queue compute reset on gfx10 (scripts/apply_gfx10_queue_reset.py)
+[01:22:46]   reboot did not produce a new boot, power cycling
+[01:23:52] C1_queue_reset0: pre smoke OK
+[01:30:49] C1_queue_reset0: host ALIVE; trigger rc=124 ; preempt_fail=66 qreset_lines=0 recovery_disabled=69; smoke after trigger: FAIL, 20 s later: FAIL
+[01:31:48] C2_queue_reset1: pre smoke OK
+[01:38:46] C2_queue_reset1: host ALIVE; trigger rc=124 ; preempt_fail=66 qreset_lines=3 recovery_disabled=69; smoke after trigger: FAIL, 20 s later: FAIL
+[01:39:45] C3_queue_reset0: pre smoke OK
+[01:46:42] C3_queue_reset0: host ALIVE; trigger rc=124 ; preempt_fail=66 qreset_lines=0 recovery_disabled=69; smoke after trigger: FAIL, 20 s later: FAIL
+[01:47:41] C4_queue_reset1: pre smoke OK
+[01:54:38] C4_queue_reset1: host ALIVE; trigger rc=124 ; preempt_fail=66 qreset_lines=3 recovery_disabled=69; smoke after trigger: FAIL, 20 s later: FAIL
+[01:54:38] === restoring the command line
+[01:55:25]   after restore: gpu_recovery=0
+[01:55:25] done

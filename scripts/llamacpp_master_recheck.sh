@@ -15,6 +15,11 @@
 #   bench   1.5B pp512/tg64, reference 806/113.5
 #
 # Usage on the board: SRC=~/llama-new LABEL=unpatched ./llamacpp_master_recheck.sh
+#
+# Fault counting here reads dmesg on a boot that is still up, and was left that way once the run
+# was logged, since changing the counter would change what the log means. dmesg cannot see a
+# fault from a run that ended by taking the board down; new work should use
+# scripts/fault_count.sh, which reads the persistent journal.
 set -u
 SRC=${SRC:-$HOME/llama-new}
 LABEL=${LABEL:-unpatched}

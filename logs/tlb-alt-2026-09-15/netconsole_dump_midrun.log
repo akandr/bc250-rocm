@@ -1,0 +1,47 @@
+[  127.047842] MARK-mid-start
+[  157.538797] amdgpu 0000:01:00.0: BC250TLB vmid=1 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538815] amdgpu 0000:01:00.0: BC250TLB vmid=2 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538820] amdgpu 0000:01:00.0: BC250TLB vmid=3 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538824] amdgpu 0000:01:00.0: BC250TLB vmid=4 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538832] amdgpu 0000:01:00.0: BC250TLB vmid=5 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538838] amdgpu 0000:01:00.0: BC250TLB vmid=6 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538844] amdgpu 0000:01:00.0: BC250TLB vmid=7 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538850] amdgpu 0000:01:00.0: BC250TLB vmid=8 ptb=0x46ffd6001 pd=0x46ffd6001 first_kfd=8 MATCH
+[  157.538857] amdgpu 0000:01:00.0: BC250TLB vmid=9 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538863] amdgpu 0000:01:00.0: BC250TLB vmid=10 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538869] amdgpu 0000:01:00.0: BC250TLB vmid=11 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538875] amdgpu 0000:01:00.0: BC250TLB vmid=12 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538880] amdgpu 0000:01:00.0: BC250TLB vmid=13 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538886] amdgpu 0000:01:00.0: BC250TLB vmid=14 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.538892] amdgpu 0000:01:00.0: BC250TLB vmid=15 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539092] amdgpu 0000:01:00.0: BC250TLB vmid=1 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539100] amdgpu 0000:01:00.0: BC250TLB vmid=2 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539106] amdgpu 0000:01:00.0: BC250TLB vmid=3 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539111] amdgpu 0000:01:00.0: BC250TLB vmid=4 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539117] amdgpu 0000:01:00.0: BC250TLB vmid=5 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539123] amdgpu 0000:01:00.0: BC250TLB vmid=6 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539129] amdgpu 0000:01:00.0: BC250TLB vmid=7 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539135] amdgpu 0000:01:00.0: BC250TLB vmid=8 ptb=0x46ffd6001 pd=0x46ffd6001 first_kfd=8 MATCH
+[  157.539141] amdgpu 0000:01:00.0: BC250TLB vmid=9 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539147] amdgpu 0000:01:00.0: BC250TLB vmid=10 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539153] amdgpu 0000:01:00.0: BC250TLB vmid=11 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539159] amdgpu 0000:01:00.0: BC250TLB vmid=12 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539165] amdgpu 0000:01:00.0: BC250TLB vmid=13 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539171] amdgpu 0000:01:00.0: BC250TLB vmid=14 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539177] amdgpu 0000:01:00.0: BC250TLB vmid=15 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539313] amdgpu 0000:01:00.0: BC250TLB vmid=1 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539319] amdgpu 0000:01:00.0: BC250TLB vmid=2 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539325] amdgpu 0000:01:00.0: BC250TLB vmid=3 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539331] amdgpu 0000:01:00.0: BC250TLB vmid=4 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539336] amdgpu 0000:01:00.0: BC250TLB vmid=5 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539343] amdgpu 0000:01:00.0: BC250TLB vmid=6 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539349] amdgpu 0000:01:00.0: BC250TLB vmid=7 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539353] amdgpu 0000:01:00.0: BC250TLB vmid=8 ptb=0x46ffd6001 pd=0x46ffd6001 first_kfd=8 MATCH
+[  157.539358] amdgpu 0000:01:00.0: BC250TLB vmid=9 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539363] amdgpu 0000:01:00.0: BC250TLB vmid=10 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539367] amdgpu 0000:01:00.0: BC250TLB vmid=11 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539373] amdgpu 0000:01:00.0: BC250TLB vmid=12 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539379] amdgpu 0000:01:00.0: BC250TLB vmid=13 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539385] amdgpu 0000:01:00.0: BC250TLB vmid=14 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  157.539390] amdgpu 0000:01:00.0: BC250TLB vmid=15 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+[  242.448423] MARK-mid-end

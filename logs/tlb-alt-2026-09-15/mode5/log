@@ -1,0 +1,6 @@
+[00:04:15] === 7.1.8-100.fc43.x86_64, uptime up 0 minutes, gpu_recovery=0
+[00:04:15] === 1. churn, mode 5, 600 s cap
+[00:14:04]   rc=0 faults=0 lines=500 new_kernel_events=0
+[00:14:04] === 2. gate, mode 5
+[00:39:12]   FAIL
+[00:39:12] === 3. 8B throughput ABBA

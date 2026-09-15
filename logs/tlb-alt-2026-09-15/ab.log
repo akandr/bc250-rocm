@@ -1,0 +1,7 @@
+[23:24:08] c1_rl3_alt0: rc=0 pp512=241.82 tg64=39.23 wall=23s err=[] faults_boot=0 alt:[]
+[23:24:29] c2_rl0_alt0: rc=0 pp512=241.24 tg64=39.16 wall=20s err=[] faults_boot=0 alt:[]
+[23:26:34] c3_rl3_alt2: rc=134 pp512=NONE tg64=NONE wall=123s err=[] faults_boot=0 alt:[ mode=2 site=1 calls=100 nomatch=0 ackmiss=100 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[23:28:17] c4_rl3_alt1: rc=134 pp512=NONE tg64=NONE wall=101s err=[] faults_boot=0 alt:[ mode=2 site=1 calls=100 nomatch=0 ackmiss=100 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[23:28:51] c5_rl3_alt4: rc=1 pp512=NONE tg64=NONE wall=32s err=[] faults_boot=0 alt:[ mode=2 site=1 calls=100 nomatch=0 ackmiss=100 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[23:30:30] c6_rl3_alt3: rc=134 pp512=NONE tg64=NONE wall=98s err=[] faults_boot=0 alt:[ mode=2 site=1 calls=100 nomatch=0 ackmiss=100 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[23:30:31] done: 3:0 0:0 3:2 3:1 3:4 3:3

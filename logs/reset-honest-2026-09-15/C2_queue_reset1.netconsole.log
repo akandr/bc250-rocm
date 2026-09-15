@@ -1,0 +1,211 @@
+[   33.053445] MARK-C2_queue_reset1
+[   42.434963] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1 err=0 pasid=26 r=0
+[   42.444169] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=10 err=0 pasid=26 r=0
+[   47.948628] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=100 err=0 pasid=26 r=0
+[   51.970785] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[   51.970847] amdgpu 0000:01:00.0: BC250QRESET attempting queue reset pipe 0 queue 2
+[   56.021433] amdgpu 0000:01:00.0: BC250QRESET queue still active, attempting pipe reset pipe 0
+[   60.072396] amdgpu 0000:01:00.0: BC250QRESET pipe 0 queue 2 failed (pipe reset)
+[   60.072419] amdgpu 0000:01:00.0: GPU recovery disabled.
+[   60.072426] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=105 err=1 pasid=26 r=-62
+[   64.080319] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[   64.080332] amdgpu 0000:01:00.0: GPU recovery disabled.
+[   64.080335] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=106 err=2 pasid=26 r=-62
+[  166.407320] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  166.407336] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  166.407340] amdgpu 0000:01:00.0: Failed to evict process queues
+[  166.407343] amdgpu: Failed to quiesce KFD
+[  170.414866] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  170.414881] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  170.414884] amdgpu: Resetting wave fronts (cpsch) on dev 000000007d60fa48
+[  170.414892] amdgpu 0000:01:00.0: Didn't find vmid for process pid 1584
+[  185.051314] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  185.051330] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  185.051334] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  189.058851] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  189.058862] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  189.058865] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  193.069436] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  193.069450] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  193.069454] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  197.077239] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  197.077256] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  197.077260] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  201.085193] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  201.085210] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  201.085215] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  205.093189] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  205.093205] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  205.093208] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  209.100791] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  209.100804] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  209.100808] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  213.113656] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  213.113672] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  213.113676] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  217.121675] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  217.121691] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  217.121695] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  221.129280] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  221.129289] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  221.129293] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  229.723247] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  229.723266] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  229.723270] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  233.730974] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  233.730987] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  233.730991] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  237.738545] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  237.738562] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  237.738565] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  241.746197] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  241.746209] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  241.746212] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  245.753787] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  245.753798] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  245.753802] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  249.763785] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  249.763801] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  249.763804] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  253.771334] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  253.771350] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  253.771355] amdgpu: process pid 2306 DQM create queue type 0 failed. ret -62
+[  257.778883] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  257.778898] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  257.778901] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  261.786528] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  261.786541] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  261.786545] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  265.794741] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  265.794753] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  265.794756] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  269.802372] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  269.802384] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  269.802388] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  273.809952] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  273.809960] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  273.809963] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  277.817577] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  277.817586] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  277.817589] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  281.825135] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  281.825148] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  281.825150] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  285.832711] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  285.832720] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  285.832723] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  289.840269] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  289.840285] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  289.840289] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  293.851022] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  293.851036] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  293.851038] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  297.858551] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  297.858567] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  297.858572] amdgpu: process pid 2306 DQM create queue type 0 failed. ret -62
+[  301.866100] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  301.866115] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  301.866119] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  305.873632] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  305.873640] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  305.873645] amdgpu 0000:01:00.0: Failed to evict process queues
+[  305.873648] amdgpu: Failed to quiesce KFD
+[  309.881157] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  309.881167] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  309.881170] amdgpu: Resetting wave fronts (cpsch) on dev 000000007d60fa48
+[  309.881178] amdgpu 0000:01:00.0: Didn't find vmid for process pid 2306
+[  334.265157] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  334.265173] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  334.265177] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  338.272715] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  338.272724] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  338.272727] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  342.283278] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  342.283292] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  342.283296] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  346.291104] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  346.291115] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  346.291118] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  350.299020] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  350.299036] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  350.299039] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  354.307025] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  354.307041] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  354.307044] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  358.314652] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  358.314667] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  358.314670] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  362.327491] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  362.327508] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  362.327512] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  366.335545] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  366.335559] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  366.335562] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  370.343165] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  370.343176] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  370.343179] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  378.944881] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  378.944899] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  378.944904] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  382.952614] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  382.952631] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  382.952634] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  386.960231] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  386.960246] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  386.960249] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  390.967835] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  390.967843] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  390.967850] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  394.975389] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  394.975397] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  394.975400] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  398.985760] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  398.985776] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  398.985779] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  402.993294] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  402.993306] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  402.993311] amdgpu: process pid 3044 DQM create queue type 0 failed. ret -62
+[  407.000826] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  407.000834] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  407.000839] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  411.008402] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  411.008419] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  411.008423] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  415.016910] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  415.016927] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  415.016932] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  419.024601] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  419.024610] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  419.024613] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  423.032153] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  423.032161] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  423.032166] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  427.039757] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  427.039765] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  427.039770] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  431.047294] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  431.047306] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  431.047312] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  435.054875] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  435.054886] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  435.054889] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  439.062439] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  439.062457] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  439.062460] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  443.072615] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  443.072632] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  443.072636] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  447.080149] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  447.080161] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  447.080166] amdgpu: process pid 3044 DQM create queue type 0 failed. ret -62
+[  451.087686] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  451.087696] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  451.087700] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  455.095208] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  455.095218] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  455.095221] amdgpu 0000:01:00.0: Failed to evict process queues
+[  455.095224] amdgpu: Failed to quiesce KFD
+[  459.102730] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  459.102738] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  459.102741] amdgpu: Resetting wave fronts (cpsch) on dev 000000007d60fa48
+[  459.102749] amdgpu 0000:01:00.0: Didn't find vmid for process pid 3044

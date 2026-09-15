@@ -1,0 +1,238 @@
+[  470.467049] kauditd_printk_skb: 20 callbacks suppressed
+[  470.467071] audit: type=1305 audit(1789422599.836:798): op=set audit_pid=0 old=789 auid=4294967295 ses=4294967295 subj=system_u:system_r:auditd_t:s0 res=1
+[  470.469068] audit: type=1131 audit(1789422599.838:799): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=auditd comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.469413] audit: type=1131 audit(1789422599.838:800): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.494368] audit: type=1131 audit(1789422599.863:801): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-fsck@dev-disk-by\x2duuid-3E81\x2d060D comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.503619] EXT4-fs (nvme0n1p2): unmounting filesystem 24906ea3-66db-45a5-9082-24d815d9ca9e.
+[  470.512221] audit: type=1131 audit(1789422599.881:802): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-fsck@dev-disk-by\x2duuid-24906ea3\x2d66db\x2d45a5\x2d9082\x2d24d815d9ca9e comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.513618] audit: type=1131 audit(1789422599.883:803): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-remount-fs comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.513718] audit: type=1131 audit(1789422599.883:804): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup-dev comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.513812] audit: type=1131 audit(1789422599.883:805): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup-dev-early comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.559992] audit: type=1131 audit(1789422599.929:806): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=lvm2-monitor comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.560736] audit: type=1130 audit(1789422599.930:807): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-reboot comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  470.600321] watchdog: watchdog0: watchdog did not stop!
+[  470.604908] systemd-shutdown[1]: Using hardware watchdog /dev/watchdog0: 'SP5100 TCO timer', version 0.
+[  470.604927] systemd-shutdown[1]: Watchdog running with a hardware timeout of 10min.
+[  470.611499] systemd-shutdown[1]: Syncing filesystems and block devices.
+[  470.646782] systemd-shutdown[1]: Sending SIGTERM to remaining processes...
+[  470.658939] systemd-journald[591]: Received SIGTERM from PID 1 (systemd-shutdow).
+[  470.709350] systemd-shutdown[1]: Sending SIGKILL to remaining processes...
+[  470.720762] systemd-shutdown[1]: Unmounting file systems.
+[  470.721668] (sd-umount)[16205]: Unmounting '/run/credentials/systemd-journald.service'.
+[  470.722407] (sd-remount)[16206]: Remounting '/' read-only with options 'seclabel,compress=zstd:1,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/root'.
+[  470.743069] systemd-shutdown[1]: All filesystems unmounted.
+[  470.743088] systemd-shutdown[1]: Deactivating swaps.
+[  470.743119] systemd-shutdown[1]: All swaps deactivated.
+[  470.743128] systemd-shutdown[1]: Detaching loop devices.
+[  470.743950] systemd-shutdown[1]: All loop devices detached.
+[  470.743957] systemd-shutdown[1]: Stopping MD devices.
+[  470.744008] systemd-shutdown[1]: All MD devices stopped.
+[  470.744014] systemd-shutdown[1]: Detaching DM devices.
+[  470.744056] systemd-shutdown[1]: All DM devices detached.
+[  470.744062] systemd-shutdown[1]: All filesystems, swaps, loop devices, MD devices and DM devices detached.
+[  470.744069] watchdog: watchdog0: watchdog did not stop!
+[  470.810373] systemd-shutdown[1]: Syncing filesystems and block devices.
+[  470.810691] systemd-shutdown[1]: Rebooting.
+[    0.109489] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[    0.001379] RDSEED is not reliable on this platform; disabling.
+[   19.039407] netconsole armed
+[   19.877949] MARK-g1_rl3_alt0
+[  170.148811] MARK-g1_rl3_alt5
+[  170.243809] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1 err=0 pasid=26 r=0
+[  170.252948] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=10 err=0 pasid=26 r=0
+[  179.861015] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=1 calls=100 err=0 pasid=26 r=0
+[  321.470998] kauditd_printk_skb: 22 callbacks suppressed
+[  321.471023] audit: type=1305 audit(1789422942.415:598): op=set audit_pid=0 old=792 auid=4294967295 ses=4294967295 subj=system_u:system_r:auditd_t:s0 res=1
+[  321.473037] audit: type=1131 audit(1789422942.417:599): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=auditd comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.473446] audit: type=1131 audit(1789422942.417:600): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.497442] audit: type=1131 audit(1789422942.441:601): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-fsck@dev-disk-by\x2duuid-3E81\x2d060D comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.503980] EXT4-fs (nvme0n1p2): unmounting filesystem 24906ea3-66db-45a5-9082-24d815d9ca9e.
+[  321.522528] audit: type=1131 audit(1789422942.467:602): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-fsck@dev-disk-by\x2duuid-24906ea3\x2d66db\x2d45a5\x2d9082\x2d24d815d9ca9e comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.523916] audit: type=1131 audit(1789422942.468:603): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-remount-fs comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.524027] audit: type=1131 audit(1789422942.468:604): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup-dev comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.524120] audit: type=1131 audit(1789422942.468:605): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup-dev-early comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.574851] audit: type=1131 audit(1789422942.519:606): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=lvm2-monitor comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.575698] audit: type=1130 audit(1789422942.520:607): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-reboot comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[  321.626399] watchdog: watchdog0: watchdog did not stop!
+[  321.631621] systemd-shutdown[1]: Using hardware watchdog /dev/watchdog0: 'SP5100 TCO timer', version 0.
+[  321.631644] systemd-shutdown[1]: Watchdog running with a hardware timeout of 10min.
+[  321.641484] systemd-shutdown[1]: Syncing filesystems and block devices.
+[  321.690124] systemd-shutdown[1]: Sending SIGTERM to remaining processes...
+[  321.700694] systemd-journald[591]: Received SIGTERM from PID 1 (systemd-shutdow).
+[  321.759199] systemd-shutdown[1]: Sending SIGKILL to remaining processes...
+[  321.770981] systemd-shutdown[1]: Unmounting file systems.
+[  321.771798] (sd-umount)[6390]: Unmounting '/run/credentials/systemd-journald.service'.
+[  321.772629] (sd-remount)[6391]: Remounting '/' read-only with options 'seclabel,compress=zstd:1,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/root'.
+[  321.789392] systemd-shutdown[1]: All filesystems unmounted.
+[  321.789401] systemd-shutdown[1]: Deactivating swaps.
+[  321.789416] systemd-shutdown[1]: All swaps deactivated.
+[  321.789420] systemd-shutdown[1]: Detaching loop devices.
+[  321.790036] systemd-shutdown[1]: All loop devices detached.
+[  321.790043] systemd-shutdown[1]: Stopping MD devices.
+[  321.790096] systemd-shutdown[1]: All MD devices stopped.
+[  321.790100] systemd-shutdown[1]: Detaching DM devices.
+[  321.790143] systemd-shutdown[1]: All DM devices detached.
+[  321.790148] systemd-shutdown[1]: All filesystems, swaps, loop devices, MD devices and DM devices detached.
+[  321.790155] watchdog: watchdog0: watchdog did not stop!
+[  321.846529] systemd-shutdown[1]: Syncing filesystems and block devices.
+[  321.846899] systemd-shutdown[1]: Rebooting.
+[    0.104114] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[    0.001370] RDSEED is not reliable on this platform; disabling.
+[   28.603520] netconsole armed
+[   29.456483] MARK-g2_rl3_alt5
+[   29.651203] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1 err=0 pasid=23 r=0
+[   29.760412] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=10 err=0 pasid=23 r=0
+[   40.980197] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=100 err=0 pasid=23 r=0
+[  180.029049] MARK-g2_rl3_alt4
+[  189.720783] gmc_v10_0_process_interrupt: 22 callbacks suppressed
+[  189.720793] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720805] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720810] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df607000 from client 0x1b (UTCL2)
+[  189.720815] amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00801031
+[  189.720818] amdgpu 0000:01:00.0: 	 Faulty UTCL2 client ID: TCP (0x8)
+[  189.720821] amdgpu 0000:01:00.0: 	 MORE_FAULTS: 0x1
+[  189.720824] amdgpu 0000:01:00.0: 	 WALKER_ERROR: 0x0
+[  189.720827] amdgpu 0000:01:00.0: 	 PERMISSION_FAULTS: 0x3
+[  189.720830] amdgpu 0000:01:00.0: 	 MAPPING_ERROR: 0x0
+[  189.720832] amdgpu 0000:01:00.0: 	 RW: 0x0
+[  189.720838] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720842] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720846] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df601000 from client 0x1b (UTCL2)
+[  189.720850] amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00801031
+[  189.720853] amdgpu 0000:01:00.0: 	 Faulty UTCL2 client ID: TCP (0x8)
+[  189.720856] amdgpu 0000:01:00.0: 	 MORE_FAULTS: 0x1
+[  189.720858] amdgpu 0000:01:00.0: 	 WALKER_ERROR: 0x0
+[  189.720861] amdgpu 0000:01:00.0: 	 PERMISSION_FAULTS: 0x3
+[  189.720863] amdgpu 0000:01:00.0: 	 MAPPING_ERROR: 0x0
+[  189.720866] amdgpu 0000:01:00.0: 	 RW: 0x0
+[  189.720871] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720874] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720878] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df603000 from client 0x1b (UTCL2)
+[  189.720884] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720888] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720892] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df604000 from client 0x1b (UTCL2)
+[  189.720898] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720902] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720905] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df605000 from client 0x1b (UTCL2)
+[  189.720911] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720915] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720919] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df600000 from client 0x1b (UTCL2)
+[  189.720925] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720928] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720932] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df601000 from client 0x1b (UTCL2)
+[  189.720938] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720942] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720946] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df600000 from client 0x1b (UTCL2)
+[  189.720952] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720956] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720959] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df605000 from client 0x1b (UTCL2)
+[  189.720966] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.720969] amdgpu 0000:01:00.0:  Process test-backend-op pid 3813 thread test-backend-op pid 3813
+[  189.720973] amdgpu 0000:01:00.0:   in page starting at address 0x00007f73df601000 from client 0x1b (UTCL2)
+[  193.692210] EXT4-fs (nvme0n1p2): unmounting filesystem 24906ea3-66db-45a5-9082-24d815d9ca9e.
+[  193.801663] watchdog: watchdog0: watchdog did not stop!
+[  193.806361] systemd-shutdown[1]: Using hardware watchdog /dev/watchdog0: 'SP5100 TCO timer', version 0.
+[  193.806379] systemd-shutdown[1]: Watchdog running with a hardware timeout of 10min.
+[  193.814525] systemd-shutdown[1]: Syncing filesystems and block devices.
+[  193.852804] systemd-shutdown[1]: Sending SIGTERM to remaining processes...
+[  193.864205] systemd-journald[589]: Received SIGTERM from PID 1 (systemd-shutdow).
+[  193.917838] systemd-shutdown[1]: Sending SIGKILL to remaining processes...
+[  193.929553] systemd-shutdown[1]: Unmounting file systems.
+[  193.930442] (sd-umount)[4256]: Unmounting '/run/credentials/systemd-journald.service'.
+[  193.931301] (sd-remount)[4257]: Remounting '/' read-only with options 'seclabel,compress=zstd:1,ssd,discard=async,space_cache=v2,subvolid=256,subvol=/root'.
+[  193.945331] systemd-shutdown[1]: All filesystems unmounted.
+[  193.945348] systemd-shutdown[1]: Deactivating swaps.
+[  193.945380] systemd-shutdown[1]: All swaps deactivated.
+[  193.945389] systemd-shutdown[1]: Detaching loop devices.
+[  193.946081] systemd-shutdown[1]: All loop devices detached.
+[  193.946087] systemd-shutdown[1]: Stopping MD devices.
+[  193.946140] systemd-shutdown[1]: All MD devices stopped.
+[  193.946144] systemd-shutdown[1]: Detaching DM devices.
+[  193.946195] systemd-shutdown[1]: All DM devices detached.
+[  193.946200] systemd-shutdown[1]: All filesystems, swaps, loop devices, MD devices and DM devices detached.
+[  193.946205] watchdog: watchdog0: watchdog did not stop!
+[  193.999473] systemd-shutdown[1]: Syncing filesystems and block devices.
+[  193.999924] systemd-shutdown[1]: Rebooting.
+[    0.104189] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[    0.001378] RDSEED is not reliable on this platform; disabling.
+[   28.582142] netconsole armed
+[   29.466433] MARK-g3_rl3_alt5
+[   29.660800] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1 err=0 pasid=23 r=0
+[   29.768945] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=10 err=0 pasid=23 r=0
+[   40.977244] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=100 err=0 pasid=23 r=0
+[  179.964525] MARK-g3_rl1_alt0
+[  189.663640] gmc_v10_0_process_interrupt: 22 callbacks suppressed
+[  189.663649] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663659] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663663] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e03000 from client 0x1b (UTCL2)
+[  189.663667] amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00801031
+[  189.663669] amdgpu 0000:01:00.0: 	 Faulty UTCL2 client ID: TCP (0x8)
+[  189.663672] amdgpu 0000:01:00.0: 	 MORE_FAULTS: 0x1
+[  189.663674] amdgpu 0000:01:00.0: 	 WALKER_ERROR: 0x0
+[  189.663676] amdgpu 0000:01:00.0: 	 PERMISSION_FAULTS: 0x3
+[  189.663679] amdgpu 0000:01:00.0: 	 MAPPING_ERROR: 0x0
+[  189.663680] amdgpu 0000:01:00.0: 	 RW: 0x0
+[  189.663685] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663688] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663691] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e04000 from client 0x1b (UTCL2)
+[  189.663694] amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00801031
+[  189.663697] amdgpu 0000:01:00.0: 	 Faulty UTCL2 client ID: TCP (0x8)
+[  189.663699] amdgpu 0000:01:00.0: 	 MORE_FAULTS: 0x1
+[  189.663701] amdgpu 0000:01:00.0: 	 WALKER_ERROR: 0x0
+[  189.663703] amdgpu 0000:01:00.0: 	 PERMISSION_FAULTS: 0x3
+[  189.663704] amdgpu 0000:01:00.0: 	 MAPPING_ERROR: 0x0
+[  189.663706] amdgpu 0000:01:00.0: 	 RW: 0x0
+[  189.663710] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663713] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663716] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e04000 from client 0x1b (UTCL2)
+[  189.663726] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663729] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663732] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e0e000 from client 0x1b (UTCL2)
+[  189.663738] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663741] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663743] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e08000 from client 0x1b (UTCL2)
+[  189.663748] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663751] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663754] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e09000 from client 0x1b (UTCL2)
+[  189.663759] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663762] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663765] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e0d000 from client 0x1b (UTCL2)
+[  189.663769] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663773] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663777] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e0e000 from client 0x1b (UTCL2)
+[  189.663783] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663787] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663790] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e05000 from client 0x1b (UTCL2)
+[  189.663796] amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:26)
+[  189.663799] amdgpu 0000:01:00.0:  Process test-backend-op pid 3962 thread test-backend-op pid 3962
+[  189.663803] amdgpu 0000:01:00.0:   in page starting at address 0x00007fe3a0e02000 from client 0x1b (UTCL2)

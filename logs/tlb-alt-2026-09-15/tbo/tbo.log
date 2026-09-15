@@ -1,0 +1,14 @@
+[23:32:14]   fresh boot: up 0 minutes 0 
+[23:34:44] g1_rl3_alt0: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[]
+[23:34:55] g1_rl1_alt0: rc=134 fault=1 wall=10s kernel_events_boot=12 alt:[]
+[23:35:08] g1_rl0_alt0: rc=134 fault=1 wall=13s kernel_events_boot=22 alt:[]
+[23:35:50]   fresh boot: up 0 minutes 0 
+[23:38:20] g2_rl3_alt0: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[]
+[23:38:33] g2_rl3_alt4: rc=134 fault=1 wall=13s kernel_events_boot=12 alt:[ mode=4 site=2 calls=10 nomatch=0 ackmiss=0 err=0 last: matched=0x0100 acked=0x0100 r=0]
+[23:39:15]   fresh boot: up 0 minutes 0 
+[23:41:45] g3_rl3_alt0: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[]
+[23:41:56] g3_rl3_alt3: rc=134 fault=1 wall=10s kernel_events_boot=12 alt:[ mode=3 site=2 calls=10 nomatch=0 ackmiss=0 err=0 last: matched=0x0100 acked=0xff00 r=0]
+[23:42:38]   fresh boot: up 0 minutes 0 
+[23:45:09] g4_rl3_alt0: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[]
+[23:47:49] g4_rl3_alt2: rc=137 fault=0 wall=160s kernel_events_boot=36 alt:[ mode=2 site=2 calls=100 nomatch=0 ackmiss=100 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[23:47:49] done: 3:0+1:0+0:0 3:0+3:4 3:0+3:3 3:0+3:2

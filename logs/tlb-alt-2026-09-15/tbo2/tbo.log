@@ -1,0 +1,10 @@
+[23:50:40]   fresh boot: up 0 minutes 0 
+[23:53:10] g1_rl3_alt0: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[]
+[23:55:41] g1_rl3_alt5: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[ mode=5 site=1 calls=100 err=0 pasid=26 r=0]
+[23:56:23]   fresh boot: up 0 minutes 0 
+[23:58:53] g2_rl3_alt5: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[ mode=5 site=2 calls=100 err=0 pasid=23 r=0]
+[23:59:06] g2_rl3_alt4: rc=134 fault=1 wall=12s kernel_events_boot=12 alt:[]
+[23:59:48]   fresh boot: up 0 minutes 0 
+[00:02:18] g3_rl3_alt5: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[ mode=5 site=2 calls=100 err=0 pasid=23 r=0]
+[00:02:31] g3_rl1_alt0: rc=134 fault=1 wall=12s kernel_events_boot=12 alt:[]
+[00:02:32] done: 3:0+3:5 3:5+3:4 3:5+1:0

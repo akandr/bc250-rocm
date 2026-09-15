@@ -115,7 +115,14 @@ this chip, both report success anyway, and the register state captured after a "
 state from before it. Upstream also lists this chip as having recovery disabled by default, but
 that list is unreachable on devices without RAS support, which is why the parameter has to be set
 by hand. A PCI function-level reset, tried as an alternative, keeps the host alive but loses the GPU
-until power-off ([`logs/reset-smu-gc-2026-09-14/`](logs/reset-smu-gc-2026-09-14/)). That parameter stops the driver requesting a reset on the path those faults take.
+until power-off ([`logs/reset-smu-gc-2026-09-14/`](logs/reset-smu-gc-2026-09-14/)). Two small driver
+changes, in [`patches/amdgpu/`](patches/amdgpu/), were tested as runtime-switchable equivalents:
+making the recovery default reachable refused every
+KFD reset request at the driver default and kept the host up, four trials of four, and making the
+unimplemented resets fail rather than report success kept the host up and the GPU computing after a
+deliberate reset, four of four, though the reboot that followed needed a power cycle each time. A
+gfx9-style per-queue reset ported to gfx10 ran and did not recover the queue
+([`logs/reset-honest-2026-09-15/`](logs/reset-honest-2026-09-15/)). That parameter stops the driver requesting a reset on the path those faults take.
 It is left out of the line above because it means a wedged GPU stays wedged until reboot instead of
 being reset, which is a trade rather than a pure gain. What it leaves behind is not a guess: a
 natural fault was caught under the parameter, and the sentence above describes that event. It costs
@@ -387,7 +394,7 @@ wrong, are in [`logs/torch-pristine-2026-08-20/`](logs/torch-pristine-2026-08-20
 |---|---|---|
 | PASID TLB flush covers nothing under hardware scheduling: silent wrong results, KIQ freeze | `amdgpu.bc250_flush_pasid_kiq=0` | fixed here, not upstream |
 | Software-scheduler eviction path wedges sustained compute | do not set `amdgpu.sched_policy=2` | understood; 2x2 factorial at both CU counts |
-| Allocation reuse on the KFD SVM paths faults after free and realloc | `amdgpu.bc250_flush_by_runlist=3` | fixed here; costs less than run-to-run noise |
+| Allocation reuse on the KFD SVM paths faults after free and realloc | `amdgpu.bc250_flush_by_runlist=3` | fixed here; costs less than run-to-run noise. Lighter replacements tested and rejected: MMIO and SDMA invalidation of the assigned VMID, and a rebuild filtered to one PASID ([`logs/tlb-alt-2026-09-15/`](logs/tlb-alt-2026-09-15/)) |
 | rocBLAS ships no gfx1013 code objects | native build (PR #8838 approach) | fixed by building; the PR was closed unmerged by the stale bot on 2026-09-09 |
 | PyTorch ships no gfx1013 code objects | build with `PYTORCH_ROCM_ARCH=gfx1013` | fixed by building |
 | llama.cpp `prop.integrated` regression produces plausible-looking wrong output | [`patches/llamacpp/0001-hip-integrated-false.patch`](patches/llamacpp/0001-hip-integrated-false.patch) | bisected to c7d8722; the bisect's own output was not kept, so what is captured is the effect at that code line ([A/B/A](logs/integrated-remeasure-2026-08-18/)) rather than the search |
@@ -496,7 +503,7 @@ faults with a pattern predating a kernel message change, left as they are becaus
 counter in a harness whose run is already logged would change what that log means;
 `audit_single_capture.py` lists 11 pages resting on one capture, which is a prompt to say so rather
 than a defect; `audit_citations.py` reports 4, one of them real and disclosed on its own page;
-and `audit_counts.py` reports 39 counted claims of which 10 have no literal match, most being
+and `audit_counts.py` reports 41 counted claims of which 10 have no literal match, most being
 derived by counting rather than quoted. The other six should report zero.
 [`scripts/audit_figures.py`](scripts/audit_figures.py) checks that every figure quoted here still
 has a log behind it, matching on numeric boundaries and allowing for rounding, and excluding both

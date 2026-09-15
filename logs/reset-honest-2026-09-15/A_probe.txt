@@ -1,0 +1,3 @@
+[    6.395149] amdgpu 0000:01:00.0: GPU recovery disabled.
+[    6.395411] amdgpu 0000:01:00.0: GPU recovery disabled.
+[   43.534946] amdgpu: BC250RECOVER: no device recorded yet, run a GPU flush first

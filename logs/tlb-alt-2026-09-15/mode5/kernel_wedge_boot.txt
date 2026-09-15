@@ -1,0 +1,1558 @@
+[    1.120037] bc250 kernel: Linux version 7.1.8-100.fc43.x86_64 (mockbuild@8639c918b8b04bcfb7c1161fef74745e) (gcc (GCC) 15.3.1 20260722 (Red Hat 15.3.1-1), GNU ld version 2.45.1-5.fc43) #1 SMP PREEMPT_DYNAMIC Mon Aug 10 03:32:13 UTC 2026
+[    1.120076] bc250 kernel: Command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.8-100.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root rhgb quiet quiet amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0
+[    1.120089] bc250 kernel: x86 CPU feature dependency check failure: CPU0 has '13*32+ 3' enabled but 'pcid' disabled. Kernel might be fine, but no guarantees.
+[    1.120100] bc250 kernel: BIOS-provided physical RAM map:
+[    1.120108] bc250 kernel: BIOS-e820: [mem 0x0000000000000000-0x000000000009ffff]  System RAM
+[    1.120116] bc250 kernel: BIOS-e820: [mem 0x00000000000a0000-0x00000000000fffff]  device reserved
+[    1.120126] bc250 kernel: BIOS-e820: [mem 0x0000000000100000-0x0000000003ffffff]  System RAM
+[    1.120132] bc250 kernel: BIOS-e820: [mem 0x0000000004000000-0x0000000004000fff]  ACPI NVS
+[    1.120140] bc250 kernel: BIOS-e820: [mem 0x0000000004001000-0x0000000009e01fff]  System RAM
+[    1.120148] bc250 kernel: BIOS-e820: [mem 0x0000000009e02000-0x0000000009ffffff]  device reserved
+[    1.120157] bc250 kernel: BIOS-e820: [mem 0x000000000a000000-0x000000007dc86fff]  System RAM
+[    1.120165] bc250 kernel: BIOS-e820: [mem 0x000000007dc87000-0x000000007dd9cfff]  device reserved
+[    1.120173] bc250 kernel: BIOS-e820: [mem 0x000000007dd9d000-0x000000007ddacfff]  ACPI data
+[    1.120181] bc250 kernel: BIOS-e820: [mem 0x000000007ddad000-0x000000007de9efff]  ACPI NVS
+[    1.120192] bc250 kernel: BIOS-e820: [mem 0x000000007de9f000-0x000000007e23ffff]  device reserved
+[    1.120200] bc250 kernel: BIOS-e820: [mem 0x000000007e240000-0x000000007effffff]  System RAM
+[    1.120208] bc250 kernel: BIOS-e820: [mem 0x000000007f000000-0x000000007fffffff]  device reserved
+[    1.120215] bc250 kernel: BIOS-e820: [gap 0x0000000080000000-0x00000000dfffffff]
+[    1.120223] bc250 kernel: BIOS-e820: [mem 0x00000000e0000000-0x00000000efffffff]  device reserved
+[    1.120230] bc250 kernel: BIOS-e820: [gap 0x00000000f0000000-0x00000000fdcfffff]
+[    1.120238] bc250 kernel: BIOS-e820: [mem 0x00000000fdd00000-0x00000000fddfffff]  device reserved
+[    1.120246] bc250 kernel: BIOS-e820: [gap 0x00000000fde00000-0x00000000feb7ffff]
+[    1.120253] bc250 kernel: BIOS-e820: [mem 0x00000000feb80000-0x00000000fec01fff]  device reserved
+[    1.120261] bc250 kernel: BIOS-e820: [gap 0x00000000fec02000-0x00000000fec0ffff]
+[    1.120268] bc250 kernel: BIOS-e820: [mem 0x00000000fec10000-0x00000000fec10fff]  device reserved
+[    1.120275] bc250 kernel: BIOS-e820: [gap 0x00000000fec11000-0x00000000fed7ffff]
+[    1.120282] bc250 kernel: BIOS-e820: [mem 0x00000000fed80000-0x00000000fed8ffff]  device reserved
+[    1.120289] bc250 kernel: BIOS-e820: [gap 0x00000000fed90000-0x00000000fedfffff]
+[    1.120297] bc250 kernel: BIOS-e820: [mem 0x00000000fee00000-0x00000000feefffff]  device reserved
+[    1.120304] bc250 kernel: BIOS-e820: [gap 0x00000000fef00000-0x00000000feffffff]
+[    1.120311] bc250 kernel: BIOS-e820: [mem 0x00000000ff000000-0x00000000ffffffff]  device reserved
+[    1.120320] bc250 kernel: BIOS-e820: [mem 0x0000000100000000-0x000000044fffffff]  System RAM
+[    1.120328] bc250 kernel: BIOS-e820: [mem 0x0000000450000000-0x000000046fffffff]  device reserved
+[    1.120336] bc250 kernel: NX (Execute Disable) protection: active
+[    1.120344] bc250 kernel: APIC: Static calls initialized
+[    1.120350] bc250 kernel: efi: EFI v2.6 by American Megatrends
+[    1.120358] bc250 kernel: efi: ACPI 2.0=0x7ddd7000 ACPI=0x7ddd7000 SMBIOS=0x7e133000 SMBIOS 3.0=0x7e132000 ESRT=0x7ccbe418 MEMATTR=0x7af3d198 MOKvar=0x7e13a000 
+[    1.120366] bc250 kernel: efi: Remove mem32: MMIO range=[0xe0000000-0xefffffff] (256MB) from e820 map
+[    1.120373] bc250 kernel: e820: remove [mem 0xe0000000-0xefffffff] device reserved
+[    1.120381] bc250 kernel: efi: Remove mem33: MMIO range=[0xfdd00000-0xfddfffff] (1MB) from e820 map
+[    1.120392] bc250 kernel: e820: remove [mem 0xfdd00000-0xfddfffff] device reserved
+[    1.120400] bc250 kernel: efi: Remove mem34: MMIO range=[0xfeb80000-0xfec01fff] (0MB) from e820 map
+[    1.120408] bc250 kernel: e820: remove [mem 0xfeb80000-0xfec01fff] device reserved
+[    1.120416] bc250 kernel: efi: Not removing mem35: MMIO range=[0xfec10000-0xfec10fff] (4KB) from e820 map
+[    1.120424] bc250 kernel: efi: Not removing mem36: MMIO range=[0xfed80000-0xfed8ffff] (64KB) from e820 map
+[    1.120433] bc250 kernel: efi: Remove mem37: MMIO range=[0xfee00000-0xfeefffff] (1MB) from e820 map
+[    1.120440] bc250 kernel: e820: remove [mem 0xfee00000-0xfeefffff] device reserved
+[    1.120447] bc250 kernel: efi: Remove mem38: MMIO range=[0xff000000-0xffffffff] (16MB) from e820 map
+[    1.120455] bc250 kernel: e820: remove [mem 0xff000000-0xffffffff] device reserved
+[    1.120462] bc250 kernel: secureboot: Secure boot disabled
+[    1.120470] bc250 kernel: DMI: SMBIOS 3.0.0 present.
+[    1.120478] bc250 kernel: DMI: Default string AMD BC-250/AMD BC-250, BIOS P3.00 12/09/2021
+[    1.120489] bc250 kernel: DMI: Memory slots populated: 16/16
+[    1.120497] bc250 kernel: tsc: Fast TSC calibration using PIT
+[    1.120503] bc250 kernel: tsc: Detected 3194.211 MHz processor
+[    1.120511] bc250 kernel: e820: update [mem 0x00000000-0x00000fff] System RAM ==> device reserved
+[    1.120521] bc250 kernel: e820: remove [mem 0x000a0000-0x000fffff] System RAM
+[    1.120531] bc250 kernel: last_pfn = 0x450000 max_arch_pfn = 0x400000000
+[    1.120539] bc250 kernel: MTRR map: 6 entries (4 fixed + 2 variable; max 21), built from 9 variable MTRRs
+[    1.120548] bc250 kernel: x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+[    1.120558] bc250 kernel: e820: update [mem 0x80000000-0xffffffff] System RAM ==> device reserved
+[    1.120569] bc250 kernel: last_pfn = 0x7f000 max_arch_pfn = 0x400000000
+[    1.120579] bc250 kernel: esrt: Reserving ESRT space from 0x000000007ccbe418 to 0x000000007ccbe450.
+[    1.120589] bc250 kernel: e820: update [mem 0x7ccbe000-0x7ccbefff] System RAM ==> device reserved
+[    1.120598] bc250 kernel: Using GB pages for direct mapping
+[    1.120608] bc250 kernel: secureboot: Secure boot disabled
+[    1.120615] bc250 kernel: RAMDISK: [mem 0x6bda3000-0x70015fff]
+[    1.120625] bc250 kernel: ACPI: Early table checksum verification disabled
+[    1.120634] bc250 kernel: ACPI: RSDP 0x000000007DDD7000 000024 (v02 ALASKA)
+[    1.120643] bc250 kernel: ACPI: XSDT 0x000000007DDD7080 000084 (v01 ALASKA A M I    01072009 AMI  00010013)
+[    1.120654] bc250 kernel: ACPI: FACP 0x000000007DDDD030 000114 (v06 ALASKA A M I    01072009 AMI  00010013)
+[    1.120664] bc250 kernel: ACPI BIOS Warning (bug): Optional FADT field Pm2ControlBlock has valid Length but zero Address: 0x0000000000000000/0x1 (20251212/tbfadt-611)
+[    1.120675] bc250 kernel: ACPI: DSDT 0x000000007DDD71A0 005E90 (v02 ALASKA A M I    01072009 INTL 20120913)
+[    1.120685] bc250 kernel: ACPI: FACS 0x000000007DE87D80 000040
+[    1.120696] bc250 kernel: ACPI: APIC 0x000000007DDDD148 0000DE (v03 ALASKA A M I    01072009 AMI  00010013)
+[    1.120706] bc250 kernel: ACPI: FPDT 0x000000007DDDD228 000044 (v01 ALASKA A M I    01072009 AMI  00010013)
+[    1.120715] bc250 kernel: ACPI: FIDT 0x000000007DDDD270 00009C (v01 ALASKA A M I    01072009 AMI  00010013)
+[    1.120725] bc250 kernel: ACPI: MCFG 0x000000007DDDD310 00003C (v01 ALASKA A M I    01072009 MSFT 00010013)
+[    1.120732] bc250 kernel: ACPI: SSDT 0x000000007DDDD350 000618 (v01 AMD    AMD CPU  00000001 AMD  00000001)
+[    1.120741] bc250 kernel: ACPI: CRAT 0x000000007DDDD968 000BD0 (v01 AMD    AMD CRAT 00000001 AMD  00000001)
+[    1.120752] bc250 kernel: ACPI: CDIT 0x000000007DDDE538 000029 (v01 AMD    AMD CDIT 00000001 AMD  00000001)
+[    1.120763] bc250 kernel: ACPI: HPET 0x000000007DDDE568 000038 (v01 ALASKA A M I    01072009 AMI  00000005)
+[    1.120773] bc250 kernel: ACPI: UEFI 0x000000007DDDE5A0 000042 (v01                 00000000      00000000)
+[    1.120782] bc250 kernel: ACPI: VFCT 0x000000007DDDE5E8 00D884 (v01 ALASKA A M I    00000001 AMD  31504F47)
+[    1.120792] bc250 kernel: ACPI: SSDT 0x000000007DDEBE70 001942 (v01 AMD    AmdTable 00000001 INTL 20120913)
+[    1.120802] bc250 kernel: ACPI: Reserving FACP table memory at [mem 0x7dddd030-0x7dddd143]
+[    1.120809] bc250 kernel: ACPI: Reserving DSDT table memory at [mem 0x7ddd71a0-0x7dddd02f]
+[    1.120820] bc250 kernel: ACPI: Reserving FACS table memory at [mem 0x7de87d80-0x7de87dbf]
+[    1.120829] bc250 kernel: ACPI: Reserving APIC table memory at [mem 0x7dddd148-0x7dddd225]
+[    1.120837] bc250 kernel: ACPI: Reserving FPDT table memory at [mem 0x7dddd228-0x7dddd26b]
+[    1.120845] bc250 kernel: ACPI: Reserving FIDT table memory at [mem 0x7dddd270-0x7dddd30b]
+[    1.120856] bc250 kernel: ACPI: Reserving MCFG table memory at [mem 0x7dddd310-0x7dddd34b]
+[    1.120868] bc250 kernel: ACPI: Reserving SSDT table memory at [mem 0x7dddd350-0x7dddd967]
+[    1.120876] bc250 kernel: ACPI: Reserving CRAT table memory at [mem 0x7dddd968-0x7ddde537]
+[    1.120884] bc250 kernel: ACPI: Reserving CDIT table memory at [mem 0x7ddde538-0x7ddde560]
+[    1.120894] bc250 kernel: ACPI: Reserving HPET table memory at [mem 0x7ddde568-0x7ddde59f]
+[    1.120900] bc250 kernel: ACPI: Reserving UEFI table memory at [mem 0x7ddde5a0-0x7ddde5e1]
+[    1.120910] bc250 kernel: ACPI: Reserving VFCT table memory at [mem 0x7ddde5e8-0x7ddebe6b]
+[    1.120919] bc250 kernel: ACPI: Reserving SSDT table memory at [mem 0x7ddebe70-0x7dded7b1]
+[    1.120925] bc250 kernel: No NUMA configuration found
+[    1.120934] bc250 kernel: Faking a node at [mem 0x0000000000000000-0x000000044fffffff]
+[    1.120941] bc250 kernel: NODE_DATA(0) allocated [mem 0x44ffd4f80-0x44fffffff]
+[    1.120952] bc250 kernel: ACPI: PM-Timer IO Port: 0x408
+[    1.120963] bc250 kernel: ACPI: LAPIC_NMI (acpi_id[0xff] high edge lint[0x1])
+[    1.120971] bc250 kernel: IOAPIC[0]: apic_id 13, version 33, address 0xfec00000, GSI 0-23
+[    1.120981] bc250 kernel: IOAPIC[1]: apic_id 14, version 33, address 0xfec01000, GSI 24-55
+[    1.120991] bc250 kernel: ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+[    1.121005] bc250 kernel: ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 low level)
+[    1.121014] bc250 kernel: ACPI: Using ACPI (MADT) for SMP configuration information
+[    1.121023] bc250 kernel: ACPI: HPET id: 0x10228210 base: 0xfed00000
+[    1.121033] bc250 kernel: CPU topo: Max. logical packages:   1
+[    1.121043] bc250 kernel: CPU topo: Max. logical nodes:      1
+[    1.121056] bc250 kernel: CPU topo: Num. nodes per package:  1
+[    1.121063] bc250 kernel: CPU topo: Max. logical dies:       1
+[    1.121072] bc250 kernel: CPU topo: Max. dies per package:   1
+[    1.121082] bc250 kernel: CPU topo: Max. threads per core:   2
+[    1.121091] bc250 kernel: CPU topo: Num. cores per package:     6
+[    1.121098] bc250 kernel: CPU topo: Num. threads per package:  12
+[    1.121112] bc250 kernel: CPU topo: Allowing 12 present CPUs plus 0 hotplug CPUs
+[    1.121119] bc250 kernel: PM: hibernation: Registered nosave memory: [mem 0x00000000-0x00000fff]
+[    1.121128] bc250 kernel: PM: hibernation: Registered nosave memory: [mem 0x000a0000-0x000fffff]
+[    1.121137] bc250 kernel: PM: hibernation: Registered nosave memory: [mem 0x04000000-0x04000fff]
+[    1.121148] bc250 kernel: PM: hibernation: Registered nosave memory: [mem 0x09e02000-0x09ffffff]
+[    1.121157] bc250 kernel: PM: hibernation: Registered nosave memory: [mem 0x7ccbe000-0x7ccbefff]
+[    1.121164] bc250 kernel: PM: hibernation: Registered nosave memory: [mem 0x7dc87000-0x7e23ffff]
+[    1.121172] bc250 kernel: PM: hibernation: Registered nosave memory: [mem 0x7f000000-0xffffffff]
+[    1.121180] bc250 kernel: [gap 0x80000000-0xfec0ffff] available for PCI devices
+[    1.121190] bc250 kernel: Booting paravirtualized kernel on bare hardware
+[    1.121197] bc250 kernel: clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1910969940391419 ns
+[    1.121205] bc250 kernel: Zone ranges:
+[    1.121216] bc250 kernel:   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+[    1.121226] bc250 kernel:   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+[    1.121233] bc250 kernel:   Normal   [mem 0x0000000100000000-0x000000044fffffff]
+[    1.121241] bc250 kernel:   Device   empty
+[    1.121249] bc250 kernel: Movable zone start for each node
+[    1.121255] bc250 kernel: Early memory node ranges
+[    1.121265] bc250 kernel:   node   0: [mem 0x0000000000001000-0x000000000009ffff]
+[    1.121272] bc250 kernel:   node   0: [mem 0x0000000000100000-0x0000000003ffffff]
+[    1.121282] bc250 kernel:   node   0: [mem 0x0000000004001000-0x0000000009e01fff]
+[    1.121290] bc250 kernel:   node   0: [mem 0x000000000a000000-0x000000007dc86fff]
+[    1.121300] bc250 kernel:   node   0: [mem 0x000000007e240000-0x000000007effffff]
+[    1.121308] bc250 kernel:   node   0: [mem 0x0000000100000000-0x000000044fffffff]
+[    1.121315] bc250 kernel: Initmem setup node 0 [mem 0x0000000000001000-0x000000044fffffff]
+[    1.121325] bc250 kernel: On node 0, zone DMA: 1 pages in unavailable ranges
+[    1.121332] bc250 kernel: On node 0, zone DMA: 96 pages in unavailable ranges
+[    1.121339] bc250 kernel: On node 0, zone DMA32: 1 pages in unavailable ranges
+[    1.121348] bc250 kernel: On node 0, zone DMA32: 510 pages in unavailable ranges
+[    1.121357] bc250 kernel: On node 0, zone DMA32: 1465 pages in unavailable ranges
+[    1.121367] bc250 kernel: On node 0, zone Normal: 4096 pages in unavailable ranges
+[    1.121376] bc250 kernel: setup_percpu: NR_CPUS:8192 nr_cpumask_bits:12 nr_cpu_ids:12 nr_node_ids:1
+[    1.121384] bc250 kernel: percpu: Embedded 85 pages/cpu s225280 r8192 d114688 u524288
+[    1.121392] bc250 kernel: pcpu-alloc: s225280 r8192 d114688 u524288 alloc=1*2097152
+[    1.121400] bc250 kernel: pcpu-alloc: [0] 00 01 02 03 [0] 04 05 06 07 
+[    1.121409] bc250 kernel: pcpu-alloc: [0] 08 09 10 11 
+[    1.121419] bc250 kernel: Kernel command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.8-100.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root rhgb quiet quiet amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0
+[    1.121429] bc250 kernel: Unknown kernel command line parameters "rhgb", will be passed to user space.
+[    1.121436] bc250 kernel: random: crng init done
+[    1.121444] bc250 kernel: printk: log buffer data + meta data: 262144 + 1114112 = 1376256 bytes
+[    1.121452] bc250 kernel: Dentry cache hash table entries: 2097152 (order: 12, 16777216 bytes, linear)
+[    1.121461] bc250 kernel: Inode-cache hash table entries: 1048576 (order: 11, 8388608 bytes, linear)
+[    1.121470] bc250 kernel: software IO TLB: area num 16.
+[    1.121477] bc250 kernel: Fallback order for Node 0: 0 
+[    1.121484] bc250 kernel: Built 1 zonelists, mobility grouping on.  Total pages: 3991527
+[    1.121492] bc250 kernel: Policy zone: Normal
+[    1.121502] bc250 kernel: mem auto-init: stack:all(zero), heap alloc:on, heap free:off
+[    1.121509] bc250 kernel: SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=12, Nodes=1
+[    1.121517] bc250 kernel: ftrace: allocating 64098 entries in 252 pages
+[    1.121524] bc250 kernel: ftrace: allocated 252 pages with 6 groups
+[    1.121533] bc250 kernel: Dynamic Preempt: lazy
+[    1.121540] bc250 kernel: rcu: Preemptible hierarchical RCU implementation.
+[    1.121550] bc250 kernel: rcu:         RCU event tracing is enabled.
+[    1.121557] bc250 kernel: rcu:         RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=12.
+[    1.121570] bc250 kernel:         Trampoline variant of Tasks RCU enabled.
+[    1.121580] bc250 kernel:         Rude variant of Tasks RCU enabled.
+[    1.121587] bc250 kernel:         Tracing variant of Tasks RCU enabled.
+[    1.121595] bc250 kernel: rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+[    1.121604] bc250 kernel: rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=12
+[    1.121611] bc250 kernel: RCU Tasks: Setting shift to 4 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=12.
+[    1.121620] bc250 kernel: RCU Tasks Rude: Setting shift to 4 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=12.
+[    1.121628] bc250 kernel: NR_IRQS: 524544, nr_irqs: 1064, preallocated irqs: 16
+[    1.121635] bc250 kernel: rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    1.121643] bc250 kernel: clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    1.121651] bc250 kernel: kfence: initialized - using 2097152 bytes for 255 objects at 0x(____ptrval____)-0x(____ptrval____)
+[    1.121661] bc250 kernel: Console: colour dummy device 80x25
+[    1.121670] bc250 kernel: printk: legacy console [tty0] enabled
+[    1.121678] bc250 kernel: ACPI: Core revision 20251212
+[    1.121686] bc250 kernel: clocksource: hpet: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 133484873504 ns
+[    1.121694] bc250 kernel: APIC: Switch to symmetric I/O mode setup
+[    1.121703] bc250 kernel: ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+[    1.121711] bc250 kernel: clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles: 0x2e0aed17c36, max_idle_ns: 440795205524 ns
+[    1.121719] bc250 kernel: Calibrating delay loop (skipped), value calculated using timer frequency.. 6388.42 BogoMIPS (lpj=3194211)
+[    1.121727] bc250 kernel: Zenbleed: please update your microcode for the most optimal fix
+[    1.121736] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.121745] bc250 kernel: SVM disabled (by BIOS) in MSR_VM_CR
+[    1.121754] bc250 kernel: x86/cpu: User Mode Instruction Prevention (UMIP) activated
+[    1.121762] bc250 kernel: LVT offset 1 assigned for vector 0xf9
+[    1.121771] bc250 kernel: LVT offset 2 assigned for vector 0xf4
+[    1.121779] bc250 kernel: Last level iTLB entries: 4KB 1024, 2MB 1024, 4MB 512
+[    1.121788] bc250 kernel: Last level dTLB entries: 4KB 2048, 2MB 2048, 4MB 1024, 1GB 0
+[    1.121797] bc250 kernel: process: using mwait in idle threads
+[    1.121804] bc250 kernel: mitigations: Enabled attack vectors: SMT mitigations: off
+[    1.121813] bc250 kernel: Speculative Store Bypass: Vulnerable
+[    1.121820] bc250 kernel: Spectre V2 : Vulnerable
+[    1.121827] bc250 kernel: RETBleed: Vulnerable
+[    1.121836] bc250 kernel: Speculative Return Stack Overflow: Vulnerable
+[    1.121844] bc250 kernel: VMSCAPE: Vulnerable
+[    1.121851] bc250 kernel: Spectre V1 : Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers
+[    1.121858] bc250 kernel: x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    1.121867] bc250 kernel: x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    1.121875] bc250 kernel: x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    1.121883] bc250 kernel: x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    1.121891] bc250 kernel: x86/fpu: Enabled xstate features 0x7, context size is 832 bytes, using 'compacted' format.
+[    1.121899] bc250 kernel: pid_max: default: 32768 minimum: 301
+[    1.121907] bc250 kernel: Yama: becoming mindful.
+[    1.121917] bc250 kernel: SELinux:  Initializing.
+[    1.121924] bc250 kernel: LSM support for eBPF active
+[    1.121931] bc250 kernel: landlock: Up and running.
+[    1.121940] bc250 kernel: Mount-cache hash table entries: 32768 (order: 6, 262144 bytes, linear)
+[    1.121949] bc250 kernel: Mountpoint-cache hash table entries: 32768 (order: 6, 262144 bytes, linear)
+[    1.121957] bc250 kernel: VFS: Finished mounting rootfs on nullfs
+[    1.121965] bc250 kernel: smpboot: CPU0: AMD BC-250 (family: 0x17, model: 0x47, stepping: 0x0)
+[    1.121973] bc250 kernel: Performance Events: Fam17h+ core perfctr, AMD PMU driver.
+[    1.121982] bc250 kernel: ... version:                   0
+[    1.121989] bc250 kernel: ... bit width:                 48
+[    1.121998] bc250 kernel: ... generic counters:          6
+[    1.122039] bc250 kernel: ... generic bitmap:            000000000000003f
+[    1.122048] bc250 kernel: ... fixed-purpose counters:    0
+[    1.122055] bc250 kernel: ... fixed-purpose bitmap:      0000000000000000
+[    1.122062] bc250 kernel: ... value mask:                0000ffffffffffff
+[    1.122072] bc250 kernel: ... max period:                00007fffffffffff
+[    1.122081] bc250 kernel: ... global_ctrl mask:          000000000000003f
+[    1.122088] bc250 kernel: signal: max sigframe size: 1776
+[    1.122095] bc250 kernel: rcu: Hierarchical SRCU implementation.
+[    1.122103] bc250 kernel: rcu:         Max phase no-delay instances is 400.
+[    1.122111] bc250 kernel: Timer migration: 2 hierarchy levels; 8 children per group; 2 crossnode level
+[    1.122119] bc250 kernel: NMI watchdog: Enabled. Permanently consumes one hw-PMU counter.
+[    1.122127] bc250 kernel: smp: Bringing up secondary CPUs ...
+[    1.122134] bc250 kernel: smpboot: x86: Booting SMP configuration:
+[    1.122143] bc250 kernel: .... node  #0, CPUs:        #2  #4  #6  #8 #10
+[    1.122150] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122158] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122167] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122174] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122180] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122186] bc250 kernel:   #1  #3  #5  #7  #9 #11
+[    1.122194] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122200] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122207] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122213] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122219] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122225] bc250 kernel: RDSEED is not reliable on this platform; disabling.
+[    1.122231] bc250 kernel: smp: Brought up 1 node, 12 CPUs
+[    1.122240] bc250 kernel: smpboot: Total of 12 processors activated (76661.06 BogoMIPS)
+[    1.122248] bc250 kernel: Memory: 15434864K/15966108K available (22988K kernel code, 4739K rwdata, 18608K rodata, 5268K init, 5440K bss, 510704K reserved, 0K cma-reserved)
+[    1.122255] bc250 kernel: devtmpfs: initialized
+[    1.122262] bc250 kernel: x86/mm: Memory block size: 128MB
+[    1.122269] bc250 kernel: ACPI: PM: Registering ACPI NVS region [mem 0x04000000-0x04000fff] (4096 bytes)
+[    1.122277] bc250 kernel: ACPI: PM: Registering ACPI NVS region [mem 0x7ddad000-0x7de9efff] (991232 bytes)
+[    1.122284] bc250 kernel: posixtimers hash table entries: 8192 (order: 5, 131072 bytes, linear)
+[    1.122291] bc250 kernel: futex hash table entries: 4096 (262144 bytes on 1 NUMA nodes, total 256 KiB, linear).
+[    1.122298] bc250 kernel: xor: automatically using best checksumming function   avx       
+[    1.122305] bc250 kernel: PM: RTC time: 00:03:37, date: 2026-09-15
+[    1.122312] bc250 kernel: NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    1.122320] bc250 kernel: DMA: preallocated 2048 KiB GFP_KERNEL pool for atomic allocations
+[    1.122329] bc250 kernel: DMA: preallocated 2048 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    1.122339] bc250 kernel: DMA: preallocated 2048 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+[    1.122348] bc250 kernel: audit: initializing netlink subsys (disabled)
+[    1.122356] bc250 kernel: audit: type=2000 audit(1789430616.159:1): state=initialized audit_enabled=0 res=1
+[    1.122363] bc250 kernel: thermal_sys: Registered thermal governor 'fair_share'
+[    1.122372] bc250 kernel: thermal_sys: Registered thermal governor 'bang_bang'
+[    1.122381] bc250 kernel: thermal_sys: Registered thermal governor 'step_wise'
+[    1.122389] bc250 kernel: thermal_sys: Registered thermal governor 'user_space'
+[    1.122396] bc250 kernel: cpuidle: using governor menu
+[    1.122404] bc250 kernel: Freeing SMP alternatives memory: 56K
+[    1.122411] bc250 kernel: efi: Freeing EFI boot services memory: 26796K
+[    1.122419] bc250 kernel: acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    1.122427] bc250 kernel: PCI: ECAM [mem 0xe0000000-0xefffffff] (base 0xe0000000) for domain 0000 [bus 00-ff]
+[    1.122434] bc250 kernel: PCI: Using configuration type 1 for base access
+[    1.122442] bc250 kernel: virt/tdx: TDX not supported by the host platform
+[    1.122450] bc250 kernel: kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+[    1.122458] bc250 kernel: HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+[    1.122466] bc250 kernel: HugeTLB: 16380 KiB vmemmap can be freed for a 1.00 GiB page
+[    1.122473] bc250 kernel: HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    1.122481] bc250 kernel: HugeTLB: 28 KiB vmemmap can be freed for a 2.00 MiB page
+[    1.122488] bc250 kernel: raid6: skipped pq benchmark and selected avx2x4
+[    1.122499] bc250 kernel: raid6: using avx2x2 recovery algorithm
+[    1.122507] bc250 kernel: fbcon: Taking over console
+[    1.122514] bc250 kernel: ACPI: Added _OSI(Module Device)
+[    1.122523] bc250 kernel: ACPI: Added _OSI(Processor Device)
+[    1.122530] bc250 kernel: ACPI: Added _OSI(Processor Aggregator Device)
+[    1.122539] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C000], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122546] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122554] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122562] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C001], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122569] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122576] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122583] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C002], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122591] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122599] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122607] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C003], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122614] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122624] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122631] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C004], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122638] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122645] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122652] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C005], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122660] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122668] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122676] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C006], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122684] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122691] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122698] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C007], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122706] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122712] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122719] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C008], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122727] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122734] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122741] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C009], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122750] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122757] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122764] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C00A], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122772] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122779] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122787] bc250 kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_PR.C00B], AE_NOT_FOUND (20251212/dswload2-162)
+[    1.122794] bc250 kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20251212/psobject-220)
+[    1.122801] bc250 kernel: ACPI: Skipping parse of AML opcode: Scope (0x0010)
+[    1.122811] bc250 kernel: ACPI: 3 ACPI AML tables successfully acquired and loaded
+[    1.122818] bc250 kernel: ACPI: \_SB_: platform _OSC: OS support mask [006e7eff]
+[    1.122825] bc250 kernel: ACPI: Interpreter enabled
+[    1.122834] bc250 kernel: ACPI: PM: (supports S0 S4 S5)
+[    1.122841] bc250 kernel: ACPI: Using IOAPIC for interrupt routing
+[    1.122850] bc250 kernel: PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[    1.122857] bc250 kernel: PCI: Using E820 reservations for host bridge windows
+[    1.122865] bc250 kernel: ACPI: Enabled 8 GPEs in block 00 to 1F
+[    1.122872] bc250 kernel: ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[    1.123079] bc250 kernel: acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI EDR HPX-Type3]
+[    1.123191] bc250 kernel: acpi PNP0A08:00: _OSC: platform does not support [SHPCHotplug LTR DPC]
+[    1.123287] bc250 kernel: acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug PME AER PCIeCapability]
+[    1.123298] bc250 kernel: PCI host bridge to bus 0000:00
+[    1.123403] bc250 kernel: pci_bus 0000:00: root bus resource [io  0x0000-0x03af window]
+[    1.123494] bc250 kernel: pci_bus 0000:00: root bus resource [io  0x03e0-0x0cf7 window]
+[    1.123578] bc250 kernel: pci_bus 0000:00: root bus resource [io  0x03b0-0x03df window]
+[    1.123662] bc250 kernel: pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+[    1.123746] bc250 kernel: pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000dffff window]
+[    1.123837] bc250 kernel: pci_bus 0000:00: root bus resource [mem 0x80000000-0xfebfffff window]
+[    1.123926] bc250 kernel: pci_bus 0000:00: root bus resource [mem 0xfee00000-0xffffffff window]
+[    1.124018] bc250 kernel: pci_bus 0000:00: root bus resource [bus 00-ff]
+[    1.124143] bc250 kernel: pci 0000:00:00.0: [1022:13e0] type 00 class 0x060000 conventional PCI endpoint
+[    1.124256] bc250 kernel: pci 0000:00:01.0: [1022:13e2] type 00 class 0x060000 conventional PCI endpoint
+[    1.124366] bc250 kernel: pci 0000:00:08.0: [1022:13e2] type 00 class 0x060000 conventional PCI endpoint
+[    1.124476] bc250 kernel: pci 0000:00:08.1: [1022:13e5] type 01 class 0x060400 PCIe Root Port
+[    1.124574] bc250 kernel: pci 0000:00:08.1: PCI bridge to [bus 01]
+[    1.124676] bc250 kernel: pci 0000:00:08.1:   bridge window [io  0xe000-0xefff]
+[    1.124777] bc250 kernel: pci 0000:00:08.1:   bridge window [mem 0xfe700000-0xfe8fffff]
+[    1.124896] bc250 kernel: pci 0000:00:08.1:   bridge window [mem 0xc0000000-0xd01fffff 64bit pref]
+[    1.124998] bc250 kernel: pci 0000:00:08.1: enabling Extended Tags
+[    1.125105] bc250 kernel: pci 0000:00:08.1: PME# supported from D0 D3hot D3cold
+[    1.125218] bc250 kernel: pci 0000:00:10.0: [1022:7814] type 00 class 0x0c0330 PCIe Root Complex Integrated Endpoint
+[    1.125314] bc250 kernel: pci 0000:00:10.0: BAR 0 [mem 0xfeb00000-0xfeb01fff 64bit]
+[    1.125413] bc250 kernel: pci 0000:00:10.0: PME# supported from D0 D3hot D3cold
+[    1.125519] bc250 kernel: pci 0000:00:11.0: [1022:7801] type 00 class 0x010601 conventional PCI endpoint
+[    1.125619] bc250 kernel: pci 0000:00:11.0: BAR 0 [io  0xf040-0xf047]
+[    1.125713] bc250 kernel: pci 0000:00:11.0: BAR 1 [io  0xf030-0xf033]
+[    1.125808] bc250 kernel: pci 0000:00:11.0: BAR 2 [io  0xf020-0xf027]
+[    1.125904] bc250 kernel: pci 0000:00:11.0: BAR 3 [io  0xf010-0xf013]
+[    1.125998] bc250 kernel: pci 0000:00:11.0: BAR 4 [io  0xf000-0xf00f]
+[    1.126126] bc250 kernel: pci 0000:00:11.0: BAR 5 [mem 0xfeb07000-0xfeb077ff]
+[    1.126233] bc250 kernel: pci 0000:00:12.0: [1022:7807] type 00 class 0x0c0310 conventional PCI endpoint
+[    1.126335] bc250 kernel: pci 0000:00:12.0: BAR 0 [mem 0xfeb06000-0xfeb06fff]
+[    1.126445] bc250 kernel: pci 0000:00:12.2: [1022:7808] type 00 class 0x0c0320 conventional PCI endpoint
+[    1.126545] bc250 kernel: pci 0000:00:12.2: BAR 0 [mem 0xfeb05000-0xfeb050ff]
+[    1.126641] bc250 kernel: pci 0000:00:12.2: supports D1 D2
+[    1.126741] bc250 kernel: pci 0000:00:12.2: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.126853] bc250 kernel: pci 0000:00:13.0: [1022:7807] type 00 class 0x0c0310 conventional PCI endpoint
+[    1.126950] bc250 kernel: pci 0000:00:13.0: BAR 0 [mem 0xfeb04000-0xfeb04fff]
+[    1.127069] bc250 kernel: pci 0000:00:13.2: [1022:7808] type 00 class 0x0c0320 conventional PCI endpoint
+[    1.127166] bc250 kernel: pci 0000:00:13.2: BAR 0 [mem 0xfeb03000-0xfeb030ff]
+[    1.127262] bc250 kernel: pci 0000:00:13.2: supports D1 D2
+[    1.127355] bc250 kernel: pci 0000:00:13.2: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.127459] bc250 kernel: pci 0000:00:14.0: [1022:780b] type 00 class 0x0c0500 conventional PCI endpoint
+[    1.127564] bc250 kernel: pci 0000:00:14.3: [1022:780e] type 00 class 0x060100 conventional PCI endpoint
+[    1.127668] bc250 kernel: pci 0000:00:14.4: [1022:780f] type 01 class 0x060401 conventional PCI bridge
+[    1.127768] bc250 kernel: pci 0000:00:14.4: PCI bridge to [bus 02] (subtractive decode)
+[    1.127878] bc250 kernel: pci 0000:00:14.5: [1022:7809] type 00 class 0x0c0310 conventional PCI endpoint
+[    1.127976] bc250 kernel: pci 0000:00:14.5: BAR 0 [mem 0xfeb02000-0xfeb02fff]
+[    1.128089] bc250 kernel: pci 0000:00:15.0: [1022:43a0] type 01 class 0x060400 PCIe Root Port
+[    1.128186] bc250 kernel: pci 0000:00:15.0: PCI bridge to [bus 03]
+[    1.128281] bc250 kernel: pci 0000:00:15.0:   bridge window [io  0xd000-0xdfff]
+[    1.128380] bc250 kernel: pci 0000:00:15.0:   bridge window [mem 0xfea00000-0xfeafffff]
+[    1.128478] bc250 kernel: pci 0000:00:15.0: enabling Extended Tags
+[    1.128574] bc250 kernel: pci 0000:00:15.0: supports D1 D2
+[    1.128669] bc250 kernel: pci 0000:00:15.0: PME# supported from D0 D3hot D3cold
+[    1.128789] bc250 kernel: pci 0000:00:15.1: [1022:43a1] type 01 class 0x060400 PCIe Root Port
+[    1.128888] bc250 kernel: pci 0000:00:15.1: PCI bridge to [bus 04]
+[    1.128990] bc250 kernel: pci 0000:00:15.1:   bridge window [io  0xc000-0xcfff]
+[    1.129099] bc250 kernel: pci 0000:00:15.1:   bridge window [mem 0xfe900000-0xfe9fffff]
+[    1.129219] bc250 kernel: pci 0000:00:15.1: enabling Extended Tags
+[    1.129323] bc250 kernel: pci 0000:00:15.1: supports D1 D2
+[    1.129420] bc250 kernel: pci 0000:00:15.1: PME# supported from D0 D3hot D3cold
+[    1.129524] bc250 kernel: pci 0000:00:18.0: [1022:13f0] type 00 class 0x060000 conventional PCI endpoint
+[    1.129632] bc250 kernel: pci 0000:00:18.1: [1022:13f1] type 00 class 0x060000 conventional PCI endpoint
+[    1.129738] bc250 kernel: pci 0000:00:18.2: [1022:13f2] type 00 class 0x060000 conventional PCI endpoint
+[    1.129849] bc250 kernel: pci 0000:00:18.3: [1022:13f3] type 00 class 0x060000 conventional PCI endpoint
+[    1.129953] bc250 kernel: pci 0000:00:18.4: [1022:13f4] type 00 class 0x060000 conventional PCI endpoint
+[    1.130069] bc250 kernel: pci 0000:00:18.5: [1022:13f5] type 00 class 0x060000 conventional PCI endpoint
+[    1.130178] bc250 kernel: pci 0000:00:18.6: [1022:13f6] type 00 class 0x060000 conventional PCI endpoint
+[    1.130281] bc250 kernel: pci 0000:00:18.7: [1022:13f7] type 00 class 0x060000 conventional PCI endpoint
+[    1.130390] bc250 kernel: pci 0000:01:00.0: [1002:13fe] type 00 class 0x030000 PCIe Legacy Endpoint
+[    1.130504] bc250 kernel: pci 0000:01:00.0: BAR 0 [mem 0xc0000000-0xcfffffff 64bit pref]
+[    1.130613] bc250 kernel: pci 0000:01:00.0: BAR 2 [mem 0xd0000000-0xd01fffff 64bit pref]
+[    1.130713] bc250 kernel: pci 0000:01:00.0: BAR 4 [io  0xe000-0xe0ff]
+[    1.130811] bc250 kernel: pci 0000:01:00.0: BAR 5 [mem 0xfe800000-0xfe87ffff]
+[    1.130912] bc250 kernel: pci 0000:01:00.0: enabling Extended Tags
+[    1.131072] bc250 kernel: pci 0000:01:00.0: PME# supported from D1 D2 D3hot D3cold
+[    1.131183] bc250 kernel: pci 0000:01:00.1: [1002:13ff] type 00 class 0x040300 PCIe Legacy Endpoint
+[    1.131283] bc250 kernel: pci 0000:01:00.1: BAR 0 [mem 0xfe880000-0xfe883fff]
+[    1.131381] bc250 kernel: pci 0000:01:00.1: enabling Extended Tags
+[    1.131478] bc250 kernel: pci 0000:01:00.1: PME# supported from D1 D2 D3hot D3cold
+[    1.131591] bc250 kernel: pci 0000:01:00.2: [1022:143e] type 00 class 0x108000 PCIe Endpoint
+[    1.131691] bc250 kernel: pci 0000:01:00.2: BAR 2 [mem 0xfe700000-0xfe7fffff]
+[    1.131788] bc250 kernel: pci 0000:01:00.2: BAR 5 [mem 0xfe884000-0xfe885fff]
+[    1.131889] bc250 kernel: pci 0000:01:00.2: enabling Extended Tags
+[    1.131990] bc250 kernel: pci 0000:00:08.1: PCI bridge to [bus 01]
+[    1.132099] bc250 kernel: pci_bus 0000:02: extended config space not accessible
+[    1.132199] bc250 kernel: pci 0000:00:14.4: PCI bridge to [bus 02] (subtractive decode)
+[    1.132295] bc250 kernel: pci 0000:00:14.4:   bridge window [io  0x0000-0x03af window] (subtractive decode)
+[    1.132399] bc250 kernel: pci 0000:00:14.4:   bridge window [io  0x03e0-0x0cf7 window] (subtractive decode)
+[    1.132568] bc250 kernel: pci 0000:00:14.4:   bridge window [io  0x03b0-0x03df window] (subtractive decode)
+[    1.132701] bc250 kernel: pci 0000:00:14.4:   bridge window [io  0x0d00-0xffff window] (subtractive decode)
+[    1.132797] bc250 kernel: pci 0000:00:14.4:   bridge window [mem 0x000a0000-0x000dffff window] (subtractive decode)
+[    1.132892] bc250 kernel: pci 0000:00:14.4:   bridge window [mem 0x80000000-0xfebfffff window] (subtractive decode)
+[    1.132986] bc250 kernel: pci 0000:00:14.4:   bridge window [mem 0xfee00000-0xffffffff window] (subtractive decode)
+[    1.133103] bc250 kernel: pci 0000:03:00.0: [144d:a802] type 00 class 0x010802 PCIe Endpoint
+[    1.133208] bc250 kernel: pci 0000:03:00.0: BAR 0 [mem 0xfea00000-0xfea03fff 64bit]
+[    1.133309] bc250 kernel: pci 0000:03:00.0: BAR 2 [io  0xd000-0xd0ff]
+[    1.133425] bc250 kernel: pci 0000:03:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 5.0 GT/s PCIe x2 link at 0000:00:15.0 (capable of 31.504 Gb/s with 8.0 GT/s PCIe x4 link)
+[    1.133525] bc250 kernel: pci 0000:00:15.0: PCI bridge to [bus 03]
+[    1.133643] bc250 kernel: pci 0000:04:00.0: [10ec:8168] type 00 class 0x020000 PCIe Endpoint
+[    1.133743] bc250 kernel: pci 0000:04:00.0: BAR 0 [io  0xc000-0xc0ff]
+[    1.133853] bc250 kernel: pci 0000:04:00.0: BAR 2 [mem 0xfe904000-0xfe904fff 64bit]
+[    1.133952] bc250 kernel: pci 0000:04:00.0: BAR 4 [mem 0xfe900000-0xfe903fff 64bit]
+[    1.134073] bc250 kernel: pci 0000:04:00.0: supports D1 D2
+[    1.134175] bc250 kernel: pci 0000:04:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    1.134316] bc250 kernel: pci 0000:00:15.1: PCI bridge to [bus 04]
+[    1.134329] bc250 kernel: ACPI: PCI: Interrupt link LNKA configured for IRQ 0
+[    1.134338] bc250 kernel: ACPI: PCI: Interrupt link LNKB configured for IRQ 0
+[    1.134346] bc250 kernel: ACPI: PCI: Interrupt link LNKC configured for IRQ 0
+[    1.134353] bc250 kernel: ACPI: PCI: Interrupt link LNKD configured for IRQ 0
+[    1.134361] bc250 kernel: ACPI: PCI: Interrupt link LNKE configured for IRQ 0
+[    1.134368] bc250 kernel: ACPI: PCI: Interrupt link LNKF configured for IRQ 0
+[    1.134375] bc250 kernel: ACPI: PCI: Interrupt link LNKG configured for IRQ 0
+[    1.134395] bc250 kernel: ACPI: PCI: Interrupt link LNKH configured for IRQ 0
+[    1.134403] bc250 kernel: iommu: Default domain type: Translated
+[    1.134411] bc250 kernel: iommu: DMA domain TLB invalidation policy: lazy mode
+[    1.134418] bc250 kernel: SCSI subsystem initialized
+[    1.134426] bc250 kernel: libata version 3.00 loaded.
+[    1.134434] bc250 kernel: ACPI: bus type USB registered
+[    1.134442] bc250 kernel: usbcore: registered new interface driver usbfs
+[    1.134450] bc250 kernel: usbcore: registered new interface driver hub
+[    1.134458] bc250 kernel: usbcore: registered new device driver usb
+[    1.134466] bc250 kernel: pps_core: LinuxPPS API ver. 1 registered
+[    1.134475] bc250 kernel: pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    1.134484] bc250 kernel: PTP clock support registered
+[    1.134492] bc250 kernel: EDAC MC: Ver: 3.0.0
+[    1.134499] bc250 kernel: efivars: Registered efivars operations
+[    1.134506] bc250 kernel: NetLabel: Initializing
+[    1.134514] bc250 kernel: NetLabel:  domain hash size = 128
+[    1.134522] bc250 kernel: NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    1.134529] bc250 kernel: NetLabel:  unlabeled traffic allowed by default
+[    1.134537] bc250 kernel: mctp: management component transport protocol core
+[    1.134546] bc250 kernel: NET: Registered PF_MCTP protocol family
+[    1.134554] bc250 kernel: PCI: Using ACPI for IRQ routing
+[    1.134562] bc250 kernel: PCI: pci_cache_line_size set to 64 bytes
+[    1.134570] bc250 kernel: e820: register RAM buffer resource [mem 0x09e02000-0x0bffffff]
+[    1.134578] bc250 kernel: e820: register RAM buffer resource [mem 0x7ccbe000-0x7fffffff]
+[    1.134586] bc250 kernel: e820: register RAM buffer resource [mem 0x7dc87000-0x7fffffff]
+[    1.134593] bc250 kernel: e820: register RAM buffer resource [mem 0x7f000000-0x7fffffff]
+[    1.134706] bc250 kernel: pci 0000:01:00.0: vgaarb: setting as boot VGA device
+[    1.134804] bc250 kernel: pci 0000:01:00.0: vgaarb: bridge control possible
+[    1.134904] bc250 kernel: pci 0000:01:00.0: vgaarb: VGA device added: decodes=io+mem,owns=none,locks=none
+[    1.134914] bc250 kernel: vgaarb: loaded
+[    1.134922] bc250 kernel: hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0
+[    1.134929] bc250 kernel: hpet0: 3 comparators, 32-bit 14.318180 MHz counter
+[    1.134937] bc250 kernel: clocksource: Switched to clocksource tsc-early
+[    1.134945] bc250 kernel: VFS: Disk quotas dquot_6.6.0
+[    1.134953] bc250 kernel: VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    1.135081] bc250 kernel: acpi PNP0C01:00: Reserved [mem 0xe0000000-0xefffffff]
+[    1.135196] bc250 kernel: acpi PNP0C02:01: Could not reserve [mem 0x68000000-0x7fffffff]
+[    1.135311] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0010-0x001f]
+[    1.135411] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0022-0x003f]
+[    1.135509] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0063]
+[    1.135606] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0065]
+[    1.135703] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0067-0x006f]
+[    1.135808] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0072-0x007f]
+[    1.135904] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0080]
+[    1.136006] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0084-0x0086]
+[    1.136108] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0088]
+[    1.136209] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x008c-0x008e]
+[    1.136309] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x0090-0x009f]
+[    1.136407] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x00a2-0x00bf]
+[    1.136504] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x00b1]
+[    1.136600] bc250 kernel: acpi PNP0C02:02: Skipped [io  0x00e0-0x00ef]
+[    1.136697] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x04d0-0x04d1]
+[    1.136798] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x040b]
+[    1.136917] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x04d6]
+[    1.137025] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0c00-0x0c01]
+[    1.137136] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0c14]
+[    1.137237] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0c50-0x0c51]
+[    1.137338] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0c52]
+[    1.137461] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0c6c]
+[    1.137570] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0c6f]
+[    1.137668] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0cd0-0x0cd1]
+[    1.137769] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0cd2-0x0cd3]
+[    1.137866] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0cd4-0x0cd5]
+[    1.137963] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0cd6-0x0cd7]
+[    1.138090] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0cd8-0x0cdf]
+[    1.138189] bc250 kernel: acpi PNP0C02:02: Could not reserve [io  0x0400-0x049f]
+[    1.138300] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0b00-0x0b0f]
+[    1.138399] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0b20-0x0b3f]
+[    1.138497] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0900-0x090f]
+[    1.138594] bc250 kernel: acpi PNP0C02:02: Reserved [io  0x0910-0x091f]
+[    1.138697] bc250 kernel: acpi PNP0C02:02: Reserved [io  0xfe00-0xfefe]
+[    1.138794] bc250 kernel: acpi PNP0C02:02: Could not reserve [mem 0xfec00000-0xfec00fff]
+[    1.138891] bc250 kernel: acpi PNP0C02:02: Reserved [mem 0xfee00000-0xfee00fff]
+[    1.138989] bc250 kernel: acpi PNP0C02:02: Reserved [mem 0xfed80000-0xfed8ffff]
+[    1.139102] bc250 kernel: acpi PNP0C02:02: Reserved [mem 0xfed61000-0xfed70fff]
+[    1.139202] bc250 kernel: acpi PNP0C02:02: Reserved [mem 0xfec10000-0xfec10fff]
+[    1.139300] bc250 kernel: acpi PNP0C02:02: Reserved [mem 0xff000000-0xffffffff]
+[    1.139418] bc250 kernel: acpi PNP0C02:03: Reserved [io  0x0a00-0x0a0f]
+[    1.139519] bc250 kernel: acpi PNP0C02:03: Reserved [io  0x0a10-0x0a1f]
+[    1.139617] bc250 kernel: acpi PNP0C02:03: Reserved [io  0x0a20-0x0a2f]
+[    1.139729] bc250 kernel: acpi PNP0C02:04: Reserved [mem 0xfdd00000-0xfddfffff]
+[    1.139741] bc250 kernel: pnp: PnP ACPI init
+[    1.139856] bc250 kernel: pnp 00:02: [dma 0 disabled]
+[    1.139873] bc250 kernel: pnp: PnP ACPI: found 3 devices
+[    1.139881] bc250 kernel: clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+[    1.139889] bc250 kernel: NET: Registered PF_INET protocol family
+[    1.139897] bc250 kernel: IP idents hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+[    1.139906] bc250 kernel: tcp_listen_portaddr_hash hash table entries: 8192 (order: 5, 131072 bytes, linear)
+[    1.139914] bc250 kernel: Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    1.139922] bc250 kernel: TCP established hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    1.139930] bc250 kernel: TCP bind hash table entries: 65536 (order: 9, 2097152 bytes, linear)
+[    1.139937] bc250 kernel: TCP: Hash tables configured (established 131072 bind 65536)
+[    1.139947] bc250 kernel: MPTCP token hash table entries: 16384 (order: 7, 393216 bytes, linear)
+[    1.139954] bc250 kernel: UDP hash table entries: 8192 (order: 7, 524288 bytes, linear)
+[    1.139962] bc250 kernel: NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    1.139970] bc250 kernel: NET: Registered PF_XDP protocol family
+[    1.140086] bc250 kernel: pci 0000:00:08.1: PCI bridge to [bus 01]
+[    1.140187] bc250 kernel: pci 0000:00:08.1:   bridge window [io  0xe000-0xefff]
+[    1.140287] bc250 kernel: pci 0000:00:08.1:   bridge window [mem 0xfe700000-0xfe8fffff]
+[    1.140384] bc250 kernel: pci 0000:00:08.1:   bridge window [mem 0xc0000000-0xd01fffff 64bit pref]
+[    1.140482] bc250 kernel: pci 0000:00:14.4: PCI bridge to [bus 02]
+[    1.140583] bc250 kernel: pci 0000:00:15.0: PCI bridge to [bus 03]
+[    1.140682] bc250 kernel: pci 0000:00:15.0:   bridge window [io  0xd000-0xdfff]
+[    1.140778] bc250 kernel: pci 0000:00:15.0:   bridge window [mem 0xfea00000-0xfeafffff]
+[    1.140878] bc250 kernel: pci 0000:00:15.1: PCI bridge to [bus 04]
+[    1.140974] bc250 kernel: pci 0000:00:15.1:   bridge window [io  0xc000-0xcfff]
+[    1.141088] bc250 kernel: pci 0000:00:15.1:   bridge window [mem 0xfe900000-0xfe9fffff]
+[    1.141181] bc250 kernel: pci_bus 0000:00: resource 4 [io  0x0000-0x03af window]
+[    1.141269] bc250 kernel: pci_bus 0000:00: resource 5 [io  0x03e0-0x0cf7 window]
+[    1.141355] bc250 kernel: pci_bus 0000:00: resource 6 [io  0x03b0-0x03df window]
+[    1.141445] bc250 kernel: pci_bus 0000:00: resource 7 [io  0x0d00-0xffff window]
+[    1.141535] bc250 kernel: pci_bus 0000:00: resource 8 [mem 0x000a0000-0x000dffff window]
+[    1.141622] bc250 kernel: pci_bus 0000:00: resource 9 [mem 0x80000000-0xfebfffff window]
+[    1.141704] bc250 kernel: pci_bus 0000:00: resource 10 [mem 0xfee00000-0xffffffff window]
+[    1.141811] bc250 kernel: pci_bus 0000:01: resource 0 [io  0xe000-0xefff]
+[    1.141901] bc250 kernel: pci_bus 0000:01: resource 1 [mem 0xfe700000-0xfe8fffff]
+[    1.141992] bc250 kernel: pci_bus 0000:01: resource 2 [mem 0xc0000000-0xd01fffff 64bit pref]
+[    1.142095] bc250 kernel: pci_bus 0000:02: resource 4 [io  0x0000-0x03af window]
+[    1.142188] bc250 kernel: pci_bus 0000:02: resource 5 [io  0x03e0-0x0cf7 window]
+[    1.142274] bc250 kernel: pci_bus 0000:02: resource 6 [io  0x03b0-0x03df window]
+[    1.142360] bc250 kernel: pci_bus 0000:02: resource 7 [io  0x0d00-0xffff window]
+[    1.142447] bc250 kernel: pci_bus 0000:02: resource 8 [mem 0x000a0000-0x000dffff window]
+[    1.142533] bc250 kernel: pci_bus 0000:02: resource 9 [mem 0x80000000-0xfebfffff window]
+[    1.142619] bc250 kernel: pci_bus 0000:02: resource 10 [mem 0xfee00000-0xffffffff window]
+[    1.142717] bc250 kernel: pci_bus 0000:03: resource 0 [io  0xd000-0xdfff]
+[    1.142804] bc250 kernel: pci_bus 0000:03: resource 1 [mem 0xfea00000-0xfeafffff]
+[    1.142905] bc250 kernel: pci_bus 0000:04: resource 0 [io  0xc000-0xcfff]
+[    1.142992] bc250 kernel: pci_bus 0000:04: resource 1 [mem 0xfe900000-0xfe9fffff]
+[    1.143104] bc250 kernel: pci 0000:00:12.2: PME# does not work under D3, disabling it
+[    1.143203] bc250 kernel: pci 0000:00:13.2: PME# does not work under D3, disabling it
+[    1.143305] bc250 kernel: pci 0000:01:00.1: D0 power state depends on 0000:01:00.0
+[    1.143317] bc250 kernel: PCI: CLS 64 bytes, default 64
+[    1.143325] bc250 kernel: PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
+[    1.143333] bc250 kernel: software IO TLB: mapped [mem 0x0000000076f3d000-0x000000007af3d000] (64MB)
+[    1.143344] bc250 kernel: LVT offset 0 assigned for vector 0x400
+[    1.143352] bc250 kernel: Trying to unpack rootfs image as initramfs...
+[    1.143359] bc250 kernel: perf: AMD IBS detected (0x000003ff)
+[    1.143367] bc250 kernel: amd_uncore: 4 amd_df counters detected
+[    1.143374] bc250 kernel: amd_uncore: 6 amd_l3 counters detected
+[    1.143382] bc250 kernel: Initialise system trusted keyrings
+[    1.143390] bc250 kernel: Key type blacklist registered
+[    1.143397] bc250 kernel: workingset: timestamp_bits=36 (anon: 32) max_order=22 bucket_order=0 (anon: 0)
+[    1.143405] bc250 kernel: integrity: Platform Keyring initialized
+[    1.143414] bc250 kernel: integrity: Machine keyring initialized
+[    1.143422] bc250 kernel: cryptd: max_cpu_qlen set to 1000
+[    1.143429] bc250 kernel: NET: Registered PF_ALG protocol family
+[    1.143437] bc250 kernel: Key type asymmetric registered
+[    1.143445] bc250 kernel: Asymmetric key parser 'x509' registered
+[    1.143452] bc250 kernel: Block layer SCSI generic (bsg) driver version 0.4 loaded (major 244)
+[    1.143460] bc250 kernel: io scheduler mq-deadline registered
+[    1.143468] bc250 kernel: io scheduler kyber registered
+[    1.143476] bc250 kernel: io scheduler bfq registered
+[    1.143484] bc250 kernel: atomic64_test: passed for x86-64 platform with CX8 and with SSE
+[    1.143583] bc250 kernel: pcieport 0000:00:08.1: PME: Signaling with IRQ 25
+[    1.143682] bc250 kernel: pcieport 0000:00:15.0: PME: Signaling with IRQ 26
+[    1.143780] bc250 kernel: pcieport 0000:00:15.1: PME: Signaling with IRQ 27
+[    1.143792] bc250 kernel: input: Power Button as /devices/platform/PNP0C0C:00/input/input0
+[    1.143800] bc250 kernel: ACPI: button: Power Button [PWRB]
+[    1.143808] bc250 kernel: input: Power Button as /devices/platform/LNXPWRBN:00/input/input1
+[    1.143816] bc250 kernel: ACPI: button: Power Button [PWRF]
+[    1.143826] bc250 kernel: Serial: 8250/16550 driver, 32 ports, IRQ sharing enabled
+[    1.143834] bc250 kernel: 00:02: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[    1.143841] bc250 kernel: Non-volatile memory driver v1.3
+[    1.143849] bc250 kernel: ACPI: bus type drm_connector registered
+[    1.143946] bc250 kernel: ahci 0000:00:11.0: AHCI vers 0001.0300, 32 command slots, 6 Gbps, SATA mode
+[    1.144054] bc250 kernel: ahci 0000:00:11.0: 1/1 ports implemented (port mask 0x1)
+[    1.144152] bc250 kernel: ahci 0000:00:11.0: flags: 64bit ncq sntf ilck pm led clo pmp pio slum part 
+[    1.144272] bc250 kernel: scsi host0: ahci
+[    1.144285] bc250 kernel: ata1: SATA max UDMA/133 abar m2048@0xfeb07000 port 0xfeb07100 irq 28 lpm-pol 4
+[    1.144294] bc250 kernel: CAN device driver interface
+[    1.144302] bc250 kernel: QUIRK: Enable AMD PLL fix
+[    1.144402] bc250 kernel: ohci-pci 0000:00:12.0: OHCI PCI host controller
+[    1.144499] bc250 kernel: ohci-pci 0000:00:12.0: new USB bus registered, assigned bus number 1
+[    1.144598] bc250 kernel: ohci-pci 0000:00:12.0: irq 18, io mem 0xfeb06000
+[    1.144711] bc250 kernel: usb usb1: New USB device found, idVendor=1d6b, idProduct=0001, bcdDevice= 7.01
+[    1.144802] bc250 kernel: usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.144886] bc250 kernel: usb usb1: Product: OHCI PCI host controller
+[    1.144968] bc250 kernel: usb usb1: Manufacturer: Linux 7.1.8-100.fc43.x86_64 ohci_hcd
+[    1.145074] bc250 kernel: usb usb1: SerialNumber: 0000:00:12.0
+[    1.145214] bc250 kernel: hub 1-0:1.0: USB hub found
+[    1.145325] bc250 kernel: hub 1-0:1.0: 5 ports detected
+[    1.145445] bc250 kernel: ehci-pci 0000:00:13.2: EHCI Host Controller
+[    1.145543] bc250 kernel: ehci-pci 0000:00:13.2: new USB bus registered, assigned bus number 2
+[    1.145639] bc250 kernel: ehci-pci 0000:00:13.2: applying AMD SB700/SB800/Hudson-2/3 EHCI dummy qh workaround
+[    1.145735] bc250 kernel: ehci-pci 0000:00:13.2: debug port 1
+[    1.145834] bc250 kernel: ehci-pci 0000:00:13.2: irq 17, io mem 0xfeb03000
+[    1.145927] bc250 kernel: ehci-pci 0000:00:13.2: USB 2.0 started, EHCI 1.00
+[    1.146035] bc250 kernel: usb usb2: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 7.01
+[    1.146133] bc250 kernel: usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.146228] bc250 kernel: usb usb2: Product: EHCI Host Controller
+[    1.146314] bc250 kernel: usb usb2: Manufacturer: Linux 7.1.8-100.fc43.x86_64 ehci_hcd
+[    1.146397] bc250 kernel: usb usb2: SerialNumber: 0000:00:13.2
+[    1.146513] bc250 kernel: hub 2-0:1.0: USB hub found
+[    1.146625] bc250 kernel: hub 2-0:1.0: 5 ports detected
+[    1.146637] bc250 kernel: ata1: SATA link down (SStatus 0 SControl 300)
+[    1.146736] bc250 kernel: ehci-pci 0000:00:12.2: EHCI Host Controller
+[    1.146838] bc250 kernel: ehci-pci 0000:00:12.2: new USB bus registered, assigned bus number 3
+[    1.146933] bc250 kernel: ehci-pci 0000:00:12.2: applying AMD SB700/SB800/Hudson-2/3 EHCI dummy qh workaround
+[    1.147036] bc250 kernel: ehci-pci 0000:00:12.2: debug port 1
+[    1.147132] bc250 kernel: ehci-pci 0000:00:12.2: irq 17, io mem 0xfeb05000
+[    1.147228] bc250 kernel: ehci-pci 0000:00:12.2: USB 2.0 started, EHCI 1.00
+[    1.147324] bc250 kernel: usb usb3: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 7.01
+[    1.147410] bc250 kernel: usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.147497] bc250 kernel: usb usb3: Product: EHCI Host Controller
+[    1.147583] bc250 kernel: usb usb3: Manufacturer: Linux 7.1.8-100.fc43.x86_64 ehci_hcd
+[    1.147667] bc250 kernel: usb usb3: SerialNumber: 0000:00:12.2
+[    1.147786] bc250 kernel: hub 3-0:1.0: USB hub found
+[    1.147902] bc250 kernel: hub 3-0:1.0: 5 ports detected
+[    1.147914] bc250 kernel: Freeing initrd memory: 68044K
+[    1.148031] bc250 kernel: hub 1-0:1.0: USB hub found
+[    1.148141] bc250 kernel: hub 1-0:1.0: 5 ports detected
+[    1.148249] bc250 kernel: ohci-pci 0000:00:13.0: OHCI PCI host controller
+[    1.148351] bc250 kernel: ohci-pci 0000:00:13.0: new USB bus registered, assigned bus number 4
+[    1.148452] bc250 kernel: ohci-pci 0000:00:13.0: irq 18, io mem 0xfeb04000
+[    1.148551] bc250 kernel: usb usb4: New USB device found, idVendor=1d6b, idProduct=0001, bcdDevice= 7.01
+[    1.148635] bc250 kernel: usb usb4: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.148719] bc250 kernel: usb usb4: Product: OHCI PCI host controller
+[    1.148800] bc250 kernel: usb usb4: Manufacturer: Linux 7.1.8-100.fc43.x86_64 ohci_hcd
+[    1.148882] bc250 kernel: usb usb4: SerialNumber: 0000:00:13.0
+[    1.148993] bc250 kernel: hub 4-0:1.0: USB hub found
+[    1.149156] bc250 kernel: hub 4-0:1.0: 5 ports detected
+[    1.149256] bc250 kernel: ohci-pci 0000:00:14.5: OHCI PCI host controller
+[    1.149352] bc250 kernel: ohci-pci 0000:00:14.5: new USB bus registered, assigned bus number 5
+[    1.149447] bc250 kernel: ohci-pci 0000:00:14.5: irq 18, io mem 0xfeb02000
+[    1.149542] bc250 kernel: usb usb5: New USB device found, idVendor=1d6b, idProduct=0001, bcdDevice= 7.01
+[    1.149627] bc250 kernel: usb usb5: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.149711] bc250 kernel: usb usb5: Product: OHCI PCI host controller
+[    1.149797] bc250 kernel: usb usb5: Manufacturer: Linux 7.1.8-100.fc43.x86_64 ohci_hcd
+[    1.149880] bc250 kernel: usb usb5: SerialNumber: 0000:00:14.5
+[    1.149992] bc250 kernel: hub 5-0:1.0: USB hub found
+[    1.150105] bc250 kernel: hub 5-0:1.0: 2 ports detected
+[    1.150210] bc250 kernel: xhci_hcd 0000:00:10.0: xHCI Host Controller
+[    1.150307] bc250 kernel: xhci_hcd 0000:00:10.0: new USB bus registered, assigned bus number 6
+[    1.150401] bc250 kernel: xhci_hcd 0000:00:10.0: hcc params 0x014040c3 hci version 0x100 quirks 0x0000000000000018
+[    1.150500] bc250 kernel: xhci_hcd 0000:00:10.0: xHCI Host Controller
+[    1.150598] bc250 kernel: xhci_hcd 0000:00:10.0: new USB bus registered, assigned bus number 7
+[    1.150692] bc250 kernel: xhci_hcd 0000:00:10.0: Host supports USB 3.0 SuperSpeed
+[    1.150787] bc250 kernel: usb usb6: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 7.01
+[    1.150873] bc250 kernel: usb usb6: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.150956] bc250 kernel: usb usb6: Product: xHCI Host Controller
+[    1.151061] bc250 kernel: usb usb6: Manufacturer: Linux 7.1.8-100.fc43.x86_64 xhci-hcd
+[    1.151147] bc250 kernel: usb usb6: SerialNumber: 0000:00:10.0
+[    1.151262] bc250 kernel: hub 6-0:1.0: USB hub found
+[    1.151366] bc250 kernel: hub 6-0:1.0: 2 ports detected
+[    1.151480] bc250 kernel: usb usb7: We don't know the algorithms for LPM for this host, disabling LPM.
+[    1.151568] bc250 kernel: usb usb7: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 7.01
+[    1.151652] bc250 kernel: usb usb7: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.151734] bc250 kernel: usb usb7: Product: xHCI Host Controller
+[    1.151821] bc250 kernel: usb usb7: Manufacturer: Linux 7.1.8-100.fc43.x86_64 xhci-hcd
+[    1.151909] bc250 kernel: usb usb7: SerialNumber: 0000:00:10.0
+[    1.152028] bc250 kernel: hub 7-0:1.0: USB hub found
+[    1.152135] bc250 kernel: hub 7-0:1.0: 2 ports detected
+[    1.152147] bc250 kernel: usbcore: registered new interface driver usbserial_generic
+[    1.152155] bc250 kernel: usbserial: USB Serial support registered for generic
+[    1.152163] bc250 kernel: i8042: PNP: PS/2 Controller [PNP0303:PS2K,PNP0f03:PS2M] at 0x60,0x64 irq 1,12
+[    1.152171] bc250 kernel: serio: i8042 KBD port at 0x60,0x64 irq 1
+[    1.152181] bc250 kernel: mousedev: PS/2 mouse device common for all mice
+[    1.152290] bc250 kernel: rtc_cmos PNP0B00:00: RTC can wake from S4
+[    1.152384] bc250 kernel: rtc_cmos PNP0B00:00: registered as rtc0
+[    1.152475] bc250 kernel: rtc_cmos PNP0B00:00: setting system clock to 2026-09-15T00:03:37 UTC (1789430617)
+[    1.152568] bc250 kernel: rtc_cmos PNP0B00:00: alarms up to one month, y3k, 114 bytes nvram
+[    1.152580] bc250 kernel: device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+[    1.152588] bc250 kernel: device-mapper: uevent: version 1.0.3
+[    1.152596] bc250 kernel: device-mapper: ioctl: 4.50.0-ioctl (2025-04-28) initialised: dm-devel@lists.linux.dev
+[    1.152606] bc250 kernel: amd_pstate: the _CPC object is not present in SBIOS or ACPI disabled
+[    1.152614] bc250 kernel: hid: raw HID events driver (C) Jiri Kosina
+[    1.152622] bc250 kernel: usbcore: registered new interface driver usbhid
+[    1.152629] bc250 kernel: usbhid: USB HID core driver
+[    1.152637] bc250 kernel: drop_monitor: Initializing network drop monitor service
+[    1.152645] bc250 kernel: Initializing XFRM netlink socket
+[    1.152652] bc250 kernel: NET: Registered PF_INET6 protocol family
+[    1.152660] bc250 kernel: Segment Routing with IPv6
+[    1.152669] bc250 kernel: RPL Segment Routing with IPv6
+[    1.152676] bc250 kernel: In-situ OAM (IOAM) with IPv6
+[    1.152683] bc250 kernel: mip6: Mobile IPv6
+[    1.152691] bc250 kernel: NET: Registered PF_PACKET protocol family
+[    1.152698] bc250 kernel: can: controller area network core
+[    1.152705] bc250 kernel: NET: Registered PF_CAN protocol family
+[    1.152713] bc250 kernel: x86/amd: Previous system reset reason [0x40080400]: software wrote 0x6 to reset control register 0xCF9
+[    1.152721] bc250 kernel: x86/amd: Previous system reset reason [0x40080400]: a parity error occurred
+[    1.152728] bc250 kernel: microcode: Current revision: 0x08407007
+[    1.152737] bc250 kernel: resctrl: L3 allocation detected
+[    1.152745] bc250 kernel: resctrl: MB allocation detected
+[    1.152752] bc250 kernel: resctrl: L3 monitoring detected
+[    1.152760] bc250 kernel: IPI shorthand broadcast: enabled
+[    1.152767] bc250 kernel: sched_clock: Marking stable (919475863, 378058)->(931878563, -12024642)
+[    1.152775] bc250 kernel: registered taskstats version 1
+[    1.152782] bc250 kernel: Loading compiled-in X.509 certificates
+[    1.152790] bc250 kernel: Loaded X.509 cert 'Fedora kernel signing key: 558efbc3963278433a6f3706d848664f2daf2756'
+[    1.152798] bc250 kernel: Loaded X.509 cert 'Fedora IMA CA: a8a00c31663f853f9c6ff2564872e378af026b28'
+[    1.152807] bc250 kernel: Demotion targets for Node 0: null
+[    1.152814] bc250 kernel: page_owner is disabled
+[    1.152822] bc250 kernel: Key type .fscrypt registered
+[    1.152830] bc250 kernel: Key type fscrypt-provisioning registered
+[    1.152837] bc250 kernel: Btrfs loaded, zoned=yes, fsverity=yes
+[    1.152845] bc250 kernel: Key type big_key registered
+[    1.152852] bc250 kernel: Key type encrypted registered
+[    1.152860] bc250 kernel: ima: No TPM chip found, activating TPM-bypass!
+[    1.152867] bc250 kernel: Loading compiled-in module X.509 certificates
+[    1.152876] bc250 kernel: Loaded X.509 cert 'Fedora kernel signing key: 558efbc3963278433a6f3706d848664f2daf2756'
+[    1.152883] bc250 kernel: ima: Allocated hash algorithm: sha256
+[    1.152891] bc250 kernel: ima: No architecture policies found
+[    1.152898] bc250 kernel: evm: Initialising EVM extended attributes:
+[    1.152906] bc250 kernel: evm: security.selinux
+[    1.152913] bc250 kernel: evm: security.SMACK64 (disabled)
+[    1.152921] bc250 kernel: evm: security.SMACK64EXEC (disabled)
+[    1.152928] bc250 kernel: evm: security.SMACK64TRANSMUTE (disabled)
+[    1.152935] bc250 kernel: evm: security.SMACK64MMAP (disabled)
+[    1.152942] bc250 kernel: evm: security.apparmor (disabled)
+[    1.152951] bc250 kernel: evm: security.ima
+[    1.152958] bc250 kernel: evm: security.capability
+[    1.152966] bc250 kernel: evm: HMAC attrs: 0x1
+[    1.152973] bc250 kernel: alg: No test for 842 (842-scomp)
+[    1.152981] bc250 kernel: PM:   Magic number: 10:654:51
+[    1.153099] bc250 kernel: memory memory83: hash matches
+[    1.153113] bc250 kernel: RAS: Correctable Errors collector initialized.
+[    1.153120] bc250 kernel: clk: Disabling unused clocks
+[    1.153128] bc250 kernel: PM: genpd: Disabling unused power domains
+[    1.153138] bc250 kernel: Freeing unused decrypted memory: 2028K
+[    1.153146] bc250 kernel: Freeing unused kernel image (initmem) memory: 5268K
+[    1.153154] bc250 kernel: Write protecting the kernel read-only data: 45056k
+[    1.153161] bc250 kernel: Freeing unused kernel image (text/rodata gap) memory: 1584K
+[    1.153169] bc250 kernel: Freeing unused kernel image (rodata/data gap) memory: 1872K
+[    1.153177] bc250 kernel: x86/mm: Checked W+X mappings: passed, no W+X pages found.
+[    1.153184] bc250 kernel: Run /init as init process
+[    1.153191] bc250 kernel:   with arguments:
+[    1.153201] bc250 kernel:     /init
+[    1.153209] bc250 kernel:     rhgb
+[    1.153216] bc250 kernel:   with environment:
+[    1.153224] bc250 kernel:     HOME=/
+[    1.153231] bc250 kernel:     TERM=linux
+[    1.153240] bc250 systemd[1]: Successfully made /usr/ read-only.
+[    1.153252] bc250 systemd[1]: systemd 258.7-1.fc43 running in system mode (+PAM +AUDIT +SELINUX -APPARMOR +IMA +IPE +SMACK +SECCOMP -GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN -IPTC +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK +BTF +XKBCOMMON +UTMP +SYSVINIT +LIBARCHIVE)
+[    1.153261] bc250 systemd[1]: Detected architecture x86-64.
+[    1.153270] bc250 systemd[1]: Running in initrd.
+[    1.153279] bc250 systemd[1]: Hostname set to <bc250>.
+[    1.153287] bc250 systemd[1]: bpf-restrict-fs: LSM BPF program attached
+[    1.153296] bc250 systemd[1]: Queued start job for default target initrd.target.
+[    1.153306] bc250 systemd[1]: Expecting device dev-disk-by\x2duuid-2f69acf9\x2d5d80\x2d461c\x2d9f68\x2d2bf833696893.device - /dev/disk/by-uuid/2f69acf9-5d80-461c-9f68-2bf833696893...
+[    1.153314] bc250 systemd[1]: Reached target initrd-usr-fs.target - Initrd /usr File System.
+[    1.153322] bc250 systemd[1]: Reached target slices.target - Slice Units.
+[    1.153330] bc250 systemd[1]: Reached target swap.target - Swaps.
+[    1.153340] bc250 systemd[1]: Reached target timers.target - Timer Units.
+[    1.153349] bc250 systemd[1]: Listening on systemd-journald-dev-log.socket - Journal Socket (/dev/log).
+[    1.153357] bc250 systemd[1]: Listening on systemd-journald.socket - Journal Sockets.
+[    1.153366] bc250 systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
+[    1.153374] bc250 systemd[1]: Listening on systemd-udevd-kernel.socket - udev Kernel Socket.
+[    1.153383] bc250 systemd[1]: Reached target sockets.target - Socket Units.
+[    1.153391] bc250 systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
+[    1.153400] bc250 systemd[1]: memstrack.service - Memstrack Anylazing Service skipped, no trigger condition checks were met.
+[    1.153409] bc250 systemd[1]: Starting systemd-journald.service - Journal Service...
+[    1.153418] bc250 systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
+[    1.153426] bc250 systemd[1]: systemd-pcrphase-initrd.service - TPM PCR Barrier (initrd) skipped, unmet condition check ConditionSecurity=measured-uki
+[    1.153435] bc250 systemd[1]: Starting systemd-vconsole-setup.service - Virtual Console Setup...
+[    1.153443] bc250 systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+[    1.153452] bc250 systemd[1]: Starting systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully...
+[    1.153460] bc250 kernel: nct6683: Found NCT6686D or compatible chip at 0x2e:0xa20
+[    1.153563] bc250 kernel: nct6683 nct6683.2592: NCT6686D EC firmware version 1.0 build 07/28/21
+[    1.153597] bc250 systemd-journald[265]: Collecting audit messages is disabled.
+[    1.153619] bc250 systemd[1]: Finished systemd-vconsole-setup.service - Virtual Console Setup.
+[    1.153628] bc250 systemd[1]: Starting dracut-cmdline-ask.service - dracut ask for additional cmdline parameters...
+[    1.153636] bc250 systemd[1]: Finished systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully.
+[    1.153646] bc250 systemd[1]: Starting systemd-sysusers.service - Create System Users...
+[    1.153655] bc250 systemd[1]: Finished dracut-cmdline-ask.service - dracut ask for additional cmdline parameters.
+[    1.153663] bc250 systemd[1]: Starting dracut-cmdline.service - dracut cmdline hook...
+[    1.153671] bc250 systemd[1]: Finished systemd-sysusers.service - Create System Users.
+[    1.153679] bc250 kernel: fuse: init (API version 7.45)
+[    1.153688] bc250 systemd[1]: Starting systemd-tmpfiles-setup-dev.service - Create Static Device Nodes in /dev...
+[    1.153696] bc250 kernel: i2c_dev: i2c /dev entries driver
+[    1.153704] bc250 systemd[1]: Finished systemd-modules-load.service - Load Kernel Modules.
+[    1.153714] bc250 systemd[1]: Starting systemd-sysctl.service - Apply Kernel Variables...
+[    1.153722] bc250 systemd[1]: Finished systemd-sysctl.service - Apply Kernel Variables.
+[    1.153731] bc250 systemd[1]: Finished systemd-tmpfiles-setup-dev.service - Create Static Device Nodes in /dev.
+[    1.153739] bc250 systemd[1]: Reached target local-fs-pre.target - Preparation for Local File Systems.
+[    1.153748] bc250 systemd[1]: Reached target local-fs.target - Local File Systems.
+[    1.154067] bc250 systemd[1]: Started systemd-journald.service - Journal Service.
+[    1.352024] bc250 kernel: tsc: Refined TSC clocksource calibration: 3194.034 MHz
+[    1.352087] bc250 kernel: clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x2e0a45ee145, max_idle_ns: 440795207223 ns
+[    1.352104] bc250 kernel: clocksource: Switched to clocksource tsc
+[    1.380045] bc250 kernel: sp5100_tco: SP5100/SB800 TCO WatchDog Timer Driver
+[    1.388018] bc250 kernel: sp5100-tco sp5100-tco: Using 0xfed80b00 for watchdog MMIO address
+[    1.392514] bc250 kernel: ACPI: video: Video Device [VGA] (multi-head: yes  rom: no  post: no)
+[    1.394032] bc250 kernel: input: Video Bus as /devices/pci0000:00/0000:00:08.1/acpi.video_bus.2/input/input3
+[    1.395016] bc250 kernel: sp5100-tco sp5100-tco: initialized. heartbeat=60 sec (nowayout=0)
+[    1.409174] bc250 kernel: Key type psk registered
+[    1.432020] bc250 kernel: nvme nvme0: pci function 0000:03:00.0
+[    1.453018] bc250 kernel: nvme nvme0: passthrough uses implicit buffer lengths
+[    1.454011] bc250 kernel: nvme nvme0: 8/0/0 default/read/poll queues
+[    1.455010] bc250 kernel: nvme nvme0: Ignoring bogus Namespace Identifiers
+[    1.457010] bc250 kernel:  nvme0n1: p1 p2 p3
+[    1.974017] bc250 kernel: amdgpu: loading out-of-tree module taints kernel.
+[    1.974089] bc250 kernel: amdgpu: module verification failed: signature and/or required key missing - tainting kernel
+[    2.198012] bc250 kernel: BTRFS: device label fedora devid 1 transid 335917 /dev/nvme0n1p3 (259:3) scanned by mount (450)
+[    2.199011] bc250 kernel: BTRFS info (device nvme0n1p3): first mount of filesystem 2f69acf9-5d80-461c-9f68-2bf833696893
+[    2.199042] bc250 kernel: BTRFS info (device nvme0n1p3): using crc32c checksum algorithm
+[    2.230033] bc250 kernel: BTRFS info (device nvme0n1p3): enabling ssd optimizations
+[    2.230073] bc250 kernel: BTRFS info (device nvme0n1p3): turning on async discard
+[    2.230093] bc250 kernel: BTRFS info (device nvme0n1p3): enabling free space tree
+[    6.396009] bc250 kernel: Setting dangerous option gpu_recovery - tainting kernel
+[    6.397008] bc250 kernel: amdgpu: Virtual CRAT table created for CPU
+[    6.397023] bc250 kernel: amdgpu: Topology: Add CPU node
+[    6.397032] bc250 kernel: amdgpu 0000:01:00.0: enabling device (0006 -> 0007)
+[    6.397247] bc250 kernel: amdgpu 0000:01:00.0: initializing kernel modesetting (CYAN_SKILLFISH 0x1002:0x13FE 0x1022:0x0000 0x00).
+[    6.397365] bc250 kernel: amdgpu 0000:01:00.0: register mmio base: 0xFE800000
+[    6.397488] bc250 kernel: amdgpu 0000:01:00.0: register mmio size: 524288
+[    6.400016] bc250 kernel: amdgpu 0000:01:00.0: detected ip block number 0 <common_v1_0_0> (nv_common)
+[    6.400272] bc250 kernel: amdgpu 0000:01:00.0: detected ip block number 1 <gmc_v10_0_0> (gmc_v10_0)
+[    6.400384] bc250 kernel: amdgpu 0000:01:00.0: detected ip block number 2 <ih_v5_0_0> (navi10_ih)
+[    6.400495] bc250 kernel: amdgpu 0000:01:00.0: detected ip block number 3 <psp_v11_0_8> (psp)
+[    6.400604] bc250 kernel: amdgpu 0000:01:00.0: detected ip block number 4 <smu_v11_0_0> (smu)
+[    6.400714] bc250 kernel: amdgpu 0000:01:00.0: detected ip block number 5 <dce_v1_0_0> (dm)
+[    6.400828] bc250 kernel: amdgpu 0000:01:00.0: detected ip block number 6 <gfx_v10_0_0> (gfx_v10_0)
+[    6.400946] bc250 kernel: amdgpu 0000:01:00.0: detected ip block number 7 <sdma_v5_0_0> (sdma_v5_0)
+[    6.401064] bc250 kernel: amdgpu 0000:01:00.0: Fetched VBIOS from VFCT
+[    6.401176] bc250 kernel: amdgpu 0000:01:00.0: [drm] ATOM BIOS: 113-AMDRBN-003, build: 584828  , ver: 016.002.000.006.000000, 2021/09/10
+[    6.419014] bc250 kernel: amdgpu 0000:01:00.0: vgaarb: deactivate vga console
+[    6.419277] bc250 kernel: amdgpu 0000:01:00.0: Trusted Memory Zone (TMZ) feature disabled as experimental (default)
+[    6.419390] bc250 kernel: amdgpu 0000:01:00.0: vm size is 262144 GB, 4 levels, block size is 9-bit, fragment size is 9-bit
+[    6.419502] bc250 kernel: amdgpu 0000:01:00.0: VRAM: 512M 0x000000F400000000 - 0x000000F41FFFFFFF (512M used)
+[    6.419616] bc250 kernel: amdgpu 0000:01:00.0: GART: 512M 0x0000000000000000 - 0x000000001FFFFFFF
+[    6.419738] bc250 kernel: amdgpu 0000:01:00.0: [drm] Detected VRAM RAM=512M, BAR=512M
+[    6.419847] bc250 kernel: amdgpu 0000:01:00.0: [drm] RAM width 1024bits UNKNOWN
+[    6.419958] bc250 kernel: amdgpu 0000:01:00.0:  512M of VRAM memory ready
+[    6.420077] bc250 kernel: amdgpu 0000:01:00.0: Capping GTT to 15196M to not exceed available system memory
+[    6.420188] bc250 kernel: amdgpu 0000:01:00.0:  15196M of GTT memory ready.
+[    6.420298] bc250 kernel: amdgpu 0000:01:00.0: [drm] GART: num cpu pages 131072, num gpu pages 131072
+[    6.420409] bc250 kernel: amdgpu 0000:01:00.0: BC-250: flush_pasid_uses_kiq=0 (param 0)
+[    6.420519] bc250 kernel: amdgpu 0000:01:00.0: [drm] PCIE GART of 512M enabled (table at 0x000000F41FE00000).
+[    6.420631] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[    6.420742] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[    6.420851] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[    6.441015] bc250 kernel: amdgpu 0000:01:00.0: reserve 0x400000 from 0xf41f800000 for PSP TMR
+[    6.477015] bc250 kernel: amdgpu 0000:01:00.0: smu driver if version = 0x00000008, smu fw if version = 0x00000008, smu fw program = 0, smu fw version = 0x00580600 (88.6.0)
+[    6.477315] bc250 kernel: amdgpu 0000:01:00.0: SMU is initialized successfully!
+[    6.477606] bc250 kernel: amdgpu 0000:01:00.0: [drm] Display Core v3.2.378 initialized on DCN 2.0.1
+[    6.479952] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 3
+[    6.480291] bc250 kernel: ------------[ cut here ]------------
+[    6.480316] bc250 kernel: WARNING: ../display/dc/irq/irq_service.c:169 at dal_irq_service_ack.cold+0x31/0x78 [amdgpu], CPU#6: (udev-worker)/394
+[    6.480338] bc250 kernel: Modules linked in: amdgpu(OE+) drm_buddy amdxcp i2c_algo_bit drm_ttm_helper ttm nvme drm_exec drm_panel_backlight_quirks nvme_core gpu_sched drm_suballoc_helper drm_display_helper nvme_keyring serio_raw nvme_auth video cec sp5100_tco wmi i2c_dev fuse nct6683
+[    6.480362] bc250 kernel: CPU: 6 UID: 0 PID: 394 Comm: (udev-worker) Tainted: G     U     OE       7.1.8-100.fc43.x86_64 #1 PREEMPT(lazy) 
+[    6.480383] bc250 kernel: Tainted: [U]=USER, [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+[    6.480404] bc250 kernel: Hardware name: Default string AMD BC-250/AMD BC-250, BIOS P3.00 12/09/2021
+[    6.481262] bc250 kernel: RIP: 0010:dal_irq_service_ack.cold+0x31/0x78 [amdgpu]
+[    6.481292] bc250 kernel: Code: 48 8b 38 48 85 ff 74 04 48 8b 7f 08 89 f1 48 c7 c2 d0 84 b0 c1 48 c7 c6 eb e0 c9 c1 4c 89 04 24 4c 89 4c 24 08 e8 81 38 64 c9 <0f> 0b 4c 8b 04 24 4c 8b 4c 24 08 49 8b 40 28 48 8b 40 08 e9 94 a8
+[    6.481316] bc250 kernel: RSP: 0018:ffffd02d407f75c0 EFLAGS: 00010246
+[    6.481337] bc250 kernel: RAX: 0000000000000000 RBX: ffffffffc1b122d0 RCX: 0000000000000000
+[    6.481358] bc250 kernel: RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff8acb4071d440
+[    6.481379] bc250 kernel: RBP: ffff8ac800e0cbc0 R08: 0000000000000000 R09: ffffd02d407f7380
+[    6.481399] bc250 kernel: R10: ffffffff8d369290 R11: 3fffffffffffdfff R12: 0000000000000000
+[    6.481420] bc250 kernel: R13: 0000000000000003 R14: ffffffffc1a592d0 R15: ffffffffc1a592d0
+[    6.481440] bc250 kernel: FS:  00007f30b501fc00(0000) GS:ffff8acbb2497000(0000) knlGS:0000000000000000
+[    6.481464] bc250 kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    6.481485] bc250 kernel: CR2: 00007f145d15b754 CR3: 000000010d5b0000 CR4: 0000000000350ef0
+[    6.481506] bc250 kernel: Call Trace:
+[    6.481527] bc250 kernel:  <TASK>
+[    6.482726] bc250 kernel:  dal_irq_service_set+0x3e/0x100 [amdgpu]
+[    6.484069] bc250 kernel:  ? __pfx_dm_hw_init+0x10/0x10 [amdgpu]
+[    6.485356] bc250 kernel:  amdgpu_dm_hpd_init+0x4f/0x150 [amdgpu]
+[    6.486512] bc250 kernel:  ? __pfx_dm_hw_init+0x10/0x10 [amdgpu]
+[    6.487568] bc250 kernel:  dm_hw_init+0x36/0x90 [amdgpu]
+[    6.488457] bc250 kernel:  amdgpu_device_ip_init+0x690/0x803 [amdgpu]
+[    6.489270] bc250 kernel:  amdgpu_device_init.cold+0x43d/0x784 [amdgpu]
+[    6.489294] bc250 kernel:  ? do_pci_enable_device+0x119/0x190
+[    6.490452] bc250 kernel:  amdgpu_driver_load_kms+0x19/0x80 [amdgpu]
+[    6.490474] bc250 kernel:  amdgpu_pci_probe+0x19b/0x550 [amdgpu]
+[    6.490496] bc250 kernel:  ? __pm_runtime_resume+0x5f/0x90
+[    6.490518] bc250 kernel:  local_pci_probe+0x3e/0x90
+[    6.490539] bc250 kernel:  pci_call_probe+0x59/0x190
+[    6.490560] bc250 kernel:  ? pci_match_device+0x15f/0x180
+[    6.490585] bc250 kernel:  ? pci_assign_irq+0x2d/0x160
+[    6.490608] bc250 kernel:  pci_device_probe+0x95/0x170
+[    6.490630] bc250 kernel:  call_driver_probe+0x26/0x100
+[    6.490651] bc250 kernel:  ? driver_sysfs_add+0x59/0xd0
+[    6.490674] bc250 kernel:  really_probe+0xcc/0x2c0
+[    6.490695] bc250 kernel:  __driver_probe_device+0x84/0x170
+[    6.490717] bc250 kernel:  driver_probe_device+0x1f/0xa0
+[    6.490740] bc250 kernel:  ? __pfx___driver_attach+0x10/0x10
+[    6.490764] bc250 kernel:  __driver_attach+0xcb/0x210
+[    6.490785] bc250 kernel:  bus_for_each_dev+0x85/0xd0
+[    6.490806] bc250 kernel:  bus_add_driver+0x13c/0x220
+[    6.491048] bc250 kernel:  ? __pfx_amdgpu_init+0x10/0x10 [amdgpu]
+[    6.491071] bc250 kernel:  driver_register+0x75/0xe0
+[    6.492314] bc250 kernel:  ? amdgpu_init+0x24/0xff0 [amdgpu]
+[    6.492336] bc250 kernel:  do_one_initcall+0x5d/0x320
+[    6.492357] bc250 kernel:  do_init_module+0x84/0x290
+[    6.492377] bc250 kernel:  init_module_from_file+0xd8/0x140
+[    6.492401] bc250 kernel:  idempotent_init_module+0x114/0x310
+[    6.492422] bc250 kernel:  __x64_sys_finit_module+0x71/0xe0
+[    6.492443] bc250 kernel:  do_syscall_64+0xe2/0x560
+[    6.492463] bc250 kernel:  ? __x64_sys_pread64+0x9c/0xd0
+[    6.492484] bc250 kernel:  ? do_syscall_64+0x11f/0x560
+[    6.492505] bc250 kernel:  ? ima_file_check+0x5f/0x90
+[    6.492525] bc250 kernel:  ? security_file_post_open+0x50/0xf0
+[    6.492546] bc250 kernel:  ? dput.part.0+0x27/0x110
+[    6.492567] bc250 kernel:  ? mntput+0x21/0x60
+[    6.492587] bc250 kernel:  ? terminate_walk+0xb4/0x100
+[    6.492611] bc250 kernel:  ? path_openat+0x116/0x2a0
+[    6.492632] bc250 kernel:  ? do_file_open+0xe3/0x190
+[    6.492652] bc250 kernel:  ? __x64_sys_pread64+0x9c/0xd0
+[    6.492672] bc250 kernel:  ? __pfx_page_put_link+0x10/0x10
+[    6.492692] bc250 kernel:  ? do_sys_openat2+0x9a/0xe0
+[    6.492713] bc250 kernel:  ? __seccomp_filter+0x52/0x380
+[    6.492733] bc250 kernel:  ? do_syscall_64+0x99/0x560
+[    6.492754] bc250 kernel:  ? exc_page_fault+0x82/0x1d0
+[    6.492775] bc250 kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[    6.492801] bc250 kernel: RIP: 0033:0x7f30b598b38d
+[    6.492831] bc250 kernel: Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 43 5a 0f 00 f7 d8 64 89 01 48
+[    6.492856] bc250 kernel: RSP: 002b:00007ffe9871b128 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+[    6.492878] bc250 kernel: RAX: ffffffffffffffda RBX: 000055c5e23701e0 RCX: 00007f30b598b38d
+[    6.492899] bc250 kernel: RDX: 0000000000000004 RSI: 000055c5e2371c70 RDI: 000000000000002e
+[    6.492922] bc250 kernel: RBP: 00007ffe9871b1c0 R08: 0000000000000000 R09: 00007ffe9871b160
+[    6.492943] bc250 kernel: R10: 0000000000000000 R11: 0000000000000246 R12: 000055c5e2371c70
+[    6.492963] bc250 kernel: R13: 0000000000020000 R14: 000055c5e236cea0 R15: 0000000000000000
+[    6.492984] bc250 kernel:  </TASK>
+[    6.493011] bc250 kernel: ---[ end trace 0000000000000000 ]---
+[    6.493032] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.493298] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 3, st: 0
+[    6.493415] bc250 kernel: ------------[ cut here ]------------
+[    6.493426] bc250 kernel: WARNING: ../display/dc/irq/irq_service.c:129 at dal_irq_service_set.cold+0x5e/0x7a [amdgpu], CPU#6: (udev-worker)/394
+[    6.493438] bc250 kernel: Modules linked in: amdgpu(OE+) drm_buddy amdxcp i2c_algo_bit drm_ttm_helper ttm nvme drm_exec drm_panel_backlight_quirks nvme_core gpu_sched drm_suballoc_helper drm_display_helper nvme_keyring serio_raw nvme_auth video cec sp5100_tco wmi i2c_dev fuse nct6683
+[    6.493447] bc250 kernel: CPU: 6 UID: 0 PID: 394 Comm: (udev-worker) Tainted: G     U  W  OE       7.1.8-100.fc43.x86_64 #1 PREEMPT(lazy) 
+[    6.493457] bc250 kernel: Tainted: [U]=USER, [W]=WARN, [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+[    6.493466] bc250 kernel: Hardware name: Default string AMD BC-250/AMD BC-250, BIOS P3.00 12/09/2021
+[    6.493474] bc250 kernel: RIP: 0010:dal_irq_service_set.cold+0x5e/0x7a [amdgpu]
+[    6.493483] bc250 kernel: Code: 00 48 8b 40 10 48 8b 38 48 85 ff 74 04 48 8b 7f 08 45 89 e0 44 89 e9 48 c7 c2 90 85 b0 c1 48 c7 c6 ff e0 c9 c1 e8 dc 37 64 c9 <0f> 0b 48 8b 43 28 48 8b 00 e9 dd a8 cc ff 66 2e 0f 1f 84 00 00 00
+[    6.493493] bc250 kernel: RSP: 0018:ffffd02d407f75e0 EFLAGS: 00010246
+[    6.493502] bc250 kernel: RAX: 0000000000000000 RBX: ffffffffc1b122d0 RCX: 0000000000000027
+[    6.493511] bc250 kernel: RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff8acb4071d440
+[    6.493522] bc250 kernel: RBP: ffff8ac800e0cbc0 R08: 0000000000000000 R09: ffffd02d407f73a0
+[    6.493531] bc250 kernel: R10: ffffffff8d369290 R11: 3fffffffffffdfff R12: 0000000000000000
+[    6.493539] bc250 kernel: R13: 0000000000000003 R14: ffffffffc1a592d0 R15: ffffffffc1a592d0
+[    6.493548] bc250 kernel: FS:  00007f30b501fc00(0000) GS:ffff8acbb2497000(0000) knlGS:0000000000000000
+[    6.493557] bc250 kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    6.493565] bc250 kernel: CR2: 00007f145d15b754 CR3: 000000010d5b0000 CR4: 0000000000350ef0
+[    6.493574] bc250 kernel: Call Trace:
+[    6.493583] bc250 kernel:  <TASK>
+[    6.493592] bc250 kernel:  ? __pfx_dm_hw_init+0x10/0x10 [amdgpu]
+[    6.494093] bc250 kernel:  amdgpu_dm_hpd_init+0x4f/0x150 [amdgpu]
+[    6.495188] bc250 kernel:  ? __pfx_dm_hw_init+0x10/0x10 [amdgpu]
+[    6.495198] bc250 kernel:  dm_hw_init+0x36/0x90 [amdgpu]
+[    6.496171] bc250 kernel:  amdgpu_device_ip_init+0x690/0x803 [amdgpu]
+[    6.496193] bc250 kernel:  amdgpu_device_init.cold+0x43d/0x784 [amdgpu]
+[    6.496213] bc250 kernel:  ? do_pci_enable_device+0x119/0x190
+[    6.497385] bc250 kernel:  amdgpu_driver_load_kms+0x19/0x80 [amdgpu]
+[    6.497406] bc250 kernel:  amdgpu_pci_probe+0x19b/0x550 [amdgpu]
+[    6.497426] bc250 kernel:  ? __pm_runtime_resume+0x5f/0x90
+[    6.497447] bc250 kernel:  local_pci_probe+0x3e/0x90
+[    6.497467] bc250 kernel:  pci_call_probe+0x59/0x190
+[    6.497488] bc250 kernel:  ? pci_match_device+0x15f/0x180
+[    6.497512] bc250 kernel:  ? pci_assign_irq+0x2d/0x160
+[    6.497532] bc250 kernel:  pci_device_probe+0x95/0x170
+[    6.497553] bc250 kernel:  call_driver_probe+0x26/0x100
+[    6.497573] bc250 kernel:  ? driver_sysfs_add+0x59/0xd0
+[    6.497593] bc250 kernel:  really_probe+0xcc/0x2c0
+[    6.497612] bc250 kernel:  __driver_probe_device+0x84/0x170
+[    6.497634] bc250 kernel:  driver_probe_device+0x1f/0xa0
+[    6.497655] bc250 kernel:  ? __pfx___driver_attach+0x10/0x10
+[    6.497675] bc250 kernel:  __driver_attach+0xcb/0x210
+[    6.497699] bc250 kernel:  bus_for_each_dev+0x85/0xd0
+[    6.497719] bc250 kernel:  bus_add_driver+0x13c/0x220
+[    6.497739] bc250 kernel:  ? __pfx_amdgpu_init+0x10/0x10 [amdgpu]
+[    6.497759] bc250 kernel:  driver_register+0x75/0xe0
+[    6.497779] bc250 kernel:  ? amdgpu_init+0x24/0xff0 [amdgpu]
+[    6.497799] bc250 kernel:  do_one_initcall+0x5d/0x320
+[    6.497819] bc250 kernel:  do_init_module+0x84/0x290
+[    6.497840] bc250 kernel:  init_module_from_file+0xd8/0x140
+[    6.497861] bc250 kernel:  idempotent_init_module+0x114/0x310
+[    6.497881] bc250 kernel:  __x64_sys_finit_module+0x71/0xe0
+[    6.497901] bc250 kernel:  do_syscall_64+0xe2/0x560
+[    6.497924] bc250 kernel:  ? __x64_sys_pread64+0x9c/0xd0
+[    6.497944] bc250 kernel:  ? do_syscall_64+0x11f/0x560
+[    6.497964] bc250 kernel:  ? ima_file_check+0x5f/0x90
+[    6.497984] bc250 kernel:  ? security_file_post_open+0x50/0xf0
+[    6.498010] bc250 kernel:  ? dput.part.0+0x27/0x110
+[    6.498031] bc250 kernel:  ? mntput+0x21/0x60
+[    6.498051] bc250 kernel:  ? terminate_walk+0xb4/0x100
+[    6.498071] bc250 kernel:  ? path_openat+0x116/0x2a0
+[    6.498091] bc250 kernel:  ? do_file_open+0xe3/0x190
+[    6.498111] bc250 kernel:  ? __x64_sys_pread64+0x9c/0xd0
+[    6.498130] bc250 kernel:  ? __pfx_page_put_link+0x10/0x10
+[    6.498153] bc250 kernel:  ? do_sys_openat2+0x9a/0xe0
+[    6.498173] bc250 kernel:  ? __seccomp_filter+0x52/0x380
+[    6.498193] bc250 kernel:  ? do_syscall_64+0x99/0x560
+[    6.498214] bc250 kernel:  ? exc_page_fault+0x82/0x1d0
+[    6.498234] bc250 kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[    6.498248] bc250 kernel: RIP: 0033:0x7f30b598b38d
+[    6.498256] bc250 kernel: Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 43 5a 0f 00 f7 d8 64 89 01 48
+[    6.498265] bc250 kernel: RSP: 002b:00007ffe9871b128 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+[    6.498273] bc250 kernel: RAX: ffffffffffffffda RBX: 000055c5e23701e0 RCX: 00007f30b598b38d
+[    6.498281] bc250 kernel: RDX: 0000000000000004 RSI: 000055c5e2371c70 RDI: 000000000000002e
+[    6.498290] bc250 kernel: RBP: 00007ffe9871b1c0 R08: 0000000000000000 R09: 00007ffe9871b160
+[    6.498300] bc250 kernel: R10: 0000000000000000 R11: 0000000000000246 R12: 000055c5e2371c70
+[    6.498308] bc250 kernel: R13: 0000000000020000 R14: 000055c5e236cea0 R15: 0000000000000000
+[    6.498317] bc250 kernel:  </TASK>
+[    6.498325] bc250 kernel: ---[ end trace 0000000000000000 ]---
+[    6.498333] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.498455] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=3 on init
+[    6.498568] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 4
+[    6.498711] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.498856] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 4, st: 0
+[    6.498990] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.499114] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=4 on init
+[    6.499228] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 5
+[    6.499339] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.499474] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 5, st: 0
+[    6.499588] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.499698] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=5 on init
+[    6.499816] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 6
+[    6.499931] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.500053] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 6, st: 0
+[    6.500165] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.500280] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=6 on init
+[    6.500389] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 9
+[    6.500499] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.500608] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 9, st: 0
+[    6.500716] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.500825] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=9 on init
+[    6.500935] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 10
+[    6.501057] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.501170] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 10, st: 0
+[    6.501287] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.501398] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=10 on init
+[    6.501507] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 11
+[    6.501616] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.501725] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 11, st: 0
+[    6.501835] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.501943] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=11 on init
+[    6.502063] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 12
+[    6.502175] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.502285] bc250 kernel: amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 12, st: 0
+[    6.502395] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[    6.502509] bc250 kernel: amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=12 on init
+[    6.502619] bc250 kernel: amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=0 CC=0xfff80000->0xffe00000 SPI=0x00000007->0x0000001f
+[    6.502729] bc250 kernel: amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=1 CC=0xfff80000->0xffe00000 SPI=0x00000007->0x0000001f
+[    6.502838] bc250 kernel: amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x00000007->0x0000001f
+[    6.502948] bc250 kernel: amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x00000007->0x0000001f
+[    6.503066] bc250 kernel: amdgpu 0000:01:00.0: kiq ring mec 2 pipe 1 q 0
+[    7.007033] bc250 kernel: amdgpu 0000:01:00.0: Fence fallback timer expired on ring sdma0
+[    7.007387] bc250 kernel: kfd kfd: Allocated 3969056 bytes on gart
+[    7.007622] bc250 kernel: kfd kfd: Total number of KFD nodes to be created: 1
+[    7.511026] bc250 kernel: amdgpu 0000:01:00.0: Fence fallback timer expired on ring sdma0
+[    7.511391] bc250 kernel: amdgpu: Virtual CRAT table created for GPU
+[    7.511419] bc250 kernel: amdgpu: Topology: Add GPU node [0x1002:0x13fe]
+[    7.511442] bc250 kernel: kfd kfd: added device 1002:13fe
+[    7.511787] bc250 kernel: amdgpu 0000:01:00.0: SE 2, SH per SE 2, CU per SH 10, active_cu_number 40
+[    7.512141] bc250 kernel: amdgpu 0000:01:00.0: ring gfx_0.0.0 uses VM inv eng 0 on hub 0
+[    7.512431] bc250 kernel: amdgpu 0000:01:00.0: ring comp_1.0.0 uses VM inv eng 1 on hub 0
+[    7.512712] bc250 kernel: amdgpu 0000:01:00.0: ring comp_1.1.0 uses VM inv eng 4 on hub 0
+[    7.512986] bc250 kernel: amdgpu 0000:01:00.0: ring comp_1.2.0 uses VM inv eng 5 on hub 0
+[    7.513276] bc250 kernel: amdgpu 0000:01:00.0: ring comp_1.3.0 uses VM inv eng 6 on hub 0
+[    7.513546] bc250 kernel: amdgpu 0000:01:00.0: ring comp_1.0.1 uses VM inv eng 7 on hub 0
+[    7.513823] bc250 kernel: amdgpu 0000:01:00.0: ring comp_1.1.1 uses VM inv eng 8 on hub 0
+[    7.514109] bc250 kernel: amdgpu 0000:01:00.0: ring comp_1.2.1 uses VM inv eng 9 on hub 0
+[    7.514385] bc250 kernel: amdgpu 0000:01:00.0: ring comp_1.3.1 uses VM inv eng 10 on hub 0
+[    7.514655] bc250 kernel: amdgpu 0000:01:00.0: ring kiq_0.2.1.0 uses VM inv eng 11 on hub 0
+[    7.514929] bc250 kernel: amdgpu 0000:01:00.0: ring sdma0 uses VM inv eng 12 on hub 0
+[    7.515210] bc250 kernel: amdgpu 0000:01:00.0: ring sdma1 uses VM inv eng 13 on hub 0
+[    7.515482] bc250 kernel: amdgpu 0000:01:00.0: Runtime PM not available
+[    7.515755] bc250 kernel: amdgpu 0000:01:00.0: [drm] Registered 2 planes with drm panic
+[    7.522016] bc250 kernel: [drm] Initialized amdgpu 3.64.0 for 0000:01:00.0 on minor 0
+[    7.522052] bc250 kernel: amdgpu 0000:01:00.0: [drm] Cannot find any crtc or sizes
+[    8.708330] bc250 systemd-journald[265]: Received SIGTERM from PID 1 (systemd).
+[    8.710902] bc250 kernel: audit: type=1404 audit(1789430624.310:2): enforcing=1 old_enforcing=0 auid=4294967295 ses=4294967295 enabled=1 old-enabled=1 lsm=selinux res=1
+[    8.710927] bc250 kernel: SELinux:  Permission firmware_load in class system not defined in policy.
+[    8.710946] bc250 kernel: SELinux:  Permission kexec_image_load in class system not defined in policy.
+[    8.710961] bc250 kernel: SELinux:  Permission kexec_initramfs_load in class system not defined in policy.
+[    8.710976] bc250 kernel: SELinux:  Permission policy_load in class system not defined in policy.
+[    8.710992] bc250 kernel: SELinux:  Permission x509_certificate_load in class system not defined in policy.
+[    8.711352] bc250 kernel: SELinux:  Permission map_create_as in class bpf not defined in policy.
+[    8.711372] bc250 kernel: SELinux:  Permission prog_load_as in class bpf not defined in policy.
+[    8.711387] bc250 kernel: SELinux:  Permission allowed in class io_uring not defined in policy.
+[    8.711404] bc250 kernel: SELinux:  Class memfd_file not defined in policy.
+[    8.711418] bc250 kernel: SELinux: the above unknown classes and permissions will be allowed
+[    8.711431] bc250 kernel: SELinux:  policy capability network_peer_controls=1
+[    8.711447] bc250 kernel: SELinux:  policy capability open_perms=1
+[    8.711464] bc250 kernel: SELinux:  policy capability extended_socket_class=1
+[    8.711480] bc250 kernel: SELinux:  policy capability always_check_network=0
+[    8.711496] bc250 kernel: SELinux:  policy capability cgroup_seclabel=1
+[    8.711510] bc250 kernel: SELinux:  policy capability nnp_nosuid_transition=1
+[    8.711525] bc250 kernel: SELinux:  policy capability genfs_seclabel_symlinks=1
+[    8.711541] bc250 kernel: SELinux:  policy capability ioctl_skip_cloexec=0
+[    8.711557] bc250 kernel: SELinux:  policy capability userspace_initial_context=0
+[    8.711569] bc250 kernel: SELinux:  policy capability netlink_xperm=0
+[    8.711583] bc250 kernel: SELinux:  policy capability netif_wildcard=0
+[    8.711597] bc250 kernel: SELinux:  policy capability genfs_seclabel_wildcard=0
+[    8.711608] bc250 kernel: SELinux:  policy capability functionfs_seclabel=0
+[    8.711622] bc250 kernel: SELinux:  policy capability memfd_class=0
+[    8.711636] bc250 kernel: SELinux:  policy capability bpf_token_perms=0
+[    8.711647] bc250 kernel: audit: type=1403 audit(1789430624.374:3): auid=4294967295 ses=4294967295 lsm=selinux res=1
+[    8.711664] bc250 systemd[1]: Successfully loaded SELinux policy in 65.709ms.
+[    8.711688] bc250 systemd[1]: RTC configured in localtime, applying delta of 120 minutes to system time.
+[    8.711705] bc250 systemd[1]: Relabeled /dev/, /dev/shm/, /run/ in 10.213ms.
+[    8.711723] bc250 systemd[1]: systemd 258.7-1.fc43 running in system mode (+PAM +AUDIT +SELINUX -APPARMOR +IMA +IPE +SMACK +SECCOMP -GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN -IPTC +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK +BTF +XKBCOMMON +UTMP +SYSVINIT +LIBARCHIVE)
+[    8.711739] bc250 systemd[1]: Detected architecture x86-64.
+[    8.711753] bc250 systemd[1]: bpf-restrict-fs: LSM BPF program attached
+[    8.711768] bc250 kernel: zram: Added device: zram0
+[    8.711784] bc250 kernel: audit: type=1400 audit(1789423425.194:4): avc:  denied  { getattr } for  pid=1 comm="systemd" path="socket:[5262]" dev="sockfs" ino=5262 scontext=system_u:system_r:init_t:s0 tcontext=system_u:system_r:kernel_t:s0 tclass=netlink_kobject_uevent_socket permissive=0
+[    8.711800] bc250 systemd[1]: initrd-switch-root.service: Deactivated successfully.
+[    8.711815] bc250 systemd[1]: Stopped initrd-switch-root.service - Switch Root.
+[    8.711830] bc250 systemd[1]: systemd-journald.service: Scheduled restart job, restart counter is at 1.
+[    8.711844] bc250 systemd[1]: Created slice machine.slice - Virtual Machine and Container Slice.
+[    8.711862] bc250 systemd[1]: Created slice system-getty.slice - Slice /system/getty.
+[    8.711878] bc250 systemd[1]: Created slice system-sshd\x2dkeygen.slice - Slice /system/sshd-keygen.
+[    8.711894] bc250 systemd[1]: Created slice system-systemd\x2dfsck.slice - Slice /system/systemd-fsck.
+[    8.711911] bc250 systemd[1]: Created slice user.slice - User and Session Slice.
+[    8.711927] bc250 systemd[1]: systemd-ask-password-console.path - Dispatch Password Requests to Console Directory Watch skipped, unmet condition check ConditionPathExists=!/run/plymouth/pid
+[    8.711943] bc250 systemd[1]: Started systemd-ask-password-wall.path - Forward Password Requests to Wall Directory Watch.
+[    8.711959] bc250 systemd[1]: Set up automount proc-sys-fs-binfmt_misc.automount - Arbitrary Executable File Formats File System Automount Point.
+[    8.711972] bc250 systemd[1]: Expecting device dev-disk-by\x2duuid-24906ea3\x2d66db\x2d45a5\x2d9082\x2d24d815d9ca9e.device - /dev/disk/by-uuid/24906ea3-66db-45a5-9082-24d815d9ca9e...
+[    8.711989] bc250 systemd[1]: Expecting device dev-disk-by\x2duuid-2f69acf9\x2d5d80\x2d461c\x2d9f68\x2d2bf833696893.device - /dev/disk/by-uuid/2f69acf9-5d80-461c-9f68-2bf833696893...
+[    8.712010] bc250 systemd[1]: Expecting device dev-disk-by\x2duuid-3E81\x2d060D.device - /dev/disk/by-uuid/3E81-060D...
+[    8.712025] bc250 systemd[1]: Reached target cryptsetup.target - Local Encrypted Volumes.
+[    8.712040] bc250 systemd[1]: Reached target imports.target - Image Downloads.
+[    8.712056] bc250 systemd[1]: Stopped target initrd-switch-root.target - Switch Root.
+[    8.712070] bc250 systemd[1]: Stopped target initrd-fs.target - Initrd File Systems.
+[    8.712084] bc250 systemd[1]: Stopped target initrd-root-fs.target - Initrd Root File System.
+[    8.712101] bc250 systemd[1]: Reached target integritysetup.target - Local Integrity Protected Volumes.
+[    8.712115] bc250 systemd[1]: Reached target slices.target - Slice Units.
+[    8.712130] bc250 systemd[1]: Reached target veritysetup.target - Local Verity Protected Volumes.
+[    8.712145] bc250 systemd[1]: Listening on dm-event.socket - Device-mapper event daemon FIFOs.
+[    8.712160] bc250 systemd[1]: Listening on lvm2-lvmpolld.socket - LVM2 poll daemon socket.
+[    8.712176] bc250 systemd[1]: Listening on systemd-ask-password.socket - Query the User Interactively for a Password.
+[    8.712190] bc250 systemd[1]: Listening on systemd-coredump.socket - Process Core Dump Socket.
+[    8.712202] bc250 systemd[1]: Listening on systemd-creds.socket - Credential Encryption/Decryption.
+[    8.712219] bc250 systemd[1]: Listening on systemd-factory-reset.socket - Factory Reset Management.
+[    8.712234] bc250 systemd[1]: Listening on systemd-journald-audit.socket - Journal Audit Socket.
+[    8.712248] bc250 systemd[1]: systemd-pcrextend.socket - TPM PCR Measurements skipped, unmet condition check ConditionSecurity=measured-uki
+[    8.712260] bc250 systemd[1]: systemd-pcrlock.socket - Make TPM PCR Policy skipped, unmet condition check ConditionSecurity=measured-uki
+[    8.712276] bc250 systemd[1]: Listening on systemd-resolved-monitor.socket - Resolve Monitor Varlink Socket.
+[    8.712292] bc250 systemd[1]: Listening on systemd-resolved-varlink.socket - Resolve Service Varlink Socket.
+[    8.712307] bc250 systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
+[    8.712323] bc250 systemd[1]: Listening on systemd-udevd-varlink.socket - udev Varlink Socket.
+[    8.712338] bc250 systemd[1]: Listening on systemd-userdbd.socket - User Database Manager Socket.
+[    8.712354] bc250 systemd[1]: Mounting dev-hugepages.mount - Huge Pages File System...
+[    8.712367] bc250 systemd[1]: Mounting dev-mqueue.mount - POSIX Message Queue File System...
+[    8.712383] bc250 systemd[1]: Mounting sys-kernel-debug.mount - Kernel Debug File System...
+[    8.712395] bc250 systemd[1]: Mounting sys-kernel-tracing.mount - Kernel Trace File System...
+[    8.712409] bc250 systemd[1]: auth-rpcgss-module.service - Kernel Module supporting RPCSEC_GSS skipped, unmet condition check ConditionPathExists=/etc/krb5.keytab
+[    8.712422] bc250 systemd[1]: fips-crypto-policy-overlay.service - Bind-mount FIPS crypto-policy in FIPS mode skipped, unmet condition check ConditionKernelCommandLine=fips=1
+[    8.712438] bc250 systemd[1]: iscsi-starter.service skipped, unmet condition check ConditionDirectoryNotEmpty=/var/lib/iscsi/nodes
+[    8.712450] bc250 systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
+[    8.712464] bc250 systemd[1]: Starting lvm2-monitor.service - Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
+[    8.712478] bc250 systemd[1]: modprobe@configfs.service - Load Kernel Module configfs skipped, unmet condition check ConditionKernelModuleLoaded=!configfs
+[    8.712492] bc250 systemd[1]: modprobe@dm_mod.service - Load Kernel Module dm_mod skipped, unmet condition check ConditionKernelModuleLoaded=!dm_mod
+[    8.712506] bc250 systemd[1]: modprobe@drm.service - Load Kernel Module drm skipped, unmet condition check ConditionKernelModuleLoaded=!drm
+[    8.712520] bc250 systemd[1]: modprobe@fuse.service - Load Kernel Module fuse skipped, unmet condition check ConditionKernelModuleLoaded=!fuse
+[    8.712534] bc250 systemd[1]: Mounting sys-fs-fuse-connections.mount - FUSE Control File System...
+[    8.712547] bc250 systemd[1]: Starting modprobe@loop.service - Load Kernel Module loop...
+[    8.712559] bc250 systemd[1]: plymouth-switch-root.service: Deactivated successfully.
+[    8.712572] bc250 systemd[1]: Stopped plymouth-switch-root.service - Plymouth switch root service.
+[    8.712588] bc250 systemd[1]: systemd-boot-clear-sysfail.service - Clear SysFail Entry If The Boot Is Successful skipped, unmet condition check ConditionPathExists=/sys/firmware/efi/efivars/LoaderEntrySysFail-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f
+[    8.712603] bc250 systemd[1]: systemd-fsck-root.service: Deactivated successfully.
+[    8.712617] bc250 systemd[1]: Stopped systemd-fsck-root.service - File System Check on Root Device.
+[    8.712631] bc250 systemd[1]: systemd-hibernate-clear.service - Clear Stale Hibernate Storage Info skipped, unmet condition check ConditionPathExists=/sys/firmware/efi/efivars/HibernateLocation-8cf2644b-4b0b-428f-9387-6d876050dc67
+[    8.712644] bc250 systemd[1]: Starting systemd-journald.service - Journal Service...
+[    8.712656] bc250 systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
+[    8.712668] bc250 systemd[1]: Starting systemd-network-generator.service - Generate Network Units from Kernel Command Line...
+[    8.712684] bc250 systemd[1]: systemd-pcrmachine.service - TPM PCR Machine ID Measurement skipped, unmet condition check ConditionSecurity=measured-uki
+[    8.712699] bc250 systemd[1]: Starting systemd-remount-fs.service - Remount Root and Kernel File Systems...
+[    8.712714] bc250 systemd[1]: systemd-tpm2-setup-early.service - Early TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-uki
+[    8.712726] bc250 systemd[1]: Starting systemd-udev-load-credentials.service - Load udev Rules from Credentials...
+[    8.712739] bc250 systemd[1]: Starting systemd-udev-trigger.service - Coldplug All udev Devices...
+[    8.712751] bc250 kernel: loop: module loaded
+[    8.712762] bc250 systemd[1]: Mounted dev-hugepages.mount - Huge Pages File System.
+[    8.712777] bc250 systemd[1]: Mounted dev-mqueue.mount - POSIX Message Queue File System.
+[    8.712791] bc250 systemd[1]: Mounted sys-kernel-debug.mount - Kernel Debug File System.
+[    8.712806] bc250 systemd[1]: Mounted sys-kernel-tracing.mount - Kernel Trace File System.
+[    8.712820] bc250 systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+[    8.712834] bc250 systemd[1]: Mounted sys-fs-fuse-connections.mount - FUSE Control File System.
+[    8.712846] bc250 systemd[1]: modprobe@loop.service: Deactivated successfully.
+[    8.712861] bc250 systemd[1]: Finished modprobe@loop.service - Load Kernel Module loop.
+[    8.712875] bc250 systemd[1]: systemd-repart.service - Repartition Root Disk skipped, no trigger condition checks were met.
+[    8.712889] bc250 kernel: BTRFS info (device nvme0n1p3 state M): use zstd compression, level 1
+[    8.712902] bc250 systemd[1]: Starting systemd-tmpfiles-setup-dev-early.service - Create Static Device Nodes in /dev gracefully...
+[    8.712913] bc250 systemd[1]: Finished systemd-modules-load.service - Load Kernel Modules.
+[    8.712928] bc250 systemd[1]: Finished systemd-network-generator.service - Generate Network Units from Kernel Command Line.
+[    8.712940] bc250 systemd[1]: Finished systemd-remount-fs.service - Remount Root and Kernel File Systems.
+[    8.712952] bc250 systemd[1]: Activating swap swapfile.swap - /swapfile...
+[    8.712964] bc250 systemd[1]: iscsi-onboot.service - Special handling of early boot iSCSI sessions skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/class/iscsi_session
+[    8.712979] bc250 systemd[1]: systemd-hwdb-update.service - Rebuild Hardware Database skipped, unmet condition check ConditionNeedsUpdate=/etc
+[    8.712994] bc250 systemd[1]: Starting systemd-random-seed.service - Load/Save OS Random Seed...
+[    8.713012] bc250 systemd[1]: Starting systemd-sysctl.service - Apply Kernel Variables...
+[    8.713028] bc250 systemd[1]: systemd-tpm2-setup.service - TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-uki
+[    8.713043] bc250 systemd[1]: Finished systemd-udev-load-credentials.service - Load udev Rules from Credentials.
+[    8.713087] bc250 systemd-journald[587]: Collecting audit messages is enabled.
+[    8.713125] bc250 systemd-journald[587]: /run/log/journal/9bca8abff4f34d0c918a839fbf659b1d/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+[    8.713146] bc250 kernel: Adding 16777212k swap on /swapfile.  Priority:10 extents:18 across:26214400k SS
+[    8.713160] bc250 systemd[1]: Activated swap swapfile.swap - /swapfile.
+[    8.713172] bc250 systemd[1]: Reached target swap.target - Swaps.
+[    8.714164] bc250 systemd[1]: Started systemd-journald.service - Journal Service.
+[    8.714261] bc250 kernel: audit: type=1130 audit(1789423425.299:5): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-journald comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[    8.732006] bc250 kernel: audit: type=1130 audit(1789423425.317:6): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=lvm2-monitor comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[    8.907847] bc250 systemd-journald[587]: Received client request to flush runtime journal.
+[    8.908127] bc250 kernel: audit: type=1130 audit(1789423425.343:7): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-random-seed comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[    8.908253] bc250 kernel: audit: type=1130 audit(1789423425.348:8): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-sysctl comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[    8.908365] bc250 kernel: audit: type=1334 audit(1789423425.354:9): prog-id=48 op=LOAD
+[    8.908414] bc250 kernel: audit: type=1334 audit(1789423425.354:10): prog-id=49 op=LOAD
+[    8.908455] bc250 kernel: audit: type=1334 audit(1789423425.354:11): prog-id=50 op=LOAD
+[    8.908505] bc250 systemd-journald[587]: /var/log/journal/9bca8abff4f34d0c918a839fbf659b1d/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+[    8.908590] bc250 systemd-journald[587]: Rotating system journal.
+[    9.096017] bc250 kernel: piix4_smbus 0000:00:14.0: SMBus Host Controller at 0xb00, revision 0
+[    9.100262] bc250 kernel: piix4_smbus 0000:00:14.0: Using register 0x2e for SMBus port selection
+[    9.112021] bc250 kernel: piix4_smbus 0000:00:14.0: Auxiliary SMBus Host Controller at 0xb20
+[    9.130040] bc250 kernel: RAPL PMU: API unit is 2^-32 Joules, 0 fixed counters, 10737418240 ms ovfl timer
+[    9.134861] bc250 kernel: MCE: In-kernel MCE decoding enabled.
+[    9.156318] bc250 kernel: r8169 0000:04:00.0: enabling device (0000 -> 0003)
+[    9.189044] bc250 kernel: r8169 0000:04:00.0 eth0: RTL8168h/8111h, a8:a1:59:b5:e9:1d, XID 541, IRQ 48
+[    9.189355] bc250 kernel: r8169 0000:04:00.0 eth0: jumbo features [frames: 9194 bytes, tx checksumming: ko]
+[    9.193020] bc250 kernel: r8169 0000:04:00.0 enp4s0: renamed from eth0
+[    9.199134] bc250 kernel: amd_atl: AMD Address Translation Library initialized
+[    9.250009] bc250 kernel: snd_hda_intel 0000:01:00.1: enabling device (0000 -> 0002)
+[    9.264115] bc250 kernel: snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])
+[    9.265016] bc250 kernel: input: HD-Audio Generic HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:08.1/0000:01:00.1/sound/card0/input4
+[    9.265055] bc250 kernel: input: HD-Audio Generic HDMI/DP,pcm=7 as /devices/pci0000:00/0000:00:08.1/0000:01:00.1/sound/card0/input5
+[    9.674016] bc250 kernel: EXT4-fs (nvme0n1p2): mounted filesystem 24906ea3-66db-45a5-9082-24d815d9ca9e r/w with ordered data mode. Quota mode: none.
+[    9.795016] bc250 kernel: SELinux: systemd-tmpfile (780) wrote to checkreqprot. This is no longer supported.
+[   10.735018] bc250 kernel: RPC: Registered named UNIX socket transport module.
+[   10.735049] bc250 kernel: RPC: Registered udp transport module.
+[   10.735075] bc250 kernel: RPC: Registered tcp transport module.
+[   10.735085] bc250 kernel: RPC: Registered tcp-with-tls transport module.
+[   10.735093] bc250 kernel: RPC: Registered tcp NFSv4.1 backchannel transport module.
+[   10.773014] bc250 kernel: Generic FE-GE Realtek PHY r8169-0-400:00: attached PHY driver (mii_bus:phy_addr=r8169-0-400:00, irq=MAC)
+[   10.920053] bc250 kernel: r8169 0000:04:00.0 enp4s0: Link is Down
+[   14.096019] bc250 kernel: r8169 0000:04:00.0 enp4s0: Link is Up - 1Gbps/Full - flow control rx/tx
+[   39.570162] bc250 kernel: amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1 err=0 pasid=23 r=0
+[   39.680013] bc250 kernel: amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=10 err=0 pasid=23 r=0
+[   51.837024] bc250 kernel: amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=100 err=0 pasid=23 r=0
+[  555.848025] bc250 kernel: amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1000 err=0 pasid=23 r=0
+[  639.048021] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  639.048568] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[  639.048725] bc250 kernel: amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1386 err=1 pasid=26 r=-62
+[  643.055017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  643.055524] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[  643.055684] bc250 kernel: amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1387 err=2 pasid=26 r=-62
+[ 2131.940747] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2131.941564] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2131.941711] bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+[ 2131.941860] bc250 kernel: amdgpu: Failed to quiesce KFD
+[ 2135.948331] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2135.948679] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2135.948817] bc250 kernel: amdgpu: Resetting wave fronts (cpsch) on dev 000000004a382063
+[ 2135.948851] bc250 kernel: amdgpu 0000:01:00.0: Didn't find vmid for process pid 11843
+[ 2140.109014] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2140.109680] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2140.109915] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2144.116014] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2144.116490] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2144.116808] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2148.127026] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2148.127581] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2148.127954] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2152.135019] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2152.135437] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2152.135577] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2156.143019] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2156.143558] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2156.143731] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2160.151014] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2160.151554] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2160.151830] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2164.159012] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2164.159294] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2164.159457] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2168.172017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2168.172491] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2168.172809] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2172.180012] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2172.180393] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2172.180534] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2176.187019] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2176.187466] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2176.187686] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2185.322016] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2185.322551] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2185.322741] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2189.391015] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2189.391507] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2189.391659] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2193.399016] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2193.399548] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2193.399701] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2197.407013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2197.407445] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2197.407685] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2201.415017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2201.415586] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2201.415849] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2205.423016] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2205.423493] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2205.423844] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2209.432019] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2209.432588] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2209.432952] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2213.440015] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2213.440445] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2213.440593] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2217.448014] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2217.448565] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2217.448709] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2221.455009] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2221.455494] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2221.455794] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2225.466019] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2225.466601] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2225.466954] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2229.473026] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2229.473471] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2229.473823] bc250 kernel: amdgpu: process pid 20738 DQM create queue type 0 failed. ret -62
+[ 2233.481032] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2233.481475] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2233.481621] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2237.489130] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2237.489625] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2237.489771] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2241.497027] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2241.497518] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2241.497779] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2245.505017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2245.505515] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2245.505828] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2249.513019] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2249.513519] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2249.513840] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2253.520028] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2253.520453] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2253.520600] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2257.528015] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2257.528484] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2257.528629] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2261.536015] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2261.536444] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2261.536733] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2265.543023] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2265.543591] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2265.543954] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2269.554018] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2269.554466] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2269.554763] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2273.561013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2273.561556] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2273.561884] bc250 kernel: amdgpu: process pid 20738 DQM create queue type 0 failed. ret -62
+[ 2277.569056] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2277.569541] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2277.569690] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2281.577024] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2281.577592] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2281.577790] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2285.585017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2285.585605] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2285.585896] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2289.593014] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2289.593470] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2289.593815] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2293.600016] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2293.600530] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2293.600870] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2297.608021] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2297.608550] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2297.608698] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2301.616029] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2301.616609] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2301.616768] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2305.623014] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2305.623569] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2305.623857] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2309.631015] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2309.631632] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2309.632019] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2313.642013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2313.642552] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2313.642913] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2317.649013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2317.649404] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2317.649533] bc250 kernel: amdgpu: process pid 20738 DQM create queue type 0 failed. ret -62
+[ 2321.657025] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2321.657473] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2321.657683] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2325.664021] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2325.664579] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2325.664830] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2329.673013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2329.673564] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2329.673910] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2333.681012] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2333.681456] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2333.681805] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2337.688013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2337.688479] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2337.688627] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2341.696015] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2341.696520] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2341.696689] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2345.704017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2345.704587] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2345.704827] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2349.711013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2349.711437] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2349.711772] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2353.719026] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2353.719273] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2353.719421] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2357.729016] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2357.729387] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2357.729544] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2361.737013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2361.737506] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2361.737667] bc250 kernel: amdgpu: process pid 20738 DQM create queue type 0 failed. ret -62
+[ 2365.744022] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2365.744690] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2365.744867] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2369.752014] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2369.752605] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2369.752932] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2373.761012] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2373.761565] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2373.761922] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2377.768013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2377.768356] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2377.768501] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2381.776013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2381.776425] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2381.776592] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2385.783022] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2385.783429] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2385.783707] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2389.791024] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2389.791325] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2389.791498] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2393.799016] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2393.799554] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2393.799920] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2397.806020] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2397.806329] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2397.806536] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2401.817018] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2401.817534] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2401.817685] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2405.825013] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2405.825581] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2405.825769] bc250 kernel: amdgpu: process pid 20738 DQM create queue type 0 failed. ret -62
+[ 2409.832024] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2409.832489] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2409.832838] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2413.840018] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2413.840529] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2413.840878] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2417.849017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2417.849552] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2417.849897] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2421.857026] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2421.857517] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2421.857657] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2425.864185] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2425.896007] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2425.896520] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2429.872051] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2429.872373] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2429.872550] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2433.880024] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2433.880600] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2433.880952] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2437.887023] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2437.887438] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2437.887638] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2441.895017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2441.895503] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2441.895654] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2445.906017] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2445.906399] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2445.906594] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2449.913023] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2449.913423] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2449.913749] bc250 kernel: amdgpu: process pid 20738 DQM create queue type 0 failed. ret -62
+[ 2453.921014] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2453.921521] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2453.921843] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2457.928021] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2457.928476] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2457.928771] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2461.937011] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2461.937635] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2461.937786] bc250 kernel: amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[ 2465.944251] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2465.944676] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2465.944813] bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+[ 2465.944962] bc250 kernel: amdgpu: Failed to quiesce KFD
+[ 2469.951792] bc250 kernel: amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[ 2469.952204] bc250 kernel: amdgpu 0000:01:00.0: GPU recovery disabled.
+[ 2469.952523] bc250 kernel: amdgpu: Resetting wave fronts (cpsch) on dev 000000004a382063
+[ 2469.952554] bc250 kernel: amdgpu 0000:01:00.0: Didn't find vmid for process pid 20738
+[ 2470.463441] bc250 kernel: kauditd_printk_skb: 21 callbacks suppressed
+[ 2470.463478] bc250 kernel: audit: type=1305 audit(1789425887.049:8047): op=set audit_pid=0 old=794 auid=4294967295 ses=4294967295 subj=system_u:system_r:auditd_t:s0 res=1
+[ 2470.465022] bc250 kernel: audit: type=1131 audit(1789425887.051:8048): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=auditd comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.466011] bc250 kernel: audit: type=1131 audit(1789425887.052:8049): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.486013] bc250 kernel: audit: type=1131 audit(1789425887.072:8050): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-fsck@dev-disk-by\x2duuid-3E81\x2d060D comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.493009] bc250 kernel: EXT4-fs (nvme0n1p2): unmounting filesystem 24906ea3-66db-45a5-9082-24d815d9ca9e.
+[ 2470.513011] bc250 kernel: audit: type=1131 audit(1789425887.099:8051): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-fsck@dev-disk-by\x2duuid-24906ea3\x2d66db\x2d45a5\x2d9082\x2d24d815d9ca9e comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.514064] bc250 kernel: audit: type=1131 audit(1789425887.100:8052): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-remount-fs comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.514111] bc250 kernel: audit: type=1131 audit(1789425887.100:8053): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup-dev comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.514153] bc250 kernel: audit: type=1131 audit(1789425887.100:8054): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-tmpfiles-setup-dev-early comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.557087] bc250 kernel: audit: type=1131 audit(1789425887.143:8055): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=lvm2-monitor comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.558014] bc250 kernel: audit: type=1130 audit(1789425887.144:8056): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-reboot comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+[ 2470.601008] bc250 kernel: watchdog: watchdog0: watchdog did not stop!
+[ 2470.605014] bc250 systemd-shutdown[1]: Using hardware watchdog /dev/watchdog0: 'SP5100 TCO timer', version 0.
+[ 2470.625673] bc250 systemd-shutdown[1]: Watchdog running with a hardware timeout of 10min.
+[ 2470.625763] bc250 systemd-shutdown[1]: Syncing filesystems and block devices.
+[ 2470.646021] bc250 systemd-shutdown[1]: Sending SIGTERM to remaining processes...
