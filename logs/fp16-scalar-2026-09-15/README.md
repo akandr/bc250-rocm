@@ -83,6 +83,8 @@ further with an `LD_PRELOAD` shim.
 
 ## Why it matters
 
+(Superseded by section 5: the cause is a toolchain helper linked into rocBLAS, not the runtime.)
+
 It is a reproducible handle on a defect that until now had none. The practical rule does not change:
 `GGML_CUDA_CUBLAS_COMPUTE_TYPE=f32` avoids the path at no measurable cost.
 
@@ -110,7 +112,7 @@ zeros at 37, 73 and 109 every time, and with solution 621 forced the API trace s
 differing in launch geometry, but it is also what an ignored index would produce, so this shows that
 no forced solution escapes the defect rather than that each kernel was exercised.
 
-**Where this leaves it.** Every externally controllable variable tested has been eliminated: scalars,
+**Where this leaves it** (as written before section 5, which supersedes it). Every externally controllable variable tested has been eliminated: scalars,
 their transport, launch errors, kernel choice, delays, stream synchronisation, launch serialisation,
 dispatch mode, interrupts, pointer attribute queries, host threads, and the runlist flush. What
 removes the defect is internal to the HIP 6.4.2 runtime and switched on by its API log category. The
@@ -123,3 +125,32 @@ environment variables.
     GGML_CUDA_CUBLAS_COMPUTE_TYPE=f16 llama-perplexity -m qwen3-8b-q8_0.gguf -ngl 99 -fa on -c 2048 --chunks 1 -f wiki.test.raw
     # same command, correct result
     AMD_LOG_LEVEL=3 AMD_LOG_MASK=1 GGML_CUDA_CUBLAS_COMPUTE_TYPE=f16 llama-perplexity ...
+
+## 5. Bisecting the trace inside the runtime, and the root cause
+
+**Update, same day: the cause is found and it is not in the runtime.** See
+[`../fp16-root-cause-2026-09-15/`](../fp16-root-cause-2026-09-15/). The half-precision conversion
+helpers linked into the native rocBLAS read the wrong register, so rocBLAS sometimes reads alpha as
+zero and hands Tensile a K=0 problem. The readings above that point into the HIP runtime ("internal
+to the HIP 6.4.2 runtime") are withdrawn; the trace changes leftover register
+contents, not the computation. What follows is the path that led there.
+
+The HIP 6.4.2 runtime was rebuilt from the Fedora `rocclr-6.4.2` source with
+[`scripts/apply_hip_trace_filter.py`](../../scripts/apply_hip_trace_filter.py), which gates the API
+trace per function. The rebuilt library reproduces both the defect and its suppression.
+
+- **Which traced call** (`trace_filter_round1.txt`, `trace_filter_round2.txt`): tracing only the entry
+  print removes the defect, tracing only the exit print does not. By name, tracing
+  `hipExtModuleLaunchKernel` alone (479 lines) removes it, as do `hipLaunchKernel` and `hipMemcpyAsync`;
+  `hipMemcpy`, events, streams, device and error queries do not.
+- **What about that call** (`trace_filter_round3.txt`, `trace_filter_round4.txt`): at the entry of
+  `hipExtModuleLaunchKernel`, a write to stderr, a clock read, a sleep, filling or zeroing 16 KiB of
+  stack, and a matched no-op that returns immediately all remove the defect; the same clock read at
+  `hipMemcpy` does not. A no-op cannot change a computation, so this pointed at state left behind by
+  earlier code rather than at anything the runtime does. (`actions` in round 3 counts
+  the line only the `write` arm prints, hence 144 there and 0 elsewhere.)
+- **Heap state** (`heap_knobs.txt`): `GLIBC_TUNABLES=glibc.malloc.tcache_count=0` removes the defect
+  three times at one chunk (7.2768) and at two chunks gives 9.1117, the correct fp16 value;
+  `tcache_count=1` zeroes all 144 fp16 GEMMs (perplexity 6627258.6969). Perturbing freed memory
+  (`MALLOC_PERTURB_`) and `mxfast=0` change nothing. The tcache knob made the defect switchable in a
+  program with no llama.cpp in it, which is what exposed the chain on the root-cause page.

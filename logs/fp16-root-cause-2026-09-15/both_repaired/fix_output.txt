@@ -1,0 +1,3 @@
+__extendhfsf2 at 0xcbc880 (file offset 0xcbb880, 113 bytes): replaced with F16C stub
+__truncsfhf2 at 0xcbc910 (file offset 0xcbb910, 312 bytes): replaced with F16C stub
+wrote lib/libggml-hip.so with 2 helper(s) patched

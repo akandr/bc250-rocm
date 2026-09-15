@@ -1,0 +1,4 @@
+0.51.854.131 I perplexity: 24.54 seconds per pass - ETA 0.82 minutes
+[1]6.3409,[2]7.7645,
+1.15.854.475 I Final estimate: PPL = 7.7645 +/- 0.47370
+

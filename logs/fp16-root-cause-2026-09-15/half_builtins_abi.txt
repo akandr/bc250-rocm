@@ -1,0 +1,23 @@
+edi=0x0000: (float)half(1.0) = 5.96046e-08, (half)1.0f bits = 0x0000
+edi=0x3c00: (float)half(1.0) = 5.96046e-08, (half)1.0f bits = 0x0000
+edi=0x7c00: (float)half(1.0) = 5.96046e-08, (half)1.0f bits = 0x0000
+edi=0x1234: (float)half(1.0) = 5.96046e-08, (half)1.0f bits = 0x0000
+RESULT BROKEN
+--- same source, default rtlib (libgcc)
+edi=0x0000: (float)half(1.0) = 1, (half)1.0f bits = 0x3c00
+edi=0x3c00: (float)half(1.0) = 1, (half)1.0f bits = 0x3c00
+edi=0x7c00: (float)half(1.0) = 1, (half)1.0f bits = 0x3c00
+edi=0x1234: (float)half(1.0) = 1, (half)1.0f bits = 0x3c00
+RESULT OK
+--- compiler-rt with -mf16c
+edi=0x0000: (float)half(1.0) = 1, (half)1.0f bits = 0x3c00
+edi=0x3c00: (float)half(1.0) = 1, (half)1.0f bits = 0x3c00
+edi=0x7c00: (float)half(1.0) = 1, (half)1.0f bits = 0x3c00
+edi=0x1234: (float)half(1.0) = 1, (half)1.0f bits = 0x3c00
+RESULT OK
+--- symbol origin
+00000000000019e0 t __extendhfsf2
+0
+--- note added on the workstation: hb_gcc links static copies of both helpers from GCC's libgcc.a
+--- (objdump: half_to_float is `jmp __extendhfsf2`, float_to_half calls __truncsfhf2), which convert
+--- correctly; nm -D found nothing because they are not imported. hb_f16c contains 0 calls to the helpers.

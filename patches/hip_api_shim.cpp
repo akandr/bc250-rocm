@@ -131,3 +131,7 @@ W(F_LAUNCH, hipError_t, hipExtModuleLaunchKernel,
   (hipFunction_t f, uint32_t gx, uint32_t gy, uint32_t gz, uint32_t lx, uint32_t ly, uint32_t lz,
    size_t sm, hipStream_t st, void **kp, void **ex, hipEvent_t se, hipEvent_t ee, uint32_t fl),
   (f, gx, gy, gz, lx, ly, lz, sm, st, kp, ex, se, ee, fl))
+// graph capture and replay, counted to see whether the fp16 GEMMs run inside a captured graph
+W(F_SYNC, hipError_t, hipStreamBeginCapture, (hipStream_t st, hipStreamCaptureMode m), (st, m))
+W(F_SYNC, hipError_t, hipStreamEndCapture, (hipStream_t st, hipGraph_t *g), (st, g))
+W(F_SYNC, hipError_t, hipGraphLaunch, (hipGraphExec_t g, hipStream_t st), (g, st))

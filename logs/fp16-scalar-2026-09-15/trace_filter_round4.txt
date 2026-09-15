@@ -1,0 +1,9 @@
+patched /home/akandr/hipsrc/clr-rocm-6.4.2/hipamd/src/hip_internal.hpp
+rc=0
+ctl2: PPL = 14.1344 zero_at=[37 73 109 ]
+ext_nop: PPL = 7.2768 zero_at=[]
+ext_stackfill: PPL = 7.2768 zero_at=[]
+ext_stackzero: PPL = 7.2768 zero_at=[]
+ext_clock_b: PPL = 7.2768 zero_at=[]
+memcpy_clock: PPL = 14.1344 zero_at=[37 73 109 ]
+ext_nop_b: PPL = 7.2768 zero_at=[]

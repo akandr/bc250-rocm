@@ -1,0 +1,7 @@
+both_default_1: Final estimate: PPL = 9.1117
+both_default_2: Final estimate: PPL = 9.1117
+both_f16_1: Final estimate: PPL = 9.1117
+both_f16_tcache1: Final estimate: PPL = 9.1117
+both_f32: Final estimate: PPL = 9.0975
+q14_both_default: Final estimate: PPL = 7.7645
+DONE

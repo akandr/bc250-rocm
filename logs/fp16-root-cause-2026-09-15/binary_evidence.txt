@@ -1,0 +1,64 @@
+== internal helpers in /home/akandr/rocBLAS/build-restored-2026-08-20/release/rocblas-install/lib/librocblas.so.4
+ 42701: 00000000016dbd70   113 FUNC    LOCAL  HIDDEN    14 __extendhfsf2
+ 42704: 00000000016dbe00   312 FUNC    LOCAL  HIDDEN    14 __truncsfhf2
+ 16dbd7c:	mov    %edi,%eax
+ 16dbd7e:	and    $0x3ff,%eax
+ 16dbd83:	test   %ecx,%ecx
+ 16dbd85:	je     16dbd99 <__extendhfsf2+0x29>
+ 16dbd87:	cmp    $0x1f,%ecx
+ 16dbd8a:	jne    16dbdba <__extendhfsf2+0x4a>
+ 16dbd8c:	movzwl %ax,%eax
+ 16dbd8f:	.byte 0xc1
+== call site in ConstructTensileProblem
+objdump: error: the stop address should be after the start address
+  6dc66e:	je     6dc829 <rocblas_hgemm+0x699>
+  6dc674:	mov    0x38(%rsp),%rax
+  6dc679:	pinsrw $0x0,(%rax),%xmm0
+  6dc67e:	movdqa %xmm0,0x40(%rsp)
+  6dc684:	call   16dbd70 <__extendhfsf2>
+  6dc689:	xorps  %xmm1,%xmm1
+  6dc68c:	ucomiss %xmm1,%xmm0
+  6dc68f:	setnp  %al
+  6dc692:	sete   %cl
+  6dc695:	pxor   %xmm0,%xmm0
+  6dc699:	test   %al,%cl
+  6dc69b:	jne    6dc6e8 <rocblas_hgemm+0x558>
+== builtins archive
+
+/tmp/extendhfsf2.c.o:     file format elf64-x86-64
+
+
+Disassembly of section .text.__extendhfsf2:
+
+0000000000000000 <__extendhfsf2>:
+   0:	endbr64
+   4:	mov    %edi,%ecx
+   6:	shr    $0xa,%ecx
+   9:	and    $0x1f,%ecx
+   c:	mov    %edi,%eax
+== rocBLAS link line
+82:    target_link_libraries( ${lib_target_} PRIVATE hip::device -lstdc++fs --rtlib=compiler-rt --unwindlib=libgcc)
+== toolchain packages
+rocm-compilersupport-macros-19-14.rocm6.4.2.fc43.noarch
+rocm-clang-19-14.rocm6.4.2.fc43.x86_64
+rocm-llvm-19-14.rocm6.4.2.fc43.x86_64
+pakiet rocm-compiler-rt nie jest zainstalowany
+rocm-clang-runtime-devel-19-14.rocm6.4.2.fc43.x86_64
+
+== system rocblas: helpers imported from libgcc_s, not linked in
+rocblas-6.4.4-1.fc43.x86_64
+   254: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __extendhfsf2@GCC_12.0.0 (38)
+   255: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __truncsfhf2@GCC_12.0.0 (38)
+== __truncsfhf2 callers read the result from xmm0 (first 2 of the call sites)
+  dbd0df:	call   16dbe00 <__truncsfhf2>
+  dbd0e4:	pextrw $0x0,%xmm0,%eax
+  dbd0e9:	mov    %ax,(%r15)
+--
+  dbd5df:	call   16dbe00 <__truncsfhf2>
+  dbd5e4:	pextrw $0x0,%xmm0,%eax
+  dbd5e9:	mov    %ax,(%r15)
+== __truncsfhf2 in native lib: input via movd xmm0->edx, result left in eax (returns)
+ 16dbe00:	endbr64
+ 16dbe04:	movd   %xmm0,%edx
+ 16dbe08:	mov    %edx,%eax
+ 16dbe93:	ret

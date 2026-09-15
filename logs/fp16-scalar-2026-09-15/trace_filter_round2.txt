@@ -1,0 +1,6 @@
+patched /home/akandr/hipsrc/clr-rocm-6.4.2/hipamd/src/hip_internal.hpp
+rc=0
+x=hipExtModuleLaunchKernel: PPL = 7.2768 lines=479 zero_at=[]
+x=hipLaunchKernel: PPL = 7.2768 lines=4610 zero_at=[]
+x=hipMemcpyAsync: PPL = 7.2768 lines=8342 zero_at=[]
+x=hipMemcpy: PPL = 14.1344 lines=479 zero_at=[37 73 109 ]

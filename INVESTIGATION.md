@@ -38,10 +38,13 @@ What remains after them: prefill still trails Vulkan, by 1.4x to 2.3x depending 
 narrowing as models grow, which is a gap between llama.cpp's quantized matmul kernels and Vulkan's
 rather than anything failing; the allocation-reuse defect needs its kernel-side flush (traced to the
 end and fixed here, but a
-workaround rather than something upstream has taken); the fp16 GEMM path returns nothing for one
-attention projection, with how much damage that does growing with the length of the run, though it
-disappears when the board is driven as gfx1010, which points at the gfx1013 kernels rather than at
-the path; and everything here is one board. SDMA was on this list for weeks and is not any more:
+workaround rather than something upstream has taken); the fp16 GEMM path returned nothing for one
+attention projection, which after a long hunt turned out to be a toolchain packaging defect rather
+than anything on the GPU (the builtins archive in Fedora 43's ROCm compiler-rt converts half
+precision through the wrong register, and the native rocBLAS links it in), repaired here by patching
+two helper functions and still unfixed in the package
+([`logs/fp16-root-cause-2026-09-15/`](logs/fp16-root-cause-2026-09-15/)); and everything here is one
+board. SDMA was on this list for weeks and is not any more:
 substituting the navi12 microcode fixes it completely, and the defect was never the board.
 This took the combined work of several community projects, credited inline and in the references.
 
@@ -799,8 +802,12 @@ misleading values are in the shipped capture and neither bit pattern is, noted 2
 argument-correctness conclusion rests instead on
 [`logs/fp16-operands-2026-08-23/`](logs/fp16-operands-2026-08-23/), which shows the arguments
 byte-identical between a zeroed call and a clean one and does ship its capture. The
-cause of both bad readings is that `__half2float` is a device function, and calling it on the host
-to format a number for printing produces garbage that looks like a measurement. Anyone reading
+cause of both bad readings was given as `__half2float` being a device function, called on the host
+to format a number for printing. Corrected 15 September: the more likely cause is that the host-side
+half-to-float conversion in both libraries goes through the broken compiler-rt helper that turned out
+to be the root cause of the defect itself
+([`logs/fp16-root-cause-2026-09-15/`](logs/fp16-root-cause-2026-09-15/)); the prints were not re-run
+to confirm that. Anyone reading
 half-precision values out of these traces should print the bit pattern
 ([`logs/fp16-dispatch-2026-08-19/`](logs/fp16-dispatch-2026-08-19/)).
 
@@ -851,6 +858,20 @@ does is move the suspicion off llama.cpp's fp16 path, which demonstrably works t
 source when other code objects service it, and onto the gfx1013 configuration, with the fp16 GEMM
 kernels in the native Tensile build as the narrowest remaining suspect
 ([`logs/fp16-arch-2026-08-20/`](logs/fp16-arch-2026-08-20/)).
+
+**Withdrawn 15 September: the kernels were not the culprit.** The variable the gfx1010 comparison
+changed that mattered was the library, but not its code objects. The system rocBLAS imports the
+half-precision conversion helpers from libgcc_s, which are correct; the native build links its own
+copies from Fedora 43's ROCm compiler-rt builtins archive, which read the half value from `%edi`
+while ROCm clang passes it in `%xmm0`. Converting alpha therefore returns leftover register contents,
+and when those are zero rocBLAS's `prob.k && *prob.alpha ? prob.k : 0` gives Tensile a K=0 problem
+whose output is all zeros. That also accounts for what the hypotheses above could not: the positional
+rule, the dependence on a running model, the suppression by tracing, and the clean standalone
+reproducers all come down to what earlier code left in a register. Replacing the two helpers with
+F16C instructions removes the defect on both affected models. The chain, measured link by link, is
+in [`logs/fp16-root-cause-2026-09-15/`](logs/fp16-root-cause-2026-09-15/); the route there, through a
+HIP runtime trace that hid the defect, is in
+[`logs/fp16-scalar-2026-09-15/`](logs/fp16-scalar-2026-09-15/).
 
 A second implementation says the same thing. PyTorch built for gfx1013 is an independent consumer
 of the same rocBLAS on the same board, and 200 cycles of half-precision matmul at four
@@ -3125,6 +3146,9 @@ Places where other eyes would help most:
   the override changes the serving library as well as the ISA and the two cannot be separated
   without a rocBLAS carrying both architectures. What is left is state
   around the call rather than the call, and naming that state is where help would go furthest.
+  **Answered 15 September:** the state is a register. Broken half-precision helpers from Fedora 43's
+  ROCm compiler-rt, linked into the native rocBLAS, make it read alpha as zero at random; see
+  [`logs/fp16-root-cause-2026-09-15/`](logs/fp16-root-cause-2026-09-15/).
 - What makes a GPU page fault escalate to a board reset, which is the open form of what was
   previously listed here as a host-side SIGBUS of unknown origin. That entry is now answered and
   the answer folds it into a larger question. On 20 August an eight-hour soak reproduced it with a
