@@ -1,0 +1,36 @@
+From: Jaydeep <106300970+jaydeeppatel1111@users.noreply.github.com>
+Date: Mon, 25 May 2026 07:24:16 +0000
+Subject: [PATCH] ROCM-24764 - guard Thread::Release() against null virtualDevice_ (#6197)
+
+When hsa_queue_create() fails (e.g. KFD hardware queue slots exhausted
+under high process concurrency), createVirtualDevice() returns nullptr,
+leaving Thread::virtualDevice_ as null. In the AMD_DIRECT_DISPATCH path,
+HostQueue::terminate() calls thread_.Release() unconditionally, causing
+a null pointer dereference.
+
+Add a null check in Thread::Release() to handle this gracefully.
+
+(cherry picked from ROCm/clr commit 7d979ab5a0aadbc9bc3a99f2411bb06b5ca2c9e2)
+[Artur Andrzejczak: backported to the rocclr 7.1.1 source. The same crash was
+ reached on a BC-250 (gfx1013) from the KFD resident-memory limit and not than
+ from queue-slot exhaustion, through hipGraphInstantiate creating the null
+ stream; found and analysed with Claude Fable 5.1 (Anthropic) before the
+ upstream commit was known, and replaced by it once it was.]
+Link: https://github.com/ROCm/clr/commit/7d979ab5a0aadbc9bc3a99f2411bb06b5ca2c9e2
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+--- a/rocclr/platform/commandqueue.hpp
++++ b/rocclr/platform/commandqueue.hpp
+@@ -184,7 +184,11 @@
+       }
+     }
+ 
+-    void Release() const { virtualDevice_->release(); }
++    void Release() const {
++      if (virtualDevice_ != nullptr) {
++        virtualDevice_->release();
++      }
++    }
+ 
+     //! Get virtual device for the current thread
+     device::VirtualDevice* vdev() const { return virtualDevice_; }
