@@ -1,0 +1,18 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (c) 2026 Artur Andrzejczak <andrzejczak.artur@gmail.com>
+# Assisted-by: Claude (Anthropic)
+# Does GPU_MAX_HW_QUEUES=1 remove the bimodality seen with HIP graphs off?
+set -u
+HIPB=${HIPB:-$HOME/llama-new/build-hip-f44/bin}
+N=${N:-20}
+cd /tmp
+val(){ grep -E "^ +1024 " | head -1 | awk '{print $2}'; }
+echo "n=$N  start $(date -Iseconds)"
+echo "run  default  hwq1  edge"
+for i in $(seq 1 "$N"); do
+  a=$(LD_LIBRARY_PATH=$HIPB GGML_CUDA_DISABLE_GRAPHS=1 ./df_hip 2>/dev/null | val)
+  b=$(LD_LIBRARY_PATH=$HIPB GGML_CUDA_DISABLE_GRAPHS=1 GPU_MAX_HW_QUEUES=1 ./df_hip 2>/dev/null | val)
+  printf "%3d  %7s  %6s  %s\n" "$i" "$a" "$b" "$(sensors 2>/dev/null | awk '/edge/{print $2}')"
+done
+echo "end $(date -Iseconds)"
