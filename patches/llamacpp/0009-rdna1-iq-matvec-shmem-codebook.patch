@@ -1,0 +1,267 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Sat, 20 Sep 2026 17:00:00 +0200
+Subject: [PATCH] ggml-cuda: RDNA1 IQ matvec: stage the codebook in shared memory
+
+The IQ2/IQ3 decoders in the RDNA1 float matvec look their codebook up in global
+memory, once per four values. That is a second dependent round trip on the path
+the weight stream already uses: the index comes from bytes that were themselves
+just loaded, and the iq3_s kernel drains the vector memory counter seven times
+against q8_0's two. ggml-vulkan's IQ matvec shaders avoid it by calling
+init_iq_shmem before their loop, which copies the codebook into shared memory so
+that every lookup is an LDS read.
+
+This does the same. A 32-lane block copies 512 dwords in sixteen loads per
+thread and then performs about eighty lookups per thread, so the copy pays for
+itself many times over, but only where a block covers many superblocks: the
+expert-id path launches a block per used expert and covers a handful, so the
+caller stages only for ordinary matrix-vector products and leaves MUL_MAT_ID on
+the global lookup. Measured ungated it cost the MoE 4.4 percent.
+
+Alongside it, the four codebook indices a thread needs are the consecutive bytes
+4*half..4*half+3 of the group, and iq3_s's two sign bytes are consecutive too.
+Both sit at an even offset in every block, so three 16-bit loads replace six
+8-bit ones. Neither half helps on its own; together they are worth 1.8 percent
+of decode on qwen3.8-27B (14.78 to 15.04 t/s) and nothing either way on the MoE,
+medians of three rounds of three samples with the arms interleaved and a spread
+of 0.1 to 0.3 percent.
+
+The kernel reads the same codebook words in the same order and the arithmetic is
+untouched, so results do not change: test-backend-ops passes 1186/1186 MUL_MAT
+and 865/865 MUL_MAT_ID cases, and greedy text on qwen3.8-27B and the MoE is
+token-identical to the build without it.
+
+Three other approaches were measured and rejected, in logs/rdna1-iq-matvec-2026-09-20
+of the repository: the codebook in packed fp16 with the sign bits as xor masks
+(15 percent slower on the 27B, since it cost eighteen registers and one more
+dependent load to save eight percent of the instructions), a minimum waves per
+execution unit of 12 or 16 (the compiler buys the waves with 104 to 176 bytes of
+scratch a thread, and loses up to 64 percent), and one or four rows per block
+instead of two (32 percent and 3 percent slower).
+
+Co-authored-by: Claude Opus 5 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+diff --git a/ggml/src/ggml-cuda/mmvq-rdna1-f32.cu b/ggml/src/ggml-cuda/mmvq-rdna1-f32.cu
+--- a/ggml/src/ggml-cuda/mmvq-rdna1-f32.cu
++++ b/ggml/src/ggml-cuda/mmvq-rdna1-f32.cu
+@@ -106,12 +106,65 @@
+     return __half2float(blk->d) * s;
+ }
+ 
++// ---------------------------------------------------------------------------------------------------
++// The codebook in shared memory.
++//
++// A codebook lookup is a second dependent memory round trip, on the same path the weight stream uses,
++// and there are four of them per thread per 32-value group. ggml-vulkan's IQ matvec shaders avoid that
++// by calling init_iq_shmem before their loop, which stages the codebook in shared memory so every
++// lookup is an LDS read. This does the same. A 32-lane block copies 512 dwords in sixteen loads per
++// thread and then performs about eighty lookups per thread, so the copy pays for itself many times
++// over -- but only where a block covers many superblocks, which the expert-id path never does, so the
++// caller stages only for ordinary matrix-vector products. See logs/rdna1-iq-matvec-2026-09-20.
++template <ggml_type type>
++static constexpr int iq_grid_dwords() {
++    return type == GGML_TYPE_IQ3_XXS ? 256 : 512;    // iq2_xxs is 256 entries of eight bytes
++}
++
++template <ggml_type type>
++static __device__ __forceinline__ void iq_grid_stage(uint32_t * s_grid) {
++    const uint32_t * src;
++    if constexpr (type == GGML_TYPE_IQ2_XXS) {
++        src = (const uint32_t *) iq2xxs_grid;
++    } else if constexpr (type == GGML_TYPE_IQ3_XXS) {
++        src = iq3xxs_grid;
++    } else {
++        src = iq3s_grid;
++    }
++    for (int i = threadIdx.x; i < iq_grid_dwords<type>(); i += 32) {
++        s_grid[i] = src[i];
++    }
++    __syncthreads();
++}
++
++// One four-byte codebook entry, from shared memory when the block staged it there.
++template <ggml_type type, bool lds>
++static __device__ __forceinline__ uint32_t iq_grid32(const uint32_t * s_grid, const uint32_t idx) {
++    if constexpr (lds) {
++        return s_grid[idx];
++    } else if constexpr (type == GGML_TYPE_IQ3_XXS) {
++        return iq3xxs_grid[idx];
++    } else {
++        return iq3s_grid[idx];
++    }
++}
++
++// iq2_xxs entries are eight bytes; returns the half selected by `hi`.
++template <bool lds>
++static __device__ __forceinline__ uint32_t iq_grid64(const uint32_t * s_grid, const uint32_t idx, const int hi) {
++    if constexpr (lds) {
++        return s_grid[2 * idx + hi];
++    }
++    return (uint32_t) (iq2xxs_grid[idx] >> (32 * hi));
++}
++
+ // The IQ types: thread itid owns the 16 consecutive values 16*itid .. 16*itid+15 of the superblock, which
+ // is the second half (half = 1) or the first half of 32-value group ib32 = itid/2. Codebook grids and the
+ // sign tables come from ggml-common.h, the same ones vecdotq.cuh uses.
+-template <ggml_type type>
++template <ggml_type type, bool lds>
+ static __device__ __forceinline__ float iq_superblock_dot(
+-        const void * blk, const int itid, const float4 by0, const float4 by4, const float4 by8, const float4 by12) {
++        const void * blk, const int itid, const uint32_t * s_grid,
++        const float4 by0, const float4 by4, const float4 by8, const float4 by12) {
+     const int ib32 = itid / 2, half = itid & 1;
+     if constexpr (type == GGML_TYPE_IQ2_XXS) {
+         const block_iq2_xxs * b = (const block_iq2_xxs *) blk;
+@@ -120,42 +173,52 @@
+         const uint32_t aux32 = q2[2] | (q2[3] << 16);
+         const float db = __half2float(b->d) * (0.5f + (aux32 >> 28)) * 0.25f;
+         const int l0 = 2 * half, l1 = l0 + 1;
+-        const uint64_t g0 = iq2xxs_grid[aux8[l0]], g1 = iq2xxs_grid[aux8[l1]];
++        const uint32_t i0 = aux8[l0], i1 = aux8[l1];
+         const uint32_t s0 = ksigns_iq2xs[(aux32 >> (7 * l0)) & 127], s1 = ksigns_iq2xs[(aux32 >> (7 * l1)) & 127];
+-        const float sum = dot4(by0,  signed4(unpack_u8x4((uint32_t) g0),         s0, 0))
+-                        + dot4(by4,  signed4(unpack_u8x4((uint32_t) (g0 >> 32)), s0, 4))
+-                        + dot4(by8,  signed4(unpack_u8x4((uint32_t) g1),         s1, 0))
+-                        + dot4(by12, signed4(unpack_u8x4((uint32_t) (g1 >> 32)), s1, 4));
++        const float sum = dot4(by0,  signed4(unpack_u8x4(iq_grid64<lds>(s_grid, i0, 0)),         s0, 0))
++                        + dot4(by4,  signed4(unpack_u8x4(iq_grid64<lds>(s_grid, i0, 1)), s0, 4))
++                        + dot4(by8,  signed4(unpack_u8x4(iq_grid64<lds>(s_grid, i1, 0)),         s1, 0))
++                        + dot4(by12, signed4(unpack_u8x4(iq_grid64<lds>(s_grid, i1, 1)), s1, 4));
+         return db * sum;
+     } else if constexpr (type == GGML_TYPE_IQ3_XXS) {
+         const block_iq3_xxs * b = (const block_iq3_xxs *) blk;
+-        const uint8_t  * q3  = b->qs + 8 * ib32;
++        // the four codebook indices are the consecutive bytes 4*half..4*half+3 of the group, at an even
++        // offset in every block, so two 16-bit loads replace four 8-bit ones
++        const uint8_t  * q3  = b->qs + 8 * ib32 + 4 * half;
+         const uint16_t * gas = (const uint16_t *) (b->qs + QK_K / 4) + 2 * ib32;
+         const uint32_t aux32 = gas[0] | (gas[1] << 16);
+         const float db = __half2float(b->d) * (0.5f + (aux32 >> 28)) * 0.5f;
+-        const int l0 = 2 * half, l1 = l0 + 1;
+-        const uint32_t s0 = ksigns_iq2xs[(aux32 >> (7 * l0)) & 127], s1 = ksigns_iq2xs[(aux32 >> (7 * l1)) & 127];
+-        const float sum = dot4(by0,  signed4(unpack_u8x4(iq3xxs_grid[q3[2 * l0 + 0]]), s0, 0))
+-                        + dot4(by4,  signed4(unpack_u8x4(iq3xxs_grid[q3[2 * l0 + 1]]), s0, 4))
+-                        + dot4(by8,  signed4(unpack_u8x4(iq3xxs_grid[q3[2 * l1 + 0]]), s1, 0))
+-                        + dot4(by12, signed4(unpack_u8x4(iq3xxs_grid[q3[2 * l1 + 1]]), s1, 4));
++        const int l0 = 2 * half;
++        const uint32_t s0 = ksigns_iq2xs[(aux32 >> (7 * l0)) & 127];
++        const uint32_t s1 = ksigns_iq2xs[(aux32 >> (7 * (l0 + 1))) & 127];
++        const uint32_t q01 = *(const uint16_t *) (q3 + 0);
++        const uint32_t q23 = *(const uint16_t *) (q3 + 2);
++        const float sum = dot4(by0,  signed4(unpack_u8x4(iq_grid32<type, lds>(s_grid,  q01       & 0xFF)), s0, 0))
++                        + dot4(by4,  signed4(unpack_u8x4(iq_grid32<type, lds>(s_grid, (q01 >> 8) & 0xFF)), s0, 4))
++                        + dot4(by8,  signed4(unpack_u8x4(iq_grid32<type, lds>(s_grid,  q23       & 0xFF)), s1, 0))
++                        + dot4(by12, signed4(unpack_u8x4(iq_grid32<type, lds>(s_grid, (q23 >> 8) & 0xFF)), s1, 4));
+         return db * sum;
+     } else {  // IQ3_S
+         const block_iq3_s * b = (const block_iq3_s *) blk;
+-        const uint8_t * qs = b->qs + 8 * ib32;
++        // as above, and the two sign bytes are consecutive too: three 16-bit loads for six 8-bit ones
++        const uint8_t * qs = b->qs + 8 * ib32 + 4 * half;
+         const uint32_t qh = b->qh[ib32];
+         const float db = __half2float(b->d) * (float) (1 + 2 * ((b->scales[ib32 / 2] >> (4 * (ib32 & 1))) & 0xf));
+-        const int l0 = 2 * half, l1 = l0 + 1;
+-        const uint32_t s0 = b->signs[4 * ib32 + l0], s1 = b->signs[4 * ib32 + l1];
+-        const float sum = dot4(by0,  signed4(unpack_u8x4(iq3s_grid[qs[2 * l0 + 0] | ((qh << (8 - 2 * l0)) & 256)]), s0, 0))
+-                        + dot4(by4,  signed4(unpack_u8x4(iq3s_grid[qs[2 * l0 + 1] | ((qh << (7 - 2 * l0)) & 256)]), s0, 4))
+-                        + dot4(by8,  signed4(unpack_u8x4(iq3s_grid[qs[2 * l1 + 0] | ((qh << (8 - 2 * l1)) & 256)]), s1, 0))
+-                        + dot4(by12, signed4(unpack_u8x4(iq3s_grid[qs[2 * l1 + 1] | ((qh << (7 - 2 * l1)) & 256)]), s1, 4));
++        const int l0 = 2 * half;
++        const uint32_t sg = *(const uint16_t *) (b->signs + 4 * ib32 + l0);
++        const uint32_t s0 = sg & 0xFF, s1 = sg >> 8;
++        const uint32_t q01 = *(const uint16_t *) (qs + 0);
++        const uint32_t q23 = *(const uint16_t *) (qs + 2);
++        const int h0 = 8 - 2 * l0;      // the ninth index bit of each of the four entries
++        const float sum = dot4(by0,  signed4(unpack_u8x4(iq_grid32<type, lds>(s_grid, ( q01       & 0xFF) | ((qh << (h0    )) & 256))), s0, 0))
++                        + dot4(by4,  signed4(unpack_u8x4(iq_grid32<type, lds>(s_grid, ((q01 >> 8) & 0xFF) | ((qh << (h0 - 1)) & 256))), s0, 4))
++                        + dot4(by8,  signed4(unpack_u8x4(iq_grid32<type, lds>(s_grid, ( q23       & 0xFF) | ((qh << (h0 - 2)) & 256))), s1, 0))
++                        + dot4(by12, signed4(unpack_u8x4(iq_grid32<type, lds>(s_grid, ((q23 >> 8) & 0xFF) | ((qh << (h0 - 3)) & 256))), s1, 4));
+         return db * sum;
+     }
+ }
+ 
+-template <ggml_type type, bool has_fusion>
++template <ggml_type type, bool has_fusion, bool lds>
+ static __global__ void __launch_bounds__(32) mul_mat_vec_f32_rdna1(
+         const void * __restrict__ vx, const float * __restrict__ y, const int32_t * __restrict__ ids, float * __restrict__ dst,
+         const int ncols_x, const int nrows_x, const int64_t stride_row_x,
+@@ -237,6 +300,10 @@
+                 }
+             }
+         } else {  // IQ2_XXS, IQ3_XXS, IQ3_S: 16 consecutive values per thread
++            __shared__ uint32_t s_grid[lds ? iq_grid_dwords<type>() : 1];
++            if constexpr (lds) {
++                iq_grid_stage<type>(s_grid);
++            }
+             constexpr size_t bsz = type == GGML_TYPE_IQ2_XXS ? sizeof(block_iq2_xxs) : type == GGML_TYPE_IQ3_XXS ? sizeof(block_iq3_xxs)
+                                  : sizeof(block_iq3_s);
+             const int y_offset = 16 * itid;
+@@ -250,9 +317,9 @@
+                     const int row = row0 + n;
+                     if (row >= nrows_x) break;
+                     const size_t off = (size_t) i * bsz;
+-                    temp[n] += iq_superblock_dot<type>(x + row * stride_row_x + off, itid, by0, by4, by8, by12);
++                    temp[n] += iq_superblock_dot<type, lds>(x + row * stride_row_x + off, itid, s_grid, by0, by4, by8, by12);
+                     if constexpr (has_fusion) {
+-                        if (g) temp_gate[n] += iq_superblock_dot<type>(g + row * stride_row_x + off, itid, by0, by4, by8, by12);
++                        if (g) temp_gate[n] += iq_superblock_dot<type, lds>(g + row * stride_row_x + off, itid, s_grid, by0, by4, by8, by12);
+                     }
+                 }
+             }
+@@ -307,7 +374,7 @@
+     return src1->ne[1] == 1 && src1->ne[2] == src0->ne[2];
+ }
+ 
+-template <ggml_type type>
++template <ggml_type type, bool lds>
+ static void launch_f32_rdna1(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1,
+                              const ggml_tensor * ids, ggml_tensor * dst, const ggml_cuda_mm_fusion_args_device * fusion) {
+     const int ncols_x = src0->ne[0];
+@@ -323,11 +390,11 @@
+     const int32_t * ids_d = ids ? (const int32_t *) ids->data : nullptr;
+     const bool fused = fusion && (fusion->x_bias || fusion->gate);
+     if (fused) {
+-        mul_mat_vec_f32_rdna1<type, true><<<grid, 32, 0, ctx.stream()>>>(
++        mul_mat_vec_f32_rdna1<type, true, lds><<<grid, 32, 0, ctx.stream()>>>(
+             src0->data, (const float *) src1->data, ids_d, (float *) dst->data, ncols_x, nrows_x, srx, scx, scy, scd, nchannels_y,
+             fusion->gate, (const float *) fusion->x_bias, (const float *) fusion->gate_bias, (int) fusion->glu_op);
+     } else {
+-        mul_mat_vec_f32_rdna1<type, false><<<grid, 32, 0, ctx.stream()>>>(
++        mul_mat_vec_f32_rdna1<type, false, lds><<<grid, 32, 0, ctx.stream()>>>(
+             src0->data, (const float *) src1->data, ids_d, (float *) dst->data, ncols_x, nrows_x, srx, scx, scy, scd, nchannels_y,
+             nullptr, nullptr, nullptr, 0);
+     }
+@@ -335,14 +402,26 @@
+ 
+ void ggml_cuda_mmvq_rdna1_f32(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1,
+                               const ggml_tensor * ids, ggml_tensor * dst, const ggml_cuda_mm_fusion_args_device * fusion) {
++    // staging the codebook costs one copy per block, which only pays where a block covers many
++    // superblocks; an expert-id launch covers a handful, so those keep the global lookup
++    const bool stage = ids == nullptr;
+     switch (src0->type) {
+-        case GGML_TYPE_Q4_K:    launch_f32_rdna1<GGML_TYPE_Q4_K>   (ctx, src0, src1, ids, dst, fusion); break;
+-        case GGML_TYPE_Q5_K:    launch_f32_rdna1<GGML_TYPE_Q5_K>   (ctx, src0, src1, ids, dst, fusion); break;
+-        case GGML_TYPE_Q6_K:    launch_f32_rdna1<GGML_TYPE_Q6_K>   (ctx, src0, src1, ids, dst, fusion); break;
+-        case GGML_TYPE_Q8_0:    launch_f32_rdna1<GGML_TYPE_Q8_0>   (ctx, src0, src1, ids, dst, fusion); break;
+-        case GGML_TYPE_IQ2_XXS: launch_f32_rdna1<GGML_TYPE_IQ2_XXS>(ctx, src0, src1, ids, dst, fusion); break;
+-        case GGML_TYPE_IQ3_XXS: launch_f32_rdna1<GGML_TYPE_IQ3_XXS>(ctx, src0, src1, ids, dst, fusion); break;
+-        case GGML_TYPE_IQ3_S:   launch_f32_rdna1<GGML_TYPE_IQ3_S>  (ctx, src0, src1, ids, dst, fusion); break;
++        case GGML_TYPE_Q4_K:    launch_f32_rdna1<GGML_TYPE_Q4_K, false>(ctx, src0, src1, ids, dst, fusion); break;
++        case GGML_TYPE_Q5_K:    launch_f32_rdna1<GGML_TYPE_Q5_K, false>(ctx, src0, src1, ids, dst, fusion); break;
++        case GGML_TYPE_Q6_K:    launch_f32_rdna1<GGML_TYPE_Q6_K, false>(ctx, src0, src1, ids, dst, fusion); break;
++        case GGML_TYPE_Q8_0:    launch_f32_rdna1<GGML_TYPE_Q8_0, false>(ctx, src0, src1, ids, dst, fusion); break;
++        case GGML_TYPE_IQ2_XXS:
++            if (stage) launch_f32_rdna1<GGML_TYPE_IQ2_XXS, true >(ctx, src0, src1, ids, dst, fusion);
++            else       launch_f32_rdna1<GGML_TYPE_IQ2_XXS, false>(ctx, src0, src1, ids, dst, fusion);
++            break;
++        case GGML_TYPE_IQ3_XXS:
++            if (stage) launch_f32_rdna1<GGML_TYPE_IQ3_XXS, true >(ctx, src0, src1, ids, dst, fusion);
++            else       launch_f32_rdna1<GGML_TYPE_IQ3_XXS, false>(ctx, src0, src1, ids, dst, fusion);
++            break;
++        case GGML_TYPE_IQ3_S:
++            if (stage) launch_f32_rdna1<GGML_TYPE_IQ3_S, true >(ctx, src0, src1, ids, dst, fusion);
++            else       launch_f32_rdna1<GGML_TYPE_IQ3_S, false>(ctx, src0, src1, ids, dst, fusion);
++            break;
+         default: GGML_ABORT("unsupported type");
+     }
+ }

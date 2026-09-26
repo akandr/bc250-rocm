@@ -1,0 +1,58 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Sat, 20 Sep 2026 22:15:00 +0200
+Subject: [PATCH] ggml-cuda: RDNA1 prefill GEMM: q8_0 too
+
+q8_0 was the one supported type left on MMQ, on a measurement that had the GEMM
+15 to 20 percent behind for it. That measurement was taken at the 128 by 128
+tile. At 128 by 64 the same comparison on qwen3-8B reverses and keeps reversing
+as the batch grows: 1.44 times MMQ at 256 tokens, 1.46 at 512, 1.59 at 1024 and
+1.76 at 2048, medians of three rounds of three samples with the arms interleaved
+inside one build. pp512 on that model goes from about 260 to about 379 against
+Vulkan's 395.
+
+This one does change the arithmetic, where the tile change did not. MMQ
+quantises the activations to eight bits and accumulates in int32; this converts
+both sides to fp16 and accumulates there, promoting to f32 every stage. For the
+types whose weights are narrower than eight bits that trade is a gain and the
+perplexity gates improved when the kernel first shipped. q8_0's weights are
+already the int8 operands MMQ wants, so there is no weight-side gain to set
+against the fp16 accumulation, and six chunks of wiki.test.raw at context 512
+read 9.4017 against MMQ's 9.3944, 0.078 percent worse. That is smaller than the
+0.2 percent the 14B already moved when this kernel took over its q4_K weights,
+and greedy text over 64 tokens is identical. GGML_RDNA1_PKF16_Q8=0 puts q8_0
+back on MMQ for anyone who would rather have the 0.078 percent than the 45.
+
+Co-authored-by: Claude Opus 5 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+diff --git a/ggml/src/ggml-cuda/mmf16-rdna1.cu b/ggml/src/ggml-cuda/mmf16-rdna1.cu
+--- a/ggml/src/ggml-cuda/mmf16-rdna1.cu
++++ b/ggml/src/ggml-cuda/mmf16-rdna1.cu
+@@ -272,22 +272,22 @@
+ }
+ 
+ static bool q8_enabled() {
+-    static const bool e = [] { const char * v = getenv("GGML_RDNA1_PKF16_Q8"); return v ? atoi(v) != 0 : false; }();
++    static const bool e = [] { const char * v = getenv("GGML_RDNA1_PKF16_Q8"); return v ? atoi(v) != 0 : true; }();
+     return e;
+ }
+ 
+ bool ggml_cuda_mmf16_rdna1_supported(const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * dst, const int cc) {
+     static const bool enabled = [] { const char * e = getenv("GGML_RDNA1_PKF16"); return e ? atoi(e) != 0 : true; }();
+     if (!enabled || !GGML_CUDA_CC_IS_RDNA1(cc)) return false;
+-    // q8_0 measured slower than MMQ end to end on the 8B (its int8 vec_dot is short and the matmul is
+-    // close to memory bound), so only the two K-quants take this path
+     switch (src0->type) {
+         case GGML_TYPE_Q4_K: case GGML_TYPE_Q5_K: case GGML_TYPE_Q6_K:
+         case GGML_TYPE_IQ2_XXS: case GGML_TYPE_IQ3_XXS: case GGML_TYPE_IQ3_S: case GGML_TYPE_IQ4_XS:
+             break;
+         case GGML_TYPE_Q8_0:
+-            // measured 15 to 20 percent slower than MMQ with the in-kernel decoder too
+-            // (logs/round11-2026-09-20); GGML_RDNA1_PKF16_Q8=1 puts it back for a retest
++            // q8_0 was left to MMQ when this kernel shipped, on a measurement that had it 15 to 20
++            // percent behind (logs/round11-2026-09-20). That was at the 128x128 tile. At 128x64 it is
++            // 1.44 to 1.76 times MMQ from 256 to 2048 tokens on the 8B, so it takes this path too;
++            // GGML_RDNA1_PKF16_Q8=0 puts it back on MMQ (logs/rdna1-pkf16-tile-2026-09-20).
+             if (!q8_enabled()) return false;
+             break;
+         default:

@@ -1,0 +1,121 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Fri, 19 Sep 2026 09:30:00 +0200
+Subject: [PATCH] ggml-cuda: RDNA1 flash-attention tile rows and one-token kernel choice
+
+RDNA1 has no v_dot2_f32_f16, so ggml_cuda_mad() unpacks each half2 into two
+floats and the flash-attention tile kernel's live registers double: the D=128
+prefill instance spills 569 VGPRs (2280 bytes/lane of scratch) on gfx1010 and
+gfx1013 against none on gfx1030, and the kernel measured 7.05 times Vulkan's.
+
+This adds an RDNA1 tile table selected ahead of the shared RDNA one:
+- D=128, 32 and 64 columns: 512 threads, nbatch_fa 32 -> no spill, the op at
+  parity with Vulkan (16.9 against 16.3 ms at pp2048), pp2048 +40 percent on
+  D=128 models with GQA sharing; models whose head ratio has no power-of-two
+  factor (40 heads over 8) stay on the 32-column tile through a dispatch check,
+  since their 64-column instance cannot be made to fit;
+- D=128, 4 and 2 columns: the decode-shaped instances with a GQA ratio of 4
+  and 2 (qwen3-8B, qwen2.5-1.5B) had no row and spilled 240 registers;
+  128/64 threads, occupancy 4 compile them clean; the 8B's one-token attention
+  at a 2048-token cache goes from 163 to 60 us and its decode at depth 4096
+  from 30.5 to 34.7 t/s;
+- D=256, 32 columns: 256 threads, occupancy 2, nbatch_K 64, the geometry with
+  the fewest spilled registers for the MoE's 4x8 instance; its 2048-token
+  attention halves (97 to 48 ms), the 27B's drops 42 percent;
+- D=256 and D=512 rows for the smaller column counts.
+
+And one change in the kernel chooser: without matrix cores a one-token op
+whose GQA ratio has no power-of-two factor was sent to a 1x1 tile that spills;
+on RDNA1 it goes to the vector kernel, 458 to 160 us on the 14B models and
+decode at depth 4096 from 17.7 to 25.7 t/s. Ratios with a power-of-two part
+stay on the tile, which measured faster there.
+
+Perplexity gates move by 0.1 to 0.5 percent in both directions, the order of
+floating-point accumulation having changed; every gate sits within 0.6 percent
+of Vulkan's on the same text. Measured on a BC-250: logs/rdna1-fattn-spill-
+2026-09-17 and logs/rdna1-fattn-remainder-2026-09-19 in the repository.
+
+Co-authored-by: Claude Fable 5.1 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+diff --git a/ggml/src/ggml-cuda/fattn-tile.cuh b/ggml/src/ggml-cuda/fattn-tile.cuh
+index d1164b8..c4c784c 100644
+--- a/ggml/src/ggml-cuda/fattn-tile.cuh
++++ b/ggml/src/ggml-cuda/fattn-tile.cuh
+@@ -312,8 +312,38 @@ static constexpr __host__ __device__ uint32_t ggml_cuda_fattn_tile_get_config_am
+     return 0;
+ }
+ 
++static constexpr __host__ __device__ uint32_t ggml_cuda_fattn_tile_get_config_amd_rdna1(const int DKQ, const int DV, const int ncols) {
++    // RDNA1 has no v_dot2_f32_f16, so ggml_cuda_mad() unpacks each half2 into two floats.
++    // That doubles the live values in the KQ accumulation loop and the D=128 tile kernels
++    // overrun the 256 VGPR budget: 569 VGPRs spilled and 2280 bytes/lane of scratch on
++    // gfx1010 and gfx1013, against no spill at all on gfx1030 and gfx1100. Doubling
++    // nthreads and halving nbatch_fa removes the spill and is worth 37 percent of prefill.
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(128, 128, 32, 512, 3,  32,  64)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(128, 128, 64, 512, 3, 32, 128)
++
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(128, 128, 16, 512, 3, 32, 64)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(128, 128, 8, 256, 4, 32, 64)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(128, 128, 4, 128, 4, 32, 64)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(128, 128, 2,  64, 4, 32, 64)
++    // D=256 and D=512 rows, from the gfx1013 register sweeps (BC-250 repository)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(256, 256, 32, 256, 2, 32, 64)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(256, 256, 16, 512, 3, 32, 128)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(256, 256, 8, 256, 4, 32, 64)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(256, 256, 4, 128, 4, 32, 64)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(256, 256, 2, 64, 4, 32, 64)
++
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(512, 512, 32, 512, 2, 32, 128)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(512, 512, 16, 512, 2, 32, 128)
++    // end of D=256 and D=512 rows
++
++    return ggml_cuda_fattn_tile_get_config_amd_rdna(DKQ, DV, ncols);
++}
++
+ static __host__ uint32_t ggml_cuda_fattn_tile_get_config(const int DKQ, const int DV, const int ncols, const int cc) {
+     if (GGML_CUDA_CC_IS_AMD(cc)) {
++        if (GGML_CUDA_CC_IS_RDNA1(cc)) {
++            return ggml_cuda_fattn_tile_get_config_amd_rdna1(DKQ, DV, ncols);
++        }
+         if (GGML_CUDA_CC_IS_RDNA(cc)) {
+             return ggml_cuda_fattn_tile_get_config_amd_rdna(DKQ, DV, ncols);
+         }
+@@ -327,7 +357,9 @@ static __host__ uint32_t ggml_cuda_fattn_tile_get_config(const int DKQ, const in
+ 
+ static constexpr __device__ uint32_t ggml_cuda_fattn_tile_get_config(const int DKQ, const int DV, const int ncols) {
+ #ifdef GGML_USE_HIP
+-#ifdef RDNA
++#ifdef RDNA1
++    return ggml_cuda_fattn_tile_get_config_amd_rdna1(DKQ, DV, ncols);
++#elif defined(RDNA)
+     return ggml_cuda_fattn_tile_get_config_amd_rdna(DKQ, DV, ncols);
+ #else
+     return ggml_cuda_fattn_tile_get_config_amd(DKQ, DV, ncols);
+@@ -1157,7 +1189,10 @@ static void launch_fattn_tile_switch_ncols1(ggml_backend_cuda_context & ctx, ggm
+ 
+ #ifdef GGML_USE_HIP
+     if constexpr (DKQ <= 128) {
+-        if (Q->ne[1] > 32/ncols2) {
++        // On RDNA1 the 64-column tile with ncols2 == 1 spills registers while the 32-column tile does not,
++        // so models whose head ratio has no power-of-two divisor stay at 32 columns there.
++        const bool rdna1_no_gqa = GGML_CUDA_CC_IS_RDNA1(cc) && ncols2 == 1;
++        if (!rdna1_no_gqa && Q->ne[1] > 32/ncols2) {
+             constexpr int cols_per_block = 64;
+             const int nwarps    = ggml_cuda_fattn_tile_get_nthreads (DKQ, DV, cols_per_block, cc) / warp_size;
+             const int nbatch_fa = ggml_cuda_fattn_tile_get_nbatch_fa(DKQ, DV, cols_per_block, cc);
+diff --git a/ggml/src/ggml-cuda/fattn.cu b/ggml/src/ggml-cuda/fattn.cu
+index ab7a3b2..f6a2058 100644
+--- a/ggml/src/ggml-cuda/fattn.cu
++++ b/ggml/src/ggml-cuda/fattn.cu
+@@ -520,7 +520,10 @@ static best_fattn_kernel ggml_cuda_get_best_fattn_kernel(const int device, const
+     if (can_use_vector_kernel) {
+         if (!ggml_is_quantized(K->type) && !ggml_is_quantized(V->type)) {
+             if (Q->ne[1] == 1) {
+-                if (!gqa_opt_applies) {
++                // RDNA1: a head ratio with no power-of-two factor would give the tile kernel ncols2 = 1,
++                // and that instance spills; the vector kernel is 2.9x faster there (BC-250 repository)
++                const bool rdna1_no_gqa_tile = GGML_CUDA_CC_IS_RDNA1(cc) && gqa_ratio_eff == 1;
++                if (!gqa_opt_applies || rdna1_no_gqa_tile) {
+                     return BEST_FATTN_KERNEL_VEC;
+                 }
+             }

@@ -1,0 +1,249 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Sat, 20 Sep 2026 21:30:00 +0200
+Subject: [PATCH] ggml-cuda: RDNA1 prefill GEMM: halve the column tile
+
+The tile the kernel shipped with, 128 weight rows by 128 columns of tokens, was
+chosen from a standalone prototype measured at 2048 tokens. In the backend it is
+the wrong shape. A 128-wide column tile divides a 512-token batch into four, so
+a 512-row matrix gets a 4 by 4 grid, sixteen workgroups on a board with sixteen
+compute units and nothing spare to hide latency with; and each thread holds 128
+accumulators, which takes 221 registers and allows four waves per SIMD.
+
+Halving the column tile to 64, with TN halved to match, takes the kernel to 125
+registers and eight waves, and doubles the number of column tiles. It is worth
+1.43 times prefill on qwen2.5-1.5B, 1.28 on qwen3-14B, 1.26 on qwen3.8-27B and
+1.11 on the qwen3.6-35B MoE at pp512, medians of three rounds of three samples
+with the arms interleaved inside one build. It is not a small-batch effect: on
+the two models swept across batch sizes it leads at 256, 512, 1024 and 2048
+tokens alike, by 1.55 to 1.07 times, the margin narrowing with the batch but
+never reversing, so the tile just changes instead of becoming conditional.
+
+Nothing about the arithmetic changes. With the f32 promotion at every stage each
+output element sums the same 32 products in fp16 in the same order, and the tile
+only decides which thread owns which output, so perplexity is bit-identical on
+all four models: 10.2088 on the 1.5B, 8.6550 on qwen3-14B, 6.2737 on the 27B and
+6.2473 on the MoE, against the same four figures before. test-backend-ops passes
+1186/1186 MUL_MAT cases.
+
+The tile becomes a template parameter so that other RDNA1 parts can be retested
+without an edit: GGML_RDNA1_PKF16_TILE=1 restores 128x128, 2 gives 128x32, 3
+64x64 and 4 64x128. The A-tile loader puts one thread on each row, so a block has
+exactly BM threads and any tile must satisfy BN / TN == TM. Measurements for all
+five are in logs/rdna1-pkf16-tile-2026-09-20 of the repository.
+
+Co-authored-by: Claude Opus 5 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+diff --git a/ggml/src/ggml-cuda/mmf16-rdna1.cu b/ggml/src/ggml-cuda/mmf16-rdna1.cu
+--- a/ggml/src/ggml-cuda/mmf16-rdna1.cu
++++ b/ggml/src/ggml-cuda/mmf16-rdna1.cu
+@@ -20,19 +20,23 @@
+ #include "dequantize.cuh"
+ #include <cstdlib>
+ 
++// The tile. BN is the column (token) tile and it is 64, not the 128 a standalone prototype preferred:
++// in situ 128 leaves only four column tiles at a 512-token batch and takes 221 registers, four waves a
++// SIMD, where 64 takes 125 and gets eight. 64 is ahead at every batch from 256 to 2048 on every model
++// measured, by 1.07 to 1.55 times (logs/rdna1-pkf16-tile-2026-09-20).
+ #define MMF16_BM 128
+-#define MMF16_BN 128
++#define MMF16_BN  64
+ #define MMF16_BK  32
+ #define MMF16_TM   8
+-#define MMF16_TN  16
++#define MMF16_TN   8
+ #define MMF16_NT  ((MMF16_BM / MMF16_TM) * (MMF16_BN / MMF16_TN))    // 128 threads, one per A-tile row
+ 
+ 
+ // Dequantise rows [row0, row0+BM) of a quantised matrix, elements [k0, k0+BK), into As[k][m].
+ // One thread per row; BK is 32, so every row's 32 elements live in one 32-value group of one superblock.
+-template <ggml_type type>
++template <ggml_type type, int BM>
+ static __device__ __forceinline__ void mmf16_load_a(
+-        const char * __restrict__ A, half (&As)[MMF16_BK][MMF16_BM + 8],
++        const char * __restrict__ A, half (&As)[MMF16_BK][BM + 8],
+         const int row0, const int k0, const int M, const size_t row_size, const int tid) {
+     const int m = tid;                                   // NT == BM, one row each
+     const int row = row0 + m;
+@@ -161,34 +165,39 @@
+     }
+ }
+ 
+-template <ggml_type type, int promote, bool dbuf>   // promote: stages between f32 promotions; dbuf: prefetch the next tile
+-static __global__ void __launch_bounds__(MMF16_NT) mmf16_rdna1_gemm(
++// The tile is a template parameter because the shipped 128x128 leaves only four column tiles at a
++// 512-token batch, which is the batch the benchmarks use; see logs/rdna1-pkf16-tile-2026-09-20.
++// mmf16_load_a puts one thread on each row of the A tile, so the block must have exactly BM threads,
++// which constrains BN / TN == TM.
++template <ggml_type type, int promote, bool dbuf, int BM = MMF16_BM, int BN = MMF16_BN,
++          int TM = MMF16_TM, int TN = MMF16_TN>   // promote: stages between f32 promotions; dbuf: prefetch the next tile
++static __global__ void __launch_bounds__(BM) mmf16_rdna1_gemm(
+         const char * __restrict__ A, const float * __restrict__ B, float * __restrict__ C,
+         const int M, const int N, const int K, const size_t row_size, const int sb, const int ldc) {
+-    __shared__ half As[dbuf ? 2 : 1][MMF16_BK][MMF16_BM + 8];
+-    __shared__ half Bs[dbuf ? 2 : 1][MMF16_BK][MMF16_BN + 8];
++    __shared__ half As[dbuf ? 2 : 1][MMF16_BK][BM + 8];
++    __shared__ half Bs[dbuf ? 2 : 1][MMF16_BK][BN + 8];
+ 
+     const int tid  = threadIdx.x;
+-    const int tm   = (tid % (MMF16_BM / MMF16_TM)) * MMF16_TM;
+-    const int tn   = (tid / (MMF16_BM / MMF16_TM)) * MMF16_TN;
+-    const int row0 = blockIdx.x * MMF16_BM;
+-    const int col0 = blockIdx.y * MMF16_BN;
++    const int tm   = (tid % (BM / TM)) * TM;
++    const int tn   = (tid / (BM / TM)) * TN;
++    const int row0 = blockIdx.x * BM;
++    const int col0 = blockIdx.y * BN;
+ 
+-    half2 acc[MMF16_TN][MMF16_TM / 2];
+-    float accf[MMF16_TN][MMF16_TM];
++    half2 acc[TN][TM / 2];
++    float accf[TN][TM];
+ #pragma unroll
+-    for (int j = 0; j < MMF16_TN; ++j) {
++    for (int j = 0; j < TN; ++j) {
+ #pragma unroll
+-        for (int i = 0; i < MMF16_TM / 2; ++i) acc[j][i] = make_half2(0.0f, 0.0f);
++        for (int i = 0; i < TM / 2; ++i) acc[j][i] = make_half2(0.0f, 0.0f);
+ #pragma unroll
+-        for (int i = 0; i < MMF16_TM; ++i) accf[j][i] = 0.0f;
++        for (int i = 0; i < TM; ++i) accf[j][i] = 0.0f;
+     }
+ 
+     int stage = 0;
+     if (dbuf) {                                     // prime the first tile
+-        mmf16_load_a<type>(A, As[0], row0, 0, M, row_size, tid);
++        mmf16_load_a<type, BM>(A, As[0], row0, 0, M, row_size, tid);
+ #pragma unroll
+-        for (int idx = tid; idx < MMF16_BN * MMF16_BK; idx += MMF16_NT) {
++        for (int idx = tid; idx < BN * MMF16_BK; idx += BM) {
+             const int n = idx / MMF16_BK, k = idx % MMF16_BK;
+             Bs[0][k][n] = col0 + n < N ? __float2half(B[(size_t) (col0 + n) * sb + k]) : __float2half(0.0f);
+         }
+@@ -197,9 +206,9 @@
+         const int cur = dbuf ? (stage & 1) : 0;
+         const int nxt = dbuf ? (cur ^ 1)   : 0;
+         if (!dbuf) {
+-            mmf16_load_a<type>(A, As[0], row0, k0, M, row_size, tid);
++            mmf16_load_a<type, BM>(A, As[0], row0, k0, M, row_size, tid);
+ #pragma unroll
+-            for (int idx = tid; idx < MMF16_BN * MMF16_BK; idx += MMF16_NT) {
++            for (int idx = tid; idx < BN * MMF16_BK; idx += BM) {
+                 const int n = idx / MMF16_BK, k = idx % MMF16_BK;
+                 Bs[0][k][n] = col0 + n < N ? __float2half(B[(size_t) (col0 + n) * sb + (k0 + k)]) : __float2half(0.0f);
+             }
+@@ -207,9 +216,9 @@
+         __syncthreads();
+ 
+         if (dbuf && k0 + MMF16_BK < K) {            // fetch the next tile over this stage's arithmetic
+-            mmf16_load_a<type>(A, As[nxt], row0, k0 + MMF16_BK, M, row_size, tid);
++            mmf16_load_a<type, BM>(A, As[nxt], row0, k0 + MMF16_BK, M, row_size, tid);
+ #pragma unroll
+-            for (int idx = tid; idx < MMF16_BN * MMF16_BK; idx += MMF16_NT) {
++            for (int idx = tid; idx < BN * MMF16_BK; idx += BM) {
+                 const int n = idx / MMF16_BK, k = idx % MMF16_BK;
+                 Bs[nxt][k][n] = col0 + n < N ? __float2half(B[(size_t) (col0 + n) * sb + (k0 + MMF16_BK + k)]) : __float2half(0.0f);
+             }
+@@ -217,25 +226,25 @@
+ 
+ #pragma unroll
+         for (int k = 0; k < MMF16_BK; ++k) {
+-            half2 a[MMF16_TM / 2], b[MMF16_TN];
++            half2 a[TM / 2], b[TN];
+ #pragma unroll
+-            for (int i = 0; i < MMF16_TM / 2; ++i) a[i] = *(const half2 *) &As[cur][k][tm + 2 * i];
++            for (int i = 0; i < TM / 2; ++i) a[i] = *(const half2 *) &As[cur][k][tm + 2 * i];
+ #pragma unroll
+-            for (int j = 0; j < MMF16_TN; j += 2) {
++            for (int j = 0; j < TN; j += 2) {
+                 const half2 pair = *(const half2 *) &Bs[cur][k][tn + j];
+                 b[j]     = __low2half2(pair);
+                 b[j + 1] = __high2half2(pair);
+             }
+ #pragma unroll
+-            for (int j = 0; j < MMF16_TN; ++j)
++            for (int j = 0; j < TN; ++j)
+ #pragma unroll
+-                for (int i = 0; i < MMF16_TM / 2; ++i) acc[j][i] = __hfma2(a[i], b[j], acc[j][i]);
++                for (int i = 0; i < TM / 2; ++i) acc[j][i] = __hfma2(a[i], b[j], acc[j][i]);
+         }
+         if (promote == 1 || (stage % promote) == promote - 1 || k0 + MMF16_BK >= K) {
+ #pragma unroll
+-            for (int j = 0; j < MMF16_TN; ++j)
++            for (int j = 0; j < TN; ++j)
+ #pragma unroll
+-                for (int i = 0; i < MMF16_TM / 2; ++i) {
++                for (int i = 0; i < TM / 2; ++i) {
+                     accf[j][2 * i]     += __low2float(acc[j][i]);
+                     accf[j][2 * i + 1] += __high2float(acc[j][i]);
+                     acc[j][i] = make_half2(0.0f, 0.0f);
+@@ -245,12 +254,12 @@
+     }
+ 
+ #pragma unroll
+-    for (int j = 0; j < MMF16_TN; ++j) {
++    for (int j = 0; j < TN; ++j) {
+         const int n = col0 + tn + j;
+         if (n >= N) continue;
+         float * dst_col = C + (size_t) n * ldc;
+ #pragma unroll
+-        for (int i = 0; i < MMF16_TM; i += 4) {
++        for (int i = 0; i < TM; i += 4) {
+             const int m = row0 + tm + i;
+             if (m + 3 < M) {
+                 *(float4 *) &dst_col[m] = make_float4(accf[j][i], accf[j][i+1], accf[j][i+2], accf[j][i+3]);
+@@ -298,16 +307,51 @@
+ void ggml_cuda_mmf16_rdna1(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+     const int M = src0->ne[1], N = src1->ne[1], K = src0->ne[0];
+     const size_t row_size = ggml_row_size(src0->type, src0->ne[0]);
+-    const dim3 grid((M + MMF16_BM - 1) / MMF16_BM, (N + MMF16_BN - 1) / MMF16_BN, 1);
+     cudaStream_t stream = ctx.stream();
+     const char * A = (const char *) src0->data;
+     const float * B = (const float *) src1->data;
+     float * C = (float *) dst->data;
++
++    // GGML_RDNA1_PKF16_TILE selects the tile at run time: 0 the shipped 128x128, then three shapes with
++    // more column tiles for small batches. BN / TN == TM always, because the A-tile loader is one thread
++    // per row and the block therefore has exactly BM threads.
++    static const int tile = [] { const char * e = getenv("GGML_RDNA1_PKF16_TILE"); return e ? atoi(e) : 0; }();
++    if (tile > 0) {   // 1 restores the 128x128 the kernel first shipped with; the rest are for retesting
++#define MMF16_LAUNCH_TILE(t, bm, bn, tm, tn)                                                            \
++        do {                                                                                            \
++            const dim3 g((M + (bm) - 1) / (bm), (N + (bn) - 1) / (bn), 1);                              \
++            mmf16_rdna1_gemm<t, 1, false, bm, bn, tm, tn><<<g, bm, 0, stream>>>(                        \
++                A, B, C, M, N, K, row_size, K, dst->ne[0]);                                             \
++        } while (0)
++#define MMF16_TILE_SWITCH(t)                                                                            \
++        do {                                                                                            \
++            if      (tile == 1) MMF16_LAUNCH_TILE(t, 128, 128, 8, 16);                                  \
++            else if (tile == 2) MMF16_LAUNCH_TILE(t, 128,  32, 8,  4);                                  \
++            else if (tile == 3) MMF16_LAUNCH_TILE(t,  64,  64, 4, 16);                                  \
++            else                MMF16_LAUNCH_TILE(t,  64, 128, 4, 32);                                  \
++        } while (0)
++        switch (src0->type) {
++            case GGML_TYPE_Q4_K:    MMF16_TILE_SWITCH(GGML_TYPE_Q4_K);    break;
++            case GGML_TYPE_Q5_K:    MMF16_TILE_SWITCH(GGML_TYPE_Q5_K);    break;
++            case GGML_TYPE_IQ2_XXS: MMF16_TILE_SWITCH(GGML_TYPE_IQ2_XXS); break;
++            case GGML_TYPE_IQ3_XXS: MMF16_TILE_SWITCH(GGML_TYPE_IQ3_XXS); break;
++            case GGML_TYPE_IQ3_S:   MMF16_TILE_SWITCH(GGML_TYPE_IQ3_S);   break;
++            case GGML_TYPE_IQ4_XS:  MMF16_TILE_SWITCH(GGML_TYPE_IQ4_XS);  break;
++            case GGML_TYPE_Q6_K:    MMF16_TILE_SWITCH(GGML_TYPE_Q6_K);    break;
++            case GGML_TYPE_Q8_0:    MMF16_TILE_SWITCH(GGML_TYPE_Q8_0);    break;
++            default: GGML_ABORT("unsupported type");
++        }
++#undef MMF16_TILE_SWITCH
++#undef MMF16_LAUNCH_TILE
++        return;
++    }
++
++    const dim3 grid((M + MMF16_BM - 1) / MMF16_BM, (N + MMF16_BN - 1) / MMF16_BN, 1);
+     switch (src0->type) {
+     static const int promote = [] { const char * e = getenv("GGML_RDNA1_PKF16_PROMOTE"); const int v = e ? atoi(e) : 1;
+                                     return (v == 1 || v == 2 || v == 4) ? v : 1; }();
+-    // prefetching the next tile doubles the shared memory and costs a wave of occupancy (17408 to 34816
+-    // bytes, 4 waves to 3): measured no better on the 1.5B and 27B and 19 percent worse on the 14B
++    // prefetching the next tile doubles the shared memory and costs a wave of occupancy: measured no
++    // better on the 1.5B and 27B and 19 percent worse on the 14B, at the 128x128 tile of the time
+     static const bool dbuf = [] { const char * e = getenv("GGML_RDNA1_PKF16_DBUF"); return e ? atoi(e) != 0 : false; }();
+ #define MMF16_LAUNCH_PD(t, p, d) mmf16_rdna1_gemm<t, p, d><<<grid, MMF16_NT, 0, stream>>>(A, B, C, M, N, K, row_size, K, dst->ne[0])
+ #define MMF16_LAUNCH_P(t, p) do { if (dbuf) { MMF16_LAUNCH_PD(t, p, true); } else { MMF16_LAUNCH_PD(t, p, false); } } while (0)

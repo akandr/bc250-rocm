@@ -1,0 +1,83 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Sun, 21 Sep 2026 10:30:00 +0200
+Subject: [PATCH] ggml-cuda: RDNA1 prefill GEMM: admit 128-token batches
+
+The kernel refuses batches below 256 tokens because at 128 it measured 22
+percent behind MMQ. That was at the 128 by 128 tile, and it is the third
+decision taken there to reverse when the tile changed, after q8_0 and the tile
+prefetch.
+
+Measured again at 128 by 64, with the threshold switchable, a 128-token batch is
+1.21 times MMQ on qwen2.5-1.5B, 1.24 on qwen3.8-27B and 1.08 on the qwen3.6-35B
+MoE. A 64-token batch is still 8 to 10 percent behind and a 32-token one a third
+to a half behind, so the crossover has moved from somewhere between 128 and 512
+to somewhere between 64 and 128, and the threshold becomes 128.
+
+Nothing at 256 tokens or above changes, so the benchmark figures do not move;
+this is for short prompts, which is what interactive use has. Both thresholds
+are now switchable, GGML_RDNA1_PKF16_MINCOLS and GGML_RDNA1_PKF16_MINROWS, so
+the next tile change does not need a rebuild to re-measure them. The row
+threshold is untouched at 512 and untested: none of the six models here has a
+matmul narrower than that.
+
+test-backend-ops passes 1186/1186 MUL_MAT and 865/865 MUL_MAT_ID cases.
+
+Co-authored-by: Claude Opus 5 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+diff --git a/ggml/src/ggml-cuda/mmf16-rdna1.cu b/ggml/src/ggml-cuda/mmf16-rdna1.cu
+--- a/ggml/src/ggml-cuda/mmf16-rdna1.cu
++++ b/ggml/src/ggml-cuda/mmf16-rdna1.cu
+@@ -303,6 +303,21 @@
+     return e;
+ }
+ 
++// Below these the kernel is behind MMQ, because one tile of columns or rows does not fill the GPU, and
++// both are switchable so they can be measured again on another part or after another tile change.
++//
++// The column threshold was 256 when the tile was 128 wide, where 128 tokens measured 22 percent behind
++// MMQ. At a 64-wide tile 128 tokens is 1.21 to 1.24 times ahead on every model measured and 64 tokens is
++// still behind, so the crossover is 128 (logs/rdna1-pkf16-thresholds-2026-09-21).
++static int mmf16_min_cols() {
++    static const int v = [] { const char * e = getenv("GGML_RDNA1_PKF16_MINCOLS"); return e ? atoi(e) : 128; }();
++    return v;
++}
++static int mmf16_min_rows() {
++    static const int v = [] { const char * e = getenv("GGML_RDNA1_PKF16_MINROWS"); return e ? atoi(e) : 512; }();
++    return v;
++}
++
+ // The types the kernel has a decoder for, and the master switch. Shared with the expert path, which
+ // applies its own shape tests.
+ static bool mmf16_type_supported(const ggml_tensor * src0, const int cc) {
+@@ -331,10 +346,8 @@
+     if (src0->ne[2] != 1 || src0->ne[3] != 1 || src1->ne[2] != 1 || src1->ne[3] != 1) return false;
+     if (!ggml_is_contiguously_allocated(src0) || !ggml_is_contiguous(src1) || !ggml_is_contiguous(dst)) return false;
+     if (src0->ne[0] % 256 != 0) return false;            // one 32-value group per stage, inside a superblock
+-    // one BN tile of columns does not fill the GPU: at 128 tokens this kernel is 22 percent behind MMQ
+-    // on the 1.5B, at 512 it is 36 percent ahead, so the threshold sits between them
+-    if (src1->ne[1] < 256) return false;
+-    if (src0->ne[1] < 512) return false;                 // narrow matrices are slower here than MMQ
++    if (src1->ne[1] < mmf16_min_cols()) return false;
++    if (src0->ne[1] < mmf16_min_rows()) return false;
+     return true;
+ }
+ 
+@@ -436,7 +449,7 @@
+     if (src1->type != GGML_TYPE_F32 || dst->type != GGML_TYPE_F32) return false;
+     if (!ggml_is_contiguously_allocated(src0)) return false;
+     if (src0->ne[0] % 256 != 0) return false;            // one 32-value group per stage, inside a superblock
+-    if (src0->ne[1] < 512) return false;                 // narrow matrices are slower here than MMQ
++    if (src0->ne[1] < mmf16_min_rows()) return false;
+     // one weight matrix per expert, one batch, and the compact ordering the helper builds assumes these
+     if (src0->ne[3] != 1 || src1->ne[3] != 1 || dst->ne[3] != 1) return false;
+     if (src1->ne[2] != dst->ne[2] || ids->ne[1] != dst->ne[2]) return false;
+@@ -446,7 +459,7 @@
+     if (src1->nb[2] % src1->nb[1] != 0) return false;
+     // the token count is dimension 2 here, not dimension 1; below a few hundred compact columns MMQ wins
+     // for the same reason it does on the dense path
+-    if (src1->ne[2] * ids->ne[0] < 256) return false;
++    if (src1->ne[2] * ids->ne[0] < mmf16_min_cols()) return false;
+     return true;
+ }
+ 

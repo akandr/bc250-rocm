@@ -1,0 +1,27 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Fri, 19 Sep 2026 09:30:00 +0200
+Subject: [PATCH] llama: request F32 precision for the KQ.V product
+
+On the BC-250 (gfx1013, ROCm) aggregating V in half precision corrupts the
+output of batched compute at longer contexts; the perplexity gate fails
+without this and passes with it (INVESTIGATION.md, "the precision caveat").
+Requesting GGML_PREC_F32 on the kqv matmul, as the KQ matmul already can,
+routes it through the F32 path. A test-target change, not a general one:
+the right upstream form would key it on the backend's capabilities.
+
+Co-authored-by: Claude Fable 5.1 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index 2be3b75..3942bbc 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -2608,6 +2608,8 @@ ggml_tensor * llm_graph_context::build_attn_mha(
+ 
+         ggml_tensor * kqv = ggml_mul_mat(ctx0, v, kq);
+         cb(kqv, "kqv", il);
++        // BC-250 test: f16 V aggregation in half precision corrupts at long context
++        ggml_mul_mat_set_prec(kqv, GGML_PREC_F32);
+ 
+         // for MLA with the absorption optimization, we need to "decompress" from MQA back to MHA
+         if (v_mla) {

@@ -1,0 +1,27 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Fri, 19 Sep 2026 09:30:00 +0200
+Subject: [PATCH] ggml-cuda: gfx1013 is RDNA1
+
+vendors/hip.h defines RDNA1 for gfx1010 and gfx1012 only. gfx1013 (Cyan
+Skillfish, the BC-250's APU) is the same architecture and without the macro it
+takes none of the RDNA1 code paths, including the tables the later patches add.
+
+Co-authored-by: Claude Fable 5.1 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+diff --git a/ggml/src/ggml-cuda/vendors/hip.h b/ggml/src/ggml-cuda/vendors/hip.h
+index 9aa558f..3534566 100644
+--- a/ggml/src/ggml-cuda/vendors/hip.h
++++ b/ggml/src/ggml-cuda/vendors/hip.h
+@@ -229,9 +229,9 @@
+ #define RDNA2
+ #endif
+ 
+-#if defined(__gfx1010__) || defined(__gfx1012__)
++#if defined(__gfx1010__) || defined(__gfx1012__) || defined(__gfx1013__)
+ #define RDNA1
+-#endif // defined(__gfx1010__) || defined(__gfx1012__)
++#endif // defined(__gfx1010__) || defined(__gfx1012__) || defined(__gfx1013__)
+ 
+ #if defined(RDNA4) || defined(RDNA3) || defined(RDNA2) || defined(RDNA1)
+ #define RDNA // For the entire family

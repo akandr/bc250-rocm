@@ -1,0 +1,408 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Sun, 21 Sep 2026 00:30:00 +0200
+Subject: [PATCH] ggml-cuda: RDNA1 prefill GEMM: the mixture-of-experts path
+
+MUL_MAT_ID reaches ggml_cuda_mul_mat_id, not ggml_cuda_mul_mat, so the packed-
+fp16 GEMM never saw a mixture-of-experts model's experts: they stayed on MMQ and
+a kernel trace puts them at 60 percent of qwen3.6-35B-A3B's prefill, running at
+1.18 TFLOP/s where the chip does 14.4 in packed fp16.
+
+ggml_cuda_launch_mm_ids_helper already builds everything needed, and MMQ and MMF
+both call it: a compact ordering of the used (token, slot) pairs sorted by
+expert, the activation column each compact slot reads, the destination column it
+writes, and each expert's range. This runs the same GEMM over that ordering, one
+expert per block in z, walking that expert's column tiles in a loop so the grid
+does not have to be sized for the most heavily used expert. No activations are
+gathered into a compact buffer: the column index is read through the map.
+
+The column tile is 32 here against 64 on the dense path. At a 512-token batch
+with eight of 256 experts used an expert sees about sixteen columns, so 64 is
+mostly padding, and 16 amortises the weight dequantisation over too few outputs.
+32 measured ahead of both at every batch: against MMQ it is 1.75 times at 256
+tokens, 1.55 at 512 and 1.55 at 2048, taking the model's pp512 from 379 to 588
+against Vulkan's 457.
+
+Accuracy improves instead of degrading, for the reason it did when the kernel
+first shipped on the dense path: the experts are IQ2_XXS and IQ3_XXS, far
+narrower than the eight bits MMQ quantises the activations to, so fp16
+activations are the better trade. Six chunks of wiki.test.raw at context 512
+read 6.2265 against MMQ's 6.2473, and greedy text over 64 tokens is identical.
+test-backend-ops passes 865/865 MUL_MAT_ID cases at all three column widths.
+
+GGML_RDNA1_PKF16_ID=0 puts the experts back on MMQ and
+GGML_RDNA1_PKF16_ID_BN picks 16, 32 or 64. The kernel now carries a static
+assertion for the tile constraint it always had, that a block has exactly BM
+threads and therefore BN / TN must equal TM; getting that wrong is how the first
+version of this patch failed 24 of the 865 cases, leaving some columns unwritten.
+
+Co-authored-by: Claude Opus 5 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+diff --git a/ggml/src/ggml-cuda/mmf16-rdna1.cu b/ggml/src/ggml-cuda/mmf16-rdna1.cu
+--- a/ggml/src/ggml-cuda/mmf16-rdna1.cu
++++ b/ggml/src/ggml-cuda/mmf16-rdna1.cu
+@@ -16,6 +16,7 @@
+ //
+ // Layout, as cuBLAS is called with: A row m contiguous in k, B column n contiguous in k, C column-major.
+ #include "mmf16-rdna1.cuh"
++#include "mmid.cuh"
+ #include "convert.cuh"
+ #include "dequantize.cuh"
+ #include <cstdlib>
+@@ -169,11 +170,27 @@
+ // 512-token batch, which is the batch the benchmarks use; see logs/rdna1-pkf16-tile-2026-09-20.
+ // mmf16_load_a puts one thread on each row of the A tile, so the block must have exactly BM threads,
+ // which constrains BN / TN == TM.
+-template <ggml_type type, int promote, bool dbuf, int BM = MMF16_BM, int BN = MMF16_BN,
++// The tile is a template parameter because the shipped 128x128 leaves only four column tiles at a
++// 512-token batch, which is the batch the benchmarks use; see logs/rdna1-pkf16-tile-2026-09-20.
++// mmf16_load_a puts one thread on each row of the A tile, so the block must have exactly BM threads,
++// which constrains BN / TN == TM.
++//
++// mmid selects the expert path. There the columns are the compact, expert-sorted slots that
++// ggml_cuda_launch_mm_ids_helper builds: block z takes one expert, its column range comes from
++// expert_bounds, the activation column of compact slot c is ids_src1[c] and its destination column is
++// ids_dst[c]. A block walks its expert's column tiles in a loop, so the grid does not have to be sized
++// for the most heavily used expert. With mmid false the loop runs exactly once and the kernel is what
++// it was.
++template <ggml_type type, int promote, bool dbuf, bool mmid = false, int BM = MMF16_BM, int BN = MMF16_BN,
+           int TM = MMF16_TM, int TN = MMF16_TN>   // promote: stages between f32 promotions; dbuf: prefetch the next tile
+ static __global__ void __launch_bounds__(BM) mmf16_rdna1_gemm(
+         const char * __restrict__ A, const float * __restrict__ B, float * __restrict__ C,
+-        const int M, const int N, const int K, const size_t row_size, const int sb, const int ldc) {
++        const int M, const int N, const int K, const size_t row_size, const int sb, const int ldc,
++        const int32_t * __restrict__ ids_src1 = nullptr, const int32_t * __restrict__ ids_dst = nullptr,
++        const int32_t * __restrict__ expert_bounds = nullptr, const size_t stride_expert = 0) {
++    // the A-tile loader is one thread per row, so the block has exactly BM threads
++    static_assert((BM / TM) * (BN / TN) == BM, "bad tile: (BM/TM)*(BN/TN) must be BM, so BN/TN == TM");
++    static_assert(TN % 2 == 0, "the B tile is read as half2 pairs");
+     __shared__ half As[dbuf ? 2 : 1][MMF16_BK][BM + 8];
+     __shared__ half Bs[dbuf ? 2 : 1][MMF16_BK][BN + 8];
+ 
+@@ -181,91 +198,101 @@
+     const int tm   = (tid % (BM / TM)) * TM;
+     const int tn   = (tid / (BM / TM)) * TN;
+     const int row0 = blockIdx.x * BM;
+-    const int col0 = blockIdx.y * BN;
+ 
+-    half2 acc[TN][TM / 2];
+-    float accf[TN][TM];
++    if constexpr (mmid) {
++        A += (size_t) blockIdx.z * stride_expert;
++    }
++    const int cbeg = mmid ? expert_bounds[blockIdx.z]     : 0;
++    const int cend = mmid ? expert_bounds[blockIdx.z + 1] : N;
++
++    for (int col0 = cbeg + blockIdx.y * BN; col0 < cend; col0 += gridDim.y * BN) {
++        // the activation column a compact slot reads from, or the slot itself off the expert path
++        auto bcol = [&](const int c) { return mmid ? ids_src1[c] : c; };
++
++        half2 acc[TN][TM / 2];
++        float accf[TN][TM];
+ #pragma unroll
+-    for (int j = 0; j < TN; ++j) {
++        for (int j = 0; j < TN; ++j) {
+ #pragma unroll
+-        for (int i = 0; i < TM / 2; ++i) acc[j][i] = make_half2(0.0f, 0.0f);
++            for (int i = 0; i < TM / 2; ++i) acc[j][i] = make_half2(0.0f, 0.0f);
+ #pragma unroll
+-        for (int i = 0; i < TM; ++i) accf[j][i] = 0.0f;
+-    }
+-
+-    int stage = 0;
+-    if (dbuf) {                                     // prime the first tile
+-        mmf16_load_a<type, BM>(A, As[0], row0, 0, M, row_size, tid);
+-#pragma unroll
+-        for (int idx = tid; idx < BN * MMF16_BK; idx += BM) {
+-            const int n = idx / MMF16_BK, k = idx % MMF16_BK;
+-            Bs[0][k][n] = col0 + n < N ? __float2half(B[(size_t) (col0 + n) * sb + k]) : __float2half(0.0f);
++            for (int i = 0; i < TM; ++i) accf[j][i] = 0.0f;
+         }
+-    }
+-    for (int k0 = 0; k0 < K; k0 += MMF16_BK, ++stage) {
+-        const int cur = dbuf ? (stage & 1) : 0;
+-        const int nxt = dbuf ? (cur ^ 1)   : 0;
+-        if (!dbuf) {
+-            mmf16_load_a<type, BM>(A, As[0], row0, k0, M, row_size, tid);
++
++        int stage = 0;
++        if (dbuf) {                                     // prime the first tile
++            mmf16_load_a<type, BM>(A, As[0], row0, 0, M, row_size, tid);
+ #pragma unroll
+             for (int idx = tid; idx < BN * MMF16_BK; idx += BM) {
+                 const int n = idx / MMF16_BK, k = idx % MMF16_BK;
+-                Bs[0][k][n] = col0 + n < N ? __float2half(B[(size_t) (col0 + n) * sb + (k0 + k)]) : __float2half(0.0f);
++                Bs[0][k][n] = col0 + n < cend ? __float2half(B[(size_t) bcol(col0 + n) * sb + k]) : __float2half(0.0f);
+             }
+         }
+-        __syncthreads();
++        for (int k0 = 0; k0 < K; k0 += MMF16_BK, ++stage) {
++            const int cur = dbuf ? (stage & 1) : 0;
++            const int nxt = dbuf ? (cur ^ 1)   : 0;
++            if (!dbuf) {
++                mmf16_load_a<type, BM>(A, As[0], row0, k0, M, row_size, tid);
++#pragma unroll
++                for (int idx = tid; idx < BN * MMF16_BK; idx += BM) {
++                    const int n = idx / MMF16_BK, k = idx % MMF16_BK;
++                    Bs[0][k][n] = col0 + n < cend ? __float2half(B[(size_t) bcol(col0 + n) * sb + (k0 + k)]) : __float2half(0.0f);
++                }
++            }
++            __syncthreads();
+ 
+-        if (dbuf && k0 + MMF16_BK < K) {            // fetch the next tile over this stage's arithmetic
+-            mmf16_load_a<type, BM>(A, As[nxt], row0, k0 + MMF16_BK, M, row_size, tid);
++            if (dbuf && k0 + MMF16_BK < K) {            // fetch the next tile over this stage's arithmetic
++                mmf16_load_a<type, BM>(A, As[nxt], row0, k0 + MMF16_BK, M, row_size, tid);
+ #pragma unroll
+-            for (int idx = tid; idx < BN * MMF16_BK; idx += BM) {
+-                const int n = idx / MMF16_BK, k = idx % MMF16_BK;
+-                Bs[nxt][k][n] = col0 + n < N ? __float2half(B[(size_t) (col0 + n) * sb + (k0 + MMF16_BK + k)]) : __float2half(0.0f);
++                for (int idx = tid; idx < BN * MMF16_BK; idx += BM) {
++                    const int n = idx / MMF16_BK, k = idx % MMF16_BK;
++                    Bs[nxt][k][n] = col0 + n < cend ? __float2half(B[(size_t) bcol(col0 + n) * sb + (k0 + MMF16_BK + k)]) : __float2half(0.0f);
++                }
+             }
+-        }
+ 
+ #pragma unroll
+-        for (int k = 0; k < MMF16_BK; ++k) {
+-            half2 a[TM / 2], b[TN];
++            for (int k = 0; k < MMF16_BK; ++k) {
++                half2 a[TM / 2], b[TN];
+ #pragma unroll
+-            for (int i = 0; i < TM / 2; ++i) a[i] = *(const half2 *) &As[cur][k][tm + 2 * i];
++                for (int i = 0; i < TM / 2; ++i) a[i] = *(const half2 *) &As[cur][k][tm + 2 * i];
+ #pragma unroll
+-            for (int j = 0; j < TN; j += 2) {
+-                const half2 pair = *(const half2 *) &Bs[cur][k][tn + j];
+-                b[j]     = __low2half2(pair);
+-                b[j + 1] = __high2half2(pair);
+-            }
++                for (int j = 0; j < TN; j += 2) {
++                    const half2 pair = *(const half2 *) &Bs[cur][k][tn + j];
++                    b[j]     = __low2half2(pair);
++                    b[j + 1] = __high2half2(pair);
++                }
+ #pragma unroll
+-            for (int j = 0; j < TN; ++j)
++                for (int j = 0; j < TN; ++j)
+ #pragma unroll
+-                for (int i = 0; i < TM / 2; ++i) acc[j][i] = __hfma2(a[i], b[j], acc[j][i]);
+-        }
+-        if (promote == 1 || (stage % promote) == promote - 1 || k0 + MMF16_BK >= K) {
++                    for (int i = 0; i < TM / 2; ++i) acc[j][i] = __hfma2(a[i], b[j], acc[j][i]);
++            }
++            if (promote == 1 || (stage % promote) == promote - 1 || k0 + MMF16_BK >= K) {
+ #pragma unroll
+-            for (int j = 0; j < TN; ++j)
++                for (int j = 0; j < TN; ++j)
+ #pragma unroll
+-                for (int i = 0; i < TM / 2; ++i) {
+-                    accf[j][2 * i]     += __low2float(acc[j][i]);
+-                    accf[j][2 * i + 1] += __high2float(acc[j][i]);
+-                    acc[j][i] = make_half2(0.0f, 0.0f);
+-                }
++                    for (int i = 0; i < TM / 2; ++i) {
++                        accf[j][2 * i]     += __low2float(acc[j][i]);
++                        accf[j][2 * i + 1] += __high2float(acc[j][i]);
++                        acc[j][i] = make_half2(0.0f, 0.0f);
++                    }
++            }
++            __syncthreads();
+         }
+-        __syncthreads();
+-    }
+ 
+ #pragma unroll
+-    for (int j = 0; j < TN; ++j) {
+-        const int n = col0 + tn + j;
+-        if (n >= N) continue;
+-        float * dst_col = C + (size_t) n * ldc;
+-#pragma unroll
+-        for (int i = 0; i < TM; i += 4) {
+-            const int m = row0 + tm + i;
+-            if (m + 3 < M) {
+-                *(float4 *) &dst_col[m] = make_float4(accf[j][i], accf[j][i+1], accf[j][i+2], accf[j][i+3]);
+-            } else {
++        for (int j = 0; j < TN; ++j) {
++            const int c = col0 + tn + j;
++            if (c >= cend) continue;
++            float * dst_col = C + (size_t) (mmid ? ids_dst[c] : c) * ldc;
++#pragma unroll
++            for (int i = 0; i < TM; i += 4) {
++                const int m = row0 + tm + i;
++                if (m + 3 < M) {
++                    *(float4 *) &dst_col[m] = make_float4(accf[j][i], accf[j][i+1], accf[j][i+2], accf[j][i+3]);
++                } else {
+ #pragma unroll
+-                for (int t = 0; t < 4; ++t) if (m + t < M) dst_col[m + t] = accf[j][i + t];
++                    for (int t = 0; t < 4; ++t) if (m + t < M) dst_col[m + t] = accf[j][i + t];
++                }
+             }
+         }
+     }
+@@ -276,7 +303,9 @@
+     return e;
+ }
+ 
+-bool ggml_cuda_mmf16_rdna1_supported(const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * dst, const int cc) {
++// The types the kernel has a decoder for, and the master switch. Shared with the expert path, which
++// applies its own shape tests.
++static bool mmf16_type_supported(const ggml_tensor * src0, const int cc) {
+     static const bool enabled = [] { const char * e = getenv("GGML_RDNA1_PKF16"); return e ? atoi(e) != 0 : true; }();
+     if (!enabled || !GGML_CUDA_CC_IS_RDNA1(cc)) return false;
+     switch (src0->type) {
+@@ -293,6 +322,11 @@
+         default:
+             return false;
+     }
++    return true;
++}
++
++bool ggml_cuda_mmf16_rdna1_supported(const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * dst, const int cc) {
++    if (!mmf16_type_supported(src0, cc)) return false;
+     if (src1->type != GGML_TYPE_F32 || dst->type != GGML_TYPE_F32) return false;
+     if (src0->ne[2] != 1 || src0->ne[3] != 1 || src1->ne[2] != 1 || src1->ne[3] != 1) return false;
+     if (!ggml_is_contiguously_allocated(src0) || !ggml_is_contiguous(src1) || !ggml_is_contiguous(dst)) return false;
+@@ -320,7 +354,7 @@
+ #define MMF16_LAUNCH_TILE(t, bm, bn, tm, tn)                                                            \
+         do {                                                                                            \
+             const dim3 g((M + (bm) - 1) / (bm), (N + (bn) - 1) / (bn), 1);                              \
+-            mmf16_rdna1_gemm<t, 1, false, bm, bn, tm, tn><<<g, bm, 0, stream>>>(                        \
++            mmf16_rdna1_gemm<t, 1, false, false, bm, bn, tm, tn><<<g, bm, 0, stream>>>(                        \
+                 A, B, C, M, N, K, row_size, K, dst->ne[0]);                                             \
+         } while (0)
+ #define MMF16_TILE_SWITCH(t)                                                                            \
+@@ -371,3 +405,103 @@
+         default: GGML_ABORT("unsupported type");
+     }
+ }
++
++// ---------------------------------------------------------------------------------------------------
++// The expert path.
++//
++// MUL_MAT_ID reaches ggml_cuda_mul_mat_id, not ggml_cuda_mul_mat, so the GEMM above never saw a
++// mixture-of-experts model's experts: they stayed on MMQ and are 60 percent of that model's prefill
++// (logs/moe-decode-2026-09-20). ggml_cuda_launch_mm_ids_helper already builds what is needed, the same
++// call MMQ and MMF make: a compact ordering of the used (token, slot) pairs sorted by expert, the
++// activation column each compact slot reads, the destination column it writes, and the range of each
++// expert. This launches the same kernel over that ordering, one expert per block in z.
++//
++// The column tile wants to be narrower here than on the dense path. At a 512-token batch with eight of
++// 256 experts used, an expert sees about sixteen columns, so a 64-wide tile would be mostly padding;
++// GGML_RDNA1_PKF16_ID_BN picks among 16, 32 and 64.
++static int id_bn() {
++    static const int v = [] {
++        const char * e = getenv("GGML_RDNA1_PKF16_ID_BN");
++        const int n = e ? atoi(e) : 32;
++        return (n == 16 || n == 32 || n == 64) ? n : 32;
++    }();
++    return v;
++}
++
++bool ggml_cuda_mmf16_rdna1_id_supported(const ggml_tensor * src0, const ggml_tensor * src1,
++                                        const ggml_tensor * ids, const ggml_tensor * dst, const int cc) {
++    static const bool enabled = [] { const char * e = getenv("GGML_RDNA1_PKF16_ID"); return e ? atoi(e) != 0 : true; }();
++    if (!enabled || !mmf16_type_supported(src0, cc)) return false;
++    if (!ids || ids->type != GGML_TYPE_I32) return false;
++    if (src1->type != GGML_TYPE_F32 || dst->type != GGML_TYPE_F32) return false;
++    if (!ggml_is_contiguously_allocated(src0)) return false;
++    if (src0->ne[0] % 256 != 0) return false;            // one 32-value group per stage, inside a superblock
++    if (src0->ne[1] < 512) return false;                 // narrow matrices are slower here than MMQ
++    // one weight matrix per expert, one batch, and the compact ordering the helper builds assumes these
++    if (src0->ne[3] != 1 || src1->ne[3] != 1 || dst->ne[3] != 1) return false;
++    if (src1->ne[2] != dst->ne[2] || ids->ne[1] != dst->ne[2]) return false;
++    if (ids->ne[0] != dst->ne[1]) return false;
++    if (src1->nb[0] != sizeof(float) || dst->nb[0] != sizeof(float)) return false;
++    if (src1->nb[1] % sizeof(float) != 0 || dst->nb[1] % sizeof(float) != 0) return false;
++    if (src1->nb[2] % src1->nb[1] != 0) return false;
++    // the token count is dimension 2 here, not dimension 1; below a few hundred compact columns MMQ wins
++    // for the same reason it does on the dense path
++    if (src1->ne[2] * ids->ne[0] < 256) return false;
++    return true;
++}
++
++void ggml_cuda_mmf16_rdna1_id(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1,
++                              const ggml_tensor * ids, ggml_tensor * dst) {
++    const int M = src0->ne[1], K = src0->ne[0];
++    const int n_experts     = src0->ne[2];
++    const int n_tokens      = ids->ne[1];
++    const int n_expert_used = ids->ne[0];
++    const int ne_get_rows   = n_tokens * n_expert_used;
++    const size_t row_size   = ggml_row_size(src0->type, src0->ne[0]);
++    cudaStream_t stream     = ctx.stream();
++
++    ggml_cuda_pool_alloc<int32_t> ids_src1(ctx.pool(), ne_get_rows);
++    ggml_cuda_pool_alloc<int32_t> ids_dst(ctx.pool(), ne_get_rows);
++    ggml_cuda_pool_alloc<int32_t> expert_bounds(ctx.pool(), n_experts + 1);
++
++    const int si1  = ids->nb[1] / ggml_element_size(ids);
++    const int sis1 = src1->nb[2] / src1->nb[1];
++    ggml_cuda_launch_mm_ids_helper((const int32_t *) ids->data, ids_src1.get(), ids_dst.get(), expert_bounds.get(),
++        n_experts, n_tokens, n_expert_used, src1->ne[1], si1, sis1, /*write_inverse =*/ false, stream);
++    CUDA_CHECK(cudaGetLastError());
++
++    const char  * A = (const char *)  src0->data;
++    const float * B = (const float *) src1->data;
++    float       * C = (float *)       dst->data;
++    const int sb  = src1->nb[1] / sizeof(float);     // stride between activation columns, in floats
++    const int ldc = dst->nb[1]  / sizeof(float);     // stride between destination columns, in floats
++
++    // four column tiles in flight per expert absorbs most routing skew; the kernel loops past that
++    const dim3 grid((M + MMF16_BM - 1) / MMF16_BM, 4, n_experts);
++
++#define MMF16_ID_LAUNCH(t, bn, tn)                                                                       \
++    mmf16_rdna1_gemm<t, 1, false, true, MMF16_BM, bn, MMF16_TM, tn><<<grid, MMF16_BM, 0, stream>>>(      \
++        A, B, C, M, ne_get_rows, K, row_size, sb, ldc,                                                   \
++        ids_src1.get(), ids_dst.get(), expert_bounds.get(), (size_t) src0->nb[2])
++#define MMF16_ID_BN(t)                                                                                   \
++    do {                                                                                                 \
++        const int bn = id_bn();                                                                          \
++        if      (bn == 16) MMF16_ID_LAUNCH(t, 16, 2);                                                    \
++        else if (bn == 64) MMF16_ID_LAUNCH(t, 64, 8);                                                    \
++        else               MMF16_ID_LAUNCH(t, 32, 4);                                                    \
++    } while (0)
++    switch (src0->type) {
++        case GGML_TYPE_Q4_K:    MMF16_ID_BN(GGML_TYPE_Q4_K);    break;
++        case GGML_TYPE_Q5_K:    MMF16_ID_BN(GGML_TYPE_Q5_K);    break;
++        case GGML_TYPE_Q6_K:    MMF16_ID_BN(GGML_TYPE_Q6_K);    break;
++        case GGML_TYPE_Q8_0:    MMF16_ID_BN(GGML_TYPE_Q8_0);    break;
++        case GGML_TYPE_IQ2_XXS: MMF16_ID_BN(GGML_TYPE_IQ2_XXS); break;
++        case GGML_TYPE_IQ3_XXS: MMF16_ID_BN(GGML_TYPE_IQ3_XXS); break;
++        case GGML_TYPE_IQ3_S:   MMF16_ID_BN(GGML_TYPE_IQ3_S);   break;
++        case GGML_TYPE_IQ4_XS:  MMF16_ID_BN(GGML_TYPE_IQ4_XS);  break;
++        default: GGML_ABORT("unsupported type");
++    }
++#undef MMF16_ID_BN
++#undef MMF16_ID_LAUNCH
++    CUDA_CHECK(cudaGetLastError());
++}
+--- a/ggml/src/ggml-cuda/mmf16-rdna1.cuh
++++ b/ggml/src/ggml-cuda/mmf16-rdna1.cuh
+@@ -4,3 +4,9 @@
+ // RDNA1: prefill matmuls through a packed-fp16 tile GEMM instead of MMQ's emulated int8 tiles.
+ bool ggml_cuda_mmf16_rdna1_supported(const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * dst, int cc);
+ void ggml_cuda_mmf16_rdna1(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst);
++
++// The same kernel over MUL_MAT_ID's experts, through the compact ordering mm_ids_helper builds.
++bool ggml_cuda_mmf16_rdna1_id_supported(const ggml_tensor * src0, const ggml_tensor * src1,
++                                        const ggml_tensor * ids, const ggml_tensor * dst, int cc);
++void ggml_cuda_mmf16_rdna1_id(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1,
++                              const ggml_tensor * ids, ggml_tensor * dst);
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -2132,6 +2132,13 @@
+             }
+         }
+ 
++        // the experts are 60 percent of a mixture-of-experts model's prefill and MMQ's emulated int8
++        // is the slowest arithmetic on RDNA1 (logs/moe-decode-2026-09-20)
++        if (ggml_cuda_mmf16_rdna1_id_supported(src0, src1, ids, dst, cc)) {
++            ggml_cuda_mmf16_rdna1_id(ctx, src0, src1, ids, dst);
++            return;
++        }
++
+         if (ggml_cuda_should_use_mmq(src0->type, cc, ne12, /*n_experts=*/ne02)) {
+             ggml_cuda_mul_mat_q(ctx, src0, src1, ids, dst);
+             return;
