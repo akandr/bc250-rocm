@@ -1,0 +1,79 @@
+#!/bin/bash
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (c) 2026 Artur Andrzejczak <andrzejczak.artur@gmail.com>
+# Assisted-by: Claude (Anthropic)
+# Build amdgpu.ko with flush_pasid_uses_kiq=false for gfx1013 (ROCm#6313 patch)
+# via the Duggan module-only pipeline. Runs ON THE BOARD.
+set -euo pipefail
+# Kernel source tree and target kernel. Defaults suit the 6.18-era work this
+# script was written for; pass others for the current configuration, e.g.
+#   SRC=~/k715/linux-7.1.5 KREL=7.1.5-100.fc43.x86_64 ./build_patched_amdgpu.sh
+SRC=${SRC:-/usr/src/linux-6.18.9}
+AMDDIR=$SRC/drivers/gpu/drm/amd
+GMC=$AMDDIR/amdgpu/gmc_v10_0.c
+KREL=${KREL:-$(uname -r)}
+INST=/lib/modules/$KREL/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko.xz
+
+echo "=== pre-checks"
+test -d "$SRC" || { echo "no kernel source at $SRC"; exit 1; }
+grep -n "flush_pasid_uses_kiq" "$GMC"
+# confirm 40cu patch still present in source (sanity per memory)
+grep -qn "bc250_cc_write_mode" $AMDDIR/amdgpu/gfx_v10_0.c && echo "40cu patch present in source"
+
+echo "=== patching gmc_v10_0.c"
+if grep -q "flush_pasid_uses_kiq = false" "$GMC"; then
+  echo "already patched"
+else
+  sudo sed -i 's/adev->gmc.flush_pasid_uses_kiq = !amdgpu_emu_mode;/adev->gmc.flush_pasid_uses_kiq = false; \/* BC-250 ROCm#6313 *\//' "$GMC"
+  grep -n "flush_pasid_uses_kiq" "$GMC"
+fi
+
+# Some kernel-devel packages ship the amdgpu directory without amdgpu_trace.h,
+# and the module build then dies on a trace include that resolves relative to
+# the kernel build tree, not to the source. Copying the headers across
+# fixes it; this was hit porting to 7.1.8, whose kernel-devel omits that file.
+KBUILD=/lib/modules/$KREL/build
+if [ ! -f "$KBUILD/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h" ]; then
+  echo "=== kernel-devel is missing amdgpu_trace.h; copying headers from the source tree"
+  for sub in amdgpu amdkfd include display; do
+    [ -d "$AMDDIR/$sub" ] && sudo rsync -a --include='*/' --include='*.h' --exclude='*' \
+      "$AMDDIR/$sub/" "$KBUILD/drivers/gpu/drm/amd/$sub/" 2>/dev/null
+  done
+fi
+
+echo "=== building amdgpu module only"
+cd $SRC
+sudo make -C /lib/modules/$KREL/build M=$SRC/drivers/gpu/drm/amd/amdgpu -j4 modules 2>&1 | tail -5
+
+MOD=$SRC/drivers/gpu/drm/amd/amdgpu/amdgpu.ko
+test -f $MOD || { echo "BUILD FAILED"; exit 1; }
+sudo strip --strip-debug $MOD
+
+echo "=== installing (backup first)"
+if [ ! -f $INST.prepasidfix-backup ]; then
+  sudo cp -v $INST $INST.prepasidfix-backup
+fi
+# IMPORTANT: kernel module xz MUST use --check=crc32. The xz default (crc64) loads via
+# userspace modprobe but fails the IN-KERNEL decompressor (finit_module from initramfs)
+# with "decompression failed with status 6" -> GPU never comes up after a dracut -f.
+sudo sh -c "xz -c -f --check=crc32 --lzma2=preset=6,dict=1MiB $MOD > $INST"
+sudo depmod $KREL
+xz -t $INST && echo "module xz integrity OK (crc32)" || { echo "XZ INTEGRITY FAIL"; exit 1; }
+
+# The running module comes from the INITRAMFS, not from /lib/modules. Skipping
+# this step is the single most repeated mistake in this project: the board
+# boots the previous module and every measurement afterwards describes the
+# wrong build.
+echo "=== rebuilding initramfs for $KREL (required, not optional)"
+sudo dracut -f --kver "$KREL" || { echo "DRACUT FAILED - do not trust a reboot"; exit 1; }
+
+cat <<NOTE
+=== done. Reboot into $KREL to activate.
+
+Verify after booting, before trusting any measurement:
+  uname -r                                          # expect $KREL
+  cat /sys/module/amdgpu/parameters/bc250_flush_pasid_kiq   # exists only in the patched module
+  grep -o 'simd_count [0-9]*' /sys/class/kfd/kfd/topology/nodes/1/properties
+
+Restore: cp $INST.prepasidfix-backup $INST && sudo depmod $KREL && sudo dracut -f --kver $KREL
+NOTE

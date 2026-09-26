@@ -1,0 +1,65 @@
+Subject: drm/amdgpu: fail MODE1/MODE2 resets that have no implementation
+
+On ASICs whose PSP has no mode1_reset callback, a MODE1 reset through PSP
+reports success without touching the hardware: psp_mode1_reset() is
+
+	((psp)->funcs->mode1_reset ? (psp)->funcs->mode1_reset((psp)) : false)
+
+and false is 0. Likewise smu_mode2_reset() returns 0 when the ppt table has no
+mode2_reset. On Cyan Skillfish2 both apply (psp_v11_0_8_funcs has only ring
+callbacks, cyan_skillfish_ppt_funcs has no mode2_reset), and nv_asic_reset()
+selects MODE1 by default, so "GPU reset succeeded, trying to resume" is logged
+within about 0.1 ms and the driver re-initialises IP blocks on a GPU that was
+never reset.
+
+On an AMD BC-250 this hangs the host during resume in every deliberate reset
+on record (20 trials across the debugfs and KFD entry points), usually on the
+first GC register access. Register state confirms no reset took place: a GC register that
+the driver writes from 0x7 to 0x1f at probe still reads 0x1f when resume runs.
+
+Return -EOPNOTSUPP when the callback that would perform the reset does not
+exist, so recovery fails visibly instead of resuming live hardware. Tested
+on the same board (as a runtime-switchable equivalent): four deliberate
+resets, two MODE1 and two MODE2, each failed with -95, the host stayed up,
+and a compute job ran afterwards. A subsequent reboot stalled in shutdown
+every time, which this patch does not address.
+
+---
+Against torvalds/linux 587858367581 (2026-09-14). Callers audited:
+every in-tree ppt table reached through a default MODE2 path provides
+mode2_reset; of the PSP versions, v11_0_8, v13_0, v13_0_4, v14_0, v15_0 and
+v15_0_8 have no mode1_reset, and the ones used by dGPUs reach MODE1 through
+the SMU instead. Board test: logs/reset-honest-2026-09-15/ (section B).
+
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4961,7 +4961,13 @@
+ 		ret = amdgpu_dpm_mode1_reset(adev);
+ 	} else {
+ 		dev_info(adev->dev, "GPU psp mode1 reset\n");
+-		ret = psp_gpu_reset(adev);
++		if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP &&
++		    !adev->psp.funcs->mode1_reset) {
++			dev_err(adev->dev, "PSP mode1 reset is not implemented for this ASIC\n");
++			ret = -EOPNOTSUPP;
++		} else {
++			ret = psp_gpu_reset(adev);
++		}
+ 	}
+ 
+ 	if (ret)
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -3616,8 +3616,10 @@
+ 	if (!smu->pm_enabled)
+ 		return -EOPNOTSUPP;
+ 
+-	if (smu->ppt_funcs->mode2_reset)
+-		ret = smu->ppt_funcs->mode2_reset(smu);
++	if (!smu->ppt_funcs->mode2_reset)
++		return -EOPNOTSUPP;
++
++	ret = smu->ppt_funcs->mode2_reset(smu);
+ 
+ 	if (ret)
+ 		dev_err(smu->adev->dev, "Mode2 reset failed!\n");

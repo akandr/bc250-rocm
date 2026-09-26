@@ -1,0 +1,28 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Fri, 19 Sep 2026 09:30:00 +0200
+Subject: [PATCH] drm/amdgpu: poll the fence fallback timer at 2 ms (BC-250 probe, not a fix)
+
+On the BC-250 (gfx1013) SDMA fence trap interrupts were not being delivered
+under the July 2026 stack, so ring fences completed only through the fallback
+timer, and with AMDGPU_FENCE_JIFFIES_TIMEOUT at HZ/2 the KFD map/unmap storm of
+a model load took about thirty minutes. This probe polls at 2 ms instead.
+
+Kept for the record and not recommended: the rebuilt module did not speed the
+load, the wait turned out to be HSA-signal-level, not kernel fence
+timeout, and the loading problem was later resolved by the TLB flush changes
+and the navi12 SDMA microcode (INVESTIGATION.md in the repository).
+
+Written with the help of Claude Fable 5.1 (Anthropic) under the author's
+direction; the author built and tested it on the board.
+
+Assisted-by: LLM
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -278 +278,4 @@
+-#define AMDGPU_FENCE_JIFFIES_TIMEOUT		(HZ / 2)
++/* BC-250 (gfx1013 Cyan Skillfish): SDMA fence trap interrupts are not delivered
++ * on this board, so ring fences only complete via this fallback timer. HZ/2
++ * (500ms) makes KFD map/unmap during model loading take ~30 min. Poll at 2ms. */
++#define AMDGPU_FENCE_JIFFIES_TIMEOUT		(HZ / 500)

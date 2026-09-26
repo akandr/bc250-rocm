@@ -1,0 +1,22 @@
+drm/amdgpu: gmc v10: flush PASID TLBs through MMIO on Cyan Skillfish (BC-250)
+
+Not this repository's change. The line is anrp's, given on 2026-05-30 in
+https://github.com/ROCm/ROCm/issues/6313 as the workaround for the KIQ-fence
+freeze on gfx1013, and confirmed by ahorek on 2026-06-04; this file is that
+line in patch form with a comment, kept here so the recipe can apply it. What
+the repository adds is the observation that the same line also removes the
+compute-queue's silent wrong results, an n=1 A/B in its logs. No author or
+sign-off is claimed on the change; see patches/PROVENANCE.md.
+
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+@@ -984,7 +984,8 @@ static int gmc_v10_0_hw_init(struct amdgpu_ip_block *ip_block)
+ 	struct amdgpu_device *adev = ip_block->adev;
+ 	int r;
+
+-	adev->gmc.flush_pasid_uses_kiq = !amdgpu_emu_mode;
++	/* BC-250/gfx1013: route PASID TLB flushes via MMIO, not the KIQ ring (ROCm/ROCm#6313) */
++	adev->gmc.flush_pasid_uses_kiq = false;
+
+ 	/* The sequence of these two function calls matters.*/
+ 	gmc_v10_0_init_golden_registers(adev);

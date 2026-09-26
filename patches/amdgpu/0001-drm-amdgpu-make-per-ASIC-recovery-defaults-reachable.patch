@@ -1,0 +1,52 @@
+Subject: drm/amdgpu: make the per-ASIC recovery defaults reachable again
+
+amdgpu_device_should_recover_gpu() keeps a list of ASICs on which GPU
+recovery is disabled when amdgpu.gpu_recovery is left at its default of
+-1 (SI, CIK, Carrizo, Stoney, Cyan Skillfish). That list is not reached on
+devices without a RAS context, because an earlier early return,
+
+	/* Skip soft reset check in fatal error mode */
+	if (!amdgpu_ras_is_poison_mode_supported(adev))
+		return true;
+
+returns true for every device whose RAS context is absent. The early return
+was added by commit 1a11a65d5395 ("drm/amdgpu: Enable mode-1 reset for RAS
+recovery in fatal error mode") to skip amdgpu_device_ip_check_soft_reset(),
+which followed it at the time. Commit 360cd08196ca ("drm/amdgpu: adjust the
+sequence to check soft reset") then moved that check out of this function,
+so since then the early return skips nothing except the SR-IOV check, which
+also returns true, and the per-ASIC list.
+
+Observed on a Cyan Skillfish2 (1002:13fe, AMD BC-250) with kernel 7.1.8 and
+amdgpu.gpu_recovery unset: a probe calling amdgpu_amdkfd_gpu_reset() reports
+should_recover=1, the reset proceeds, and on this chip it takes the host down
+(neither MODE1 nor MODE2 is implemented for it; see patch 2).
+
+With the list reachable (tested as a reordering of the same checks), four
+trials at the default that put a compute queue into a preemption failure
+logged "GPU recovery disabled." for every KFD reset request, 69 per trial,
+and the host stayed up.
+
+Remove the stale early return so that devices without RAS reach the same
+checks as everyone else. Devices not on the list are unaffected, since the
+function returns true for them either way.
+
+Fixes: 360cd08196ca ("drm/amdgpu: adjust the sequence to check soft reset")
+---
+Against torvalds/linux 587858367581 (2026-09-14). Evidence: logs/reset-smu-gc-2026-09-14/ and
+logs/reset-path-2026-08-24/path-kfd_rep1.log, and the board test in
+logs/reset-honest-2026-09-15/ (section C).
+
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4901,10 +4901,6 @@
+ 	if (amdgpu_gpu_recovery == 0)
+ 		goto disabled;
+ 
+-	/* Skip soft reset check in fatal error mode */
+-	if (!amdgpu_ras_is_poison_mode_supported(adev))
+-		return true;
+-
+ 	if (amdgpu_sriov_vf(adev))
+ 		return true;
+ 
