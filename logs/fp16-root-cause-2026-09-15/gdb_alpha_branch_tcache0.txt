@@ -1,0 +1,35 @@
+Breakpoint 1 at 0x24b0
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+[New Thread 0x7ffff3bff6c0 (LWP 36796)]
+[New Thread 0x7ffef31ff6c0 (LWP 36797)]
+[Thread 0x7ffef31ff6c0 (LWP 36797) exited]
+[New Thread 0x7ffef0dff6c0 (LWP 36798)]
+[New Thread 0x7ffedb9ff6c0 (LWP 36799)]
+[Thread 0x7ffedb9ff6c0 (LWP 36799) exited]
+
+Thread 1 "gemm_fp16_min" hit Breakpoint 1.1, __extendhfsf2 (a=<optimized out>) at /usr/src/debug/rocm-compilersupport-19-14.rocm6.4.2.fc43.x86_64/compiler-rt/lib/builtins/extendhfsf2.c:16
+warning: 16	/usr/src/debug/rocm-compilersupport-19-14.rocm6.4.2.fc43.x86_64/compiler-rt/lib/builtins/extendhfsf2.c: Nie ma takiego pliku ani katalogu
+Breakpoint 2 at 0x7ffff6da6007
+Breakpoint 3 at 0x7ffff6da6336
+
+Thread 1 "gemm_fp16_min" hit Breakpoint 2, 0x00007ffff6da6007 in auto (anonymous namespace)::ConstructTensileProblem<_Float16, _Float16, _Float16, _Float16, _Float16, _Float16>(RocblasContractionProblem<_Float16, _Float16, _Float16, _Float16, _Float16, _Float16> const&) () from /home/akandr/rocBLAS/build/release/rocblas-install/lib/librocblas.so.4
+AFTERCALL xmm0_float=0.000000 xmm0_hex=0x33800000 r15(prob.k)=4096
+=> 0x7ffff6da6007 <_ZN12_GLOBAL__N_123ConstructTensileProblemIDF16_DF16_DF16_DF16_DF16_DF16_EEDaRK25RocblasContractionProblemIT_T0_T1_T2_T3_T4_E+503>:	xorps  %xmm1,%xmm1
+   0x7ffff6da600a <_ZN12_GLOBAL__N_123ConstructTensileProblemIDF16_DF16_DF16_DF16_DF16_DF16_EEDaRK25RocblasContractionProblemIT_T0_T1_T2_T3_T4_E+506>:	ucomiss %xmm1,%xmm0
+   0x7ffff6da600d <_ZN12_GLOBAL__N_123ConstructTensileProblemIDF16_DF16_DF16_DF16_DF16_DF16_EEDaRK25RocblasContractionProblemIT_T0_T1_T2_T3_T4_E+509>:	setnp  %al
+   0x7ffff6da6010 <_ZN12_GLOBAL__N_123ConstructTensileProblemIDF16_DF16_DF16_DF16_DF16_DF16_EEDaRK25RocblasContractionProblemIT_T0_T1_T2_T3_T4_E+512>:	sete   %cl
+[Thread 0x7ffef0dff6c0 (LWP 36798) exited]
+[Thread 0x7ffff3bff6c0 (LWP 36796) exited]
+rep 0 status 0 zeros 0 stamp 48 of 524288
+RESULT bad_reps=0/1
+[Inferior 1 (process 36793) exited normally]
+/home/akandr/s0915/k2.gdb:13: Error in sourced command file:
+No registers.

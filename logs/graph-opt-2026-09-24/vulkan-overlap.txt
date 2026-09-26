@@ -1,0 +1,14 @@
+===== serial
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |             tg8 |         55.59 ± 0.00 |
+perf blocks: 9
+Total time: 12999.6 us.
+Total time: 13003.9 us.
+Total time: 12989.7 us.
+===== concurrent
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |             tg8 |         57.38 ± 0.00 |
+perf blocks: 9
+Total time: 11602.8 us.
+Total time: 11600.3 us.
+Total time: 11599.9 us.
+===== baseline, no logger
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |             tg8 |         75.89 ± 0.00 |

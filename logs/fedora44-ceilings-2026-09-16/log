@@ -1,0 +1,12 @@
+[03:38:10] clock during this run should stay at one step: 0: 1000Mhz *
+[03:38:35]   qwen2.5-1.5b-q4km d8192: 98.93 
+[03:39:52]   qwen2.5-1.5b-q4km d16384: 86.83 
+[03:44:15]   qwen2.5-1.5b-q4km d32768: 68.88 
+[04:24:15]   qwen2.5-1.5b-q4km d131072: fails 
+[04:26:12]   qwen3-8b-q8_0 d8192: 26.70 
+[04:30:45]   qwen3-8b-q8_0 d16384: 20.07 
+[04:34:11]   qwen3-14b d8192: 12.39 
+[04:41:23]   qwen3-14b d16384: fails 
+[04:45:12]   qwen3.8-27b-iq3xxs d8192: 7.14 
+[04:52:40]   qwen3.8-27b-iq3xxs d16384: fails 
+[04:52:40] DONE

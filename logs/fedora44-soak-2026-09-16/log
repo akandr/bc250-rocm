@@ -1,0 +1,19 @@
+[23:16:12] soak start, 3h, boot c9be9d54-d627-483c-b2fb-eb51d9705008, faults at start 0, previous boot 0
+[23:27:53] round=1 pp2048=767.82 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=79.0 faults=0
+[23:39:30] round=2 pp2048=767.77 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=71.0 faults=0
+[23:51:25] round=3 pp2048=768.25 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=70.0 faults=0
+[00:03:05] round=4 pp2048=767.13 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=79.0 faults=0
+[00:14:46] round=5 pp2048=767.53 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=71.0 faults=0
+[00:26:37] round=6 pp2048=768.06 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=70.0 faults=0
+[00:38:16] round=7 pp2048=769.70 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[00:49:54] round=8 pp2048=768.91 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=71.0 faults=0
+[01:01:06] round=9 pp2048=767.21 gate15=8.9442 gate8=FAIL churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=69.0 faults=0
+[01:12:31] round=10 pp2048=764.36 gate15=8.9442 gate8=FAIL churn_rc=0 torch='skipped' edge=72.0 faults=0
+[01:23:29] round=11 pp2048=767.21 gate15=8.9442 gate8=FAIL churn_rc=0 torch='skipped' edge=72.0 faults=0
+[01:35:16] round=12 pp2048=766.58 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=70.0 faults=0
+[01:47:02] round=13 pp2048=768.04 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=71.0 faults=0
+[01:58:44] round=14 pp2048=767.99 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=72.0 faults=0
+[02:10:34] round=15 pp2048=768.13 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=70.0 faults=0
+[02:22:13] round=16 pp2048=767.89 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=72.0 faults=0
+[02:22:13] summary: rounds=16 distinct gate15: gate15=8.9442  distinct gate8: gate8=9.1117 gate8=FAIL  churn failures: 0
+[02:22:13] done

@@ -1,0 +1,21 @@
+== kernel limit (debugfs), idle
+System mem used 0M out of 13422M
+TTM mem used 0M out of 16384M
+== total RAM
+Mem:           15196         611        7579           1        7295       14584
+== qwen3-14B d16384 with the limit enforced (default)
+rc=139 (segfault), no rate printed
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+timeout: monitowane polecenie zrobiło zrzut pamięci
+== usage measured right after that crash
+System mem used 13412M out of 13422M
+TTM mem used 11617M out of 16384M
+== segfault line from dmesg
+[ 1833.146856] llama-bench[11119]: segfault at 20 ip 00007fe59de3e4bf sp 00007ffcb192d570 error 4 in libhsa-runtime64.so.1.18.0[3e4bf,7fe59de00000+11b000] likely on CPU 7 (core 4, socket 0)
+== same run with amdgpu.no_system_mem_limit=1
+rc=124 (killed by a 1800 s timeout, no crash)
+System mem used 14636M out of 13422M
+== qwen2.5-1.5B d131072 with the bypass
+rc=124 (killed by a 3000 s timeout, no crash)
+== accounting after each run
+System mem used 0M out of 13422M

@@ -1,0 +1,49 @@
+# Fedora 44, kernel 7.2.5, clock 1500 MHz, oberon-governor active, ollama stopped.
+# build-hip-f44 = production build; build-hip-fatile = same tree with the patch.
+
+## FLASH_ATTN_EXT ne=[128,12,2048,1], test-backend-ops perf --test-file ops-fa-on.txt
+p1 f44: 114673.35 us/run
+p1 spillfix: 26276.76 us/run
+p2 f44: 114476.28 us/run
+p2 spillfix: 26292.35 us/run
+# Vulkan on the same case: 16260 us/run.
+
+## llama-bench, qwen2.5-1.5b-q4km, -fa 1, -r 3
+p1 build-hip-f44 pp2048:      634.18 +/- 0.08
+p1 build-hip-fatile pp2048:   869.87 +/- 0.10
+p2 build-hip-f44 pp2048:      634.09 +/- 0.34
+p2 build-hip-fatile pp2048:   869.83 +/- 0.21
+
+## llama-bench, qwen3-8b-q8_0, -fa 1, -r 3
+build-hip-f44 pp2048:         185.60 +/- 16.59
+build-hip-fatile pp2048:      256.30 +/- 0.09
+
+## llama-bench, qwen2.5-1.5b-q4km, -fa 1, -r 5, decode
+p1 build-hip-f44 tg128:       111.79 +/- 4.40
+p1 build-hip-fatile tg128:    113.56 +/- 0.35
+p2 build-hip-f44 tg128:       113.44 +/- 0.53
+p2 build-hip-fatile tg128:    113.64 +/- 0.18
+p3 build-hip-f44 tg128:       113.43 +/- 0.56
+p3 build-hip-fatile tg128:    113.58 +/- 0.33
+
+## gates
+build-hip-f44      qwen2.5-1.5b -fa on -c 4096 --chunks 8: PPL = 8.9442
+build-hip-fatile   same:                                   PPL = 8.9306
+build-vk-f44       same:                                   PPL = 8.9734
+build-hip-f44      qwen3-8b -fa on -c 2048 --chunks 2:     PPL = 9.1117
+build-hip-fatile   same:                                   PPL = 9.1248
+
+## decode text, build-hip-fatile, seed 1
+> The capital of France is
+Paris
+
+## re-verification after rewriting the patch as an RDNA1-scoped table
+## (first measurements above used a two-line edit to the shared RDNA table;
+##  the committed patch adds a separate RDNA1 table selected before it)
+build-hip-fatile FA kernel:   26261.56 us/run
+build-hip-fatile 1.5B pp2048: 869.91 +/- 0.14
+build-hip-fatile 1.5B gate:   PPL = 8.9306
+
+## clock check during the large-head A/B, 2026-09-18 00:45: 20 one-second samples under load, all "1: 1500Mhz *".
+## The "*2: 2000Mhz" readings that appear in some harness logs are taken between runs, at an idle boundary;
+## none was ever seen under load here or in the soak logs.

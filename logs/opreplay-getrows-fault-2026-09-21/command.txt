@@ -1,0 +1,12 @@
+The replay that faults, as run, on the thirteen-patch build:
+
+    LD_LIBRARY_PATH=/opt/bc250-rocm/lib64 \
+      ~/llama-master/build-hip-pkf16/bin/test-backend-ops perf \
+        --test-file ~/opgraph/ops-moe-pp512.txt -b ROCm0
+
+The graph file comes from:
+
+    test-export-graph-ops -m /opt/models/qwen3.6-35b-a3b-iq2m.gguf \
+      -ngl 99 -c 4096 -b 512 -ub 512 -fa on -o ops-moe-pp512.txt
+
+GGML_RDNA1_PKF16=0 in the environment is the second arm, which faults identically.

@@ -1,0 +1,10 @@
+# Does llama-bench actually capture CUDA graphs? -v exposes the GGML_LOG_DEBUG line.
+# "warmup complete" = captured; "disabling CUDA graphs" = not.
+== qwen2.5-1.5b-q4km decode
+      1 ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+== qwen2.5-1.5b-q4km prefill
+      1 ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+== qwen3.6-35b-a3b-iq2m decode
+      2 ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+== qwen3.6-35b-a3b-iq2m prefill
+      1 ggml_backend_cuda_graph_compute: CUDA graph warmup complete

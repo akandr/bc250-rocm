@@ -1,0 +1,5 @@
+kernel: 7.1.5-100.fc43.x86_64
+amdgpu vermagic: vermagic:       7.1.5-100.fc43.x86_64 SMP preempt mod_unload 
+rocm: 
+CU: active_cu_number 40
+flush: stock true (get_cu_info unlock only, flush untouched)

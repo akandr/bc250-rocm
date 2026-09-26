@@ -1,0 +1,48 @@
+# Why every MoE fork region is rejected: Kcur and Vcur share one buffer
+# 2026-09-25T13:56:41+02:00, kernel 7.2.5-200.fc44.x86_64
+# build: llama-master build-hip-perregion, is_valid() instrumented to print each region verdict
+# and both colliding address ranges. Comparator is range-only (see the README on why that matters).
+
+## every overlap reported on the MoE, normalised
+OVERLAP Kcur-35 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-35 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-31 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-31 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-27 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-27 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-23 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-23 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-7 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-7 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-3 (view) [140253031563264,140253031565312) size=2048 stream=3  vs  Vcur-3 (view) [140253031563264,140253031565312) size=2048 stream=2
+OVERLAP Kcur-11 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-11 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-15 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-15 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-19 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-19 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-39 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-39 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-39 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-39 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-35 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-35 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-31 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-31 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-27 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-27 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-23 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-23 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-7 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-7 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-3 (view) [140253031563264,140253031565312) size=2048 stream=3  vs  Vcur-3 (view) [140253031563264,140253031565312) size=2048 stream=2
+OVERLAP Kcur-11 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-11 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-15 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-15 (view) [140253031613568,140253031615616) size=2048 stream=2
+OVERLAP Kcur-19 (view) [140253031613568,140253031615616) size=2048 stream=3  vs  Vcur-19 (view) [140253031613568,140253031615616) size=2048 stream=2
+
+## region verdicts
+region verdict join=node_3300 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_2928 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_2556 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_2184 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_696 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_324 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_1068 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_1440 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_1812 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_3672 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_3672 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_3300 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_2928 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_2556 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_2184 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_696 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_324 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_1068 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_1440 streams=3 nodes=22 overlap=1 depsrc=0
+region verdict join=node_1812 streams=3 nodes=22 overlap=1 depsrc=0

@@ -1,0 +1,7 @@
+max_nodes_per_submit  chain_floor_us
+default              3.172
+1                    6.421
+16                   3.064
+64                   3.051
+256                  3.600
+1024                 3.597

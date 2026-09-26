@@ -1,0 +1,28 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+device      : Vulkan0 (AMD BC-250 (RADV GFX1013))
+nodes       : 256 x ggml_sqrt, 40 reps a measurement, best of 5
+
+== chain: dependent nodes, no overlap possible ==
+    elements  per node (us)     GB/s implied
+        1024          3.187              2.6
+       16384          3.596             36.5
+       65536          5.882             89.1
+      262144         15.077            139.1
+     1048576         45.095            186.0
+floor, measured at smallest tensor :    3.187 us per node
+fit intercept (biased low)         :    3.415 us per node
+fit throughput                     :    199.9 GB/s (read+write f32)
+
+== fan: independent nodes, overlap permitted ==
+    elements  per node (us)     GB/s implied
+        1024          5.383              1.5
+       16384          5.552             23.6
+       65536          5.868             89.4
+      262144         10.459            200.5
+     1048576         39.224            213.9
+floor, measured at smallest tensor :    5.383 us per node
+fit intercept (biased low)         :    4.121 us per node
+fit throughput                     :    243.0 GB/s (read+write f32)
+
+chain 3.187 us, fan 5.383 us, fan/chain 1.689  (1.0 = no overlap gained)

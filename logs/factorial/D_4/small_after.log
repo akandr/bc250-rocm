@@ -1,0 +1,6 @@
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=1000 iters=1 ===
+HSA_ENABLE_SDMA=0
+Memory access fault by GPU node-1 (Agent handle: 0x56512767a500) on address 0x7f63ab402000. Reason: Page not present or supervisor privilege.
+Failed to enable debug interface, debugger might be already attached.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci

@@ -1,0 +1,18 @@
+=== battery healthy-control, 2026-08-24 10:06:12, uptime 568s
+--- did a reset happen at all (the parameter says it should not)
+GPU reset begin lines this boot: 0
+--- does the kernel still see the device
+01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Cyan Skillfish [BC-250] (prog-if 00 [VGA controller])
+	Subsystem: Advanced Micro Devices, Inc. [AMD] Device 0000
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+--- does the runtime still enumerate the agent and report free memory
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  ROCm0: AMD BC-250 (16384 MiB, 13605 MiB free)
+--- can a fresh process allocate and run a kernel, and is the answer right
+RESULT: total_wrong=0 -> ALL CORRECT
+--- does a real workload still run and still produce the right answer
+Final estimate: PPL = 8.4240
+--- healthy reference for that gate is PPL = 8.4240
+=== battery healthy-control ends, uptime 678s

@@ -1,0 +1,6 @@
+allocated 0x7f5457000000, writing at element offset 1073741824
+Memory access fault by GPU node-1 (Agent handle: 0x559bce7564d0) on address 0x7f5557000000. Reason: Page not present or supervisor privilege.
+Failed to fetch queues snapshot.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci
+probe exit=134

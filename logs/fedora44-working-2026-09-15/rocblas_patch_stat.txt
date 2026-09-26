@@ -1,0 +1,11 @@
+f322e9ab6100cc638959e2caf636043faec9124e Thu Nov 20 09:20:34 2025 -0800
+ projects/rocblas/library/src/handle.cpp            |  4 ++
+ projects/rocblas/library/src/include/handle.hpp    |  1 +
+ projects/rocblas/library/src/tensile_host.cpp      |  4 ++
+ shared/tensile/Tensile/AsmCaps.py                  | 44 ++++++++++++++++++++++
+ shared/tensile/Tensile/Common.py                   |  4 +-
+ .../cmake/TensileSupportedArchitectures.cmake      |  1 +
+ .../Tensile/Source/lib/include/Tensile/AMDGPU.hpp  |  7 ++++
+ .../lib/include/Tensile/PlaceholderLibrary.hpp     |  3 ++
+ .../include/Tensile/Serialization/Predicates.hpp   |  1 +
+ 9 files changed, 67 insertions(+), 2 deletions(-)

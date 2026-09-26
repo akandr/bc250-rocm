@@ -1,0 +1,28 @@
+Registers with sixteen live activations and with eight, gfx1013 wave32.
+fus = the fusion variant, lds = the block stages the codebook, halves = eight activations at a time.
+
+type      fus lds halves  vgpr scratch  waves/SIMD
+iq2_xxs     0   0      0    54       0          18
+iq2_xxs     0   0      1    42       0          20
+iq2_xxs     0   1      0    54       0          18
+iq2_xxs     0   1      1    42       0          20
+iq2_xxs     1   0      0    73       0          14
+iq2_xxs     1   0      1    50       0          20
+iq2_xxs     1   1      0    73       0          14
+iq2_xxs     1   1      1    58       0          17
+iq3_s       0   0      0    64       0          16
+iq3_s       0   0      1    50       0          20
+iq3_s       0   1      0    64       0          16
+iq3_s       0   1      1    58       0          17
+iq3_s       1   0      0    89       0          11
+iq3_s       1   0      1    77       0          13
+iq3_s       1   1      0    89       0          11
+iq3_s       1   1      1    77       0          13
+iq3_xxs     0   0      0    61       0          16
+iq3_xxs     0   0      1    43       0          20
+iq3_xxs     0   1      0    61       0          16
+iq3_xxs     0   1      1    43       0          20
+iq3_xxs     1   0      0    73       0          14
+iq3_xxs     1   0      1    52       0          19
+iq3_xxs     1   1      0    73       0          14
+iq3_xxs     1   1      1    52       0          19

@@ -1,0 +1,9 @@
+kernel: 7.1.8-100.fc43.x86_64
+=== membw ===
+buffer 2048 MiB, best read bandwidth 430.3 GB/s (400.7 GiB/s)
+=== dgemm_iter ===
+iter  8    37.7 ms  456.0 GFLOP/s ok
+iter  9    37.7 ms  456.0 GFLOP/s ok
+DONE nwrong=0
+=== bw_probe ===
+RESULT fails=0/10

@@ -1,0 +1,29 @@
+[   41.130693] MARK-path-kfd-1-1
+[   44.702860] amdgpu: BC250KFDRESET: calling amdgpu_amdkfd_gpu_reset, gpu_recovery=-1, should_recover=1
+[   44.702879] amdgpu: BC250KFDRESET: returned
+[   44.702886] amdgpu 0000:01:00.0: GPU reset begin!. Source:  4
+[   48.702902] amdgpu 0000:01:00.0: failed to suspend display audio
+[   48.702943] amdgpu 0000:01:00.0: Dumping IP State
+[   48.705073] amdgpu 0000:01:00.0: Dumping IP State Completed
+[   48.729617] amdgpu 0000:01:00.0: MODE1 reset
+[   48.729639] amdgpu 0000:01:00.0: GPU mode1 reset
+[   48.729709] amdgpu 0000:01:00.0: GPU psp mode1 reset
+[   48.729804] amdgpu 0000:01:00.0: GPU reset succeeded, trying to resume
+[   48.729835] amdgpu 0000:01:00.0: BC-250: flush_pasid_uses_kiq=0 (param 0)
+[   48.730057] amdgpu 0000:01:00.0: [drm] PCIE GART of 512M enabled (table at 0x000000F41FE00000).
+[   48.730108] amdgpu 0000:01:00.0: [drm] AMDGPU device coredump file has been created
+[   48.730131] amdgpu 0000:01:00.0: [drm] Check your /sys/class/drm/card0/device/devcoredump/data
+[   48.730161] amdgpu 0000:01:00.0: VRAM is lost due to GPU reset!
+[   48.730184] amdgpu 0000:01:00.0: PSP is resuming...
+[   48.750273] amdgpu 0000:01:00.0: reserve 0x400000 from 0xf41f800000 for PSP TMR
+[   48.786114] amdgpu 0000:01:00.0: SMU is resuming...
+[   48.786190] amdgpu 0000:01:00.0: SMU is resumed successfully!
+[   48.786268] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   48.786311] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   48.786352] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   48.786391] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   48.786553] amdgpu 0000:01:00.0: BC250REG 1 pci config dword0 = 0x13fe1002
+[   48.786579] amdgpu 0000:01:00.0: BC250REG 2 pci command/status = 0x00100407
+[   48.786605] amdgpu 0000:01:00.0: BC250REG 3 rmmio_size=524288 sched_off=0xecaa grbm_off=0x2004
+[   48.786636] amdgpu 0000:01:00.0: BC250REG 4 about to read GRBM_STATUS
+[   52.917540] clocksource: Watchdog remote CPU 8 read timed out

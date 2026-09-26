@@ -1,0 +1,32 @@
+[18:52:26] build start
+[19:00:59] build ok
+[19:03:44] MUL_MAT correctness, pkf16=1: OK 682 FAIL 0
+[19:03:58] MUL_MAT correctness, pkf16=0: OK 649 FAIL 0
+[19:04:46] 1.5B gate pkf16: Final estimate: PPL = 8.9237  (8.9498 with MMQ)
+[19:05:47] 8B gate pkf16: Final estimate: PPL = 9.1125  (9.1273 with MMQ)
+[19:06:00] p1 qwen2.5-1.5b-q4km MMQ:    pp128 690.15 ± 22.01 ; pp512 915.18 ± 5.70 ; pp2048 889.53 ± 0.17 ;
+[19:06:14] p1 qwen2.5-1.5b-q4km pkf16:  pp128 382.28 ± 4.79 ; pp512 905.51 ± 5.39 ; pp2048 878.43 ± 0.29 ;
+[19:07:39] p1 qwen3-8b-q8_0 MMQ:    pp128 198.07 ± 34.05 ; pp512 276.29 ± 0.87 ; pp2048 268.09 ± 0.02 ;
+[19:11:00] p1 qwen3-8b-q8_0 pkf16:  pp128 73.26 ± 0.79 ; pp512 112.49 ± 0.15 ; pp2048 104.34 ± 0.07 ;
+[19:13:40] p1 qwen3.6-35b-a3b-iq2m MMQ:    pp128 160.09 ± 4.27 ; pp512 301.10 ± 1.46 ; pp2048 306.55 ± 0.88 ;
+[19:17:14] p1 qwen3.6-35b-a3b-iq2m pkf16:  pp128 112.79 ± 2.09 ; pp512 238.17 ± 0.87 ; pp2048 245.96 ± 0.64 ;
+[19:22:33] p1 qwen3.8-27b-iq3xxs MMQ:    pp128 64.88 ± 0.44 ; pp512 71.90 ± 0.15 ; pp2048 64.76 ± 3.37 ;
+[19:28:23] p1 qwen3.8-27b-iq3xxs pkf16:  pp128 27.72 ± 0.10 ; pp512 41.79 ± 0.03 ; pp2048 44.72 ± 0.13 ;
+[19:28:38] p2 qwen2.5-1.5b-q4km MMQ:    pp128 696.00 ± 14.39 ; pp512 915.19 ± 5.59 ; pp2048 889.84 ± 0.12 ;
+[19:28:52] p2 qwen2.5-1.5b-q4km pkf16:  pp128 383.24 ± 4.71 ; pp512 907.10 ± 5.68 ; pp2048 878.68 ± 0.34 ;
+[19:30:17] p2 qwen3-8b-q8_0 MMQ:    pp128 198.76 ± 35.24 ; pp512 163.49 ± 2.05 ; pp2048 268.64 ± 0.03 ;
+[19:33:20] p2 qwen3-8b-q8_0 pkf16:  pp128 73.60 ± 0.45 ; pp512 110.47 ± 0.15 ; pp2048 104.08 ± 0.07 ;
+[19:35:53] p2 qwen3.6-35b-a3b-iq2m MMQ:    pp128 160.15 ± 4.34 ; pp512 301.31 ± 1.48 ; pp2048 306.32 ± 0.87 ;
+[19:37:36] p2 qwen3.6-35b-a3b-iq2m pkf16:  pp128 113.88 ± 2.11 ; pp512 242.16 ± 0.67 ; pp2048 246.35 ± 0.64 ;
+[19:41:11] p2 qwen3.8-27b-iq3xxs MMQ:    pp128 59.12 ± 10.66 ; pp512 71.99 ± 0.15 ; pp2048 63.17 ± 1.27 ;
+[19:46:06] p2 qwen3.8-27b-iq3xxs pkf16:  pp128 28.22 ± 0.85 ; pp512 41.69 ± 0.28 ; pp2048 45.94 ± 0.01 ;
+[19:46:11] tg64 qwen2.5-1.5b-q4km: MMQ 181.08±6.35 | pkf16 184.71±1.63
+[19:48:58] tg64 qwen3.6-35b-a3b-iq2m: MMQ 67.06±1.25 | pkf16 65.55±1.81
+[19:49:02] trace 1.5B pp512: kerntrace: 1894 kernel dispatches, 1134.577 ms of kernel time, 1184.263 ms first dispatch to last completion
+[19:49:02]    gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 870 (2.1 ms), 5-20us 1014 (5.6 ms), 20-100us
+[19:49:02]    count total ms share avg us kernel
+[19:49:02]    193 528.115 46.5% 2736.35 _ZL16mmf16_rdna1_gemmPK6__halfS1_Pfiiiiii
+[19:49:02]    193 511.867 45.1% 2652.16 mmf16_rdna1_gemm(__half const*, __half const*, float*, int, int, int, int, int, int)
+[19:49:02]    28 16.097 1.4% 574.90 _ZL15flash_attn_tileILi128ELi128ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj
+[19:49:04] greedy text: > The three primary colours are The three primary colours are red, blue, and yellow. These colours are often used as the basis for mixing other colours to create a wider range of h
+[19:49:04] CHAIN DONE

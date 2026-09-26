@@ -1,0 +1,33 @@
+[12:39:19] start, 10 pairs, ollama inactive, available 14583 MiB
+[12:39:19] edge +59.0°C, throttles so far 1, clock 0: 1000Mhz *1: 1500Mhz 2: 2000Mhz 
+[12:41:33] p1 arm=hot tg8=28.16±2.04  edge_before=+59.0°C edge_after=+71.0°C throttles=1
+[12:41:33]   cooling 90s from +69.0°C
+[12:45:44] p1 arm=cool tg8=28.37±1.52  edge_before=+58.0°C edge_after=+70.0°C throttles=1
+[12:48:41] p2 arm=hot tg8=28.30±1.36  edge_before=+69.0°C edge_after=+69.0°C throttles=1
+[12:48:41]   cooling 90s from +69.0°C
+[12:52:55] p2 arm=cool tg8=29.21±1.07  edge_before=+57.0°C edge_after=+69.0°C throttles=1
+[12:56:03] p3 arm=hot tg8=27.80±2.24  edge_before=+68.0°C edge_after=+70.0°C throttles=1
+[12:56:03]   cooling 90s from +69.0°C
+[13:01:46] p3 arm=cool tg8=23.05±8.16  edge_before=+57.0°C edge_after=+69.0°C throttles=1
+[13:03:52] p4 arm=hot tg8=27.67±2.43  edge_before=+68.0°C edge_after=+70.0°C throttles=1
+[13:03:52]   cooling 90s from +69.0°C
+[13:08:20] p4 arm=cool tg8=28.27±0.92  edge_before=+58.0°C edge_after=+69.0°C throttles=1
+[13:10:58] p5 arm=hot tg8=27.87±1.83  edge_before=+69.0°C edge_after=+70.0°C throttles=1
+[13:10:58]   cooling 90s from +70.0°C
+[13:14:34] p5 arm=cool tg8=24.82±1.62  edge_before=+58.0°C edge_after=+70.0°C throttles=1
+[13:16:34] p6 arm=hot tg8=28.70±1.54  edge_before=+69.0°C edge_after=+71.0°C throttles=1
+[13:16:34]   cooling 90s from +69.0°C
+[13:20:01] p6 arm=cool tg8=23.37±1.64  edge_before=+58.0°C edge_after=+69.0°C throttles=1
+[13:22:47] p7 arm=hot tg8=28.35±1.50  edge_before=+69.0°C edge_after=+69.0°C throttles=1
+[13:22:47]   cooling 90s from +69.0°C
+[13:27:10] p7 arm=cool tg8=28.65±1.87  edge_before=+58.0°C edge_after=+69.0°C throttles=1
+[13:32:34] p8 arm=hot tg8=28.74±1.22  edge_before=+69.0°C edge_after=+69.0°C throttles=1
+[13:32:34]   cooling 90s from +68.0°C
+[13:37:46] p8 arm=cool tg8=28.06±1.37  edge_before=+57.0°C edge_after=+69.0°C throttles=1
+[13:39:46] p9 arm=hot tg8=19.14±2.51  edge_before=+68.0°C edge_after=+70.0°C throttles=1
+[13:39:46]   cooling 90s from +69.0°C
+[13:43:31] p9 arm=cool tg8=27.99±2.04  edge_before=+58.0°C edge_after=+69.0°C throttles=1
+[13:45:39] p10 arm=hot tg8=28.90±1.54  edge_before=+69.0°C edge_after=+70.0°C throttles=1
+[13:45:39]   cooling 90s from +70.0°C
+[13:49:46] p10 arm=cool tg8=27.94±1.74  edge_before=+58.0°C edge_after=+69.0°C throttles=1
+[13:49:46] done, throttles total 1

@@ -1,0 +1,11 @@
+call out_abs_sum devcheck
+1     abs_sum=9361.13        Vcur-0 device-sees weight_abs_sum=84296 activations_abs_sum=16499.4
+37    abs_sum=0              Vcur-0 device-sees weight_abs_sum=84296.1 activations_abs_sum=17028.6
+38    abs_sum=23911          Vcur-1 device-sees weight_abs_sum=88083.7 activations_abs_sum=32439.6
+253   abs_sum=0              Vcur-0 device-sees weight_abs_sum=84296 activations_abs_sum=17343
+258   abs_sum=0              Vcur-5 device-sees weight_abs_sum=91141.5 activations_abs_sum=95397.8
+259   abs_sum=67809.6        Vcur-6 device-sees weight_abs_sum=92217.1 activations_abs_sum=122251
+330   abs_sum=0              Vcur-5 device-sees weight_abs_sum=91141.4 activations_abs_sum=95939.5
+340   abs_sum=0              Vcur-15 device-sees weight_abs_sum=93913.7 activations_abs_sum=272061
+
+total zeros: 109 of 432 calls, ppl=189.2381

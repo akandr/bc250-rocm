@@ -1,0 +1,70 @@
+Written during the campaign, after trial C rep1, and kept apart from
+predictions.txt so the pre-registration stays as it was registered.
+
+A confound worth stating before the results are read. Netconsole is UDP with no
+retransmission, so a dropped packet and a stall produce the same evidence:
+nothing after a given line. Every localisation in this investigation rests on
+"this printed and nothing after it did", which means every one of them assumes
+delivery.
+
+C rep1 is the reminder. Its capture ends on the 40-CU unlock, without the
+clocksource watchdog line that both A rep1 and B rep1 end on. The reset fired,
+MODE1 completed and the SMU resumed, so the run went the same way; the last
+packet simply did not arrive.
+
+This is the second reason repetition matters here, alongside the one registered
+in predictions.txt. A single capture cannot distinguish a stall from a loss, and
+three captures agreeing can. It also changes what the next probe should look
+like: numbering every line makes a gap visible as a gap, which turns an absence
+into something that can be told apart from a stall. That numbering is in
+scripts/kiq_reg_probe.sh.
+
+Written after D rep1, before the second and third repetitions.
+
+All four configurations have now been run once and behave identically: the read
+does not return. Arms B and D print immediately before it and land that print;
+arm C sleeps 50 ms immediately before it; arm A does nothing. None of them
+changes the outcome.
+
+That isolates what was different about the run on 23 August that reached step 7.
+It carried a print before the *call* to gfx_v10_0_kiq_setting() as well as one
+inside it, so two prints rather than one preceded the read. But the settle-delay
+build also carried two prints immediately before that call and still hung, which
+leaves the two-print explanation looking thin.
+
+The likelier reading, and the one the remaining repetitions test, is that the
+stall is probabilistic rather than placement-dependent: the read usually hangs
+and occasionally does not, and 23 August caught the occasional case. If the eight
+remaining trials all hang, that is the conclusion, and the next thing to do is not
+another placement but a repetition of the 23 August build itself, five times, to
+put a rate on it. One success out of one attempt is not evidence that prints help;
+it is one sample.
+
+(Superseded within the campaign: D rep2 reproduced the 23 August outcome with no
+extra prints at all, so repeating that build separately is no longer needed.)
+
+Written when D rep2 landed, with three trials still to run.
+
+D rep2 splits from D rep1. Same module, same parameters, same trigger, and a
+different stopping point: rep1 stalled with the read never returning, rep2 got the
+read back, ran through to step 4 and stalled in gfx_v10_0_kiq_init_register()
+instead. One counterexample is enough here, because the claim being tested was
+that the build determines where the sequence stops.
+
+That is the outcome predictions.txt named as "any configuration split across its
+three repetitions", and its consequence was registered before the data: the
+stopping point is not determined by the build, every placement conclusion drawn
+so far is unsupported, and the right description of this defect is a race rather
+than a bad access.
+
+It also explains 23 August without appeal to prints. That run reached step 7 and
+stalled in kiq_init_register, which is where D rep2 stalled with no extra prints
+at all. The build was not what let it get further; it was a run that happened to
+get further, and it was read as a mechanism because it was the only run of that
+build.
+
+So the honest description of the reset stall is now: after a reset, MMIO accesses
+to the GC block intermittently do not complete, and where the sequence stops
+varies between identical runs. The three earlier readings, that the device needs
+settling time, that intervening activity helps, and that print placement matters,
+were all built on single runs of a race.

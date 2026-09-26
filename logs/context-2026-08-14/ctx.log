@@ -1,0 +1,18 @@
+[16:36:24] qwen1.5B ctx=8192 rc=0 tg32 @ d7936 |         96.31
+[16:37:37] qwen1.5B ctx=16384 rc=0 tg32 @ d16128 |         85.46
+[16:41:34] qwen1.5B ctx=32768 rc=0 tg32 @ d32512 |         67.72
+[16:55:59] qwen1.5B ctx=65536 rc=0 tg32 @ d65280 |         47.68
+[17:15:59] qwen1.5B ctx=131072 rc=124 FAILED
+[17:18:33] deepseek14B ctx=8192 rc=0 tg32 @ d7936 |         12.55
+[17:26:15] deepseek14B ctx=16384 rc=134 FAILED
+[17:26:15] CTX CEILING DONE
+[17:16:25] starting 131072 with a 3 hour budget, graphs enabled
+[20:03:44] starting 131072 with a 3 hour budget, graphs enabled
+[20:58:38]   graphs on: rc=0 after 3294s tg8 @ d130816 |         28.32
+[21:53:42]   graphs off: rc=0 after 3304s tg8 @ d130816 |         29.81
+[21:53:42] CTX 128K DONE
+[17:16:25] starting 131072 with a 3 hour budget, graphs enabled
+[20:03:44] starting 131072 with a 3 hour budget, graphs enabled
+[20:58:38]   graphs on: rc=0 after 3294s tg8 @ d130816 |         28.32
+[21:53:42]   graphs off: rc=0 after 3304s tg8 @ d130816 |         29.81
+[21:53:42] CTX 128K DONE

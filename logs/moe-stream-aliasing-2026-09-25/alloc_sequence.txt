@@ -1,0 +1,26 @@
+# Allocator sequence around the colliding block
+# 2026-09-25T17:43:04+02:00, ggml-alloc AT_PRINTF tracing enabled
+
+## MoE decode graph, layer 35: norm-35 takes the block Vcur-35 just freed
+ggml_dyn_tallocr_alloc: allocating Vcur-35 (2048 bytes) - block 0, offset 50304, chunk 0
+ggml_dyn_tallocr_alloc: allocating Kcur-35 (2048 bytes) - block 0, offset 52352, chunk 0
+ggml_dyn_tallocr_alloc: allocating norm-35 (16384 bytes) - block 1, offset 54400, chunk 0
+ggml_gallocr_free_node: freeing Vcur-35 at {chunk=0, offset=50304} (2048 bytes) - n_free_blocks = 2
+ggml_dyn_tallocr_alloc: allocating norm-35 (2048 bytes) - block 1, offset 50304, chunk 0
+ggml_gallocr_free_node: freeing Kcur-35 at {chunk=0, offset=52352} (2048 bytes) - n_free_blocks = 2
+reusing parent norm-35 for Qcur_normed-35
+reusing parent norm-35 for Kcur_normed-35
+reusing parent Kcur_normed-35 for Kcur-35
+ggml_gallocr_free_node: freeing Kcur-35 at {chunk=0, offset=50304} (2048 bytes) - n_free_blocks = 3
+
+## qwen3-8B, same pattern, different block chosen
+ggml_dyn_tallocr_alloc: allocating Vcur-35 (4096 bytes) - block 0, offset 50176, chunk 0
+ggml_dyn_tallocr_alloc: allocating Kcur-35 (4096 bytes) - block 0, offset 54272, chunk 0
+ggml_dyn_tallocr_alloc: allocating norm-35 (16384 bytes) - block 0, offset 17408, chunk 0
+ggml_gallocr_free_node: freeing Vcur-35 at {chunk=0, offset=50176} (4096 bytes) - n_free_blocks = 2
+ggml_dyn_tallocr_alloc: allocating norm-35 (4096 bytes) - block 1, offset 33792, chunk 0
+ggml_gallocr_free_node: freeing Kcur-35 at {chunk=0, offset=54272} (4096 bytes) - n_free_blocks = 3
+reusing parent norm-35 for Qcur_normed-35
+reusing parent norm-35 for Kcur_normed-35
+reusing parent Kcur_normed-35 for Kcur-35
+ggml_gallocr_free_node: freeing Kcur-35 at {chunk=0, offset=33792} (4096 bytes) - n_free_blocks = 3

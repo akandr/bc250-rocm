@@ -1,0 +1,17 @@
+gated_delta_net.cu: lanes per column parameterised; RDNA1 prefill 8 (GGML_GDN_LANES overrides)
+[02:09:35] build ok
+[02:11:06] GDN correctness: OK 26 FAIL 0
+[02:11:21] qwen3.8-27b-iq3xxs replayed
+[02:11:36] qwen3.6-35b-a3b-iq2m replayed
+[02:13:18] p1 qwen3.8-27b-iq3xxs build-hip-f32iq:  pp512 70.18 ± 0.25 ; tg64 14.39 ± 0.09 ;
+[02:16:57] p1 qwen3.8-27b-iq3xxs build-hip-gdn:  pp512 71.37 ± 0.15 ; tg64 14.39 ± 0.12 ;
+[02:19:49] p1 qwen3.6-35b-a3b-iq2m build-hip-f32iq:  pp512 287.35 ± 0.95 ; tg64 64.79 ± 4.31 ;
+[02:20:50] p1 qwen3.6-35b-a3b-iq2m build-hip-gdn:  pp512 294.36 ± 31.94 ; tg64 65.36 ± 3.89 ;
+[02:23:16] p2 qwen3.8-27b-iq3xxs build-hip-f32iq:  pp512 69.93 ± 0.35 ; tg64 14.37 ± 0.28 ;
+[02:24:48] p2 qwen3.8-27b-iq3xxs build-hip-gdn:  pp512 70.97 ± 1.24 ; tg64 14.33 ± 0.22 ;
+[02:26:54] p2 qwen3.6-35b-a3b-iq2m build-hip-f32iq:  pp512 288.10 ± 1.39 ; tg64 65.80 ± 5.95 ;
+[02:29:52] p2 qwen3.6-35b-a3b-iq2m build-hip-gdn:  pp512 297.77 ± 1.20 ; tg64 64.86 ± 5.11 ;
+[02:30:35] MoE gate build-hip-f32mv (reference): Final estimate: PPL = 6.7545
+[02:31:18] MoE gate build-hip-gdn: Final estimate: PPL = 6.7804
+[02:31:20] kerntrace debug: file do bytes; stderr tail: ggml_backend_cuda_graph_compute: CUDA graph warmup complete timeout: monitowane polecenie zrobiło zrzut pamięci 
+[02:31:20] CHAIN DONE

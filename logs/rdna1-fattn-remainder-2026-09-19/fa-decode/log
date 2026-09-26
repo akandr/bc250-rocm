@@ -1,0 +1,31 @@
+fattn.cu: RDNA1 one-token flash attention -> vector kernel (GGML_FA_VEC_DECODE=0 to disable)
+[02:38:05] build ok
+[02:41:31] FLASH_ATTN_EXT correctness, vec_decode=1: OK 1344 FAIL 0 NOT_SUPPORTED 1868
+[02:42:29] FLASH_ATTN_EXT correctness, vec_decode=0: OK 1293 FAIL 0 NOT_SUPPORTED 1881
+[02:42:57] qwen2.5-1.5b-q4km FA us: vec 45.50 us/run 16870.47 us/run | tile 48.18 us/run 16879.77 us/run 
+[02:43:30] qwen3-8b-q8_0 FA us: vec 255.51 us/run 43236.17 us/run | tile 158.89 us/run 43242.73 us/run 
+[02:44:50] deepseek-r1-14b FA us: vec 159.32 us/run 129520.45 us/run | tile 458.06 us/run 129328.39 us/run 
+[02:46:10] qwen3-14b FA us: vec 160.87 us/run 129124.00 us/run | tile 458.13 us/run 129462.99 us/run 
+[02:47:25] qwen3.6-35b-a3b-iq2m FA us: vec 140.71 us/run 95587.79 us/run | tile 55.38 us/run 95953.00 us/run 
+[02:48:43] qwen3.8-27b-iq3xxs FA us: vec 148.42 us/run 145426.83 us/run | tile 84.10 us/run 145200.47 us/run 
+[02:48:57] p1 qwen2.5-1.5b-q4km d=4096 tg32: tile 155.98±1.62 | vec 157.45±1.65
+[02:49:00] p1 qwen2.5-1.5b-q4km d=0 tg32: tile 177.81±2.34 | vec 180.97±2.14
+[02:51:43] p1 qwen3-8b-q8_0 d=4096 tg32: tile 31.11±0.29 | vec 27.29±0.15
+[02:58:27] p1 qwen3-8b-q8_0 d=0 tg32: tile 35.87±0.38 | vec 36.23±1.02
+[03:02:47] p1 deepseek-r1-14b d=4096 tg32: tile 17.73±0.27 | vec 25.27±0.62
+[03:09:26] p1 deepseek-r1-14b d=0 tg32: tile 29.47±0.94 | vec 30.84±1.05
+[03:15:02] p1 qwen3.6-35b-a3b-iq2m d=4096 tg32: tile 63.61±1.84 | vec 60.58±1.87
+[03:17:10] p1 qwen3.6-35b-a3b-iq2m d=0 tg32: tile 63.81±3.39 | vec 46.82±11.81
+[03:22:27] p1 qwen3.8-27b-iq3xxs d=4096 tg32: tile 14.13±0.15 | vec 13.86±0.19
+[03:25:58] p1 qwen3.8-27b-iq3xxs d=0 tg32: tile 13.33±0.62 | vec 14.28±0.19
+[03:26:12] p2 qwen2.5-1.5b-q4km d=4096 tg32: tile 156.71±1.67 | vec 157.93±1.66
+[03:26:15] p2 qwen2.5-1.5b-q4km d=0 tg32: tile 177.75±1.89 | vec 178.65±2.02
+[03:30:34] p2 qwen3-8b-q8_0 d=4096 tg32: tile 31.19±0.21 | vec 27.12±0.39
+[03:34:39] p2 qwen3-8b-q8_0 d=0 tg32: tile 36.08±0.38 | vec 29.22±3.15
+[03:41:07] p2 deepseek-r1-14b d=4096 tg32: tile 18.15±0.14 | vec 25.60±0.22
+[03:46:58] p2 deepseek-r1-14b d=0 tg32: tile 29.11±1.41 | vec 31.17±0.62
+[03:49:36] p2 qwen3.6-35b-a3b-iq2m d=4096 tg32: tile 63.85±1.44 | vec 62.45±1.12
+[03:52:35] p2 qwen3.6-35b-a3b-iq2m d=0 tg32: tile 38.02±5.15 | vec 64.83±1.87
+[03:59:47] p2 qwen3.8-27b-iq3xxs d=4096 tg32: tile 14.07±0.25 | vec 13.82±0.23
+[04:03:43] p2 qwen3.8-27b-iq3xxs d=0 tg32: tile 14.27±0.12 | vec 14.22±0.17
+[04:03:43] CHAIN DONE

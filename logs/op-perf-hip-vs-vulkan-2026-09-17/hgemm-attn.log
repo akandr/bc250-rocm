@@ -1,0 +1,15 @@
+# hipcc --offload-arch=gfx1013 -O2 hgemm_attn.cpp -L/opt/bc250-rocm/lib64 -lrocblas -lamdhip64 -I/usr/include/rocblas
+# native gfx1013 rocBLAS 7.1.1, clock 1500 MHz, 2026-09-18 03:54, 20 repetitions after one warm-up call
+
+== hgemm_attn comp=f32
+=== hgemm_attn gfx1013:xnack- comp=f32 reps=20
+KQ        m=4096 n=2048 k= 128 batch=12    7293.5 us   3533.3 GFLOP/s
+KQV       m= 128 n=2048 k=4096 batch=12    8628.1 us   2986.7 GFLOP/s
+KQ/head   m=4096 n=2048 k= 128 batch= 1     519.6 us   4132.6 GFLOP/s
+KQV/head  m= 128 n=2048 k=4096 batch= 1     903.4 us   2377.0 GFLOP/s
+== hgemm_attn comp=f16
+=== hgemm_attn gfx1013:xnack- comp=f16 reps=20
+KQ        m=4096 n=2048 k= 128 batch=12    5540.3 us   4651.3 GFLOP/s
+KQV       m= 128 n=2048 k=4096 batch=12   12512.3 us   2059.6 GFLOP/s
+KQ/head   m=4096 n=2048 k= 128 batch= 1     483.1 us   4445.4 GFLOP/s
+KQV/head  m= 128 n=2048 k=4096 batch= 1     984.9 us   2180.5 GFLOP/s

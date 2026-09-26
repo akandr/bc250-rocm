@@ -1,0 +1,28 @@
+### compute_probe on 7.1.5-100.fc43.x86_64 CU=active_cu_number 40 23:13:15
+--- nblocks=4096 (1048576 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=6000 iters=8 ===
+iter 0: sync=514.8 ms  wrong=0/1048576  ok
+iter 1: sync=496.1 ms  wrong=0/1048576  ok
+iter 2: sync=495.9 ms  wrong=0/1048576  ok
+iter 3: sync=495.2 ms  wrong=0/1048576  ok
+iter 4: sync=494.9 ms  wrong=0/1048576  ok
+iter 5: sync=495.5 ms  wrong=0/1048576  ok
+iter 6: sync=494.9 ms  wrong=0/1048576  ok
+iter 7: sync=495.7 ms  wrong=0/1048576  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+  [exit=0 ]
+--- nblocks=16384 (4194304 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=8 ===
+iter 0: sync=1978.6 ms  wrong=0/4194304  ok
+  [exit=0 ]
+--- nblocks=32768 (8388608 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=8 ===
+iter 0: sync=3923.0 ms  wrong=0/8388608  ok
+iter 1: sync=3914.1 ms  wrong=2256904/8388608  MISMATCH
+   first mismatch at index 6057980: got 0, want -2109779631
+  [exit=0 ]
+--- nblocks=65536 (16777216 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=65536 (16777216 threads) inner=6000 iters=8 ===
+:0:rocdevice.cpp            :2994: 0218065706 us:  Callback: Queue 0x7f318c400000 aborting with error : HSA_STATUS_ERROR_INVALID_PACKET_FORMAT: The AQL packet is malformed. code: 0x1009
+  [exit=0 ]
+### DONE 23:14:02

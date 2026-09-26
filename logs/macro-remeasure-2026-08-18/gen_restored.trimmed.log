@@ -1,0 +1,9 @@
+# Trimmed: the build carries per-tensor instrumentation and the raw file was
+# 1.2 GB / 91 MB of tensor dumps. Kept: the model line, the prompt, the
+# generated text and the timing footer.
+
+> The capital of France is
+The capital of France is Paris.
+
+
+[ Prompt: 319,8 t/s | Generation: 117,0 t/s ]

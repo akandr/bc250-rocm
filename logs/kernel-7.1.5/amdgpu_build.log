@@ -1,0 +1,34 @@
+# amdgpu build for kernel 7.1.5 (first 15 + last 15 lines of make output)
+# full command in BUILD-RECIPE.md
+---HEAD---
+make: Wejście do katalogu '/usr/src/kernels/7.1.5-100.fc43.x86_64'
+make[1]: Wejście do katalogu '/usr/src/kernels/7.1.5-100.fc43.x86_64/drivers/gpu/drm/amd/amdgpu'
+warning: pahole version differs from the one used to build the kernel
+  The kernel was built with: 130
+  You are using:             0
+  CC [M]  amdgpu_drv.o
+  CC [M]  amdgpu_device.o
+  CC [M]  amdgpu_reg_access.o
+  CC [M]  amdgpu_doorbell_mgr.o
+  CC [M]  amdgpu_kms.o
+  CC [M]  amdgpu_atombios.o
+  CC [M]  atombios_crtc.o
+  CC [M]  amdgpu_connectors.o
+  CC [M]  atom.o
+  CC [M]  amdgpu_fence.o
+---TAIL---
+  CC [M]  ../ras/rascore/ras_nbio_v7_9.o
+  CC [M]  ../ras/rascore/ras_log_ring.o
+  CC [M]  ../ras/rascore/ras_cper.o
+  CC [M]  ../ras/rascore/ras_psp.o
+  CC [M]  ../ras/rascore/ras_psp_v13_0.o
+  CC [M]  ../ras/rascore/ras_eeprom_fw.o
+  LD [M]  amdgpu.o
+  MODPOST Module.symvers
+  CC [M]  amdgpu.mod.o
+  CC [M]  .module-common.o
+  LD [M]  amdgpu.ko
+  BTF [M] amdgpu.ko
+Skipping BTF generation for amdgpu.ko due to unavailability of vmlinux
+make[1]: Opuszczenie katalogu '/usr/src/kernels/7.1.5-100.fc43.x86_64/drivers/gpu/drm/amd/amdgpu'
+make: Opuszczenie katalogu '/usr/src/kernels/7.1.5-100.fc43.x86_64'

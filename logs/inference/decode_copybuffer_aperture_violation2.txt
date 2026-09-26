@@ -1,0 +1,19 @@
+### DECODE2 [decode4] n=4 extra=[GGML_CUDA_FORCE_MMQ=1] model=qwen2.5-1.5b-q4km.gguf 01:08:33 CU=active_cu_number 40
+/home/akandr/decode2.sh: linia 15:  1789 Przerwane                  env $EXTRA AMD_LOG_LEVEL=3 $TO 240 $CLI --no-mmap -ngl 999 -fa on -m "$MODEL" -p "The capital of France is" -n $N --no-warmup -no-cnv > "$FULL" 2>&1
+exit=134
+--- generated text (prefill+decode output) ---
+--- distinct GPU kernels dispatched (ShaderName) ---
+    142 __amd_rocclr_copyBuffer
+     44 __amd_rocclr_fillBufferAligned
+--- fault line + preceding 3 kernel dispatches ---
+11992::3:rocvirtual.cpp           :3237: 0503087187 us:  ShaderName : __amd_rocclr_copyBuffer
+12022::3:rocvirtual.cpp           :3237: 0503087486 us:  ShaderName : __amd_rocclr_copyBuffer
+12305::3:rocvirtual.cpp           :3237: 0503168038 us:  ShaderName : __amd_rocclr_fillBufferAligned
+12347::3:rocvirtual.cpp           :3237: 0503186629 us:  ShaderName : __amd_rocclr_fillBufferAligned
+12369::3:rocvirtual.cpp           :3237: 0503187372 us:  ShaderName : __amd_rocclr_copyBuffer
+12375::0:rocdevice.cpp            :2994: 0503188419 us:  Callback: Queue 0x7fc1bbc00000 aborting with error : HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION: The agent attempted to access memory beyond the largest legal address. code: 0x29
+--- dmesg ---
+[  505.401509] amdgpu: Freeing queue vital buffer 0x7fc1b8c00000, queue evicted
+[  505.401511] amdgpu: Freeing queue vital buffer 0x7fc1b9e00000, queue evicted
+[  505.401513] amdgpu: Freeing queue vital buffer 0x7fc1bae00000, queue evicted
+### DONE [decode4]

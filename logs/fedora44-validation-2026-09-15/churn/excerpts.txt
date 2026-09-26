@@ -1,0 +1,22 @@
+== tbo_A_1
+  Backend ROCm0: [1;32mOK[0m
+== tbo_B_1
+  MUL_MAT(type_a=bf16,type_b=f32,m=4096,n=1,k=14336,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1): Memory access fault by GPU node-1 (Agent handle: 0x12c3bb20) on address 0x7f6d5a001000. Reason: Page not present or supervisor privilege.
+== tbo_B_2
+  MUL_MAT(type_a=f16,type_b=f32,m=128,n=1,k=16416,bs=[8,1],nr=[4,1],per=[0,1,2,3],k_v=32832,o=1): Memory access fault by GPU node-1 (Agent handle: 0x244d7b20) on address 0x7f0c9fe02000. Reason: Page not present or supervisor privilege.
+== tbo_A2_3
+  Backend ROCm0: [1;32mOK[0m
+== seq_A_1
+gen1 n=8388608 tail=0 va=0x7f7f1dc00000 wrong=0 zeros=0 first=-1 ok
+gen2 n=4194304 tail=0 va=0x7f7f1ec00000 wrong=0 zeros=0 first=-1 ok
+gen3 n=8388608 tail=0 va=0x7f7f1dc00000 wrong=0 zeros=0 first=-1 ok
+gen4 n=6000000 tail=128 va=0x7f7f1e400000 wrong=0 zeros=0 first=-1 ok
+gen5 n=8388608 tail=0 va=0x7f7f1dc00000 wrong=0 zeros=0 first=-1 ok
+RESULT bad_gens=0
+== seq_B_1
+gen1 n=8388608 tail=0 va=0x7fd670400000 wrong=0 zeros=0 first=-1 ok
+gen2 n=4194304 tail=0 va=0x7fd671400000 wrong=0 zeros=0 first=-1 ok
+gen3 n=8388608 tail=0 va=0x7fd670400000 wrong=0 zeros=0 first=-1 ok
+gen4 n=6000000 tail=128 va=0x7fd670c00000 wrong=0 zeros=0 first=-1 ok
+gen5 n=8388608 tail=0 va=0x7fd670400000 wrong=0 zeros=0 first=-1 ok
+RESULT bad_gens=0

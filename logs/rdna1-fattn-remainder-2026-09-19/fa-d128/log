@@ -1,0 +1,15 @@
+[06:49:45] hip patch 2, run 1: received signal SIGABRT 
+[06:55:08] hip patch 2, run 2: received signal SIGABRT 
+[07:01:58] hip patch 2, run 3: received signal SIGABRT 
+fattn-tile.cuh: D=128 rows for 4 and 2 columns added
+[07:08:54] build fa4 ok
+[07:11:51] fa4 FLASH_ATTN_EXT correctness: OK 1285 FAIL 0
+[07:12:07] build-hip-fa3 qwen3-8b-q8_0 FA us: 163.11 us/run 43229.85 us/run 
+[07:12:21] build-hip-fa3 qwen2.5-1.5b-q4km FA us: 47.45 us/run 16863.46 us/run 
+[07:12:38] build-hip-fa4 qwen3-8b-q8_0 FA us: 60.18 us/run 43235.01 us/run 
+[07:12:52] build-hip-fa4 qwen2.5-1.5b-q4km FA us: 34.45 us/run 16886.70 us/run 
+[07:18:45] p1 qwen3-8b-q8_0 tg32 d=4096: fa3 30.31±0.46 | fa4 35.07±0.27   d=0: fa3 36.35±0.36 | fa4 35.16±3.24
+[07:19:02] p1 qwen2.5-1.5b-q4km tg32 d=4096: fa3 150.91±3.13 | fa4 163.32±3.88   d=0: fa3 172.42±9.67 | fa4 177.78±4.16
+[07:29:51] p2 qwen3-8b-q8_0 tg32 d=4096: fa3 30.73±0.33 | fa4 34.38±0.40   d=0: fa3 36.06±0.42 | fa4 35.35±1.72
+[07:30:08] p2 qwen2.5-1.5b-q4km tg32 d=4096: fa3 154.21±1.65 | fa4 166.40±1.91   d=0: fa3 175.58±6.83 | fa4 177.54±7.99
+[07:30:08] CHAIN DONE

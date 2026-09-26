@@ -1,0 +1,11 @@
+[17:54:36] === A. do the zeroed GEMMs survive with graph capture disabled?
+[17:55:11]   graph capture on: 144 GEMM outputs, 3 zero at positions [37 73 109 ] ppl=14.1344
+[17:55:40]   graph capture off: 144 GEMM outputs, 3 zero at positions [37 73 109 ] ppl=14.1344
+[17:55:40] === B. does decode variance depend on depth?
+[18:00:05]   depth 2048: 30.57 29.86 30.20 28.73 28.38
+    depth 2048: n=5 mean=29.55 sd=0.95 cv=3.2%
+[18:10:10]   depth 8192: 21.41 23.64 22.14 21.17 21.87
+    depth 8192: n=5 mean=22.05 sd=0.97 cv=4.4%
+[18:33:05]   depth 16128: 14.77 18.12 19.23 17.47 16.87
+    depth 16128: n=5 mean=17.29 sd=1.66 cv=9.6%
+[18:33:05] done

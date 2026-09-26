@@ -1,0 +1,9 @@
+MoE, GGML_CUDA_GRAPH_OPT=1, forks identified vs streams launched
+condition                              phase          adds   launches
+X=1                                    decode           90          0
+X=1                                    prefill          70          0
+GGML_CUDA_POOL_NOREUSE=1               decode           90          0
+GGML_CUDA_POOL_NOREUSE=1               prefill          70          0
+GGML_CUDA_NO_POOL=1                    decode           90          0
+GGML_CUDA_NO_POOL=1                    prefill          70          0
+done

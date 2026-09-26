@@ -1,0 +1,19 @@
+                return "gfx1010";
+            case AMDGPU::Processor::gfx1011:
+                return "gfx1011";
+            case AMDGPU::Processor::gfx1012:
+                return "gfx1012", "gfx1013";
+            case AMDGPU::Processor::gfx1030:
+                return "gfx1030";
+            case AMDGPU::Processor::gfx1031:
+                return "gfx1031";
+            else if(deviceString.find("gfx1011") != std::string::npos)
+            {
+                return AMDGPU::Processor::gfx1011;
+            }
+            else if(deviceString.find("gfx1012", "gfx1013") != std::string::npos)
+            {
+                return AMDGPU::Processor::gfx1012;
+            }
+            else if(deviceString.find("gfx1030") != std::string::npos)
+            {

@@ -1,0 +1,18 @@
+[11:32:43] === reference: f32 compute, the known-correct value is 9.0975
+[11:33:29]   f32 reference: 9.0975
+[11:33:29] === three arms, alternated over three rounds
+[11:34:13]   baseline_r1: 21.1485
+[11:35:04]   nopool_r1: 20.9386
+[11:35:56]   noreuse_r1: FAIL
+[11:36:40]   baseline_r2: 18.7373
+[11:38:01]   nopool_r2: 17.9556
+[11:38:39]   noreuse_r2: FAIL
+[11:39:23]   baseline_r3: 18.1127
+[11:40:49]   nopool_r3: 23.0479
+[11:41:41]   noreuse_r3: FAIL
+[11:41:41] === summary
+[11:41:41]   baseline: 21.1485 18.7373 18.1127 
+[11:41:41]   nopool: 20.9386 17.9556 23.0479 
+[11:41:41]   noreuse: 
+[11:41:42] === dmesg faults: 
+[11:41:42] done

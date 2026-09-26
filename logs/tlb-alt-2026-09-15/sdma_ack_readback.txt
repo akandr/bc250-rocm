@@ -1,0 +1,19 @@
+faults=1
+BC250TLBALT mode=4 site=2 calls=1 nomatch=1 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0
+BC250TLBALT mode=4 site=2 calls=10 nomatch=10 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0
+BC250TLB vmid=8 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+BC250TLBALT mode=4 site=2 calls=11 nomatch=11 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0
+BC250TLB vmid=8 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+BC250TLBALT mode=4 site=2 calls=12 nomatch=12 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0
+BC250TLB vmid=8 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+BC250TLBALT mode=4 site=2 calls=13 nomatch=13 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0
+BC250TLB vmid=8 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+BC250TLBALT mode=4 site=2 calls=14 nomatch=14 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0
+BC250TLB vmid=8 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+BC250TLBALT mode=4 site=2 calls=15 nomatch=15 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0
+BC250TLB vmid=8 ptb=0x0 pd=0x46ffd6001 first_kfd=8
+BC250TLBALT mode=4 site=2 calls=16 nomatch=16 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0
+BC250TLB vmid=8 ptb=0x46ffd6001 pd=0x46ffd6001 first_kfd=8 MATCH
+BC250TLBALT mode=4 site=2 calls=17 nomatch=16 ackmiss=0 err=0 last: matched=0x0100 acked=0x0000 r=0
+BC250TLB vmid=8 ptb=0x46ffd6001 pd=0x46ffd6001 first_kfd=8 MATCH
+BC250TLBALT mode=4 site=2 calls=18 nomatch=16 ackmiss=0 err=0 last: matched=0x0100 acked=0x0000 r=0

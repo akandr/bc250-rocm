@@ -1,0 +1,30 @@
+[15:35:42] build start
+[15:42:40] build ok
+[15:45:54] p1 qwen2.5-1.5b-q4km MMQ:     pp128 536.43 ± 243.71 ; pp512 913.85 ± 5.87 ; pp2048 889.60 ± 0.14 ;
+[15:46:06] p1 qwen2.5-1.5b-q4km cuBLAS:  pp128 764.81 ± 23.67 ; pp512 958.40 ± 8.00 ; pp2048 933.15 ± 0.11 ;
+[15:48:17] p1 qwen3-8b-q8_0 MMQ:     pp128 225.99 ± 4.19 ; pp512 262.92 ± 1.11 ; pp2048 265.70 ± 0.02 ;
+[15:50:50] p1 qwen3-8b-q8_0 cuBLAS:  pp128 84.14 ± 0.94 ; pp512 153.34 ± 0.75 ; pp2048 156.37 ± 0.27 ;
+[15:54:10] p1 qwen3.6-35b-a3b-iq2m MMQ:     pp128 159.82 ± 4.50 ; pp512 301.02 ± 1.49 ; pp2048 306.21 ± 0.86 ;
+[15:56:59] p1 qwen3.6-35b-a3b-iq2m cuBLAS:  pp128 132.51 ± 1.29 ; pp512 189.13 ± 1.39 ; pp2048 183.68 ± 0.79 ;
+[16:01:34] p1 qwen3.8-27b-iq3xxs MMQ:     pp128 64.67 ± 0.91 ; pp512 71.98 ± 0.15 ; pp2048 64.65 ± 3.36 ;
+[16:08:54] p1 qwen3.8-27b-iq3xxs cuBLAS:  pp128 18.32 ± 0.08 ; pp512 37.05 ± 0.57 ; pp2048 49.49 ± 0.07 ;
+[16:09:09] p2 qwen2.5-1.5b-q4km MMQ:     pp128 695.06 ± 14.61 ; pp512 914.67 ± 5.67 ; pp2048 889.69 ± 0.12 ;
+[16:09:21] p2 qwen2.5-1.5b-q4km cuBLAS:  pp128 764.83 ± 22.89 ; pp512 958.74 ± 8.21 ; pp2048 933.02 ± 0.13 ;
+[16:10:45] p2 qwen3-8b-q8_0 MMQ:     pp128 156.39 ± 63.89 ; pp512 278.51 ± 1.09 ; pp2048 264.42 ± 7.43 ;
+[16:13:57] p2 qwen3-8b-q8_0 cuBLAS:  pp128 146.40 ± 9.29 ; pp512 155.02 ± 0.47 ; pp2048 156.39 ± 0.29 ;
+[16:15:51] p2 qwen3.6-35b-a3b-iq2m MMQ:     pp128 159.67 ± 4.47 ; pp512 301.31 ± 1.47 ; pp2048 306.77 ± 0.88 ;
+[16:18:43] p2 qwen3.6-35b-a3b-iq2m cuBLAS:  pp128 131.02 ± 0.92 ; pp512 188.10 ± 0.94 ; pp2048 183.85 ± 0.31 ;
+[16:22:30] p2 qwen3.8-27b-iq3xxs MMQ:     pp128 64.80 ± 0.56 ; pp512 71.95 ± 0.15 ; pp2048 63.49 ± 0.97 ;
+[16:26:47] p2 qwen3.8-27b-iq3xxs cuBLAS:  pp128 26.58 ± 1.50 ; pp512 53.60 ± 0.28 ; pp2048 53.49 ± 0.00 ;
+[16:26:52] tg64 qwen2.5-1.5b-q4km: MMQ 182.07±4.98 | cuBLAS 184.86±1.45
+[16:29:26] tg64 qwen3.6-35b-a3b-iq2m: MMQ 55.67±10.89 | cuBLAS 64.22±2.99
+[16:30:14] 1.5B gate, cuBLAS build: Final estimate: PPL = 8.9582  (8.9498 with MMQ)
+[16:31:01] 8B gate, cuBLAS build: Final estimate: PPL = 9.1633  (9.1273 with MMQ)
+[16:31:05] trace 1.5B pp512 cuBLAS: kerntrace: 2280 kernel dispatches, 1069.834 ms of kernel time, 1143.949 ms first dispatch to last completion
+[16:31:05]    gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 1032 (2.5 ms), 5-20us 1237 (6.8 ms), 20-100us 0 (0.0 ms
+[16:31:05]    count total ms share avg us kernel
+[16:31:05]    386 957.835 89.5% 2481.44 Cijk_Alik_Bljk_HB_MT64x64x8_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA
+[16:31:05]    28 15.985 1.5% 570.90 _ZL15flash_attn_tileILi128ELi128ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj
+[16:31:05]    28 15.444 1.4% 551.57 void flash_attn_tile(char const*, char const*, char const*, char const*, char const*, int
+[16:31:05]    193 9.086 0.8% 47.08 _ZL13convert_unaryI6__halffEvPKvPT0_lll15HIP_vector_typeIjLj3EElll
+[16:31:05] CHAIN DONE

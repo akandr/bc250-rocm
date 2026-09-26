@@ -1,0 +1,23 @@
+Pre-registered 2026-08-23, before running.
+
+At two chunks the zeros split into two behaviours: a stable core at batch starts
+37, 73, 109 and 181, present in all six runs so far, and a contiguous cascade
+beginning at call 253 whose length varies from nothing to nearly thirty.
+
+Call 253 is the start of the eighth batch, which at two chunks is the last one.
+That suggests two readings:
+
+  A. The cascade is anchored to the LAST batch. At three chunks (twelve batches,
+     432 calls on the 8B at 36 per batch) it would begin at call 397, the start
+     of batch twelve, not at 253.
+
+  B. The cascade is anchored to a fixed position, roughly call 253, whatever the
+     workload length. At three chunks it would begin near 253 again, in the
+     middle rather than at the end.
+
+The discriminator is where the cascade starts at three chunks. Prediction is not
+offered between them; both are plausible and the point is that they are
+distinguishable and named in advance.
+
+If the cascade does not appear at all at three chunks, that is a third outcome
+and would mean it is specific to the two-chunk case rather than general.

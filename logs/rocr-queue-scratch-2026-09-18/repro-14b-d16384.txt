@@ -1,0 +1,12 @@
+== stock 14:44:58
+bash: linia 1: 576602 Naruszenie ochrony pamięciLD_LIBRARY_PATH=$LP timeout -k 30 900 $M/build-hip-f32mv/bin/llama-bench -m /opt/models/qwen3-14b.gguf -ngl 99 -fa on -p 0 -n 64 -d 16384 -r 2 > $O/14b-d16384-$v.log 2>&1
+rc=139
+[83379.879625] amdgpu: SVM mapping failed, exceeds resident system memory limit
+[83379.885231] llama-bench[576603]: segfault at 20 ip 00007ff2ea63e4bf sp 00007ffe5d5e5400 error 4 in libhsa-runtime64.so.1.18.0[3e4bf,7ff2e
+== patched 14:50:51
+rc=139
+bash: linia 1: 579090 Naruszenie ochrony pamięciLD_LIBRARY_PATH=$LP timeout -k 30 900 $M/build-hip-f32mv/bin/llama-bench -m /opt/models/qwen3-14b.gguf -ngl 99 -fa on -p 0 -n 64 -d 16384 -r 2 > $O/14b-d16384-$v.log 2>&1
+[83750.027193] amdgpu: SVM mapping failed, exceeds resident system memory limit
+[83750.027331] llama-bench[579091]: segfault at 8 ip 00007f847469a254 sp 00007ffeeba107d0 error 6 in libamdhip64.so.7.1.52802[499254,7f84743
+
+[exited with code 0]

@@ -1,0 +1,11 @@
+0.15.558.387 E ROCm error: CUBLAS_STATUS_INTERNAL_ERROR
+0.15.558.395 E   current device: 0, in function ggml_cuda_mul_mat_cublas_impl at /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:1745
+0.15.558.395 E   hipblasGemmEx(ctx.cublas_handle(), HIPBLAS_OP_T, HIPBLAS_OP_N, ne01, ne11, ne10, alpha, src0_ptr, cu_data_type_a, s01, src1_ptr, cu_data_type_b, s11, beta, dst_ptr, cu_data_type, ne0, cu_compute_type, HIPBLAS_GEMM_DEFAULT)
+---
+0.14.161.134 E /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:110: ROCm error
+0.14.161.142 E   current device: 0, in function ggml_cuda_mul_mat_cublas_impl at /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:1685
+0.14.161.143 E   hipblasSgemm(ctx.cublas_handle(), HIPBLAS_OP_T, HIPBLAS_OP_N, ne01, ne11, ne10, (const float *) alpha, (const float *) src0_ptr, s01, (const float *) src1_ptr, s11, (const float *) beta, (float *) dst_ptr, ne0)
+--- -fa off, qwen2.5-1.5B ctx 1024
+0.02.203.945 E ROCm error: CUBLAS_STATUS_INTERNAL_ERROR
+0.02.203.952 E   current device: 0, in function ggml_cuda_mul_mat_cublas_impl at /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:1799
+0.02.203.955 E   hipblasGemmBatchedEx(ctx.cublas_handle(), HIPBLAS_OP_T, HIPBLAS_OP_N, ne01, ne11, ne10, alpha, (const void **) (ptrs_src.get() + 0*ne23), cu_data_type_a, s01, (const void **) (ptrs_src.get() + 1*ne23), cu_data_type_b, s11, beta, ( void **) (ptrs_dst.get() + 0*ne23), cu_data_type, ne0, ne23, cu_compute_type, HIPBLAS_GEMM_DEFAULT)

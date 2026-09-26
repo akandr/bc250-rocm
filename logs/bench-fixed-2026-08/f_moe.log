@@ -1,0 +1,10 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+DEPRECATED: -mmp and --mmap are deprecated in favour of --load-mode. Please use --load-mode mmap instead.| model                          |       size |     params | backend    | ngl |  fa |         lm |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | ---------: | --------------: | -------------------: |
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |   1 |       none |           pp512 |        455.40 ± 2.11 |
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |   1 |       none |            tg64 |         86.45 ± 0.27 |
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |   1 |       none |   pp512 @ d4096 |        401.88 ± 5.22 |
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | Vulkan     |  99 |   1 |       none |    tg64 @ d4096 |         83.86 ± 0.31 |
+
+build: 7ba604f (1)

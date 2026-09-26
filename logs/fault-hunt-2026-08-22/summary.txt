@@ -1,0 +1,5 @@
+iterations=255 boots=16
+gate values seen:
+8.9442 ok
+faulting process in the one natural archive:
+llama-bench

@@ -1,0 +1,67 @@
+kerntrace: 3974 kernel dispatches, 13961.240 ms of kernel time, 14315.131 ms first dispatch to last completion
+  records domain 2 op 0: 3974
+  records domain 2 op 1: 868
+  records domain 2 op 2: 2
+  gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 3955 (11.8 ms), 5-20us 4 (0.0 ms), 20-100us 2 (0.1 ms), >100us 12 (342.0 ms); overlapping starts 0
+     count     total ms   share     avg us  kernel
+       192     4026.502   28.8%   20971.37  _ZL16mmf16_rdna1_gemmIL9ggml_type21EEvPKcPKfPfiiimii
+       192     3953.776   28.3%   20592.59  void mmf16_rdna1_gemm(char const*, float const*, float*, int, int, int, unsigned long, int
+       112     1835.305   13.1%   16386.65  _ZL16mmf16_rdna1_gemmIL9ggml_type18EEvPKcPKfPfiiimii
+       112     1783.721   12.8%   15926.08  void mmf16_rdna1_gemm(char const*, float const*, float*, int, int, int, unsigned long, int
+        96      850.982    6.1%    8864.40  _ZL16mmf16_rdna1_gemmIL9ggml_type23EEvPKcPKfPfiiimii
+        96      842.377    6.0%    8774.76  void mmf16_rdna1_gemm(char const*, float const*, float*, int, int, int, unsigned long, int
+        48       95.998    0.7%    1999.96  _Z20gated_delta_net_cudaILi128ELb0ELb0ELi8EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vect
+        48       95.175    0.7%    1982.80  void gated_delta_net_cuda(float const*, float const*, float const*, float const*, float co
+        96       50.952    0.4%     530.75  Cijk_Alik_Bljk_HB_MT64x64x8_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA
+        16       44.452    0.3%    2778.28  _ZL15flash_attn_tileILi256ELi256ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj
+        16       42.837    0.3%    2677.32  void flash_attn_tile(char const*, char const*, char const*, char const*, char const*, int 
+        48       30.840    0.2%     642.50  _ZL9mul_mat_qIL9ggml_type23ELi64ELb1EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9
+        48       30.536    0.2%     636.18  void mul_mat_q(char const*, int const*, int const*, int const*, float*, float*, float cons
+       112       30.069    0.2%     268.48  _ZL21unary_gated_op_kernelIXadL_ZL7op_silufEEfEvPKT0_S2_PS0_llll
+       112       30.044    0.2%     268.25  void unary_gated_op_kernel(float const*, float const*, float*, long, long, long, long)
+        48       17.707    0.1%     368.90  _ZL22concat_dim0_transposedIjEvPKcPclllmmmmlmmm
+        80       17.622    0.1%     220.27  _ZL12rms_norm_f32ILi256ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS
+        48       17.603    0.1%     366.73  void concat_dim0_transposed(char const*, char*, long, long, long, unsigned long, unsigned 
+        80       17.512    0.1%     218.89  void rms_norm_f32(float const*, float*, int, long, long, long, float, float const*, long, 
+        48       15.920    0.1%     331.66  _ZL23ssm_conv_long_token_f32ILb1ELm128ELm4ELl32EEvPKfS1_S1_iiiiPfiiil
+        48       15.860    0.1%     330.42  void ssm_conv_long_token_f32(float const*, float const*, float const*, int, int, int, int,
+       176       12.491    0.1%      70.97  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_S
+       176       12.468    0.1%      70.84  void k_bin_bcast(float const*, float const*, float*, unsigned int, unsigned int, unsigned 
+       129       12.024    0.1%      93.21  _ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lll
+       129       11.958    0.1%      92.70  void rms_norm_f32(float const*, float*, int, long, long, long, float, float const*, long, 
+        64        6.534    0.0%     102.09  _ZL10cpy_scalarIXadL_ZL12cpy_1_scalarIffEvPKcPcEEEvS2_S3_lllllllllllllll
+        64        6.526    0.0%     101.97  void cpy_scalar(char const*, char*, long, long, long, long, long, long, long, long, long, 
+        96        4.364    0.0%      45.46  _ZL11l2_norm_f32ILi32EEvPKfPfilllf
+        96        4.350    0.0%      45.31  void l2_norm_f32(float const*, float*, int, long, long, long, float)
+        48        3.612    0.0%      75.26  _ZL13convert_unaryIf6__halfEvPKvPT0_lll15HIP_vector_typeIjLj3EElll
+        16        3.579    0.0%     223.67  _ZL26flash_attn_combine_resultsILi256EEvPKfPK15HIP_vector_typeIfLj2EEPfi
+        16        3.574    0.0%     223.35  void flash_attn_combine_results(float const*, HIP_vector_type const*, float*, int)
+        48        3.559    0.0%      74.14  void convert_unary(void const*, __half*, long, long, long, HIP_vector_type, long, long, lo
+        32        3.117    0.0%      97.41  _ZL10rope_multiILb1ELb0EfEvPKT1_PS0_iiiiiiiiiiPKifff14rope_corr_dimsfPKf14mrope_sectionsb
+        32        3.115    0.0%      97.35  void rope_multi(float const*, float*, int, int, int, int, int, int, int, int, int, int, in
+        48        3.044    0.0%      63.42  _ZL17quantize_mmq_q8_1IL18mmq_q8_1_ds_layout0ELb0EEvPKfPKiPvllllliii
+        48        3.034    0.0%      63.21  void quantize_mmq_q8_1(float const*, int const*, void*, long, long, long, long, long, int,
+         1        2.503    0.0%    2503.21  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type13ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+         1        2.496    0.0%    2495.95  void mul_mat_vec_f32_rdna1(void const*, float const*, int const*, float*, int, int, long, 
+        16        2.027    0.0%     126.66  _ZL21unary_gated_op_kernelIXadL_ZL10op_sigmoidfEEfEvPKT0_S2_PS0_llll
+        16        2.022    0.0%     126.39  void unary_gated_op_kernel(float const*, float const*, float*, long, long, long, long)
+        96        1.323    0.0%      13.78  _ZL9scale_f32PKfPfffl
+        96        1.305    0.0%      13.59  scale_f32(float const*, float*, float, float, long)
+        32        0.928    0.0%      29.01  _ZL10k_set_rowsIfl6__halfEvPKT_PKT0_PT1_llllllllllllll15HIP_vector_typeIjLj3EESA_SA_SA_SA_
+        32        0.927    0.0%      28.98  void k_set_rows(float const*, long const*, __half*, long, long, long, long, long, long, lo
+        48        0.862    0.0%      17.95  _ZL20k_get_rows_float_vecIfEvPKT_PKiPS0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+        48        0.854    0.0%      17.80  void k_get_rows_float_vec(float const*, int const*, float*, long, long, HIP_vector_type, u
+        48        0.695    0.0%      14.48  void concat_dim0_src0_part(char const*, char*, long, unsigned long, unsigned long, unsigne
+        48        0.694    0.0%      14.46  _ZL21concat_dim0_src0_partIjEvPKcPclmmmmmmm
+        49        0.164    0.0%       3.34  _ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+        49        0.155    0.0%       3.16  void k_get_rows_float(float const*, int const*, float*, long, long, HIP_vector_type, unsig
+        48        0.144    0.0%       3.01  _ZL11k_bin_bcastIXadL_ZL6op_mulffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_S
+        48        0.139    0.0%       2.90  _ZL22dequantize_block_iq1_mI6__halfEvPKvPT_
+        48        0.138    0.0%       2.88  void k_bin_bcast(float const*, float const*, float*, unsigned int, unsigned int, unsigned 
+        48        0.135    0.0%       2.81  void dequantize_block_iq1_m(void const*, __half*)
+        48        0.110    0.0%       2.29  _ZL13convert_unaryI6__halffEvPKvPT0_lll15HIP_vector_typeIjLj3EElll
+        48        0.105    0.0%       2.19  void convert_unary(void const*, float*, long, long, long, HIP_vector_type, long, long, lon
+        48        0.099    0.0%       2.06  _ZL15unary_op_kernelIXadL_ZL10op_sigmoidfEEfEvPKT0_PS0_i
+        48        0.097    0.0%       2.01  void unary_op_kernel(float const*, float*, int)
+        48        0.089    0.0%       1.86  _ZL15unary_op_kernelIXadL_ZL11op_softplusfEEfEvPKT0_PS0_i
+        48        0.088    0.0%       1.84  void unary_op_kernel(float const*, float*, int)

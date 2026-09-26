@@ -1,0 +1,19 @@
+[23:06:55] === kernel 7.1.8-100.fc43.x86_64, CU simd_count 80
+[23:06:55] === compute probe, the size that used to fault
+RESULT: total_wrong=0 -> ALL CORRECT
+[23:07:01] === native rocBLAS SGEMM sweep
+[23:07:01]   N=512: see log GFLOP/s
+[23:07:01]   N=1024: see log GFLOP/s
+[23:07:01]   N=2048: see log GFLOP/s
+[23:07:01]   N=4096: see log GFLOP/s
+[23:07:01] === perplexity gates (7.1.5 references: 8.9442 and 9.0975)
+[23:08:18]   qwen2.5-1.5b-q4km: 8.9442  (7.1.5 gave 8.9442)
+[23:09:00]   qwen3-8b-q8_0: 9.0975  (7.1.5 gave 9.0975)
+[23:09:00] === throughput (7.1.5: pp512 805.53, tg64 113.50)
+[23:09:11]   pp512 808.17  tg64 113.53
+[23:09:11] === allocation churn
+[23:09:30]   churn rc=0
+[23:09:30] === SDMA (navi12 firmware carried over)
+COMPLETED copies=229056
+[23:09:33] === dmesg faults: 
+[23:09:33] done

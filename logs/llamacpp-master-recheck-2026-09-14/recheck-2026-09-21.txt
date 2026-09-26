@@ -1,0 +1,47 @@
+Spot check against llama.cpp master, 2026-09-21.
+Head: ff0dbb975e93a9a2899efa34bdd32d1c5cfbc183 2026-09-21T20:50:20Z
+
+== patch 1 (prop.integrated): upstream, master forces it false itself ==
+307:        info.devices[id].integrated = false; // Temporarily disabled due to issues with corrupted output (e.g. #15034)
+
+== patch 3 (gfx1013 in the RDNA1 macro): still needed, ggml/src/ggml-cuda/vendors/hip.h ==
+236-#if defined(__gfx1010__) || defined(__gfx1012__)
+237:#define RDNA1
+238-#endif // defined(__gfx1010__) || defined(__gfx1012__)
+
+== patch 5 (RDNA1 matvec table entry): still needed, no RDNA1 case in get_device_table_id ==
+static __host__ mmvq_parameter_table_id get_device_table_id(int cc) {
+    if (GGML_CUDA_CC_IS_RDNA4(cc)) {
+        return MMVQ_PARAMETERS_RDNA4;
+    }
+    if (GGML_CUDA_CC_IS_RDNA3_0(cc)) {
+        return MMVQ_PARAMETERS_RDNA3_0;
+    }
+    if (GGML_CUDA_CC_IS_RDNA2(cc) || GGML_CUDA_CC_IS_RDNA3_5(cc)) {
+        return MMVQ_PARAMETERS_RDNA2;
+    }
+    if (GGML_CUDA_CC_IS_GCN(cc) || GGML_CUDA_CC_IS_CDNA(cc)) {
+        return MMVQ_PARAMETERS_GCN;
+    }
+    if (GGML_CUDA_CC_IS_NVIDIA(cc) && ggml_cuda_highest_compiled_arch(cc) >= GGML_CUDA_CC_TURING && ggml_cuda_highest_compiled_arch(cc) < GGML_CUDA_CC_AMPERE) {
+        return MMVQ_PARAMETERS_TURING;
+    }
+    if (GGML_CUDA_CC_IS_NVIDIA(cc) && ggml_cuda_highest_compiled_arch(cc) == GGML_CUDA_CC_DGX_SPARK) {
+        return MMVQ_PARAMETERS_GB10;
+    }
+    return MMVQ_PARAMETERS_GENERIC;
+}
+
+
+== patch 6 (concat with a transposed source): still needed, the fallback asserts contiguity ==
+    GGML_ASSERT(src0->type == src1->type);
+    GGML_ASSERT(dst->type  == src0->type);
+
+    if (ggml_is_quantized(src0->type)) {
+        if (dim == 3) {
+            GGML_ASSERT(ggml_is_contiguous(src0));
+            GGML_ASSERT(ggml_is_contiguous(src1));
+        } else {
+            GGML_ASSERT(ggml_is_contiguous_to_3(src0));
+            GGML_ASSERT(ggml_is_contiguous_to_3(src1));
+        }

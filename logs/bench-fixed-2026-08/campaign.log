@@ -1,0 +1,44 @@
+=== [19:56:35] A qwen1.5b HIP bench: prefill + decode depth ladder (fa on) ===
+[19:57:33] a_q15_pp rc=0
+[20:05:16] a_q15_tg rc=0
+[20:05:27] a_q15_faoff rc=0
+=== [20:05:27] B qwen1.5b HIP perplexity gates ===
+[20:06:45] b_ppl_faon rc=0
+[20:07:01] b_ppl_faoff rc=0
+=== [20:07:01] C large models HIP bench (fa on, pp512 + tg64 at d0/d4096) ===
+[20:07:27] c_8b rc=0
+[20:07:36] c_9b rc=0
+[20:09:46] c_ds14 rc=0
+[20:10:19] c_q14 rc=0
+[20:10:50] c_moe rc=0
+=== [20:10:50] D large models HIP perplexity gates (chunks 2, ctx 2048, fa on) ===
+[20:11:20] d_ppl_8b rc=0
+[20:11:28] d_ppl_9b rc=0
+[20:12:43] d_ppl_ds14 rc=0
+[20:13:19] d_ppl_q14 rc=0
+[20:13:54] d_ppl_moe rc=0
+=== [20:13:54] E wait for Vulkan build ===
+=== [20:13:54] F Vulkan bench, same build, same boot ===
+[20:14:14] f_q15_pp rc=0
+[20:16:08] f_q15_tg rc=0
+[20:16:51] f_8b rc=0
+[20:16:51] f_9b rc=0
+[20:18:02] f_ds14 rc=0
+[20:19:15] f_q14 rc=0
+[20:19:53] f_moe rc=0
+=== [20:19:53] G Vulkan perplexity anchors ===
+[20:20:23] g_ppl_q15 rc=0
+[20:20:48] g_ppl_8b rc=0
+[20:20:49] g_ppl_9b rc=0
+[20:21:27] g_ppl_ds14 rc=0
+[20:22:10] g_ppl_q14 rc=0
+[20:22:39] g_ppl_moe rc=0
+=== [20:22:39] CAMPAIGN DONE ===
+/home/akandr/bench-fixed-2026-08-12/b_ppl_faon.log:1.17.848.821 I Final estimate: PPL = 8.9442 +/- 0.17287
+/home/akandr/bench-fixed-2026-08-12/d_ppl_ds14.log:1.13.907.715 I Final estimate: PPL = 5.9756 +/- 0.33116
+/home/akandr/bench-fixed-2026-08-12/g_ppl_8b.log:0.24.817.063 I Final estimate: PPL = 9.1000 +/- 0.58853
+/home/akandr/bench-fixed-2026-08-12/g_ppl_ds14.log:0.38.680.460 I Final estimate: PPL = 6.0192 +/- 0.33370
+/home/akandr/bench-fixed-2026-08-12/g_ppl_moe.log:0.28.374.235 I Final estimate: PPL = 6.4246 +/- 0.34335
+/home/akandr/bench-fixed-2026-08-12/g_ppl_q14.log:0.42.471.355 I Final estimate: PPL = 7.9073 +/- 0.48502
+/home/akandr/bench-fixed-2026-08-12/g_ppl_q15.log:0.29.740.583 I Final estimate: PPL = 8.9760 +/- 0.17575
+/home/akandr/bench-fixed-2026-08-12/b_ppl_faon.log:1.17.848.821 I Final estimate: PPL = 8.9442 +/- 0.17287

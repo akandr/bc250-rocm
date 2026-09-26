@@ -1,0 +1,9 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |
+| qwen35 27B Q4_K - Small        |  11.09 GiB |    27.32 B | Vulkan     |  99 |   1 |           pp128 |         93.13 ± 3.19 |
+| qwen35 27B Q4_K - Small        |  11.09 GiB |    27.32 B | Vulkan     |  99 |   1 |           pp512 |         97.94 ± 0.01 |
+| qwen35 27B Q4_K - Small        |  11.09 GiB |    27.32 B | Vulkan     |  99 |   1 |           tg128 |         17.18 ± 0.01 |
+
+build: 7ba604f (1)

@@ -1,0 +1,5 @@
+run 1: rc=134 ROCm error | 
+run 2: rc=134 ROCm error | 
+run 3: rc=134 ROCm error | 
+run 4: rc=134 ROCm error | 
+INSTALLED DONE

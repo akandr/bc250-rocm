@@ -1,0 +1,21 @@
+set pagination off
+set confirm off
+set debug-file-directory /home/akandr/dbg/usr/lib/debug:/usr/lib/debug
+handle SIGSEGV stop print
+run
+echo \n=== faulting thread ===\n
+bt 25
+echo \n=== frame 0 registers ===\n
+info registers rip rdi rsi rax rbx
+echo \n=== locals in frames 0-3 ===\n
+frame 0
+info locals
+frame 1
+info locals
+frame 2
+info locals
+frame 3
+info locals
+echo \n=== all threads (short) ===\n
+thread apply all bt 6
+quit

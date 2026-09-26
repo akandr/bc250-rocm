@@ -1,0 +1,11 @@
+[07:42:53] === fp16 defect against flash attention, all four cells, two rounds
+[07:43:35]   round 1 fa=on compute=f32: 9.0975
+[07:44:14]   round 1 fa=on compute=f16: 14.8265
+[07:44:48]   round 1 fa=off compute=f32: 9.1404
+[07:45:24]   round 1 fa=off compute=f16: 15.1725
+[07:46:02]   round 2 fa=on compute=f32: 9.0975
+[07:46:41]   round 2 fa=on compute=f16: 15.5604
+[07:47:15]   round 2 fa=off compute=f32: 9.1404
+[07:47:50]   round 2 fa=off compute=f16: 11.5830
+[07:47:50] === dmesg faults: 
+[07:47:50] done

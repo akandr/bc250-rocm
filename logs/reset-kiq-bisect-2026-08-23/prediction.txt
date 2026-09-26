@@ -1,0 +1,26 @@
+Pre-registered 2026-08-23, before running.
+
+gfx_v10_0_kiq_resume() is a one-line wrapper, so the hang is inside
+gfx_v10_0_kiq_init_queue(). On the reset path that function does, in order:
+
+  1. gfx_v10_0_kiq_setting(ring)
+  2. memcpy_toio(mqd, mqd_backup)      restore the MQD into device memory
+  3. ring->wptr = 0; amdgpu_ring_clear_ring(ring)
+  4. mutex_lock(&adev->srbm_mutex)
+  5. nv_grbm_select(...)               register write to select the queue slot
+  6. gfx_v10_0_kiq_init_register(ring) a long run of register writes
+  7. nv_grbm_select(adev, 0, 0, 0, 0); mutex_unlock
+
+Prediction: the hang is at step 2 or step 6, that is, at an MMIO access rather
+than at the mutex or the plain memory work.
+
+The reason is in the reset log itself. Every capture carries "VRAM is lost due to
+GPU reset!" before the resume proceeds, and the MQD lives in device memory. An
+MMIO write to a device whose memory has just been torn down is the kind of access
+that does not complete, and an access that does not complete on the host bus is
+exactly what would stall a CPU and produce the clocksource watchdog seen at the
+end of every capture.
+
+If instead the hang is at step 3 or 4, plain memory or a mutex, that would point
+somewhere quite different, at lock ordering or at a corrupted ring structure, and
+would be a surprise worth reporting as such.

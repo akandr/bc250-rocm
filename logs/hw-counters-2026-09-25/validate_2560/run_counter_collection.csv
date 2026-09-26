@@ -1,0 +1,7 @@
+"Correlation_Id","Dispatch_Id","Agent_Id","Queue_Id","Process_Id","Thread_Id","Grid_Size","Kernel_Id","Kernel_Name","Workgroup_Size","LDS_Block_Size","Scratch_Size","VGPR_Count","Accum_VGPR_Count","SGPR_Count","Counter_Name","Counter_Value","Start_Timestamp","End_Timestamp"
+1,1,"Agent 1",1,20547,20547,81920,1,"fma_chain(float*, int)",32,0,0,16,0,128,"SQ_INSTS_SALU",663040.000000,2428794849300,2428795117282
+1,1,"Agent 1",1,20547,20547,81920,1,"fma_chain(float*, int)",32,0,0,16,0,128,"SQ_INSTS_VALU",20999680.000000,2428794849300,2428795117282
+1,1,"Agent 1",1,20547,20547,81920,1,"fma_chain(float*, int)",32,0,0,16,0,128,"SQ_WAVES",2560.000000,2428794849300,2428795117282
+2,2,"Agent 1",1,20547,20547,81920,1,"fma_chain(float*, int)",32,0,0,16,0,128,"SQ_INSTS_SALU",663040.000000,2428795302708,2428795570730
+2,2,"Agent 1",1,20547,20547,81920,1,"fma_chain(float*, int)",32,0,0,16,0,128,"SQ_INSTS_VALU",20999680.000000,2428795302708,2428795570730
+2,2,"Agent 1",1,20547,20547,81920,1,"fma_chain(float*, int)",32,0,0,16,0,128,"SQ_WAVES",2560.000000,2428795302708,2428795570730

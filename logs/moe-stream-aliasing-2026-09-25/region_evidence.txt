@@ -1,0 +1,31 @@
+# Which tensors of a rejected region share an address, and why the names mislead
+# 2026-09-25T14:53:29+02:00
+
+## every tensor of one rejected region (join=node_3300), from the instrumented is_valid()
+join=node_3300 stream=1 name=Qcur-35 (view) (permuted) data=0x7feaf820d480 nb=16384 view_src=Qcur-35 vs_data=0x7feaf820d480 offs=0
+join=node_3300 stream=1 name=Qcur-35 (view) data=0x7feaf820d480 nb=16384 view_src=Qcur-35 vs_data=0x7feaf820d480 offs=0
+join=node_3300 stream=1 name=Qcur-35 data=0x7feaf820d480 nb=16384 view_src=(none) vs_data=(nil) offs=-1
+join=node_3300 stream=1 name=Qcur_full-35 data=0x7feaf8204480 nb=32768 view_src=(none) vs_data=(nil) offs=-1
+join=node_3300 stream=1 name=Qcur_normed-35 data=0x7feaf820d480 nb=16384 view_src=(none) vs_data=(nil) offs=-1
+join=node_3300 stream=1 name=Qcur_reshaped-35 data=0x7feaf8204480 nb=31744 view_src=Qcur_full-35 vs_data=0x7feaf8204480 offs=0
+join=node_3300 stream=1 name=norm-35 data=0x7feaf820d480 nb=16384 view_src=(none) vs_data=(nil) offs=-1
+join=node_3300 stream=2 name=Vcur-35 (view) data=0x7feaf820c480 nb=2048 view_src=Vcur-35 vs_data=0x7feaf820c480 offs=0
+join=node_3300 stream=2 name=Vcur-35 data=0x7feaf820c480 nb=2048 view_src=(none) vs_data=(nil) offs=-1
+join=node_3300 stream=2 name=Vcur-35 data=0x7feaf820c480 nb=2048 view_src=Vcur-35 vs_data=0x7feaf820c480 offs=0
+join=node_3300 stream=2 name=cache_v_l35 (view) (permuted) data=0x7fedd2a40000 nb=262144 view_src=cache_v_l35 vs_data=0x7fedd2a40000 offs=0
+join=node_3300 stream=2 name=cache_v_l35 (view) data=0x7fedd2a40000 nb=262144 view_src=cache_v_l35 vs_data=0x7fedd2a40000 offs=0
+join=node_3300 stream=2 name=cache_v_l35 (view) data=0x7fedd2a40000 nb=262144 view_src=cache_v_l35 vs_data=0x7fedd2a40000 offs=0
+join=node_3300 stream=3 name=Kcur-35 (reshaped) data=0x7feaf820cc80 nb=2048 view_src=Kcur-35 vs_data=0x7feaf820cc80 offs=0
+join=node_3300 stream=3 name=Kcur-35 (view) data=0x7feaf820c480 nb=2048 view_src=Kcur-35 vs_data=0x7feaf820c480 offs=0
+join=node_3300 stream=3 name=Kcur-35 data=0x7feaf820c480 nb=2048 view_src=(none) vs_data=(nil) offs=-1
+join=node_3300 stream=3 name=Kcur-35 data=0x7feaf820cc80 nb=2048 view_src=(none) vs_data=(nil) offs=-1
+join=node_3300 stream=3 name=Kcur_normed-35 data=0x7feaf820c480 nb=2048 view_src=(none) vs_data=(nil) offs=-1
+join=node_3300 stream=3 name=cache_k_l35 (view) (permuted) data=0x7fedd2a00000 nb=262144 view_src=cache_k_l35 vs_data=0x7fedd2a00000 offs=0
+join=node_3300 stream=3 name=cache_k_l35 (view) data=0x7fedd2a00000 nb=262144 view_src=cache_k_l35 vs_data=0x7fedd2a00000 offs=0
+join=node_3300 stream=3 name=cache_k_l35 (view) data=0x7fedd2a00000 nb=262144 view_src=cache_k_l35 vs_data=0x7fedd2a00000 offs=0
+join=node_3300 stream=3 name=norm-35 data=0x7feaf820c480 nb=2048 view_src=(none) vs_data=(nil) offs=-1
+
+## the same names in ggml-alloc's own trace, 2048-byte decode graph
+  Kcur-35 -> offset 52352
+  Vcur-35 -> offset 50304
+  norm-35 -> offset 50304

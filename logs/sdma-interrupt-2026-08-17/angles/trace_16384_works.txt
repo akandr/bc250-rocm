@@ -1,0 +1,4 @@
+:4:rocblit.cpp              :1804: 0529629401 us: [pid:2277 tid: 0x7fcffede28c0] Unpinned write path, Async = 0
+:4:rocblit.cpp              :1833: 0529629403 us: [pid:2277 tid: 0x7fcffede28c0] memcpy stg buf=0x7fcee7a00000, host src=0x7fcffcf0c010, size=16384
+:4:rocblit.cpp              :1836: 0529629406 us: [pid:2277 tid: 0x7fcffede28c0] Blit staging H2D copy dst=0x7fcefaa00000, stg buf=0x7fcee7a00000, dstOrigin=0x0, size=16384
+:4:rocvirtual.cpp           :990 : 0529629435 us: [pid:2277 tid: 0x7fcffede28c0] SWq=0x7fcffedd0000, HWq=0x7fcef9200000, id=1, Dispatch Header = 0xb02 (type=2, barrier=1, acquire=1, release=1), setup=1, grid=[1024, 1, 1], workgroup=[512, 1, 1], private_seg_size=0, group_seg_size=0, kernel_obj=0x7fcffedbde80, kernarg_address=0x7fcef8200000, completion_signal=0x0, correlation_id=0, rptr=0, wptr=0

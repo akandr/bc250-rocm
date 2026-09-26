@@ -1,0 +1,58 @@
+[00:42:40] sanity 1.5B pp2048 fa=1 build-hip-fatile: 868.35±0.09
+[00:42:52] clock 0: 1000Mhz 1: 1500Mhz *2: 2000Mhz   governor active
+[00:42:52] other GPU users: 254277 bash -c until ! pgrep -f "cmake --build build-hip-fatile" > /dev/null; do sleep 30; done; tail -1 /tmp/build-fa5.log; grep -c " error" /tmp/build-fa5.log; ls -la ~/llama-master/build-hip-fatile/bin/llama-bench | awk "{print \$6, \$7, \$8}";
+[00:43:09] qwen3.6-35b-a3b-iq2m export ok (121 ops)
+[00:50:52] qwen3.6-35b-a3b-iq2m p1 build-hip-f44 FLASH_ATTN_EXT(prefill) 338645.16 us/run
+[00:52:11] qwen3.6-35b-a3b-iq2m p1 build-hip-f44 pp2048 fa=1: 264.95±0.53 
+[00:55:17] qwen3.6-35b-a3b-iq2m p1 build-hip-f44 pp2048 fa=0: 294.45±0.84 
+[00:57:30] qwen3.6-35b-a3b-iq2m p1 build-hip-f44 tg64   fa=1: 32.13±0.73 
+[01:03:29] qwen3.6-35b-a3b-iq2m p1 build-hip-fatile FLASH_ATTN_EXT(prefill) 97108.51 us/run
+[01:06:39] qwen3.6-35b-a3b-iq2m p1 build-hip-fatile pp2048 fa=1: 287.80±0.73 
+[01:08:43] qwen3.6-35b-a3b-iq2m p1 build-hip-fatile pp2048 fa=0: 291.77±0.69 
+[01:13:12] qwen3.6-35b-a3b-iq2m p1 build-hip-fatile tg64   fa=1: 32.56±0.61 
+[01:20:41] qwen3.6-35b-a3b-iq2m p2 build-hip-f44 FLASH_ATTN_EXT(prefill) 338568.18 us/run
+[01:22:49] qwen3.6-35b-a3b-iq2m p2 build-hip-f44 pp2048 fa=1: 259.68±0.55 
+[01:24:05] qwen3.6-35b-a3b-iq2m p2 build-hip-f44 pp2048 fa=0: 297.60±0.66 
+[01:26:25] qwen3.6-35b-a3b-iq2m p2 build-hip-f44 tg64   fa=1: 32.67±0.54 
+[01:32:29] qwen3.6-35b-a3b-iq2m p2 build-hip-fatile FLASH_ATTN_EXT(prefill) 96873.16 us/run
+[01:34:41] qwen3.6-35b-a3b-iq2m p2 build-hip-fatile pp2048 fa=1: 289.95±0.79 
+[01:35:59] qwen3.6-35b-a3b-iq2m p2 build-hip-fatile pp2048 fa=0: 300.53±0.71 
+[01:37:20] qwen3.6-35b-a3b-iq2m p2 build-hip-fatile tg64   fa=1: 32.63±0.54 
+[01:37:55] qwen3.6-35b-a3b-iq2m gate build-hip-f44: Final estimate: PPL = 6.4064
+[01:38:30] qwen3.6-35b-a3b-iq2m gate build-hip-fatile: Final estimate: PPL = 6.3752
+[01:38:46] qwen3.8-27b-iq3xxs export ok (95 ops)
+[01:47:34] qwen3.8-27b-iq3xxs p1 build-hip-f44 FLASH_ATTN_EXT(prefill) 507342.73 us/run
+[01:51:44] qwen3.8-27b-iq3xxs p1 build-hip-f44 pp2048 fa=1: 61.12±4.52 
+[01:55:37] qwen3.8-27b-iq3xxs p1 build-hip-f44 pp2048 fa=0: 65.71±4.39 
+[01:57:35] qwen3.8-27b-iq3xxs p1 build-hip-f44 tg64   fa=1: 7.61±0.05 
+[02:05:50] qwen3.8-27b-iq3xxs p1 build-hip-fatile FLASH_ATTN_EXT(prefill) 145385.26 us/run
+[02:09:19] qwen3.8-27b-iq3xxs p1 build-hip-fatile pp2048 fa=1: 64.83±4.20 
+[02:14:47] qwen3.8-27b-iq3xxs p1 build-hip-fatile pp2048 fa=0: 66.52±3.53 
+[02:17:23] qwen3.8-27b-iq3xxs p1 build-hip-fatile tg64   fa=1: 7.60±0.09 
+[02:26:29] qwen3.8-27b-iq3xxs p2 build-hip-f44 FLASH_ATTN_EXT(prefill) 507280.60 us/run
+[02:30:51] qwen3.8-27b-iq3xxs p2 build-hip-f44 pp2048 fa=1: 61.54±3.46 
+[02:33:49] qwen3.8-27b-iq3xxs p2 build-hip-f44 pp2048 fa=0: 63.28±6.32 
+[02:35:15] qwen3.8-27b-iq3xxs p2 build-hip-f44 tg64   fa=1: 7.62±0.02 
+[02:43:12] qwen3.8-27b-iq3xxs p2 build-hip-fatile FLASH_ATTN_EXT(prefill) 153321.98 us/run
+[02:46:34] qwen3.8-27b-iq3xxs p2 build-hip-fatile pp2048 fa=1: 65.21±5.10 
+[02:49:59] qwen3.8-27b-iq3xxs p2 build-hip-fatile pp2048 fa=0: 64.96±4.86 
+[02:53:38] qwen3.8-27b-iq3xxs p2 build-hip-fatile tg64   fa=1: 7.63±0.04 
+[02:55:07] qwen3.8-27b-iq3xxs gate build-hip-f44: Final estimate: PPL = 6.2509
+[02:56:32] qwen3.8-27b-iq3xxs gate build-hip-fatile: Final estimate: PPL = 6.2513
+[02:56:33] gemma4 export FAILED (see export-gemma4.log)
+[02:56:34] gemma4 p1 build-hip-f44 pp2048 fa=1: 
+[02:56:34] gemma4 p1 build-hip-f44 pp2048 fa=0: 
+[02:56:35] gemma4 p1 build-hip-f44 tg64   fa=1: 
+[02:56:36] gemma4 p1 build-hip-fatile pp2048 fa=1: 
+[02:56:37] gemma4 p1 build-hip-fatile pp2048 fa=0: 
+[02:56:37] gemma4 p1 build-hip-fatile tg64   fa=1: 
+[02:56:38] gemma4 p2 build-hip-f44 pp2048 fa=1: 
+[02:56:39] gemma4 p2 build-hip-f44 pp2048 fa=0: 
+[02:56:39] gemma4 p2 build-hip-f44 tg64   fa=1: 
+[02:56:40] gemma4 p2 build-hip-fatile pp2048 fa=1: 
+[02:56:41] gemma4 p2 build-hip-fatile pp2048 fa=0: 
+[02:56:42] gemma4 p2 build-hip-fatile tg64   fa=1: 
+[02:56:43] gemma4 gate build-hip-f44: FAIL
+[02:56:44] gemma4 gate build-hip-fatile: FAIL
+[02:56:44] clock after 0: 1000Mhz *1: 1500Mhz 2: 2000Mhz 
+[02:56:44] DONE

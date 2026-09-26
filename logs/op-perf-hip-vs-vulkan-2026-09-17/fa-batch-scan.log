@@ -1,0 +1,11 @@
+# Prefill FLASH_ATTN_EXT, ne=[128,12,<ub>,1], KV length 4096, one graph export per
+# micro-batch (test-export-graph-ops -fa on -c 4096 -b $ub -ub $ub), replayed through
+# test-backend-ops perf on each backend. 2026-09-17, Fedora 44, clock 1500 MHz.
+ub=128 hip 7770.02 us/run
+ub=128 vk 1307.86 us/run
+ub=512 hip 30902.32 us/run
+ub=512 vk 4138.01 us/run
+ub=1024 hip 57806.88 us/run
+ub=1024 vk 8317.45 us/run
+ub=2048 hip 114663.62 us/run
+ub=2048 vk 16248.80 us/run

@@ -1,0 +1,5 @@
+wrz 16 04:24:35 bc250 kernel: amdgpu: SVM mapping failed, exceeds resident system memory limit
+wrz 16 04:24:35 bc250 kernel: amdgpu: SVM mapping failed, exceeds resident system memory limit
+wrz 16 04:24:35 bc250 kernel: amdgpu: SVM mapping failed, exceeds resident system memory limit
+--- count in that boot
+33510

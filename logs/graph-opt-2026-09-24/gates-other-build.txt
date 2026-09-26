@@ -1,0 +1,4 @@
+start 2026-09-24T12:07:04+02:00
+qwen2.5-1.5b-q4km      documented 8.9274   off 8.9498   GRAPH_OPT=1 8.9498
+qwen3-8b-q8_0          documented 9.1125   off 9.1273   GRAPH_OPT=1 9.1273
+end 2026-09-24T12:09:57+02:00

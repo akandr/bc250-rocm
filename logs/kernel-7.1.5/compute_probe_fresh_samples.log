@@ -1,0 +1,56 @@
+===== FRESH SAMPLE kernel=7.1.5-100.fc43.x86_64 CU=active_cu_number 40 up=44s 23:38:58 =====
+--- nblocks=4096 (1048576 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=6000 iters=8 ===
+iter 0: sync=497.2 ms  wrong=0/1048576  ok
+iter 1: sync=480.2 ms  wrong=0/1048576  ok
+iter 2: sync=480.2 ms  wrong=0/1048576  ok
+iter 3: sync=479.4 ms  wrong=0/1048576  ok
+iter 4: sync=479.7 ms  wrong=0/1048576  ok
+iter 5: sync=479.8 ms  wrong=0/1048576  ok
+iter 6: sync=480.1 ms  wrong=0/1048576  ok
+iter 7: sync=479.6 ms  wrong=0/1048576  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+  [done nb=4096]
+--- nblocks=32768 (8388608 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=8 ===
+Memory access fault by GPU node-1 (Agent handle: 0x55f36e30e4c0) on address 0x7f1140200000. Reason: Page not present or supervisor privilege.
+  [done nb=32768]
+===== SAMPLE END 23:39:09 =====
+===== FRESH SAMPLE kernel=7.1.5-100.fc43.x86_64 CU=active_cu_number 40 up=16s 23:40:55 =====
+--- nblocks=4096 (1048576 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=6000 iters=8 ===
+iter 0: sync=518.8 ms  wrong=0/1048576  ok
+iter 1: sync=488.9 ms  wrong=0/1048576  ok
+iter 2: sync=489.5 ms  wrong=0/1048576  ok
+iter 3: sync=489.9 ms  wrong=0/1048576  ok
+iter 4: sync=512.6 ms  wrong=0/1048576  ok
+iter 5: sync=530.7 ms  wrong=0/1048576  ok
+iter 6: sync=529.4 ms  wrong=0/1048576  ok
+iter 7: sync=530.0 ms  wrong=0/1048576  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+  [done nb=4096]
+--- nblocks=32768 (8388608 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=8 ===
+Memory access fault by GPU node-1 (Agent handle: 0x55cbf31bb4c0) on address 0x7f4845b0b000. Reason: Page not present or supervisor privilege.
+  [done nb=32768]
+===== SAMPLE END 23:41:06 =====
+===== FRESH SAMPLE kernel=7.1.5-100.fc43.x86_64 CU=active_cu_number 40 up=16s 23:42:11 =====
+--- nblocks=4096 (1048576 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=6000 iters=8 ===
+iter 0: sync=503.2 ms  wrong=0/1048576  ok
+iter 1: sync=473.2 ms  wrong=0/1048576  ok
+iter 2: sync=472.9 ms  wrong=0/1048576  ok
+iter 3: sync=473.2 ms  wrong=0/1048576  ok
+iter 4: sync=439.2 ms  wrong=0/1048576  ok
+iter 5: sync=433.9 ms  wrong=0/1048576  ok
+iter 6: sync=433.3 ms  wrong=0/1048576  ok
+iter 7: sync=434.4 ms  wrong=0/1048576  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+  [done nb=4096]
+--- nblocks=32768 (8388608 threads) ---
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=8 ===
+iter 0: sync=3800.6 ms  wrong=0/8388608  ok
+iter 1: sync=3774.1 ms  wrong=3343808/8388608  MISMATCH
+   first mismatch at index 1629180: got 0, want -2109779631
+  [done nb=32768]
+===== SAMPLE END 23:42:30 =====

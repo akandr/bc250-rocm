@@ -1,0 +1,70 @@
+[07:53:54] start, faults already in this boot: 0, edge +61.0°C
+[07:53:54] ollama inactive (stopped by this script: 0), available 14611 MiB, kfd holders: 
+[07:53:54] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[07:53:58] H p1 d=0 hip tg64=193.31±8.60 edge=+68.0°C
+[07:54:25] H p1 d=0 vk tg64=208.35±7.08 edge=+67.0°C
+[07:54:55] H p1 d=4096 hip tg64@d4096=176.54±0.93 edge=+66.0°C
+[07:55:25] H p1 d=4096 vk tg64@d4096=179.27±0.46 edge=+66.0°C
+[07:55:59] H p1 d=8192 hip tg64@d8192=163.00±0.93 edge=+67.0°C
+[07:56:34] H p1 d=8192 vk tg64@d8192=160.49±5.11 edge=+67.0°C
+[07:57:19] H p1 d=16384 hip tg64@d16384=141.26±0.69 edge=+69.0°C
+[07:58:07] H p1 d=16384 vk tg64@d16384=137.94±3.64 edge=+69.0°C
+[07:59:05] H p1 d=24576 hip tg64@d24576=122.55±0.59 edge=+73.0°C
+[08:00:06] H p1 d=24576 vk tg64@d24576=120.72±0.46 edge=+73.0°C
+[08:01:18] H p1 d=30720 hip tg64@d30720=112.61±0.50 edge=+76.0°C
+[08:02:34] H p1 d=30720 vk tg64@d30720=111.13±0.15 edge=+75.0°C
+[08:02:59] H p1 edge +62.0°C
+[08:03:01] H p2 d=0 hip tg64=197.20±0.91 edge=+70.0°C
+[08:03:28] H p2 d=0 vk tg64=212.24±0.04 edge=+69.0°C
+[08:03:58] H p2 d=4096 hip tg64@d4096=176.89±0.98 edge=+68.0°C
+[08:04:28] H p2 d=4096 vk tg64@d4096=179.33±0.37 edge=+67.0°C
+[08:05:02] H p2 d=8192 hip tg64@d8192=162.83±0.92 edge=+68.0°C
+[08:05:37] H p2 d=8192 vk tg64@d8192=160.92±4.58 edge=+67.0°C
+[08:06:21] H p2 d=16384 hip tg64@d16384=141.40±0.72 edge=+70.0°C
+[08:07:10] H p2 d=16384 vk tg64@d16384=137.90±3.68 edge=+69.0°C
+[08:08:08] H p2 d=24576 hip tg64@d24576=123.23±0.58 edge=+73.0°C
+[08:09:09] H p2 d=24576 vk tg64@d24576=120.52±0.22 edge=+74.0°C
+[08:10:21] H p2 d=30720 hip tg64@d30720=112.72±0.49 edge=+76.0°C
+[08:11:37] H p2 d=30720 vk tg64@d30720=111.11±0.18 edge=+75.0°C
+[08:12:02] H p2 edge +62.0°C
+[08:12:04] H p3 d=0 hip tg64=197.70±1.04 edge=+69.0°C
+[08:12:30] H p3 d=0 vk tg64=212.39±0.03 edge=+69.0°C
+[08:13:00] H p3 d=4096 hip tg64@d4096=176.32±0.88 edge=+68.0°C
+[08:13:31] H p3 d=4096 vk tg64@d4096=179.28±0.29 edge=+67.0°C
+[08:14:05] H p3 d=8192 hip tg64@d8192=163.14±0.97 edge=+67.0°C
+[08:14:40] H p3 d=8192 vk tg64@d8192=160.94±4.71 edge=+67.0°C
+[08:15:24] H p3 d=16384 hip tg64@d16384=141.30±0.69 edge=+70.0°C
+[08:16:13] H p3 d=16384 vk tg64@d16384=138.18±3.19 edge=+70.0°C
+[08:17:11] H p3 d=24576 hip tg64@d24576=123.15±0.56 edge=+73.0°C
+[08:18:12] H p3 d=24576 vk tg64@d24576=121.13±0.28 edge=+73.0°C
+[08:19:24] H p3 d=30720 hip tg64@d30720=112.37±0.75 edge=+76.0°C
+[08:20:39] H p3 d=30720 vk tg64@d30720=111.16±0.17 edge=+75.0°C
+[08:21:05] H p3 edge +62.0°C
+[08:21:09] I p1 qwen2.5-1.5b-q4km hip tg32@d4096=176.03±2.15 edge=+72.0°C
+[08:21:39] I p1 qwen2.5-1.5b-q4km vk tg32@d4096=179.10±0.85 edge=+69.0°C
+[08:22:35] I p1 qwen3-8b-q8_0 hip tg32@d4096=35.79±0.79 edge=+69.0°C
+[08:23:32] I p1 qwen3-8b-q8_0 vk tg32@d4096=35.79±0.04 edge=+70.0°C
+[08:24:51] I p1 deepseek-r1-14b hip tg32@d4096=26.48±0.16 edge=+73.0°C
+[08:26:08] I p1 deepseek-r1-14b vk tg32@d4096=31.02±0.04 edge=+74.0°C
+[08:27:32] I p1 qwen3-14b hip tg32@d4096=27.19±0.46 edge=+72.0°C
+[08:28:52] I p1 qwen3-14b vk tg32@d4096=31.34±0.04 edge=+74.0°C
+[08:29:47] I p1 qwen3.6-35b-a3b-iq2m hip tg32@d4096=69.10±1.52 edge=+67.0°C
+[08:30:45] I p1 qwen3.6-35b-a3b-iq2m vk tg32@d4096=82.46±2.91 edge=+67.0°C
+[08:32:15] I p1 qwen3.8-27b-iq3xxs hip tg32@d4096=14.92±0.09 edge=+75.0°C
+[08:33:47] I p1 qwen3.8-27b-iq3xxs vk tg32@d4096=17.19±0.13 edge=+77.0°C
+[08:34:12] I p1 edge +63.0°C
+[08:34:18] I p2 qwen2.5-1.5b-q4km hip tg32@d4096=176.00±2.07 edge=+71.0°C
+[08:34:48] I p2 qwen2.5-1.5b-q4km vk tg32@d4096=179.34±0.83 edge=+69.0°C
+[08:35:44] I p2 qwen3-8b-q8_0 hip tg32@d4096=36.16±0.22 edge=+69.0°C
+[08:36:41] I p2 qwen3-8b-q8_0 vk tg32@d4096=35.85±0.03 edge=+71.0°C
+[08:38:00] I p2 deepseek-r1-14b hip tg32@d4096=26.51±0.12 edge=+72.0°C
+[08:39:16] I p2 deepseek-r1-14b vk tg32@d4096=30.87±0.04 edge=+74.0°C
+[08:40:40] I p2 qwen3-14b hip tg32@d4096=27.41±0.15 edge=+74.0°C
+[08:42:01] I p2 qwen3-14b vk tg32@d4096=31.30±0.03 edge=+74.0°C
+[08:42:56] I p2 qwen3.6-35b-a3b-iq2m hip tg32@d4096=69.49±1.55 edge=+67.0°C
+[08:43:53] I p2 qwen3.6-35b-a3b-iq2m vk tg32@d4096=82.61±2.31 edge=+67.0°C
+[08:45:23] I p2 qwen3.8-27b-iq3xxs hip tg32@d4096=14.89±0.18 edge=+75.0°C
+[08:46:55] I p2 qwen3.8-27b-iq3xxs vk tg32@d4096=17.18±0.15 edge=+76.0°C
+[08:47:20] I p2 edge +63.0°C
+[08:47:20] faults at end: 0
+[08:47:20] DONE

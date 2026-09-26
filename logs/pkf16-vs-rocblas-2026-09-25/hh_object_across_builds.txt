@@ -1,0 +1,3 @@
+/home/akandr/rb711/install/lib64/rocblas/library                               pk_fma_f16=720   fma_mix_f32=0    md5=cc7443b90911
+/opt/bc250-rocm/lib64/rocblas/library                                          pk_fma_f16=720   fma_mix_f32=0    md5=cc7443b90911
+/home/akandr/rocBLAS/build-restored-2026-08-20/release/rocblas-install/lib/rocblas/library pk_fma_f16=720   fma_mix_f32=0    md5=412b912a300a

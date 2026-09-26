@@ -1,0 +1,15 @@
+[   42.885841] MARK-pci-flr-1-1
+[   46.165927] Setting dangerous option reset_method - tainting kernel
+[   46.438973] amdgpu 0000:01:00.0: GPU reset begin!. Source:  5
+[   46.463501] amdgpu 0000:01:00.0: PCI reset
+[   46.463527] amdgpu 0000:01:00.0: resetting
+[   47.634332] amdgpu 0000:01:00.0: not ready 1023ms after FLR; waiting
+[   48.722338] amdgpu 0000:01:00.0: not ready 2047ms after FLR; waiting
+[   50.834307] amdgpu 0000:01:00.0: not ready 4095ms after FLR; waiting
+[   55.442262] amdgpu 0000:01:00.0: not ready 8191ms after FLR; waiting
+[   64.146213] amdgpu 0000:01:00.0: not ready 16383ms after FLR; waiting
+[   81.042085] amdgpu 0000:01:00.0: not ready 32767ms after FLR; waiting
+[  115.857891] amdgpu 0000:01:00.0: not ready 65535ms after FLR; giving up
+[  115.919086] amdgpu 0000:01:00.0: reset done
+[  115.919119] amdgpu 0000:01:00.0: ASIC reset failed with error, -25 for drm dev, 0000:01:00.0
+[  115.919173] amdgpu 0000:01:00.0: GPU reset end with ret = -25

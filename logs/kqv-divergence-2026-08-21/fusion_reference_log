@@ -1,0 +1,18 @@
+[17:19:34] === adding the fusion kill switch to the PATCHED tree (KQV line left in place)
+[17:19:47]   build rc=0 set_prec present: 1
+[17:19:47] === patched build, fusion ON, four runs (expect 10.0103)
+[17:20:00]   fuse_on_1: 10.0204 refusals=0
+[17:20:12]   fuse_on_2: 10.0204 refusals=0
+[17:20:24]   fuse_on_3: 10.0204 refusals=0
+[17:20:37]   fuse_on_4: 10.0204 refusals=0
+[17:20:37] === patched build, fusion REFUSED, four runs
+[17:20:49]   fuse_off_1: 10.0176 refusals=100001
+[17:21:01]   fuse_off_2: 10.0176 refusals=100001
+[17:21:14]   fuse_off_3: 10.0176 refusals=100001
+[17:21:26]   fuse_off_4: 10.0176 refusals=100001
+[17:21:26] === restoring
+[17:21:39]   rebuild rc=0 probe removed: 0
+[17:21:40] === summary
+[17:21:40]   fusion on:  10.0204 
+[17:21:40]   fusion off: 10.0176 
+[17:21:40] done

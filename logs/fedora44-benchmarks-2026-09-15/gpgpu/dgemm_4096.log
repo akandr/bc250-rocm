@@ -1,0 +1,12 @@
+DGEMM N=4096 iters=10 (FP64)
+iter  0   234.8 ms  585.4 GFLOP/s ok
+iter  1   226.3 ms  607.3 GFLOP/s ok
+iter  2   226.3 ms  607.4 GFLOP/s ok
+iter  3   226.3 ms  607.4 GFLOP/s ok
+iter  4   226.3 ms  607.4 GFLOP/s ok
+iter  5   226.3 ms  607.3 GFLOP/s ok
+iter  6   226.3 ms  607.3 GFLOP/s ok
+iter  7   226.3 ms  607.2 GFLOP/s ok
+iter  8   226.3 ms  607.3 GFLOP/s ok
+iter  9   226.3 ms  607.2 GFLOP/s ok
+DONE nwrong=0

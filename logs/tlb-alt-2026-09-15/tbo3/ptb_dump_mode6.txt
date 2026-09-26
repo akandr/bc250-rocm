@@ -1,0 +1,5 @@
+mode 6 rc=134 wall=15s fault=1
+BC250PTB vmid=8 rewrote 0x000000046ffd6001, readback 0x000000046ffd6001
+BC250PTB vmid=8 rewrote 0x000000046ffd6001, readback 0x000000046ffd6001
+BC250PTB vmid=8 rewrote 0x000000046ffd6001, readback 0x000000046ffd6001
+ptb_lines=88 first_fault=   36.749895 last_ptb=   36.749821

@@ -1,0 +1,50 @@
+date: 2026-08-26T20:33:03+02:00
+kernel: 7.1.8-100.fc43.x86_64
+
+=== in place at /lib/firmware/amdgpu (post-substitution) ===
+cyan_skillfish2_sdma.bin.xz        compressed 58355d1f7857a3737d5f85c5f8aadb42
+                                   raw        3febefa5396a646fee8f1bd4f453062a
+navi12_sdma.bin.xz                 compressed 58355d1f7857a3737d5f85c5f8aadb42
+                                   raw        3febefa5396a646fee8f1bd4f453062a
+
+=== the board's original, from the backup at /home/akandr/usr/lib/firmware/amdgpu ===
+cyan_skillfish2_sdma.bin.xz        raw        39e9a6d49f99749aef3f1119d562e5fc
+cyan_skillfish2_sdma1.bin.xz       raw        5312f70c46369392bb4f19cb70770d33
+
+=== header: board original (cyan_skillfish2) ===
+  size_bytes           0x8400 (33792)
+  header_size_bytes    0x30 (48)
+  hdr_major            0x1 (1)
+  hdr_minor            0x0 (0)
+  ip_major             0x5 (5)
+  ip_minor             0x0 (0)
+  ucode_version        0x34 (52)
+  ucode_size_bytes     0x8300 (33536)
+  ucode_array_offset   0x100 (256)
+  crc32                0xf2f45029 (4076097577)
+=== header: navi12, the substitute ===
+  size_bytes           0x8400 (33792)
+  header_size_bytes    0x30 (48)
+  hdr_major            0x1 (1)
+  hdr_minor            0x0 (0)
+  ip_major             0x5 (5)
+  ip_minor             0x0 (0)
+  ucode_version        0x2c (44)
+  ucode_size_bytes     0x8300 (33536)
+  ucode_array_offset   0x100 (256)
+  crc32                0x3744361b (927217179)
+
+=== byte comparison of the decompressed blobs ===
+  size original: 33792   size navi12: 33792
+  bytes differing: 17988
+  first ten differing offsets (1-indexed, octal values):
+       17  64  54
+       29  51  33
+       30 120  66
+       31 364 104
+       32 362  67
+      257 344 352
+      258  20 100
+      259  65 354
+      260 336 305
+      261 153 156

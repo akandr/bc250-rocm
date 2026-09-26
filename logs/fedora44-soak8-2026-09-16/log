@@ -1,0 +1,45 @@
+[11:19:58] other GPU users at start: ollama inactive, processes 
+[11:19:58] soak start, 8h, boot 673fd8f1-3e86-4a08-b9cd-f075c951c0f2, faults at start 0, previous boot 0
+[11:31:36] round=1 pp2048=634.50 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[11:43:14] round=2 pp2048=633.83 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=73.0 faults=0
+[11:55:01] round=3 pp2048=634.57 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=66.0 faults=0
+[12:06:42] round=4 pp2048=634.44 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[12:18:19] round=5 pp2048=634.57 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[12:30:09] round=6 pp2048=635.81 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[12:41:48] round=7 pp2048=634.12 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[12:53:36] round=8 pp2048=634.34 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[13:05:31] round=9 pp2048=634.28 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[13:17:09] round=10 pp2048=634.84 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[13:28:51] round=11 pp2048=634.24 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[13:40:51] round=12 pp2048=634.96 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=66.0 faults=0
+[13:52:33] round=13 pp2048=634.52 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[14:04:14] round=14 pp2048=634.54 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[14:16:10] round=15 pp2048=635.04 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[14:27:56] round=16 pp2048=635.12 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[14:39:39] round=17 pp2048=635.49 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[14:51:38] round=18 pp2048=634.43 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[15:03:18] round=19 pp2048=634.94 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[15:15:00] round=20 pp2048=634.03 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[15:26:52] round=21 pp2048=635.17 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[15:38:39] round=22 pp2048=634.21 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[15:50:24] round=23 pp2048=634.17 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[16:02:18] round=24 pp2048=634.57 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[16:14:01] round=25 pp2048=634.34 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[16:25:38] round=26 pp2048=634.06 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[16:37:33] round=27 pp2048=634.25 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[16:49:24] round=28 pp2048=633.93 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[17:01:05] round=29 pp2048=635.37 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[17:12:56] round=30 pp2048=634.66 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[17:24:41] round=31 pp2048=634.61 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[17:36:27] round=32 pp2048=634.41 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[17:48:15] round=33 pp2048=634.32 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[17:59:55] round=34 pp2048=634.32 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[18:11:38] round=35 pp2048=634.20 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=75.0 faults=0
+[18:23:33] round=36 pp2048=635.30 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[18:35:14] round=37 pp2048=635.99 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[18:46:59] round=38 pp2048=633.95 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[18:58:51] round=39 pp2048=633.98 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='last loss 0.00048 maxlossdiff 1.799e-05' edge=67.0 faults=0
+[19:10:37] round=40 pp2048=634.40 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=73.0 faults=0
+[19:22:13] round=41 pp2048=634.73 gate15=8.9442 gate8=9.1117 churn_rc=0 torch='skipped' edge=74.0 faults=0
+[19:22:13] summary: rounds=41 distinct gate15: gate15=8.9442  distinct gate8: gate8=9.1117  churn failures: 0
+[19:22:13] done

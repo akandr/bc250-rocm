@@ -1,0 +1,4 @@
+gen1 n=8388608 tail=0 va=0x7f6629c00000 wrong=0 zeros=0 first=-1 ok
+gen2 n=8388608 tail=0 va=0x7f6629c00000 wrong=2112 zeros=2112 first=1209404 WRONG
+gen3 n=8388608 tail=0 va=0x7f6629c00000 wrong=2112 zeros=2112 first=1209404 WRONG
+RESULT bad_gens=2

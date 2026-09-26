@@ -1,0 +1,73 @@
+=== sweep baseline_oberon mode=oberon freq=0 mv=0 2026-07-10T19:43:55+02:00 ===
+6.18.9-200.fc43.x86_64
+BOOT_IMAGE=(hd0,gpt2)/vmlinuz-6.18.9-200.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root rhgb quiet ttm.pages_limit=4194304 quiet mitigations=off amdgpu.sched_policy=2
+3
+lip 10 21:41:15 bc250 kernel: amdgpu 0000:01:00.0: amdgpu: SE 2, SH per SE 2, CU per SH 10, active_cu_number 40
+--- clock state after setup:
+OD_SCLK:
+0: 1000Mhz *
+OD_VDDC:
+0: 893mV *
+OD_RANGE:
+SCLK:    1000Mhz       2000Mhz
+VDDC:     700mV        1129mV
+	1000 MHz (SCLK)
+	0 MHz (PSTATE_SCLK)
+	893 mV (VDDGFX)
+GPU Temperature: 56 C
+=== sanity small kernel ===
+--- RUN sanity nblocks=4096 inner=1000 temp=57C 2026-07-10T19:43:59+02:00
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=1000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=106.0 ms  wrong=0/1048576  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- RUN 16384_r1 nblocks=16384 inner=6000 temp=60C 2026-07-10T19:43:59+02:00
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=1887.1 ms  wrong=0/4194304  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- RUN 16384_r2 nblocks=16384 inner=6000 temp=63C 2026-07-10T19:44:02+02:00
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+--- RC=124 (124=timeout/hang)
+--- dmesg had output, see dmesg_16384_r2.log
+--- RUN 16384_r3 nblocks=16384 inner=6000 temp=64C 2026-07-10T19:48:06+02:00
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=1908.4 ms  wrong=0/4194304  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- dmesg had output, see dmesg_16384_r3.log
+--- RUN 16384_r4 nblocks=16384 inner=6000 temp=66C 2026-07-10T19:48:12+02:00
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+--- RC=124 (124=timeout/hang)
+--- dmesg had output, see dmesg_16384_r4.log
+--- RUN 32768_r1 nblocks=32768 inner=6000 temp=63C 2026-07-10T19:52:20+02:00
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=3785.0 ms  wrong=0/8388608  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- dmesg had output, see dmesg_32768_r1.log
+--- RUN 32768_r2 nblocks=32768 inner=6000 temp=66C 2026-07-10T19:52:33+02:00
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=3774.7 ms  wrong=0/8388608  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+--- RC=0 (124=timeout/hang)
+--- RUN 32768_r3 nblocks=32768 inner=6000 temp=66C 2026-07-10T19:52:37+02:00
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+--- RC=124 (124=timeout/hang)
+--- dmesg had output, see dmesg_32768_r3.log
+=== 3 hangs, aborting sweep (degraded)
+=== post-sweep small kernel (degradation check) ===
+--- RUN post_sanity nblocks=4096 inner=1000 temp=64C 2026-07-10T19:56:37+02:00
+=== compute_probe gfx1013:xnack- nblocks=4096 (1048576 threads) inner=1000 iters=1 ===
+HSA_ENABLE_SDMA=0
+--- RC=124 (124=timeout/hang)
+--- dmesg had output, see dmesg_post_sanity.log
+=== sweep baseline_oberon done 2026-07-10T20:00:41+02:00, hangs=3 ===

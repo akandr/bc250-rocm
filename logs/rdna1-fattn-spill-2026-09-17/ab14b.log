@@ -1,0 +1,36 @@
+replaced existing block
+D=128 row rewritten: 64:512:3:32:128
+D=128 row added: 16:512:3:32:64
+D=128 row added: 8:256:4:32:64
+D=512 rows: ['32:512:2:32:128', '16:512:2:32:128']
+ 1 file changed, 31 insertions(+), 1 deletion(-)
+dispatcher: RDNA1 ncols2 == 1 capped at 32 columns
+[04:01:23] rebuild start
+[04:02:46] rebuild ok
+[04:05:26] sanity 1.5B pp2048 fa=1 new build: 888.83±0.05
+[04:06:14] 1.5B gate new build: Final estimate: PPL = 8.9498  (patch-5 build read 8.9306, three-patch 8.9442, Vulkan 8.9734)
+[04:08:17] 8B pp2048 fa=1 new build: 264.07±0.16  (patch-5 build 256.3 to 257.6)
+[04:08:48] 8B gate new build: Final estimate: PPL = 9.1273  (patch-5 build 9.1248, three-patch 9.1117)
+[04:08:48] clock 0: 1000Mhz 1: 1500Mhz *2: 2000Mhz   governor active  ollama inactive
+[04:10:21] deepseek-r1-14b p1 build-hip-f44 pp512:  92.78±0.15
+[04:12:43] deepseek-r1-14b p1 build-hip-f44 pp2048: 83.11±2.34
+[04:14:38] deepseek-r1-14b p1 build-hip-fatile pp512:  96.55±0.23
+[04:18:44] deepseek-r1-14b p1 build-hip-fatile pp2048: 92.42±0.02
+[04:22:46] deepseek-r1-14b p2 build-hip-f44 pp512:  92.61±0.23
+[04:29:19] deepseek-r1-14b p2 build-hip-f44 pp2048: 84.14±0.02
+[04:33:59] deepseek-r1-14b p2 build-hip-fatile pp512:  96.49±0.21
+[04:40:59] deepseek-r1-14b p2 build-hip-fatile pp2048: 92.73±0.07
+[04:42:10] deepseek-r1-14b gate build-hip-f44: Final estimate: PPL = 5.9756
+[04:43:16] deepseek-r1-14b gate build-hip-fatile: Final estimate: PPL = 5.9765
+[04:45:10] qwen3-14b p1 build-hip-f44 pp512:  94.65±0.28
+[04:48:09] qwen3-14b p1 build-hip-f44 pp2048: 87.66±0.03
+[04:49:31] qwen3-14b p1 build-hip-fatile pp512:  80.01±1.18
+[04:52:56] qwen3-14b p1 build-hip-fatile pp2048: 95.25±0.01
+[04:54:58] qwen3-14b p2 build-hip-f44 pp512:  94.75±0.25
+[04:57:49] qwen3-14b p2 build-hip-f44 pp2048: 87.56±0.01
+[05:03:10] qwen3-14b p2 build-hip-fatile pp512:  98.33±0.34
+[05:08:06] qwen3-14b p2 build-hip-fatile pp2048: 95.05±0.02
+[05:09:18] qwen3-14b gate build-hip-f44: Final estimate: PPL = 7.7645
+[05:10:29] qwen3-14b gate build-hip-fatile: Final estimate: PPL = 7.7536
+[05:10:29] clock after 0: 1000Mhz 1: 1500Mhz *2: 2000Mhz 
+[05:10:29] DONE

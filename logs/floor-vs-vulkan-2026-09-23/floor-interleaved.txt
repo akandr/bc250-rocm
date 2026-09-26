@@ -1,0 +1,38 @@
+tree bfdc321 2026-09-14
+ggml libggml-base.so.0.24.0
+start 2026-09-23T11:20:38+02:00 edge +61.0°C
+
+pair  arm                       chain      fan     edge
+p1    ROCm, HIP graphs          2.538    2.679 +71.0°C
+p1    ROCm, no graphs           2.513    2.651 +71.0°C
+p1    Vulkan                    3.196    5.446 +71.0°C
+p2    ROCm, HIP graphs          2.534    2.680 +71.0°C
+p2    ROCm, no graphs           3.226    2.644 +71.0°C
+p2    Vulkan                    3.202    5.458 +71.0°C
+p3    ROCm, HIP graphs          2.539    2.682 +72.0°C
+p3    ROCm, no graphs           2.502    2.647 +72.0°C
+p3    Vulkan                    3.181    5.458 +72.0°C
+p4    ROCm, HIP graphs          2.532    2.679 +73.0°C
+p4    ROCm, no graphs           2.507    2.644 +73.0°C
+p4    Vulkan                    3.179    5.445 +73.0°C
+p5    ROCm, HIP graphs          2.542    2.687 +73.0°C
+p5    ROCm, no graphs           2.502    2.643 +73.0°C
+p5    Vulkan                    3.182    5.462 +73.0°C
+p6    ROCm, HIP graphs          2.536    2.680 +74.0°C
+p6    ROCm, no graphs           3.162    2.644 +74.0°C
+p6    Vulkan                    3.175    5.378 +74.0°C
+p7    ROCm, HIP graphs          2.536    2.683 +73.0°C
+p7    ROCm, no graphs           2.507    2.645 +73.0°C
+p7    Vulkan                    3.177    5.379 +73.0°C
+p8    ROCm, HIP graphs          2.536    2.680 +74.0°C
+p8    ROCm, no graphs           2.509    2.648 +74.0°C
+p8    Vulkan                    3.198    5.459 +74.0°C
+p9    ROCm, HIP graphs          2.535    2.675 +75.0°C
+p9    ROCm, no graphs           2.663    2.642 +75.0°C
+p9    Vulkan                    3.179    5.463 +75.0°C
+p10   ROCm, HIP graphs          2.532    2.676 +74.0°C
+p10   ROCm, no graphs           3.167    2.657 +74.0°C
+p10   Vulkan                    3.189    5.429 +74.0°C
+
+chain = dependent nodes, no overlap possible. fan = independent nodes, overlap permitted.
+end 2026-09-23T11:23:25+02:00 edge +74.0°C

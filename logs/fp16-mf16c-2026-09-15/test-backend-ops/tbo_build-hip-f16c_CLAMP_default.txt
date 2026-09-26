@@ -1,0 +1,8 @@
+  CLAMP(type=f16,ne=[10,5,4,3],min=-0.500000,max=0.500000): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CLAMP(type=f16,ne=[7,1,5,3],min=-0.500000,max=0.500000): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CLAMP(type=f16,ne=[1024,1024,1,1],min=-0.500000,max=0.500000): OK
+  CLAMP(type=f32,ne=[10,5,4,3],min=-0.500000,max=0.500000): OK
+  CLAMP(type=f32,ne=[7,1,5,3],min=-0.500000,max=0.500000): OK
+  CLAMP(type=f32,ne=[1024,1024,1,1],min=-0.500000,max=0.500000): OK
+  6/6 tests passed
+  Backend ROCm0: OK

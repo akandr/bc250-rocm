@@ -1,0 +1,48 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+DEPRECATED: -mmp and --mmap are deprecated in favour of --load-mode. Please use --load-mode mmap instead.kerntrace: 4006 kernel dispatches, 2970.190 ms of kernel time, 3135.077 ms first dispatch to last completion
+  records domain 2 op 0: 4006
+  records domain 2 op 1: 11036
+  records domain 2 op 2: 1
+  gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 3984 (10.5 ms), 5-20us 7 (0.1 ms), 20-100us 1 (0.1 ms), >100us 13 (154.3 ms); overlapping starts 0
+     count     total ms   share     avg us  kernel
+       160     1166.033   39.3%    7287.71  _ZL9mul_mat_qIL9ggml_type16ELi64ELb0EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9_S9_iiiS9_S9_iiiS9_
+        74      602.828   20.3%    8146.32  _ZL9mul_mat_qIL9ggml_type18ELi64ELb0EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9_S9_iiiS9_S9_iiiS9_
+       360      533.868   18.0%    1482.97  _ZL16mmf16_rdna1_gemmIL9ggml_type13ELi1ELb0ELi128ELi64ELi8ELi8EEvPKcPKfPfiiimii
+       140      212.721    7.2%    1519.43  _ZL16mmf16_rdna1_gemmIL9ggml_type14ELi1ELb0ELi128ELi64ELi8ELi8EEvPKcPKfPfiiimii
+       200      110.931    3.7%     554.65  Cijk_Alik_Bljk_SB_MT128x64x12_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA3_NLCB3_PGR1_PLR1_SIA1_SU32_SUS256_SVW4_TT8_4_USFGRO0_VAW1_VS1_VW1_VWB1_WG16_16_1_WGM8
+        60      104.754    3.5%    1745.90  _Z20gated_delta_net_cudaILi128ELb0ELb0ELi8EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vector_typeIjLj3EES4_fli
+         6       34.711    1.2%    5785.15  _ZL9mul_mat_qIL9ggml_type23ELi64ELb0EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9_S9_iiiS9_S9_iiiS9_
+        20       31.766    1.1%    1588.30  _ZL15flash_attn_tileILi256ELi256ELi4ELi8ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj2EEffffjfiS5_IjLj3EEiiiiiiiiiiiliiliiiiil
+       220       21.899    0.7%      99.54  _ZL11k_bin_bcastIXadL_ZL6op_mulffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+        80       19.150    0.6%     239.37  _ZL17k_argsort_f32_i32IL15ggml_sort_order1EEvPKfPiii
+       240       18.288    0.6%      76.20  _ZL13mm_ids_helperILi8EEvPKiPiS2_S2_iiiiib
+        60       17.032    0.6%     283.87  _ZL22concat_dim0_transposedIjEvPKcPclllmmmmlmmm
+        60       12.795    0.4%     213.25  _ZL23ssm_conv_long_token_f32ILb1ELm128ELm4ELl32EEvPKfS1_S1_iiiiPfiiil
+       100       11.393    0.4%     113.93  _ZL12rms_norm_f32ILi256ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_
+       220       11.060    0.4%      50.27  _ZL21unary_gated_op_kernelIXadL_ZL7op_silufEEfEvPKT0_S2_PS0_llll
+        80        8.839    0.3%     110.49  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfS1_S1_S1_S1_S1_S1_EEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+       160        7.787    0.3%      48.67  _ZL17quantize_mmq_q8_1IL18mmq_q8_1_ds_layout0ELb1EEvPKfPKiPvllllliii
+       162        7.388    0.2%      45.61  _ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_
+        80        5.550    0.2%      69.38  _ZL10cpy_scalarIXadL_ZL12cpy_1_scalarIffEvPKcPcEEEvS2_S3_lllllllllllllll
+       120        4.102    0.1%      34.19  _ZL11l2_norm_f32ILi32EEvPKfPfilllf
+        80        3.890    0.1%      48.63  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfS1_EEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+       140        3.058    0.1%      21.84  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+        20        3.012    0.1%     150.62  _ZL26flash_attn_combine_resultsILi256EEvPKfPK15HIP_vector_typeIfLj2EEPfi
+        80        2.777    0.1%      34.72  _ZL17quantize_mmq_q8_1IL18mmq_q8_1_ds_layout0ELb0EEvPKfPKiPvllllliii
+        40        2.527    0.1%      63.18  _ZL10rope_multiILb1ELb0EfEvPKT1_PS0_iiiiiiiiiiPKifff14rope_corr_dimsfPKf14mrope_sectionsb
+       142        2.396    0.1%      16.88  _ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+        80        1.888    0.1%      23.60  _ZL13mul_mat_vec_fIffLi1ELi256ELb0ELb0EEvPKT_PKfPKi31ggml_cuda_mm_fusion_args_devicePfi15HIP_vector_typeIjLj3EEiiiSA_iiiSA_iiii
+         2        1.845    0.1%     922.35  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type12ELb0ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+        20        1.407    0.0%      70.35  _ZL21unary_gated_op_kernelIXadL_ZL10op_sigmoidfEEfEvPKT0_S2_PS0_llll
+       120        1.077    0.0%       8.97  _ZL9scale_f32PKfPfffl
+        80        0.863    0.0%      10.79  _ZL12soft_max_f32ILb1ELi256ELi256EfEvPKfPKT2_S1_Pf15soft_max_params
+        40        0.614    0.0%      15.34  _ZL10k_set_rowsIfl6__halfEvPKT_PKT0_PT1_llllllllllllll15HIP_vector_typeIjLj3EESA_SA_SA_SA_
+        60        0.606    0.0%      10.11  _ZL20k_get_rows_float_vecIfEvPKT_PKiPS0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+        60        0.443    0.0%       7.39  _ZL21concat_dim0_src0_partIjEvPKcPclmmmmmmm
+       140        0.238    0.0%       1.70  _ZL15unary_op_kernelIXadL_ZL10op_sigmoidfEEfEvPKT0_PS0_i
+        80        0.226    0.0%       2.83  _ZL15reduce_rows_f32ILb0EEvPKfPfi
+        80        0.205    0.0%       2.56  _ZL11k_bin_bcastIXadL_ZL6op_divffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+        80        0.118    0.0%       1.47  _ZL15op_clamp_kernelIfEvPKT_PS0_S0_S0_i
+        60        0.104    0.0%       1.73  _ZL15unary_op_kernelIXadL_ZL11op_softplusfEEfEvPKT0_PS0_i
+kerntrace: no HIP call was intercepted

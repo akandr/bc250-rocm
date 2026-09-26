@@ -1,0 +1,12 @@
+tbo: 1 1186/1186 tests passed
+ppl qwen2.5-1.5b-q4km tile 0 = Final estimate: PPL = 10.2088
+ppl qwen2.5-1.5b-q4km tile 1 = Final estimate: PPL = 10.2088
+ppl qwen3-14b tile 0 = Final estimate: PPL = 8.6550
+ppl qwen3-14b tile 1 = Final estimate: PPL = 8.6550
+ppl qwen3.8-27b-iq3xxs tile 0 = Final estimate: PPL = 6.2737
+ppl qwen3.8-27b-iq3xxs tile 1 = Final estimate: PPL = 6.2737
+ppl qwen3.6-35b-a3b-iq2m tile 0 = Final estimate: PPL = 6.2473
+ppl qwen3.6-35b-a3b-iq2m tile 1 = Final estimate: PPL = 6.2473
+text qwen2.5-1.5b-q4km done
+text qwen3.8-27b-iq3xxs done
+DONE

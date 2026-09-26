@@ -1,0 +1,26 @@
+Pre-registered 2026-08-23, before running.
+
+At an isolated batch-start zero the operands are intact: the weight sums to the
+same value as at a clean call and the activations are healthy. Good input, empty
+output. That was measured at one chunk where only isolated zeros occur.
+
+Once a batch escalates and every call in it returns zero, the same question has
+not been asked. Two readings:
+
+  A. The operands stay intact through the cascade. Then escalation is more of the
+     same failure, applied to every call rather than one, and the defect is
+     wholly on the output side.
+
+  B. The operands go bad during the cascade. Then the first zeroed call corrupts
+     something that later calls read, and the escalation is a propagation. That
+     would make the isolated zero the primary event and the cascade its
+     consequence, which is a different shape of defect.
+
+The discriminator is the activation sum at calls inside a cascade compared with
+the same tensor at a clean call. Weight sums should be unchanged either way,
+since weights are not written by inference.
+
+The instrument must be shown able to report both outcomes: BC250_DEVCHECK
+reports non-zero sums at clean calls and at isolated zeroed calls already, so a
+zero or wild reading inside a cascade would be a genuine signal rather than the
+probe failing.

@@ -1,0 +1,13 @@
+### native gfx1013 rocBLAS SGEMM on 7.1.5-100.fc43.x86_64, CU=active_cu_number 40, 2026-07-28
+--- N=1024 single ---
+N=1024  iters=1    st=0 sync=0    9.5ms  226.3 GFLOP/s  chk(12271/12271,12279/12279) CORRECT
+RC=0 (124=timeout/wedge)
+--- N=2048 single ---
+N=2048  iters=1    st=0 sync=0   12.3ms 1402.4 GFLOP/s  chk(24545/24545,24576/24576) CORRECT
+RC=0 (124=timeout/wedge)
+--- N=4096 single ---
+Memory access fault by GPU node-1 (Agent handle: 0x563406193210) on address 0x7f66b9bee000. Reason: Page not present or supervisor privilege.
+RC=134 (124=timeout/wedge)
+### dmesg fault signatures:
+[   41.728760] amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00800830
+[   41.728763] amdgpu 0000:01:00.0: 	 Faulty UTCL2 client ID: CPF (0x4)

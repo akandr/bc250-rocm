@@ -1,0 +1,21 @@
+# Fedora 44 python3-torch-2.9.1-10.fc44 (ROCm 7.1.1 build, arch list without gfx1013), 2026-09-15.
+# Six operations in one process, run with and without the native gfx1013 rocBLAS and fixed comgr on
+# LD_LIBRARY_PATH. Console output as printed.
+# torch.cuda.get_arch_list(): gfx900 gfx906:xnack- gfx908:xnack- gfx90a:xnack+ gfx90a:xnack- gfx942 gfx950
+#   gfx1010 gfx1012 gfx1030 gfx1031 gfx1035 gfx1036 gfx1100 gfx1101 gfx1102 gfx1103 gfx1150 gfx1151
+#   gfx1152 gfx1153 gfx1200 gfx1201
+== LD_LIBRARY_PATH=/home/akandr/rb711/comgr-fixed:/home/akandr/rb711/install/lib64
+avail True 1
+AMD BC-250 gfx1013:xnack-
+h2d ok
+d2h 0.0
+matmul 7.62939453125e-06
+timeout: monitowane polecenie zrobiło zrzut pamięci      (core dump at the elementwise add)
+== system libraries only
+AMD BC-250 gfx1013:xnack-
+h2d ok
+d2h 0.0
+RuntimeError: CUDA error: HIPBLAS_STATUS_INTERNAL_ERROR when calling `hipblasSgemm( handle, opa, opb, m, n, k, &alpha, a, lda, b, ldb, &beta, c, ldc)`
+== dmesg
+traps: python3[10537] general protection fault ip:7f443b49c56c sp:7ffc22ebad50 error:0 in libamdhip64.so.7.1.52802[49b56c,7f443b129000+3bf000]
+traps: python3[10772] general protection fault ip:7f30a769c56c sp:7ffed36b8b00 error:0 in libamdhip64.so.7.1.52802[49b56c,7f30a7329000+3bf000]

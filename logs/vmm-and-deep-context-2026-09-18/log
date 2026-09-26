@@ -1,0 +1,24 @@
+[03:31:12] clock 0: 1000Mhz *1: 1500Mhz 2: 2000Mhz 
+[03:31:12] MoE decode build-hip-f44: 
+[03:33:12] MoE decode build-hip-fatile:  [Start thinking]  Here's a thinking process: -- 2.  **Identify Key Information**: The question is asking for the capital city of France.  [ Prompt: 34,5 t/s | 
+[03:33:15] hgemm_attn BUILD FAILED (see hgemm-build.log)
+[03:33:15] hgemm_attn comp=f32 rc=127
+    timeout: nie udało się uruchomić polecenia `/home/akandr/hgemm_attn': Nie ma takiego pliku ani katalogu
+[03:33:15] hgemm_attn comp=f16 rc=127
+    timeout: nie udało się uruchomić polecenia `/home/akandr/hgemm_attn': Nie ma takiego pliku ani katalogu
+[03:33:20] vmm configure ok
+[03:39:52] vmm build ok
+[03:42:04] vmm p1 build-hip-fatile 1.5B pp2048: 869.25±0.13
+[03:42:08] vmm p1 build-hip-fatile 1.5B tg128:  113.54±0.30
+[03:42:11] vmm p1 build-hip-vmm 1.5B pp2048: 
+[03:42:14] vmm p1 build-hip-vmm 1.5B tg128:  
+[03:42:24] vmm p2 build-hip-fatile 1.5B pp2048: 869.40±0.13
+[03:42:28] vmm p2 build-hip-fatile 1.5B tg128:  113.47±0.32
+[03:42:31] vmm p2 build-hip-vmm 1.5B pp2048: 
+[03:42:34] vmm p2 build-hip-vmm 1.5B tg128:  
+[03:42:38] vmm gate build-hip-vmm: 
+[03:45:03] vmm deep build-hip-fatile d=16384: | qwen3 8B Q8_0                  |   8.24 GiB |     8.19 B | ROCm       |  99 |   1 |   tg32 @ d16384 |         11.32 ± 
+[03:50:59] vmm deep build-hip-fatile d=24576: 
+[03:51:42] vmm deep build-hip-vmm d=16384: 
+[03:53:02] vmm deep build-hip-vmm d=24576: 
+[03:53:02] DONE

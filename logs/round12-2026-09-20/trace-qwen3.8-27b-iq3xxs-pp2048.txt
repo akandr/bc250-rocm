@@ -1,0 +1,37 @@
+kerntrace: 15308 kernel dispatches, 57041.359 ms of kernel time, 57336.099 ms first dispatch to last completion
+  records domain 2 op 0: 15308
+  records domain 2 op 1: 904
+  records domain 2 op 2: 1
+  gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 15266 (43.2 ms), 5-20us 20 (0.2 ms), 20-100us 2 (0.1 ms), >100us 19 (251.3 ms); overlapping starts 0
+     count     total ms   share     avg us  kernel
+      1536    33068.723   58.0%   21529.12  _ZL16mmf16_rdna1_gemmIL9ggml_type21EEvPKcPKfPfiiimii
+       896    14136.676   24.8%   15777.54  _ZL16mmf16_rdna1_gemmIL9ggml_type18EEvPKcPKfPfiiimii
+       768     6785.851   11.9%    8835.74  _ZL16mmf16_rdna1_gemmIL9ggml_type23EEvPKcPKfPfiiimii
+       128      840.839    1.5%    6569.05  _ZL15flash_attn_tileILi256ELi256ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj
+       384      721.964    1.3%    1880.12  _Z20gated_delta_net_cudaILi128ELb0ELb0ELi8EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vect
+       384      244.454    0.4%     636.60  _ZL9mul_mat_qIL9ggml_type23ELi64ELb1EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9
+       896      232.626    0.4%     259.63  _ZL21unary_gated_op_kernelIXadL_ZL7op_silufEEfEvPKT0_S2_PS0_llll
+       384      205.388    0.4%     534.87  Cijk_Alik_Bljk_HB_MT64x64x8_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA
+       384      137.730    0.2%     358.67  _ZL22concat_dim0_transposedIjEvPKcPclllmmmmlmmm
+       640      125.893    0.2%     196.71  _ZL12rms_norm_f32ILi256ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS
+       384      114.263    0.2%     297.56  _ZL23ssm_conv_long_token_f32ILb1ELm128ELm4ELl32EEvPKfS1_S1_iiiiPfiiil
+      1408       94.658    0.2%      67.23  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_S
+      1032       90.501    0.2%      87.70  _ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lll
+       512       52.066    0.1%     101.69  _ZL10cpy_scalarIXadL_ZL12cpy_1_scalarIffEvPKcPcEEEvS2_S3_lllllllllllllll
+       768       33.840    0.1%      44.06  _ZL11l2_norm_f32ILi32EEvPKfPfilllf
+       384       29.828    0.1%      77.68  _ZL13convert_unaryIf6__halfEvPKvPT0_lll15HIP_vector_typeIjLj3EElll
+       128       28.998    0.1%     226.55  _ZL26flash_attn_combine_resultsILi256EEvPKfPK15HIP_vector_typeIfLj2EEPfi
+       256       24.868    0.0%      97.14  _ZL10rope_multiILb1ELb0EfEvPKT1_PS0_iiiiiiiiiiPKifff14rope_corr_dimsfPKf14mrope_sectionsb
+       384       23.804    0.0%      61.99  _ZL17quantize_mmq_q8_1IL18mmq_q8_1_ds_layout0ELb0EEvPKfPKiPvllllliii
+       128       15.584    0.0%     121.75  _ZL21unary_gated_op_kernelIXadL_ZL10op_sigmoidfEEfEvPKT0_S2_PS0_llll
+       256        7.416    0.0%      28.97  _ZL10k_set_rowsIfl6__halfEvPKT_PKT0_PT1_llllllllllllll15HIP_vector_typeIjLj3EESA_SA_SA_SA_
+       384        7.278    0.0%      18.95  _ZL20k_get_rows_float_vecIfEvPKT_PKiPS0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+         2        5.012    0.0%    2506.07  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type13ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+       384        4.663    0.0%      12.14  _ZL21concat_dim0_src0_partIjEvPKcPclmmmmmmm
+       192        2.665    0.0%      13.88  _ZL9scale_f32PKfPfffl
+       386        1.324    0.0%       3.43  _ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+       384        1.132    0.0%       2.95  _ZL11k_bin_bcastIXadL_ZL6op_mulffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_S
+       384        1.021    0.0%       2.66  _ZL22dequantize_block_iq1_mI6__halfEvPKvPT_
+       384        0.841    0.0%       2.19  _ZL13convert_unaryI6__halffEvPKvPT0_lll15HIP_vector_typeIjLj3EElll
+       384        0.780    0.0%       2.03  _ZL15unary_op_kernelIXadL_ZL10op_sigmoidfEEfEvPKT0_PS0_i
+       384        0.673    0.0%       1.75  _ZL15unary_op_kernelIXadL_ZL11op_softplusfEEfEvPKT0_PS0_i

@@ -1,0 +1,201 @@
+[   21.889758] MARK-R1
+[   30.921002] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=1 err=0 pasid=26 r=0
+[   30.930196] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=10 err=0 pasid=26 r=0
+[   36.463281] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=100 err=0 pasid=26 r=0
+[   40.485465] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[   40.485480] amdgpu 0000:01:00.0: GPU recovery disabled.
+[   40.485483] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=105 err=1 pasid=26 r=-62
+[   44.493249] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[   44.493265] amdgpu 0000:01:00.0: GPU recovery disabled.
+[   44.493268] amdgpu 0000:01:00.0: BC250TLBALT mode=5 site=2 calls=106 err=2 pasid=26 r=-62
+[  154.892044] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  154.892060] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  154.892064] amdgpu 0000:01:00.0: Failed to evict process queues
+[  154.892067] amdgpu: Failed to quiesce KFD
+[  158.899603] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  158.899619] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  158.899622] amdgpu: Resetting wave fronts (cpsch) on dev 00000000dcfa4706
+[  158.899630] amdgpu 0000:01:00.0: Didn't find vmid for process pid 1649
+[  163.545091] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  163.545107] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  163.545111] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  167.552650] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  167.552666] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  167.552670] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  171.563386] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  171.563402] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  171.563406] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  175.571241] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  175.571251] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  175.571254] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  179.579128] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  179.579139] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  179.579143] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  183.587073] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  183.587085] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  183.587089] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  187.594633] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  187.594641] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  187.594644] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  191.607402] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  191.607419] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  191.607423] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  195.615459] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  195.615476] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  195.615480] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  199.623093] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  199.623109] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  199.623113] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  208.222792] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  208.222809] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  208.222813] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  212.230524] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  212.230538] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  212.230542] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  216.238127] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  216.238139] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  216.238143] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  220.245705] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  220.245723] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  220.245727] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  224.253339] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  224.253351] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  224.253355] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  228.263714] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  228.263731] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  228.263735] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  232.271261] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  232.271275] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  232.271280] amdgpu: process pid 2353 DQM create queue type 0 failed. ret -62
+[  236.278801] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  236.278809] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  236.278815] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  240.286378] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  240.286386] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  240.286392] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  244.294841] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  244.294854] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  244.294857] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  248.302462] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  248.302470] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  248.302474] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  252.310006] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  252.310018] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  252.310023] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  256.317665] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  256.317675] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  256.317681] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  260.325228] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  260.325243] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  260.325247] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  264.332846] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  264.332856] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  264.332859] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  268.340396] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  268.340404] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  268.340409] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  272.351016] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  272.351032] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  272.351039] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  276.358599] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  276.358613] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  276.358618] amdgpu: process pid 2353 DQM create queue type 0 failed. ret -62
+[  280.366145] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  280.366162] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  280.366169] amdgpu 0000:01:00.0: BC-250: runlist rebuild flush failed (-62)
+[  284.373699] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  284.373711] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  284.373716] amdgpu 0000:01:00.0: Failed to evict process queues
+[  284.373721] amdgpu: Failed to quiesce KFD
+[  288.382331] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  288.382348] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  288.382351] amdgpu: Resetting wave fronts (cpsch) on dev 00000000dcfa4706
+[  288.382359] amdgpu 0000:01:00.0: Didn't find vmid for process pid 2353
+[  288.682649] MARK-R1-unbind
+[  289.027399] amdgpu 0000:01:00.0: VM memory stats for proc (0) task (0) is non-zero when fini
+[  289.028467] amdgpu 0000:01:00.0: finishing device.
+[  293.036324] amdgpu 0000:01:00.0: Queue preemption failed for queue with doorbell_id: 80004020
+[  293.036341] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  293.061233] amdgpu 0000:01:00.0: MODE1 reset
+[  293.061259] amdgpu 0000:01:00.0: GPU mode1 reset
+[  293.061341] amdgpu 0000:01:00.0: GPU psp mode1 reset
+[  293.067463] amdgpu 0000:01:00.0:  ttm finalized
+[  294.156525] MARK-R1-bind
+[  294.195914] amdgpu 0000:01:00.0: initializing kernel modesetting (CYAN_SKILLFISH 0x1002:0x13FE 0x1022:0x0000 0x00).
+[  294.195980] amdgpu 0000:01:00.0: register mmio base: 0xFE800000
+[  294.195993] amdgpu 0000:01:00.0: register mmio size: 524288
+[  294.198884] amdgpu 0000:01:00.0: detected ip block number 0 <common_v1_0_0> (nv_common)
+[  294.198904] amdgpu 0000:01:00.0: detected ip block number 1 <gmc_v10_0_0> (gmc_v10_0)
+[  294.198921] amdgpu 0000:01:00.0: detected ip block number 2 <ih_v5_0_0> (navi10_ih)
+[  294.198935] amdgpu 0000:01:00.0: detected ip block number 3 <psp_v11_0_8> (psp)
+[  294.198950] amdgpu 0000:01:00.0: detected ip block number 4 <smu_v11_0_0> (smu)
+[  294.198964] amdgpu 0000:01:00.0: detected ip block number 5 <dce_v1_0_0> (dm)
+[  294.198977] amdgpu 0000:01:00.0: detected ip block number 6 <gfx_v10_0_0> (gfx_v10_0)
+[  294.198991] amdgpu 0000:01:00.0: detected ip block number 7 <sdma_v5_0_0> (sdma_v5_0)
+[  294.199029] amdgpu 0000:01:00.0: Fetched VBIOS from VFCT
+[  294.199045] amdgpu 0000:01:00.0: [drm] ATOM BIOS: 113-AMDRBN-003, build: 584828  , ver: 016.002.000.006.000000, 2021/09/10
+[  294.264204] amdgpu 0000:01:00.0: vgaarb: deactivate vga console
+[  294.264229] amdgpu 0000:01:00.0: Trusted Memory Zone (TMZ) feature disabled as experimental (default)
+[  294.264303] amdgpu 0000:01:00.0: vm size is 262144 GB, 4 levels, block size is 9-bit, fragment size is 9-bit
+[  294.264334] amdgpu 0000:01:00.0: VRAM: 512M 0x000000F400000000 - 0x000000F41FFFFFFF (512M used)
+[  294.264349] amdgpu 0000:01:00.0: GART: 512M 0x0000000000000000 - 0x000000001FFFFFFF
+[  294.264373] amdgpu 0000:01:00.0: [drm] Detected VRAM RAM=512M, BAR=512M
+[  294.264385] amdgpu 0000:01:00.0: [drm] RAM width 1024bits UNKNOWN
+[  294.264649] amdgpu 0000:01:00.0:  512M of VRAM memory ready
+[  294.264661] amdgpu 0000:01:00.0: Capping GTT to 15196M to not exceed available system memory
+[  294.264673] amdgpu 0000:01:00.0:  15196M of GTT memory ready.
+[  294.264722] amdgpu 0000:01:00.0: [drm] GART: num cpu pages 131072, num gpu pages 131072
+[  294.264850] amdgpu 0000:01:00.0: BC-250: flush_pasid_uses_kiq=0 (param 0)
+[  294.264964] amdgpu 0000:01:00.0: [drm] PCIE GART of 512M enabled (table at 0x000000F41FE00000).
+[  294.265882] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  294.265899] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  294.266292] amdgpu 0000:01:00.0: GPU recovery disabled.
+[  294.287534] amdgpu 0000:01:00.0: reserve 0x400000 from 0xf41f800000 for PSP TMR
+[  294.324022] amdgpu 0000:01:00.0: SMU is initialized successfully!
+[  294.325319] amdgpu 0000:01:00.0: [drm] Display Core v3.2.378 initialized on DCN 2.0.1
+[  294.326247] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])
+[  294.332114] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 3
+[  294.332327] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.332383] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 3, st: 0
+[  294.332544] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.332599] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=3 on init
+[  294.332634] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 4
+[  294.332785] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.332841] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 4, st: 0
+[  294.333012] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.333066] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=4 on init
+[  294.333112] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 5
+[  294.333297] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.333347] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 5, st: 0
+[  294.333503] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.333555] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=5 on init
+[  294.333598] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 6
+[  294.333753] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.333803] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 6, st: 0
+[  294.333961] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.334012] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=6 on init
+[  294.334056] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 9
+[  294.334227] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.334278] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 9, st: 0
+[  294.334427] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.334475] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=9 on init
+[  294.334515] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 10
+[  294.334657] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.334705] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 10, st: 0
+[  294.334851] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.334899] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=10 on init
+[  294.334939] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 11
+[  294.335081] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.335129] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 11, st: 0
+[  294.335288] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.335330] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=11 on init
+[  294.335365] amdgpu 0000:01:00.0: [drm] dal_irq_service_ack: src: 12
+[  294.335498] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_ack: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.335543] amdgpu 0000:01:00.0: [drm] dal_irq_service_set: src: 12, st: 0
+[  294.335676] amdgpu 0000:01:00.0: [drm] *ERROR* dal_irq_service_dummy_set: called for non-implemented irq source, src_id=0, ext_id=0
+[  294.335721] amdgpu 0000:01:00.0: [drm] *ERROR* Failed to clear hpd(rx) source=12 on init
+[  294.335808] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[  294.335860] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[  294.335911] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[  294.335960] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[  296.073509] clocksource: Watchdog remote CPU 2 read timed out

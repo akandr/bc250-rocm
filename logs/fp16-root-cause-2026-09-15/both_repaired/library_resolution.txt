@@ -1,0 +1,5 @@
+	libggml.so.0 => /home/akandr/llama-master/build-hip/bin/libggml.so.0 (0x00007f03aa4e6000)
+	libggml-cpu.so.0 => /home/akandr/llama-master/build-hip/bin/libggml-cpu.so.0 (0x00007f03a9a75000)
+	libggml-hip.so.0 => /home/akandr/s0915/ggmlfix/lib/libggml-hip.so.0 (0x00007f03a6000000)
+	libggml-base.so.0 => /home/akandr/llama-master/build-hip/bin/libggml-base.so.0 (0x00007f03a5f33000)
+	librocblas.so.4 => /home/akandr/rocblas-f16patch/lib/librocblas.so.4 (0x00007f03a3400000)

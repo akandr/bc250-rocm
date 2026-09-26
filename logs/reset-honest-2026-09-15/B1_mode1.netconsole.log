@@ -1,0 +1,10 @@
+[   33.366526] MARK-B1_mode1
+[   42.950094] amdgpu 0000:01:00.0: GPU reset begin!. Source:  5
+[   46.950107] amdgpu 0000:01:00.0: failed to suspend display audio
+[   46.974835] amdgpu 0000:01:00.0: MODE1 reset
+[   46.974859] amdgpu 0000:01:00.0: GPU mode1 reset
+[   46.974930] amdgpu 0000:01:00.0: GPU psp mode1 reset
+[   46.974954] amdgpu 0000:01:00.0: BC250: PSP has no mode1_reset for this ASIC
+[   46.974977] amdgpu 0000:01:00.0: GPU mode1 reset failed
+[   46.974997] amdgpu 0000:01:00.0: ASIC reset failed with error, -95 for drm dev, 0000:01:00.0
+[   46.975027] amdgpu 0000:01:00.0: GPU reset end with ret = -95

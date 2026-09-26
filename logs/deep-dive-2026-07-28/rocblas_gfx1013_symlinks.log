@@ -1,0 +1,5 @@
+### Fedora system rocBLAS gfx1013 = symlinks to gfx1010 (override baked in)
+lrwxrwxrwx. 1 root root 28 07-05 21:22 /usr/lib64/rocblas/library/Kernels.so-000-gfx1013.hsaco -> Kernels.so-000-gfx1010.hsaco
+lrwxrwxrwx. 1 root root 31 07-05 21:22 /usr/lib64/rocblas/library/TensileLibrary_lazy_gfx1013.dat -> TensileLibrary_lazy_gfx1010.dat
+
+### PyTorch wheel: no gfx1013/gfx1010 kernels (out-of-box fails); grafted native gfx1013 -> works small, wedges sustained

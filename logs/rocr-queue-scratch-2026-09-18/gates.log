@@ -1,0 +1,7 @@
+[21:55:26] which hsa, installed: 	libhsa-runtime64.so.1 => /opt/bc250-rocm/lib64/libhsa-runtime64.so.1 (0x00007f9315800000)
+[21:55:26] which hsa, stock dir: 	libhsa-runtime64.so.1 => /home/akandr/stock-rocr/libhsa-runtime64.so.1 (0x00007f8f53e00000)
+[21:56:14] installed 1.5B gate: Final estimate: PPL = 8.9498  (expect 8.9498)
+[21:57:01] stock     1.5B gate: Final estimate: PPL = 8.9498
+[21:57:38] installed 8B gate: Final estimate: PPL = 9.1273  (expect 9.1273)
+[21:58:11] stock     8B gate: Final estimate: PPL = 9.1273
+GATES DONE

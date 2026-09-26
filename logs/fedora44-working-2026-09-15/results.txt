@@ -1,0 +1,19 @@
+== which libraries a run maps
+      1 totalNumVGPRs=1024
+== comgr unpatched, native rocBLAS (expect the flash-attention assert)
+/home/akandr/s0915/f44b/run.sh: linia 8:  1631 Przerwane                  env "$@" timeout -k 30 1800 $H/llama-perplexity -m $model --no-mmap -ngl 99 -fa $fa -c $c -f ~/wiki.test.raw --chunks $ch > $D/$label.log 2>&1
+gate_rbonly: rc=134  /home/akandr/llama-master/ggml/src/ggml-cuda/template-instances/../fattn-common.cuh:1114: 
+== both fixes
+gate: rc=0 Final estimate: PPL = 8.9442 
+q8_default_1: rc=0 Final estimate: PPL = 9.1117 
+q8_default_2: rc=0 Final estimate: PPL = 9.1117 
+q8_f16_tcache1: rc=0 Final estimate: PPL = 9.1117 
+q8_f32: rc=0 Final estimate: PPL = 9.0975 
+q14_default: rc=0 Final estimate: PPL = 7.7645 
+q15_faoff_1024: rc=0 Final estimate: PPL = 8.1702 
+== throughput
+qwen2.5-1.5b-q4km:  994.14 ± 7.68   146.50 ± 0.77  
+qwen3-8b-q8_0:  178.61 ± 12.89   39.52 ± 1.65  
+== test-backend-ops
+rc=0 ok=7917 fail=0 2/2 backends passed
+DONE

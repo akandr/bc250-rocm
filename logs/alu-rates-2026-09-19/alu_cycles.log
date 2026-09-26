@@ -1,0 +1,20 @@
+AMD BC-250, 20 WGP/CU units reported, wave 32
+
+
+-- 1 wave(s) per SIMD --
+v_fma_f32          40 waves   1.270 cyc/instr    1.36 TFLOP/s  shader clock during run 0.67 GHz
+v_fma_f16          40 waves   1.285 cyc/instr    1.35 TFLOP/s  shader clock during run 0.68 GHz
+v_pk_fma_f16       40 waves   1.285 cyc/instr    2.14 TFLOP/s  shader clock during run 0.54 GHz
+int8 dot4 emul     40 waves   1.861 cyc/instr    0.48 TFLOP/s  shader clock during run 0.70 GHz
+
+-- 4 wave(s) per SIMD --
+v_fma_f32         160 waves   2.259 cyc/instr    3.03 TFLOP/s  shader clock during run 0.67 GHz
+v_fma_f16         160 waves   2.235 cyc/instr    3.02 TFLOP/s  shader clock during run 0.66 GHz
+v_pk_fma_f16      160 waves   2.232 cyc/instr    6.04 TFLOP/s  shader clock during run 0.66 GHz
+int8 dot4 emul    160 waves   3.458 cyc/instr    1.01 TFLOP/s  shader clock during run 0.68 GHz
+
+-- 16 wave(s) per SIMD --
+v_fma_f32         640 waves   5.318 cyc/instr    4.37 TFLOP/s  shader clock during run 0.57 GHz
+v_fma_f16         640 waves   5.320 cyc/instr    4.36 TFLOP/s  shader clock during run 0.57 GHz
+v_pk_fma_f16      640 waves   5.323 cyc/instr    9.92 TFLOP/s  shader clock during run 0.64 GHz
+int8 dot4 emul    640 waves   8.346 cyc/instr    2.08 TFLOP/s  shader clock during run 0.85 GHz

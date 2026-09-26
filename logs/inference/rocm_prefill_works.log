@@ -1,0 +1,20 @@
+=== native_fa 2026-07-11T01:22:56
+	adev->gmc.flush_pasid_uses_kiq = false; /* BC-250 ROCm#6313 */
+######## A_native_fa_mmq_pp
+A_native_fa_mmq_pp RC=0 (124=hang,134=abort,0=OK)
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+| model                          |       size |     params | backend    | ngl |  fa | mmap |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | ---: | --------------: | -------------------: |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       | 999 |   1 |    0 |           pp128 |         35.37  0.00 |
+
+build: 2da6686 (1)
+######## B_native_fa_mmq_full
+B_native_fa_mmq_full RC=124 (124=hang,134=abort,0=OK)
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+=== dmesg:
+[    5.562828] amdgpu 0000:01:00.0: amdgpu: Trusted Memory Zone (TMZ) feature disabled as experimental (default)
+[  353.758673] amdgpu: cp queue preemption time out.
+[  353.758690] amdgpu: Failed to quiesce KFD
+=== native_fa done 2026-07-11T01:26:39

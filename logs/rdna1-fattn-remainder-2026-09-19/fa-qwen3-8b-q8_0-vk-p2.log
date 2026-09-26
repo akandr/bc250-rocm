@@ -1,0 +1,15 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+Testing 2 devices
+
+Backend 1/2: Vulkan0
+  Device description: AMD BC-250 (RADV GFX1013)
+  Device memory: 15708 MB (15691 MB free)
+
+  FLASH_ATTN_EXT(name=node_25,type=f32,ne=[128,32,1,1],op_params=[0:1035273459,3:10],sources=f32[128,1,32,1]nb[4,16384,512,16384],f16[128,4096,8,1]nb[2,2048,256,8388608],f16[128,4096,8,1]nb[2,2048,256,8388608],f16[4096,1,1,1]):                    16352 runs -    68.87 us/run -    16424 kB/run - [1;34m 227.42 GB/s[0m
+  FLASH_ATTN_EXT(name=node_25,type=f32,ne=[128,32,2048,1],op_params=[0:1035273459,3:10],sources=f32[128,2048,32,1]nb[4,16384,512,33554432],f16[128,4096,8,1]nb[2,2048,256,8388608],f16[128,4096,8,1]nb[2,2048,256,8388608],f16[4096,2048,1,1]):                  342 runs - 72947.20 us/run -    98304 kB/run - [1;34m   1.29 GB/s[0m
+  Backend Vulkan0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

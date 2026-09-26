@@ -1,0 +1,21 @@
+[20:38:32] build start
+[20:38:40] build ok
+[20:41:25] MUL_MAT n=1 correctness: OK 14 FAIL 0
+[20:41:46] MUL_MAT_ID correctness: OK 147 FAIL 0
+[20:43:09] p1 qwen3.8-27b-iq3xxs build-hip-f32mv tg128: 10.92±0.18
+[20:45:32] p1 qwen3.8-27b-iq3xxs build-hip-f32iq tg128: 14.45±0.07
+[20:47:35] p1 qwen3.6-35b-a3b-iq2m build-hip-f32mv tg128: 55.93±1.01
+[20:48:32] p1 qwen3.6-35b-a3b-iq2m build-hip-f32iq tg128: 51.98±5.87
+[20:48:37] p1 qwen2.5-1.5b-q4km build-hip-f32mv tg128: 180.01±3.47
+[20:48:40] p1 qwen2.5-1.5b-q4km build-hip-f32iq tg128: 180.66±1.32
+[20:51:08] p2 qwen3.8-27b-iq3xxs build-hip-f32mv tg128: 11.26±0.09
+[20:52:23] p2 qwen3.8-27b-iq3xxs build-hip-f32iq tg128: 13.43±0.24
+[20:54:33] p2 qwen3.6-35b-a3b-iq2m build-hip-f32mv tg128: 56.44±0.54
+[20:56:00] p2 qwen3.6-35b-a3b-iq2m build-hip-f32iq tg128: 65.93±1.26
+[20:56:05] p2 qwen2.5-1.5b-q4km build-hip-f32mv tg128: 180.73±2.46
+[20:56:08] p2 qwen2.5-1.5b-q4km build-hip-f32iq tg128: 180.87±0.98
+[20:57:03] qwen3.8-27b-iq3xxs greedy text DIFFERS
+[20:59:23] qwen3.6-35b-a3b-iq2m greedy text IDENTICAL
+[21:06:26] 27B ops replayed
+[21:35:02] campaign rc=0 lines=37
+[21:35:02] CHAIN DONE

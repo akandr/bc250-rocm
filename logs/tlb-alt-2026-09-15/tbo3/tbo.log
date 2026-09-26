@@ -1,0 +1,18 @@
+[07:15:26]   fresh boot: up 0 minutes 0 
+[07:17:57] g1_rl3_alt0: rc=124 fault=0 wall=150s kernel_events_boot=2 alt:[]
+[07:18:10] g1_rl1_alt0: rc=134 fault=1 wall=13s kernel_events_boot=12 alt:[]
+[07:18:52]   fresh boot: up 0 minutes 0 
+[07:19:06] g2_rl3_alt6: rc=134 fault=1 wall=14s kernel_events_boot=12 alt:[ mode=6 site=2 calls=10 nomatch=10 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0]
+[07:19:47]   fresh boot: up 0 minutes 0 
+[07:20:02] g3_rl3_alt7: rc=134 fault=1 wall=14s kernel_events_boot=12 alt:[ mode=7 site=2 calls=10 nomatch=10 ackmiss=0 err=0 last: matched=0x0000 acked=0x0000 r=0]
+[07:20:44]   fresh boot: up 0 minutes 0 
+[07:23:24] g4_rl3_alt9_f4: rc=137 fault=0 wall=160s kernel_events_boot=35 alt:[ mode=9 site=2 calls=100 nomatch=16 ackmiss=84 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[07:27:43]   fresh boot: up 0 minutes 0 
+[07:30:23] g5_rl3_alt9_f5: rc=137 fault=0 wall=160s kernel_events_boot=35 alt:[ mode=9 site=2 calls=100 nomatch=16 ackmiss=84 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[07:31:09]   fresh boot: up 0 minutes 0 
+[07:33:50] g6_rl3_alt9_f6: rc=137 fault=0 wall=160s kernel_events_boot=35 alt:[ mode=9 site=2 calls=100 nomatch=16 ackmiss=84 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[07:34:36]   fresh boot: up 0 minutes 0 
+[07:37:16] g7_rl3_alt9_f4_e15: rc=137 fault=0 wall=160s kernel_events_boot=35 alt:[ mode=9 site=2 calls=100 nomatch=16 ackmiss=84 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[07:38:02]   fresh boot: up 0 minutes 0 
+[07:40:42] g8_rl3_alt8_f4: rc=137 fault=0 wall=160s kernel_events_boot=35 alt:[ mode=8 site=2 calls=100 nomatch=16 ackmiss=84 err=0 last: matched=0x0100 acked=0x0000 r=0]
+[07:40:43] done: 3:0+1:0 3:6 3:7 3:9:4 3:9:5 3:9:6 3:9:4:15 3:8:4

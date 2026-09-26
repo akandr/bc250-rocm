@@ -1,0 +1,5 @@
+[23:45:04] kernel=7.1.5-100.fc43.x86_64 simd=simd_count 48 sched=2
+[23:49:14]   probe nblocks=4096 rc=137 ALL CORRECT
+[23:53:24]   probe nblocks=16384 rc=137 NO RESULT (hang)
+[23:57:34]   sgemm N=256 rc=137 
+[23:57:34]   preemption timeouts: 9

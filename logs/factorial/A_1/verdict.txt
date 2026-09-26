@@ -1,0 +1,1 @@
+VERDICT cell=A idx=1 cu=40 flush=0 policy=0 probe8m_ok=3 wrong=0 fault=0 hang=0 sgemm2048=CLEAN sgemm4096=CLEAN sgemm4096_secs=2 dmesg_errs_delta=0 preempt_timeouts=0 health=RESPONSIVE

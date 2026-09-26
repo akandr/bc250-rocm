@@ -1,0 +1,5 @@
+qwen3-14b              calls=160 zeros=3 at [41 81 121 ] ppl=20.4713
+q14_2                  calls=160 zeros=3 at [41 81 121 ] ppl=20.4713
+q14_3                  calls=160 zeros=3 at [41 81 121 ] ppl=20.4713
+q14_ub2048             calls=40 zeros=0 at [] ppl=6.3539
+qwen2.5-1.5b-q4km      calls=0 zeros=0 at [] ppl=8.3567

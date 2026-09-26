@@ -1,0 +1,7 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |
+| qwen3 14B Q4_K - Medium        |   8.63 GiB |    14.77 B | ROCm       |  99 |   1 |    tg8 @ d16128 |          7.03 ± 0.00 |
+
+build: 7ba604f (1)

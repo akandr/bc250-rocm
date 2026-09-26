@@ -1,0 +1,61 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+Testing 2 devices
+
+Backend 1/2: Vulkan0
+  Device description: AMD BC-250 (RADV GFX1013)
+  Device memory: 15708 MB (15691 MB free)
+
+  ADD(name=ffn_inp-0,type=f32,ne=[4096,1,1,1],op_params=[],sources=f32[4096,1,1,1],f32[4096,1,1,1]):                  319488 runs -     3.14 us/run -       48 kB/run - [1;34m  14.57 GB/s[0m
+  ADD(name=ffn_inp-0,type=f32,ne=[4096,2048,1,1],op_params=[],sources=f32[4096,2048,1,1],f32[4096,2048,1,1]):                   3078 runs -   355.76 us/run -    98304 kB/run - [1;34m 263.52 GB/s[0m
+  MUL(name=Kcur_normed-0,type=f32,ne=[128,8,1,1],op_params=[],sources=f32[128,8,1,1],f32[128,1,1,1]):                 278528 runs -     3.60 us/run -        8 kB/run - [1;34m   2.25 GB/s[0m
+  MUL(name=Kcur_normed-0,type=f32,ne=[128,8,2048,1],op_params=[],sources=f32[128,8,2048,1],f32[128,1,1,1]):                     8192 runs -   141.99 us/run -    16384 kB/run - [1;34m 110.05 GB/s[0m
+  MUL(name=Qcur_normed-0,type=f32,ne=[128,32,1,1],op_params=[],sources=f32[128,32,1,1],f32[128,1,1,1]):               286720 runs -     3.51 us/run -       32 kB/run - [1;34m   8.82 GB/s[0m
+  MUL(name=Qcur_normed-0,type=f32,ne=[128,32,2048,1],op_params=[],sources=f32[128,32,2048,1],f32[128,1,1,1]):                   2048 runs -   552.92 us/run -    65536 kB/run - [1;34m 113.04 GB/s[0m
+  MUL(name=attn_norm-0,type=f32,ne=[4096,1,1,1],op_params=[],sources=f32[4096,1,1,1],f32[4096,1,1,1]):                311296 runs -     3.22 us/run -       48 kB/run - [1;34m  14.21 GB/s[0m
+  MUL(name=attn_norm-0,type=f32,ne=[4096,2048,1,1],op_params=[],sources=f32[4096,2048,1,1],f32[4096,1,1,1]):                    2048 runs -   552.99 us/run -    65552 kB/run - [1;34m 113.05 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[128,8,1,1],op_params=[0:897988541],sources=f32[128,8,1,1]):               278528 runs -     3.63 us/run -        8 kB/run - [1;34m   2.10 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[128,8,2048,1],op_params=[0:897988541],sources=f32[128,8,2048,1]):                   4098 runs -   348.63 us/run -    16384 kB/run - [1;34m  44.82 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[128,32,1,1],op_params=[0:897988541],sources=f32[128,32,1,1]):             278528 runs -     3.62 us/run -       32 kB/run - [1;34m   8.42 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[128,32,2048,1],op_params=[0:897988541],sources=f32[128,32,2048,1]):                 1026 runs -  1378.41 us/run -    65536 kB/run - [1;34m  45.34 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[4096,1,1,1],op_params=[0:897988541],sources=f32[4096,1,1,1]):             131072 runs -     7.85 us/run -       32 kB/run - [1;34m   3.89 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[4096,2048,1,1],op_params=[0:897988541],sources=f32[4096,2048,1,1]):                 4617 runs -   224.06 us/run -    65536 kB/run - [1;34m 278.95 GB/s[0m
+  MUL_MAT(name=kqv-0,type=f32,ne=[128,1,32,1],op_params=[0:10],sources=f16[4096,128,8,1],f32[4096,1,32,1]):                    23088 runs -    46.21 us/run -     8720 kB/run - [1;34m 179.95 GB/s[0m
+  MUL_MAT(name=kqv-0,type=f32,ne=[128,2048,32,1],op_params=[0:10],sources=f16[4096,128,8,1],f32[4096,2048,32,1]):                 93 runs - 11189.82 us/run -  1089536 kB/run - [1;34m  92.86 GB/s[0m
+  MUL_MAT(name=Vcur-0,type=f32,ne=[1024,1,1,1],op_params=[],sources=f16[4096,1024,1,1],f32[4096,1,1,1]):               28609 runs -    40.20 us/run -     8212 kB/run - [1;34m 194.84 GB/s[0m
+  MUL_MAT(name=Kcur-0,type=f32,ne=[1024,1,1,1],op_params=[],sources=q8_0[4096,1024,1,1],f32[4096,1,1,1]):              46050 runs -    22.51 us/run -     4372 kB/run - [1;34m 185.22 GB/s[0m
+  MUL_MAT(name=Vcur-0,type=f32,ne=[1024,2048,1,1],op_params=[],sources=f16[4096,1024,1,1],f32[4096,2048,1,1]):                   683 runs -  4183.95 us/run -    49152 kB/run - [1;34m  11.20 GB/s[0m
+  MUL_MAT(name=Kcur-0,type=f32,ne=[1024,2048,1,1],op_params=[],sources=q8_0[4096,1024,1,1],f32[4096,2048,1,1]):                  741 runs -  3066.35 us/run -    45312 kB/run - [1;34m  14.09 GB/s[0m
+  MUL_MAT(name=Qcur-0,type=f32,ne=[4096,1,1,1],op_params=[],sources=q8_0[4096,4096,1,1],f32[4096,1,1,1]):              19240 runs -    53.03 us/run -    17440 kB/run - [1;34m 313.61 GB/s[0m
+  MUL_MAT(name=ffn_out-0,type=f32,ne=[4096,1,1,1],op_params=[],sources=q8_0[12288,4096,1,1],f32[12288,1,1,1]):                  6420 runs -   157.70 us/run -    52288 kB/run - [1;34m 316.21 GB/s[0m
+  MUL_MAT(name=kq-0,type=f32,ne=[4096,1,32,1],op_params=[0:10],sources=f16[128,4096,8,1]nb[2,2048,256,8388608],f32[128,1,32,1]nb[4,16384,512,16384]):                   7696 runs -   158.32 us/run -     8720 kB/run - [1;34m  52.53 GB/s[0m
+  MUL_MAT(name=Qcur-0,type=f32,ne=[4096,2048,1,1],op_params=[],sources=q8_0[4096,4096,1,1],f32[4096,2048,1,1]):                  405 runs - 14374.90 us/run -    82944 kB/run - [1;34m   5.50 GB/s[0m
+  MUL_MAT(name=ffn_out-0,type=f32,ne=[4096,2048,1,1],op_params=[],sources=q8_0[12288,4096,1,1],f32[12288,2048,1,1]):                     184 runs - 46468.72 us/run -   183296 kB/run - [1;34m   3.76 GB/s[0m
+  MUL_MAT(name=kq-0,type=f32,ne=[4096,2048,32,1],op_params=[0:10],sources=f16[128,4096,8,1]nb[2,2048,256,8388608],f32[128,2048,32,1]nb[4,16384,512,33554432]):                    93 runs - 14351.49 us/run -  1089536 kB/run - [1;34m  72.40 GB/s[0m
+  MUL_MAT(name=ffn_gate-0,type=f32,ne=[12288,1,1,1],op_params=[],sources=q8_0[4096,12288,1,1],f32[4096,1,1,1]):                 6420 runs -   161.86 us/run -    52288 kB/run - [1;34m 308.08 GB/s[0m
+  MUL_MAT(name=ffn_gate-0,type=f32,ne=[12288,2048,1,1],op_params=[],sources=q8_0[4096,12288,1,1],f32[4096,2048,1,1]):                    184 runs - 47978.90 us/run -   183296 kB/run - [1;34m   3.64 GB/s[0m
+  MUL_MAT(name=result_output,type=f32,ne=[151936,1,1,1],op_params=[],sources=q8_0[4096,151936,1,1],f32[4096,1,1,1]):                     572 runs -  1846.82 us/run -   646337 kB/run - [1;34m 333.76 GB/s[0m
+  MUL_MAT(name=result_output,type=f32,ne=[151936,2048,1,1],op_params=[],sources=q8_0[4096,151936,1,1],f32[4096,2048,1,1]):                18 runs - 570476.83 us/run -  1893984 kB/run - [1;34m   3.17 GB/s[0m
+  CONT(name=kqv_out-0,type=f32,ne=[4096,1,1,1],op_params=[],sources=f32[128,32,1,1]nb[4,512,512,16384]):              294876 runs -     3.48 us/run -       32 kB/run - [1;34m   8.77 GB/s[0m
+  CONT(name=kqv_out-0,type=f32,ne=[4096,2048,1,1],op_params=[],sources=f32[128,32,2048,1]nb[4,1048576,512,33554432]):                   2565 runs -   425.04 us/run -    65536 kB/run - [1;34m 147.04 GB/s[0m
+  GET_ROWS(name=node_1433,type=f32,ne=[4096,1,1,1],op_params=[],sources=f32[4096,1,1,1],i32[1,1,1,1]):                352256 runs -     2.86 us/run -       32 kB/run - [1;34m  10.66 GB/s[0m
+  GET_ROWS(name=embd,type=f32,ne=[4096,1,1,1],op_params=[],sources=q8_0[4096,151936,1,1],i32[1,1,1,1]):               103012 runs -     9.71 us/run -   645744 kB/run - [1;34m63418.10 GB/s[0m
+  GET_ROWS(name=node_1433,type=f32,ne=[4096,2048,1,1],op_params=[],sources=f32[4096,2048,1,1],i32[2048,1,1,1]):                 5120 runs -   200.34 us/run -    65544 kB/run - [1;34m 312.02 GB/s[0m
+  GET_ROWS(name=embd,type=f32,ne=[4096,2048,1,1],op_params=[],sources=q8_0[4096,151936,1,1],i32[2048,1,1,1]):                   7300 runs -   137.77 us/run -   678504 kB/run - [1;34m4696.69 GB/s[0m
+  SET_ROWS(name=cache_v_l0,type=f16,ne=[1,4194304,1,1],op_params=[],sources=f32[1,1024,1,1],i64[1024,1,1,1],f16[1,4194304,1,1]):              286580 runs -     3.50 us/run -    16396 kB/run - [1;34m4471.40 GB/s[0m
+  SET_ROWS(name=cache_v_l0,type=f16,ne=[1,4194304,1,1],op_params=[],sources=f32[1,2097152,1,1],i64[2097152,1,1,1],f16[1,4194304,1,1]):                  2460 runs -   415.91 us/run -    40960 kB/run - [1;34m  93.92 GB/s[0m
+  SET_ROWS(name=cache_k_l0,type=f16,ne=[1024,4096,1,1],op_params=[],sources=f32[1024,1,1,1],i64[1,1,1,1],f16[1024,4096,1,1]):                 313344 runs -     3.20 us/run -    16388 kB/run - [1;34m4885.52 GB/s[0m
+  SET_ROWS(name=cache_k_l0,type=f16,ne=[1024,4096,1,1],op_params=[],sources=f32[1024,2048,1,1],i64[2048,1,1,1],f16[1024,4096,1,1]):                     9555 runs -   114.35 us/run -    24592 kB/run - [1;34m 205.10 GB/s[0m
+  SOFT_MAX(name=kq_soft_max-0,type=f32,ne=[4096,1,32,1],op_params=[0:1035273459],sources=f32[4096,1,32,1],f32[4096,1,1,1]):                    90112 runs -    11.56 us/run -     1040 kB/run - [1;34m  85.77 GB/s[0m
+  SOFT_MAX(name=kq_soft_max-0,type=f32,ne=[4096,2048,32,1],op_params=[0:1035273459],sources=f32[4096,2048,32,1],f32[4096,2048,1,1]):                     128 runs -  8400.81 us/run -  2129920 kB/run - [1;34m 241.79 GB/s[0m
+  ROPE(name=Kcur-0,type=f32,ne=[128,8,1,1],op_params=[1:128,2:2,4:40960,5:1232348160,6:1065353216,8:1065353216,9:1107296256,10:1065353216],sources=f32[128,8,1,1],i32[1,1,1,1]):              319488 runs -     3.21 us/run -        8 kB/run - [1;34m   2.38 GB/s[0m
+  ROPE(name=Kcur-0,type=f32,ne=[128,8,2048,1],op_params=[1:128,2:2,4:40960,5:1232348160,6:1065353216,8:1065353216,9:1107296256,10:1065353216],sources=f32[128,8,2048,1],i32[2048,1,1,1]):              12288 runs -    82.54 us/run -    16392 kB/run - [1;34m 189.40 GB/s[0m
+  ROPE(name=Qcur-0,type=f32,ne=[128,32,1,1],op_params=[1:128,2:2,4:40960,5:1232348160,6:1065353216,8:1065353216,9:1107296256,10:1065353216],sources=f32[128,32,1,1],i32[1,1,1,1]):            311296 runs -     3.24 us/run -       32 kB/run - [1;34m   9.42 GB/s[0m
+  ROPE(name=Qcur-0,type=f32,ne=[128,32,2048,1],op_params=[1:128,2:2,4:40960,5:1232348160,6:1065353216,8:1065353216,9:1107296256,10:1065353216],sources=f32[128,32,2048,1],i32[2048,1,1,1]):                     3584 runs -   315.76 us/run -    65544 kB/run - [1;34m 197.96 GB/s[0m
+  SWIGLU(name=ffn_swiglu-0,type=f32,ne=[12288,1,1,1],op_params=[0:2],sources=f32[12288,1,1,1],f32[12288,1,1,1]):              319488 runs -     3.19 us/run -      144 kB/run - [1;34m  43.10 GB/s[0m
+  SWIGLU(name=ffn_swiglu-0,type=f32,ne=[12288,2048,1,1],op_params=[0:2],sources=f32[12288,2048,1,1],f32[12288,2048,1,1]):               1368 runs -   794.97 us/run -   294912 kB/run - [1;34m 353.79 GB/s[0m
+  Backend Vulkan0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

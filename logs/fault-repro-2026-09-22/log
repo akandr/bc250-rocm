@@ -1,0 +1,29 @@
+[07:08:24] start, faults already in this boot: 0, cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[07:08:44] p1 d=16384 tg64=141.24±0.95 faults=0
+[07:09:18] p1 d=24576 tg64=122.88±0.48 faults=0
+[07:09:37] p2 d=16384 tg64=141.41±0.71 faults=0
+[07:10:10] p2 d=24576 tg64=123.00±0.55 faults=0
+[07:10:29] p3 d=16384 tg64=141.31±0.72 faults=0
+[07:11:04] p3 d=24576 tg64=88.34±0.29 faults=0
+[07:11:25] p4 d=16384 tg64=101.96±0.38 faults=0
+[07:12:00] p4 d=24576 tg64=123.14±0.51 faults=0
+
+=== governor, same window ===
+wrz 22 07:05:16 bc250 systemd[1]: Stopping oberon-governor.service - Oberon GPU governor...
+wrz 22 07:05:16 bc250 oberon-governor[811]: Stopping governor
+wrz 22 07:05:16 bc250 systemd[1]: oberon-governor.service: Deactivated successfully.
+wrz 22 07:05:16 bc250 systemd[1]: Stopped oberon-governor.service - Oberon GPU governor.
+-- Boot 14c9afb8a28044ffaa1ad64366cba428 --
+wrz 22 07:05:43 bc250 systemd[1]: Started oberon-governor.service - Oberon GPU governor.
+wrz 22 07:05:43 bc250 oberon-governor[809]: Starting governor
+wrz 22 07:11:00 bc250 oberon-governor[809]: [2026-09-22 05:11:00.788411506] GPU overheated, throttling - Silencing future warnings of this type
+
+=== sensors just after ===
+edge:         +64.0°C  
+Tctl:         +77.2°C  
+=== sclk policy ===
+0: 1000Mhz *
+1: 1500Mhz 
+2: 2000Mhz 
+=== fault lines this boot ===
+0

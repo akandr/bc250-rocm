@@ -1,0 +1,78 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+Testing 2 devices
+
+Backend 1/2: Vulkan0
+  Device description: AMD BC-250 (RADV GFX1013)
+  Device memory: 15708 MB (15691 MB free)
+
+  ADD(name=node_36,type=f32,ne=[32,1,1,1],op_params=[],sources=f32[32,1,1,1],f32[32,1,1,1]):                  401408 runs -     2.51 us/run -        0 kB/run - [1;34m   0.14 GB/s[0m
+  ADD(name=attn_residual-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,1,1,1]):            319488 runs -     3.15 us/run -       24 kB/run - [1;34m   7.27 GB/s[0m
+  ADD(name=node_87,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,1,1,1]nb[4,65536,65536,65536]):             319449 runs -     3.15 us/run -       24 kB/run - [1;34m   7.27 GB/s[0m
+  ADD(name=node_86,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1]nb[4,65536,65536,65536],f32[2048,1,1,1]nb[4,65536,65536,65536]):              319410 runs -     3.15 us/run -       24 kB/run - [1;34m   7.27 GB/s[0m
+  MUL(name=gate-0,type=f32,ne=[32,1,1,1],op_params=[],sources=f32[32,1,1,1],f32[32,1,1,1]):                   401408 runs -     2.53 us/run -        0 kB/run - [1;34m   0.14 GB/s[0m
+  MUL(name=node_50,type=f32,ne=[128,32,1,1],op_params=[],sources=f32[128,32,1,1],f32[128,1,1,1]):             286720 runs -     3.52 us/run -       32 kB/run - [1;34m   8.82 GB/s[0m
+  MUL(name=node_54,type=f32,ne=[128,32,1,1],op_params=[],sources=f32[128,32,1,1],f32[128,32,1,1]):            311296 runs -     3.23 us/run -       48 kB/run - [1;34m  14.19 GB/s[0m
+  MUL(name=Kcur_normed-3,type=f32,ne=[256,2,1,1],op_params=[],sources=f32[256,2,1,1],f32[256,1,1,1]):                 270336 runs -     3.76 us/run -        5 kB/run - [1;34m   1.27 GB/s[0m
+  MUL(name=Qcur_normed-3,type=f32,ne=[256,16,1,1],op_params=[],sources=f32[256,16,1,1],f32[256,1,1,1]):               286720 runs -     3.56 us/run -       33 kB/run - [1;34m   8.84 GB/s[0m
+  MUL(name=ffn_shexp_gated-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[1,1,1,1]):             286720 runs -     3.57 us/run -       16 kB/run - [1;34m   4.27 GB/s[0m
+  MUL(name=attn_norm-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,1,1,1]):                319488 runs -     3.21 us/run -       24 kB/run - [1;34m   7.13 GB/s[0m
+  MUL(name=ffn_moe_weighted-0,type=f32,ne=[2048,8,1,1],op_params=[],sources=f32[2048,8,1,1],f32[1,8,1,1]):            262144 runs -     3.87 us/run -      128 kB/run - [1;34m  31.58 GB/s[0m
+  MUL(name=attn_gated-3,type=f32,ne=[4096,1,1,1],op_params=[],sources=f32[4096,1,1,1],f32[4096,1,1,1]):               311296 runs -     3.22 us/run -       48 kB/run - [1;34m  14.21 GB/s[0m
+  DIV(name=ffn_moe_weights_norm-0,type=f32,ne=[8,1,1,1],op_params=[],sources=f32[8,1,1,1],f32[1,1,1,1]):              376832 runs -     2.66 us/run -        0 kB/run - [1;34m   0.02 GB/s[0m
+  SUM_ROWS(name=ffn_moe_weights_sum-0,type=f32,ne=[1,1,1,1],op_params=[],sources=f32[8,1,1,1]):               335872 runs -     3.04 us/run -        0 kB/run - [1;34m   0.01 GB/s[0m
+  CONCAT(name=conv_input-0,type=f32,ne=[4,8192,1,1],op_params=[],sources=f32[3,8192,1,1],f32[1,8192,1,1]nb[32768,4,32768,32768]):             229348 runs -     4.43 us/run -      256 kB/run - [1;34m  55.07 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[128,32,1,1],op_params=[0:897988541],sources=f32[128,32,1,1]):             278528 runs -     3.62 us/run -       32 kB/run - [1;34m   8.43 GB/s[0m
+  RMS_NORM(name=norm-3,type=f32,ne=[256,2,1,1],op_params=[0:897988541],sources=f32[256,2,1,1]):               270336 runs -     3.81 us/run -        4 kB/run - [1;34m   1.00 GB/s[0m
+  RMS_NORM(name=norm-3,type=f32,ne=[256,16,1,1],op_params=[0:897988541],sources=f32[256,16,1,1]nb[4,2048,32768,32768]):               278494 runs -     3.69 us/run -       47 kB/run - [1;34m  12.16 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[2048,1,1,1],op_params=[0:897988541],sources=f32[2048,1,1,1]):             188416 runs -     5.42 us/run -       16 kB/run - [1;34m   2.82 GB/s[0m
+  L2_NORM(name=q_conv_predelta-0,type=f32,ne=[128,16,1,1],op_params=[0:897988541],sources=f32[128,16,1,1]nb[4,512,32768,32768]):              286685 runs -     3.57 us/run -       16 kB/run - [1;34m   4.28 GB/s[0m
+  MUL_MAT(name=shared_expert_gate-0,type=f32,ne=[1,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,1,1,1]):                8192 runs -   131.71 us/run -       16 kB/run - [1;34m   0.12 GB/s[0m
+  MUL_MAT(name=node_34,type=f32,ne=[32,1,1,1],op_params=[],sources=f32[2048,32,1,1],f32[2048,1,1,1]):                 196608 runs -     5.16 us/run -      264 kB/run - [1;34m  48.79 GB/s[0m
+  MUL_MAT(name=ffn_moe_logits-0,type=f32,ne=[256,1,1,1],op_params=[],sources=f32[2048,256,1,1],f32[2048,1,1,1]):               98304 runs -    10.50 us/run -     2057 kB/run - [1;34m 186.76 GB/s[0m
+  MUL_MAT(name=ffn_gate-0,type=f32,ne=[512,1,1,1],op_params=[],sources=q5_K[2048,512,1,1],f32[2048,1,1,1]):                   147456 runs -     6.99 us/run -      714 kB/run - [1;34m  97.40 GB/s[0m
+  MUL_MAT(name=attn_output-3,type=f32,ne=[2048,1,1,1],op_params=[],sources=q5_K[4096,2048,1,1],f32[4096,1,1,1]):               47464 runs -    21.15 us/run -     5656 kB/run - [1;34m 255.01 GB/s[0m
+  MUL_MAT(name=ffn_shexp-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=q6_K[512,2048,1,1],f32[512,1,1,1]):                  122880 runs -     8.27 us/run -      850 kB/run - [1;34m  98.04 GB/s[0m
+  MUL_MAT(name=linear_attn_out-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=q6_K[4096,2048,1,1],f32[4096,1,1,1]):                   44784 runs -    23.17 us/run -     6744 kB/run - [1;34m 277.59 GB/s[0m
+  MUL_MAT(name=z-0,type=f32,ne=[4096,1,1,1],op_params=[],sources=q5_K[2048,4096,1,1],f32[2048,1,1,1]):                 53397 runs -    20.85 us/run -     5656 kB/run - [1;34m 258.73 GB/s[0m
+  MUL_MAT(name=node_13,type=f32,ne=[8192,1,1,1],op_params=[],sources=q5_K[2048,8192,1,1],f32[2048,1,1,1]):             26721 runs -    37.65 us/run -    11304 kB/run - [1;34m 286.34 GB/s[0m
+  MUL_MAT(name=result_output,type=f32,ne=[248320,1,1,1],op_params=[],sources=q4_K[2048,248320,1,1],f32[2048,1,1,1]):                    1200 runs -   920.51 us/run -   280338 kB/run - [1;34m 290.44 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_gate-0,type=f32,ne=[512,8,1,1],op_params=[],sources=iq2_xxs[2048,512,256,1],f32[2048,1,1,1],i32[8,1,1,1]nb[4,1024,1024,1024]):               48209 runs -    20.81 us/run -    67608 kB/run - [1;34m3098.35 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_down-0,type=f32,ne=[2048,8,1,1],op_params=[],sources=iq3_xxs[512,2048,256,1],f32[512,8,1,1],i32[8,1,1,1]nb[4,1024,1024,1024]):               38860 runs -    25.94 us/run -   100432 kB/run - [1;34m3692.96 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_down-34,type=f32,ne=[2048,8,1,1],op_params=[],sources=iq4_xs[512,2048,256,1],f32[512,8,1,1],i32[8,1,1,1]nb[4,1024,1024,1024]):               31571 runs -    31.89 us/run -   139344 kB/run - [1;34m4166.95 GB/s[0m
+  SCALE(name=cache_r_l0,type=f32,ne=[24576,1,1,1],op_params=[],sources=f32[24576,1,1,1]):             262144 runs -     3.90 us/run -      192 kB/run - [1;34m  46.99 GB/s[0m
+  SCALE(name=cache_s_l0,type=f32,ne=[524288,1,1,1],op_params=[],sources=f32[524288,1,1,1]):                    57344 runs -    18.53 us/run -     4096 kB/run - [1;34m 210.76 GB/s[0m
+failed to allocate tensors
+  CPY(name=conv_state_update-0,type=f32,ne=[24576,1,1,1],op_params=[],sources=f32[3,8192,1,1]nb[4,16,131072,131072],f32[24576,1,1,1]):                278494 runs -     3.69 us/run -      319 kB/run - [1;34m  82.81 GB/s[0m
+failed to allocate tensors
+  CPY(name=cache_s_l0,type=f32,ne=[524288,1,1,1],op_params=[],sources=f32[128,128,32,1],f32[524288,1,1,1]):                    81930 runs -    12.23 us/run -     6144 kB/run - [1;34m 479.05 GB/s[0m
+  CONT(name=gate_reshaped-3,type=f32,ne=[4096,1,1,1],op_params=[],sources=f32[256,16,1,1]nb[4,2048,32768,32768]):             344022 runs -     2.92 us/run -       47 kB/run - [1;34m  15.36 GB/s[0m
+  GET_ROWS(name=ffn_moe_weights-0,type=f32,ne=[1,8,1,1],op_params=[],sources=f32[1,256,1,1],i32[8,1,1,1]nb[4,1024,1024,1024]):                376786 runs -     2.66 us/run -        1 kB/run - [1;34m   0.38 GB/s[0m
+  GET_ROWS(name=result_norm,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],i32[1,1,1,1]):              352256 runs -     2.87 us/run -       16 kB/run - [1;34m   5.32 GB/s[0m
+  GET_ROWS(name=model.input_embed,type=f32,ne=[2048,1,1,1],op_params=[],sources=q5_K[2048,248320,1,1],i32[1,1,1,1]):                  137313 runs -     7.28 us/run -   341448 kB/run - [1;34m44702.84 GB/s[0m
+  GET_ROWS(name=node_9,type=f32,ne=[24576,0,1,1],op_params=[],sources=f32[24576,1,1,1],i32[0,1,1,1]):                6045696 runs -     0.17 us/run -       96 kB/run - [1;34m 553.18 GB/s[0m
+  GET_ROWS(name=conv_states-0,type=f32,ne=[24576,1,1,1],op_params=[],sources=f32[24576,1,1,1],i32[1,1,1,1]):                  311296 runs -     3.25 us/run -      192 kB/run - [1;34m  56.31 GB/s[0m
+  GET_ROWS(name=node_24,type=f32,ne=[524288,0,1,1],op_params=[],sources=f32[524288,1,1,1],i32[0,1,1,1]):             6111232 runs -     0.16 us/run -     2048 kB/run - [1;34m11927.71 GB/s[0m
+  GET_ROWS(name=node_23,type=f32,ne=[524288,1,1,1],op_params=[],sources=f32[524288,1,1,1],i32[1,1,1,1]):               65536 runs -    16.56 us/run -     4096 kB/run - [1;34m 235.93 GB/s[0m
+  SET_ROWS(name=cache_k_l3,type=f16,ne=[512,4096,1,1],op_params=[],sources=f32[512,1,1,1],i64[1,1,1,1],f16[512,4096,1,1]):            319410 runs -     3.15 us/run -     8194 kB/run - [1;34m2483.07 GB/s[0m
+  SOFT_MAX(name=ffn_moe_probs-0,type=f32,ne=[256,1,1,1],op_params=[0:1065353216],sources=f32[256,1,1,1]):             172032 runs -     5.85 us/run -        2 kB/run - [1;34m   0.33 GB/s[0m
+  ROPE(name=Kcur-3,type=f32,ne=[256,2,1,1],op_params=[1:64,2:40,4:262144,5:1259902592,6:1065353216,8:1065353216,9:1107296256,10:1065353216,11:11,12:11,13:10],sources=f32[256,2,1,1],i32[4,1,1,1]):                   286720 runs -     3.51 us/run -        4 kB/run - [1;34m   1.09 GB/s[0m
+  ROPE(name=Qcur-3,type=f32,ne=[256,16,1,1],op_params=[1:64,2:40,4:262144,5:1259902592,6:1065353216,8:1065353216,9:1107296256,10:1065353216,11:11,12:11,13:10],sources=f32[256,16,1,1],i32[4,1,1,1]):                 294912 runs -     3.45 us/run -       32 kB/run - [1;34m   8.86 GB/s[0m
+  CLAMP(name=ffn_moe_weights_sum_clamped-0,type=f32,ne=[1,1,1,1],op_params=[0:947912704,1:2139095040],sources=f32[1,1,1,1]):                  393216 runs -     2.58 us/run -        0 kB/run - [1;34m   0.00 GB/s[0m
+  ARGSORT(name=ffn_moe_argsort-0,type=i32,ne=[256,1,1,1],op_params=[0:1],sources=f32[256,1,1,1]):             122880 runs -     8.14 us/run -        2 kB/run - [1;34m   0.23 GB/s[0m
+  FLASH_ATTN_EXT(name=node_324,type=f32,ne=[256,16,1,1],op_params=[0:1031798784,3:10],sources=f32[256,1,16,1]nb[4,16384,1024,16384],f16[256,4096,2,1]nb[2,1024,512,4194304],f16[256,4096,2,1]nb[2,1024,512,4194304],f16[4096,1,1,1]):                  20385 runs -    59.79 us/run -     8232 kB/run - [1;34m 131.30 GB/s[0m
+  SSM_CONV(name=conv_output_raw-0,type=f32,ne=[8192,1,1,1],op_params=[],sources=f32[4,8192,1,1],f32[4,8192,1,1]):             278528 runs -     3.65 us/run -      288 kB/run - [1;34m  75.31 GB/s[0m
+  GATED_DELTA_NET(name=node_44,type=f32,ne=[4096,129,1,1],op_params=[0:1],sources=f32[128,16,1,1],f32[128,16,1,1],f32[128,32,1,1]nb[4,512,32768,32768],f32[1,32,1,1],f32[1,32,1,1],f32[128,128,32,1]):                 56679 runs -    18.59 us/run -     4144 kB/run - [1;34m 212.55 GB/s[0m
+  SIGMOID(name=shared_expert_gate_sigmoid-0,type=f32,ne=[1,1,1,1],op_params=[0:7],sources=f32[1,1,1,1]):              417792 runs -     2.41 us/run -        0 kB/run - [1;34m   0.00 GB/s[0m
+  SIGMOID(name=beta_sigmoid-0,type=f32,ne=[1,32,1,1],op_params=[0:7],sources=f32[1,32,1,1]):                  401408 runs -     2.53 us/run -        0 kB/run - [1;34m   0.09 GB/s[0m
+  SOFTPLUS(name=a_softplus-0,type=f32,ne=[32,1,1,1],op_params=[0:15],sources=f32[32,1,1,1]):                  393216 runs -     2.55 us/run -        0 kB/run - [1;34m   0.09 GB/s[0m
+  SILU(name=node_53,type=f32,ne=[128,32,1,1],op_params=[0:10],sources=f32[128,32,1,1]):               360448 runs -     2.83 us/run -       32 kB/run - [1;34m  10.77 GB/s[0m
+  SIGMOID(name=gate_sigmoid-3,type=f32,ne=[4096,1,1,1],op_params=[0:7],sources=f32[4096,1,1,1]):              360448 runs -     2.83 us/run -       32 kB/run - [1;34m  10.80 GB/s[0m
+  SILU(name=conv_output_silu-0,type=f32,ne=[8192,1,1,1],op_params=[0:10],sources=f32[8192,1,1,1]):            352256 runs -     2.87 us/run -       64 kB/run - [1;34m  21.28 GB/s[0m
+  SWIGLU(name=ffn_swiglu-0,type=f32,ne=[512,1,1,1],op_params=[0:2],sources=f32[512,1,1,1],f32[512,1,1,1]):            335872 runs -     3.05 us/run -        6 kB/run - [1;34m   1.88 GB/s[0m
+  SWIGLU(name=ffn_moe_swiglu-0,type=f32,ne=[512,8,1,1],op_params=[0:2],sources=f32[512,8,1,1],f32[512,8,1,1]):                335872 runs -     2.98 us/run -       48 kB/run - [1;34m  15.34 GB/s[0m
+  Backend Vulkan0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

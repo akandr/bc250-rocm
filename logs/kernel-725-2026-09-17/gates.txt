@@ -1,0 +1,3 @@
+Final estimate: PPL = 8.9442
+Final estimate: PPL = 9.1117
+Final estimate: PPL = 7.7645

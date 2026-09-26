@@ -1,0 +1,6 @@
+  FILL(type=f32,ne=[10,10,4,3],c=0.000000): OK
+  FILL(type=f32,ne=[303,207,11,3],c=2.000000): OK
+  FILL(type=f32,ne=[800,600,4,4],c=-152.000000): OK
+  FILL(type=f32,ne=[2048,512,2,2],c=3.500000): OK
+  4/4 tests passed
+  Backend ROCm0: OK

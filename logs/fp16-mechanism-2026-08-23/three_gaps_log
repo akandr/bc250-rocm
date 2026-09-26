@@ -1,0 +1,16 @@
+[13:58:07] === 1. does the first fp16 GEMM of each graph still return zero?
+[13:58:40]   fp16: 144 GEMM outputs recorded, 3 of them exactly zero
+[13:58:40]   first six: abs_sum=9361.13 abs_sum=19546.6 abs_sum=25744.1 abs_sum=35406.9 abs_sum=43532.9 abs_sum=47274.9 
+[13:58:40]   positions of the zeros: 37 73 109 
+[13:59:08]   f32 control: 0 recorded, 0 zero
+[13:59:08] === 2. can the native rocBLAS serve a gfx1010 override?
+[13:59:31]   native library + gfx1010 override: FAILED
+[13:59:31]     reason: rocBLAS error: Cannot read /home/akandr/rocBLAS/build/release/rocblas-install/lib/rocblas/library/Te
+[13:59:31] === 3. decode variance with address space randomisation disabled
+[14:04:04]   run 1 ASLR-off: 17.29
+[14:08:37]   run 2 ASLR-on: 16.78
+[14:13:11]   run 3 ASLR-off: 17.66
+[14:17:41]   run 4 ASLR-on: 19.01
+[14:22:06]   run 5 ASLR-off: 17.44
+[14:26:36]   run 6 ASLR-on: 16.27
+[14:26:36] done

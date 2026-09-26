@@ -1,0 +1,92 @@
+== D=128 rows: 2:64:4:32:64
+   c1=64 c2=1 oob=0 vgpr=256  spill=135   scratch=528   occ=4
+   c1=4 c2=1 oob=0 vgpr=128  spill=134   scratch=544   occ=8
+   c1=64 c2=1 oob=1 vgpr=256  spill=113   scratch=336   occ=4
+   c1=4 c2=1 oob=1 vgpr=128  spill=82    scratch=304   occ=8
+   c1=32 c2=2 oob=1 vgpr=256  spill=79    scratch=232   occ=4
+   c1=8 c2=8 oob=1 vgpr=256  spill=77    scratch=224   occ=4
+   c1=16 c2=4 oob=1 vgpr=256  spill=76    scratch=220   occ=4
+   c1=2 c2=2 oob=1 vgpr=128  spill=71    scratch=248   occ=8
+   c1=1 c2=4 oob=1 vgpr=128  spill=71    scratch=248   occ=8
+   c1=2 c2=2 oob=0 vgpr=128  spill=70    scratch=284   occ=8
+   c1=1 c2=4 oob=0 vgpr=128  spill=70    scratch=284   occ=8
+   c1=8 c2=8 oob=0 vgpr=96   spill=0     scratch=0     occ=10
+   c1=8 c2=4 oob=1 vgpr=171  spill=0     scratch=0     occ=5
+   c1=8 c2=4 oob=0 vgpr=139  spill=0     scratch=0     occ=7
+   c1=8 c2=2 oob=1 vgpr=103  spill=0     scratch=0     occ=9
+   c1=8 c2=2 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=8 c2=1 oob=1 vgpr=104  spill=0     scratch=32    occ=9
+   c1=8 c2=1 oob=0 vgpr=166  spill=0     scratch=32    occ=6
+   c1=4 c2=8 oob=1 vgpr=171  spill=0     scratch=0     occ=5
+   c1=4 c2=8 oob=0 vgpr=139  spill=0     scratch=0     occ=7
+   c1=4 c2=4 oob=1 vgpr=103  spill=0     scratch=0     occ=9
+   c1=4 c2=4 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=4 c2=2 oob=1 vgpr=102  spill=0     scratch=0     occ=9
+   c1=4 c2=2 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=32 c2=2 oob=0 vgpr=101  spill=0     scratch=0     occ=9
+   c1=32 c2=1 oob=1 vgpr=175  spill=0     scratch=32    occ=5
+   c1=32 c2=1 oob=0 vgpr=237  spill=0     scratch=32    occ=4
+   c1=2 c2=8 oob=1 vgpr=103  spill=0     scratch=0     occ=9
+   c1=2 c2=8 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=2 c2=4 oob=1 vgpr=102  spill=0     scratch=0     occ=9
+   c1=2 c2=4 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=2 c2=1 oob=1 vgpr=136  spill=0     scratch=32    occ=7
+   c1=2 c2=1 oob=0 vgpr=185  spill=0     scratch=32    occ=5
+   c1=16 c2=4 oob=0 vgpr=95   spill=0     scratch=0     occ=10
+   c1=16 c2=2 oob=1 vgpr=170  spill=0     scratch=0     occ=5
+   c1=16 c2=2 oob=0 vgpr=138  spill=0     scratch=0     occ=7
+   c1=16 c2=1 oob=1 vgpr=103  spill=0     scratch=32    occ=9
+   c1=16 c2=1 oob=0 vgpr=163  spill=0     scratch=32    occ=6
+   c1=1 c2=8 oob=1 vgpr=102  spill=0     scratch=0     occ=9
+   c1=1 c2=8 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=1 c2=2 oob=1 vgpr=134  spill=0     scratch=0     occ=7
+   c1=1 c2=2 oob=0 vgpr=147  spill=0     scratch=0     occ=6
+== D=128 rows: 2:128:4:32:64
+   COMPILE ERROR: ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:905:19: error: static assertion failed due t
+== D=128 rows: 2:64:3:32:32
+   c1=64 c2=1 oob=0 vgpr=256  spill=135   scratch=528   occ=4
+   c1=4 c2=1 oob=0 vgpr=128  spill=134   scratch=544   occ=8
+   c1=64 c2=1 oob=1 vgpr=256  spill=113   scratch=336   occ=4
+   c1=4 c2=1 oob=1 vgpr=128  spill=82    scratch=304   occ=8
+   c1=32 c2=2 oob=1 vgpr=256  spill=79    scratch=232   occ=4
+   c1=8 c2=8 oob=1 vgpr=256  spill=77    scratch=224   occ=4
+   c1=16 c2=4 oob=1 vgpr=256  spill=76    scratch=220   occ=4
+   c1=2 c2=2 oob=1 vgpr=128  spill=71    scratch=248   occ=8
+   c1=1 c2=4 oob=1 vgpr=128  spill=71    scratch=248   occ=8
+   c1=2 c2=2 oob=0 vgpr=128  spill=70    scratch=284   occ=8
+   c1=1 c2=4 oob=0 vgpr=128  spill=70    scratch=284   occ=8
+   c1=8 c2=8 oob=0 vgpr=96   spill=0     scratch=0     occ=10
+   c1=8 c2=4 oob=1 vgpr=171  spill=0     scratch=0     occ=5
+   c1=8 c2=4 oob=0 vgpr=139  spill=0     scratch=0     occ=7
+   c1=8 c2=2 oob=1 vgpr=103  spill=0     scratch=0     occ=9
+   c1=8 c2=2 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=8 c2=1 oob=1 vgpr=104  spill=0     scratch=32    occ=9
+   c1=8 c2=1 oob=0 vgpr=166  spill=0     scratch=32    occ=6
+   c1=4 c2=8 oob=1 vgpr=171  spill=0     scratch=0     occ=5
+   c1=4 c2=8 oob=0 vgpr=139  spill=0     scratch=0     occ=7
+   c1=4 c2=4 oob=1 vgpr=103  spill=0     scratch=0     occ=9
+   c1=4 c2=4 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=4 c2=2 oob=1 vgpr=102  spill=0     scratch=0     occ=9
+   c1=4 c2=2 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=32 c2=2 oob=0 vgpr=101  spill=0     scratch=0     occ=9
+   c1=32 c2=1 oob=1 vgpr=175  spill=0     scratch=32    occ=5
+   c1=32 c2=1 oob=0 vgpr=237  spill=0     scratch=32    occ=4
+   c1=2 c2=8 oob=1 vgpr=103  spill=0     scratch=0     occ=9
+   c1=2 c2=8 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=2 c2=4 oob=1 vgpr=102  spill=0     scratch=0     occ=9
+   c1=2 c2=4 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=2 c2=1 oob=1 vgpr=148  spill=0     scratch=32    occ=6
+   c1=2 c2=1 oob=0 vgpr=173  spill=0     scratch=32    occ=5
+   c1=16 c2=4 oob=0 vgpr=95   spill=0     scratch=0     occ=10
+   c1=16 c2=2 oob=1 vgpr=170  spill=0     scratch=0     occ=5
+   c1=16 c2=2 oob=0 vgpr=138  spill=0     scratch=0     occ=7
+   c1=16 c2=1 oob=1 vgpr=103  spill=0     scratch=32    occ=9
+   c1=16 c2=1 oob=0 vgpr=163  spill=0     scratch=32    occ=6
+   c1=1 c2=8 oob=1 vgpr=102  spill=0     scratch=0     occ=9
+   c1=1 c2=8 oob=0 vgpr=103  spill=0     scratch=0     occ=9
+   c1=1 c2=2 oob=1 vgpr=139  spill=0     scratch=0     occ=7
+   c1=1 c2=2 oob=0 vgpr=139  spill=0     scratch=0     occ=7
+== D=128 rows: 2:128:2:32:64
+   COMPILE ERROR: ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:905:19: error: static assertion failed due t
+restored
+SWEEP128 DONE

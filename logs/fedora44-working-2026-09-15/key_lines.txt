@@ -1,0 +1,11 @@
+== gate_rbonly
+/home/akandr/llama-master/ggml/src/ggml-cuda/template-instances/../fattn-common.cuh:1114: GGML_ASSERT(max_blocks_per_sm > 0) failed
+== gate
+1.03.421.675 I Final estimate: PPL = 8.9442 +/- 0.17287
+== q8_default_1
+0.39.035.182 I Final estimate: PPL = 9.1117 +/- 0.59078
+== q14_default
+1.04.109.985 I Final estimate: PPL = 7.7645 +/- 0.47370
+== q15_faoff_1024
+0.05.848.750 I Final estimate: PPL = 8.1702 +/- 0.65734
+totalNumVGPRs=1024, vGPRAllocGra

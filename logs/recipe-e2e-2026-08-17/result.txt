@@ -1,0 +1,10 @@
+probe_4096 rc=0 ALL CORRECT
+probe_16384 rc=0 ALL CORRECT
+probe_32768 rc=0 ALL CORRECT
+sgemm_256 rc=0 DONE iters=10 nwrong=0 wrong=0
+sgemm_512 rc=0 DONE iters=10 nwrong=0 wrong=0
+sgemm_1024 rc=0 DONE iters=10 nwrong=0 wrong=0
+sgemm_2048 rc=0 DONE iters=10 nwrong=0 wrong=0
+sgemm_4096 rc=0 DONE iters=10 nwrong=0 wrong=0
+ppl rc=0 Final estimate: PPL = 8.9442
+sustained rc=0 DONE iters=50 nwrong=0

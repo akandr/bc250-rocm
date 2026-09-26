@@ -1,0 +1,86 @@
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+warning: .gdb_index address table has a range (0x6eab3 - 0x6eab4) that overlaps with an earlier range, ignoring .gdb_index
+[New Thread 0x7fffa5bff6c0 (LWP 702542)]
+[New Thread 0x7fffa53fe6c0 (LWP 702543)]
+[Thread 0x7fffa53fe6c0 (LWP 702543) exited]
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+[New Thread 0x7fff9edff6c0 (LWP 702706)]
+[New Thread 0x7ffdd39ff6c0 (LWP 702849)]
+[Thread 0x7ffdd39ff6c0 (LWP 702849) exited]
+| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |
+/home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:110: ROCm error
+
+Thread 1 "llama-bench" received signal SIGABRT, Aborted.
+0x00007ffff2f64ccc in __pthread_kill_implementation () from /lib64/libc.so.6
+
+=== faulting thread ===
+#0  0x00007ffff2f64ccc in __pthread_kill_implementation () from /lib64/libc.so.6
+#1  0x00007ffff2f09e8e in raise () from /lib64/libc.so.6
+#2  0x00007ffff2ef17b3 in abort () from /lib64/libc.so.6
+#3  0x00007ffff35321ab in ggml_abort () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-base.so.0
+#4  0x00007ffff697e0e2 in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-hip.so.0
+#5  0x00007ffff698c0cb in ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-hip.so.0
+#6  0x00007ffff698452c in ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-hip.so.0
+#7  0x00007ffff354f4d7 in ggml_backend_sched_graph_compute_async () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-base.so.0
+#8  0x00007ffff764aa20 in llama_context::graph_compute(ggml_cgraph*, bool) () from /home/akandr/llama-master/build-hip-f32mv/bin/libllama.so.0
+#9  0x00007ffff764ee9b in llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&) () from /home/akandr/llama-master/build-hip-f32mv/bin/libllama.so.0
+#10 0x00007ffff7652a7b in llama_context::decode(llama_batch const&) () from /home/akandr/llama-master/build-hip-f32mv/bin/libllama.so.0
+#11 0x00007ffff7654ade in llama_decode () from /home/akandr/llama-master/build-hip-f32mv/bin/libllama.so.0
+#12 0x00007ffff7f73791 in llama_bench(int, char**) () from /home/akandr/llama-master/build-hip-f32mv/bin/libllama-bench-impl.so
+#13 0x00007ffff2ef3681 in __libc_start_call_main () from /lib64/libc.so.6
+#14 0x00007ffff2ef3798 in __libc_start_main_impl () from /lib64/libc.so.6
+#15 0x00000000004003b5 in _start ()
+
+=== frame 0 registers ===
+rip            0x7ffff2f64ccc      0x7ffff2f64ccc <__pthread_kill_implementation+268>
+rdi            0xab84b             702539
+rsi            0xab84b             702539
+rax            0x0                 0
+rbx            0xab84b             702539
+
+=== locals in frames 0-3 ===
+#0  0x00007ffff2f64ccc in __pthread_kill_implementation () from /lib64/libc.so.6
+No symbol table info available.
+#1  0x00007ffff2f09e8e in raise () from /lib64/libc.so.6
+No symbol table info available.
+#2  0x00007ffff2ef17b3 in abort () from /lib64/libc.so.6
+No symbol table info available.
+#3  0x00007ffff35321ab in ggml_abort () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-base.so.0
+No symbol table info available.
+
+=== all threads (short) ===
+
+Thread 4 (Thread 0x7fff9edff6c0 (LWP 702706) "llama-bench"):
+#0  0x00007ffff2fe22bd in ioctl () from /lib64/libc.so.6
+#1  0x00007fffb4106240 in hsakmt_ioctl () from /home/akandr/rocr-src/lib/libhsa-runtime64.so.1
+#2  0x00007fffb410834d in hsaKmtWaitOnMultipleEvents_Ext.part.0 () from /home/akandr/rocr-src/lib/libhsa-runtime64.so.1
+#3  0x00007fffb40983d5 in rocr::core::Runtime::AsyncEventsLoop(void*) () from /home/akandr/rocr-src/lib/libhsa-runtime64.so.1
+#4  0x00007fffb401d481 in rocr::os::ThreadTrampoline(void*) () from /home/akandr/rocr-src/lib/libhsa-runtime64.so.1
+#5  0x00007ffff2f62c19 in start_thread () from /lib64/libc.so.6
+
+Thread 2 (Thread 0x7fffa5bff6c0 (LWP 702542) "llama-bench"):
+#0  0x00007ffff2fe22bd in ioctl () from /lib64/libc.so.6
+#1  0x00007fffb4106240 in hsakmt_ioctl () from /home/akandr/rocr-src/lib/libhsa-runtime64.so.1
+#2  0x00007fffb410834d in hsaKmtWaitOnMultipleEvents_Ext.part.0 () from /home/akandr/rocr-src/lib/libhsa-runtime64.so.1
+#3  0x00007fffb4098e32 in rocr::core::Runtime::AsyncEventsLoop(void*) () from /home/akandr/rocr-src/lib/libhsa-runtime64.so.1
+#4  0x00007fffb401d481 in rocr::os::ThreadTrampoline(void*) () from /home/akandr/rocr-src/lib/libhsa-runtime64.so.1
+#5  0x00007ffff2f62c19 in start_thread () from /lib64/libc.so.6
+
+Thread 1 (Thread 0x7ffff7470740 (LWP 702539) "llama-bench"):
+#0  0x00007ffff2f64ccc in __pthread_kill_implementation () from /lib64/libc.so.6
+#1  0x00007ffff2f09e8e in raise () from /lib64/libc.so.6
+#2  0x00007ffff2ef17b3 in abort () from /lib64/libc.so.6
+#3  0x00007ffff35321ab in ggml_abort () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-base.so.0
+#4  0x00007ffff697e0e2 in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-hip.so.0
+#5  0x00007ffff698c0cb in ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) () from /home/akandr/llama-master/build-hip-f32mv/bin/libggml-hip.so.0

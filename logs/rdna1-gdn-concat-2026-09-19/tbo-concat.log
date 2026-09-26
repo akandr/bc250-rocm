@@ -1,0 +1,196 @@
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=0): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=16): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=16): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[3,10240,1,1],ne_b_d=2048,dim=0,v=16): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[3,8192,2,1],ne_b_d=37,dim=0,v=16): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=0): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=0): [1;32mOK[0m
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=0): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=0): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=0): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=0): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=0): [1;32mOK[0m
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=0): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=1): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=1): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=1): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=1): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=1): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=1): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=1): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=1): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=1): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=1): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=1): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=1): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=1): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=1): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=1): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=1): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=1): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=2): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=2): [1;32mOK[0m
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=2): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=2): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=2): [1;32mOK[0m
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=2): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=2): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=2): [1;32mOK[0m
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=2): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=2): [1;32mOK[0m
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=2): [1;32mOK[0m
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=2): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=3): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=3): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=0,v=3): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=3): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=3): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=3): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=1,v=3): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=3): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=3): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=3): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=2,v=3): [1;32mOK[0m
+  CONCAT(type=f32,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=3): [1;32mOK[0m
+  CONCAT(type=f16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=bf16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i8,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=3): [1;32mOK[0m
+  CONCAT(type=i16,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=3): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=i32,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=3): [1;32mOK[0m
+  CONCAT(type=i64,ne_a=[11,12,13,14],ne_b_d=7,dim=3,v=3): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=4): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=4): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=8): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=8): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=12): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=12): [1;32mOK[0m
+  CONCAT(type=q4_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=4): [1;32mOK[0m
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=4): [1;32mOK[0m
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=8): [1;32mOK[0m
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=8): [1;32mOK[0m
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=12): [1;32mOK[0m
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=12): [1;32mOK[0m
+  CONCAT(type=q4_1,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=4): [1;32mOK[0m
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=4): [1;32mOK[0m
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=8): [1;32mOK[0m
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=8): [1;32mOK[0m
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=12): [1;32mOK[0m
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=12): [1;32mOK[0m
+  CONCAT(type=q5_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=4): [1;32mOK[0m
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=4): [1;32mOK[0m
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=8): [1;32mOK[0m
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=12): [1;32mOK[0m
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=12): [1;32mOK[0m
+  CONCAT(type=q5_1,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=0): [1;32mOK[0m
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=0): [1;32mOK[0m
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=0): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=4): [1;32mOK[0m
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=4): [1;32mOK[0m
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=4): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=8): [1;32mOK[0m
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=8): [1;32mOK[0m
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=8): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=256,dim=0,v=12): [1;32mOK[0m
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=1,v=12): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=2,v=12): [1;32mOK[0m
+  CONCAT(type=q8_0,ne_a=[128,12,13,14],ne_b_d=7,dim=3,v=12): not supported [ROCm0] 

@@ -1,0 +1,1 @@
+state kernel=7.1.5-100.fc43.x86_64 cu=40 flush=0 sched_policy=0 uptime=15

@@ -1,0 +1,4 @@
+# which code object rocblas_bench opens (strace -e openat)
+      1 TensileLibrary_Type_DD_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+      1 TensileLibrary_Type_HH_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+      1 TensileLibrary_Type_SS_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco

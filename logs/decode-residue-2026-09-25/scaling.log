@@ -1,0 +1,9 @@
+=== qwen2.5-1.5b-q4km graphs_disabled=0
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |            tg64 |        183.82 ± 3.09 |
+=== qwen2.5-1.5b-q4km graphs_disabled=1
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |            tg64 |        185.71 ± 0.04 |
+=== qwen3.6-35b-a3b-iq2m graphs_disabled=0
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | ROCm       |  99 |   1 |            tg64 |         67.45 ± 0.67 |
+=== qwen3.6-35b-a3b-iq2m graphs_disabled=1
+| qwen35moe 35B.A3B IQ2_M - 2.7 bpw |  10.72 GiB |    34.66 B | ROCm       |  99 |   1 |            tg64 |         66.55 ± 4.10 |
+doneS

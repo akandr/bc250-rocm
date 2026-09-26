@@ -1,0 +1,11 @@
+f16_patched_1: PPL = 9.1117 gemms=288 zero_at=[]
+f16_patched_2: PPL = 9.1117 gemms=288 zero_at=[]
+f16_patched_3: PPL = 9.1117 gemms=288 zero_at=[]
+f16_patched_tcache1: PPL = 9.1117 gemms=288 zero_at=[]
+f32_patched: PPL = 9.0975 gemms=0 zero_at=[]
+1.16.242.095 I Final estimate: PPL = 8.9442 +/- 0.17287
+q14_f32_orig: PPL = 7.7600
+q14_f16_orig: PPL = 16.7385
+q14_f16_patched_a: PPL = 7.7645
+q14_f16_patched_b: PPL = 7.7645
+q14_f32_patched: PPL = 7.7600

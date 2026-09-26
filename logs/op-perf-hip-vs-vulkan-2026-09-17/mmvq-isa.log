@@ -1,0 +1,25 @@
+# hipcc -S --cuda-device-only ggml/src/ggml-cuda/mmvq.cu for gfx1013 and gfx1030, llama-master 7ba604f, 2026-09-18.
+# Per kernel: total instructions, vector ALU, memory loads, native v_dot*, emulation v_mul/mad_i32_i24; and the largest
+# basic block (the K loop body) with its vector ALU count. RDNA1 has no dot instructions; gfx1030 does.
+kernel                          arch     total  VALU  loads  v_dot  i32_i24 | loop block insts  loop VALU
+mul_mat_vec_q<q4_K, 1 col>      gfx1013  309    163   28     0      32      | 103               84
+mul_mat_vec_q<q4_K, 1 col>      gfx1030  242    111   26     8      0       | 63                44
+mul_mat_vec_q<q8_0, 1 col>      gfx1013  191    75    19     0      8       | 76                35
+mul_mat_vec_q<q8_0, 1 col>      gfx1030  164    59    17     2      0       | 56                29
+mul_mat_vec_q<q4_K, 2 cols>     gfx1013  710    465   46     0      128     | 140               135
+mul_mat_vec_q<q4_K, 2 cols>     gfx1030  312    169   29     16     0       | 102               79
+# The q4_K loop body carries 1.9 times the vector instructions on RDNA1 that it does on RDNA2, which is the size of
+# the decode gap measured per op (q4_K n=1 shapes 1.5 to 1.9 times Vulkan's time). Each native v_dot4 becomes four
+# v_mul_i32_i24 with SDWA byte selects and two v_add3_u32.
+
+# ---- 2026-09-18 07:45: the sum-of-activations half of the emulation replaced by v_sad_u8 (compile only) ----
+# dp4a(0x01010101, u, acc) sums four int8 values and costs the full six-instruction emulation on RDNA1. v_sad_u8 on
+# sign-biased bytes (u ^ 0x80808080, bias removed once) costs two. Applied under an RDNA1 guard at the q4_K and q5_K
+# matvec dot2 sites and the q2_K MMQ sums; exact integer arithmetic, so results are unchanged bit for bit.
+kernel                          variant   VALU  v_sad_u8  i32_i24  loop VALU
+mul_mat_vec_q<q4_K, 1 col>      current   163   0         32       84
+mul_mat_vec_q<q4_K, 1 col>      sad_u8    137   4         16       70      (-17 percent in the loop)
+mul_mat_vec_q<q5_K, 1 col>      current   174   0         32       94
+mul_mat_vec_q<q5_K, 1 col>      sad_u8    148   4         16       80      (-15 percent)
+mul_mat_vec_q<q4_K, 2 cols>     current   465   0         128      135
+mul_mat_vec_q<q4_K, 2 cols>     sad_u8    221   8         32       97      (-28 percent)

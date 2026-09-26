@@ -1,0 +1,20 @@
+/home/akandr/rocr_limit_probe.cpp:22:26: warning: ignoring return value of function declared with 'nodiscard' attribute [-Wunused-result]
+   22 |     if (e == hipSuccess) hipStreamDestroy(s);
+      |                          ^~~~~~~~~~~~~~~~ ~
+/home/akandr/rocr_limit_probe.cpp:24:28: warning: ignoring return value of function declared with 'nodiscard' attribute [-Wunused-result]
+   24 |     if (!blocks.empty()) { hipFree(blocks.back()); blocks.pop_back(); }
+      |                            ^~~~~~~ ~~~~~~~~~~~~~
+/home/akandr/rocr_limit_probe.cpp:27:28: warning: ignoring return value of function declared with 'nodiscard' attribute [-Wunused-result]
+   27 |     for (void* p : blocks) hipFree(p);
+      |                            ^~~~~~~ ~
+3 warnings generated when compiling for gfx1013.
+/home/akandr/rocr_limit_probe.cpp:22:26: warning: ignoring return value of function declared with 'nodiscard' attribute [-Wunused-result]
+   22 |     if (e == hipSuccess) hipStreamDestroy(s);
+      |                          ^~~~~~~~~~~~~~~~ ~
+/home/akandr/rocr_limit_probe.cpp:24:28: warning: ignoring return value of function declared with 'nodiscard' attribute [-Wunused-result]
+   24 |     if (!blocks.empty()) { hipFree(blocks.back()); blocks.pop_back(); }
+      |                            ^~~~~~~ ~~~~~~~~~~~~~
+/home/akandr/rocr_limit_probe.cpp:27:28: warning: ignoring return value of function declared with 'nodiscard' attribute [-Wunused-result]
+   27 |     for (void* p : blocks) hipFree(p);
+      |                            ^~~~~~~ ~
+3 warnings generated when compiling for host.

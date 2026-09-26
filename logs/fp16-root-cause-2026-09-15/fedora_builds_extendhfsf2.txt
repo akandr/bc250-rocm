@@ -1,0 +1,18 @@
+# __extendhfsf2 entry in libclang_rt.builtins-x86_64.a from Koji rocm-clang-runtime-devel RPMs
+# (https://kojipkgs.fedoraproject.org/packages/rocm-compilersupport/), disassembled on the workstation 2026-09-15
+== rocm-clang-runtime-devel-19-14.rocm6.4.2.fc43.x86_64
+0000000000000000 <__extendhfsf2>:
+       0:      	endbr64
+       4:      	movl	%edi, %ecx
+== rocm-clang-runtime-devel-20-12.rocm7.1.1.fc44.x86_64
+0000000000000000 <__extendhfsf2>:
+       0:      	endbr64
+       4:      	pextrw	$0x0, %xmm0, %eax
+== rocm-clang-runtime-devel-22-14.rocm7.2.1.fc45.x86_64
+0000000000000000 <__extendhfsf2>:
+       0:      	endbr64
+       4:      	pextrw	$0x0, %xmm0, %eax
+== rocm-clang-runtime-devel-23-3.rocm7.14.0.fc46.x86_64
+0000000000000000 <__extendhfsf2>:
+       0:      	endbr64
+       4:      	pextrw	$0x0, %xmm0, %eax

@@ -1,0 +1,40 @@
+	v_add_co_u32 v7, vcc_lo, s27, v7                           // 000000005E90: D70F6A07 00020E1B
+	s_waitcnt lgkmcnt(10)                                      // 000000005E98: BF8CCA7F
+	v_pk_fma_f16 v2, v46, v48, v40 op_sel_hi:[1,0,1]           // 000000005E9C: CC0E4002 0CA2612E
+	v_pk_fma_f16 v13, v47, v48, v35 op_sel_hi:[1,0,1]          // 000000005EA4: CC0E400D 0C8E612F
+	v_pk_fma_f16 v15, v46, v48, v37 op_sel:[0,1,0]             // 000000005EAC: CC0E500F 1C96612E
+	v_pk_fma_f16 v17, v47, v48, v32 op_sel:[0,1,0]             // 000000005EB4: CC0E5011 1C82612F
+	v_pk_fma_f16 v19, v46, v49, v30 op_sel_hi:[1,0,1]          // 000000005EBC: CC0E4013 0C7A632E
+	v_pk_fma_f16 v21, v47, v49, v26 op_sel_hi:[1,0,1]          // 000000005EC4: CC0E4015 0C6A632F
+	v_pk_fma_f16 v25, v46, v49, v28 op_sel:[0,1,0]             // 000000005ECC: CC0E5019 1C72632E
+	v_pk_fma_f16 v26, v47, v49, v24 op_sel:[0,1,0]             // 000000005ED4: CC0E501A 1C62632F
+	ds_read2_b32 v[23:24], v38 offset0:128 offset1:144         // 000000005EDC: D8DC9080 17000026
+	s_waitcnt lgkmcnt(10)                                      // 000000005EE4: BF8CCA7F
+	v_pk_fma_f16 v22, v46, v50, v22 op_sel_hi:[1,0,1]          // 000000005EE8: CC0E4016 0C5A652E
+	v_pk_fma_f16 v18, v47, v50, v18 op_sel_hi:[1,0,1]          // 000000005EF0: CC0E4012 0C4A652F
+	v_pk_fma_f16 v20, v46, v50, v20 op_sel:[0,1,0]             // 000000005EF8: CC0E5014 1C52652E
+	v_pk_fma_f16 v16, v47, v50, v16 op_sel:[0,1,0]             // 000000005F00: CC0E5010 1C42652F
+	v_pk_fma_f16 v27, v46, v51, v14 op_sel_hi:[1,0,1]          // 000000005F08: CC0E401B 0C3A672E
+	v_pk_fma_f16 v28, v47, v51, v10 op_sel_hi:[1,0,1]          // 000000005F10: CC0E401C 0C2A672F
+	v_pk_fma_f16 v29, v46, v51, v12 op_sel:[0,1,0]             // 000000005F18: CC0E501D 1C32672E
+	v_pk_fma_f16 v30, v47, v51, v9 op_sel:[0,1,0]              // 000000005F20: CC0E501E 1C26672F
+	ds_read2_b32 v[9:10], v1 offset1:16                        // 000000005F28: D8DC1000 09000001
+	ds_read2_b32 v[11:12], v1 offset0:32 offset1:48            // 000000005F30: D8DC3020 0B000001
+	s_waitcnt lgkmcnt(10)                                      // 000000005F38: BF8CCA7F
+	v_pk_fma_f16 v2, v52, v54, v2 op_sel_hi:[1,0,1]            // 000000005F3C: CC0E4002 0C0A6D34
+	v_pk_fma_f16 v31, v53, v54, v13 op_sel_hi:[1,0,1]          // 000000005F44: CC0E401F 0C366D35
+	v_pk_fma_f16 v32, v52, v54, v15 op_sel:[0,1,0]             // 000000005F4C: CC0E5020 1C3E6D34
+	v_pk_fma_f16 v33, v53, v54, v17 op_sel:[0,1,0]             // 000000005F54: CC0E5021 1C466D35
+	v_pk_fma_f16 v19, v52, v55, v19 op_sel_hi:[1,0,1]          // 000000005F5C: CC0E4013 0C4E6F34
+	v_pk_fma_f16 v21, v53, v55, v21 op_sel_hi:[1,0,1]          // 000000005F64: CC0E4015 0C566F35
+	v_pk_fma_f16 v25, v52, v55, v25 op_sel:[0,1,0]             // 000000005F6C: CC0E5019 1C666F34
+	v_pk_fma_f16 v26, v53, v55, v26 op_sel:[0,1,0]             // 000000005F74: CC0E501A 1C6A6F35
+	ds_read2_b32 v[13:14], v38 offset0:160 offset1:176         // 000000005F7C: D8DCB0A0 0D000026
+	s_waitcnt lgkmcnt(10)                                      // 000000005F84: BF8CCA7F
+	v_pk_fma_f16 v22, v52, v56, v22 op_sel_hi:[1,0,1]          // 000000005F88: CC0E4016 0C5A7134
+	v_pk_fma_f16 v35, v53, v56, v18 op_sel_hi:[1,0,1]          // 000000005F90: CC0E4023 0C4A7135
+	v_pk_fma_f16 v36, v52, v56, v20 op_sel:[0,1,0]             // 000000005F98: CC0E5024 1C527134
+	v_pk_fma_f16 v37, v53, v56, v16 op_sel:[0,1,0]             // 000000005FA0: CC0E5025 1C427135
+	v_pk_fma_f16 v27, v52, v57, v27 op_sel_hi:[1,0,1]          // 000000005FA8: CC0E401B 0C6E7334
+	v_pk_fma_f16 v28, v53, v57, v28 op_sel_hi:[1,0,1]          // 000000005FB0: CC0E401C 0C727335
+	v_pk_fma_f16 v29, v52, v57, v29 op_sel:[0,1,0]             // 000000005FB8: CC0E501D 1C767334

@@ -1,0 +1,3 @@
+-rwxr-xr-x. 1 akandr akandr 38806920 08-20 09:28 /home/akandr/rocBLAS/build/release/rocblas-install/lib/librocblas.so.4.4
+2f3fa0222581c2e80ff3dd5871353552  /home/akandr/rocBLAS/build/release/rocblas-install/lib/librocblas.so.4.4
+111

@@ -1,0 +1,48 @@
+Pre-registered before any arm was run, cycle 16, 2026-08-24.
+
+Question. A delay before the KIQ initialisation does nothing. Prints placed
+between the scheduler register read and its matching write let the sequence run
+six steps further. Those prints are delay and bus activity at once, so which of
+the two is doing the work is unknown. This build varies only what sits between
+the two accesses.
+
+Arms, all in one module, selected at runtime through
+/sys/module/amdgpu/parameters/bc250_kiq_gap_mode:
+
+  0  nothing between the accesses
+  1  msleep(50), delay with scheduling, no device traffic
+  2  udelay busy-wait for 50 ms, delay without scheduling
+  3  dev_warn, the known-helpful case, positive control
+
+Ruler. Six step markers inside gfx_v10_0_kiq_init_queue() report how far the
+reset path gets. Nothing tried so far has made the board survive a reset, so
+"helped" means "got further", never "worked".
+
+Predictions.
+
+  Arm 0 stalls inside gfx_v10_0_kiq_setting(), printing no step markers. This
+  reproduces the coarse baseline from 23 August and is what makes the rest
+  readable.
+
+  Arm 3 prints step markers, reaching at least step 5, reproducing the earlier
+  finer run. If it does not, the effect is not stable across builds and no
+  conclusion can be drawn from the other arms.
+
+  Arms 1 and 2 stall like arm 0, printing no step markers. This follows from the
+  settle-delay falsification: if 500 ms before the function does nothing, 50 ms
+  of the same kind of waiting a few instructions later should also do nothing.
+
+What each outcome would mean.
+
+  Arms 1 and 2 fail, arm 3 works: delay is not the mechanism and the printk path
+  itself is, which points at bus or interconnect activity between two register
+  accesses rather than at a settling time.
+
+  Arm 1 works and arm 2 fails: the scheduling is the mechanism, not the delay,
+  since the two differ in little else.
+
+  Arms 1 and 2 both work: position matters and duration matters, and the
+  settle-delay result would mean only that the delay was in the wrong place.
+
+  Arm 3 fails: the whole line of reasoning rests on an unstable observation and
+  has to be abandoned rather than explained.

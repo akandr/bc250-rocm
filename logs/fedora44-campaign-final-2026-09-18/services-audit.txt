@@ -1,0 +1,19 @@
+# Background services on the board during the 17 to 18 September measurements, checked 2026-09-18 08:05.
+# GPU users: none besides oberon-governor (the clock daemon) on /dev/dri/renderD128; ollama.service inactive
+# throughout (no start in the journal since 17 Sep 18:00); ollama-watchdog.timer, bc250-health.timer,
+# queue-runner and faulthunt disabled.
+#
+# Timers that did fire inside measurement windows (journal), with what they are:
+#   hw-watcher.service    price scraper, python, ~100 s wall each, every ~50 min:
+#                         03:41 04:31 05:18 06:08 06:57 07:49 (04:31 during ab14b, 05:18 during the final campaign)
+#   claude-batch.service  remote API client, 03:08 (during the intermediate campaign)
+#   car-watcher.service   07:46, daily-digest 08:04 (2 s), dnf-makecache 05:59 (2 s), plocate 00:34
+#   cron /opt/netscan/watchdog.py --live-only (nmap) every 30 min, all night
+#
+# What they cost, cumulative CPU seconds since boot (16.5 h, systemd CPUUsageNSec):
+#   hw-watcher 0.4   car-watcher 0.6   daily-digest 0.2   claude-batch 1.4   claude-improve 15.9
+# None reads /dev/kfd, ollama or llama.cpp. These are network-bound jobs; on this APU the confound that
+# matters is package heat, and fractions of a CPU-second do not produce it (a niced compile did: see the
+# depth-sweep control in logs/rdna1-fattn-spill-2026-09-17/).
+#
+# From 08:08 on 18 September hw-watcher.timer and crond are stopped for the remaining measurements.

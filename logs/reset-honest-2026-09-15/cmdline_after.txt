@@ -1,0 +1,1 @@
+args="ro rootflags=subvol=root rhgb quiet quiet $tuned_params amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0"

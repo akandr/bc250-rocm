@@ -1,0 +1,2 @@
+bash: linia 8:  2546 Przerwane                  env HSA_ENABLE_SDMA=0 GGML_CUDA_CUBLAS_COMPUTE_TYPE=f32 LD_LIBRARY_PATH=/home/akandr/rocBLAS/build/release/rocblas-install/lib timeout -k 20 300 ~/llama-master/build-hip/bin/llama-bench -m /opt/models/qwen3-8b-q8_0.gguf -mmp 0 -ngl 99 -fa on -p 512 -n 64 -r 1 > ~/s0915/c3_rl3_alt2.log 2>&1
+rc=134 pp512=NONE tg64=NONE wall=123s err=[] faults_boot=0 alt:[ mode=2 site=1 calls=100 nomatch=0 ackmiss=100 err=0 last: matched=0x0100 acked=0x0000 r=0]

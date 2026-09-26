@@ -1,0 +1,26 @@
+[00:21:48] configured
+[00:21:48] build start
+[00:31:02] build ok
+[00:33:03] GDN lanes=4 correctness: OK 24 FAIL 0
+[00:33:04] GDN lanes=8 correctness: OK 25 FAIL 0
+[00:33:04] GDN lanes=16 correctness: OK 25 FAIL 0
+[00:33:05] GDN lanes=0 correctness: OK 25 FAIL 0
+[00:33:09] CONCAT correctness: OK 104 FAIL 0  (v=16 cases: 4 OK, 0 FAIL)
+[00:33:09] qwen3.8-27b-iq3xxs linear-attention lines: 6
+[00:34:49] qwen3.8-27b-iq3xxs per-op replays done
+[00:34:49] qwen3.6-35b-a3b-iq2m linear-attention lines: 6
+[00:36:18] qwen3.6-35b-a3b-iq2m per-op replays done
+[00:40:44] p1 qwen3.8-27b-iq3xxs build-hip-f32iq:  pp512 69.99 ± 0.18 ; pp2048 63.96 ± 1.99 ; tg64 12.44 ± 1.71 ;
+[00:45:20] p1 qwen3.8-27b-iq3xxs build-hip-gdn (lanes 8):  pp512 71.40 ± 0.19 ; pp2048 62.90 ± 3.81 ; tg64 13.49 ± 1.52 ;
+[00:48:21] p1 qwen3.6-35b-a3b-iq2m build-hip-f32iq:  pp512 288.14 ± 1.24 ; pp2048 291.28 ± 1.13 ; tg64 67.45 ± 0.81 ;
+[00:51:18] p1 qwen3.6-35b-a3b-iq2m build-hip-gdn (lanes 8):  pp512 295.13 ± 1.50 ; pp2048 298.42 ± 1.09 ; tg64 66.83 ± 0.77 ;
+[00:55:47] p2 qwen3.8-27b-iq3xxs build-hip-f32iq:  pp512 70.12 ± 0.18 ; pp2048 63.26 ± 3.68 ; tg64 12.92 ± 1.22 ;
+[01:00:05] p2 qwen3.8-27b-iq3xxs build-hip-gdn (lanes 8):  pp512 71.54 ± 0.23 ; pp2048 62.89 ± 2.84 ; tg64 13.27 ± 1.79 ;
+[01:02:52] p2 qwen3.6-35b-a3b-iq2m build-hip-f32iq:  pp512 289.91 ± 0.27 ; pp2048 290.39 ± 1.15 ; tg64 66.85 ± 1.85 ;
+[01:04:18] p2 qwen3.6-35b-a3b-iq2m build-hip-gdn (lanes 8):  pp512 312.34 ± 1.92 ; pp2048 302.48 ± 0.95 ; tg64 67.35 ± 0.53 ;
+[01:04:18] MoE gate build-hip-f32iq: 
+[01:05:00] MoE gate build-hip-gdn: Final estimate: PPL = 6.7804
+[01:07:45] 27B greedy text IDENTICAL
+[01:07:52] trace qwen2.5-1.5b-q4km:  | pp: 
+[01:13:33] trace qwen3.8-27b-iq3xxs:  | pp: 
+[01:13:33] CHAIN DONE

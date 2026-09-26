@@ -1,0 +1,14 @@
+[    0.902649] x86/amd: Previous system reset reason [0x40000400]: a parity error occurred
+[    2.008833] amdgpu: module verification failed: signature and/or required key missing - tainting kernel
+[    6.537907]  ? __pm_runtime_resume+0x5f/0x90
+[    6.544399]  ? __pm_runtime_resume+0x5f/0x90
+[    8.721703] systemd[1]: Listening on systemd-factory-reset.socket - Factory Reset Management.
+[   28.941350] amdgpu 0000:01:00.0: GPU reset begin!. Source:  5
+[   32.941365] amdgpu 0000:01:00.0: failed to suspend display audio
+[   32.965889] amdgpu 0000:01:00.0: MODE1 reset
+[   32.965912] amdgpu 0000:01:00.0: GPU mode1 reset
+[   32.965985] amdgpu 0000:01:00.0: GPU psp mode1 reset
+[   32.966011] amdgpu 0000:01:00.0: BC250: PSP has no mode1_reset for this ASIC
+[   32.966035] amdgpu 0000:01:00.0: GPU mode1 reset failed
+[   32.966055] amdgpu 0000:01:00.0: ASIC reset failed with error, -95 for drm dev, 0000:01:00.0
+[   32.966088] amdgpu 0000:01:00.0: GPU reset end with ret = -95

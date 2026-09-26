@@ -1,0 +1,50 @@
+Breakpoint 1 at 0x24b0
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+[New Thread 0x7ffff3bff6c0 (LWP 36820)]
+[New Thread 0x7ffef31ff6c0 (LWP 36821)]
+[Thread 0x7ffef31ff6c0 (LWP 36821) exited]
+[New Thread 0x7ffef0dff6c0 (LWP 36822)]
+[New Thread 0x7ffedb9ff6c0 (LWP 36823)]
+[Thread 0x7ffedb9ff6c0 (LWP 36823) exited]
+
+Thread 1 "gemm_fp16_min" hit Breakpoint 1.1, __extendhfsf2 (a=<optimized out>) at /usr/src/debug/rocm-compilersupport-19-14.rocm6.4.2.fc43.x86_64/compiler-rt/lib/builtins/extendhfsf2.c:16
+warning: 16	/usr/src/debug/rocm-compilersupport-19-14.rocm6.4.2.fc43.x86_64/compiler-rt/lib/builtins/extendhfsf2.c: Nie ma takiego pliku ani katalogu
+__extendhfsf2 in section .text of /home/akandr/rocBLAS/build/release/rocblas-install/lib/librocblas.so.4
+From                To                  Syms Read   Shared Object Library
+0x00007ffff7fc5000  0x00007ffff7fff000  Yes         /lib64/ld-linux-x86-64.so.2
+0x00007ffff6200000  0x00007ffff7e08000  Yes         /home/akandr/rocBLAS/build/release/rocblas-install/lib/librocblas.so.4
+0x00007ffff4a00000  0x00007ffff61a2000  Yes (*)     /lib64/libamdhip64.so.6
+0x00007ffff4600000  0x00007ffff4877000  Yes (*)     /lib64/libstdc++.so.6
+0x00007ffff7eb1000  0x00007ffff7fa6000  Yes (*)     /lib64/libm.so.6
+0x00007ffff7e85000  0x00007ffff7eb1000  Yes (*)     /lib64/libgcc_s.so.1
+0x00007ffff440d000  0x00007ffff4600000  Yes (*)     /lib64/libc.so.6
+0x00007ffff7e7f000  0x00007ffff7e83000  Yes (*)     /lib64/libroctx64.so.4
+0x00007ffff4000000  0x00007ffff4309000  Yes (*)     /lib64/libhsa-runtime64.so.1
+0x00007ffff7e71000  0x00007ffff7e7f000  Yes (*)     /lib64/libnuma.so.1
+0x00007ffff7e63000  0x00007ffff7e71000  Yes (*)     /lib64/libdrm_amdgpu.so.1
+0x00007ffff7e44000  0x00007ffff7e61000  Yes (*)     /lib64/libelf.so.1
+0x00007ffff7e2d000  0x00007ffff7e44000  Yes (*)     /lib64/libdrm.so.2
+0x00007ffff61d8000  0x00007ffff6200000  Yes (*)     /lib64/libz.so.1
+0x00007ffff493d000  0x00007ffff4a00000  Yes (*)     /lib64/libzstd.so.1
+0x00007ffee4400000  0x00007ffeebe6e000  Yes (*)     /lib64/libamd_comgr.so.3
+(*): Shared library is missing debugging information.
+=> 0x7ffff78dbd70 <__extendhfsf2>:	endbr64
+   0x7ffff78dbd74 <__extendhfsf2+4>:	mov    %edi,%ecx
+   0x7ffff78dbd76 <__extendhfsf2+6>:	shr    $0xa,%ecx
+   0x7ffff78dbd79 <__extendhfsf2+9>:	and    $0x1f,%ecx
+   0x7ffff78dbd7c <__extendhfsf2+12>:	mov    %edi,%eax
+   0x7ffff78dbd7e <__extendhfsf2+14>:	and    $0x3ff,%eax
+   0x7ffff78dbd83 <__extendhfsf2+19>:	test   %ecx,%ecx
+   0x7ffff78dbd85 <__extendhfsf2+21>:	je     0x7ffff78dbd99 <__extendhfsf2+41>
+   0x7ffff78dbd87 <__extendhfsf2+23>:	cmp    $0x1f,%ecx
+   0x7ffff78dbd8a <__extendhfsf2+26>:	jne    0x7ffff78dbdba <__extendhfsf2+74>
+   0x7ffff78dbd8c <__extendhfsf2+28>:	movzwl %ax,%eax
+   0x7ffff78dbd8f <__extendhfsf2+31>:	shl    $0xd,%eax

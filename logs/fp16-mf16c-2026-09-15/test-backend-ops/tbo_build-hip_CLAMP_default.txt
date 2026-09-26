@@ -1,0 +1,11 @@
+[CLAMP] ERR = inf > 0.000000100   CLAMP(type=f16,ne=[10,5,4,3],min=-0.500000,max=0.500000): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+[CLAMP] ERR = inf > 0.000000100   CLAMP(type=f16,ne=[7,1,5,3],min=-0.500000,max=0.500000): ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+[CLAMP] ERR = inf > 0.000000100   CLAMP(type=f16,ne=[1024,1024,1,1],min=-0.500000,max=0.500000): FAIL
+  CLAMP(type=f32,ne=[10,5,4,3],min=-0.500000,max=0.500000): OK
+  CLAMP(type=f32,ne=[7,1,5,3],min=-0.500000,max=0.500000): OK
+  CLAMP(type=f32,ne=[1024,1024,1,1],min=-0.500000,max=0.500000): OK
+  3/6 tests passed
+  CLAMP(type=f16,ne=[10,5,4,3],min=-0.500000,max=0.500000)
+  CLAMP(type=f16,ne=[7,1,5,3],min=-0.500000,max=0.500000)
+  CLAMP(type=f16,ne=[1024,1024,1,1],min=-0.500000,max=0.500000)
+  Backend ROCm0: FAIL

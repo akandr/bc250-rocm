@@ -1,0 +1,15 @@
+case                       state value or error
+h2d copy + d2h copy        OK    0.0
+matmul (library)           OK    0.00013
+matmul fp16 (library)      OK    0.0505
+addmm (library)            OK    0.00013
+randn on device            OK    (512, 512)
+elementwise add            OK    0.0
+elementwise mul            OK    0.0
+sum reduction              OK    -0.0
+relu                       OK    0.0
+softmax                    OK    0.0
+zeros + fill               OK    48.0
+
+11 of 11 cases ran
+arch list: ['gfx1013']

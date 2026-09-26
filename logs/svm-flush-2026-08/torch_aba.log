@@ -1,0 +1,66 @@
+### param=3 trial=1 09:16:41
+/home/akandr/torchvenv/lib64/python3.14/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+/opt/amdgpu/share/libdrm/amdgpu.ids: No such file or directory
+  iter 50/300 ok (16.9s)
+  iter 100/300 ok (21.3s)
+  iter 150/300 ok (30.1s)
+  iter 200/300 ok (36.6s)
+  iter 250/300 ok (42.7s)
+  iter 300/300 ok (49.2s)
+ALL 300 VARYING-SIZE ITERATIONS CLEAN in 49.2s
+### rc=0 param=3 trial=1
+### param=3 trial=2 09:17:38
+/home/akandr/torchvenv/lib64/python3.14/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+/opt/amdgpu/share/libdrm/amdgpu.ids: No such file or directory
+  iter 50/300 ok (14.2s)
+  iter 100/300 ok (18.5s)
+  iter 150/300 ok (27.1s)
+  iter 200/300 ok (33.6s)
+  iter 250/300 ok (39.7s)
+  iter 300/300 ok (46.3s)
+ALL 300 VARYING-SIZE ITERATIONS CLEAN in 46.3s
+### rc=0 param=3 trial=2
+### param=1 trial=1 09:18:31
+/home/akandr/torchvenv/lib64/python3.14/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+/opt/amdgpu/share/libdrm/amdgpu.ids: No such file or directory
+Memory access fault by GPU node-1 (Agent handle: 0x55ca9aa68410) on address 0x7fc983a81000. Reason: Page not present or supervisor privilege.
+Failed to fetch queues snapshot.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci
+### rc=134 param=1 trial=1
+### param=1 trial=2 09:18:43
+/home/akandr/torchvenv/lib64/python3.14/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+/opt/amdgpu/share/libdrm/amdgpu.ids: No such file or directory
+Memory access fault by GPU node-1 (Agent handle: 0x5599ab3720b0) on address 0x7f7a0c684000. Reason: Page not present or supervisor privilege.
+Failed to fetch queues snapshot.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci
+### rc=134 param=1 trial=2
+### param=3 trial=1 09:18:55
+/home/akandr/torchvenv/lib64/python3.14/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+/opt/amdgpu/share/libdrm/amdgpu.ids: No such file or directory
+  iter 50/300 ok (14.2s)
+  iter 100/300 ok (18.6s)
+  iter 150/300 ok (27.4s)
+  iter 200/300 ok (33.9s)
+  iter 250/300 ok (39.9s)
+  iter 300/300 ok (46.4s)
+ALL 300 VARYING-SIZE ITERATIONS CLEAN in 46.4s
+### rc=0 param=3 trial=1
+### param=3 trial=2 09:19:48
+/home/akandr/torchvenv/lib64/python3.14/site-packages/torch/_subclasses/functional_tensor.py:279: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  cpu = _conversion_method_template(device=torch.device("cpu"))
+/opt/amdgpu/share/libdrm/amdgpu.ids: No such file or directory
+  iter 50/300 ok (14.4s)
+  iter 100/300 ok (18.7s)
+  iter 150/300 ok (27.5s)
+  iter 200/300 ok (34.1s)
+  iter 250/300 ok (40.3s)
+  iter 300/300 ok (46.8s)
+ALL 300 VARYING-SIZE ITERATIONS CLEAN in 46.8s
+### rc=0 param=3 trial=2

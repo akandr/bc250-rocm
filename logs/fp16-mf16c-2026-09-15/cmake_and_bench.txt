@@ -1,0 +1,27 @@
+CMAKE_HIP_FLAGS:STRING=-mf16c
+CMAKE_HIP_FLAGS_DEBUG:STRING=-g -O
+CMAKE_HIP_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
+CMAKE_HIP_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
+CMAKE_HIP_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
+CMAKE_HIP_FLAGS-ADVANCED:INTERNAL=1
+CMAKE_HIP_FLAGS_DEBUG-ADVANCED:INTERNAL=1
+CMAKE_HIP_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
+CMAKE_HIP_FLAGS_RELEASE-ADVANCED:INTERNAL=1
+CMAKE_HIP_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+== bench_build-hip.32387.log
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | ---------: | --------------: | -------------------: |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |           pp512 |       806.36 ± 11.41 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |            tg64 |        113.69 ± 0.51 |
+== bench_build-hip.4658.log
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | ---------: | --------------: | -------------------: |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |           pp512 |        808.20 ± 8.21 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |            tg64 |        113.72 ± 0.53 |
+== bench_build-hip-f16c.15523.log
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | ---------: | --------------: | -------------------: |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |           pp512 |        807.99 ± 8.49 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |            tg64 |        113.67 ± 0.68 |
+== bench_build-hip-f16c.9301.log
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | ---------: | --------------: | -------------------: |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |           pp512 |        807.61 ± 8.63 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |            tg64 |        113.60 ± 0.69 |
+== bench_build.log

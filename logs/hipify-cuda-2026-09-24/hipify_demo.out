@@ -1,0 +1,33 @@
+# 2026-09-24T17:07:02+02:00  edge +56.0°C
+
+## translate
+lines        142 -> 143
+changed      41 lines, 38 of them code
+kernel body  untouched: __global__, threadIdx, blockIdx and <<< >>> are shared syntax
+hand edits   0
+
+## compile, and the two flags Fedora needs that hipify does not know about
+   hipify emits #include <hipblas.h>; Fedora packages it as hipblas/hipblas.h  -> -I/usr/include/hipblas
+   hipcc did not pull in the HIP runtime for this link                          -> -lamdhip64
+compiled     yes
+
+## run, both halves checked against a CPU reference
+device: AMD BC-250
+kernel   4194304 elements, 64 Newton steps:    0.407 ms   3306.9 GFLOP/s  rel err 6.59e-08
+cublas   SGEMM N=4096:   32.303 ms   4254.6 GFLOP/s  rel err 3.82e-07
+ok
+
+# native rocBLAS SGEMM at the same N=4096 is 4541.1 GFLOP/s (logs/torch-rocblas-bench-2026-09-24/)
+# edge +65.0°C
+
+## five consecutive runs, because N=4096 is a noisy size on this board
+kernel   4194304 elements, 64 Newton steps:    0.275 ms   4891.4 GFLOP/s  rel err 6.59e-08
+cublas   SGEMM N=4096:   30.208 ms   4549.7 GFLOP/s  rel err 3.82e-07
+kernel   4194304 elements, 64 Newton steps:    0.407 ms   3307.8 GFLOP/s  rel err 6.59e-08
+cublas   SGEMM N=4096:   31.329 ms   4387.0 GFLOP/s  rel err 3.82e-07
+kernel   4194304 elements, 64 Newton steps:    0.407 ms   3306.9 GFLOP/s  rel err 6.59e-08
+cublas   SGEMM N=4096:   31.998 ms   4295.3 GFLOP/s  rel err 3.82e-07
+kernel   4194304 elements, 64 Newton steps:    0.407 ms   3308.3 GFLOP/s  rel err 6.59e-08
+cublas   SGEMM N=4096:   32.531 ms   4224.8 GFLOP/s  rel err 3.82e-07
+kernel   4194304 elements, 64 Newton steps:    0.407 ms   3307.7 GFLOP/s  rel err 6.59e-08
+cublas   SGEMM N=4096:   33.142 ms   4147.0 GFLOP/s  rel err 3.82e-07

@@ -1,0 +1,9 @@
+device gfx1013:xnack-, 20 CUs, clock 2000000 kHz, 20000 dispatches per measurement, best of 5
+shader clock: 1002.2 cycles per microsecond (19.956 ms for 20000000 cycles)
+
+arm         kernel us  per disp us       gap us     graph us    graph gap
+empty            0.00        2.034        2.034        2.173        2.173
+spin             1.00        2.454        1.454        2.604        1.604
+spin             5.00        5.097        0.097        5.260        0.260
+spin             9.30        7.956       -1.344        8.128       -1.172
+spin            20.00       15.067       -4.933       15.185       -4.815

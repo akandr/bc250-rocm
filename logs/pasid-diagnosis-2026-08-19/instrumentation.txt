@@ -1,0 +1,9 @@
+=== BC250FLUSH sample under load:
+[   66.307150] amdgpu 0000:01:00.0: BC250FLUSH call=1 pasid=15 valid_vmids=0 matches=0 total_matched=0
+[   66.412208] amdgpu 0000:01:00.0: BC250FLUSH call=2 pasid=15 valid_vmids=0 matches=0 total_matched=0
+[   66.412234] amdgpu 0000:01:00.0: BC250FLUSH call=3 pasid=15 valid_vmids=0 matches=0 total_matched=0
+[   66.426095] amdgpu 0000:01:00.0: BC250FLUSH call=4 pasid=15 valid_vmids=0 matches=0 total_matched=0
+[   66.426121] amdgpu 0000:01:00.0: BC250FLUSH call=5 pasid=15 valid_vmids=0 matches=0 total_matched=0
+[   66.780978] amdgpu 0000:01:00.0: BC250FLUSH call=6 pasid=15 valid_vmids=0 matches=0 total_matched=0
+=== distinct (valid_vmids, matches) pairs seen:
+valid_vmids=0 matches=0

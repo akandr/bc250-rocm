@@ -1,0 +1,17 @@
+kerntrace: 23985 kernel dispatches, 294.249 ms of kernel time, 414.058 ms first dispatch to last completion
+  records domain 2 op 0: 23985
+  records domain 2 op 1: 822
+  gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 19707 (45.9 ms), 5-20us 4205 (23.0 ms), 20-100us 2 (0.1 ms), >100us 70 (50.9 ms); overlapping starts 0
+     count     total ms   share     avg us  kernel
+      9035      177.532   60.3%      19.65  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type12ELb1EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+      1820       38.730   13.2%      21.28  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type14ELb1EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+        65       35.589   12.1%     547.53  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type14ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+      3705       13.134    4.5%       3.54  _ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lll
+      1820       10.458    3.6%       5.75  _ZL15flash_attn_tileILi128ELi128ELi1ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj2
+      1820        5.114    1.7%       2.81  _ZL9rope_neoxILb1ELb0Ef6__halfEvPKT1_PT2_iiiiiiiiiiPKifff14rope_corr_dimsfPKfPKli
+      1820        4.894    1.7%       2.69  _ZL26flash_attn_combine_resultsILi128EEvPKfPK15HIP_vector_typeIfLj2EEPfi
+      1820        4.386    1.5%       2.41  _ZL9rope_neoxILb1ELb0EffEvPKT1_PT2_iiiiiiiiiiPKifff14rope_corr_dimsfPKfPKli
+      1820        3.455    1.2%       1.90  _ZL10k_set_rowsIfl6__halfEvPKT_PKT0_PT1_llllllllllllll15HIP_vector_typeIjLj3EESA_SA_SA_SA_
+        65        0.568    0.2%       8.74  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type12ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+       130        0.238    0.1%       1.83  _ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+        65        0.151    0.1%       2.33  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_S

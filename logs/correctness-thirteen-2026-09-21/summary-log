@@ -1,0 +1,10 @@
+table qwen2.5-1.5b-q4km rocm=8.0093 +/- 0.22163 vulkan=8.0485 +/- 0.22445
+table qwen3-8b-q8_0 rocm=7.3586 +/- 0.23246 vulkan=7.3948 +/- 0.23389
+table qwen3-14b rocm=6.3896 +/- 0.19235 vulkan=6.4547 +/- 0.19526
+table deepseek-r1-14b rocm=5.9865 +/- 0.17224 vulkan=6.0505 +/- 0.17490
+table qwen3.6-35b-a3b-iq2m rocm=5.1820 +/- 0.13372 vulkan=5.1975 +/- 0.13422
+table qwen3.8-27b-iq3xxs rocm=5.2938 +/- 0.13737 vulkan=5.3385 +/- 0.13940
+gate 1.5b c4096 chunks8 = 8.9274 +/- 0.17314
+gate 8b c2048 chunks2 default = 9.1125 +/- 0.59083
+gate 8b c2048 chunks2 f32 = 9.1130 +/- 0.59095
+DONE

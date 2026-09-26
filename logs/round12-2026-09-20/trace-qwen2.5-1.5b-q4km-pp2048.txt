@@ -1,0 +1,23 @@
+kerntrace: 4888 kernel dispatches, 3423.735 ms of kernel time, 3492.057 ms first dispatch to last completion
+  records domain 2 op 0: 4888
+  records domain 2 op 1: 411
+  gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 4189 (9.8 ms), 5-20us 683 (3.7 ms), 20-100us 0 (0.0 ms), >100us 15 (54.8 ms); overlapping starts 0
+     count     total ms   share     avg us  kernel
+       992     2344.624   68.5%    2363.53  _ZL16mmf16_rdna1_gemmIL9ggml_type12EEvPKcPKfPfiiimii
+       104      520.380   15.2%    5003.66  _ZL16mmf16_rdna1_gemmIL9ggml_type14EEvPKcPKfPfiiimii
+       224      303.234    8.9%    1353.73  _ZL15flash_attn_tileILi128ELi128ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj
+       336      104.060    3.0%     309.70  _ZL9mul_mat_qIL9ggml_type12ELi64ELb0EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9
+       112       40.838    1.2%     364.63  _ZL9mul_mat_qIL9ggml_type14ELi64ELb0EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9
+       216       31.556    0.9%     146.09  _ZL21unary_gated_op_kernelIXadL_ZL7op_silufEEfEvPKT0_S2_PS0_llll
+       224       20.705    0.6%      92.43  _ZL26flash_attn_combine_resultsILi128EEvPKfPK15HIP_vector_typeIfLj2EEPfi
+      1106       18.870    0.6%      17.06  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_S
+       444       16.509    0.5%      37.18  _ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lll
+       224       11.395    0.3%      50.87  _ZL9rope_neoxILb1ELb0EffEvPKT1_PT2_iiiiiiiiiiPKifff14rope_corr_dimsfPKfPKli
+       336        4.399    0.1%      13.09  _ZL17quantize_mmq_q8_1IL18mmq_q8_1_ds_layout1ELb0EEvPKfPKiPvllllliii
+       224        2.281    0.1%      10.18  _ZL9rope_neoxILb1ELb0Ef6__halfEvPKT1_PT2_iiiiiiiiiiPKifff14rope_corr_dimsfPKfPKli
+       224        1.915    0.1%       8.55  _ZL10k_set_rowsIfl6__halfEvPKT_PKT0_PT1_llllllllllllll15HIP_vector_typeIjLj3EESA_SA_SA_SA_
+       112        1.669    0.0%      14.91  _ZL17quantize_mmq_q8_1IL18mmq_q8_1_ds_layout0ELb0EEvPKfPKiPvllllliii
+         2        1.090    0.0%     544.84  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type14ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+         2        0.124    0.0%      62.24  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type12ELb1EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+         2        0.076    0.0%      37.83  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type14ELb1EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+         4        0.009    0.0%       2.25  _ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm

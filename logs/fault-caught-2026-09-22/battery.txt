@@ -1,0 +1,28 @@
+=== time 06:49:28, uptime 16:41
+=== faulting process: gone
+=== kfd holders: 
+=== fault lines this boot: 633
+=== GPU reset lines: 0
+=== device still on the bus: 01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/A
+=== 1. KFD enumeration (rocminfo, gfx1013 line)
+  Marketing Name:          AMD BC-250                         
+  Compute Unit:            12                                 
+  Name:                    gfx1013                            
+  Marketing Name:          AMD BC-250                         
+  Compute Unit:            40                                 
+      Name:                    amdgcn-amd-amdhsa--gfx1013:xnack-  
+    rc=0
+=== 2. HIP device query + memory
+    rc=124
+=== 3. Vulkan, the same board, a real model
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     |  99 |   1 |       none |            tg32 |        212.54 ± 0.01 |
+    rc=0
+=== 4. ROCm, a trivial correctness op
+    rc=124
+=== 5. ROCm, the same model Vulkan just ran
+/home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:111: ROCm error
+#5  0x00007f5da99321cd in ggml_abort () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-base.so.0
+#6  0x00007f5dad00a9e2 in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+    rc=0
+=== fault lines after the battery: 1041
+=== done 07:03:52

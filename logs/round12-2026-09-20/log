@@ -1,0 +1,33 @@
+[10:05:49] qwen2.5-1.5b-q4km pp512: kerntrace: 1234 kernel dispatches, 834.724 ms of kernel time, 908.262 ms first dispatch to last completio
+[10:05:49]     gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 538 (1.3 ms), 5-20us 686 (3.8 ms), 20-100us
+[10:05:49]     count total ms share avg us kernel
+[10:05:49]     124 308.183 36.9% 2485.35 _ZL16mmf16_rdna1_gemmIL9ggml_type12EEvPKcPKfPfiiimii
+[10:05:49]     124 293.408 35.2% 2366.19 void mmf16_rdna1_gemm(char const*, float const*, float*, int, int, int, unsigned long, int
+[10:05:49]     13 69.154 8.3% 5319.56 _ZL16mmf16_rdna1_gemmIL9ggml_type14EEvPKcPKfPfiiimii
+[10:05:49]     13 64.979 7.8% 4998.35 void mmf16_rdna1_gemm(char const*, float const*, float*, int, int, int, unsigned long, int
+[10:05:49]     28 16.561 2.0% 591.46 _ZL15flash_attn_tileILi128ELi128ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj
+[10:05:53] qwen2.5-1.5b-q4km pp2048: kerntrace: 4888 kernel dispatches, 3423.735 ms of kernel time, 3492.057 ms first dispatch to last complet
+[10:05:53]     count total ms share avg us kernel
+[10:05:53]     992 2344.624 68.5% 2363.53 _ZL16mmf16_rdna1_gemmIL9ggml_type12EEvPKcPKfPfiiimii
+[10:05:53]     104 520.380 15.2% 5003.66 _ZL16mmf16_rdna1_gemmIL9ggml_type14EEvPKcPKfPfiiimii
+[10:05:53]     224 303.234 8.9% 1353.73 _ZL15flash_attn_tileILi128ELi128ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj
+[10:05:53]     336 104.060 3.0% 309.70 _ZL9mul_mat_qIL9ggml_type12ELi64ELb0EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9
+[10:05:53]     112 40.838 1.2% 364.63 _ZL9mul_mat_qIL9ggml_type14ELi64ELb0EEvPKcPKiS4_S4_PfS5_PKf15HIP_vector_typeIjLj3EEiiiiiS9
+[10:05:53]     216 31.556 0.9% 146.09 _ZL21unary_gated_op_kernelIXadL_ZL7op_silufEEfEvPKT0_S2_PS0_llll
+[10:07:47] qwen3.8-27b-iq3xxs pp512: kerntrace: 3974 kernel dispatches, 13961.240 ms of kernel time, 14315.131 ms first dispatch to last compl
+[10:07:47]     gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 3955 (11.8 ms), 5-20us 4 (0.0 ms), 20-100us
+[10:07:47]     count total ms share avg us kernel
+[10:07:47]     192 4026.502 28.8% 20971.37 _ZL16mmf16_rdna1_gemmIL9ggml_type21EEvPKcPKfPfiiimii
+[10:07:47]     192 3953.776 28.3% 20592.59 void mmf16_rdna1_gemm(char const*, float const*, float*, int, int, int, unsigned long, int
+[10:07:47]     112 1835.305 13.1% 16386.65 _ZL16mmf16_rdna1_gemmIL9ggml_type18EEvPKcPKfPfiiimii
+[10:07:47]     112 1783.721 12.8% 15926.08 void mmf16_rdna1_gemm(char const*, float const*, float*, int, int, int, unsigned long, int
+[10:07:47]     96 850.982 6.1% 8864.40 _ZL16mmf16_rdna1_gemmIL9ggml_type23EEvPKcPKfPfiiimii
+[10:11:07] qwen3.8-27b-iq3xxs pp2048: kerntrace: 15308 kernel dispatches, 57041.359 ms of kernel time, 57336.099 ms first dispatch to last comp
+[10:11:07]     gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 15266 (43.2 ms), 5-20us 20 (0.2 ms), 20-100
+[10:11:07]     count total ms share avg us kernel
+[10:11:07]     1536 33068.723 58.0% 21529.12 _ZL16mmf16_rdna1_gemmIL9ggml_type21EEvPKcPKfPfiiimii
+[10:11:07]     896 14136.676 24.8% 15777.54 _ZL16mmf16_rdna1_gemmIL9ggml_type18EEvPKcPKfPfiiimii
+[10:11:07]     768 6785.851 11.9% 8835.74 _ZL16mmf16_rdna1_gemmIL9ggml_type23EEvPKcPKfPfiiimii
+[10:11:07]     128 840.839 1.5% 6569.05 _ZL15flash_attn_tileILi256ELi256ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj
+[10:11:07]     384 721.964 1.3% 1880.12 _Z20gated_delta_net_cudaILi128ELb0ELb0ELi8EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vect
+[10:11:07] CHAIN DONE

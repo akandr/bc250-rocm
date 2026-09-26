@@ -1,0 +1,15 @@
+BROKEN ~/llama-master/build-hip/bin/libggml-hip.so.0.19.0
+BROKEN ~/llama-master/build-multi/bin/libggml-hip.so.0.19.0
+BROKEN ~/rocBLAS/build-restored-2026-08-20/release/rocblas-install/lib/librocblas.so
+BROKEN ~/rocBLAS/build-restored-2026-08-20/release/rocblas-install/lib/librocblas.so.4
+BROKEN ~/rocBLAS/build-restored-2026-08-20/release/rocblas-install/lib/librocblas.so.4.4
+BROKEN ~/rocblas-hybrid/lib/librocblas.so.4.4
+BROKEN ~/rocblas-restored/lib/librocblas.so
+BROKEN ~/rocblas-restored/lib/librocblas.so.4
+BROKEN ~/rocblas-restored/lib/librocblas.so.4.4
+?(mov    %eax,%edx) ~/torchpristine/lib/python3.14/site-packages/torch/lib/libhipblaslt.so
+?(mov    %eax,%edx) ~/torchpristine/lib/python3.14/site-packages/torch/lib/libhipsparselt.so
+?(mov    %eax,%edx) ~/torchpristine/lib/python3.14/site-packages/torch/lib/librocblas.so
+?(mov    %eax,%edx) ~/torchvenv/lib/python3.14/site-packages/torch/lib/libhipblaslt.so
+?(mov    %eax,%edx) ~/torchvenv/lib/python3.14/site-packages/torch/lib/libhipsparselt.so
+?(mov    %eax,%edx) ~/torchvenv/lib/python3.14/site-packages/torch/lib/librocblas.so

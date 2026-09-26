@@ -1,0 +1,6 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+Memory access fault by GPU node-1 (Agent handle: 0x3aaf7f60) on address 0x7f1729e0b000. Reason: Page not present or supervisor privilege.
+Failed to fetch queues snapshot.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci

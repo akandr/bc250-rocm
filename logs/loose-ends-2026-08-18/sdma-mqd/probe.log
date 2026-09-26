@@ -1,0 +1,4 @@
+HSA_ENABLE_SDMA=1, 3 reps per size
+      16 KiB: H2D     0.02 ms (  0.84 GB/s) | D2H     0.03 ms (  0.58 GB/s) | H2D pinned     0.02 ms
+
+    HUNG: H2D pageable of 16385 bytes did not complete in 30 s

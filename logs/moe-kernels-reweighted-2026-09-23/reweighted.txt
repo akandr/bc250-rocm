@@ -1,0 +1,35 @@
+63 shapes replayed on both backends
+
+unweighted, one reading per distinct shape
+  as published                 ROCm  1453.9 us   Vulkan  1542.2 us   ROCm/Vulkan 0.943
+  artifact row corrected       ROCm  1453.9 us   Vulkan  1414.8 us   ROCm/Vulkan 1.028
+
+  ROCm faster on 30 of 63 shapes, slower on 33
+  median per-shape ROCm/Vulkan 1.024
+
+quantised-weight matmuls, replay against replay, no weighting
+  ffn_moe_down-0           iq3_xxs  ROCm    34.06 us   Vulkan    25.94 us    1.313
+  z-0                      q5_K     ROCm    24.68 us   Vulkan    20.85 us    1.184
+  attn_output-3            q5_K     ROCm    24.85 us   Vulkan    21.15 us    1.175
+  node_13                  q5_K     ROCm    41.02 us   Vulkan    37.65 us    1.090
+  ffn_moe_down-34          iq4_xs   ROCm    34.37 us   Vulkan    31.89 us    1.078
+  ffn_gate-0               q5_K     ROCm     7.53 us   Vulkan     6.99 us    1.077
+  ffn_moe_gate-0           iq2_xxs  ROCm    22.38 us   Vulkan    20.81 us    1.075
+  result_output            q4_K     ROCm   955.13 us   Vulkan   920.51 us    1.038
+  linear_attn_out-0        q6_K     ROCm    23.74 us   Vulkan    23.17 us    1.025
+  ffn_shexp-0              q6_K     ROCm     6.12 us   Vulkan     8.27 us    0.740
+  ROCm slower on 9 of 10, median ratio 1.078
+
+f32-weight matmuls, replay against replay, no weighting
+  shared_expert_gate-0     f32      ROCm     4.09 us   Vulkan     4.26 us    0.961
+  node_34                  f32      ROCm     4.23 us   Vulkan     5.16 us    0.820
+  ffn_moe_logits-0         f32      ROCm     7.60 us   Vulkan    10.50 us    0.724
+  ROCm faster on 3 of 3, median ratio 0.820
+
+why this is not weighted by occurrence
+  ROCm issues 437.7 matvec dispatches a token (rocprof trace), Vulkan 511 (perf logger).
+  ROCm fuses pairs Vulkan runs separately: the iq2_xxs expert gate/up is 39.4 dispatches a
+  token at 41.4 us on ROCm against 80 at 19.3 us on Vulkan, and the ROCm kernel is doing more
+  than the Vulkan one (has_fusion folds the GLU in, which Vulkan dispatches 80 times at
+  2.96 us). Per-shape counts are not shared between the backends and the dispatches are not
+  even like for like, so a cross-backend weighted total is not defined for this graph.

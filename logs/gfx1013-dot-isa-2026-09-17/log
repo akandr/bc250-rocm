@@ -1,0 +1,14 @@
+=== hipcc --version
+HIP version: 7.1.52802-9999
+clang version 20.0.0.rocm
+Target: x86_64-redhat-linux-gnu
+
+=== __builtin_amdgcn_sdot4 on gfx1013
+/tmp/dot4.cpp:2:56: error: '__builtin_amdgcn_sdot4' needs target feature dot1-insts
+    2 | __global__ void k(int*o,const int*a,const int*b){ *o = __builtin_amdgcn_sdot4(a[0],b[0],0,false); }
+      |                                                        ^
+1 error generated when compiling for gfx1013.
+
+=== vector ALU counts, divergent inputs
+scalar #else branch    vector ALU 11: v_lshlrev_b32_e32 v_lshrrev_b16 v_lshrrev_b16 v_mul_i32_i24_sdwa v_mul_i32_i24_sdwa v_mul_i32_i24_sdwa v_bfe_i32 v_bfe_i32 v_mov_b32_e32 v_mad_i32_i24 v_add3_u32
+RDNA1 inline asm       vector ALU 9: v_lshlrev_b32_e32 v_mov_b32_e32 v_mov_b32_e32 v_mul_i32_i24 v_mul_i32_i24 v_add3_u32 v_mul_i32_i24 v_mul_i32_i24 v_add3_u32

@@ -1,0 +1,48 @@
+=== streams launched, GGML_CUDA_GRAPH_OPT=1, base vs per-region ===
+model                            base   per-region
+qwen3.6-35b-a3b-iq2m                0            0
+qwen3.8-27b-iq3xxs                  0            0
+qwen2.5-1.5b-q4km                  56           56
+
+=== decode, both arms with GRAPH_OPT=1, interleaved ===
+== qwen3.6-35b-a3b-iq2m
+   1  base 69.97±1.71  per-region 69.78±0.76  +64.0°C
+   2  base 70.07±0.79  per-region 70.05±1.24  +63.0°C
+   3  base 70.52±0.84  per-region 69.83±0.87  +64.0°C
+   4  base 70.06±0.95  per-region 69.64±1.77  +63.0°C
+   5  base 70.15±1.06  per-region 70.45±1.05  +63.0°C
+   6  base 70.58±0.84  per-region 69.46±1.27  +63.0°C
+== qwen2.5-1.5b-q4km
+   1  base 206.39±11.45  per-region 210.94±2.73  +66.0°C
+   2  base 211.91±2.72  per-region 211.91±2.67  +67.0°C
+   3  base 212.24±2.85  per-region 212.21±2.78  +67.0°C
+   4  base 211.16±2.91  per-region 212.06±2.76  +67.0°C
+   5  base 211.86±3.11  per-region 211.74±2.92  +67.0°C
+   6  base 211.65±2.76  per-region 211.48±2.76  +68.0°C
+done
+--- /tmp/ggml-cuda.cu.prepatch	2026-09-24 14:35:18.707397123 +0200
++++ ggml/src/ggml-cuda/ggml-cuda.cu	2026-09-24 14:35:18.729441445 +0200
+@@ -4248,10 +4248,20 @@
+             [[maybe_unused]] int prev_i = 0;
+ 
+             if (stream_ctx.concurrent_events.size() > 0) {
+-                should_launch_concurrent_events = true;
+-                for (const auto & [tensor, event] : stream_ctx.concurrent_events) {
+-                    should_launch_concurrent_events = should_launch_concurrent_events && event.is_valid();
++                // Drop only the regions that are unsafe to run concurrently, rather than every region
++                // in the graph when one of them is. is_valid() rejects a region whose branches write
++                // to overlapping memory, and a single such region used to disable all the others: a
++                // mixture-of-experts graph identifies dozens of regions and launched none of them.
++                // Nodes of a dropped region keep the interleaved order and run on the main stream,
++                // which is what happened to every region before this change.
++                for (auto it = stream_ctx.concurrent_events.begin(); it != stream_ctx.concurrent_events.end(); ) {
++                    if (!it->second.is_valid()) {
++                        it = stream_ctx.concurrent_events.erase(it);
++                    } else {
++                        ++it;
++                    }
+                 }
++                should_launch_concurrent_events = !stream_ctx.concurrent_events.empty();
+             }
+ 
+             if (should_launch_concurrent_events) {

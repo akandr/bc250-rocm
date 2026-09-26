@@ -1,0 +1,21 @@
+[   18.693827] MARK-smu2e-sync-2-1
+[   21.972371] Setting dangerous option reset_method - tainting kernel
+[   22.496870] amdgpu 0000:01:00.0: GPU reset begin!. Source:  5
+[   22.521422] amdgpu 0000:01:00.0: MODE2 reset
+[   22.521511] amdgpu 0000:01:00.0: BC250SMURESET mode=1 arg=0 delay=100
+[   22.521559] amdgpu 0000:01:00.0: SMU: unknown command msg_reg: 2e resp_reg: fe
+[   22.521601] in params:00000000
+[   22.521631] amdgpu 0000:01:00.0: BC250SMURESET sent ret=-95 out=0x00000000
+[   22.625265] amdgpu 0000:01:00.0: BC250SMURESET slept, returning 0
+[   22.625374] amdgpu 0000:01:00.0: GPU reset succeeded, trying to resume
+[   22.625420] amdgpu 0000:01:00.0: BC-250: flush_pasid_uses_kiq=0 (param 0)
+[   22.625717] amdgpu 0000:01:00.0: [drm] PCIE GART of 512M enabled (table at 0x000000F41FE00000).
+[   22.625802] amdgpu 0000:01:00.0: PSP is resuming...
+[   22.646180] amdgpu 0000:01:00.0: reserve 0x400000 from 0xf41f800000 for PSP TMR
+[   22.682375] amdgpu 0000:01:00.0: SMU is resuming...
+[   22.682440] amdgpu 0000:01:00.0: SMU is resumed successfully!
+[   22.682522] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   22.682598] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=0 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   22.682673] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=0 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   22.682745] amdgpu 0000:01:00.0: bc250-40cu-enable: mode=3 se=1 sh=1 CC=0xfff80000->0xffe00000 SPI=0x0000001f->0x0000001f
+[   22.873566] clocksource: Watchdog remote CPU 8 read timed out

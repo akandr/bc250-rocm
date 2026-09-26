@@ -1,0 +1,30 @@
+ depth    arm  fa  passes -> median
+     0   base   0      245.19  244.19  242.27 ->  244.19  (spread 1.2 %)
+     0   base   1      194.27  194.54  193.93 ->  194.27  (spread 0.3 %)
+     0  fixed   0      243.33  243.60  241.65 ->  243.33  (spread 0.8 %)
+     0  fixed   1      256.74  257.31  256.42 ->  256.74  (spread 0.3 %)
+  4096   base   0      153.74  166.23  161.78 ->  161.78  (spread 7.7 %)
+  4096   base   1       97.33   97.32   97.32 ->   97.32  (spread 0.0 %)
+  4096  fixed   0      169.92  178.12  164.65 ->  169.92  (spread 7.9 %)
+  4096  fixed   1      198.32  194.25  195.53 ->  195.53  (spread 2.1 %)
+  8192   base   0      113.21  111.85  117.20 ->  113.21  (spread 4.7 %)
+  8192   base   1       64.91   64.93   64.96 ->   64.93  (spread 0.1 %)
+  8192  fixed   0      122.20  122.82  117.47 ->  122.20  (spread 4.4 %)
+  8192  fixed   1      158.02  155.59  157.41 ->  157.41  (spread 1.5 %)
+
+control: -fa off base vs fixed per pass (should agree)
+  d=0     pass 1: base  245.19 fixed  243.33  -0.8 %
+  d=0     pass 2: base  244.19 fixed  243.60  -0.2 %
+  d=0     pass 3: base  242.27 fixed  241.65  -0.3 %
+  d=4096  pass 1: base  153.74 fixed  169.92  +10.5 %  <-- contaminated pass
+  d=4096  pass 2: base  166.23 fixed  178.12  +7.2 %  <-- contaminated pass
+  d=4096  pass 3: base  161.78 fixed  164.65  +1.8 %
+  d=8192  pass 1: base  113.21 fixed  122.20  +7.9 %  <-- contaminated pass
+  d=8192  pass 2: base  111.85 fixed  122.82  +9.8 %  <-- contaminated pass
+  d=8192  pass 3: base  117.20 fixed  117.47  +0.2 %
+
+SPILL_DEPTH = {
+    0: (244.19, 194.27, 243.33, 256.74),
+    4096: (161.78, 97.32, 169.92, 195.53),
+    8192: (113.21, 64.93, 122.20, 157.41),
+}

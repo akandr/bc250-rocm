@@ -1,0 +1,32 @@
+The host-copy probe's own counter, recovered from the per-run logs on the board
+on 25 August, four days after the run.
+
+It is here because the shipped summary in hostcopy_probe_log reads
+"launches seen 0" for both arms, which reads as the probe never having executed.
+That is a harness fault, not a result: the probe prints "BC250COPY copies=N" and
+the harness greps for "BC250COPY launches=", so the marker never matched and the
+field was always the fallback zero. The extraction is fixed in
+scripts/kqv_hostcopy_probe.sh; this file is the evidence for the run that was
+already taken.
+
+The counter prints at counts 1, 50001, 100001 and so on rather than every time,
+so "copies=1" means between 1 and 50000 read-backs happened, not one. What it
+establishes is presence: the line is in all eight arm B logs and in none of the
+eight arm A logs, so the opt-in path ran in exactly the arm it was supposed to.
+
+r1_A.log   
+r2_A.log   
+r3_A.log   
+r4_A.log   
+r5_A.log   
+r6_A.log   
+r7_A.log   
+r8_A.log   
+r1_B.log   BC250COPY copies=1
+r2_B.log   BC250COPY copies=1
+r3_B.log   BC250COPY copies=1
+r4_B.log   BC250COPY copies=1
+r5_B.log   BC250COPY copies=1
+r6_B.log   BC250COPY copies=1
+r7_B.log   BC250COPY copies=1
+r8_B.log   BC250COPY copies=1

@@ -1,0 +1,5 @@
+[    6.386119] amdgpu 0000:01:00.0: detected ip block number 7 <sdma_v5_0_0> (sdma_v5_0)
+[    6.986411] amdgpu 0000:01:00.0: Fence fallback timer expired on ring sdma0
+[    7.490396] amdgpu 0000:01:00.0: Fence fallback timer expired on ring sdma0
+[    7.490776] amdgpu 0000:01:00.0: ring sdma0 uses VM inv eng 12 on hub 0
+[    7.490778] amdgpu 0000:01:00.0: ring sdma1 uses VM inv eng 13 on hub 0

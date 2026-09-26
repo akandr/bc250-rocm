@@ -1,0 +1,27 @@
+blocks: 9 dispatch totals per block: [1483, 1483, 1423, 1423, 1423, 1423, 1423, 1423, 1423]
+
+op                               count   mean us   total us
+MUL_MAT_VEC q5_K m=512 n=1 k=2     100      6.44      644.0
+RMS_NORM_MUL RMS_NORM(2048,1,1      81      5.14      416.7
+GLU                                 80      2.96      237.0
+MULTI_ADD ADD                       80      3.82      305.5
+MUL_MAT_ID_VEC iq2_xxs m=512 n      80     19.30     1543.6
+GET_ROWS                            61      8.83      538.4
+ADD                                 60      3.42      205.2
+CPY                                 60      7.82      469.4
+MUL_MAT_VEC f32 m=32 n=1 k=204      60      5.04      302.4
+RMS_NORM(128,16,1,1)                60      4.72      283.4
+SCALE                               60      3.53      211.9
+SIGMOID_MUL SIGMOID                 50      3.78      189.2
+MUL_MAT_VEC f32 m=1 n=1 k=2048      40      4.26      170.3
+MUL_MAT_VEC f32 m=256 n=1 k=20      40      9.98      399.0
+MUL_MAT_VEC q5_K m=8192 n=1 k=      40     38.72     1548.9
+MUL_MAT_VEC q6_K m=2048 n=1 k=      40      7.96      318.2
+TOPK_MOE_EARLY_SOFTMAX_NORM SO      40      7.03      281.0
+MUL_MAT_ID_MUL MUL_MAT_ID_VEC       37     25.28      935.5
+CONCAT                              30      4.36      130.7
+GATED_DELTA_NET                     30     14.86      445.8
+MUL_MAT_VEC q5_K m=4096 n=1 k=      30     24.73      741.8
+MUL_MAT_VEC q6_K m=2048 n=1 k=      30     23.52      705.8
+------------------------------------------------------------
+TOTAL dispatches                  1423              13273.7

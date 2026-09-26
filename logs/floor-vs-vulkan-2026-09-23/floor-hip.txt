@@ -1,0 +1,38 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+device      : ROCm0 (AMD BC-250)
+nodes       : 256 x ggml_sqrt, 40 reps a measurement, best of 5
+
+== chain: dependent nodes, no overlap possible ==
+    elements  per node (us)     GB/s implied
+        1024          2.536              3.2
+       16384          2.677             49.0
+       65536          3.448            152.1
+      262144          6.510            322.1
+     1048576         22.313            375.9
+floor, measured at smallest tensor :    2.536 us per node
+fit intercept (biased low)         :    2.192 us per node
+fit throughput                     :    420.3 GB/s (read+write f32)
+
+== fan: independent nodes, overlap permitted ==
+    elements  per node (us)     GB/s implied
+        1024          2.681              3.1
+       16384          2.882             45.5
+       65536          3.958            132.5
+      262144          7.966            263.3
+     1048576         24.270            345.6
+floor, measured at smallest tensor :    2.681 us per node
+fit intercept (biased low)         :    2.592 us per node
+fit throughput                     :    387.1 GB/s (read+write f32)
+
+chain 2.536 us, fan 2.681 us, fan/chain 1.057  (1.0 = no overlap gained)

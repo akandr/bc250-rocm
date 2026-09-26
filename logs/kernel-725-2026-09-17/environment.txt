@@ -1,0 +1,12 @@
+== kernel and module
+7.2.5-200.fc44.x86_64
+kernel-core-7.2.5-200.fc44.x86_64             czw, 17 wrz 2026, 15:31:05
+bc250_cc_write_mode bc250_flush_by_runlist bc250_flush_pasid_kiq bc250_flush_vmid_mode 
+simd_count 80
+== patches applied to the 7.2.5 source
+/home/akandr/k725/linux-7.2.5/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c:5
+/home/akandr/k725/linux-7.2.5/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c:2
+/home/akandr/k725/linux-7.2.5/drivers/gpu/drm/amd/amdkfd/kfd_svm.c:2
+== amdkfd kfd_flush_tlb call sites, 7.1.8 vs 7.2.5
+/home/akandr/k718/linux-7.1.8/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c:3 /home/akandr/k718/linux-7.1.8/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c:4 /home/akandr/k718/linux-7.1.8/drivers/gpu/drm/amd/amdkfd/kfd_svm.c:2 
+/home/akandr/k725/linux-7.2.5/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c:3 /home/akandr/k725/linux-7.2.5/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c:6 /home/akandr/k725/linux-7.2.5/drivers/gpu/drm/amd/amdkfd/kfd_svm.c:2 

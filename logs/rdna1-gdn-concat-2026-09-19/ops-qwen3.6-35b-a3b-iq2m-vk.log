@@ -1,0 +1,19 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+Testing 2 devices
+
+Backend 1/2: Vulkan0
+  Device description: AMD BC-250 (RADV GFX1013)
+  Device memory: 15708 MB (15691 MB free)
+
+  CONCAT(name=conv_input-0,type=f32,ne=[4,8192,1,1],op_params=[],sources=f32[3,8192,1,1],f32[1,8192,1,1]nb[32768,4,32768,32768]):             229348 runs -     4.44 us/run -      256 kB/run - [1;34m  54.95 GB/s[0m
+  CONCAT(name=conv_input-0,type=f32,ne=[2051,8192,1,1],op_params=[],sources=f32[3,8192,1,1],f32[2048,8192,1,1]nb[32768,4,67108864,67108864]):                    256 runs - 15912.36 us/run -   131264 kB/run - [1;34m   7.87 GB/s[0m
+  SSM_CONV(name=conv_output_raw-0,type=f32,ne=[8192,1,1,1],op_params=[],sources=f32[4,8192,1,1],f32[4,8192,1,1]):             294912 runs -     3.47 us/run -      288 kB/run - [1;34m  79.21 GB/s[0m
+  SSM_CONV(name=conv_output_raw-0,type=f32,ne=[8192,2048,1,1],op_params=[],sources=f32[2051,8192,1,1],f32[4,8192,1,1]):                 1792 runs -   601.82 us/run -   131296 kB/run - [1;34m 208.06 GB/s[0m
+  GATED_DELTA_NET(name=node_44,type=f32,ne=[4096,129,1,1],op_params=[0:1],sources=f32[128,16,1,1],f32[128,16,1,1],f32[128,32,1,1]nb[4,512,32768,32768],f32[1,32,1,1],f32[1,32,1,1],f32[128,128,32,1]):                 56679 runs -    18.56 us/run -     4144 kB/run - [1;34m 212.91 GB/s[0m
+  GATED_DELTA_NET(name=node_44,type=f32,ne=[4096,2176,1,1],op_params=[0:1],sources=f32[128,16,2048,1],f32[128,16,2048,1],f32[128,32,2048,1]nb[4,512,32768,67108864],f32[1,32,2048,1],f32[1,32,2048,1],f32[128,128,32,1]):                496 runs -  2901.23 us/run -   135664 kB/run - [1;34m  44.59 GB/s[0m
+  Backend Vulkan0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

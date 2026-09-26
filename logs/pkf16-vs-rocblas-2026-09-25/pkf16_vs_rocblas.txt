@@ -1,0 +1,50 @@
+# Hand-written packed-fp16 GEMM against rocBLAS HGEMM, same boot, same clock policy
+2026-09-25T13:05:36+02:00
+kernel:  7.2.5-200.fc44.x86_64
+rocBLAS: /opt/bc250-rocm/lib64/librocblas.so.5
+Tensile: /home/akandr/rb711/install/lib64/rocblas/library (gfx1013 HH object md5 cc7443b9)
+clock:   1000-1500 MHz oberon policy; nothing else using the GPU
+edge before: +52.0
+
+== rocBLAS first
+device AMD BC-250  arch gfx1013:xnack-  CUs 20
+ceilings measured on this board: fp32 4.74 TFLOP/s, packed fp16 14.40 TFLOP/s; fp64 has none measured
+median of 5 timed iterations after one warm-up; two elements CPU-checked per size
+
+## SGEMM, fp32
+     N         ms      GFLOP/s    ceiling   % peak    spread    rel err
+   512      0.187       1435.4    4740.00    30.3%     14.9%   1.47e-07
+  1024      0.848       2532.1    4740.00    53.4%      0.5%   8.65e-07
+  2048      5.746       2990.1    4740.00    63.1%      0.1%   2.99e-06
+  4096     30.224       4547.3    4740.00    95.9%      0.3%   1.26e-06
+  8192    237.988       4620.0    4740.00    97.5%      0.7%   1.45e-06
+
+## HGEMM, fp16
+     N         ms      GFLOP/s    ceiling   % peak    spread    rel err
+   512      0.156       1724.6   14400.00    12.0%     18.6%   3.79e-03
+  1024      0.635       3381.3   14400.00    23.5%      4.5%   5.39e-03
+  2048      5.991       2867.7   14400.00    19.9%      2.4%   5.65e-03
+  4096     30.443       4514.6   14400.00    31.4%      2.8%   3.32e-02
+  8192    235.351       4671.8   14400.00    32.4%      1.9%   2.51e-02
+
+## DGEMM, fp64
+     N         ms      GFLOP/s                        spread    rel err
+   512      0.628        427.5          -        -      3.3%   2.33e-15
+  1024      4.814        446.1          -        -      0.1%   9.99e-16
+  2048     37.663        456.1          -        -      0.0%   1.89e-15
+  4096    300.602        457.2          -        -      0.0%   2.38e-15
+
+done
+edge: +64.0
+
+== hand-written packed-fp16 kernel, same shapes
+correctness on 256x128x256: worst relative error 0.0000 (fp16 accumulation)
+
+shape                                      ms    TFLOP/s of 14.4 peak
+square 512                              0.164       1.64          11%
+square 1024                             0.432       4.97          35%
+square 2048                             3.492       4.92          34%
+square 4096                            17.842       7.70          53%
+square 8192                           122.907       8.95          62%
+edge: +74.0
+clock at end: 1: 1500Mhz *

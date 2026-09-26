@@ -1,0 +1,56 @@
+loaded code object /home/akandr/rocBLAS/build/release/rocblas-install/lib/rocblas/library/Kernels.so-000-gfx1013.hsaco
+ProblemMap Searching for Contraction_l_Alik_Bljk_Cijk_Dijk found Problem library (1 rows)
+Object key: 1024, 512, 4096
+Key: 1024, 512, 4096
+Starting point: 5504, 1, 5504
+Rightward search...
+
+speed: 47.6186 | 5504, 1, 5504: 2.2314e+07 == 2.2314e+07
+
+speed: 47.6186 | 5504, 1, 5504: 2.2314e+07 == 2.2314e+07
+
+speed: 47.5186 | 5504, 1, 5504: 2.2314e+07 == 2.2314e+07
+
+speed: 47.5186 | 5504, 1, 5504: 2.2314e+07 == 2.2314e+07
+speed: 268.284 | 5504, 5504, 1: 6.17595e+07 > 2.2314e+07
+speed: 268.284 | 5504, 5504, 1: 6.17595e+07 > 2.2314e+07
+speed: 268.184 | 5504, 5504, 1: 6.17595e+07 > 2.2314e+07
+speed: 268.184 | 5504, 5504, 1: 6.17595e+07 > 2.2314e+07
+speed: 8215.01 | 5504, 5504, 5504: 4.69729e+07 > 2.2314e+07
+speed: 8215.01 | 5504, 5504, 5504: 4.69729e+07 > 2.2314e+07
+speed: 8214.91 | 5504, 5504, 5504: 4.69729e+07 > 2.2314e+07
+speed: 8214.91 | 5504, 5504, 5504: 4.69729e+07 > 2.2314e+07
+Leftward search...
+1, 5504, 5504: 2.79491e+07 > 2.2314e+07
+1, 5504, 5504: 2.79491e+07 > 2.2314e+07
+1, 5504, 5504: 2.79491e+07 > 2.2314e+07
+1, 5504, 5504: 2.79491e+07 > 2.2314e+07
+Considered 100% of entries.
+Solution index selected: 625
+loaded code object /home/akandr/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+Kernel Cijk_Alik_Bljk_HB_MT64x64x8_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA1_NLCB1_PGR1_PLR1_SIA1_SU32_SUS256_SVW4_TT4_4_USFGRO0_VAW2_VS1_VW1_VWB1_WG16_16_1_WGM8
+ l(256, 1, 1) x g(16, 8, 1) = (4096, 8, 1)
+[0..7] d: 00 00 20 58 f7 7f 00 00 (0x7ff758200000)
+[8..15] c: 00 00 20 58 f7 7f 00 00 (0x7ff758200000)
+[16..23] a: 00 00 a0 4b f7 7f 00 00 (0x7ff74ba00000)
+[24..31] b: 00 00 40 4b f7 7f 00 00 (0x7ff74b400000)
+[32..33] alpha: 00 3c (10.25)
+[34..35] beta: 00 00 (10.25)
+[36..39] strideD1: 00 04 00 00 (1024)
+[40..43] strideD2: 01 00 00 00 (1)
+[44..47] strideC1: 00 04 00 00 (1024)
+[48..51] strideC2: 01 00 00 00 (1)
+[52..55] strideA1: 00 10 00 00 (4096)
+[56..59] strideA2: 01 00 00 00 (1)
+[60..63] strideB1: 00 10 00 00 (4096)
+[64..67] strideB2: 01 00 00 00 (1)
+[68..71] size_0: 00 04 00 00 (1024)
+[72..75] size_1: 00 02 00 00 (512)
+[76..79] size_2: 01 00 00 00 (1)
+[80..83] size_3: 00 10 00 00 (4096)
+[84..87] staggerUIter: 1f 00 00 00 (31)
+[88..91] problemNumGroupTiles0: 10 00 00 00 (16)
+[92..95] problemNumGroupTiles1: 08 00 00 00 (8)
+Occupancy = 8
+rep 0 status 0 zeros 0 stamp 48 of 524288
+RESULT bad_reps=0/1

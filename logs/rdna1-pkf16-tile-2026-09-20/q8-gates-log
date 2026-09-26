@@ -1,0 +1,3 @@
+ppl q8-on-gemm=1 : Final estimate: PPL = 9.4017
+ppl q8-on-gemm=0 : Final estimate: PPL = 9.3944
+DONE

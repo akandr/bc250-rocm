@@ -1,0 +1,8 @@
+0.08.164.322 W DEPRECATED: --mmap and --no-mmap are deprecated. use --load-mode mmap instead
+0.08.412.186 E llama_model_load: error loading model: error loading model hyperparameters: key qwen35.rope.dimension_sections has wrong array length; expected 4, got 3
+0.08.412.194 E llama_model_load_from_file_impl: failed to load model
+0.08.412.244 E common_fit_params: encountered an error while trying to fit params to free device memory: failed to load model
+0.08.635.939 E llama_model_load: error loading model: error loading model hyperparameters: key qwen35.rope.dimension_sections has wrong array length; expected 4, got 3
+0.08.635.944 E llama_model_load_from_file_impl: failed to load model
+0.08.635.951 E cmn  common_init_: failed to load model '/opt/models/qwen3.5-9b.gguf'
+0.08.635.960 E llama_perplexity: unable to load model

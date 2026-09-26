@@ -1,0 +1,14 @@
+[01:56:02] GGML_OP_FLASH_ATTN_EXT = 74
+[01:56:04] qwen2.5-1.5b-q4km: 37 ops exported, 2 flash-attention lines
+[01:57:00] qwen2.5-1.5b-q4km: hip 47.89 us/run 16864.51 us/run  | vk 127.58 us/run 16191.97 us/run 
+[01:57:14] qwen3-8b-q8_0: 40 ops exported, 2 flash-attention lines
+[01:58:40] qwen3-8b-q8_0: hip 163.48 us/run 43225.60 us/run  | vk 68.76 us/run 73115.23 us/run 
+[01:59:03] deepseek-r1-14b: 37 ops exported, 2 flash-attention lines
+[02:01:22] deepseek-r1-14b: hip 460.35 us/run 129561.73 us/run  | vk 91.52 us/run 98532.39 us/run 
+[02:01:52] qwen3-14b: 42 ops exported, 2 flash-attention lines
+[02:04:15] qwen3-14b: hip 463.14 us/run 129375.02 us/run  | vk 89.89 us/run 95469.62 us/run 
+[02:04:32] qwen3.6-35b-a3b-iq2m: 121 ops exported, 2 flash-attention lines
+[02:06:13] qwen3.6-35b-a3b-iq2m: hip 62.46 us/run 98332.70 us/run  | vk 70.73 us/run 30246.16 us/run 
+[02:06:29] qwen3.8-27b-iq3xxs: 95 ops exported, 2 flash-attention lines
+[02:08:23] qwen3.8-27b-iq3xxs: hip 89.68 us/run 147242.80 us/run  | vk 89.29 us/run 62651.27 us/run 
+[02:08:23] FA DONE

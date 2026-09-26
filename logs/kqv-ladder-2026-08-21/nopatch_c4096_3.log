@@ -1,0 +1,11 @@
+0.04.517.174 W DEPRECATED: --mmap and --no-mmap are deprecated. use --load-mode mmap instead
+0.05.384.615 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.05.895.353 I 
+0.05.895.456 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | ROCm : NO_VMM = 1 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.05.895.472 I perplexity: tokenizing the input ..
+0.06.623.491 I perplexity: tokenization took 728.011 ms
+0.06.623.817 I perplexity: calculating perplexity over 2 chunks, n_ctx=4096, batch_size=2048, n_seq=1
+0.12.872.765 I perplexity: 6.25 seconds per pass - ETA 0.20 minutes
+[1]3085.4076,[2]8234.2048,
+0.19.022.759 I Final estimate: PPL = 8234.2048 +/- 599.23899
+

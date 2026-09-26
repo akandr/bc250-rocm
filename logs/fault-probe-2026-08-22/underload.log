@@ -1,0 +1,7 @@
+[00:07:49] === arm default2, gpu_recovery=-1, uptime 530s
+[00:08:29]   firing the fault probe while the benchmark runs
+[00:08:30]   probe exit=134
+[00:09:04]   benchmark: tg8 @ d16128 |         85.23
+[00:09:04]   resets this boot: 0
+[00:09:04]   preemption or flush failures: 0
+[00:09:04] === done, uptime 605s

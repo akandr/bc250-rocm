@@ -1,0 +1,12 @@
+[08:41:40] === native gfx1013 rocBLAS (the library everything so far was tested against)
+[08:42:19]   native f32 r1: 9.0975
+[08:42:58]   native f16 r1: 23.4547
+[08:43:37]   native f32 r2: 9.0975
+[08:44:16]   native f16 r2: 13.9642
+[08:44:16] === system rocBLAS with HSA_OVERRIDE_GFX_VERSION=10.1.0 (different code objects)
+[08:44:44]   override f32 r1: FAIL
+[08:45:12]   override f16 r1: FAIL
+[08:45:42]   override f32 r2: FAIL
+[08:46:11]   override f16 r2: FAIL
+[08:46:12] === dmesg faults: 
+[08:46:12] done

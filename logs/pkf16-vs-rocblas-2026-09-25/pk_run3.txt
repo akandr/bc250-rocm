@@ -1,0 +1,13 @@
+# run 3, pk_gemm with matched data and the two-element accuracy check
+2026-09-25T13:12:04+02:00
+edge before: +57.0
+correctness on 256x128x256: worst relative error 0.0000 (fp16 accumulation)
+
+shape                                      ms    TFLOP/s of 14.4 peak    rel err
+square 512                              0.163       1.64          11%   6.80e-03
+square 1024                             0.418       5.14          36%   4.87e-03
+square 2048                             3.452       4.98          35%   1.21e-02
+square 4096                            17.933       7.66          53%   1.81e-02
+square 8192                           123.378       8.91          62%   3.51e-03
+edge after: +75.0
+clock: 1: 1500Mhz *

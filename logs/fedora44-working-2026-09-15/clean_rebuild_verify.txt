@@ -1,0 +1,9 @@
+== clean-clone rebuild, 2026-09-16, following the README steps exactly
+-- Building for GPU targets: gfx1013
+-- Using GPU_TARGETS: gfx1013
+RC=0
+gfx1013 files: 56
+8B gate with it: PPL = 9.1117 (console)
+TensileLibrary_lazy_gfx1013.dat md5 identical to the installed build; Kernels.so differs (build paths are embedded)
+2026-09-16 05:38:36.135927544 +0200 build start
+2026-09-16 05:54:18.000000000 +0200 build end

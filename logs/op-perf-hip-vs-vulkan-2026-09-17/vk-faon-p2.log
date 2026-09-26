@@ -1,0 +1,50 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+Testing 2 devices
+
+Backend 1/2: Vulkan0
+  Device description: AMD BC-250 (RADV GFX1013)
+  Device memory: 15708 MB (15691 MB free)
+
+  ADD(name=Vcur-0,type=f32,ne=[256,1,1,1],op_params=[],sources=f32[256,1,1,1],f32[256,1,1,1]):                393216 runs -     2.55 us/run -        3 kB/run - [1;34m   1.12 GB/s[0m
+  ADD(name=Vcur-0,type=f32,ne=[256,2048,1,1],op_params=[],sources=f32[256,2048,1,1],f32[256,1,1,1]):                   32764 runs -    39.81 us/run -     4097 kB/run - [1;34m  98.15 GB/s[0m
+  ADD(name=Qcur-0,type=f32,ne=[1536,1,1,1],op_params=[],sources=f32[1536,1,1,1],f32[1536,1,1,1]):             319488 runs -     3.15 us/run -       18 kB/run - [1;34m   5.45 GB/s[0m
+  ADD(name=Qcur-0,type=f32,ne=[1536,2048,1,1],op_params=[],sources=f32[1536,2048,1,1],f32[1536,1,1,1]):                 5464 runs -   210.84 us/run -    24582 kB/run - [1;34m 111.19 GB/s[0m
+  ADD(name=ffn_inp-0,type=f32,ne=[1536,2048,1,1],op_params=[],sources=f32[1536,2048,1,1],f32[1536,2048,1,1]):                   8199 runs -   136.07 us/run -    36864 kB/run - [1;34m 258.36 GB/s[0m
+  MUL(name=attn_norm-0,type=f32,ne=[1536,1,1,1],op_params=[],sources=f32[1536,1,1,1],f32[1536,1,1,1]):                311296 runs -     3.22 us/run -       18 kB/run - [1;34m   5.33 GB/s[0m
+  MUL(name=attn_norm-0,type=f32,ne=[1536,2048,1,1],op_params=[],sources=f32[1536,2048,1,1],f32[1536,1,1,1]):                    5464 runs -   210.60 us/run -    24582 kB/run - [1;34m 111.32 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[1536,1,1,1],op_params=[0:897988541],sources=f32[1536,1,1,1]):             204800 runs -     4.92 us/run -       12 kB/run - [1;34m   2.32 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[1536,2048,1,1],op_params=[0:897988541],sources=f32[1536,2048,1,1]):                10928 runs -    97.70 us/run -    24576 kB/run - [1;34m 239.88 GB/s[0m
+  MUL_MAT(name=Kcur-0,type=f32,ne=[256,1,1,1],op_params=[],sources=q4_K[1536,256,1,1],f32[1536,1,1,1]):               122880 runs -     8.26 us/run -      223 kB/run - [1;34m  25.73 GB/s[0m
+  MUL_MAT(name=Vcur-0,type=f32,ne=[256,1,1,1],op_params=[],sources=q6_K[1536,256,1,1],f32[1536,1,1,1]):               155648 runs -     6.45 us/run -      322 kB/run - [1;34m  47.59 GB/s[0m
+  MUL_MAT(name=Kcur-0,type=f32,ne=[256,2048,1,1],op_params=[],sources=q4_K[1536,256,1,1],f32[1536,2048,1,1]):                   4612 runs -   413.38 us/run -    14552 kB/run - [1;34m  33.57 GB/s[0m
+  MUL_MAT(name=Vcur-0,type=f32,ne=[256,2048,1,1],op_params=[],sources=q6_K[1536,256,1,1],f32[1536,2048,1,1]):                   2291 runs -   454.90 us/run -    14651 kB/run - [1;34m  30.72 GB/s[0m
+  MUL_MAT(name=Qcur-0,type=f32,ne=[1536,1,1,1],op_params=[],sources=q4_K[1536,1536,1,1],f32[1536,1,1,1]):             106496 runs -     9.45 us/run -     1308 kB/run - [1;34m 132.06 GB/s[0m
+  MUL_MAT(name=ffn_out-2,type=f32,ne=[1536,1,1,1],op_params=[],sources=q4_K[8960,1536,1,1],f32[8960,1,1,1]):                   35320 runs -    32.02 us/run -     7601 kB/run - [1;34m 226.39 GB/s[0m
+  MUL_MAT(name=ffn_out-0,type=f32,ne=[1536,1,1,1],op_params=[],sources=q6_K[8960,1536,1,1],f32[8960,1,1,1]):                   27297 runs -    40.37 us/run -    11066 kB/run - [1;34m 261.42 GB/s[0m
+  MUL_MAT(name=Qcur-0,type=f32,ne=[1536,2048,1,1],op_params=[],sources=q4_K[1536,1536,1,1],f32[1536,2048,1,1]):                 1297 runs -  1789.64 us/run -    25872 kB/run - [1;34m  13.79 GB/s[0m
+  MUL_MAT(name=ffn_out-2,type=f32,ne=[1536,2048,1,1],op_params=[],sources=q4_K[8960,1536,1,1],f32[8960,2048,1,1]):               367 runs - 13078.06 us/run -    91528 kB/run - [1;34m   6.67 GB/s[0m
+  MUL_MAT(name=ffn_out-0,type=f32,ne=[1536,2048,1,1],op_params=[],sources=q6_K[8960,1536,1,1],f32[8960,2048,1,1]):               354 runs - 13649.06 us/run -    94993 kB/run - [1;34m   6.64 GB/s[0m
+  MUL_MAT(name=ffn_gate-0,type=f32,ne=[8960,1,1,1],op_params=[],sources=q4_K[1536,8960,1,1],f32[1536,1,1,1]):                  26490 runs -    41.90 us/run -     7601 kB/run - [1;34m 173.02 GB/s[0m
+  MUL_MAT(name=ffn_gate-0,type=f32,ne=[8960,2048,1,1],op_params=[],sources=q4_K[1536,8960,1,1],f32[1536,2048,1,1]):                      367 runs - 13965.55 us/run -    91528 kB/run - [1;34m   6.25 GB/s[0m
+  MUL_MAT(name=result_output,type=f32,ne=[151936,1,1,1],op_params=[],sources=q6_K[1536,151936,1,1],f32[1536,1,1,1]):                    1790 runs -   591.88 us/run -   187552 kB/run - [1;34m 302.19 GB/s[0m
+  MUL_MAT(name=result_output,type=f32,ne=[151936,2048,1,1],op_params=[],sources=q6_K[1536,151936,1,1],f32[1536,2048,1,1]):                24 runs - 228882.58 us/run -  1414728 kB/run - [1;34m   5.89 GB/s[0m
+  GET_ROWS(name=node_945,type=f32,ne=[1536,1,1,1],op_params=[],sources=f32[1536,1,1,1],i32[1,1,1,1]):                 278528 runs -     3.62 us/run -       12 kB/run - [1;34m   3.16 GB/s[0m
+  GET_ROWS(name=embd,type=f32,ne=[1536,1,1,1],op_params=[],sources=q4_K[1536,151936,1,1],i32[1,1,1,1]):               211696 runs -     4.73 us/run -   128202 kB/run - [1;34m25861.86 GB/s[0m
+  GET_ROWS(name=node_945,type=f32,ne=[1536,2048,1,1],op_params=[],sources=f32[1536,2048,1,1],i32[2048,1,1,1]):                 13650 runs -    80.33 us/run -    24584 kB/run - [1;34m 291.86 GB/s[0m
+  GET_ROWS(name=embd,type=f32,ne=[1536,2048,1,1],op_params=[],sources=q4_K[1536,151936,1,1],i32[2048,1,1,1]):                  15535 runs -    64.69 us/run -   140492 kB/run - [1;34m2071.24 GB/s[0m
+  SET_ROWS(name=cache_k_l0,type=f16,ne=[256,4096,1,1],op_params=[],sources=f32[256,1,1,1],i64[1,1,1,1],f16[256,4096,1,1]):            343980 runs -     2.96 us/run -     4097 kB/run - [1;34m1321.44 GB/s[0m
+  SET_ROWS(name=cache_k_l0,type=f16,ne=[256,4096,1,1],op_params=[],sources=f32[256,2048,1,1],i64[2048,1,1,1],f16[256,4096,1,1]):               32688 runs -    31.78 us/run -     6160 kB/run - [1;34m 184.85 GB/s[0m
+  ROPE(name=Kcur-0,type=f32,ne=[128,2,1,1],op_params=[1:128,2:2,4:32768,5:1232348160,6:1065353216,8:1065353216,9:1107296256,10:1065353216],sources=f32[128,2,1,1],i32[1,1,1,1]):              311296 runs -     3.26 us/run -        2 kB/run - [1;34m   0.59 GB/s[0m
+  ROPE(name=Kcur-0,type=f32,ne=[128,2,2048,1],op_params=[1:128,2:2,4:32768,5:1232348160,6:1065353216,8:1065353216,9:1107296256,10:1065353216],sources=f32[128,2,2048,1],i32[2048,1,1,1]):              40885 runs -    24.57 us/run -     4104 kB/run - [1;34m 159.32 GB/s[0m
+  ROPE(name=Qcur-0,type=f32,ne=[128,12,1,1],op_params=[1:128,2:2,4:32768,5:1232348160,6:1065353216,8:1065353216,9:1107296256,10:1065353216],sources=f32[128,12,1,1],i32[1,1,1,1]):            311296 runs -     3.23 us/run -       12 kB/run - [1;34m   3.55 GB/s[0m
+  ROPE(name=Qcur-0,type=f32,ne=[128,12,2048,1],op_params=[1:128,2:2,4:32768,5:1232348160,6:1065353216,8:1065353216,9:1107296256,10:1065353216],sources=f32[128,12,2048,1],i32[2048,1,1,1]):                     9555 runs -   121.58 us/run -    24584 kB/run - [1;34m 192.84 GB/s[0m
+  FLASH_ATTN_EXT(name=node_24,type=f32,ne=[128,12,1,1],op_params=[0:1035273459,3:10],sources=f32[128,1,12,1]nb[4,6144,512,6144],f16[128,4096,2,1]nb[2,512,256,2097152],f16[128,4096,2,1]nb[2,512,256,2097152],f16[4096,1,1,1]):                24459 runs -    44.62 us/run -     4116 kB/run - [1;34m  87.97 GB/s[0m
+  FLASH_ATTN_EXT(name=node_24,type=f32,ne=[128,12,2048,1],op_params=[0:1035273459,3:10],sources=f32[128,2048,12,1]nb[4,6144,512,12582912],f16[128,4096,2,1]nb[2,512,256,2097152],f16[128,4096,2,1]nb[2,512,256,2097152],f16[4096,2048,1,1]):                     745 runs - 16316.03 us/run -    45056 kB/run - [1;34m   2.63 GB/s[0m
+  SWIGLU(name=ffn_swiglu-0,type=f32,ne=[8960,1,1,1],op_params=[0:2],sources=f32[8960,1,1,1],f32[8960,1,1,1]):                 327680 runs -     3.09 us/run -      105 kB/run - [1;34m  32.38 GB/s[0m
+  SWIGLU(name=ffn_swiglu-0,type=f32,ne=[8960,2048,1,1],op_params=[0:2],sources=f32[8960,2048,1,1],f32[8960,2048,1,1]):                  1727 runs -   579.62 us/run -   215040 kB/run - [1;34m 353.82 GB/s[0m
+  Backend Vulkan0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

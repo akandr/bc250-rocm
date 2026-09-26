@@ -1,0 +1,10 @@
+correctness on 256x128x256: worst relative error 0.0000 (fp16 accumulation)
+
+shape                                      ms    TFLOP/s of 14.4 peak
+Qcur      [1536,1536] x 512             0.576       4.19          29%
+ffn_gate  [1536,8960] x 512             1.840       7.66          53%
+ffn_down  [8960,1536] x 512             2.816       5.00          35%
+Qcur      [1536,1536] x 2048            1.357       7.12          49%
+ffn_gate  [1536,8960] x 2048            7.069       7.97          55%
+ffn_down  [8960,1536] x 2048            7.255       7.77          54%
+square 2048                             3.478       4.94          34%

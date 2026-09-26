@@ -1,0 +1,36 @@
+# ALU rates including fp64, with a warm-up long enough to ramp the clock
+2026-09-25T14:03:57+02:00
+policy: -frequency:-min:1000-max:1500
+edge before: +55.0
+clock before: 0: 1000Mhz *
+AMD BC-250, 20 WGP/CU units reported, wave 32
+
+
+-- 1 wave(s) per SIMD --
+v_fma_f32          40 waves   1.271 cyc/instr    1.77 TFLOP/s  shader clock during run 0.88 GHz
+v_fma_f16          40 waves   1.286 cyc/instr    1.60 TFLOP/s  shader clock during run 0.80 GHz
+v_pk_fma_f16       40 waves   1.286 cyc/instr    3.55 TFLOP/s  shader clock during run 0.89 GHz
+int8 dot4 emul     40 waves   1.861 cyc/instr    0.63 TFLOP/s  shader clock during run 0.91 GHz
+v_fma_f64          40 waves  16.014 cyc/instr    0.14 TFLOP/s  shader clock during run 0.86 GHz
+v_mul_f64          40 waves  16.001 cyc/instr    0.07 TFLOP/s  shader clock during run 0.86 GHz
+v_add_f64          40 waves  16.001 cyc/instr    0.06 TFLOP/s  shader clock during run 0.75 GHz
+
+-- 4 wave(s) per SIMD --
+v_fma_f32         160 waves   2.261 cyc/instr    4.53 TFLOP/s  shader clock during run 1.00 GHz
+v_fma_f16         160 waves   2.235 cyc/instr    4.51 TFLOP/s  shader clock during run 0.98 GHz
+v_pk_fma_f16      160 waves   2.239 cyc/instr    9.01 TFLOP/s  shader clock during run 0.98 GHz
+int8 dot4 emul    160 waves   3.458 cyc/instr    1.51 TFLOP/s  shader clock during run 1.02 GHz
+v_fma_f64         160 waves  32.011 cyc/instr    0.32 TFLOP/s  shader clock during run 1.00 GHz
+v_mul_f64         160 waves  31.566 cyc/instr    0.16 TFLOP/s  shader clock during run 0.99 GHz
+v_add_f64         160 waves  31.566 cyc/instr    0.16 TFLOP/s  shader clock during run 0.99 GHz
+
+-- 16 wave(s) per SIMD --
+v_fma_f32         640 waves   5.329 cyc/instr    6.52 TFLOP/s  shader clock during run 0.85 GHz
+v_fma_f16         640 waves   5.328 cyc/instr    6.51 TFLOP/s  shader clock during run 0.85 GHz
+v_pk_fma_f16      640 waves   5.323 cyc/instr   13.01 TFLOP/s  shader clock during run 0.85 GHz
+int8 dot4 emul    640 waves   8.318 cyc/instr    2.08 TFLOP/s  shader clock during run 0.84 GHz
+v_fma_f64         640 waves  80.778 cyc/instr    0.43 TFLOP/s  shader clock during run 0.84 GHz
+v_mul_f64         640 waves  78.494 cyc/instr    0.21 TFLOP/s  shader clock during run 0.82 GHz
+v_add_f64         640 waves  78.465 cyc/instr    0.21 TFLOP/s  shader clock during run 0.82 GHz
+clock after: 1: 1500Mhz *
+edge after: +63.0

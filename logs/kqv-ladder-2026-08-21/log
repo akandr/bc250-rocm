@@ -1,0 +1,25 @@
+[00:17:21] waiting for the queue to drain
+[01:37:22] === removing the KQV precision line
+[01:37:22]   set_prec(kqv lines now: 0
+[01:37:33]   build rc=0 errors=0
+[01:37:35] === the context ladder without the patch (earlier figures 9.8260 / ~174 / 180 to 3764)
+[01:37:47]   nopatch_c1024_1: 8.1616
+[01:37:57]   nopatch_c1024_2: 8.1616
+[01:38:06]   nopatch_c1024_3: 708.4671
+[01:38:19]   nopatch_c2048_1: 10.0103
+[01:38:31]   nopatch_c2048_2: 10.0103
+[01:38:44]   nopatch_c2048_3: 1347.6541
+[01:39:03]   nopatch_c4096_1: 224.8379
+[01:39:23]   nopatch_c4096_2: 211.8500
+[01:39:42]   nopatch_c4096_3: 8234.2048
+[01:39:42] === restoring the patch
+[01:39:51]   rebuild rc=0 set_prec lines back: 1
+[01:39:51] === control: the same ladder with the patch in place, one run per rung
+[01:40:01]   restored_c1024: 8.1702
+[01:40:13]   restored_c2048: 10.0204
+[01:40:32]   restored_c4096: 11.0631
+[01:40:32] === summary
+[01:40:32]   ctx 1024: without patch [8.1616 8.1616 708.4671 ] with patch [8.1702]
+[01:40:32]   ctx 2048: without patch [10.0103 10.0103 1347.6541 ] with patch [10.0204]
+[01:40:32]   ctx 4096: without patch [224.8379 211.8500 8234.2048 ] with patch [11.0631]
+[01:40:32] done

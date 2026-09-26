@@ -1,0 +1,2 @@
+bash: linia 8:  1486 Unicestwiony               env HSA_ENABLE_SDMA=0 LD_LIBRARY_PATH=/home/akandr/rocBLAS/build/release/rocblas-install/lib timeout -k 10 150 ~/llama-master/build-hip/bin/test-backend-ops perf -o MUL_MAT -b ROCm0 > ~/s0915/tbo/g6_rl3_alt9_f6.log 2>&1
+rc=137 fault=0 wall=160s kernel_events_boot=35 alt:[ mode=9 site=2 calls=100 nomatch=16 ackmiss=84 err=0 last: matched=0x0100 acked=0x0000 r=0]

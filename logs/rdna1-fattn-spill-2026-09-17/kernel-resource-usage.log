@@ -1,0 +1,158 @@
+# hipcc --offload-arch=<arch> -O3 -Rpass-analysis=kernel-resource-usage
+#   -c ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq128-dv128.cu
+# hipcc 7.1.52802 (clang 20), llama-master at 7ba604f, unpatched tree.
+# Kernel flash_attn_tile<128,128,8,8,false>, the instance prefill uses.
+arch      TotalSGPRs  VGPRs  ScratchSize[B/lane]  Occupancy[waves/SIMD]  VGPRsSpill  LDS[B/block]
+gfx1010   46          256    2280                 4                      569         33792
+gfx1013   46          256    2280                 4                      569         33792
+gfx1030   -           215    0                    4                        0         33792
+gfx1100   -           125    0                    6                        0         33792
+
+# Same kernel on gfx1013 after the patch (nthreads 256->512, nbatch_fa 128/64->32):
+gfx1013(patched)      211    0                    4                        0         -
+
+# ---- second pass, 2026-09-17 evening: is anything else spilling? ----
+# Same hipcc invocation, gfx1013. Kernels that matter for inference on this board.
+
+## mmq-instance-q4_k.cu (prefill quantized matmul): no spill
+mul_mat_q<q4_K, mmq_x=64, false>   vgpr=242  spill=0  scratch=0  occ=4
+mul_mat_q<q4_K, mmq_x=64, true>    vgpr=204  spill=0  scratch=0  occ=4
+mul_mat_q<q4_K, mmq_x=8,  false>   vgpr=163  spill=0  scratch=0  occ=6
+mul_mat_q<q4_K, mmq_x=8,  true>    vgpr=181  spill=0  scratch=0  occ=5
+# (mmq_x 56..96 report vgpr=40 scratch=16: not instantiated for this arch, dead stubs)
+
+## mmq-instance-q8_0.cu: no spill
+mul_mat_q<q8_0, mmq_x=64, false>   vgpr=247  spill=0  scratch=0  occ=4
+mul_mat_q<q8_0, mmq_x=64, true>    vgpr=256  spill=0  scratch=0  occ=4
+mul_mat_q<q8_0, mmq_x=8,  false>   vgpr=111  spill=0  scratch=0  occ=9
+
+## mmvq.cu (decode matrix-vector): no spill, 30 to 125 VGPRs, occupancy 8 to 20
+
+## fattn-tile-instance-dkq256-dv256.cu (qwen3.6-35B MoE and qwen3.8-27B use D=256): every instance spills
+flash_attn_tile<256,256,32,..>     vgpr=256  spill=1201 scratch=2576 occ=4
+flash_attn_tile<256,256,16,..>     vgpr=256  spill=729  scratch=2920 occ=4
+flash_attn_tile<256,256,8,4>       vgpr=256  spill=721  scratch=2888 occ=4
+flash_attn_tile<256,256,4,8>       vgpr=256  spill=709  scratch=2840 occ=4
+flash_attn_tile<256,256,32,..>     vgpr=256  spill=702  scratch=2528 occ=4
+flash_attn_tile<256,256,8,1>       vgpr=168  spill=392  scratch=976  occ=6
+flash_attn_tile<256,256,16,..>     vgpr=200  spill=283  scratch=656  occ=5
+flash_attn_tile<256,256,2,4>       vgpr=168  spill=254  scratch=892  occ=6
+flash_attn_tile<256,256,1,8>       vgpr=168  spill=254  scratch=892  occ=6
+
+## fattn-tile-instance-dkq512-dv512.cu (gemma4 uses D=512), gfx1013: the large-batch instances spill
+flash_attn_tile<512,512,16,2,false> vgpr=256  spill=945  scratch=3560 occ=4
+flash_attn_tile<512,512,8,4,false>  vgpr=256  spill=940  scratch=3548 occ=4
+flash_attn_tile<512,512,4,8,false>  vgpr=256  spill=940  scratch=3540 occ=4
+flash_attn_tile<512,512,2,8,true>   vgpr=256  spill=1039 scratch=4056 occ=4
+flash_attn_tile<512,512,8,2,true>   vgpr=256  spill=1038 scratch=4052 occ=4
+# the small-column variants (ncols1*ncols2 <= 16, oob_check=false) sit at 4 to 64 spilled
+
+## fattn-tile-instance-dkq64-dv64.cu, gfx1013 (no benchmark model here uses D=64; recorded for others)
+flash_attn_tile<64,64,64,1>         vgpr=200  spill=1048 scratch=2544 occ=5
+flash_attn_tile<64,64,32,1>         vgpr=256  spill=179  scratch=688  occ=4
+flash_attn_tile<64,64,16,1>         vgpr=200  spill=178  scratch=672  occ=5
+flash_attn_tile<64,64,8,8>          vgpr=200  spill=48   scratch=196  occ=5
+
+## mmq on gfx1030 for comparison: same profile as gfx1013, so MMQ is not an RDNA1 compile problem
+mul_mat_q<q4_K, mmq_x=64, false>   vgpr=233  spill=0  scratch=0  occ=4   (gfx1013: 242)
+mul_mat_q<q4_K, mmq_x=64, true>    vgpr=188  spill=0  scratch=0  occ=5   (gfx1013: 204)
+mul_mat_q<q8_0, mmq_x=64, false>   vgpr=246  spill=0  scratch=0  occ=4   (gfx1013: 247)
+
+## fattn-tile-instance-dkq512-dv512.cu on gfx1030: no instance spills (66 to 230 VGPRs, occupancy 4 to 12)
+# So D=128, D=256 and D=512 all spill on RDNA1 and none of them on RDNA2. One cause, every head size.
+
+## What Vulkan has on this board, for the quantized-matmul comparison (vulkaninfo, RADV GFX1013, Mesa 26.1.8)
+shaderIntegerDotProduct = true, but every integerDotProduct*Accelerated property = false
+llama-bench Vulkan header on every 2026-09-15 run: "matrix cores: none", "int dot: 0"
+# The Vulkan q4_K matvec shader (mul_mat_vec_q4_k.comp) unpacks nibbles with unpack8() and does float
+# fma chains; it never touches integer dot. Its lead on quantized matmuls is formulation, not hardware.
+
+## qualification of "RDNA1 only", from the gfx1030 side of the same sweep
+gfx1030 D=256: one instance (4x2) spills 2 VGPRs, 12 bytes/lane; every other instance is clean
+gfx1030 D=64:  the large-column instances spill 58 to 71 VGPRs, 236 to 288 bytes/lane
+# So at D=128, 256 and 512 the spill is RDNA1-only. At D=64 RDNA2 spills modestly and RDNA1 badly
+# (1048 VGPRs on the 64-column instance). No model measured here uses D=64.
+
+# ---- 2026-09-18: RDNA1 rows for D=256 (scripts/fa_row_sweep.sh, gfx1013, compile only) ----
+## candidate: rows 32 and 16 -> (nthreads 512, occupancy 3, nbatch_fa 32, nbatch_K 128); other rows untouched
+## the prefill instances (ncols 32) drop from 700 to 1200 spilled to 52 to 68; the ncols 16 instances reach zero
+flash_attn_tile<256,256,4,8,false>  vgpr=256  spill=52   scratch=212  occ=4   (was 709)
+flash_attn_tile<256,256,8,4,false>  vgpr=256  spill=52   scratch=212  occ=4   (was 721)
+flash_attn_tile<256,256,16,2,false> vgpr=256  spill=51   scratch=208  occ=4   (was 702 to 1201)
+flash_attn_tile<256,256,4,8,true>   vgpr=256  spill=68   scratch=204  occ=4
+flash_attn_tile<256,256,8,4,true>   vgpr=256  spill=68   scratch=204  occ=4
+flash_attn_tile<256,256,2,8,*>      vgpr=154/177 spill=0 scratch=0    occ=6/5
+flash_attn_tile<256,256,4,4,*>      vgpr=154/177 spill=0 scratch=0    occ=6/5
+flash_attn_tile<256,256,8,2,*>      vgpr=154/177 spill=0 scratch=0    occ=6/5
+## still spilling, in rows this candidate does not touch (ncols 8, 4, 2 and the ncols2=1 variants):
+flash_attn_tile<256,256,8,1,true>   vgpr=168  spill=392  scratch=976  occ=6
+flash_attn_tile<256,256,8,1,false>  vgpr=168  spill=336  scratch=1312 occ=6
+flash_attn_tile<256,256,1,8,true>   vgpr=168  spill=254  scratch=892  occ=6
+flash_attn_tile<256,256,32,1,false> vgpr=256  spill=197  scratch=768  occ=4
+## chosen for D=256 (all five rows): 32,16 -> (512,3,32,128); 8 -> (256,4,32,64); 4 -> (128,4,32,64); 2 -> (64,4,32,64)
+## every instance now at 68 spilled or fewer, except <256,256,32,1> (no-GQA variant) at 197/90:
+flash_attn_tile<256,256,4,8,false>  spill=52  scratch=212   flash_attn_tile<256,256,8,4,false>  spill=52  scratch=212
+flash_attn_tile<256,256,16,2,false> spill=51  scratch=208   flash_attn_tile<256,256,8,1,false>  spill=52  scratch=208 (was 336)
+flash_attn_tile<256,256,1,8,*>      spill=0                 flash_attn_tile<256,256,2,4,*>      spill=0   (were 254)
+flash_attn_tile<256,256,4,1,false>  spill=60  scratch=240   flash_attn_tile<256,256,2,1,false>  spill=69  scratch=272
+flash_attn_tile<256,256,32,1,false> spill=197 scratch=768   flash_attn_tile<256,256,32,1,true>  spill=90  scratch=272
+
+# ---- 2026-09-18: RDNA1 rows for D=512 (gemma4), compile only ----
+## rows 32,16 -> (512,2,32,64): prefill instances 940 -> 580..609 spilled, 16-column instances 269
+flash_attn_tile<512,512,4,8,false>  vgpr=256  spill=609  scratch=2144  (was 940)
+flash_attn_tile<512,512,8,4,false>  vgpr=256  spill=609  scratch=2144  (was 940)
+flash_attn_tile<512,512,16,2,false> vgpr=256  spill=608  scratch=2140  (was 945)
+flash_attn_tile<512,512,*,*> ncols 16 variants                spill=269  scratch=976   (were 5 to 1039)
+## rows 32,16 -> (512,2,32,32): worse, 630 to 734 on the prefill instances, 315 on ncols 16
+## rows 32,16 -> nbatch_fa 16: does not compile (static assertion in fattn-tile.cuh:895)
+## D=512 is four times the live state per column of D=128 and does not fit 256 VGPRs at any tile tried.
+## rows 32,16 -> (512,2,32,128): the answer for D=512 as well. Prefill instances 940 -> 63..67, ncols 16 -> 0
+flash_attn_tile<512,512,4,8,false>  vgpr=256  spill=67   scratch=220   (was 940)
+flash_attn_tile<512,512,8,4,false>  vgpr=256  spill=67   scratch=220   (was 940)
+flash_attn_tile<512,512,16,2,false> vgpr=256  spill=63   scratch=204   (was 945)
+flash_attn_tile<512,512,{2,8|4,4|8,2},false> spill=0                   (were 4 to 1039)
+## oob=true variants of the same rows stay at 350 to 384; the small ncols rows (untouched) at 271 to 384.
+## chosen for D=512: rows 32 and 16 -> (512,2,32,128). Wider nbatch_K helps at both D=256 and D=512,
+## presumably because the K tile lives in shared memory and a wider tile shortens the unrolled inner loop.
+
+# ---- 2026-09-18 03:40: D=128 with the committed rows, every instance (why the 14B models gained nothing) ----
+## GQA-sharing variants (ncols2 > 1) of rows 32 and 64: no spill. The ncols2 = 1 variants of the same rows still spill,
+## and those are what a model whose head ratio has no power-of-two divisor runs (deepseek-r1-14B and qwen3-14B: 40/8 = 5).
+flash_attn_tile<128,128,64,1,false> vgpr=256  spill=137  scratch=544   occ=4
+flash_attn_tile<128,128,64,1,true>  vgpr=256  spill=125  scratch=336   occ=4
+flash_attn_tile<128,128,32,1,false> vgpr=237  spill=0    scratch=32    occ=4
+flash_attn_tile<128,128,32,1,true>  vgpr=175  spill=0    scratch=32    occ=5
+## rows 16 and 8 (small batches, untouched) spill on every variant:
+flash_attn_tile<128,128,16,1,true>  vgpr=256  spill=403  scratch=1056  occ=4
+flash_attn_tile<128,128,16,1,false> vgpr=256  spill=251  scratch=1008  occ=4
+flash_attn_tile<128,128,8,1,true>   vgpr=128  spill=442  scratch=1024  occ=8
+flash_attn_tile<128,128,2,4|1,8|4,2,false> vgpr=128 spill=240  scratch=968   occ=8
+flash_attn_tile<128,128,4,4|2,8|8,2,true>  vgpr=256 spill=231  scratch=896   occ=4
+
+# ---- 2026-09-18 04:00: D=128 rows 16 and 8, and a correction to the method ----
+## The table is first-match-wins. fa_row_sweep.sh inserted candidates after the rows patch 4 already carries, so
+## its first pass over D=128 row 64 changed nothing (all five candidate sets printed identical numbers, including
+## an nbatch_fa=16 that could not have). The script now replaces an existing row in place; the D=256 and D=512
+## sweeps were unaffected because no rows for those sizes existed before them.
+## Rows 16 -> (512,3,32,64) and 8 -> (256,4,32,64), which did not exist before, take effect and clear the
+## small-batch instances:
+flash_attn_tile<128,128,16,1,true>  spill=403 -> 0   vgpr=103  occ=9
+flash_attn_tile<128,128,16,1,false> spill=251 -> 0   vgpr=163  occ=6
+flash_attn_tile<128,128,8,1,true>   spill=442 -> 0   vgpr=104  occ=9
+flash_attn_tile<128,128,8,1,false>  spill=209 -> 0   vgpr=166  occ=6
+flash_attn_tile<128,128,1,8,*>      spill=241/207 -> 0  vgpr=102/103  occ=9
+
+# ---- 2026-09-18 04:10: D=128 row 64 candidates, replacing the committed row in place this time ----
+## candidate                 <64,1,false>  <64,1,true>  <8,8,false>            <16,4,false>           <8,8,true>
+## (512,3,32,64) committed   137 / 544 B   125 / 336    0, vgpr 211, occ 4     0, vgpr 210, occ 4     83
+## (512,3,32,128)            135 / 528     113 / 336    0, vgpr  96, occ 10    0, vgpr  95, occ 10    77
+## (512,3,32,32)             165 / 544     123 / 320    52 / 156               51 / 152               82
+## (512,2,32,64)             137 / 544     125 / 336    0, vgpr 211, occ 4     0, vgpr 210, occ 4     83   (identical: the occupancy hint changes nothing)
+## (512,3,16,64), (512,3,16,128): do not compile, static assertion at fattn-tile.cuh:891
+## No compiling row brings the ncols2 = 1 variant under about 115 spilled registers: each of its 64 columns
+## carries its own K and V, where the GQA variants share them across ncols2 columns. The <32,1> instance is
+## clean (237 VGPRs, no spill) under every candidate. nbatch_K 128 halves the register use of the GQA
+## variants and lifts their occupancy from 4 to 10 waves per SIMD.
+
+# ---- 2026-09-18 07:30: nbatch_K 256 on the D=128 rows ----
+## rows 64 (and 32) -> nbatch_K 256: does not compile, static assertion at fattn-tile.cuh:745. 128 is the ceiling.

@@ -1,0 +1,30 @@
+kerntrace: 23985 kernel dispatches, 314.646 ms of kernel time, 450.314 ms first dispatch to last completion
+  records domain 2 op 0: 23985
+  records domain 2 op 1: 822
+  records domain 2 op 2: 64
+  gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 18547 (45.9 ms), 5-20us 5365 (31.1 ms), 20-100us 2 (0.1 ms), >100us 70 (58.6 ms); overlapping starts 0
+     count     total ms   share     avg us  kernel
+      8896      188.408   59.9%      21.18  void mul_mat_vec_f32_rdna1(void const*, float const*, int const*, float*, int, int, long, 
+      1792       40.043   12.7%      22.35  void mul_mat_vec_f32_rdna1(void const*, float const*, int const*, float*, int, int, long, 
+        64       35.342   11.2%     552.22  void mul_mat_vec_f32_rdna1(void const*, float const*, int const*, float*, int, int, long, 
+      3648       13.278    4.2%       3.64  void rms_norm_f32(float const*, float*, int, long, long, long, float, float const*, long, 
+      1792       11.193    3.6%       6.25  void flash_attn_tile(char const*, char const*, char const*, char const*, char const*, int 
+      1792        5.613    1.8%       3.13  void rope_neox(float const*, __half*, int, int, int, int, int, int, int, int, int, int, in
+      1792        4.754    1.5%       2.65  void flash_attn_combine_results(float const*, HIP_vector_type const*, float*, int)
+      1792        4.484    1.4%       2.50  void rope_neox(float const*, float*, int, int, int, int, int, int, int, int, int, int, int
+       139        3.954    1.3%      28.44  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type12ELb1EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+      1792        3.934    1.3%       2.20  void k_set_rows(float const*, long const*, __half*, long, long, long, long, long, long, lo
+         1        0.895    0.3%     895.00  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type14ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+        28        0.814    0.3%      29.06  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type14ELb1EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+        64        0.590    0.2%       9.22  void mul_mat_vec_f32_rdna1(void const*, float const*, int const*, float*, int, int, long, 
+        57        0.269    0.1%       4.72  _ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lll
+       128        0.246    0.1%       1.92  void k_get_rows_float(float const*, int const*, float*, long, long, HIP_vector_type, unsig
+        28        0.232    0.1%       8.29  _ZL15flash_attn_tileILi128ELi128ELi1ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj2
+        64        0.153    0.0%       2.39  void k_bin_bcast(float const*, float const*, float*, unsigned int, unsigned int, unsigned 
+        28        0.126    0.0%       4.49  _ZL9rope_neoxILb1ELb0Ef6__halfEvPKT1_PT2_iiiiiiiiiiPKifff14rope_corr_dimsfPKfPKli
+        28        0.104    0.0%       3.71  _ZL26flash_attn_combine_resultsILi128EEvPKfPK15HIP_vector_typeIfLj2EEPfi
+        28        0.098    0.0%       3.49  _ZL9rope_neoxILb1ELb0EffEvPKT1_PT2_iiiiiiiiiiPKifff14rope_corr_dimsfPKfPKli
+        28        0.089    0.0%       3.19  _ZL10k_set_rowsIfl6__halfEvPKT_PKT0_PT1_llllllllllllll15HIP_vector_typeIjLj3EESA_SA_SA_SA_
+         1        0.013    0.0%      13.22  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type12ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+         2        0.009    0.0%       4.53  _ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+         1        0.006    0.0%       5.69  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_S

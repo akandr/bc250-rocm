@@ -1,0 +1,3 @@
+kernel=7.1.5-100.fc43.x86_64
+simd=simd_count 80
+runlist=3

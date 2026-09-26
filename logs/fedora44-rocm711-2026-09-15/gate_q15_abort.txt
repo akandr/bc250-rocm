@@ -1,0 +1,6 @@
+/home/akandr/llama-master/ggml/src/ggml-cuda/template-instances/../fattn-common.cuh:1114: GGML_ASSERT(max_blocks_per_sm > 0) failed
+#5  0x00007f3de45321cd in ggml_abort () from /home/akandr/llama-master/build-hip-f44/bin/libggml-base.so.0
+#6  0x00007f3de3c94a24 in void launch_fattn<128, 32, 2>(ggml_backend_cuda_context&, ggml_tensor*, void (*)(char const*, char const*, char const*, char const*, char const*, int const*, float*, HIP_vector_type<float, 2u>*, float, float, float, float, unsigned int, float, int, HIP_vector_type<unsigned int, 3u>, int, int, int, int, int, int, int, int, int, int, int, long, int, int, long, int, int, int, int, int, long), int, unsigned long, int, bool, bool, bool, int) () from /home/akandr/llama-master/build-hip-f44/bin/libggml-hip.so.0
+#7  0x00007f3de3c883e4 in void ggml_cuda_flash_attn_ext_tile_case<128, 128>(ggml_backend_cuda_context&, ggml_tensor*) () from /home/akandr/llama-master/build-hip-f44/bin/libggml-hip.so.0
+#8  0x00007f3de3b08a1b in ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) () from /home/akandr/llama-master/build-hip-f44/bin/libggml-hip.so.0
+#9  0x00007f3de3b0554c in ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) () from /home/akandr/llama-master/build-hip-f44/bin/libggml-hip.so.0

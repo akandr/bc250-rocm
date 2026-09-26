@@ -1,0 +1,28 @@
+[22:02:09]   base qwen2.5-1.5b-q4km: pp512=993.71 tg64=146.69
+[22:02:36]   base qwen3-8b-q8_0: pp512=306.30 tg64=37.85
+[22:03:25]   base qwen3-14b: pp512=125.81 tg64=26.04
+[22:03:54]   base qwen3.6-35b-a3b-iq2m: pp512=369.50 tg64=40.91
+[22:05:41]   base gates: 1.5B Final estimate: PPL = 8.9442 | 8B Final estimate: PPL = 9.1117
+[22:05:47]   cublas qwen2.5-1.5b-q4km: pp512=1033.35 tg64=146.59
+[22:06:18]   cublas qwen3-8b-q8_0: pp512=175.02 tg64=39.24
+[22:07:08]   cublas qwen3-14b: pp512=124.47 tg64=17.09
+[22:07:40]   cublas qwen3.6-35b-a3b-iq2m: pp512=219.79 tg64=40.50
+[22:09:30]   cublas gates: 1.5B Final estimate: PPL = 8.9479 | 8B Final estimate: PPL = 9.1450
+[22:09:30]   master qwen2.5-1.5b-q4km: pp512= tg64=
+[22:09:30]   master qwen3-8b-q8_0: pp512= tg64=
+[22:09:30]   master qwen3-14b: pp512= tg64=
+[22:09:30]   master qwen3.6-35b-a3b-iq2m: pp512= tg64=
+[22:11:20]   master gates: 1.5B Final estimate: PPL = 8.9490 | 8B Final estimate: PPL = 9.1158
+[22:11:20] DONE
+master qwen2.5-1.5b-q4km:  pp512 991.28 ± 7.45 ; tg64 147.92 ± 0.52 ;
+master qwen3-8b-q8_0:  pp512 303.26 ± 1.49 ; tg64 39.36 ± 1.85 ;
+master qwen3-14b:  pp512 124.90 ± 0.33 ; tg64 21.39 ± 4.76 ;
+master qwen3.6-35b-a3b-iq2m:  pp512 367.21 ± 4.38 ; tg64 41.37 ± 3.49 ;
+q14 tg base 1:   26.5804, 27.0296, 27.066 
+q14 tg master 1:   27.3376, 28.6627, 28.6869 
+q14 tg base 2:   25.8893, 26.8318, 26.7867 
+q14 tg master 2:   27.9301, 28.4443, 28.3791 
+q14 tg base 3:   25.6214, 26.8024, 26.7758 
+q14 tg master 3:   27.6362, 28.6499, 28.65 
+q14 tg base 4:   26.7094, 27.0285, 27.0309 
+q14 tg master 4:   27.7079, 28.6019, 28.651 

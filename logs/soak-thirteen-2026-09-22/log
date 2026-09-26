@@ -1,0 +1,200 @@
+[17:23:12] other GPU users at start: ollama inactive, processes 
+[17:23:12] soak start, 8h, kernel 7.2.5-200.fc44.x86_64, boot 96cf576e-26a9-43d1-b7db-b57626453947
+[17:23:12] gpu_recovery=0, faults this boot 0, previous boot 0
+[17:23:21] round=1 model=1.5b pp512=1779.56 tg64=194.82 gate=10.2088 ref=10.2088 ok edge=62.0 faults=0
+[17:24:52] round=2 model=27b pp512=102.98 tg64=15.15 gate=6.2737 ref=6.2737 ok edge=71.0 faults=0
+[17:25:45] round=3 model=moe pp512=595.08 tg64=71.84 gate=6.2265 ref=6.2265 ok edge=65.0 faults=0
+[17:26:30] round=4 model=8b pp512=414.58 tg64=38.72 gate=9.4017 ref=9.4017 ok edge=66.0 faults=0
+[17:35:59]   churn rc=0 faults=0
+[17:36:08] round=5 model=1.5b pp512=1782.81 tg64=196.01 gate=10.2088 ref=10.2088 ok edge=66.0 faults=0
+[17:37:38] round=6 model=27b pp512=103.37 tg64=15.17 gate=6.2737 ref=6.2737 ok edge=71.0 faults=0
+[17:38:32] round=7 model=moe pp512=595.31 tg64=71.70 gate=6.2265 ref=6.2265 ok edge=65.0 faults=0
+[17:39:18] round=8 model=8b pp512=409.05 tg64=38.74 gate=9.4017 ref=9.4017 ok edge=66.0 faults=0
+[17:48:52]   churn rc=0 faults=0
+[17:49:01] round=9 model=1.5b pp512=1784.18 tg64=197.03 gate=10.2088 ref=10.2088 ok edge=67.0 faults=0
+[17:50:33] round=10 model=27b pp512=102.96 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=72.0 faults=0
+[17:51:26] round=11 model=moe pp512=595.20 tg64=71.81 gate=6.2265 ref=6.2265 ok edge=67.0 faults=0
+[17:52:10] round=12 model=8b pp512=409.56 tg64=38.75 gate=9.4017 ref=9.4017 ok edge=68.0 faults=0
+[18:01:45]   churn rc=0 faults=0
+[18:01:54] round=13 model=1.5b pp512=1780.20 tg64=197.06 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[18:03:27] round=14 model=27b pp512=103.38 tg64=15.22 gate=6.2737 ref=6.2737 ok edge=74.0 faults=0
+[18:04:17] round=15 model=moe pp512=593.64 tg64=71.49 gate=6.2265 ref=6.2265 ok edge=68.0 faults=0
+[18:05:00] round=16 model=8b pp512=409.54 tg64=38.74 gate=9.4017 ref=9.4017 ok edge=69.0 faults=0
+[18:14:32]   churn rc=0 faults=0
+[18:14:41] round=17 model=1.5b pp512=1779.69 tg64=197.46 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[18:16:14] round=18 model=27b pp512=103.98 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=74.0 faults=0
+[18:17:03] round=19 model=moe pp512=595.02 tg64=71.64 gate=6.2265 ref=6.2265 ok edge=68.0 faults=0
+[18:17:46] round=20 model=8b pp512=415.24 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=69.0 faults=0
+[18:27:21]   churn rc=0 faults=0
+[18:27:30] round=21 model=1.5b pp512=1781.10 tg64=196.24 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[18:29:01] round=22 model=27b pp512=105.16 tg64=15.21 gate=6.2737 ref=6.2737 ok edge=74.0 faults=0
+[18:29:51] round=23 model=moe pp512=594.70 tg64=71.74 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[18:30:34] round=24 model=8b pp512=409.26 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[18:40:04]   churn rc=0 faults=0
+[18:40:12] round=25 model=1.5b pp512=1783.91 tg64=197.18 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[18:41:44] round=26 model=27b pp512=104.71 tg64=15.16 gate=6.2737 ref=6.2737 ok edge=74.0 faults=0
+[18:42:33] round=27 model=moe pp512=593.21 tg64=71.87 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[18:43:16] round=28 model=8b pp512=410.82 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=69.0 faults=0
+[18:52:55]   churn rc=0 faults=0
+[18:53:04] round=29 model=1.5b pp512=1782.28 tg64=194.57 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[18:54:35] round=30 model=27b pp512=103.58 tg64=15.17 gate=6.2737 ref=6.2737 ok edge=74.0 faults=0
+[18:55:24] round=31 model=moe pp512=595.02 tg64=71.73 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[18:56:07] round=32 model=8b pp512=409.38 tg64=38.73 gate=9.4017 ref=9.4017 ok edge=69.0 faults=0
+[19:05:46]   churn rc=0 faults=0
+[19:05:55] round=33 model=1.5b pp512=1780.14 tg64=194.73 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[19:07:27] round=34 model=27b pp512=104.72 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=74.0 faults=0
+[19:08:16] round=35 model=moe pp512=592.98 tg64=71.76 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[19:08:58] round=36 model=8b pp512=409.78 tg64=38.74 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[19:18:34]   churn rc=0 faults=0
+[19:18:43] round=37 model=1.5b pp512=1781.16 tg64=197.58 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[19:20:14] round=38 model=27b pp512=104.56 tg64=15.16 gate=6.2737 ref=6.2737 ok edge=74.0 faults=0
+[19:21:03] round=39 model=moe pp512=593.18 tg64=71.88 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[19:21:46] round=40 model=8b pp512=409.42 tg64=38.69 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[19:31:18]   churn rc=0 faults=0
+[19:31:27] round=41 model=1.5b pp512=1778.74 tg64=196.74 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[19:32:58] round=42 model=27b pp512=103.20 tg64=15.19 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[19:33:47] round=43 model=moe pp512=590.01 tg64=71.95 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[19:34:29] round=44 model=8b pp512=414.98 tg64=38.72 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[19:44:01]   churn rc=0 faults=0
+[19:44:10] round=45 model=1.5b pp512=1782.12 tg64=197.10 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[19:45:42] round=46 model=27b pp512=103.87 tg64=15.21 gate=6.2737 ref=6.2737 ok edge=76.0 faults=0
+[19:46:31] round=47 model=moe pp512=589.86 tg64=71.51 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[19:47:13] round=48 model=8b pp512=414.94 tg64=38.72 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[19:56:43]   churn rc=0 faults=0
+[19:56:52] round=49 model=1.5b pp512=1780.64 tg64=196.94 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[19:58:23] round=50 model=27b pp512=104.77 tg64=15.17 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[19:59:12] round=51 model=moe pp512=589.84 tg64=71.26 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[19:59:54] round=52 model=8b pp512=415.33 tg64=38.73 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[20:09:32]   churn rc=0 faults=0
+[20:09:41] round=53 model=1.5b pp512=1779.97 tg64=196.13 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[20:11:12] round=54 model=27b pp512=105.06 tg64=15.22 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[20:12:01] round=55 model=moe pp512=594.89 tg64=71.89 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[20:12:44] round=56 model=8b pp512=414.81 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[20:22:15]   churn rc=0 faults=0
+[20:22:24] round=57 model=1.5b pp512=1780.62 tg64=196.75 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[20:23:56] round=58 model=27b pp512=103.49 tg64=15.20 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[20:24:44] round=59 model=moe pp512=589.75 tg64=71.85 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[20:25:27] round=60 model=8b pp512=413.55 tg64=38.73 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[20:34:56]   churn rc=0 faults=0
+[20:35:05] round=61 model=1.5b pp512=1785.08 tg64=197.13 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[20:36:36] round=62 model=27b pp512=104.94 tg64=15.20 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[20:37:25] round=63 model=moe pp512=591.56 tg64=71.87 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[20:38:07] round=64 model=8b pp512=414.85 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[20:47:40]   churn rc=0 faults=0
+[20:47:49] round=65 model=1.5b pp512=1781.26 tg64=196.80 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[20:49:21] round=66 model=27b pp512=104.92 tg64=15.21 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[20:50:10] round=67 model=moe pp512=595.02 tg64=71.87 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[20:50:52] round=68 model=8b pp512=413.88 tg64=38.73 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[21:00:33]   churn rc=0 faults=0
+[21:00:42] round=69 model=1.5b pp512=1779.49 tg64=196.94 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[21:02:14] round=70 model=27b pp512=104.08 tg64=15.17 gate=6.2737 ref=6.2737 ok edge=76.0 faults=0
+[21:03:02] round=71 model=moe pp512=595.27 tg64=72.03 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[21:03:44] round=72 model=8b pp512=414.67 tg64=38.72 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[21:13:19]   churn rc=0 faults=0
+[21:13:28] round=73 model=1.5b pp512=1782.86 tg64=197.45 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[21:14:58] round=74 model=27b pp512=104.21 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[21:15:47] round=75 model=moe pp512=594.45 tg64=71.66 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[21:16:29] round=76 model=8b pp512=415.16 tg64=38.74 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[21:26:00]   churn rc=0 faults=0
+[21:26:09] round=77 model=1.5b pp512=1781.96 tg64=196.98 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[21:27:41] round=78 model=27b pp512=104.94 tg64=15.21 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[21:28:29] round=79 model=moe pp512=595.29 tg64=71.70 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[21:29:11] round=80 model=8b pp512=414.83 tg64=38.74 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[21:38:42]   churn rc=0 faults=0
+[21:38:51] round=81 model=1.5b pp512=1781.29 tg64=196.59 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[21:40:21] round=82 model=27b pp512=103.34 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=76.0 faults=0
+[21:41:11] round=83 model=moe pp512=594.40 tg64=71.87 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[21:41:54] round=84 model=8b pp512=414.83 tg64=38.77 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[21:51:28]   churn rc=0 faults=0
+[21:51:37] round=85 model=1.5b pp512=1782.36 tg64=197.10 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[21:53:09] round=86 model=27b pp512=104.13 tg64=15.19 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[21:53:58] round=87 model=moe pp512=595.16 tg64=71.68 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[21:54:41] round=88 model=8b pp512=414.84 tg64=38.63 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[22:04:17]   churn rc=0 faults=0
+[22:04:26] round=89 model=1.5b pp512=1781.30 tg64=197.22 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[22:05:57] round=90 model=27b pp512=104.61 tg64=15.20 gate=6.2737 ref=6.2737 ok edge=76.0 faults=0
+[22:06:46] round=91 model=moe pp512=595.36 tg64=71.69 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[22:07:29] round=92 model=8b pp512=414.84 tg64=38.75 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[22:17:02]   churn rc=0 faults=0
+[22:17:11] round=93 model=1.5b pp512=1781.51 tg64=195.36 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[22:18:43] round=94 model=27b pp512=104.37 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[22:19:31] round=95 model=moe pp512=593.99 tg64=71.92 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[22:20:14] round=96 model=8b pp512=415.09 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[22:29:50]   churn rc=0 faults=0
+[22:29:59] round=97 model=1.5b pp512=1779.02 tg64=196.67 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[22:31:31] round=98 model=27b pp512=104.95 tg64=15.19 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[22:32:20] round=99 model=moe pp512=595.64 tg64=71.55 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[22:33:02] round=100 model=8b pp512=414.62 tg64=38.75 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[22:42:32]   churn rc=0 faults=0
+[22:42:41] round=101 model=1.5b pp512=1782.31 tg64=196.94 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[22:44:12] round=102 model=27b pp512=104.48 tg64=15.17 gate=6.2737 ref=6.2737 ok edge=76.0 faults=0
+[22:45:01] round=103 model=moe pp512=595.01 tg64=71.62 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[22:45:44] round=104 model=8b pp512=414.64 tg64=38.74 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[22:55:17]   churn rc=0 faults=0
+[22:55:26] round=105 model=1.5b pp512=1780.75 tg64=196.27 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[22:56:57] round=106 model=27b pp512=104.24 tg64=15.16 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[22:57:46] round=107 model=moe pp512=593.04 tg64=71.42 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[22:58:28] round=108 model=8b pp512=415.02 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[23:07:58]   churn rc=0 faults=0
+[23:08:07] round=109 model=1.5b pp512=1783.34 tg64=197.12 gate=10.2088 ref=10.2088 ok edge=71.0 faults=0
+[23:09:38] round=110 model=27b pp512=104.16 tg64=15.20 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[23:10:27] round=111 model=moe pp512=590.56 tg64=71.53 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[23:11:09] round=112 model=8b pp512=415.04 tg64=38.78 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[23:20:47]   churn rc=0 faults=0
+[23:20:56] round=113 model=1.5b pp512=1782.75 tg64=197.51 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[23:22:27] round=114 model=27b pp512=104.81 tg64=15.20 gate=6.2737 ref=6.2737 ok edge=76.0 faults=0
+[23:23:16] round=115 model=moe pp512=590.27 tg64=71.94 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[23:23:58] round=116 model=8b pp512=415.10 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[23:33:29]   churn rc=0 faults=0
+[23:33:38] round=117 model=1.5b pp512=1781.57 tg64=197.40 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[23:35:09] round=118 model=27b pp512=104.99 tg64=15.20 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[23:35:58] round=119 model=moe pp512=594.96 tg64=71.87 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[23:36:40] round=120 model=8b pp512=414.84 tg64=38.76 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[23:46:16]   churn rc=0 faults=0
+[23:46:25] round=121 model=1.5b pp512=1782.22 tg64=196.89 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[23:47:56] round=122 model=27b pp512=104.95 tg64=15.21 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[23:48:45] round=123 model=moe pp512=595.19 tg64=71.87 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[23:49:27] round=124 model=8b pp512=414.98 tg64=38.78 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[23:59:01]   churn rc=0 faults=0
+[23:59:10] round=125 model=1.5b pp512=1782.32 tg64=196.99 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[00:00:42] round=126 model=27b pp512=104.71 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=76.0 faults=0
+[00:01:31] round=127 model=moe pp512=590.65 tg64=71.88 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[00:02:13] round=128 model=8b pp512=414.88 tg64=38.35 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[00:11:40]   churn rc=0 faults=0
+[00:11:49] round=129 model=1.5b pp512=1783.45 tg64=197.04 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[00:13:21] round=130 model=27b pp512=102.87 tg64=15.16 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[00:14:12] round=131 model=moe pp512=591.81 tg64=71.95 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[00:14:54] round=132 model=8b pp512=415.05 tg64=38.70 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[00:24:28]   churn rc=0 faults=0
+[00:24:37] round=133 model=1.5b pp512=1784.88 tg64=197.34 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[00:26:09] round=134 model=27b pp512=102.78 tg64=15.20 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[00:26:59] round=135 model=moe pp512=595.27 tg64=71.45 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[00:27:41] round=136 model=8b pp512=411.67 tg64=38.71 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[00:37:18]   churn rc=0 faults=0
+[00:37:28] round=137 model=1.5b pp512=1781.03 tg64=197.42 gate=10.2088 ref=10.2088 ok edge=69.0 faults=0
+[00:39:00] round=138 model=27b pp512=104.38 tg64=15.13 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[00:39:49] round=139 model=moe pp512=595.37 tg64=71.97 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[00:40:31] round=140 model=8b pp512=415.01 tg64=38.77 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[00:50:02]   churn rc=0 faults=0
+[00:50:11] round=141 model=1.5b pp512=1782.36 tg64=196.90 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[00:51:42] round=142 model=27b pp512=104.56 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[00:52:32] round=143 model=moe pp512=594.17 tg64=71.85 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[00:53:15] round=144 model=8b pp512=409.34 tg64=38.74 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[01:02:45]   churn rc=0 faults=0
+[01:02:54] round=145 model=1.5b pp512=1781.70 tg64=197.02 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[01:04:25] round=146 model=27b pp512=104.76 tg64=15.20 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[01:05:15] round=147 model=moe pp512=595.04 tg64=71.52 gate=6.2265 ref=6.2265 ok edge=69.0 faults=0
+[01:05:57] round=148 model=8b pp512=409.91 tg64=38.72 gate=9.4017 ref=9.4017 ok edge=71.0 faults=0
+[01:15:31]   churn rc=0 faults=0
+[01:15:40] round=149 model=1.5b pp512=1785.55 tg64=197.13 gate=10.2088 ref=10.2088 ok edge=70.0 faults=0
+[01:17:10] round=150 model=27b pp512=104.13 tg64=15.18 gate=6.2737 ref=6.2737 ok edge=75.0 faults=0
+[01:18:00] round=151 model=moe pp512=594.16 tg64=71.57 gate=6.2265 ref=6.2265 ok edge=70.0 faults=0
+[01:18:43] round=152 model=8b pp512=409.12 tg64=38.72 gate=9.4017 ref=9.4017 ok edge=70.0 faults=0
+[01:28:21]   churn rc=0 faults=0
+[01:28:21] summary: rounds=152 gate mismatches=0
+[01:28:21]   1.5b distinct gates: gate=10.2088 
+[01:28:21]   27b distinct gates: gate=6.2737 
+[01:28:21]   moe distinct gates: gate=6.2265 
+[01:28:21]   8b distinct gates: gate=9.4017 
+[01:28:21]   fault lines now: 0
+[01:28:21] done

@@ -1,0 +1,7 @@
+run 1 (relinked): SIGSEGV
+run 2 (untouched): SIGSEGV
+run 3 (relinked): SIGSEGV
+run 4 (untouched): SIGSEGV
+run 5 (relinked): SIGSEGV
+run 6 (untouched): SIGSEGV
+RELINK DONE

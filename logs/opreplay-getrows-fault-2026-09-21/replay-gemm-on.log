@@ -1,0 +1,154 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+ggml_backend_cuda_get_available_uma_memory: final available_memory_kb: 14854608
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+Testing 2 devices
+
+Backend 1/2: ROCm0
+  Device description: AMD BC-250
+  Device memory: 16384 MB (14506 MB free)
+
+  ADD(name=node_36,type=f32,ne=[32,1,1,1],op_params=[],sources=f32[32,1,1,1],f32[32,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 294912 runs -     3.43 us/run -        0 kB/run - [1;34m   0.10 GB/s[0m
+  ADD(name=node_36,type=f32,ne=[32,512,1,1],op_params=[],sources=f32[32,512,1,1],f32[32,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+             278528 runs -     3.64 us/run -      128 kB/run - [1;34m  33.59 GB/s[0m
+  ADD(name=attn_residual-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+           286720 runs -     3.50 us/run -       24 kB/run - [1;34m   6.54 GB/s[0m
+  ADD(name=node_87,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,1,1,1]nb[4,65536,65536,65536]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            294876 runs -     3.47 us/run -       24 kB/run - [1;34m   6.59 GB/s[0m
+  ADD(name=node_86,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1]nb[4,65536,65536,65536],f32[2048,1,1,1]nb[4,65536,65536,65536]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+             286650 runs -     3.49 us/run -       24 kB/run - [1;34m   6.56 GB/s[0m
+  ADD(name=attn_residual-0,type=f32,ne=[2048,512,1,1],op_params=[],sources=f32[2048,512,1,1],f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              27310 runs -    37.93 us/run -    12288 kB/run - [1;34m 308.95 GB/s[0m
+  ADD(name=node_87,type=f32,ne=[2048,512,1,1],op_params=[],sources=f32[2048,512,1,1],f32[2048,512,1,1]nb[4,65536,33554432,33554432]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 27093 runs -    37.15 us/run -    40904 kB/run - [1;34m1050.11 GB/s[0m
+  ADD(name=node_86,type=f32,ne=[2048,512,1,1],op_params=[],sources=f32[2048,512,1,1]nb[4,65536,33554432,33554432],f32[2048,512,1,1]nb[4,65536,33554432,33554432]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            27048 runs -    37.46 us/run -    69520 kB/run - [1;34m1769.87 GB/s[0m
+  MUL(name=gate-0,type=f32,ne=[32,1,1,1],op_params=[],sources=f32[32,1,1,1],f32[32,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                  303104 runs -     3.36 us/run -        0 kB/run - [1;34m   0.11 GB/s[0m
+  MUL(name=gate-0,type=f32,ne=[32,512,1,1],op_params=[],sources=f32[32,512,1,1],f32[32,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              278528 runs -     3.66 us/run -      128 kB/run - [1;34m  33.42 GB/s[0m
+  MUL(name=node_50,type=f32,ne=[128,32,1,1],op_params=[],sources=f32[128,32,1,1],f32[128,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            294912 runs -     3.47 us/run -       32 kB/run - [1;34m   8.94 GB/s[0m
+  MUL(name=node_54,type=f32,ne=[128,32,1,1],op_params=[],sources=f32[128,32,1,1],f32[128,32,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+           286720 runs -     3.51 us/run -       48 kB/run - [1;34m  13.06 GB/s[0m
+  MUL(name=node_50,type=f32,ne=[128,32,512,1],op_params=[],sources=f32[128,32,512,1],f32[128,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 16384 runs -    63.64 us/run -    16384 kB/run - [1;34m 245.54 GB/s[0m
+  MUL(name=node_54,type=f32,ne=[128,32,512,1],op_params=[],sources=f32[128,32,512,1],f32[128,32,512,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              15026 runs -    70.74 us/run -    24576 kB/run - [1;34m 331.31 GB/s[0m
+  MUL(name=Kcur_normed-3,type=f32,ne=[256,2,1,1],op_params=[],sources=f32[256,2,1,1],f32[256,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                253952 runs -     4.00 us/run -        5 kB/run - [1;34m   1.19 GB/s[0m
+  MUL(name=Kcur_normed-3,type=f32,ne=[256,2,512,1],op_params=[],sources=f32[256,2,512,1],f32[256,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+             90112 runs -    11.31 us/run -     2049 kB/run - [1;34m 172.71 GB/s[0m
+  MUL(name=Qcur_normed-3,type=f32,ne=[256,16,1,1],op_params=[],sources=f32[256,16,1,1],f32[256,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              294912 runs -     3.44 us/run -       33 kB/run - [1;34m   9.16 GB/s[0m
+  MUL(name=Qcur_normed-3,type=f32,ne=[256,16,512,1],op_params=[],sources=f32[256,16,512,1],f32[256,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                   16384 runs -    63.46 us/run -    16385 kB/run - [1;34m 246.23 GB/s[0m
+  MUL(name=ffn_shexp_gated-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[1,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            303104 runs -     3.36 us/run -       16 kB/run - [1;34m   4.54 GB/s[0m
+  MUL(name=attn_norm-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+               270336 runs -     3.71 us/run -       24 kB/run - [1;34m   6.16 GB/s[0m
+  MUL(name=ffn_moe_weighted-0,type=f32,ne=[2048,8,1,1],op_params=[],sources=f32[2048,8,1,1],f32[1,8,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+           278528 runs -     3.68 us/run -      128 kB/run - [1;34m  33.22 GB/s[0m
+  MUL(name=ffn_moe_weighted-0,type=f32,ne=[2048,8,512,1],op_params=[],sources=f32[2048,8,512,1],f32[1,8,512,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+               4608 runs -   239.81 us/run -    65552 kB/run - [1;34m 260.69 GB/s[0m
+  MUL(name=ffn_shexp_gated-0,type=f32,ne=[2048,512,1,1],op_params=[],sources=f32[2048,512,1,1],f32[1,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+               32768 runs -    33.97 us/run -     8194 kB/run - [1;34m 230.05 GB/s[0m
+  MUL(name=attn_norm-0,type=f32,ne=[2048,512,1,1],op_params=[],sources=f32[2048,512,1,1],f32[2048,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            32744 runs -    33.96 us/run -     8200 kB/run - [1;34m 230.31 GB/s[0m
+  MUL(name=attn_gated-3,type=f32,ne=[4096,1,1,1],op_params=[],sources=f32[4096,1,1,1],f32[4096,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              262144 runs -     3.83 us/run -       48 kB/run - [1;34m  11.95 GB/s[0m
+  MUL(name=attn_gated-3,type=f32,ne=[4096,512,1,1],op_params=[],sources=f32[4096,512,1,1],f32[4096,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 15026 runs -    69.28 us/run -    24576 kB/run - [1;34m 338.28 GB/s[0m
+  DIV(name=ffn_moe_weights_norm-0,type=f32,ne=[8,1,1,1],op_params=[],sources=f32[8,1,1,1],f32[1,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+             303104 runs -     3.33 us/run -        0 kB/run - [1;34m   0.02 GB/s[0m
+  DIV(name=ffn_moe_weights_norm-0,type=f32,ne=[8,512,1,1],op_params=[],sources=f32[8,512,1,1],f32[1,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+               303104 runs -     3.37 us/run -       34 kB/run - [1;34m   9.63 GB/s[0m
+  SUM_ROWS(name=ffn_moe_weights_sum-0,type=f32,ne=[1,1,1,1],op_params=[],sources=f32[8,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              294912 runs -     3.39 us/run -        0 kB/run - [1;34m   0.01 GB/s[0m
+  SUM_ROWS(name=ffn_moe_weights_sum-0,type=f32,ne=[1,512,1,1],op_params=[],sources=f32[8,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                  270336 runs -     3.71 us/run -       18 kB/run - [1;34m   4.63 GB/s[0m
+  CONCAT(name=conv_input-0,type=f32,ne=[4,8192,1,1],op_params=[],sources=f32[3,8192,1,1],f32[1,8192,1,1]nb[32768,4,32768,32768]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            253921 runs -     4.03 us/run -      256 kB/run - [1;34m  60.57 GB/s[0m
+  CONCAT(name=conv_input-0,type=f32,ne=[515,8192,1,1],op_params=[],sources=f32[3,8192,1,1],f32[512,8192,1,1]nb[32768,4,16777216,16777216]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                    4076 runs -   296.16 us/run -    32960 kB/run - [1;34m 106.13 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[128,32,1,1],op_params=[0:897988541],sources=f32[128,32,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            286720 runs -     3.54 us/run -       32 kB/run - [1;34m   8.63 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[128,32,512,1],op_params=[0:897988541],sources=f32[128,32,512,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                  8196 runs -   144.40 us/run -    16384 kB/run - [1;34m 108.21 GB/s[0m
+  RMS_NORM(name=norm-3,type=f32,ne=[256,2,1,1],op_params=[0:897988541],sources=f32[256,2,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              286720 runs -     3.49 us/run -        4 kB/run - [1;34m   1.09 GB/s[0m
+  RMS_NORM(name=norm-3,type=f32,ne=[256,2,512,1],op_params=[0:897988541],sources=f32[256,2,512,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                   81920 runs -    12.66 us/run -     2048 kB/run - [1;34m 154.30 GB/s[0m
+  RMS_NORM(name=norm-3,type=f32,ne=[256,16,1,1],op_params=[0:897988541],sources=f32[256,16,1,1]nb[4,2048,32768,32768]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              286685 runs -     3.52 us/run -       47 kB/run - [1;34m  12.72 GB/s[0m
+  RMS_NORM(name=norm-3,type=f32,ne=[256,16,512,1],op_params=[0:897988541],sources=f32[256,16,512,1]nb[4,2048,32768,16777216]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                10928 runs -    93.07 us/run -    24575 kB/run - [1;34m 251.83 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[2048,1,1,1],op_params=[0:897988541],sources=f32[2048,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            221184 runs -     4.66 us/run -       16 kB/run - [1;34m   3.28 GB/s[0m
+  RMS_NORM(name=norm-0,type=f32,ne=[2048,512,1,1],op_params=[0:897988541],sources=f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 28679 runs -    40.29 us/run -     8192 kB/run - [1;34m 193.92 GB/s[0m
+  L2_NORM(name=q_conv_predelta-0,type=f32,ne=[128,16,1,1],op_params=[0:897988541],sources=f32[128,16,1,1]nb[4,512,32768,32768]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+             237539 runs -     4.24 us/run -       16 kB/run - [1;34m   3.60 GB/s[0m
+  L2_NORM(name=q_conv_predelta-0,type=f32,ne=[128,16,512,1],op_params=[0:897988541],sources=f32[128,16,512,1]nb[4,512,32768,16777216]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+               29538 runs -    35.43 us/run -    20456 kB/run - [1;34m 550.55 GB/s[0m
+  MUL_MAT(name=shared_expert_gate-0,type=f32,ne=[1,1,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+             245760 runs -     4.09 us/run -       16 kB/run - [1;34m   3.73 GB/s[0m
+  MUL_MAT(name=shared_expert_gate-0,type=f32,ne=[1,512,1,1],op_params=[],sources=f32[2048,1,1,1],f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                  65384 runs -    15.69 us/run -     4106 kB/run - [1;34m 249.54 GB/s[0m
+  MUL_MAT(name=node_34,type=f32,ne=[32,1,1,1],op_params=[],sources=f32[2048,32,1,1],f32[2048,1,1,1]):                 237568 runs -     4.23 us/run -      264 kB/run - [1;34m  59.51 GB/s[0m
+  MUL_MAT(name=node_34,type=f32,ne=[32,512,1,1],op_params=[],sources=f32[2048,32,1,1],f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              7599 runs -   288.00 us/run -     4416 kB/run - [1;34m  14.62 GB/s[0m
+  MUL_MAT(name=ffn_moe_logits-0,type=f32,ne=[256,1,1,1],op_params=[],sources=f32[2048,256,1,1],f32[2048,1,1,1]):              139264 runs -     7.50 us/run -     2057 kB/run - [1;34m 261.50 GB/s[0m
+  MUL_MAT(name=ffn_moe_logits-0,type=f32,ne=[256,512,1,1],op_params=[],sources=f32[2048,256,1,1],f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                   5042 runs -   337.83 us/run -     6656 kB/run - [1;34m  18.79 GB/s[0m
+  MUL_MAT(name=ffn_gate-0,type=f32,ne=[512,1,1,1],op_params=[],sources=q5_K[2048,512,1,1],f32[2048,1,1,1]):                   155648 runs -     6.59 us/run -      714 kB/run - [1;34m 103.29 GB/s[0m
+  MUL_MAT(name=ffn_gate-0,type=f32,ne=[512,512,1,1],op_params=[],sources=q5_K[2048,512,1,1],f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                5762 runs -   654.93 us/run -     5824 kB/run - [1;34m   8.48 GB/s[0m
+  MUL_MAT(name=attn_output-3,type=f32,ne=[2048,1,1,1],op_params=[],sources=q5_K[4096,2048,1,1],f32[4096,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              41531 runs -    24.24 us/run -     5656 kB/run - [1;34m 222.52 GB/s[0m
+  MUL_MAT(name=ffn_shexp-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=q6_K[512,2048,1,1],f32[512,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 172032 runs -     6.08 us/run -      850 kB/run - [1;34m 133.24 GB/s[0m
+  MUL_MAT(name=linear_attn_out-0,type=f32,ne=[2048,1,1,1],op_params=[],sources=q6_K[4096,2048,1,1],f32[4096,1,1,1]):                   44784 runs -    23.61 us/run -     6744 kB/run - [1;34m 272.45 GB/s[0m
+  MUL_MAT(name=attn_output-3,type=f32,ne=[2048,512,1,1],op_params=[],sources=q5_K[4096,2048,1,1],f32[4096,512,1,1]):                    1873 runs -  1777.54 us/run -    17920 kB/run - [1;34m   9.61 GB/s[0m
+  MUL_MAT(name=ffn_shexp-0,type=f32,ne=[2048,512,1,1],op_params=[],sources=q6_K[512,2048,1,1],f32[512,512,1,1]):                5630 runs -   218.61 us/run -     5960 kB/run - [1;34m  26.00 GB/s[0m
+  MUL_MAT(name=linear_attn_out-0,type=f32,ne=[2048,512,1,1],op_params=[],sources=q6_K[4096,2048,1,1],f32[4096,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+               1766 runs -  1751.40 us/run -    19008 kB/run - [1;34m  10.35 GB/s[0m
+  MUL_MAT(name=z-0,type=f32,ne=[4096,1,1,1],op_params=[],sources=q5_K[2048,4096,1,1],f32[2048,1,1,1]):                 47464 runs -    22.81 us/run -     5656 kB/run - [1;34m 236.50 GB/s[0m
+  MUL_MAT(name=z-0,type=f32,ne=[4096,512,1,1],op_params=[],sources=q5_K[2048,4096,1,1],f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+             1873 runs -  1600.30 us/run -    17920 kB/run - [1;34m  10.68 GB/s[0m
+  MUL_MAT(name=node_13,type=f32,ne=[8192,1,1,1],op_params=[],sources=q5_K[2048,8192,1,1],f32[2048,1,1,1]):             26721 runs -    41.61 us/run -    11304 kB/run - [1;34m 259.09 GB/s[0m
+  MUL_MAT(name=node_13,type=f32,ne=[8192,512,1,1],op_params=[],sources=q5_K[2048,8192,1,1],f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 1058 runs -  3229.60 us/run -    31744 kB/run - [1;34m   9.37 GB/s[0m
+  MUL_MAT(name=result_output,type=f32,ne=[248320,1,1,1],op_params=[],sources=q4_K[2048,248320,1,1],f32[2048,1,1,1]):                    1080 runs -   942.64 us/run -   280338 kB/run - [1;34m 283.62 GB/s[0m
+  MUL_MAT(name=result_output,type=f32,ne=[248320,512,1,1],op_params=[],sources=q4_K[2048,248320,1,1],f32[2048,512,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 44 runs - 80407.32 us/run -   780096 kB/run - [1;34m   9.25 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_gate-0,type=f32,ne=[512,8,1,1],op_params=[],sources=iq2_xxs[2048,512,256,1],f32[2048,1,1,1],i32[8,1,1,1]nb[4,1024,1024,1024]):               44233 runs -    22.71 us/run -    67608 kB/run - [1;34m2839.49 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_gate-0,type=f32,ne=[512,8,512,1],op_params=[],sources=iq2_xxs[2048,512,256,1],f32[2048,1,512,1],i32[8,512,1,1]nb[4,1024,524288,524288]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              836 runs -  1879.04 us/run -    80383 kB/run - [1;34m  40.80 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_down-0,type=f32,ne=[2048,8,1,1],op_params=[],sources=iq3_xxs[512,2048,256,1],f32[512,8,1,1],i32[8,1,1,1]nb[4,1024,1024,1024]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              32160 runs -    31.37 us/run -   100432 kB/run - [1;34m3052.88 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_down-34,type=f32,ne=[2048,8,1,1],op_params=[],sources=iq4_xs[512,2048,256,1],f32[512,8,1,1],i32[8,1,1,1]nb[4,1024,1024,1024]):               29161 runs -    34.49 us/run -   139344 kB/run - [1;34m3853.05 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_down-0,type=f32,ne=[2048,8,512,1],op_params=[],sources=iq3_xxs[512,2048,256,1],f32[512,8,512,1],i32[8,512,1,1]nb[4,1024,524288,524288]):               711 runs -  1810.68 us/run -   141823 kB/run - [1;34m  74.70 GB/s[0m
+  MUL_MAT_ID(name=ffn_moe_down-34,type=f32,ne=[2048,8,512,1],op_params=[],sources=iq4_xs[512,2048,256,1],f32[512,8,512,1],i32[8,512,1,1]nb[4,1024,524288,524288]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+              744 runs -  1740.10 us/run -   180735 kB/run - [1;34m  99.05 GB/s[0m
+  SCALE(name=cache_r_l0,type=f32,ne=[24576,1,1,1],op_params=[],sources=f32[24576,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            352256 runs -     2.90 us/run -      192 kB/run - [1;34m  63.22 GB/s[0m
+  SCALE(name=cache_s_l0,type=f32,ne=[524288,1,1,1],op_params=[],sources=f32[524288,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                   81920 runs -    12.78 us/run -     4096 kB/run - [1;34m 305.54 GB/s[0m
+failed to allocate tensors
+  CPY(name=conv_state_update-0,type=f32,ne=[24576,1,1,1],op_params=[],sources=f32[3,8192,1,1]nb[4,16,131072,131072],f32[24576,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+               163820 runs -     6.16 us/run -      319 kB/run - [1;34m  49.55 GB/s[0m
+  CPY(name=conv_state_update-0,type=f32,ne=[24576,1,1,1],op_params=[],sources=f32[3,8192,1,1]nb[4,2060,16875520,16875520],f32[24576,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                 169092 runs -     5.97 us/run -    16670 kB/run - [1;34m2663.47 GB/s[0m
+failed to allocate tensors
+  CPY(name=cache_s_l0,type=f32,ne=[524288,1,1,1],op_params=[],sources=f32[128,128,32,1],f32[524288,1,1,1]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+                   92854 runs -    11.31 us/run -     6144 kB/run - [1;34m 517.98 GB/s[0m
+  CONT(name=gate_reshaped-3,type=f32,ne=[4096,1,1,1],op_params=[],sources=f32[256,16,1,1]nb[4,2048,32768,32768]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+            270303 runs -     3.72 us/run -       47 kB/run - [1;34m  12.05 GB/s[0m
+  CONT(name=gate_reshaped-3,type=f32,ne=[4096,512,1,1],op_params=[],sources=f32[256,16,512,1]nb[4,2048,32768,16777216]): ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+               4098 runs -   253.57 us/run -    24575 kB/run - [1;34m  92.43 GB/s[0m
+  GET_ROWS(name=ffn_moe_weights-0,type=f32,ne=[1,8,1,1],op_params=[],sources=f32[1,256,1,1],i32[8,1,1,1]nb[4,1024,1024,1024]): Memory access fault by GPU node-1 (Agent handle: 0x36915b30) on address 0x7f97d2ccf000. Reason: Page not present or supervisor privilege.
+Failed to fetch queues snapshot.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci

@@ -1,0 +1,6 @@
+orig tcache=1: RESULT bad_reps=5/5
+patched tcache=1: RESULT bad_reps=0/5
+orig tcache=0: RESULT bad_reps=0/5
+patched tcache=0: RESULT bad_reps=0/5
+orig tcache=default: RESULT bad_reps=0/5
+patched tcache=default: RESULT bad_reps=0/5

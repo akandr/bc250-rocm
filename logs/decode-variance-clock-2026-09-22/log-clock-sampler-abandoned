@@ -1,0 +1,3 @@
+[13:50:01] start, 8 pairs, edge +64.0°C, available 14518 MiB
+[13:53:05] p1 arm=hot tg8=25.93±4.03 samples=598 gpu1000=344 gpu1500=254 at1000=57% cpuMHz_mean=3414 cpuMHz_min=1684 edge=+68.0°C
+[13:58:18] p1 arm=cool tg8=29.08±1.60 samples=726 gpu1000=469 gpu1500=257 at1000=64% cpuMHz_mean=3408 cpuMHz_min=1557 edge=+70.0°C

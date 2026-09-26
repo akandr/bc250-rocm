@@ -1,0 +1,20 @@
+rocblas: 	librocblas.so.5 => /lib64/librocblas.so.5 (0x00007f1938a00000)
+	libamdhip64.so.7 => /lib64/libamdhip64.so.7 (0x00007f1937000000)
+helpers: 4 symbols, 131 rocblas calls
+/home/akandr/s0915/f44/run.sh: linia 8:  8963 Przerwane                  env "$@" timeout -k 30 1800 $H/llama-perplexity -m $model --no-mmap -ngl 99 -fa on -c $c -f ~/wiki.test.raw --chunks $ch > $D/$label.log 2>&1
+gate_q15: rc=134  #5  0x00007f3de45321cd in ggml_abort () from /home/akandr/llama-master/build-hip-f44/bin/libggml-base.so.0
+/home/akandr/s0915/f44/run.sh: linia 8:  9050 Przerwane                  env "$@" timeout -k 30 1800 $H/llama-perplexity -m $model --no-mmap -ngl 99 -fa on -c $c -f ~/wiki.test.raw --chunks $ch > $D/$label.log 2>&1
+q8_default_1: rc=134  0.15.558.387 E ROCm error: CUBLAS_STATUS_INTERNAL_ERROR
+/home/akandr/s0915/f44/run.sh: linia 8:  9271 Przerwane                  env "$@" timeout -k 30 1800 $H/llama-perplexity -m $model --no-mmap -ngl 99 -fa on -c $c -f ~/wiki.test.raw --chunks $ch > $D/$label.log 2>&1
+q8_default_2: rc=134  /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:110: ROCm error
+/home/akandr/s0915/f44/run.sh: linia 8:  9414 Przerwane                  env "$@" timeout -k 30 1800 $H/llama-perplexity -m $model --no-mmap -ngl 99 -fa on -c $c -f ~/wiki.test.raw --chunks $ch > $D/$label.log 2>&1
+q8_f16_tcache1: rc=134  /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:110: ROCm error
+/home/akandr/s0915/f44/run.sh: linia 8:  9485 Przerwane                  env "$@" timeout -k 30 1800 $H/llama-perplexity -m $model --no-mmap -ngl 99 -fa on -c $c -f ~/wiki.test.raw --chunks $ch > $D/$label.log 2>&1
+q8_f32: rc=134  0.14.161.134 E /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:110: ROCm error
+/home/akandr/s0915/f44/run.sh: linia 8:  9693 Przerwane                  env "$@" timeout -k 30 1800 $H/llama-perplexity -m $model --no-mmap -ngl 99 -fa on -c $c -f ~/wiki.test.raw --chunks $ch > $D/$label.log 2>&1
+q14_default: rc=134  /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:110: ROCm error
+/home/akandr/s0915/f44/run.sh: linia 17:  9875 Przerwane                  timeout -k 20 900 $H/llama-bench -m $M/qwen2.5-1.5b-q4km.gguf -mmp 0 -ngl 99 -fa on -p 512 -n 64 -r 3 > $D/bench.log 2>&1
+bench: 
+/home/akandr/s0915/f44/run.sh: linia 19:  9906 Przerwane                  timeout 5400 $H/test-backend-ops -b ROCm0 > $D/tbo_full.log 2>&1
+test-backend-ops: rc=134 ok=3858 fail=0 [Inferior 1 (process 9907) detached]
+DONE

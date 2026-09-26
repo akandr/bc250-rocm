@@ -1,0 +1,8 @@
+[05:37:36] ldd with hiplib: 	libamdhip64.so.7 => /home/akandr/clr-src/hiplib/libamdhip64.so.7 (0x00007f1202600000);	libhsa-runtime64.so.1 => /opt/bc250-rocm/lib64/libhsa-runtime64.so.1 (0x00007f11c7200000);
+[05:43:39] run 1: received signal SIGSEGV 
+[05:49:01] run 2: received signal SIGSEGV 
+[05:54:13] run 3: received signal SIGSEGV 
+[05:55:50] 1.5B gate, new HIP: Final estimate: PPL = 8.9498   stock HIP: Final estimate: PPL = 8.9498   (expect 8.9498)
+[05:55:59] 1.5B p1 new HIP:  pp512 910.91 ± 12.36 ; tg64 180.67 ± 1.40 ; | stock:  pp512 914.31 ± 7.13 ; tg64 181.07 ± 0.67 ;
+[05:56:07] 1.5B p2 new HIP:  pp512 913.67 ± 7.65 ; tg64 180.29 ± 1.65 ; | stock:  pp512 913.97 ± 7.67 ; tg64 179.96 ± 1.88 ;
+CLRVERIFY DONE

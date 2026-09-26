@@ -1,0 +1,8 @@
+index=0
+kernel="/boot/vmlinuz-7.2.5-200.fc44.x86_64"
+args="ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet"
+index=1
+kernel="/boot/vmlinuz-7.2.5-200.fc44.x86_64"
+args="ro rootflags=subvol=root-f44 rhgb quiet ttm.pages_limit=4194304 amdgpu.sched_policy=2 amdgpu.gpu_recovery=0 amdgpu.bc250_cc_write_mode=3 quiet mitigations=off $tuned_params"
+index=2
+kernel="/boot/vmlinuz-7.1.8-100.fc43.x86_64"

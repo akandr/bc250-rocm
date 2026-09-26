@@ -1,0 +1,6 @@
+12
+cpu1: PPL = 16.2484 wall=29s zero_at=[37 73 109 110 ]
+cpu2: PPL = 14.1344 wall=29s zero_at=[37 73 109 ]
+cpu4: PPL = 14.1344 wall=29s zero_at=[37 73 109 ]
+cpu1b: PPL = 11.7443 wall=29s zero_at=[73 109 ]
+control: PPL = 18.3329 wall=28s zero_at=[37 38 73 109 ]

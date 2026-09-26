@@ -1,0 +1,20 @@
+Pre-registered 2026-08-23, before running, using the deterministic baseline
+(GGML_CUDA_NO_POOL=1) established in the previous cycle.
+
+At one chunk and ubatch 512 there are four batches, 144 GEMM calls, and exactly
+three zeros at calls 37, 73 and 109: the first call of batches two, three and
+four. The first batch is clean.
+
+Two readings fit that and they differ at the next chunk boundary:
+
+  A. "every batch after the very first in the process". Two chunks means eight
+     batches and 288 calls, so zeros at 37, 73, 109, 145, 181, 217 and 253.
+     Seven zeros, including 145, which is the first batch of the second chunk.
+
+  B. "the first batch after any batch, but something resets between chunks".
+     Then call 145 is clean like call 1, and the zeros are 37, 73, 109, 181,
+     217, 253. Six zeros, skipping 145.
+
+The discriminator is call 145 alone. Prediction is not offered between them,
+since both are plausible; what matters is that the outcomes are distinguishable
+and were named in advance.

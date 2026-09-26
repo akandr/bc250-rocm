@@ -1,0 +1,20 @@
+Registers, shared memory and resident waves per tile, promote=1 dbuf=false, gfx1013 wave32.
+A SIMD has 1024 VGPRs; a WGP has 131072 bytes of LDS.
+
+  BM   BN  TM  TN  type        vgpr     lds  waves/SIMD  blocks/WGP
+  64   64   4  16  iq3_s        132    9216           7          14
+  64   64   4  16  q5_K         132    9216           7          14
+  64  128   4  32  iq3_s        243   13312           4           9
+  64  128   4  32  q5_K         245   13312           4           9
+ 128   32   8   4  iq3_s         95   11264          10          11
+ 128   32   8   4  q5_K          89   11264          11          11
+ 128   64   8   8  iq3_s        125   13312           8           9
+ 128   64   8   8  q5_K         125   13312           8           9
+ 128  128   8  16  iq3_s        221   17408           4           7
+ 128  128   8  16  iq3_s        222   34816           4           3
+ 128  128   8  16  iq3_s        238   17408           4           7
+ 128  128   8  16  iq3_s        246   34816           4           3
+ 128  128   8  16  q5_K         221   17408           4           7
+ 128  128   8  16  q5_K         229   17408           4           7
+ 128  128   8  16  q5_K         239   34816           4           3
+ 128  128   8  16  q5_K         256   34816           4           3

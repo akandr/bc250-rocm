@@ -1,0 +1,26 @@
+== system
+Fedora release 44 (Forty Four)
+7.1.8-100.fc43.x86_64
+/dev/nvme0n1p3[/root-f44] rw,relatime,seclabel,compress=zstd:1,ssd,discard=async,space_cache=v2,subvolid=259,subvol=/root-f44
+Permissive
+rocm-hip-7.1.1-3.fc44.x86_64
+rocm-runtime-7.1.1-6.fc44.x86_64
+rocblas-7.1.1-7.fc44.x86_64
+hipblas-7.1.0-6.fc44.x86_64
+rocm-clang-20-13.rocm7.1.1.fc44.x86_64
+rocm-clang-runtime-devel-20-13.rocm7.1.1.fc44.x86_64
+mesa-vulkan-drivers-26.1.8-1.fc44.x86_64
+gcc-16.2.1-2.fc44.x86_64
+simd_count 0
+simd_count 80
+3 0 3 0 
+== rocBLAS gfx1013 files
+lrwxrwxrwx. 1 root root       28 07-05 21:22 Kernels.so-000-gfx1013.hsaco -> Kernels.so-000-gfx1010.hsaco
+lrwxrwxrwx. 1 root root       31 07-05 21:22 TensileLibrary_lazy_gfx1013.dat -> TensileLibrary_lazy_gfx1010.dat
+== llama.cpp HIP build
+	libhipblas.so.3 => /lib64/libhipblas.so.3 (0x00007f4789f38000)
+	librocblas.so.5 => /lib64/librocblas.so.5 (0x00007f477fa00000)
+	libamdhip64.so.7 => /lib64/libamdhip64.so.7 (0x00007f477e000000)
+== rocBLAS gfx1013 file ownership (Fedora 44 copy)
+Kernels.so-000-gfx1013.hsaco: not owned by any package (hand-made symlink dated 2026-07-05, carried over from Fedora 43)
+rpm -ql rocblas-7.1.1-7.fc44 | grep -c gfx1013: 0

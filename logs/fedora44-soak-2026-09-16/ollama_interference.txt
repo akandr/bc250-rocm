@@ -1,0 +1,4 @@
+wrz 16 00:51:11 bc250 ollama[1044]: time=2026-09-16T00:51:11.861+02:00 level=INFO source=sched.go:491 msg="gpu memory" id=00000000-0100-0000-0000-000000000000 l
+wrz 16 00:51:11 bc250 ollama[1044]: time=2026-09-16T00:51:11.861+02:00 level=INFO source=server.go:759 msg="loading model" "model layers"=41 requested=-1
+wrz 16 00:51:11 bc250 ollama[1044]: time=2026-09-16T00:51:11.947+02:00 level=INFO source=ggml.go:136 msg="" architecture=qwen3 file_type=Q4_K_M name="Qwen3 14B"
+wrz 16 00:51:29 bc250 ollama[1044]: time=2026-09-16T00:51:29.771+02:00 level=INFO source=server.go:1386 msg="waiting for server to become available" status="llm

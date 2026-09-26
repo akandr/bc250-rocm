@@ -1,0 +1,14 @@
+wrz 20 18:31:07 bc250 kernel: gmc_v10_0_process_interrupt: 32 callbacks suppressed
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:7373)
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:  Process test-backend-op pid 287125 thread test-backend-op pid 287125
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f800f3c9000 from client 0x1b (UTCL2)
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00801031
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:          Faulty UTCL2 client ID: TCP (0x8)
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:          MORE_FAULTS: 0x1
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:          WALKER_ERROR: 0x0
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:          PERMISSION_FAULTS: 0x3
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:          MAPPING_ERROR: 0x0
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:          RW: 0x0
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:24 vmid:8 pasid:7373)
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:  Process test-backend-op pid 287125 thread test-backend-op pid 287125
+wrz 20 18:31:07 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f80862bd000 from client 0x1b (UTCL2)

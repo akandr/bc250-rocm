@@ -1,0 +1,16 @@
+[21:48:41] stock   1.5B gate: 
+[21:48:41] patched 1.5B gate: 
+[21:48:41] stock   8B gate: 
+[21:48:41] patched 8B gate: 
+[21:48:47] stock   1.5B p1:  pp512 914.70 ± 7.09 ; tg64 180.11 ± 0.65 ;
+[21:48:51] patched 1.5B p1:  pp512 914.61 ± 7.39 ; tg64 179.25 ± 1.52 ;
+[21:48:55] stock   1.5B p2:  pp512 914.45 ± 7.49 ; tg64 180.34 ± 0.90 ;
+[21:48:59] patched 1.5B p2:  pp512 914.87 ± 7.75 ; tg64 180.75 ± 1.22 ;
+[21:48:59] ldd before: 	libhsa-runtime64.so.1 => /lib64/libhsa-runtime64.so.1 (0x00007fad71400000)
+[21:49:01] installed into /opt/bc250-rocm/lib64
+[21:49:01] ldconfig: 	libhsa-runtime64.so.1 (libc6,x86-64) => /opt/bc250-rocm/lib64/libhsa-runtime64.so.1;	libhsa-runtime64.so.1 (libc6,x86-64) => /lib64/libhsa-runtime64.so.1;
+[21:49:01] ldd after: 	libhsa-runtime64.so.1 => /opt/bc250-rocm/lib64/libhsa-runtime64.so.1 (0x00007fa217800000)
+[21:49:01] md5 installed 3f5bfa2a848e built 3f5bfa2a848e stock 08c62b88257b
+[21:54:49] deep context with the installed runtime: rc=139  segfault at 8 ip 00007f493cc9a254 sp 00007ffe9d24f780 error 6 in libamdhip64.so.7.1.52802[499254,7f4
+[21:54:55] installed 1.5B:  pp512 912.05 ± 11.95 ; tg64 180.47 ± 0.89 ;
+VALIDATE DONE

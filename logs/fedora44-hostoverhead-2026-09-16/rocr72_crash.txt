@@ -1,0 +1,1 @@
+[  561.671890] llama-bench[2175]: segfault at 20 ip 00007f7c566bfc7f sp 00007fff8b225e80 error 4 in libhsa-runtime64.so.1.18.0[bfc7f,7f7c56686000+121000] likely on CPU 9 (core 5, socket 0)

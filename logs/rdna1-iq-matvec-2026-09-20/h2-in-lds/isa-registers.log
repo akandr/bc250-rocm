@@ -1,0 +1,22 @@
+Registers and shared memory with the codebook staged as bytes and as half2, gfx1013 wave32.
+fus = the bias/gate/GLU fusion variant, lds = the block stages the codebook, h2 = staged as half2.
+
+type      fus lds h2  vgpr    lds  scratch  waves/SIMD
+iq2_xxs     0   0  0    54      0        0          18
+iq2_xxs     0   1  0    54   2048        0          18
+iq2_xxs     0   1  1    63   4224        0          16
+iq2_xxs     1   0  0    73      0        0          14
+iq2_xxs     1   1  0    73   2048        0          14
+iq2_xxs     1   1  1    92   4224        0          11
+iq3_s       0   0  0    64      0        0          16
+iq3_s       0   1  0    64   2048        0          16
+iq3_s       0   1  1    72   4224        0          14
+iq3_s       1   0  0    89      0        0          11
+iq3_s       1   1  0    89   2048        0          11
+iq3_s       1   1  1   108   4224        0           9
+iq3_xxs     0   0  0    61      0        0          16
+iq3_xxs     0   1  0    61   1024        0          16
+iq3_xxs     0   1  1    55   2176        0          18
+iq3_xxs     1   0  0    73      0        0          14
+iq3_xxs     1   1  0    73   1024        0          14
+iq3_xxs     1   1  1    84   2176        0          12

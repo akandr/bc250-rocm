@@ -1,0 +1,17 @@
+=== no override ===
++ env HSA_ENABLE_SDMA=0 HSA_ENABLE_SDMA=0 timeout -k 10 300 /home/akandr/compute_probe 16384 6000 1
+=== compute_probe gfx1013:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=1933.0 ms  wrong=0/4194304  ok
+RESULT: total_wrong=0 -> ALL CORRECT
+rc=0
+=== HSA_OVERRIDE_GFX_VERSION=10.1.0 ===
++ env HSA_OVERRIDE_GFX_VERSION=10.1.0 HSA_ENABLE_SDMA=0 timeout -k 10 300 /home/akandr/compute_probe 16384 6000 1
+=== compute_probe gfx1010:xnack- nblocks=16384 (4194304 threads) inner=6000 iters=1 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=0.1 ms  wrong=4194304/4194304  MISMATCH
+   first mismatch at index 0: got 0, want -2109779631
+RESULT: total_wrong=4194304 -> COMPUTE PRODUCES WRONG RESULTS
+rc=3
+--- dmesg faults ---
+0

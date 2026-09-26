@@ -1,0 +1,3 @@
+ppl expert-gemm=1 : Final estimate: PPL = 6.2265
+ppl expert-gemm=0 : Final estimate: PPL = 6.2473
+DONE

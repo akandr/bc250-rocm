@@ -1,0 +1,25 @@
+Pre-registered 2026-08-24, before running.
+
+The stall inside the KIQ initialisation moves when prints are added: with fewer
+prints it stops inside gfx_v10_0_kiq_setting(), with more it runs six steps
+further. The only difference is the delay each print costs. That reads as a
+device needing time to settle after a reset.
+
+If that reading is right, an explicit delay at the top of the reset path in
+gfx_v10_0_kiq_init_queue() should let the sequence complete and the board should
+survive a deliberate GPU reset.
+
+Prediction: with msleep(50) there, the board survives, the KIQ probes run to
+completion, and the resume finishes.
+
+Three outcomes are possible and all are worth having:
+  - The board survives and is usable afterwards. That is a fix, the first this
+    defect has had, and the delay threshold then becomes worth finding.
+  - The board survives but the GPU is unusable afterwards. That is not a fix; it
+    would mean the reset completes without restoring a working device, and
+    "alive" must not be reported as "working".
+  - The board still dies. That falsifies the settle-time reading, and the timing
+    sensitivity would need another explanation.
+
+The third outcome is the one to guard against overreading. A single surviving run
+would not be enough either; if it survives, repeat it.

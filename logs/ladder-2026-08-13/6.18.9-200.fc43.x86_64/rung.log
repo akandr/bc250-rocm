@@ -1,0 +1,8 @@
+[19:04:49] === RUNG 6.18.9-200.fc43.x86_64
+[19:04:50] cmdline: amdgpu.bc250_cc_write_mode=3 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=1 
+[19:04:50] (i) CU= unlock_lines=4 flush='[    0.000000] Command line: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-6.18.9-200.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root rhgb quiet ttm.pages_limit=4194304 quiet mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=1'
+[19:04:50] (ii) sustained GEMM x20 N=4096 (wedge test)
+[19:04:51] (ii) rc=0 preemption_timeouts=0 last='DONE iters=20 nwrong=0'
+[19:04:51] (iii) ppl gate chunks2 ctx1024 (expect ~9.83)
+[19:05:03] (iii) rc=0 Final estimate: PPL = 8.1991 +/- 0.65879
+[19:05:03] (iv) TBO churn x1 (fault behavior, param=1 runlist v1)

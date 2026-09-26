@@ -1,0 +1,14 @@
+=== churn A/B/A on kernel 7.2.5, faults at start 0
+  A run 1: rc=0 runtime_faults=0
+  A run 2: rc=0 runtime_faults=0
+PHASE A (param=3): kernel fault lines +0
+bash: linia 1: 23710 Przerwane                  timeout -k 10 900 $H/test-backend-ops perf -o MUL_MAT -b ROCm0 > $D/churn_$2_$i.log 2>&1
+  B run 1: rc=134 runtime_faults=1
+bash: linia 1: 24142 Przerwane                  timeout -k 10 900 $H/test-backend-ops perf -o MUL_MAT -b ROCm0 > $D/churn_$2_$i.log 2>&1
+  B run 2: rc=134 runtime_faults=1
+PHASE B (param=1): kernel fault lines +20
+  A2 run 1: rc=0 runtime_faults=0
+  A2 run 2: rc=0 runtime_faults=0
+PHASE A2 (param=3): kernel fault lines +0
+
+[exited with code 0]

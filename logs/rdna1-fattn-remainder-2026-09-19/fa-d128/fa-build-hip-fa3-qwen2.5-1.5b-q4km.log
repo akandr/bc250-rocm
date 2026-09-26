@@ -1,0 +1,17 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+ggml_backend_cuda_get_available_uma_memory: final available_memory_kb: 14809752
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+Testing 2 devices
+
+Backend 1/2: ROCm0
+  Device description: AMD BC-250
+  Device memory: 16384 MB (14462 MB free)
+
+  FLASH_ATTN_EXT(name=node_24,type=f32,ne=[128,12,1,1],op_params=[0:1035273459,3:10],sources=f32[128,1,12,1]nb[4,6144,512,6144],f16[128,4096,2,1]nb[2,512,256,2097152],f16[128,4096,2,1]nb[2,512,256,2097152],f16[4096,1,1,1]):                24459 runs -    47.45 us/run -     4116 kB/run - [1;34m  82.72 GB/s[0m
+  FLASH_ATTN_EXT(name=node_24,type=f32,ne=[128,12,2048,1],op_params=[0:1035273459,3:10],sources=f32[128,2048,12,1]nb[4,6144,512,12582912],f16[128,4096,2,1]nb[2,512,256,2097152],f16[128,4096,2,1]nb[2,512,256,2097152],f16[4096,2048,1,1]):                     745 runs - 16863.46 us/run -    45056 kB/run - [1;34m   2.55 GB/s[0m
+  Backend ROCm0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

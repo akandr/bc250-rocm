@@ -1,0 +1,13 @@
+=== f16 compute, 3 reps per solution:
+solutions available for this shape: 6
+  solution 624    SUSPECT zeros=0/524288 worst_rel=0.1148
+  solution 622    SUSPECT zeros=0/524288 worst_rel=0.1148
+  solution 623    SUSPECT zeros=0/524288 worst_rel=0.1148
+  solution 626    SUSPECT zeros=0/524288 worst_rel=0.1148
+  solution 625    SUSPECT zeros=0/524288 worst_rel=0.1148
+  solution 621    SUSPECT zeros=0/524288 worst_rel=0.1148
+checked 6 solutions, 6 suspect
+
+=== f32 compute, same shape:
+solutions available for this shape: 12
+checked 12 solutions, 0 suspect

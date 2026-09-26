@@ -1,0 +1,73 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+DEPRECATED: -mmp and --mmap are deprecated in favour of --load-mode. Please use --load-mode mmap instead.kerntrace: 83060 kernel dispatches, 775.832 ms of kernel time, 1139.967 ms first dispatch to last completion
+  records domain 2 op 0: 83060
+  records domain 2 op 1: 11540
+  records domain 2 op 2: 63
+  gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 82958 (199.2 ms), 5-20us 14 (0.1 ms), 20-100us 8 (0.3 ms), >100us 79 (164.5 ms); overlapping starts 0
+     count     total ms   share     avg us  kernel
+      5670      158.911   20.5%      28.03  void mul_mat_vec_f32_rdna1<(ggml_type)13, false, false>(void const*, float const*, int const*, float*, int, int, long, long, long, long, int, void const*, float const*, float const*, int)
+      2520      104.420   13.5%      41.44  void mul_mat_vec_f32_rdna1<(ggml_type)16, true, false>(void const*, float const*, int const*, float*, int, int, long, long, long, long, int, void const*, float const*, float const*, int)
+      2331       73.848    9.5%      31.68  void mul_mat_vec_f32_rdna1<(ggml_type)18, false, false>(void const*, float const*, int const*, float*, int, int, long, long, long, long, int, void const*, float const*, float const*, int)
+      4410       60.316    7.8%      13.68  void mul_mat_vec_f32_rdna1<(ggml_type)14, false, false>(void const*, float const*, int const*, float*, int, int, long, long, long, long, int, void const*, float const*, float const*, int)
+        63       57.674    7.4%     915.46  void mul_mat_vec_f32_rdna1<(ggml_type)12, false, false>(void const*, float const*, int const*, float*, int, int, long, long, long, long, int, void const*, float const*, float const*, int)
+      8820       46.290    6.0%       5.25  void mul_mat_vec_f<float, float, 1, 256, false, false>(float const*, float const*, int const*, ggml_cuda_mm_fusion_args_device, float*, int, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vecto
+      3150       44.013    5.7%      13.97  void mul_mat_vec_f32_rdna1<(ggml_type)13, true, false>(void const*, float const*, int const*, float*, int, int, long, long, long, long, int, void const*, float const*, float const*, int)
+      2520       25.463    3.3%      10.10  void topk_moe_cuda<256, false>(float const*, float*, int*, float*, int, int, float, float, topk_moe_config)
+      1890       21.105    2.7%      11.17  void k_get_rows_float_vec<float>(float const*, int const*, float*, long, long, HIP_vector_type<unsigned int, 3u>, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned lo
+      1890       17.841    2.3%       9.44  void gated_delta_net_cuda<128, false, false, 0>(float const*, float const*, float const*, float const*, float const*, float const*, float*, float*, long, long, long, long, long, long, long, long, long
+      5103       17.524    2.3%       3.43  void rms_norm_f32<1024, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vecto
+      2520       12.482    1.6%       4.95  void cpy_scalar<&(void cpy_1_scalar<float, float>(char const*, char*))>(char const*, char*, long, long, long, long, long, long, long, long, long, long, long, long, long, long, long)
+      3780       11.187    1.4%       2.96  void l2_norm_f32<32>(float const*, float*, int, long, long, long, float)
+      3780       10.112    1.3%       2.68  void k_bin_bcast<&(op_add(float, float)), float, float, float, float const*>(float const*, float const*, float*, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, HIP_vector
+      5040       10.014    1.3%       1.99  void k_bin_bcast<&(op_mul(float, float)), float, float, float, float const*>(float const*, float const*, float*, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, HIP_vector
+      3150        8.019    1.0%       2.55  void rms_norm_f32<256, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector
+       630        7.949    1.0%      12.62  void flash_attn_tile<256, 256, 1, 8, false>(char const*, char const*, char const*, char const*, char const*, int const*, float*, HIP_vector_type<float, 2u>*, float, float, float, float, unsigned int, 
+      2520        7.172    0.9%       2.85  void k_bin_bcast<&(op_add(float, float)), float, float, float, float const*, float const*, float const*, float const*, float const*, float const*, float const*>(float const*, float const*, float*, uns
+      2520        6.828    0.9%       2.71  void k_bin_bcast<&(op_add(float, float)), float, float, float, float const*, float const*>(float const*, float const*, float*, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3
+      4410        6.676    0.9%       1.51  void unary_op_kernel<&(op_sigmoid(float)), float>(float const*, float*, int)
+       189        6.440    0.8%      34.08  void mul_mat_vec_q<(ggml_type)23, 1, false, false, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, 
+      1890        5.822    0.8%       3.08  void concat_cont<unsigned int, 0>(unsigned int const*, unsigned int const*, unsigned int*, long, long, long, long, long, long)
+      1890        5.645    0.7%       2.99  void ssm_conv_f32<true, 128ul, 4ul>(float const*, float const*, float const*, int, int, int, int, float*, int, int, int, long)
+      1953        5.341    0.7%       2.73  void k_get_rows_float<float, float>(float const*, int const*, float*, long, long, HIP_vector_type<unsigned int, 3u>, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned
+       180        5.179    0.7%      28.77  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type13ELb0ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+      1260        4.504    0.6%       3.57  void rope_multi<true, false, float>(float const*, float*, int, int, int, int, int, int, int, int, int, int, int const*, float, float, float, rope_corr_dims, float, float const*, mrope_sections, bool)
+      1890        4.347    0.6%       2.30  void unary_gated_op_kernel<&(op_softplus(float)), float>(float const*, float const*, float*, long, long, long, long)
+      1890        3.936    0.5%       2.08  void unary_gated_op_kernel<&(op_silu(float)), float>(float const*, float const*, float*, long, long, long, long)
+        80        3.393    0.4%      42.41  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type16ELb1ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+      1260        2.715    0.3%       2.15  void k_set_rows<float, long, __half>(float const*, long const*, __half*, long, long, long, long, long, long, long, long, long, long, long, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vect
+        74        2.473    0.3%      33.42  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type18ELb0ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+       630        1.984    0.3%       3.15  void flash_attn_combine_results<256>(float const*, HIP_vector_type<float, 2u> const*, float*, int)
+       140        1.949    0.3%      13.92  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type14ELb0ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+         2        1.831    0.2%     915.49  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type12ELb0ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+       280        1.508    0.2%       5.38  _ZL13mul_mat_vec_fIffLi1ELi256ELb0ELb0EEvPKT_PKfPKi31ggml_cuda_mm_fusion_args_devicePfi15HIP_vector_typeIjLj3EEiiiSA_iiiSA_iiii
+       100        1.429    0.2%      14.29  _ZL21mul_mat_vec_f32_rdna1IL9ggml_type13ELb1ELb0EEvPKvPKfPKiPfiilllliS2_S4_S4_i
+       630        1.406    0.2%       2.23  void unary_gated_op_kernel<&(op_sigmoid(float)), float>(float const*, float const*, float*, long, long, long, long)
+        80        0.811    0.1%      10.13  _Z13topk_moe_cudaILi256ELb0EEvPKfPfPiS2_iiff15topk_moe_config
+        60        0.625    0.1%      10.42  _ZL20k_get_rows_float_vecIfEvPKT_PKiPS0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+        60        0.587    0.1%       9.78  _Z20gated_delta_net_cudaILi128ELb0ELb0ELi0EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vector_typeIjLj3EES4_fli
+       162        0.567    0.1%       3.50  _ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_
+        60        0.554    0.1%       9.23  _ZL9scale_f32PKfPfffl
+        60        0.534    0.1%       8.90  scale_f32(float const*, float*, float, float, long)
+       189        0.416    0.1%       2.20  quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)
+        80        0.406    0.1%       5.07  _ZL10cpy_scalarIXadL_ZL12cpy_1_scalarIffEvPKcPcEEEvS2_S3_lllllllllllllll
+       120        0.356    0.0%       2.97  _ZL11l2_norm_f32ILi32EEvPKfPfilllf
+       160        0.326    0.0%       2.04  _ZL11k_bin_bcastIXadL_ZL6op_mulffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+       120        0.325    0.0%       2.71  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+       100        0.261    0.0%       2.61  _ZL12rms_norm_f32ILi256ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_
+        20        0.259    0.0%      12.93  _ZL15flash_attn_tileILi256ELi256ELi1ELi8ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj2EEffffjfiS5_IjLj3EEiiiiiiiiiiiliiliiiiil
+        80        0.233    0.0%       2.91  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfS1_S1_S1_S1_S1_S1_EEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+        80        0.222    0.0%       2.78  _ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfS1_EEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_
+       140        0.214    0.0%       1.53  _ZL15unary_op_kernelIXadL_ZL10op_sigmoidfEEfEvPKT0_PS0_i
+         6        0.209    0.0%      34.75  _ZL13mul_mat_vec_qIL9ggml_type23ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj
+        60        0.190    0.0%       3.17  _ZL12ssm_conv_f32ILb1ELm128ELm4EEvPKfS1_S1_iiiiPfiiil
+        60        0.190    0.0%       3.17  _ZL11concat_contIjLi0EEvPKT_S2_PS0_llllll
+        62        0.166    0.0%       2.67  _ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm
+        60        0.148    0.0%       2.47  _ZL21unary_gated_op_kernelIXadL_ZL11op_softplusfEEfEvPKT0_S2_PS0_llll
+        40        0.147    0.0%       3.67  _ZL10rope_multiILb1ELb0EfEvPKT1_PS0_iiiiiiiiiiPKifff14rope_corr_dimsfPKf14mrope_sectionsb
+        60        0.127    0.0%       2.12  _ZL21unary_gated_op_kernelIXadL_ZL7op_silufEEfEvPKT0_S2_PS0_llll
+        40        0.090    0.0%       2.26  _ZL10k_set_rowsIfl6__halfEvPKT_PKT0_PT1_llllllllllllll15HIP_vector_typeIjLj3EESA_SA_SA_SA_
+        20        0.064    0.0%       3.19  _ZL26flash_attn_combine_resultsILi256EEvPKfPK15HIP_vector_typeIfLj2EEPfi
+        20        0.046    0.0%       2.28  _ZL21unary_gated_op_kernelIXadL_ZL10op_sigmoidfEEfEvPKT0_S2_PS0_llll
+         6        0.014    0.0%       2.33  _ZL13quantize_q8_1PKfPvlllllj15HIP_vector_typeIjLj3EE
+kerntrace: no HIP call was intercepted

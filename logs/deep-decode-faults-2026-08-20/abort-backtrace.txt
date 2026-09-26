@@ -1,0 +1,40 @@
+           PID: 990994 (llama-bench)
+           UID: 1000 (akandr)
+           GID: 1000 (akandr)
+        Signal: 6 (ABRT)
+     Timestamp: Thu 2026-08-20 04:01:00 CEST (3h 42min ago)
+  Command Line: /home/akandr/llama-master/build-hip/bin/llama-bench -m /opt/models/qwen3-8b-q8_0.gguf -ngl 99 -fa 1 -p 0 -n 8 -d 16128 -r 1
+    Executable: /home/akandr/llama-master/build-hip/bin/llama-bench
+ Control Group: /user.slice/user-1000.slice/session-224.scope
+          Unit: session-224.scope
+         Slice: user-1000.slice
+       Session: 224
+     Owner UID: 1000 (akandr)
+       Boot ID: 51b29ab3f2554596b33732ffc29edefb
+    Machine ID: 9bca8abff4f34d0c918a839fbf659b1d
+      Hostname: bc250
+       Storage: /var/lib/systemd/coredump/core.llama-bench.1000.51b29ab3f2554596b33732ffc29edefb.990994.1787191260000000.zst (present)
+  Size on Disk: 53.2M
+       Message: Process 990994 (llama-bench) of user 1000 dumped core.
+                
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module [dso] without build-id.
+                Module libzstd.so.1 from rpm zstd-1.5.7-2.fc43.x86_64
+                Module libdrm.so.2 from rpm libdrm-2.4.131-1.fc43.x86_64
+                Module libelf.so.1 from rpm elfutils-0.195-1.fc43.x86_64
+                Module libdrm_amdgpu.so.1 from rpm libdrm-2.4.131-1.fc43.x86_64
+                Module libnuma.so.1 from rpm numactl-2.0.19-3.fc43.x86_64
+                Module libz.so.1 from rpm zlib-ng-2.3.3-2.fc43.x86_64
+                Module libcrypto.so.3 from rpm openssl-3.5.4-3.fc43.x86_64
+                Module libssl.so.3 from rpm openssl-3.5.4-3.fc43.x86_64

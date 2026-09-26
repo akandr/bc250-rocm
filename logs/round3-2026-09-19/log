@@ -1,0 +1,51 @@
+[11:57:30] build fa5 ok
+[12:00:36] p1 qwen2.5-1.5b-q4km [X=1]:  pp512 914.68 ± 6.64 ; tg64 184.12 ± 0.74 ;
+[12:00:40] p1 qwen2.5-1.5b-q4km [GPU_MAX_HW_QUEUES=1]:  pp512 921.66 ± 7.63 ; tg64 196.58 ± 2.55 ;
+[12:00:44] p1 qwen2.5-1.5b-q4km [GPU_MAX_HW_QUEUES=2]:  pp512 921.76 ± 7.45 ; tg64 193.57 ± 0.46 ;
+[12:01:59] p1 qwen3-8b-q8_0 [X=1]:  pp512 260.35 ± 1.61 ; tg64 37.70 ± 0.67 ;
+[12:03:54] p1 qwen3-8b-q8_0 [GPU_MAX_HW_QUEUES=1]:  pp512 259.99 ± 1.65 ; tg64 36.93 ± 0.41 ;
+[12:05:35] p1 qwen3-8b-q8_0 [GPU_MAX_HW_QUEUES=2]:  pp512 260.36 ± 1.10 ; tg64 37.23 ± 0.23 ;
+[12:07:12] p1 deepseek-r1-14b [X=1]:  pp512 96.71 ± 0.18 ; tg64 31.48 ± 0.37 ;
+[12:10:56] p1 deepseek-r1-14b [GPU_MAX_HW_QUEUES=1]:  pp512 96.42 ± 0.17 ; tg64 31.29 ± 0.52 ;
+[12:12:43] p1 deepseek-r1-14b [GPU_MAX_HW_QUEUES=2]:  pp512 96.64 ± 0.19 ; tg64 30.92 ± 1.00 ;
+[12:13:47] p1 qwen3.6-35b-a3b-iq2m [X=1]:  pp512 305.30 ± 14.50 ; tg64 67.17 ± 1.48 ;
+[12:16:34] p1 qwen3.6-35b-a3b-iq2m [GPU_MAX_HW_QUEUES=1]:  pp512 299.41 ± 1.26 ; tg64 65.82 ± 2.74 ;
+[12:18:28] p1 qwen3.6-35b-a3b-iq2m [GPU_MAX_HW_QUEUES=2]:  pp512 297.62 ± 1.41 ; tg64 65.74 ± 2.02 ;
+[12:21:05] p1 qwen3.8-27b-iq3xxs [X=1]:  pp512 71.59 ± 0.22 ; tg64 14.32 ± 0.19 ;
+[12:24:17] p1 qwen3.8-27b-iq3xxs [GPU_MAX_HW_QUEUES=1]:  pp512 71.66 ± 0.28 ; tg64 14.33 ± 0.21 ;
+[12:26:36] p1 qwen3.8-27b-iq3xxs [GPU_MAX_HW_QUEUES=2]:  pp512 71.76 ± 0.21 ; tg64 14.27 ± 0.21 ;
+[12:26:42] p2 qwen2.5-1.5b-q4km [X=1]:  pp512 913.88 ± 7.71 ; tg64 183.36 ± 1.26 ;
+[12:26:46] p2 qwen2.5-1.5b-q4km [GPU_MAX_HW_QUEUES=1]:  pp512 921.28 ± 7.17 ; tg64 196.66 ± 1.82 ;
+[12:26:50] p2 qwen2.5-1.5b-q4km [GPU_MAX_HW_QUEUES=2]:  pp512 920.86 ± 7.62 ; tg64 197.40 ± 0.92 ;
+[12:27:46] p2 qwen3-8b-q8_0 [X=1]:  pp512 222.49 ± 77.30 ; tg64 38.22 ± 0.16 ;
+[12:29:21] p2 qwen3-8b-q8_0 [GPU_MAX_HW_QUEUES=1]:  pp512 262.19 ± 1.18 ; tg64 37.60 ± 0.06 ;
+[12:30:47] p2 qwen3-8b-q8_0 [GPU_MAX_HW_QUEUES=2]:  pp512 261.53 ± 1.33 ; tg64 36.99 ± 0.04 ;
+[12:32:51] p2 deepseek-r1-14b [X=1]:  pp512 96.59 ± 0.18 ; tg64 31.23 ± 1.05 ;
+[12:36:08] p2 deepseek-r1-14b [GPU_MAX_HW_QUEUES=1]:  pp512 96.62 ± 0.15 ; tg64 31.49 ± 0.29 ;
+[12:38:52] p2 deepseek-r1-14b [GPU_MAX_HW_QUEUES=2]:  pp512 96.61 ± 0.18 ; tg64 31.59 ± 0.02 ;
+[12:40:13] p2 qwen3.6-35b-a3b-iq2m [X=1]:  pp512 302.12 ± 1.95 ; tg64 67.24 ± 1.10 ;
+[12:42:11] p2 qwen3.6-35b-a3b-iq2m [GPU_MAX_HW_QUEUES=1]:  pp512 297.60 ± 1.31 ; tg64 65.39 ± 2.80 ;
+[12:45:09] p2 qwen3.6-35b-a3b-iq2m [GPU_MAX_HW_QUEUES=2]:  pp512 298.33 ± 1.31 ; tg64 64.88 ± 4.19 ;
+[12:48:06] p2 qwen3.8-27b-iq3xxs [X=1]:  pp512 71.70 ± 0.21 ; tg64 14.43 ± 0.20 ;
+[12:51:47] p2 qwen3.8-27b-iq3xxs [GPU_MAX_HW_QUEUES=1]:  pp512 71.78 ± 0.35 ; tg64 14.32 ± 0.16 ;
+[12:55:14] p2 qwen3.8-27b-iq3xxs [GPU_MAX_HW_QUEUES=2]:  pp512 71.54 ± 0.27 ; tg64 14.28 ± 0.25 ;
+[12:56:03] 1.5B gate, GPU_MAX_HW_QUEUES=1: Final estimate: PPL = 8.9498  (8.9498 without)
+[12:56:39] 8B gate, GPU_MAX_HW_QUEUES=1: Final estimate: PPL = 9.1273  (9.1273 without)
+[12:56:42] gaps 1.5B with one HW queue: kerntrace: 23985 kernel dispatches, 289.179 ms of kernel time, 395.867 ms first dispatch to last completion |   gaps between consecutive kernels: <1us 0 (0.0 ms), 1-2us 0 (0.0 ms), 2-5us 23909 (56.1 ms), 5-20us 4 (0.1 ms), 20-100us 1 (0.1 ms), >100us 70 (50.4 ms); overlapping starts 0
+[12:58:09] p1 8B tg64: three-patch (build-hip-f44) 28.84±1.47 | final 37.43±0.49
+[13:02:33] p2 8B tg64: three-patch (build-hip-f44) 34.64±0.38 | final 36.43±0.86
+[13:09:27] p3 8B tg64: three-patch (build-hip-f44) 34.79±0.42 | final 36.55±0.33
+[13:09:47] build-hip-final qwen3.6-35b-a3b-iq2m FA us: 125.62 us/run 48028.33 us/run 
+[13:10:10] build-hip-final qwen3.8-27b-iq3xxs FA us: 84.65 us/run 84611.45 us/run 
+[13:10:30] build-hip-fa5 qwen3.6-35b-a3b-iq2m FA us: 54.68 us/run 49443.51 us/run 
+[13:10:50] build-hip-fa5 qwen3.8-27b-iq3xxs FA us: 84.87 us/run 72080.71 us/run 
+[13:11:46] fa5 FLASH_ATTN_EXT: OK 1287 FAIL 0
+[13:14:40] p1 qwen3.6-35b-a3b-iq2m final:  pp512 297.68 ± 1.20 ; pp2048 305.61 ± 1.14 ;
+[13:18:12] p1 qwen3.6-35b-a3b-iq2m fa5 (row32 256:2:64:32):  pp512 298.71 ± 1.58 ; pp2048 305.62 ± 1.22 ;
+[13:23:02] p1 qwen3.8-27b-iq3xxs final:  pp512 71.70 ± 0.27 ; pp2048 66.00 ± 5.41 ;
+[13:27:10] p1 qwen3.8-27b-iq3xxs fa5 (row32 256:2:64:32):  pp512 71.84 ± 0.19 ; pp2048 64.70 ± 3.38 ;
+[13:29:12] p2 qwen3.6-35b-a3b-iq2m final:  pp512 299.75 ± 1.40 ; pp2048 305.96 ± 1.26 ;
+[13:31:22] p2 qwen3.6-35b-a3b-iq2m fa5 (row32 256:2:64:32):  pp512 298.40 ± 1.59 ; pp2048 305.50 ± 1.23 ;
+[13:35:33] p2 qwen3.8-27b-iq3xxs final:  pp512 71.78 ± 0.19 ; pp2048 64.84 ± 5.12 ;
+[13:40:42] p2 qwen3.8-27b-iq3xxs fa5 (row32 256:2:64:32):  pp512 71.61 ± 0.53 ; pp2048 64.42 ± 3.44 ;
+[13:40:42] CHAIN DONE

@@ -1,0 +1,3 @@
+[02:18:05] kernel=7.1.2-200.fc43.x86_64 kiq=0 simd_count 80 unlock_lines=4
+[02:18:07] sgemm N=4096 x30: rc=0 [DONE iters=30 nwrong=0] preempt_timeouts=0
+[02:18:11] probe 8.4M threads: rc=0 [ALL CORRECT]

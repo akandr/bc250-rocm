@@ -1,0 +1,28 @@
+[12:55:42] === removing the KQV precision line
+[12:55:51]   build rc=0 set_prec(kqv lines now: 0
+[12:55:51] === six dumps of the same prompt, unpatched, ubatch 512
+[12:55:58]   dump 1: rc=0 lines=27538
+[12:56:05]   dump 2: rc=0 lines=27538
+[12:56:12]   dump 3: rc=0 lines=27538
+[12:56:19]   dump 4: rc=0 lines=27538
+[12:56:27]   dump 5: rc=0 lines=27538
+[12:56:34]   dump 6: rc=0 lines=27538
+[12:56:34] === restoring the patch
+[12:56:43]   rebuild rc=0 set_prec lines back: 1
+[12:56:43] === first divergence between each pair
+[12:56:43]   dumps 1 and 2: IDENTICAL
+[12:56:43]   dumps 1 and 3: IDENTICAL
+[12:56:43]   dumps 1 and 4: IDENTICAL
+[12:56:43]   dumps 1 and 5: IDENTICAL
+[12:56:43]   dumps 1 and 6: IDENTICAL
+[12:56:43]   dumps 2 and 3: IDENTICAL
+[12:56:43]   dumps 2 and 4: IDENTICAL
+[12:56:43]   dumps 2 and 5: IDENTICAL
+[12:56:43]   dumps 2 and 6: IDENTICAL
+[12:56:43]   dumps 3 and 4: IDENTICAL
+[12:56:43]   dumps 3 and 5: IDENTICAL
+[12:56:43]   dumps 3 and 6: IDENTICAL
+[12:56:43]   dumps 4 and 5: IDENTICAL
+[12:56:43]   dumps 4 and 6: IDENTICAL
+[12:56:43]   dumps 5 and 6: IDENTICAL
+[12:56:43] done

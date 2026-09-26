@@ -1,0 +1,17 @@
+HSA_ENABLE_SDMA=1, 3 reps per size
+       4 KiB: H2D     0.02 ms (  0.27 GB/s) | D2H     0.03 ms (  0.16 GB/s) | H2D pinned     0.02 ms
+       8 KiB: H2D     0.02 ms (  0.51 GB/s) | D2H     0.03 ms (  0.28 GB/s) | H2D pinned     0.02 ms
+      12 KiB: H2D     0.02 ms (  0.74 GB/s) | D2H     0.03 ms (  0.48 GB/s) | H2D pinned     0.01 ms
+      16 KiB: H2D     0.02 ms (  0.88 GB/s) | D2H     0.03 ms (  0.64 GB/s) | H2D pinned     0.02 ms
+      24 KiB: H2D     0.02 ms (  1.17 GB/s) | D2H     0.02 ms (  1.01 GB/s) | H2D pinned     0.01 ms
+      32 KiB: H2D     0.02 ms (  1.70 GB/s) | D2H     0.02 ms (  1.39 GB/s) | H2D pinned     0.02 ms
+      48 KiB: H2D     0.02 ms (  2.30 GB/s) | D2H     0.02 ms (  1.98 GB/s) | H2D pinned     0.02 ms
+      64 KiB: H2D     0.02 ms (  2.87 GB/s) | D2H     0.03 ms (  2.50 GB/s) | H2D pinned     0.02 ms
+       1 MiB: H2D     0.15 ms (  6.84 GB/s) | D2H     0.13 ms (  8.14 GB/s) | H2D pinned     0.05 ms
+      16 MiB: H2D     0.55 ms ( 30.46 GB/s) | D2H     0.55 ms ( 30.61 GB/s) | H2D pinned     0.54 ms
+      64 MiB: H2D     2.13 ms ( 31.51 GB/s) | D2H     2.13 ms ( 31.51 GB/s) | H2D pinned     2.11 ms
+     256 MiB: H2D     8.47 ms ( 31.71 GB/s) | D2H     8.46 ms ( 31.71 GB/s) | H2D pinned     8.39 ms
+     512 MiB: H2D    11.65 ms ( 46.09 GB/s) | D2H    11.25 ms ( 47.72 GB/s) | H2D pinned    11.15 ms
+    1024 MiB: H2D    22.49 ms ( 47.74 GB/s) | D2H    22.49 ms ( 47.74 GB/s) | H2D pinned    22.28 ms
+    2048 MiB: H2D    44.97 ms ( 47.75 GB/s) | D2H    44.96 ms ( 47.76 GB/s) | H2D pinned    44.55 ms
+ALL SIZES COMPLETED

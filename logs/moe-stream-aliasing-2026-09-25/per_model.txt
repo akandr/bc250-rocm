@@ -1,0 +1,18 @@
+# Stream-region validity per model, same build, same boot
+# 2026-09-25T13:57:32+02:00
+# llama-bench -p 0 -n 8 -r 1 -v, GGML_CUDA_GRAPH_OPT=1, is_valid() instrumented
+
+qwen2.5-1.5b-q4km        regions=56   overlaps=0    launches=56   
+qwen3-8b-q8_0            regions=72   overlaps=0    launches=72   
+qwen3.8-27b-iq3xxs       regions=32   overlaps=32   launches=0    OVERLAP Kcur (view) size=4096 stream=3 vs Vcur
+qwen3.6-35b-a3b-iq2m     regions=20   overlaps=20   launches=0    OVERLAP Kcur (view) size=2048 stream=3 vs Vcur
+DONE_GAP2F
+
+## qwen2.5-1.5b-q4km, first overlap line if any
+  (none)
+## qwen3-8b-q8_0, first overlap line if any
+  (none)
+## qwen3.8-27b-iq3xxs, first overlap line if any
+OVERLAP Kcur-43 (view) [140077380494464,140077380498560) size=4096 stream=3  vs  Vcur-43 (view) [140077380494464,140077380498560) size=4096 stream=2
+## qwen3.6-35b-a3b-iq2m, first overlap line if any
+OVERLAP Kcur-35 (view) [139988196967552,139988196969600) size=2048 stream=3  vs  Vcur-35 (view) [139988196967552,139988196969600) size=2048 stream=2

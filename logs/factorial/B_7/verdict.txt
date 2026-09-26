@@ -1,0 +1,1 @@
+VERDICT cell=B idx=7 cu=40 flush=0 policy=2 probe8m_ok=0 wrong=0 fault=0 hang=3 sgemm2048=WEDGE_OR_FAULT sgemm4096=WEDGE_OR_FAULT sgemm4096_secs=435 dmesg_errs_delta=19 preempt_timeouts=19 health=DEGRADED

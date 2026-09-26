@@ -1,0 +1,8 @@
+[   19.610145] MARK-B3_mode2
+[   19.878035] Setting dangerous option reset_method - tainting kernel
+[   29.514499] amdgpu 0000:01:00.0: GPU reset begin!. Source:  5
+[   29.539048] amdgpu 0000:01:00.0: MODE2 reset
+[   29.539127] amdgpu 0000:01:00.0: Mode2 reset failed!
+[   29.539152] amdgpu 0000:01:00.0: GPU mode2 reset failed
+[   29.539236] amdgpu 0000:01:00.0: ASIC reset failed with error, -95 for drm dev, 0000:01:00.0
+[   29.539267] amdgpu 0000:01:00.0: GPU reset end with ret = -95

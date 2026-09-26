@@ -1,0 +1,25 @@
+0.00.107.893 W DEPRECATED: --mmap and --no-mmap are deprecated. use --load-mode mmap instead
+0.01.596.117 W model has unused tensor blk.64.attn_norm.weight (size = 20480 bytes) -- ignoring
+0.01.596.127 W model has unused tensor blk.64.post_attention_norm.weight (size = 20480 bytes) -- ignoring
+0.01.596.139 W model has unused tensor blk.64.attn_q.weight (size = 33423360 bytes) -- ignoring
+0.01.596.143 W model has unused tensor blk.64.attn_k.weight (size = 2785280 bytes) -- ignoring
+0.01.596.147 W model has unused tensor blk.64.attn_v.weight (size = 2785280 bytes) -- ignoring
+0.01.596.162 W model has unused tensor blk.64.attn_output.weight (size = 13516800 bytes) -- ignoring
+0.01.596.167 W model has unused tensor blk.64.attn_q_norm.weight (size = 1024 bytes) -- ignoring
+0.01.596.171 W model has unused tensor blk.64.attn_k_norm.weight (size = 1024 bytes) -- ignoring
+0.01.596.175 W model has unused tensor blk.64.ffn_gate.weight (size = 47349760 bytes) -- ignoring
+0.01.596.179 W model has unused tensor blk.64.ffn_down.weight (size = 38297600 bytes) -- ignoring
+0.01.596.183 W model has unused tensor blk.64.ffn_up.weight (size = 38297600 bytes) -- ignoring
+0.01.596.189 W model has unused tensor blk.64.nextn.eh_proj.weight (size = 27852800 bytes) -- ignoring
+0.01.596.195 W model has unused tensor blk.64.nextn.enorm.weight (size = 20480 bytes) -- ignoring
+0.01.596.201 W model has unused tensor blk.64.nextn.hnorm.weight (size = 20480 bytes) -- ignoring
+0.01.596.213 W model has unused tensor blk.64.nextn.shared_head_norm.weight (size = 20480 bytes) -- ignoring
+0.17.709.041 I 
+0.17.709.164 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | ROCm : NO_VMM = 1 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.17.709.183 I perplexity: tokenizing the input ..
+0.18.459.303 I perplexity: tokenization took 750.11 ms
+0.18.459.598 I perplexity: calculating perplexity over 8 chunks, n_ctx=2048, batch_size=2048, n_seq=1
+1.01.466.829 I perplexity: 43.01 seconds per pass - ETA 5.73 minutes
+[1]5.2596,[2]6.2509,[3]6.4658,[4]6.5291,[5]6.4864,[6]5.6158,[7]5.3165,[8]5.2899,
+6.12.387.676 I Final estimate: PPL = 5.2899 +/- 0.13665
+

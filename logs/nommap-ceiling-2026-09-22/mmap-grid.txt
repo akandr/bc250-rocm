@@ -1,0 +1,10 @@
+qwen3-8B Q8_0, -p 0 -n 8 -r 1, ROCm, board idle, lock held, 2026-09-22 12:31 to 12:37.
+The only difference between the rows of each pair is whether -mmp 0 is passed.
+
+d=16128 mmap=default  tg8=27.83±0.00
+d=16128 mmap=nommap   tg8=FAIL  [ROCm error]
+d=16384 mmap=default  tg8=27.30±0.00
+d=16384 mmap=nommap   tg8=FAIL  [ROCm error]
+
+The kernel logs "amdgpu: SVM mapping failed, exceeds resident system memory limit" on the failing
+runs and nothing on the passing ones.

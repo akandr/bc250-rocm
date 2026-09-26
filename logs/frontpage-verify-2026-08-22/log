@@ -1,0 +1,19 @@
+[19:50:26] === kernel 7.1.8-100.fc43.x86_64, gpu_recovery=0
+[19:50:26] === memory bandwidth (front page: 432 GB/s, 402 GiB/s, 0.12 percent across three runs)
+[19:50:26]   run 1: 432.5 GB/s 402.8 GiB/s 
+[19:50:27]   run 2: 432.1 GB/s 402.4 GiB/s 
+[19:50:28]   run 3: 432.5 GB/s 402.8 GiB/s 
+[19:50:28] === DGEMM (front page: about 95 percent of the FP64 rate peak)
+[19:50:29]   iter  8    37.7 ms  455.9 GFLOP/s ok iter  9    37.7 ms  456.0 GFLOP/s ok DONE nwrong=0 
+[19:50:29] === context ceilings, decode of 32 tokens with the cache primed
+[19:50:59]   1.5B at depth 8192: 97.47
+[19:52:13]   1.5B at depth 16384: 85.54
+[19:56:12]   1.5B at depth 32768: 67.72
+[19:59:22]   ds14B at depth 8192: 11.69
+[19:59:22] === 27B prefill at a 16384-token prompt (front page: 41.4 t/s)
+[20:13:32]   pp16384 |         40.44
+[20:13:32] === ROCm and Vulkan concurrently (front page: 806.1 ROCm, 1843.0 Vulkan)
+[20:13:41]   ROCm   pp512 |        805.74
+[20:13:41]   Vulkan pp512 |       1842.52
+[20:13:41] === faults during this window: 0
+[20:13:41] done

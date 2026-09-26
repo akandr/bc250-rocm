@@ -1,0 +1,8 @@
+# build-hip-vmm (GGML_HIP_NO_VMM=OFF), llama-bench -m qwen2.5-1.5b-q4km.gguf -ngl 99 -p 64 -n 0 -r 1, 2026-09-18 03:55
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: yes, Wave Size: 32, VRAM: 16384 MiB
+/home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:669: HipVMM Failure: invalid argument
+#4  0x00007f00b893205b in ggml_print_backtrace () from /home/akandr/llama-master/build-hip-vmm/bin/libggml-base.so.0
+#5  0x00007f00b89321cd in ggml_abort () from /home/akandr/llama-master/build-hip-vmm/bin/libggml-base.so.0
+#6  0x00007f00b7ea0ffb in ggml_cuda_pool_vmm::alloc(unsigned long, unsigned long*) () from /home/akandr/llama-master/build-hip-vmm/bin/libggml-hip.so.0
+#7  0x00007f00b801da41 in void launch_fattn<128, 32, 2>(ggml_backend_cuda_context&, ggml_tensor*, ...)
+rc=134

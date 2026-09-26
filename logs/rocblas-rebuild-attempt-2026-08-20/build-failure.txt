@@ -1,0 +1,22 @@
+[  0%] Verifying files in /home/akandr/rocBLAS-rebuild/build/release/Tensile/library/TensileManifest.txt were generated
+[  1%] Built target rocblas_proto_templates
+[  1%] Built target rocblas_device_malloc
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/akandr/rocBLAS-rebuild/build/release/virtualenv, got /home/akandr/rocBLAS-rebuild/build/release/library/src/../../virtualenv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/akandr/rocBLAS-rebuild/build/release/virtualenv, got /home/akandr/rocBLAS-rebuild/build/release/library/src/../../virtualenv
+> UserWarning: Did not detect SupportedISA: [(8, 0, 3), (9, 0, 0), (9, 0, 6), 
+(9, 0, 8), (9, 0, 10), (9, 4, 0), (9, 4, 1), (9, 4, 2), (10, 1, 0), (10, 1, 1), 
+(10, 1, 2), (10, 1, 3), (10, 3, 0), (10, 3, 1), (11, 0, 0), (11, 0, 1), (11, 0, 
+2), (11, 5, 1), (12, 0, 0), (12, 0, 1)]; cannot benchmark assembly kernels.
+sh: linia 1: /usr/bin/rocm_agent_enumerator: Nie ma takiego pliku ani katalogu
+> UserWarning: Cached asm caps differ from derived asm caps for (10, 1, 3)
+> UserWarning: Cached asm caps differ from derived asm caps for (11, 0, 0)
+> UserWarning: Cached asm caps differ from derived asm caps for (11, 0, 1)
+> UserWarning: Cached asm caps differ from derived asm caps for (11, 0, 2)
+> UserWarning: Cached asm caps differ from derived asm caps for (11, 5, 1)
+> UserWarning: Cached asm caps differ from derived asm caps for (12, 0, 0)
+> UserWarning: Cached asm caps differ from derived asm caps for (12, 0, 1)
+Failed to verify all files in manifest
+make[2]: *** [library/src/CMakeFiles/TENSILE_LIBRARY_TARGET.dir/build.make:71: library/src/CMakeFiles/TENSILE_LIBRARY_TARGET] Błąd 255
+make[1]: *** [CMakeFiles/Makefile2:268: library/src/CMakeFiles/TENSILE_LIBRARY_TARGET.dir/all] Błąd 2
+make: *** [Makefile:156: all] Błąd 2
+rc=2

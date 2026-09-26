@@ -1,0 +1,17 @@
+[05:59:24] tree tile table = final rows
+fattn-tile.cuh: D=256 row16 512:3:32:128 row32 256:2:32:64, cap16 default 0 (GGML_FA_D256_CAP16)
+[06:07:17] build fa3 ok
+[06:10:14] fa3 FLASH_ATTN_EXT correctness: OK 1303 FAIL 0
+[06:10:53] build-hip-gdn qwen3.6-35b-a3b-iq2m FA us: 56.03 us/run 99369.33 us/run 
+[06:11:32] build-hip-gdn qwen3.8-27b-iq3xxs FA us: 84.70 us/run 147581.16 us/run 
+[06:11:52] build-hip-fa3 qwen3.6-35b-a3b-iq2m FA us: 54.92 us/run 48007.32 us/run 
+[06:12:15] build-hip-fa3 qwen3.8-27b-iq3xxs FA us: 84.95 us/run 84482.77 us/run 
+[06:15:00] p1 qwen3.6-35b-a3b-iq2m build-hip-gdn (current rows):  pp512 294.63 ± 1.54 ; pp2048 298.99 ± 0.94 ;
+[06:18:35] p1 qwen3.6-35b-a3b-iq2m build-hip-fa3 (row32 256:2:32:64):  pp512 297.37 ± 1.30 ; pp2048 305.78 ± 1.16 ;
+[06:22:51] p1 qwen3.8-27b-iq3xxs build-hip-gdn (current rows):  pp512 71.19 ± 0.33 ; pp2048 65.99 ± 4.55 ;
+[06:26:53] p1 qwen3.8-27b-iq3xxs build-hip-fa3 (row32 256:2:32:64):  pp512 71.79 ± 0.22 ; pp2048 63.89 ± 3.59 ;
+[06:29:15] p2 qwen3.6-35b-a3b-iq2m build-hip-gdn (current rows):  pp512 297.43 ± 1.39 ; pp2048 299.33 ± 0.99 ;
+[06:32:53] p2 qwen3.6-35b-a3b-iq2m build-hip-fa3 (row32 256:2:32:64):  pp512 297.14 ± 1.15 ; pp2048 305.48 ± 1.21 ;
+[06:37:15] p2 qwen3.8-27b-iq3xxs build-hip-gdn (current rows):  pp512 71.17 ± 0.35 ; pp2048 65.02 ± 2.00 ;
+[06:42:07] p2 qwen3.8-27b-iq3xxs build-hip-fa3 (row32 256:2:32:64):  pp512 71.48 ± 0.44 ; pp2048 64.66 ± 3.40 ;
+[06:42:07] CHAIN DONE

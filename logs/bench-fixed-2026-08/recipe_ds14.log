@@ -1,0 +1,10 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+DEPRECATED: -mmp and --mmap are deprecated in favour of --load-mode. Please use --load-mode mmap instead.| model                          |       size |     params | backend    | ngl |  fa |         lm |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | ---------: | --------------: | -------------------: |
+| qwen2 14B Q4_K - Medium        |   8.37 GiB |    14.77 B | ROCm       |  99 |   1 |       none |           pp512 |         95.41 ± 0.24 |
+| qwen2 14B Q4_K - Medium        |   8.37 GiB |    14.77 B | ROCm       |  99 |   1 |       none |            tg64 |         20.26 ± 0.04 |
+| qwen2 14B Q4_K - Medium        |   8.37 GiB |    14.77 B | ROCm       |  99 |   1 |       none |   pp512 @ d4096 |         59.36 ± 0.07 |
+| qwen2 14B Q4_K - Medium        |   8.37 GiB |    14.77 B | ROCm       |  99 |   1 |       none |    tg64 @ d4096 |         15.06 ± 0.17 |
+
+build: 7ba604f (1)

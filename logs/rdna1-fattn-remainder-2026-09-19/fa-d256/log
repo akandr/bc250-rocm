@@ -1,0 +1,36 @@
+fattn-tile.cuh: D=256 row16 512:3:32:128 row32 512:3:32:128, cap16 via GGML_FA_D256_CAP16
+[04:09:54] build B2 ok
+[04:12:32] B2 cap16=1 qwen3.6-35b-a3b-iq2m FA us: 142.40 us/run 96753.08 us/run 
+[04:13:12] B2 cap16=1 qwen3.8-27b-iq3xxs FA us: 149.60 us/run 150844.43 us/run 
+[04:13:50] B2 cap16=0 qwen3.6-35b-a3b-iq2m FA us: 140.41 us/run 96994.28 us/run 
+[04:14:29] B2 cap16=0 qwen3.8-27b-iq3xxs FA us: 149.27 us/run 145474.18 us/run 
+[04:15:04] B2 cap16=1 FLASH_ATTN_EXT correctness: OK 1164 FAIL 0
+fattn-tile.cuh: D=256 row16 512:2:32:64 row32 512:3:32:128, cap16 via GGML_FA_D256_CAP16
+[04:16:25] build B1 ok
+[04:19:14] B1 cap16=1 qwen3.6-35b-a3b-iq2m FA us: 142.55 us/run 127453.00 us/run 
+[04:20:05] B1 cap16=1 qwen3.8-27b-iq3xxs FA us: 148.58 us/run 191454.11 us/run 
+[04:20:44] B1 cap16=0 qwen3.6-35b-a3b-iq2m FA us: 139.83 us/run 99691.86 us/run 
+[04:21:23] B1 cap16=0 qwen3.8-27b-iq3xxs FA us: 149.09 us/run 146574.37 us/run 
+[04:22:20] B1 cap16=1 FLASH_ATTN_EXT correctness: OK 1334 FAIL 0
+fattn-tile.cuh: D=256 row16 512:3:32:128 row32 256:2:32:64, cap16 via GGML_FA_D256_CAP16
+[04:23:41] build B3 ok
+[04:26:21] B3 cap16=1 qwen3.6-35b-a3b-iq2m FA us: 142.12 us/run 101082.75 us/run 
+[04:27:01] B3 cap16=1 qwen3.8-27b-iq3xxs FA us: 149.10 us/run 151392.91 us/run 
+[04:27:21] B3 cap16=0 qwen3.6-35b-a3b-iq2m FA us: 141.01 us/run 47952.62 us/run 
+[04:27:44] B3 cap16=0 qwen3.8-27b-iq3xxs FA us: 149.69 us/run 84951.28 us/run 
+[04:28:41] B3 cap16=1 FLASH_ATTN_EXT correctness: OK 1366 FAIL 0
+[04:31:21] p1 qwen3.6-35b-a3b-iq2m baseline (B2, cap off):  pp512 300.11 ± 1.16 ; pp2048 305.65 ± 1.11 ;
+[04:33:48] p1 qwen3.6-35b-a3b-iq2m B1 cap on:   pp512 294.53 ± 0.97 ; pp2048 298.29 ± 1.26 ;
+[04:36:17] p1 qwen3.6-35b-a3b-iq2m B3 cap off:  pp512 297.59 ± 1.87 ; pp2048 305.90 ± 1.19 ;
+[04:40:11] p1 qwen3.8-27b-iq3xxs baseline (B2, cap off):  pp512 71.53 ± 0.32 ; pp2048 65.99 ± 5.31 ;
+[04:45:39] p1 qwen3.8-27b-iq3xxs B1 cap on:   pp512 71.36 ± 0.19 ; pp2048 65.13 ± 4.56 ;
+[04:50:41] p1 qwen3.8-27b-iq3xxs B3 cap off:  pp512 71.54 ± 0.22 ; pp2048 64.49 ± 3.37 ;
+[04:52:42] p2 qwen3.6-35b-a3b-iq2m baseline (B2, cap off):  pp512 296.99 ± 1.38 ; pp2048 305.34 ± 1.19 ;
+[04:55:50] p2 qwen3.6-35b-a3b-iq2m B1 cap on:   pp512 296.39 ± 1.10 ; pp2048 298.93 ± 0.99 ;
+[04:58:25] p2 qwen3.6-35b-a3b-iq2m B3 cap off:  pp512 302.05 ± 1.27 ; pp2048 306.11 ± 1.20 ;
+[05:02:44] p2 qwen3.8-27b-iq3xxs baseline (B2, cap off):  pp512 71.70 ± 0.21 ; pp2048 65.14 ± 4.89 ;
+[05:06:59] p2 qwen3.8-27b-iq3xxs B1 cap on:   pp512 71.29 ± 0.19 ; pp2048 63.89 ± 2.93 ;
+[05:11:17] p2 qwen3.8-27b-iq3xxs B3 cap off:  pp512 71.40 ± 0.29 ; pp2048 63.51 ± 3.87 ;
+[05:11:22] trace qwen2.5-1.5b-q4km: kerntrace: 23985 kernel dispatches, 310.920 ms of kernel time, 439.373 ms first dispatch to last completion | pp: kerntrace: 1508 kernel dispatches, 1107.564 ms of kernel time, 1178.635 ms first dispatch to last completion
+[05:15:13] trace qwen3.8-27b-iq3xxs: kerntrace: 111667 kernel dispatches, 4354.456 ms of kernel time, 5323.672 ms first dispatch to last completion | pp: kerntrace: 4646 kernel dispatches, 14527.987 ms of kernel time, 14954.278 ms first dispatch to last completion
+[05:15:14] CHAIN DONE

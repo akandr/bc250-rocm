@@ -1,0 +1,15 @@
+[06:00:53] patch 2 applies to the 7.1.1 tree
+98:Release:    3%{?dist}.bc250b
+107:Patch1:         0001-rocclr-long-variants-for-__ffsll.patch
+108:Patch99:    0001-rocclr-hostqueue-thread-release-null-vdev.patch
+109:Patch100:   0002-hip-graph-capture-null-stream.patch
+[06:00:53] rpmbuild start
+[06:03:41] rpmbuild ok
+[06:03:41] rpm: /home/akandr/rpmbuild-clr/RPMS/x86_64/rocm-hip-7.1.1-3.fc44.bc250b.x86_64.rpm
+razem 26340
+drwxr-xr-x. 1 akandr akandr       80 09-19 06:03 .
+drwxr-xr-x. 1 akandr akandr      614 09-19 06:03 ..
+lrwxrwxrwx. 1 akandr akandr       24 09-19 02:00 libamdhip64.so.7 -> libamdhip64.so.7.1.52802
+-rwxr-xr-x. 1 akandr akandr 26964000 09-19 02:00 libamdhip64.so.7.1.52802
+3a4a8a85c812 9b46b0de9b95 
+CLR3 DONE

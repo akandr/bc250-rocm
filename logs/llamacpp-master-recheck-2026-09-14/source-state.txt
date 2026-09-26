@@ -1,0 +1,30 @@
+bfdc32183d57f1e35bacf35c47d6311e2028bbbc Mon Sep 14 20:26:22 2026 +0200 HIP: fattn-mma: use fp32 accumulation on MFMA devices (#28576)
+diff --git a/ggml/src/ggml-cuda/vendors/hip.h b/ggml/src/ggml-cuda/vendors/hip.h
+index 2fc0fe9..92a185b 100644
+--- a/ggml/src/ggml-cuda/vendors/hip.h
++++ b/ggml/src/ggml-cuda/vendors/hip.h
+@@ -229,9 +229,9 @@
+ #define RDNA2
+ #endif
+ 
+-#if defined(__gfx1010__) || defined(__gfx1012__)
++#if defined(__gfx1010__) || defined(__gfx1012__) || defined(__gfx1013__)
+ #define RDNA1
+-#endif // defined(__gfx1010__) || defined(__gfx1012__)
++#endif // defined(__gfx1010__) || defined(__gfx1012__) || defined(__gfx1013__)
+ 
+ #if defined(RDNA4) || defined(RDNA3) || defined(RDNA2) || defined(RDNA1)
+ #define RDNA // For the entire family
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index fd4290c..57f7ed0 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -2703,6 +2703,8 @@ ggml_tensor * llm_graph_context::build_attn_mha(
+ 
+         ggml_tensor * kqv = ggml_mul_mat(ctx0, v, kq);
+         cb(kqv, "kqv", il);
++        // BC-250 test: f16 V aggregation in half precision corrupts at long context
++        ggml_mul_mat_set_prec(kqv, GGML_PREC_F32);
+ 
+         // for MLA with the absorption optimization, we need to "decompress" from MQA back to MHA
+         if (v_mla) {

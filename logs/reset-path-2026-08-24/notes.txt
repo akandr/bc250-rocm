@@ -1,0 +1,51 @@
+Written during cycle 17, kept apart from predictions.txt.
+
+The register offsets settle a hypothesis that had been open since the stall was
+first localised. The probe reports rmmio_size=524288 with the scheduler register
+at dword offset 0xecaa and GRBM_STATUS at 0x2004. In bytes that is 0x3B2A8 and
+0x8010, both well inside the mapped window, so amdgpu takes the direct path and
+these are plain readl accesses on the BAR. They do not go through the PCIE
+index/data pair, which takes adev->pcie_idx_lock, so the stall is not a spinlock
+held by another stuck CPU. It is a single load instruction to a mapped aperture
+that never completes.
+
+A capture was lost, and the finding it carried is being recaptured rather than
+quoted from memory.
+
+The first trial of the debugfs arm showed mmGRBM_STATUS returning 0x00003028 and
+the following read of mmSCRATCH_REG0 hanging, which is the observation that the
+GC block is not uniformly unreachable. Running the harness again restarted its
+trial numbering at rep1 and overwrote that file before it had been committed, so
+the artifact behind that sentence no longer exists. I had read it and reasoned
+from it, but a finding whose evidence is only my own recollection is exactly what
+this repository is written to avoid.
+
+Two things follow. The harness now continues numbering from whatever captures are
+already present rather than restarting, so a rerun cannot destroy a previous one.
+And the observation is being collected again, from trials numbered 3 onward,
+rather than asserted from the run that no longer exists. If it does not reappear,
+it does not go in.
+
+Written when path-kfd rep1 landed, with two trials still to run.
+
+The first KFD trial answers the question the arm exists for. The probe reports
+should_recover=1 with gpu_recovery=-1, the driver default, and the reset that
+follows logs Source: 4, which is AMDGPU_RESET_SRC_HWS, the source every fatal
+event on this board logs. The debugfs arm logs Source: 5, AMDGPU_RESET_SRC_USER.
+
+Different entry, same failure: config space reads clean, the first GC register
+access does not return, the CPU that issued it stops answering. So the
+localisation collected through debugfs describes the reset that actually takes
+this board down under load, and the assumption the whole bisect rested on is an
+observation now rather than an assumption.
+
+Board restored after the campaign, 2026-08-24.
+
+The probe parameters were removed from both amdgpu_amdkfd.c and gfx_v10_0.c, the
+module rebuilt and installed through dracut, and `amdgpu.gpu_recovery=0` put back
+on the command line it was taken off for the KFD arm (`cmdline_before.txt` holds
+the original). Verified after the reboot: all four boot parameters present, the
+40-CU unlock applied to all four shader arrays, no probe parameter left in
+/sys/module/amdgpu/parameters, and the module carrying none of the three probe
+strings. The small model benchmarks at pp512 805.78 and tg32 113.17, against 806
+and 113.5 recorded before any of this work began.

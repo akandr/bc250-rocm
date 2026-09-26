@@ -1,0 +1,5 @@
+### PyTorch native gfx1013 matmul sweep 6.18.9-200.fc43.x86_64 07:52:05
+N=1024 x1: rel_err=1.48e-06 OK
+N=2048 x1: rel_err=2.26e-06 OK
+N=4096 x1: rel_err=2.74e-06 OK
+  rc=124

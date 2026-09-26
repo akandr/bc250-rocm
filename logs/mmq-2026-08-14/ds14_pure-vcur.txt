@@ -1,0 +1,10 @@
+STATS Vcur-0 MUL_MAT n=524288 sum=136.75364 sumsq=29208.399 maxabs=2.86146
+STATSRC Vcur-0 src0=blk.0.attn_v.weight type=q6_K bytes=4300800 nonzero_bytes=4267541
+STATS Vcur-0 MUL_MAT n=524288 sum=298.76278 sumsq=30042.697 maxabs=2.86146
+STATSRC Vcur-0 src0=blk.0.attn_v.weight type=q6_K bytes=4300800 nonzero_bytes=4267541
+STATS Vcur-0 MUL_MAT n=524288 sum=94.994363 sumsq=30244.631 maxabs=2.86146
+STATSRC Vcur-0 src0=blk.0.attn_v.weight type=q6_K bytes=4300800 nonzero_bytes=4267541
+STATS Vcur-0 MUL_MAT n=524288 sum=435.78022 sumsq=31680.789 maxabs=2.9303205
+STATSRC Vcur-0 src0=blk.0.attn_v.weight type=q6_K bytes=4300800 nonzero_bytes=4267541
+STATS Vcur-0 MUL_MAT n=54272 sum=11.443476 sumsq=3179.3 maxabs=2.86146
+STATSRC Vcur-0 src0=blk.0.attn_v.weight type=q6_K bytes=4300800 nonzero_bytes=4267541

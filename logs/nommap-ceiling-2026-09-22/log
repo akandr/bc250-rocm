@@ -1,0 +1,14 @@
+[12:10:02] start, available 14517 MiB, faults 0
+[12:10:29] hip  d=4096 tg8=34.27±0.00  faults=0
+[12:11:28] hip  d=8192 tg8=32.79±0.00  faults=0
+[12:12:46] hip  d=12288 tg8=30.91±0.00  faults=0
+[12:14:15] hip  d=14336 tg8=30.32±0.00  faults=0
+[12:15:50] hip  d=15360 tg8=29.76±0.00  faults=0
+[12:17:48] hip  d=16128 tg8=FAIL [ROCm error] faults=0
+[12:19:47] hip  d=16384 tg8=FAIL [ROCm error] faults=0
+[12:21:43] hip  d=15360 GGML_RDNA1_PKF16=0 tg8=26.30±0.00  faults=0
+[12:24:05] hip  d=16128 GGML_RDNA1_PKF16=0 tg8=FAIL [ROCm error] faults=0
+[12:27:01] hip  d=16128 -fa off tg8=FAIL [ROCm error] faults=0
+[12:29:22] vk   d=16128 tg8=28.30±0.00 
+[12:29:22] faults at end: 0
+[12:29:22] DONE

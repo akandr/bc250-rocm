@@ -1,0 +1,28 @@
+device AMD BC-250  arch gfx1013:xnack-  CUs 20
+ceilings measured on this board: fp32 6.52 TFLOP/s, packed fp16 13.02 TFLOP/s; fp64 has none measured
+median of 3 timed iterations after one warm-up; two elements CPU-checked per size
+
+## SGEMM, fp32
+     N         ms      GFLOP/s    ceiling   % peak    spread    rel err
+   512      0.133       2025.8    6520.00    31.1%     17.6%   1.47e-07
+  1024      0.580       3703.2    6520.00    56.8%      0.3%   8.65e-07
+  2048      3.876       4432.1    6520.00    68.0%      0.1%   2.99e-06
+  4096     30.134       4560.9    6520.00    70.0%      0.1%   1.26e-06
+  8192    239.067       4599.2    6520.00    70.5%      0.0%   1.45e-06
+
+## HGEMM, fp16
+     N         ms      GFLOP/s    ceiling   % peak    spread    rel err
+   512      0.157       1709.0   13020.00    13.1%     14.5%   3.79e-03
+  1024      0.643       3339.6   13020.00    25.6%      2.6%   5.39e-03
+  2048      5.954       2885.7   13020.00    22.2%      3.2%   5.65e-03
+  4096     29.783       4614.7   13020.00    35.4%      5.6%   3.32e-02
+  8192    234.814       4682.5   13020.00    36.0%      2.4%   2.51e-02
+
+## DGEMM, fp64
+     N         ms      GFLOP/s                        spread    rel err
+   512      0.629        426.6          -        -      2.6%   2.33e-15
+  1024      4.813        446.2          -        -      0.0%   9.99e-16
+  2048     37.655        456.2          -        -      0.0%   1.89e-15
+  4096    300.633        457.2          -        -      0.0%   2.38e-15
+
+done

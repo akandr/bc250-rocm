@@ -1,0 +1,12 @@
+What was wrong, and what fixed it.
+
+    # the board had booted index 1, not the documented index 0
+    sudo grubby --default-index          # -> 1
+    sudo grub2-editenv list | head -1    # -> saved_entry=...-7.2.5-200.fc44.x86_64
+
+    sudo grubby --set-default-index=0
+    sudo systemctl reboot
+
+    # after any reboot, before trusting a measurement taken on it
+    cat /proc/cmdline
+    bash reproduce.sh | head -20         # checks bc250_flush_by_runlist and sched_policy

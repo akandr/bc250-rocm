@@ -1,0 +1,144 @@
+== TensileLibrary_Type_HH_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1013.hsaco
+   3856 v_pk_fma_f16
+   1910 v_add_co_u32
+   1808 v_add_co_ci_u32_e32
+   1331 v_mov_b32_e32
+   1198 v_lshlrev_b64
+    658 v_mad_u64_u32
+    308 v_lshrrev_b32_e32
+    288 v_mul_f16_e32
+    288 v_fmac_f16_e32
+    234 v_or_b32_e32
+
+== TensileLibrary_Type_HH_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+    927 v_add_co_u32
+    910 v_add_co_ci_u32_e32
+    720 v_pk_fma_f16
+    626 v_lshlrev_b64
+    539 v_mov_b32_e32
+    340 v_mad_u64_u32
+    178 v_lshrrev_b32_e32
+    160 v_mul_f16_e32
+    160 v_fmac_f16_e32
+    106 v_cmp_eq_f16_e64
+
+== TensileLibrary_Type_HH_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1013.hsaco
+   1488 v_pk_fma_f16
+    980 v_add_co_u32
+    967 v_add_co_ci_u32_e32
+    632 v_lshlrev_b64
+    617 v_mov_b32_e32
+    344 v_mad_u64_u32
+    178 v_lshrrev_b32_e32
+    160 v_mul_f16_e32
+    160 v_fmac_f16_e32
+    130 v_or_b32_e32
+
+== TensileLibrary_Type_HH_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+    939 v_add_co_u32
+    923 v_add_co_ci_u32_e32
+    720 v_pk_fma_f16
+    620 v_lshlrev_b64
+    543 v_mov_b32_e32
+    340 v_mad_u64_u32
+    172 v_lshrrev_b32_e32
+    160 v_mul_f16_e32
+    160 v_fmac_f16_e32
+    106 v_cmp_eq_f16_e64
+
+== TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1013.hsaco
+   6552 v_add_co_u32
+   6307 v_add_co_ci_u32_e32
+   4398 v_fma_mix_f32
+   2457 v_mov_b32_e32
+   2300 v_lshlrev_b64
+   1994 v_mad_u64_u32
+   1268 v_add_nc_u32_e32
+    938 v_cmp_gt_u32_e32
+    506 v_or_b32_e32
+    245 v_add_co_ci_u32_e64
+
+== TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+   3616 v_fma_mix_f32
+   1892 v_add_co_u32
+   1715 v_add_co_ci_u32_e32
+   1051 v_mov_b32_e32
+    948 v_lshlrev_b64
+    568 v_mad_u64_u32
+    215 v_mul_f32_e32
+    208 v_cvt_f16_f32_e32
+    177 v_add_co_ci_u32_e64
+    162 v_or_b32_e32
+
+== TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1013.hsaco
+   1152 v_fma_mix_f32
+    629 v_add_co_u32
+    601 v_add_co_ci_u32_e32
+    313 v_mov_b32_e32
+    298 v_lshlrev_b64
+    182 v_mad_u64_u32
+     84 v_or_b32_e32
+     70 v_mul_f32_e32
+     66 v_add_nc_u32_e32
+     64 v_cvt_f16_f32_e32
+
+== TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+   3040 v_fma_mix_f32
+   1580 v_add_co_u32
+   1467 v_add_co_ci_u32_e32
+    815 v_mov_b32_e32
+    782 v_lshlrev_b64
+    466 v_mad_u64_u32
+    182 v_mul_f32_e32
+    176 v_cvt_f16_f32_e32
+    154 v_or_b32_e32
+    118 v_cmp_eq_f32_e64
+
+== TensileLibrary_Type_SS_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx1013.hsaco
+   1280 v_fmac_f32_e32
+    720 v_add_co_u32
+    700 v_add_co_ci_u32_e32
+    519 v_mov_b32_e32
+    516 v_lshlrev_b64
+    268 v_mad_u64_u32
+    129 v_mul_f32_e32
+     74 v_cmp_eq_f32_e64
+     57 v_cmp_neq_f32_e64
+     38 v_cmp_gt_u32_e64
+
+== TensileLibrary_Type_SS_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+    640 v_fmac_f32_e32
+    384 v_add_co_u32
+    374 v_add_co_ci_u32_e32
+    263 v_mov_b32_e32
+    262 v_lshlrev_b64
+    138 v_mad_u64_u32
+     65 v_mul_f32_e32
+     38 v_cmp_eq_f32_e64
+     29 v_cmp_neq_f32_e64
+     28 v_or_b32_e32
+
+== TensileLibrary_Type_SS_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx1013.hsaco
+    640 v_fmac_f32_e32
+    384 v_add_co_u32
+    376 v_add_co_ci_u32_e32
+    255 v_mov_b32_e32
+    254 v_lshlrev_b64
+    138 v_mad_u64_u32
+     65 v_mul_f32_e32
+     42 v_cmp_eq_f32_e64
+     28 v_add_nc_u32_e32
+     25 v_cmp_neq_f32_e64
+
+== TensileLibrary_Type_SS_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco
+   1664 v_fmac_f32_e32
+    428 v_add_co_u32
+    409 v_add_co_ci_u32_e32
+    279 v_mov_b32_e32
+    254 v_lshlrev_b64
+    134 v_mad_u64_u32
+     74 v_or_b32_e32
+     72 v_add_nc_u32_e32
+     65 v_mul_f32_e32
+     56 v_lshlrev_b32_e32
+

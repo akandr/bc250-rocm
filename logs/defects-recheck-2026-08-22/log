@@ -1,0 +1,14 @@
+[15:10:11] === configuration: kernel 7.1.8-100.fc43.x86_64, gpu_recovery=0
+[15:10:11] === defect 1: the fp16 cuBLAS path should still be wrong, f32 should still be right
+[15:11:38]   round 1: f32=9.0975 f16=17.1068
+[15:13:07]   round 2: f32=9.0975 f16=14.7398
+[15:14:31]   round 3: f32=9.0975 f16=21.4429
+[15:14:31] === defect 2: SDMA above 16384 bytes, which the navi12 microcode fixed
+[15:14:39]   probe rc=0 : ALL SIZES COMPLETED
+[15:14:39] === front page SGEMM figures, same probe as the original
+[15:14:40]   N=512: no output
+[15:14:40]   N=1024: no output
+[15:14:41]   N=2048: no output
+[15:14:41]   N=4096: no output
+[15:14:45] === faults during this run: 0
+[15:14:45] done

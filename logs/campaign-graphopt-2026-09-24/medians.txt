@@ -1,0 +1,19 @@
+pooled over 2 run(s), 18 samples a figure
+
+| model | ROCm pp512 | Vulkan pp512 | ROCm tg64 | ROCm tg64, GRAPH_OPT | Vulkan tg64 |
+|---|---|---|---|---|---|
+| qwen2.5-1.5B Q4_K_M | 1798.6 | 1850.0 | 196.7 | **213.1** | 212.3 |
+| qwen3-8B Q8_0 | 409.4 | 394.7 | 38.5 | **39.5** | 39.0 |
+| deepseek-r1-14B Q4_K_M | 195.8 | 199.8 | 32.6 | **33.6** | 35.1 |
+| qwen3-14B Q4_K_M | 197.6 | 204.8 | 32.7 | **33.7** | 34.7 |
+| qwen3.6-35B-A3B MoE IQ2_M | 588.8 | 457.0 | 71.2 | **70.8** | 86.9 |
+| qwen3.8-27B UD-IQ3_XXS | 102.9 | 105.0 | 15.2 | **15.1** | 17.6 |
+
+| model | decode vs Vulkan, as shipped | with GRAPH_OPT | the option is worth | prefill, as shipped | with GRAPH_OPT |
+|---|---|---|---|---|---|
+| qwen2.5-1.5B Q4_K_M | 0.93 | **1.00** | 1.083 | 1798.6 | 1798.5 |
+| qwen3-8B Q8_0 | 0.99 | **1.01** | 1.026 | 409.4 | 409.9 |
+| deepseek-r1-14B Q4_K_M | 0.93 | **0.96** | 1.031 | 195.8 | 195.8 |
+| qwen3-14B Q4_K_M | 0.94 | **0.97** | 1.032 | 197.6 | 197.7 |
+| qwen3.6-35B-A3B MoE IQ2_M | 0.82 | **0.81** | 0.994 | 588.8 | 588.8 |
+| qwen3.8-27B UD-IQ3_XXS | 0.86 | **0.86** | 0.998 | 102.9 | 103.0 |

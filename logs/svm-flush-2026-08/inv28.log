@@ -1,0 +1,16 @@
+[06:50:01] ftrace armed: amdgpu_vm_bo_unmap amdgpu_vm_bo_map amdgpu_vm_update_ptes amdgpu_vm_set_ptes amdgpu_vm_copy_ptes amdgpu_vm_flush amdgpu_pasid_freed amdgpu_iv
+[06:50:01] run 1: TBO churn under trace
+[06:50:11] run 1: rc=134 NO FAULT (trace kept running)
+[06:50:16] run 2: TBO churn under trace
+[06:50:35] run 2: rc=134 NO FAULT (trace kept running)
+[06:50:40] run 3: TBO churn under trace
+[06:50:55] run 3: rc=134 NO FAULT (trace kept running)
+[06:51:00] INV28 capture done
+[06:52:33] ftrace armed (v2): amdgpu_vm_bo_unmap amdgpu_vm_bo_map amdgpu_vm_update_ptes amdgpu_vm_set_ptes amdgpu_vm_copy_ptes amdgpu_vm_flush amdgpu_pasid_freed amdgpu_iv
+[06:52:33] run 1: TBO churn under trace
+[06:53:08] run 1: FAULT rc=134 ufault=1 kfault_lines=10 trace=55265 lines
+[06:53:13] run 2: TBO churn under trace
+[06:53:28] run 2: FAULT rc=134 ufault=1 kfault_lines=10 trace=33903 lines
+[06:53:33] run 3: TBO churn under trace
+[06:53:48] run 3: NO FAULT rc=134
+[06:53:53] INV28 v2 capture done

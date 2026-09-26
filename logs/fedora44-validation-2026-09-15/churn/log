@@ -1,0 +1,17 @@
+[15:09:05] boot d1dc30dd-38b0-47c5-b45a-750a563aae9a Forty Four param=3 faults_at_start=0
+[15:09:06] === A param=3
+[15:18:41]   A run 1: tbo rc=0 runtime_faults=0 | seq rc=0 RESULT bad_gens=0
+[15:28:18]   A run 2: tbo rc=0 runtime_faults=0 | seq rc=0 RESULT bad_gens=0
+[15:37:54]   A run 3: tbo rc=0 runtime_faults=0 | seq rc=0 RESULT bad_gens=0
+[15:37:54] PHASE A: kernel fault lines +0
+[15:37:54] === B param=1
+[15:38:04]   B run 1: tbo rc=134 runtime_faults=1 | seq rc=0 RESULT bad_gens=0
+[15:38:10]   B run 2: tbo rc=134 runtime_faults=1 | seq rc=0 RESULT bad_gens=0
+[15:38:10] PHASE B: kernel fault lines +10
+[15:38:10] === A2 param=3
+[15:47:49]   A2 run 1: tbo rc=0 runtime_faults=0 | seq rc=0 RESULT bad_gens=0
+[15:57:23]   A2 run 2: tbo rc=0 runtime_faults=0 | seq rc=0 RESULT bad_gens=0
+[16:07:02]   A2 run 3: tbo rc=0 runtime_faults=0 | seq rc=0 RESULT bad_gens=0
+[16:07:02] PHASE A2: kernel fault lines +0
+[16:08:07] gate after A2: Final estimate: PPL = 8.9442
+[16:08:08] DONE

@@ -1,0 +1,19 @@
+== system
+Fedora release 45 (Forty Five)
+7.1.8-100.fc43.x86_64
+Permissive
+rocm-hip-7.2.2-4.fc45.x86_64
+rocm-comgr-22-14.rocm7.2.1.fc45.x86_64
+rocblas-7.2.0-9.fc45.x86_64
+mesa-vulkan-drivers-26.2.0-1.fc45.x86_64
+glibc-2.44-1.fc45.x86_64
+== stock comgr gfx10 rows (patch script finds nothing to fix)
+rows found do not match the 13 expected gfx10 rows: []
+== system rocBLAS gfx1013
+/usr/lib64/rocblas/library/Kernels.so-000-gfx1013.hsaco -> Kernels.so-000-gfx1010.hsaco
+== native build
+-- Using GPU_TARGETS: gfx1013
+RC=0
+56
+== override disabled for this test
+bc250-rocm.conf.disabled-on-f45

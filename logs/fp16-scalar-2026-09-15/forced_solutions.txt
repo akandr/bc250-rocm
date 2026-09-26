@@ -1,0 +1,7 @@
+sol621: PPL = 14.1344 BC250SOL solution=621 status=0 zero_at=[37 73 109 ]
+sol622: PPL = 14.1344 BC250SOL solution=622 status=0 zero_at=[37 73 109 ]
+sol623: PPL = 14.1344 BC250SOL solution=623 status=0 zero_at=[37 73 109 ]
+sol624: PPL = 14.1344 BC250SOL solution=624 status=0 zero_at=[37 73 109 ]
+sol625: PPL = 14.1344 BC250SOL solution=625 status=0 zero_at=[37 73 109 ]
+sol626: PPL = 14.1344 BC250SOL solution=626 status=0 zero_at=[37 73 109 ]
+sol621_api: PPL = 7.2768 BC250SOL solution=621 status=0 zero_at=[]

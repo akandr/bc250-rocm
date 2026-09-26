@@ -1,0 +1,7 @@
+:4:rocblit.cpp              :1804: 0569985333 us: [pid:2326 tid: 0x7fd70dfa48c0] Unpinned write path, Async = 0
+:4:rocblit.cpp              :633 : 0569985336 us: [pid:2326 tid: 0x7fd70dfa48c0] HSA Copy Using Staging resource size 1048576
+:4:rocblit.cpp              :680 : 0569985459 us: [pid:2326 tid: 0x7fd70dfa48c0] HSA Async Copy staged H2D
+:4:rocblit.cpp              :503 : 0569985465 us: [pid:2326 tid: 0x7fd70dfa48c0] Last copy mask 0x0
+:4:rocblit.cpp              :510 : 0569985469 us: [pid:2326 tid: 0x7fd70dfa48c0] Query copy engine status 0, free_engine mask 0x3
+:4:rocblit.cpp              :524 : 0569985472 us: [pid:2326 tid: 0x7fd70dfa48c0] HSA Async Copy on copy_engine=0x1, dst=0x7fd609c00000, src=0x7fd5f6c00000, size=1048576, forceSDMA=0, wait_event=0x0, completion_signal=0x7fd70bbff780
+done 1048576

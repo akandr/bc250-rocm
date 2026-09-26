@@ -1,0 +1,9 @@
+# Fedora 44 default configuration (overrides in /opt/bc250-rocm), navi12 SDMA microcode, 2026-09-15 ~17:45.
+# llama-perplexity --no-mmap -ngl 99 -fa on; 1.5B ctx 4096 x 8 chunks, 8B ctx 2048 x 2 chunks. Console output.
+# A PyTorch source build was compiling on the CPU at the same time (does not affect perplexity).
+SDMA=1 1.5B: Final estimate: PPL = 8.9442
+SDMA=1 8B: Final estimate: PPL = 9.1117
+SDMA=0 1.5B: Final estimate: PPL = 8.9442
+SDMA=0 8B: Final estimate: PPL = 9.1117
+# journalctl -b -k | grep -ciE "page fault \(src_id|preemption|runlist rebuild flush failed"  (whole boot, including the campaign)
+0

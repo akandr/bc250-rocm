@@ -1,0 +1,12 @@
+gate_q15: Final estimate: PPL = 8.9442
+q8_default_1: Final estimate: PPL = 9.1117
+q8_default_2: Final estimate: PPL = 9.1117
+q8_f16_tcache1: Final estimate: PPL = 9.1117
+q8_f32: Final estimate: PPL = 9.0975
+q14_default: Final estimate: PPL = 7.7645
+bench_build-hip.32387.log: 806.36 113.69
+bench_build-hip.4658.log: 808.20 113.72
+bench_build-hip-f16c.15523.log: 807.99 113.67
+bench_build-hip-f16c.9301.log: 807.61 113.60
+bench_build.log:  
+DONE

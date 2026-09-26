@@ -1,0 +1,28 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+device      : ROCm0 (AMD BC-250)
+nodes       : 256 x ggml_sqrt, 40 reps a measurement, best of 5
+
+== chain: dependent nodes, no overlap possible ==
+    elements  per node (us)     GB/s implied
+        1024          2.519              3.3
+       16384          2.656             49.4
+       65536          3.415            153.5
+      262144          6.461            324.6
+     1048576         21.989            381.5
+floor, measured at smallest tensor :    2.519 us per node
+fit intercept (biased low)         :    2.185 us per node
+fit throughput                     :    426.9 GB/s (read+write f32)
+
+== fan: independent nodes, overlap permitted ==
+    elements  per node (us)     GB/s implied
+        1024          2.650              3.1
+       16384          2.853             45.9
+       65536          3.914            134.0
+      262144          7.907            265.2
+     1048576         24.199            346.6
+floor, measured at smallest tensor :    2.650 us per node
+fit intercept (biased low)         :    2.555 us per node
+fit throughput                     :    387.8 GB/s (read+write f32)
+
+chain 2.519 us, fan 2.650 us, fan/chain 1.052  (1.0 = no overlap gained)

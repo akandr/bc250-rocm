@@ -1,0 +1,21 @@
+[13:03:49] === removing the KQV precision line
+[13:03:58]   build rc=0 set_prec(kqv lines now: 0
+[13:03:58] === A default against B with graph capture disabled, six rounds, alternated
+[13:04:11]   r1 arm=A: 10.0103
+[13:04:23]   r1 arm=B: 115.8450
+[13:04:36]   r2 arm=B: 115.8450
+[13:04:49]   r2 arm=A: 91.3845
+[13:05:01]   r3 arm=A: 10.0103
+[13:05:14]   r3 arm=B: 148.2209
+[13:05:27]   r4 arm=B: 10.0103
+[13:05:39]   r4 arm=A: 10.0103
+[13:05:52]   r5 arm=A: 91.3845
+[13:06:04]   r5 arm=B: 137.6897
+[13:06:17]   r6 arm=B: 1593.4165
+[13:06:29]   r6 arm=A: 1057.5494
+[13:06:29] === restoring the patch
+[13:06:38]   rebuild rc=0 set_prec lines back: 1
+[13:06:38] === summary (correct is 10.0103)
+[13:06:38]   arm A: 3 of 6 correct; distinct values: 10.0103 1057.5494 91.3845 
+[13:06:38]   arm B: 1 of 6 correct; distinct values: 10.0103 115.8450 137.6897 148.2209 1593.4165 
+[13:06:38] done

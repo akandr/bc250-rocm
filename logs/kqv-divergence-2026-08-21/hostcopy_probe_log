@@ -1,0 +1,25 @@
+[17:46:49] === removing the KQV line and adding an opt-in per-node submission path
+[17:47:00]   build rc=0 errors=0
+[17:47:00] === A as normal against B with every result read back, eight rounds, alternated
+[17:47:12]   r1 arm=A: 1057.5494 wall=12s launches=0
+[17:47:25]   r1 arm=B: 343.5732 wall=13s launches=0
+[17:47:39]   r2 arm=B: 343.5732 wall=14s launches=0
+[17:47:51]   r2 arm=A: 10.0103 wall=12s launches=0
+[17:48:04]   r3 arm=A: 115.8450 wall=13s launches=0
+[17:48:17]   r3 arm=B: 438.7705 wall=13s launches=0
+[17:48:30]   r4 arm=B: 10.0103 wall=13s launches=0
+[17:48:43]   r4 arm=A: 7902.1858 wall=13s launches=0
+[17:48:55]   r5 arm=A: 10.0103 wall=12s launches=0
+[17:49:09]   r5 arm=B: 438.7705 wall=14s launches=0
+[17:49:22]   r6 arm=B: 91.3845 wall=13s launches=0
+[17:49:34]   r6 arm=A: 115.8450 wall=12s launches=0
+[17:49:47]   r7 arm=A: 98.4654 wall=13s launches=0
+[17:50:00]   r7 arm=B: 91.3845 wall=13s launches=0
+[17:50:13]   r8 arm=B: 682.8405 wall=13s launches=0
+[17:50:26]   r8 arm=A: 10.0103 wall=13s launches=0
+[17:50:26] === restoring both files
+[17:50:36]   rebuild rc=0 set_prec back: 1  probe removed: 0
+[17:50:36] === summary (correct is 10.0103 on the normal path)
+[17:50:36]   arm A: 3 of 8 at 10.0103; median wall 13s; launches seen 0; distinct: 10.0103 1057.5494 115.8450 7902.1858 98.4654 
+[17:50:36]   arm B: 1 of 8 at 10.0103; median wall 13s; launches seen 0; distinct: 10.0103 343.5732 438.7705 682.8405 91.3845 
+[17:50:36] done

@@ -1,0 +1,48 @@
+# Kernel resource usage: rocBLAS HGEMM against the hand-written packed-fp16 kernel
+# 2026-09-25T14:44:52+02:00
+
+## rocBLAS, from the gfx1013 HH code object metadata
+.group_segment_fixed_size: 0
+.max_flat_workgroup_size: 1024
+.sgpr_count:     6
+.vgpr_count:     2
+.group_segment_fixed_size: 3072
+.max_flat_workgroup_size: 256
+.name:           Cijk_Ailk_Bljk_HB_MT64x128x8_SN_AMAS2_BL0_BS1_GLVWA2_GLVWB2_GRVW2_GSU1_GSUASB_K1_LRVW2_NLCA1_NLCB1_PGR0_PLR1_SIA1_SU32_SUS256_SVW4_TT4_8_USFGRO0_VAW2_VS1_VW2_VWB2_WG16_16_1_WGM8
+.sgpr_count:     46
+.vgpr_count:     70
+.group_segment_fixed_size: 1638
+.max_flat_workgroup_size: 256
+.name:           Cijk_Ailk_Bljk_HB_MT64x128x4_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA1_NLCB1_PGR0_PLR0_SIA1_SU32_SUS256_SVW4_TT4_8_USFGRO0_VAW2_VS1_VW1_VWB1_WG16_16_1_WGM8
+.sgpr_count:     46
+.vgpr_count:     47
+.group_segment_fixed_size: 4096
+.max_flat_workgroup_size: 256
+.name:           Cijk_Ailk_Bljk_HB_MT64x64x8_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA1_NLCB1_PGR1_PLR1_SIA1_SU32_SUS256_SVW4_TT4_4_USFGRO0_VAW2_VS1_VW1_VWB1_WG16_16_1_WGM8
+.sgpr_count:     46
+.vgpr_count:     52
+.group_segment_fixed_size: 3072
+.max_flat_workgroup_size: 256
+.name:           Cijk_Ailk_Bljk_HB_GB_MT64x128x8_SN_AMAS2_BL0_BS1_GLVWA2_GLVWB2_GRVW2_GSU1_GSUASB_K1_LRVW2_NLCA1_NLCB1_PGR0_PLR1_SIA1_SU32_SUS256_SVW4_TT4_8_USFGRO0_VAW2_VS1_VW2_VWB2_WG16_16_1_WGM8
+.sgpr_count:     40
+.vgpr_count:     70
+.group_segment_fixed_size: 1638
+.max_flat_workgroup_size: 256
+.name:           Cijk_Ailk_Bljk_HB_GB_MT64x128x4_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA1_NLCB1_PGR0_PLR0_SIA1_SU32_SUS256_SVW4_TT4_8_USFGRO0_VAW2_VS1_VW1_VWB1_WG16_16_1_WGM8
+.sgpr_count:     40
+.vgpr_count:     48
+.group_segment_fixed_size: 4096
+.max_flat_workgroup_size: 256
+.name:           Cijk_Ailk_Bljk_HB_GB_MT64x64x8_SN_AMAS0_BL0_BS1_GLVWA1_GLVWB1_GRVW1_GSU1_GSUASB_K1_LRVW1_NLCA1_NLCB1_PGR1_PLR1_SIA1_SU32_SUS256_SVW4_TT4_4_USFGRO0_VAW2_VS1_VW1_VWB1_WG16_16_1_WGM8
+.sgpr_count:     40
+.vgpr_count:     63
+
+## hand-written kernel, from --save-temps assembly
+		.amdhsa_group_segment_fixed_size 17408
+		.amdhsa_user_sgpr_count 6
+		.amdhsa_shared_vgpr_count 0
+    .group_segment_fixed_size: 17408
+    .max_flat_workgroup_size: 128
+    .name:           _Z7pk_gemmPK6__halfS1_PS_iii
+    .sgpr_count:     22
+    .vgpr_count:     113

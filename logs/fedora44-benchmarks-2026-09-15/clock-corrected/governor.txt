@@ -1,0 +1,26 @@
+== F44 package default (as the distro-sync left it)
+opps:
+  - frequency:
+    - min: 1000
+    - max: 2000
+  - voltage:
+    - min: 1000
+    - max: 1000
+== restored from Fedora 43
+opps:
+  - frequency:
+    - min: 1000
+    - max: 1500
+  - voltage:
+    - min: 900
+    - max: 1000
+== clock samples during a 14B Vulkan run, before the fix
+     33 0: 1000Mhz *
+      7 2: 2000Mhz *
+== after the fix
+     24 0: 1000Mhz *
+     16 1: 1500Mhz *
+== governor log
+wrz 16 02:57:21 bc250 oberon-governor[824]: Starting governor
+wrz 16 02:59:16 bc250 oberon-governor[824]: [2026-09-16 00:59:16.629283502] GPU overheated, throttling - Silencing future warnings of this type
+wrz 16 03:02:28 bc250 oberon-governor[3170]: Starting governor

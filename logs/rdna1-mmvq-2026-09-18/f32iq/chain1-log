@@ -1,0 +1,31 @@
+ ggml/src/ggml-cuda/mmvq-rdna1-f32.cu | 365 +++++++++++++++++++++++++++++++++++
+ ggml/src/ggml-cuda/mmvq.cu           |  73 +++++--
+ 2 files changed, 426 insertions(+), 12 deletions(-)
+[18:58:47] configured
+[18:58:47] build start
+[19:08:11] build ok
+[19:10:55] MUL_MAT n=1 correctness: OK 13 FAIL 0
+[19:11:16] MUL_MAT_ID correctness: OK 131 FAIL 0
+[19:12:41] p1 qwen3.8-27b-iq3xxs build-hip-f32mv tg128: 10.88±0.16
+[19:14:28] p1 qwen3.8-27b-iq3xxs build-hip-f32iq tg128: 13.59±0.05
+[19:16:34] p1 qwen3.6-35b-a3b-iq2m build-hip-f32mv tg128: 56.36±0.71
+[19:18:34] p1 qwen3.6-35b-a3b-iq2m build-hip-f32iq tg128: 65.88±2.32
+[19:18:39] p1 qwen2.5-1.5b-q4km build-hip-f32mv tg128: 180.65±2.90
+[19:18:41] p1 qwen2.5-1.5b-q4km build-hip-f32iq tg128: 180.03±1.51
+[19:21:30] p2 qwen3.8-27b-iq3xxs build-hip-f32mv tg128: 11.30±0.06
+[19:23:49] p2 qwen3.8-27b-iq3xxs build-hip-f32iq tg128: 13.48±0.04
+[19:25:54] p2 qwen3.6-35b-a3b-iq2m build-hip-f32mv tg128: 55.13±0.97
+[19:28:44] p2 qwen3.6-35b-a3b-iq2m build-hip-f32iq tg128: 66.27±1.05
+[19:28:49] p2 qwen2.5-1.5b-q4km build-hip-f32mv tg128: 180.77±2.63
+[19:28:52] p2 qwen2.5-1.5b-q4km build-hip-f32iq tg128: 180.40±0.86
+[19:32:24] qwen3.8-27b-iq3xxs greedy text DIFFERS
+[19:35:41] qwen3.6-35b-a3b-iq2m greedy text DIFFERS
+[19:35:57] qwen3.8-27b-iq3xxs ops exported: 103
+[19:42:39] qwen3.8-27b-iq3xxs build-hip-f32mv n=1 ops: 148.87 us/run 15.69 us/run 657.86 us/run 56.33 us/run 112.77 us/run 187.16 us/run 100.76 us/run 304.38 us/run 3004.22 us/run 
+[19:49:47] qwen3.8-27b-iq3xxs build-hip-f32iq n=1 ops: 145.64 us/run 25.34 us/run 653.24 us/run 89.83 us/run 77.02 us/run 131.88 us/run 172.57 us/run 208.76 us/run 2546.74 us/run 
+[19:56:47] qwen3.8-27b-iq3xxs vulkan n=1 ops: 2.50 us/run 3.16 us/run 2.54 us/run 3.25 us/run 3.25 us/run 8.99 us/run 65.90 us/run 11.15 us/run 57.17 us/run 22.22 us/run 86.37 us/run 99.22 us/run 179.72 us/run 80.50 us/run 88.06 us/run 117.28 us/run 153.81 us/run 157.31 us/run 178.04 us/run 2538.33 us/run 4.05 us/run 23.78 us/run 3.80 us/run 8.66 us/run 17.52 us/run 2.52 us/run 2.95 us/run 2.88 us/run 8.08 us/run 3.33 us/run 22.70 us/run 11.00 us/run 4.01 us/run 2.64 us/run 2.84 us/run 2.89 us/run 3.29 us/run 
+[19:57:06] qwen3.6-35b-a3b-iq2m ops exported: 129
+[20:02:48] qwen3.6-35b-a3b-iq2m build-hip-f32mv n=1 ops: 86.63 us/run 11.23 us/run 23.63 us/run 32.18 us/run 326.30 us/run 53.16 us/run 950.53 us/run 17.06 us/run 
+[20:08:16] qwen3.6-35b-a3b-iq2m build-hip-f32iq n=1 ops: 88.33 us/run 6.60 us/run 23.83 us/run 23.13 us/run 333.23 us/run 41.36 us/run 958.27 us/run 16.61 us/run 
+[20:13:26] qwen3.6-35b-a3b-iq2m vulkan n=1 ops: 2.51 us/run 3.15 us/run 3.15 us/run 3.15 us/run 2.53 us/run 3.57 us/run 3.21 us/run 3.22 us/run 2.66 us/run 3.05 us/run 5.41 us/run 124.56 us/run 5.05 us/run 10.55 us/run 40.34 us/run 7.05 us/run 21.18 us/run 8.30 us/run 23.30 us/run 20.92 us/run 38.49 us/run 54.59 us/run 911.38 us/run 3.91 us/run 18.59 us/run 3.69 us/run 7.85 us/run 12.17 us/run 2.53 us/run 2.92 us/run 2.87 us/run 7.32 us/run 3.26 us/run 16.46 us/run 5.85 us/run 10.15 us/run 2.57 us/run 8.15 us/run 3.64 us/run 2.40 us/run 2.41 us/run 2.83 us/run 2.87 us/run 3.05 us/run 
+[20:13:26] CHAIN DONE

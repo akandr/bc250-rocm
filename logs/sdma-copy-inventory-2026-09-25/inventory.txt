@@ -1,0 +1,177 @@
+# Copy inventory of a 64-token decode, per model, SDMA off and on
+# 2026-09-25T17:46:25+02:00
+# Captured under LD_PRELOAD=libcopytrace.so, which perturbs throughput; the tg64 figures here
+# are context for the trace, not throughput results.
+
+== qwen2.5-1.5b-q4km sdma=0 tg64=170.40 ± 
+copies 1690, dispatches 23985, summed copy time 48.561 ms
+
+size range             copies    total MiB device time ms         MB/s
+== qwen2.5-1.5b-q4km sdma=1 tg64=181.80 ± 
+copies 1690, dispatches 23985, summed copy time 52.765 ms
+
+size range             copies    total MiB device time ms         MB/s
+== qwen3-8b-q8_0 sdma=0 tg64=37.64 ± 
+copies 8432, dispatches 30745, summed copy time 399.687 ms
+
+size range             copies    total MiB device time ms         MB/s
+== qwen3-8b-q8_0 sdma=1 tg64=37.63 ± 
+copies 8432, dispatches 30745, summed copy time 415.997 ms
+
+size range             copies    total MiB device time ms         MB/s
+== qwen3.6-35b-a3b-iq2m sdma=0 tg64=62.70 ± 
+copies 11540, dispatches 83060, summed copy time 535.398 ms
+
+size range             copies    total MiB device time ms         MB/s
+== qwen3.6-35b-a3b-iq2m sdma=1 tg64=63.44 ± 
+copies 11540, dispatches 83060, summed copy time 550.401 ms
+
+size range             copies    total MiB device time ms         MB/s
+DONE_COPY
+
+===== copy_qwen2.5-1.5b-q4km_sdma0.txt
+copies 1690, dispatches 23985, summed copy time 48.561 ms
+
+size range             copies    total MiB device time ms         MB/s
+2^0  to 2^1        1130         0.00         47.286          0.0
+2^2  to 2^3         130         0.00          0.249          2.1
+2^3  to 2^4         130         0.00          0.277          3.7
+2^7  to 2^8          28         0.00          0.147         33.8
+2^9  to 2^10         65         0.03          0.100        334.0
+2^10 to 2^11         56         0.05          0.110        521.3
+2^12 to 2^13        150         0.88          0.373       2470.7
+2^22 to 2^23          1         7.00          0.019     389701.7
+
+the ten most frequent exact sizes
+         bytes     copies device time ms
+             0       1130         47.286
+          6144        150          0.373
+             4        130          0.249
+             8        130          0.277
+           512         65          0.100
+          1024         56          0.110
+           144         14          0.034
+           210         14          0.112
+       7340032          1          0.019
+
+===== copy_qwen2.5-1.5b-q4km_sdma1.txt
+copies 1690, dispatches 23985, summed copy time 52.765 ms
+
+size range             copies    total MiB device time ms         MB/s
+2^0  to 2^1        1130         0.00         51.374          0.0
+2^2  to 2^3         130         0.00          0.283          1.8
+2^3  to 2^4         130         0.00          0.312          3.3
+2^7  to 2^8          28         0.00          0.147         33.7
+2^9  to 2^10         65         0.03          0.116        286.8
+2^10 to 2^11         56         0.05          0.110        519.4
+2^12 to 2^13        150         0.88          0.406       2270.0
+2^22 to 2^23          1         7.00          0.017     438184.7
+
+the ten most frequent exact sizes
+         bytes     copies device time ms
+             0       1130         51.374
+          6144        150          0.406
+             4        130          0.283
+             8        130          0.312
+           512         65          0.116
+          1024         56          0.110
+           144         14          0.034
+           210         14          0.113
+       7340032          1          0.017
+
+===== copy_qwen3-8b-q8_0_sdma0.txt
+copies 8432, dispatches 30745, summed copy time 399.687 ms
+
+size range             copies    total MiB device time ms         MB/s
+2^0  to 2^1        7896         0.00        398.422          0.0
+2^2  to 2^3         130         0.00          0.215          2.4
+2^3  to 2^4         130         0.00          0.265          3.9
+2^9  to 2^10        137         0.07          0.298        235.4
+2^14 to 2^15        138         2.16          0.399       5669.6
+2^25 to 2^26          1        36.00          0.088     427384.5
+
+the ten most frequent exact sizes
+         bytes     copies device time ms
+             0       7896        398.422
+         16384        138          0.399
+           512        137          0.298
+             4        130          0.215
+             8        130          0.265
+      37748736          1          0.088
+
+===== copy_qwen3-8b-q8_0_sdma1.txt
+copies 8432, dispatches 30745, summed copy time 415.997 ms
+
+size range             copies    total MiB device time ms         MB/s
+2^0  to 2^1        7896         0.00        414.589          0.0
+2^2  to 2^3         130         0.00          0.269          1.9
+2^3  to 2^4         130         0.00          0.321          3.2
+2^9  to 2^10        137         0.07          0.313        224.3
+2^14 to 2^15        138         2.16          0.415       5445.3
+2^25 to 2^26          1        36.00          0.090     420140.0
+
+the ten most frequent exact sizes
+         bytes     copies device time ms
+             0       7896        414.589
+         16384        138          0.415
+           512        137          0.313
+             4        130          0.269
+             8        130          0.321
+      37748736          1          0.090
+
+===== copy_qwen3.6-35b-a3b-iq2m_sdma0.txt
+copies 11540, dispatches 83060, summed copy time 535.398 ms
+
+size range             copies    total MiB device time ms         MB/s
+2^0  to 2^1       10852         0.00        533.542          0.0
+2^2  to 2^3         130         0.00          0.297          1.8
+2^3  to 2^4         130         0.00          0.314          3.3
+2^4  to 2^5          65         0.00          0.124          8.4
+2^7  to 2^8          60         0.01          0.141         54.4
+2^9  to 2^10         95         0.05          0.209        233.1
+2^10 to 2^11         20         0.02          0.055        371.1
+2^13 to 2^14        186         1.45          0.545       2796.1
+2^22 to 2^23          1         5.00          0.014     366455.6
+2^25 to 2^26          1        62.81          0.157     420440.5
+
+the ten most frequent exact sizes
+         bytes     copies device time ms
+             0      10852        533.542
+          8192        186          0.545
+             4        130          0.297
+             8        130          0.314
+           512         95          0.209
+            16         65          0.124
+           128         60          0.141
+          1024         20          0.055
+       5242880          1          0.014
+      65863680          1          0.157
+
+===== copy_qwen3.6-35b-a3b-iq2m_sdma1.txt
+copies 11540, dispatches 83060, summed copy time 550.401 ms
+
+size range             copies    total MiB device time ms         MB/s
+2^0  to 2^1       10852         0.00        548.413          0.0
+2^2  to 2^3         130         0.00          0.298          1.7
+2^3  to 2^4         130         0.00          0.316          3.3
+2^4  to 2^5          65         0.00          0.124          8.4
+2^7  to 2^8          60         0.01          0.178         43.2
+2^9  to 2^10         95         0.05          0.221        220.1
+2^10 to 2^11         20         0.02          0.065        314.3
+2^13 to 2^14        186         1.45          0.613       2486.0
+2^22 to 2^23          1         5.00          0.014     368542.1
+2^25 to 2^26          1        62.81          0.158     416289.6
+
+the ten most frequent exact sizes
+         bytes     copies device time ms
+             0      10852        548.413
+          8192        186          0.613
+             4        130          0.298
+             8        130          0.316
+           512         95          0.221
+            16         65          0.124
+           128         60          0.178
+          1024         20          0.065
+       5242880          1          0.014
+      65863680          1          0.158
+

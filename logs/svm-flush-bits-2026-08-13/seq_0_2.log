@@ -1,0 +1,5 @@
+gen1 n=8388608 tail=0 va=0x7fe1c0c00000 wrong=0 zeros=0 first=-1 ok
+Memory access fault by GPU node-1 (Agent handle: 0x556eb2611510) on address 0x7fe1a9e86000. Reason: Page not present or supervisor privilege.
+Failed to fetch queues snapshot.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci

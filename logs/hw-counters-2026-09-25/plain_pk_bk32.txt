@@ -1,0 +1,8 @@
+correctness on 256x128x256: worst relative error 0.0000 (fp16 accumulation)
+
+shape                                      ms    TFLOP/s of 13.02 peak    rel err
+square 512                              0.110       2.43          19%   6.80e-03
+square 1024                             0.419       5.12          39%   4.87e-03
+square 2048                             3.477       4.94          38%   1.21e-02
+square 4096                            17.868       7.69          59%   1.81e-02
+square 8192                           153.341       7.17          55%   3.51e-03

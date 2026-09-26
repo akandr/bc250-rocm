@@ -1,0 +1,18 @@
+[08:30:56] 27B gate pkf16: Final estimate: PPL = 6.2482
+[08:32:17] 27B gate MMQ:   Final estimate: PPL = 6.2472
+[08:33:00] MoE gate pkf16: Final estimate: PPL = 6.7629  (MMQ 6.7545)
+[08:33:39] 1.5B gate pkf16: Final estimate: PPL = 8.9274  (MMQ 8.9498, q4/q6-only build 8.9274)
+[08:37:07] 27B greedy text IDENTICAL
+[08:43:21] p1 qwen3.8-27b-iq3xxs MMQ:    pp512 71.49 ± 0.33 ; pp2048 65.91 ± 5.47 ;
+[08:47:05] p1 qwen3.8-27b-iq3xxs pkf16:  pp512 69.86 ± 0.41 ; pp2048 75.74 ± 0.02 ;
+[08:49:56] p1 qwen3.6-35b-a3b-iq2m MMQ:    pp512 297.36 ± 1.30 ; pp2048 305.91 ± 1.25 ;
+[08:53:02] p1 qwen3.6-35b-a3b-iq2m pkf16:  pp512 318.53 ± 1.76 ; pp2048 329.48 ± 1.19 ;
+[08:53:16] p1 qwen2.5-1.5b-q4km MMQ:    pp512 914.17 ± 7.44 ; pp2048 890.38 ± 0.06 ;
+[08:53:26] p1 qwen2.5-1.5b-q4km pkf16:  pp512 1243.97 ± 10.61 ; pp2048 1190.28 ± 0.21 ;
+[08:57:22] p2 qwen3.8-27b-iq3xxs MMQ:    pp512 71.80 ± 0.31 ; pp2048 64.99 ± 2.86 ;
+[09:02:51] p2 qwen3.8-27b-iq3xxs pkf16:  pp512 72.50 ± 0.27 ; pp2048 75.07 ± 0.03 ;
+[09:05:17] p2 qwen3.6-35b-a3b-iq2m MMQ:    pp512 296.93 ± 1.39 ; pp2048 305.44 ± 1.24 ;
+[09:07:06] p2 qwen3.6-35b-a3b-iq2m pkf16:  pp512 321.19 ± 1.51 ; pp2048 331.39 ± 1.30 ;
+[09:07:20] p2 qwen2.5-1.5b-q4km MMQ:    pp512 914.50 ± 7.29 ; pp2048 889.63 ± 0.14 ;
+[09:07:29] p2 qwen2.5-1.5b-q4km pkf16:  pp512 1244.64 ± 10.74 ; pp2048 1190.45 ± 0.15 ;
+[09:07:29] CHAIN DONE

@@ -1,0 +1,2 @@
+bash: linia 7:  3912 Przerwane                  env HSA_ENABLE_SDMA=0 LD_LIBRARY_PATH=/home/akandr/rocBLAS/build/release/rocblas-install/lib timeout -k 10 150 ~/llama-master/build-hip/bin/test-backend-ops perf -o MUL_MAT -b ROCm0 > ~/s0915/tbo/g3_rl3_alt3.log 2>&1
+rc=134 fault=1 wall=10s kernel_events_boot=12 alt:[ mode=3 site=2 calls=10 nomatch=0 ackmiss=0 err=0 last: matched=0x0100 acked=0xff00 r=0]

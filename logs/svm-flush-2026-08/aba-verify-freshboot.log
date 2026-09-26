@@ -1,0 +1,6 @@
+[09:57:42] fresh_on_2 (param=3): rc=? faults=0 done_ok=1
+[09:57:58] fresh_off_1 (param=1): rc=0 faults=1 elapsed=16s
+[09:59:42] fresh_off_2 (param=1): rc=0 faults=1 elapsed=104s
+[10:09:39] fresh_on_3 (param=3): rc=0 faults=0 elapsed=597s
+[10:09:39] kernel faults total: 20
+[10:09:39] FRESH-BOOT BATTERY DONE

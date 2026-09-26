@@ -1,0 +1,30 @@
+Least squares over the four spin points of floor-run1.txt.
+The run's own cycles-per-microsecond calibration is not used: it was taken from one kernel
+on an idle board and read the 1000 MHz step. Slope and intercept give the clock and the floor
+together, both measured inside the 20000-dispatch loop being reported.
+
+requested us (at the wrong calibration) | cycles actually asked for
+    1.0 | 1002
+    5.0 | 5011
+    9.3 | 9320
+   20.0 | 20044
+
+stream  clock  1509.2 MHz   floor 1.783 us   max residual 7 ns
+         cycles   1002  measured   2.454  residual  +6.7 ns
+         cycles   5011  measured   5.097  residual  -6.6 ns
+         cycles   9320  measured   7.956  residual  -2.7 ns
+         cycles  20044  measured  15.067  residual  +2.6 ns
+
+graph   clock  1513.7 MHz   floor 1.952 us   max residual 19 ns
+         cycles   1002  measured   2.604  residual  -9.5 ns
+         cycles   5011  measured   5.260  residual  -1.9 ns
+         cycles   9320  measured   8.128  residual +19.5 ns
+         cycles  20044  measured  15.185  residual  -8.1 ns
+
+empty kernel, measured directly, no calibration and no fit: stream 2.034 us, graph 2.173 us
+
+What the mixture-of-experts model pays per dispatch, from the soak and campaign decode rates
+and the 1298 dispatches per token counted in logs/moe-decode-2026-09-20/:
+  ROCm   71.78 t/s -> 13.931 ms/token -> 10.73 us per dispatch
+  Vulkan 86.68 t/s -> 11.537 ms/token ->  8.89 us per dispatch
+  difference: 1.84 us per dispatch

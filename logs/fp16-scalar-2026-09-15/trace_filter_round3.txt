@@ -1,0 +1,6 @@
+ctl_nolog: PPL = 11.7443 actions=0 zero_at=[73 109 ]
+ext_write: PPL = 7.2768 actions=144 zero_at=[]
+ext_clock: PPL = 7.2768 actions=0 zero_at=[]
+ext_sleep50us: PPL = 7.2768 actions=0 zero_at=[]
+ext_sleep1ms: PPL = 7.2768 actions=0 zero_at=[]
+ext_print_again: PPL = 7.2768 actions=0 zero_at=[]

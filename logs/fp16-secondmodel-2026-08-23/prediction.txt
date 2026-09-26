@@ -1,0 +1,20 @@
+Pre-registered 2026-08-23, before running.
+
+Everything about the batch-boundary model comes from one model, qwen3-8B. A
+pattern seen on one model is one model's pattern until shown otherwise.
+
+qwen3-14B is the other model this defect is documented to affect. It has a
+different layer count, so the calls per batch should differ from the 8B's 36, but
+the structure should not: on the exact baseline (GGML_CUDA_NO_POOL=1, one chunk,
+ubatch 512, four batches) the prediction is three zeros, one at the first fp16
+GEMM of each batch after the first, evenly spaced by whatever the per-batch call
+count turns out to be.
+
+If instead the 14B shows no zeros, a different count, or zeros at positions that
+are not batch starts, the model is 8B-specific and the generalisation in the
+write-up is too broad.
+
+Also worth knowing: qwen2.5-1.5B is recorded here as never reaching rocBLAS at
+all on the Q4_K path, so a run showing zero GEMM calls on it would confirm the
+instrument sees nothing rather than that the model is clean. That distinction has
+caught this work out before.

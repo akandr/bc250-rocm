@@ -1,0 +1,17 @@
+rocprofv3 --kernel-trace on qwen2.5-1.5B, dispatch count against outcome.
+Each run from a clean machine: any surviving llama-bench killed, caches dropped.
+Exit 139 is a segfault with no output file written.
+
+  n=8   exit=0  dispatches=3559
+  n=16  exit=0  dispatches=6559
+  n=24  exit=0  dispatches=9559
+  n=32  exit=0  dispatches=12559
+  n=40  exit=0  dispatches=15559
+  n=42  exit=0  dispatches=16309
+  n=44  exit=139 dispatches=0
+  n=48  exit=139 dispatches=0
+  n=64  exit=139 dispatches=0
+
+The boundary lies between 16309 and 17059 records, which brackets 16384.
+--output-format rocpd and pftrace both fail the same way at n=64, so the limit
+is in the collection path rather than in a writer.

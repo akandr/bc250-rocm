@@ -1,0 +1,23 @@
+[10:00:36] clock 0: 1000Mhz *1: 1500Mhz 2: 2000Mhz   governor active  ollama inactive
+[10:00:41] p1 qwen2.5-1.5b-q4km build-hip-sad tg128: 145.21±2.36
+[10:00:44] p1 qwen2.5-1.5b-q4km build-hip-mmvq2 tg128: 145.75±0.54
+[10:01:38] p1 qwen3-8b-q8_0 build-hip-sad tg128: 30.16±1.35
+[10:02:49] p1 qwen3-8b-q8_0 build-hip-mmvq2 tg128: 36.35±0.20
+[10:04:07] p1 qwen3-14b build-hip-sad tg128: 22.65±2.07
+[10:06:00] p1 qwen3-14b build-hip-mmvq2 tg128: 24.04±0.05
+[10:07:04] p1 qwen3.6-35b-a3b-iq2m build-hip-sad tg128: 41.21±4.05
+[10:09:03] p1 qwen3.6-35b-a3b-iq2m build-hip-mmvq2 tg128: 52.19±0.90
+[10:09:08] p2 qwen2.5-1.5b-q4km build-hip-sad tg128: 145.21±2.19
+[10:09:11] p2 qwen2.5-1.5b-q4km build-hip-mmvq2 tg128: 146.31±0.61
+[10:10:00] p2 qwen3-8b-q8_0 build-hip-sad tg128: 32.43±2.48
+[10:11:36] p2 qwen3-8b-q8_0 build-hip-mmvq2 tg128: 36.80±0.14
+[10:13:34] p2 qwen3-14b build-hip-sad tg128: 23.86±0.18
+[10:14:43] p2 qwen3-14b build-hip-mmvq2 tg128: 22.41±2.00
+[10:17:30] p2 qwen3.6-35b-a3b-iq2m build-hip-sad tg128: 52.10±0.81
+[10:19:47] p2 qwen3.6-35b-a3b-iq2m build-hip-mmvq2 tg128: 52.04±0.79
+[10:21:28] build-hip-sad n=1 matvec ops: 9.47 us/run 10.03 us/run 756.21 us/run 13.97 us/run 49.48 us/run 60.61 us/run 3530.74 us/run 44.88 us/run 737.91 us/run 
+[10:23:10] build-hip-mmvq2 n=1 matvec ops: 9.49 us/run 10.03 us/run 755.40 us/run 13.94 us/run 49.48 us/run 60.63 us/run 3530.92 us/run 45.33 us/run 823.76 us/run 
+[10:23:59] 1.5B gate build-hip-mmvq2: Final estimate: PPL = 8.9498  (final build 8.9498)
+[10:24:01] decode text build-hip-mmvq2: Paris  
+[10:24:01] clock after 0: 1000Mhz 1: 1500Mhz *2: 2000Mhz 
+[10:24:01] DONE

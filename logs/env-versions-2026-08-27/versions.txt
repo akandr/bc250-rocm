@@ -1,0 +1,17 @@
+date: 2026-08-27T12:46:58+02:00
+
+=== distribution and kernel ===
+Fedora release 43 (Forty Three)
+7.1.8-100.fc43.x86_64
+
+=== ROCm ===
+pakiet rocm-core nie jest zainstalowany
+--- ROCm clang, the HIP compiler ---
+clang version 19.0.0git
+Target: x86_64-redhat-linux-gnu
+
+=== Mesa / RADV, the Vulkan comparison ===
+mesa-vulkan-drivers-25.3.4-7.fc43.x86_64
+
+=== governor ===
+active

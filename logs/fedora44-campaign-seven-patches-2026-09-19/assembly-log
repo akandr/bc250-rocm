@@ -1,0 +1,43 @@
+fattn-tile.cuh: D=256 ncols-32 row -> 256, 2, 32, 64
+fattn-tile.cuh: D=128 rows for 4 and 2 columns added
+ggml/src/ggml-cuda/fattn-tile.cuh:0
+ggml/src/ggml-cuda/fattn.cu:0
+ggml/src/ggml-cuda/gated_delta_net.cu:1
+ M common/debug.cpp
+ M ggml/src/ggml-cuda/concat.cu
+ M ggml/src/ggml-cuda/fattn-tile.cuh
+ M ggml/src/ggml-cuda/fattn.cu
+ M ggml/src/ggml-cuda/gated_delta_net.cu
+ M ggml/src/ggml-cuda/ggml-cuda.cu
+ A ggml/src/ggml-cuda/mmvq-rdna1-f32.cu
+ A ggml/src/ggml-cuda/mmvq-rdna1-f32.cuh
+ M ggml/src/ggml-cuda/mmvq.cu
+ M ggml/src/ggml-cuda/vecdotq.cuh
+ M ggml/src/ggml-cuda/vendors/hip.h
+ M src/llama-graph.cpp
+ M tests/test-backend-ops.cpp
+   82 /home/akandr/final-assembly/0004-rdna1-fattn.patch
+  599 /home/akandr/final-assembly/0005-rdna1-mmvq.patch
+   96 /home/akandr/final-assembly/0006-concat-transposed-source.patch
+   79 /home/akandr/final-assembly/0007-rdna1-gdn-lanes.patch
+  856 razem
+ 13 files changed, 833 insertions(+), 33 deletions(-)
+[07:33:04] 1.5B gate, HIP with both patches: Final estimate: PPL = 8.9498  (expect 8.9498)
+[07:33:13] 1.5B tp, HIP both patches:  pp512 897.74 ± 35.13 ; tg64 180.68 ± 0.70 ; | stock:  pp512 913.22 ± 7.82 ; tg64 180.85 ± 0.94 ;
+[07:33:13] HIP installed into /opt/bc250-rocm/lib64: 	libamdhip64.so.7 (libc6,x86-64) => /opt/bc250-rocm/lib64/libamdhip64.so.7
+[07:40:07] deep context, installed stack, no env: rc=134 ROCm error: out of memory 
+[07:40:12] build start
+[07:49:32] build ok
+[07:52:28] FLASH_ATTN_EXT: OK 1313 FAIL 0
+[07:52:29] GATED_DELTA_NET: OK 26 FAIL 0
+[07:52:34] CONCAT: OK 105 FAIL 0
+[07:53:23] 1.5B gate, final build: Final estimate: PPL = 8.9498
+[07:54:07] 8B gate, final build: Final estimate: PPL = 9.1273
+[08:23:31] campaign rc=0 lines=37
+[08:23:46] depth qwen2.5-1.5b-q4km: rocm d4096 166.42±1.89 d0 183.02±3.14 | vulkan d4096 179.33±0.74 d0 212.32±0.08
+[08:26:22] depth qwen3-8b-q8_0: rocm d4096 34.72±1.04 d0 37.35±0.27 | vulkan d4096 35.51±0.06 d0 29.11±3.24
+[08:30:19] depth deepseek-r1-14b: rocm d4096 25.72±0.54 d0 31.27±0.51 | vulkan d4096 30.47±0.03 d0 26.23±3.87
+[08:35:40] depth qwen3-14b: rocm d4096 26.31±0.26 d0 31.21±0.47 | vulkan d4096 31.07±0.04 d0 25.57±4.15
+[08:41:29] depth qwen3.6-35b-a3b-iq2m: rocm d4096 63.65±2.21 d0 62.93±2.44 | vulkan d4096 81.31±2.17 d0 56.76±15.47
+[08:48:15] depth qwen3.8-27b-iq3xxs: rocm d4096 14.10±0.15 d0 14.33±0.16 | vulkan d4096 17.04±0.10 d0 15.96±0.76
+[08:48:15] CHAIN DONE

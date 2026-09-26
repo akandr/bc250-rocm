@@ -1,0 +1,27 @@
+From: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+Date: Fri, 19 Sep 2026 09:30:00 +0200
+Subject: [PATCH] hip: GraphNode::CaptureAndFormPacket must check the capture stream
+
+hip::Device::NullStream() returns nullptr when the null stream cannot be
+created (no HSA queue at the KFD memory limit). GraphNode::CaptureAndFormPacket
+passed that pointer to CreateCommand, and amd::Command's constructor read the
+queue through a null reference. Return hipErrorOutOfMemory instead, which is
+what a failed stream creation reports elsewhere; hipGraphInstantiate then
+returns the error and the application can report it. ROCm/clr develop has the
+same unchecked call as of 2026-09-19.
+
+Co-authored-by: Claude Fable 5.1 <noreply@anthropic.com>
+Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
+---
+--- a/hipamd/src/hip_graph_internal.hpp
++++ b/hipamd/src/hip_graph_internal.hpp
+@@ -251,6 +251,9 @@
+                                   std::vector<uint8_t*>* batchPackets = nullptr,
+                                   std::vector<std::string>* batchKernelNames = nullptr) {
+     auto capture_stream = hip::getNullStream(g_devices[dev_id_]->devices()[0]->context(), false);
++    if (capture_stream == nullptr) {
++      return hipErrorOutOfMemory;
++    }
+     hipError_t status = CreateCommand(capture_stream);
+     if (status != hipSuccess) {
+       return status;

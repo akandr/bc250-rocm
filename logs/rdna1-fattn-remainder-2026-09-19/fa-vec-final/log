@@ -1,0 +1,12 @@
+fattn.cu: RDNA1 one-token flash attention with ncols2 == 1 -> vector kernel
+[05:17:55] build ok
+[05:20:52] FLASH_ATTN_EXT correctness: OK 1368 FAIL 0
+[05:21:31] deepseek-r1-14b FA us: 166.18 us/run 129938.81 us/run 
+[05:22:11] qwen3-14b FA us: 160.44 us/run 129476.98 us/run 
+[05:22:28] qwen3-8b-q8_0 FA us: 158.73 us/run 43231.13 us/run 
+[05:22:42] qwen2.5-1.5b-q4km FA us: 46.87 us/run 16864.02 us/run 
+[05:26:10] p1 deepseek-r1-14b tg32 d=4096: 25.84±0.15   d=0: 31.28±0.51
+[05:28:42] p1 qwen3-8b-q8_0 tg32 d=4096: 31.32±0.32   d=0: 36.06±0.42
+[05:33:01] p2 deepseek-r1-14b tg32 d=4096: 25.70±0.34   d=0: 31.31±0.42
+[05:35:42] p2 qwen3-8b-q8_0 tg32 d=4096: 30.65±0.73   d=0: 35.66±0.66
+[05:35:42] CHAIN DONE

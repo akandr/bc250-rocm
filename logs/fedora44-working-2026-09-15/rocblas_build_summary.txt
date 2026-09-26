@@ -1,0 +1,10 @@
+-- Building for GPU targets: gfx1013
+-- Using GPU_TARGETS: gfx1013
+-- Installing: /home/akandr/rb711/install/lib64/librocblas.so.5.1
+BUILD_RC=0
+56
+__extendhfsf2 first instructions:
+ 1888d30:	endbr64
+ 1888d34:	pextrw $0x0,%xmm0,%eax
+ 1888d39:	mov    %eax,%edx
+ 1888d3b:	shr    $0xa,%edx

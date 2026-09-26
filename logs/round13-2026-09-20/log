@@ -1,0 +1,20 @@
+[10:54:44] build ok
+[10:56:55] p1 qwen2.5-1.5b-q4km promote=1:  pp512 1238.35 ± 16.86 ; pp2048 1189.17 ± 0.03 ;
+[10:57:05] p1 qwen2.5-1.5b-q4km promote=2:  pp512 1240.88 ± 9.97 ; pp2048 1188.49 ± 0.11 ;
+[10:57:14] p1 qwen2.5-1.5b-q4km promote=4:  pp512 1242.74 ± 9.52 ; pp2048 1187.54 ± 0.06 ;
+[11:01:26] p1 qwen3.8-27b-iq3xxs promote=1:  pp512 74.48 ± 0.29 ; pp2048 78.05 ± 0.05 ;
+[11:05:35] p1 qwen3.8-27b-iq3xxs promote=2:  pp512 71.46 ± 0.31 ; pp2048 73.67 ± 0.02 ;
+[11:09:41] p1 qwen3.8-27b-iq3xxs promote=4:  pp512 70.69 ± 0.21 ; pp2048 74.17 ± 0.01 ;
+[11:09:53] p2 qwen2.5-1.5b-q4km promote=1:  pp512 1240.82 ± 10.09 ; pp2048 1188.40 ± 0.20 ;
+[11:10:02] p2 qwen2.5-1.5b-q4km promote=2:  pp512 1242.45 ± 8.57 ; pp2048 1188.51 ± 0.08 ;
+[11:10:11] p2 qwen2.5-1.5b-q4km promote=4:  pp512 1242.09 ± 10.32 ; pp2048 1188.87 ± 0.12 ;
+[11:13:45] p2 qwen3.8-27b-iq3xxs promote=1:  pp512 69.58 ± 0.12 ; pp2048 73.99 ± 0.05 ;
+[11:18:36] p2 qwen3.8-27b-iq3xxs promote=2:  pp512 73.66 ± 0.42 ; pp2048 75.85 ± 0.03 ;
+[11:22:23] p2 qwen3.8-27b-iq3xxs promote=4:  pp512 72.03 ± 0.34 ; pp2048 74.45 ± 0.07 ;
+[11:23:02] 1.5B gate promote=1: Final estimate: PPL = 8.9274  (MMQ 8.9498)
+[11:24:14] 27B gate promote=1: Final estimate: PPL = 6.2482  (MMQ 6.2472)
+[11:24:53] 1.5B gate promote=2: Final estimate: PPL = 8.9274  (MMQ 8.9498)
+[11:26:04] 27B gate promote=2: Final estimate: PPL = 6.2482  (MMQ 6.2472)
+[11:26:43] 1.5B gate promote=4: Final estimate: PPL = 8.9274  (MMQ 8.9498)
+[11:27:55] 27B gate promote=4: Final estimate: PPL = 6.2482  (MMQ 6.2472)
+[11:27:55] CHAIN DONE

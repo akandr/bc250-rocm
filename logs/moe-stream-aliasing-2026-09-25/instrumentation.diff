@@ -1,0 +1,108 @@
+--- /tmp/common.cuh.bak	2026-09-25 13:19:16.270269405 +0200
++++ ggml/src/ggml-cuda/common.cuh	2026-09-25 13:48:43.879560903 +0200
+@@ -1303,19 +1303,17 @@
+     // 2. check whether all srcs are either within the branch or outside the nodes covered by ggml_cuda_concurrent_event
+     // we assume all nodes have the same buffer
+     bool is_valid() const {
+-        std::vector<std::vector<std::pair<int64_t, int64_t>>> write_ranges;
++        std::vector<std::vector<std::tuple<int64_t, int64_t, const char *>>> write_ranges;
+         write_ranges.resize(n_streams);
+ 
+         // get join_node's memory range to exclude from overlap checking.
+         // multiple nodes can use join_node's buffer; we synchronize on the join node.
+-        const ggml_tensor * join_t     = join_node->view_src ? join_node->view_src : join_node;
+-        const int64_t       join_start = (int64_t) join_t->data;
+-        const int64_t       join_end   = join_start + ggml_nbytes(join_t);
++        const int64_t       join_start = (int64_t) join_node->data;
++        const int64_t       join_end   = join_start + ggml_nbytes(join_node);
+ 
+         for (const auto & [tensor, stream] : stream_mapping) {
+-            const ggml_tensor * t = tensor->view_src ? tensor->view_src : tensor;
+-            const int64_t       t_start = (int64_t) t->data;
+-            const int64_t       t_end   = t_start + ggml_nbytes(t);
++            const int64_t       t_start = (int64_t) tensor->data;
++            const int64_t       t_end   = t_start + ggml_nbytes(tensor);
+ 
+             // skip tensors that overlap with join_node's buffer.
+             if ((t_start <= join_start && join_start < t_end) || (join_start <= t_start && t_start < join_end)) {
+@@ -1323,20 +1321,24 @@
+             }
+ 
+             // concurrent streams begin from 1
+-            write_ranges[stream - 1].emplace_back(t_start, t_end);
++            write_ranges[stream - 1].emplace_back(t_start, t_end, tensor->name);
+         }
+ 
++        auto by_range = [](const std::tuple<int64_t, int64_t, const char *> & x,
++                           const std::tuple<int64_t, int64_t, const char *> & y) {
++            return std::get<0>(x) != std::get<0>(y) ? std::get<0>(x) < std::get<0>(y)
++                                                    : std::get<1>(x) < std::get<1>(y);
++        };
+         for (int i = 0; i < n_streams; ++i) {
+             // sorts first by start then by end of write range
+-            std::sort(write_ranges[i].begin(), write_ranges[i].end());
++            std::sort(write_ranges[i].begin(), write_ranges[i].end(), by_range);
+         }
+ 
+         bool writes_overlap = false;
+         bool dependent_srcs = false;
+         for (const auto & [tensor, stream] : stream_mapping) {
+-            const ggml_tensor * t = tensor->view_src ? tensor->view_src : tensor;
+-            const int64_t       t_start = (int64_t) t->data;
+-            const int64_t       t_end   = t_start + ggml_nbytes(t);
++            const int64_t       t_start = (int64_t) tensor->data;
++            const int64_t       t_end   = t_start + ggml_nbytes(tensor);
+ 
+             // skip tensors that overlap with join_node's buffer
+             if ((t_start <= join_start && join_start < t_end) || (join_start <= t_start && t_start < join_end)) {
+@@ -1344,22 +1346,26 @@
+             }
+ 
+             // check if this buffer's write data overlaps with another stream's
+-            std::pair<int64_t, int64_t> data_range = std::make_pair(t_start, t_end);
++            std::tuple<int64_t, int64_t, const char *> data_range{t_start, t_end, ""};
+             for (int i = 0; i < n_streams; ++i) {
+                 if (i == stream - 1) {
+                     continue;
+                 }
+-                auto it = std::lower_bound(write_ranges[i].begin(), write_ranges[i].end(), data_range);
++                auto it = std::lower_bound(write_ranges[i].begin(), write_ranges[i].end(), data_range, by_range);
+ 
+                 if (it != write_ranges[i].end()) {
+-                    const std::pair<int64_t, int64_t> & other = *it;
++                    const std::tuple<int64_t, int64_t, const char *> & other = *it;
+ 
+                     // std::lower_bound returns the first element where other >= data_range (lexicographically).
+                     // This guarantees other.first >= data_range.first.
+                     // Therefore, overlap occurs iff other.first < data_range.second
+                     // (i.e., the other range starts before this range ends).
+-                    if (other.first < data_range.second) {
+-                        GGML_LOG_DEBUG("Writes overlap for %s", tensor->name);
++                    if (std::get<0>(other) < std::get<1>(data_range)) {
++                        GGML_LOG_DEBUG("OVERLAP %s [%lld,%lld) size=%lld stream=%d  vs  %s [%lld,%lld) size=%lld stream=%d\n",
++                                       tensor->name, (long long) t_start, (long long) t_end,
++                                       (long long) (t_end - t_start), stream,
++                                       std::get<2>(other), (long long) std::get<0>(other), (long long) std::get<1>(other),
++                                       (long long) (std::get<1>(other) - std::get<0>(other)), i + 1);
+                         writes_overlap = true;
+                         break;
+                     }
+@@ -1379,6 +1385,8 @@
+                 }
+ 
+                 if (it->second != stream) {
++                    GGML_LOG_DEBUG("Dependent src for %s: src%d %s is on stream %d, node on %d\n",
++                                   tensor->name, i, tensor->src[i]->name, it->second, stream);
+                     dependent_srcs = true;
+                     break;
+                 }
+@@ -1389,6 +1397,9 @@
+             }
+         }
+ 
++        GGML_LOG_DEBUG("region verdict join=%s streams=%d nodes=%zu overlap=%d depsrc=%d\n",
++                       join_node ? join_node->name : "?", n_streams, stream_mapping.size(),
++                       (int) writes_overlap, (int) dependent_srcs);
+         return !writes_overlap && !dependent_srcs;
+     }
+ 

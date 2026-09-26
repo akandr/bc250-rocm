@@ -1,0 +1,17 @@
+[21:22:21] === source /home/akandr/k718/linux-7.1.8, kernel 7.1.8-100.fc43.x86_64
+[21:22:21] === adding the probe to amdgpu_amdkfd.c
+[21:22:21] === building amdgpu
+[21:22:36]   built 777287448 bytes
+[21:22:36] === built, not installed yet
+[21:24:12] === backup of the installed module: 5468104 bytes
+[21:24:12]   stripped to 46060224 bytes
+[21:24:22]   compressed to 5333124 bytes
+[21:24:32] === rebuilding the initramfs, without which the old module keeps loading
+[21:24:51]   initramfs: 69547434 bytes
+[21:24:51] === installed, reboot required
+[21:27:41] === backup of the installed module: 5468104 bytes
+[21:27:41]   stripped to 46060248 bytes
+[21:27:51]   compressed to 5331352 bytes
+[21:28:01] === rebuilding the initramfs, without which the old module keeps loading
+[21:28:20]   initramfs: 69545487 bytes
+[21:28:20] === installed, reboot required

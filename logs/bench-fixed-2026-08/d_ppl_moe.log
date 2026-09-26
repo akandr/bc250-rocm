@@ -1,0 +1,47 @@
+0.08.156.032 W DEPRECATED: --mmap and --no-mmap are deprecated. use --load-mode mmap instead
+0.25.831.531 I 
+0.25.831.656 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | ROCm : NO_VMM = 1 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.25.831.676 I perplexity: tokenizing the input ..
+0.26.561.233 I perplexity: tokenization took 729.531 ms
+0.26.561.474 I perplexity: calculating perplexity over 2 chunks, n_ctx=2048, batch_size=2048, n_seq=1
+0.27.257.561 E ROCm error: CUBLAS_STATUS_INTERNAL_ERROR
+0.27.257.569 E   current device: 0, in function ggml_cuda_mul_mat_cublas_impl at /home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:1563
+0.27.257.571 E   hipblasSgemm(ctx.cublas_handle(), HIPBLAS_OP_T, HIPBLAS_OP_N, ne01, ne11, ne10, (const float *) alpha, (const float *) src0_ptr, s01, (const float *) src1_ptr, s11, (const float *) beta, (float *) dst_ptr, ne0)
+/home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:106: ROCm error
+⚠️ warning: The current terminal doesn't support styling.  Styled output might not appear as expected.
+[New LWP 3354]
+[New LWP 3351]
+[New LWP 3350]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+0x00007f4638d929a2 in __syscall_cancel_arch () from /lib64/libc.so.6
+#0  0x00007f4638d929a2 in __syscall_cancel_arch () from /lib64/libc.so.6
+#1  0x00007f4638d86c3c in __internal_syscall_cancel () from /lib64/libc.so.6
+#2  0x00007f4638d86c84 in __syscall_cancel () from /lib64/libc.so.6
+#3  0x00007f4638df6b8f in wait4 () from /lib64/libc.so.6
+#4  0x00007f4639337c33 in ggml_print_backtrace () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#5  0x00007f4639337d7f in ggml_abort () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#6  0x00007f46396b2eb2 in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#7  0x00007f46396c6bf2 in ggml_cuda_mul_mat_cublas(ggml_backend_cuda_context&, ggml_tensor const*, ggml_tensor const*, ggml_tensor*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#8  0x00007f46396be88c in ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#9  0x00007f46396b92ac in ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) () from /home/akandr/llama-master/build-hip/bin/libggml-hip.so.0
+#10 0x00007f4639354eff in ggml_backend_sched_graph_compute_async () from /home/akandr/llama-master/build-hip/bin/libggml-base.so.0
+#11 0x00007f463d0478f0 in llama_context::graph_compute(ggml_cgraph*, bool) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#12 0x00007f463d04b59b in llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#13 0x00007f463d051fb8 in llama_context::decode(llama_batch const&) () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#14 0x00007f463d053b8e in llama_decode () from /home/akandr/llama-master/build-hip/bin/libllama.so.0
+#15 0x00007f463d90719c in perplexity(llama_context*, common_params const&, int) () from /home/akandr/llama-master/build-hip/bin/libllama-perplexity-impl.so
+#16 0x00007f463d913d9d in llama_perplexity(int, char**) () from /home/akandr/llama-master/build-hip/bin/libllama-perplexity-impl.so
+#17 0x00007f4638d1b5b5 in __libc_start_call_main () from /lib64/libc.so.6
+#18 0x00007f4638d1b668 in __libc_start_main_impl () from /lib64/libc.so.6
+#19 0x00000000004003b5 in _start ()
+[Inferior 1 (process 3348) detached]
+timeout: monitowane polecenie zrobiło zrzut pamięci

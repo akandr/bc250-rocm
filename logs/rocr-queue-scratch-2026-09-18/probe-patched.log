@@ -1,0 +1,10 @@
+  allocated 2048 MiB
+  allocated 4096 MiB
+  allocated 6144 MiB
+  allocated 8192 MiB
+  allocated 10240 MiB
+  allocated 12288 MiB
+hipMalloc failed after 13312 MiB: out of memory
+creating a stream with 13312 MiB held...
+hipStreamCreate: ok
+after freeing one block, hipStreamCreate: ok

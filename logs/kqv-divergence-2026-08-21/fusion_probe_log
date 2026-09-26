@@ -1,0 +1,25 @@
+[17:14:48] === removing the KQV line and adding an opt-in fusion kill switch
+[17:15:05]   build rc=0 errors=0
+[17:15:06] === A as normal against B with fusion refused, eight rounds, alternated
+[17:15:18]   r1 arm=A: 342.0753 wall=12s refusals=0
+[17:15:30]   r1 arm=B: 972.4281 wall=12s refusals=100001
+[17:15:43]   r2 arm=B: 972.4281 wall=13s refusals=100001
+[17:15:55]   r2 arm=A: 91.3845 wall=12s refusals=0
+[17:16:08]   r3 arm=A: 1347.6541 wall=13s refusals=0
+[17:16:20]   r3 arm=B: 7233.3025 wall=12s refusals=100001
+[17:16:32]   r4 arm=B: 91.4107 wall=12s refusals=100001
+[17:16:45]   r4 arm=A: 137.6897 wall=12s refusals=0
+[17:16:57]   r5 arm=A: 10.0103 wall=12s refusals=0
+[17:17:10]   r5 arm=B: 9.9968 wall=13s refusals=100001
+[17:17:22]   r6 arm=B: 23715.7694 wall=12s refusals=100001
+[17:17:35]   r6 arm=A: 91.3845 wall=13s refusals=0
+[17:17:47]   r7 arm=A: 115.8450 wall=12s refusals=0
+[17:17:59]   r7 arm=B: 9.9968 wall=12s refusals=100001
+[17:18:12]   r8 arm=B: 106.3464 wall=13s refusals=100001
+[17:18:24]   r8 arm=A: 10.0103 wall=12s refusals=0
+[17:18:24] === restoring both files
+[17:18:42]   rebuild rc=0 set_prec back: 1  probe removed: 0
+[17:18:42] === summary (correct is 10.0103)
+[17:18:42]   arm A: 2 of 8 correct; median wall 12s; refusals seen 0; distinct: 10.0103 115.8450 1347.6541 137.6897 342.0753 91.3845 
+[17:18:42]   arm B: 0 of 8 correct; median wall 12s; refusals seen 100001; distinct: 106.3464 23715.7694 7233.3025 91.4107 972.4281 9.9968 
+[17:18:42] done

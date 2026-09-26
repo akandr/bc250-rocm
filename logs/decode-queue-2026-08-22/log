@@ -1,0 +1,16 @@
+[20:24:55] === A. is the fp16 defect specific to gfx1010, or to anything but gfx1013?
+[20:26:21]   round 1: native(gfx1013)=16.3672  override 10.1.0=FAIL  override 10.3.0=FAIL
+[20:27:59]   round 2: native(gfx1013)=18.1127  override 10.1.0=FAIL  override 10.3.0=FAIL
+[20:29:39]   round 3: native(gfx1013)=17.3015  override 10.1.0=FAIL  override 10.3.0=FAIL
+[20:29:39] === B. does decode rate track the queue the process is given?
+[20:34:18]   run 1: rate=17.17 doorbell=none queue=none vmid=none
+[20:38:50]   run 2: rate=19.72 doorbell=none queue=none vmid=none
+[20:43:42]   run 3: rate=17.15 doorbell=none queue=none vmid=none
+[20:48:16]   run 4: rate=16.93 doorbell=none queue=none vmid=none
+[20:52:47]   run 5: rate=16.58 doorbell=none queue=none vmid=none
+[20:57:16]   run 6: rate=18.33 doorbell=none queue=none vmid=none
+[21:01:45]   run 7: rate=17.39 doorbell=none queue=none vmid=none
+[21:06:15]   run 8: rate=18.54 doorbell=none queue=none vmid=none
+[21:10:44]   run 9: rate=15.94 doorbell=none queue=none vmid=none
+[21:15:11]   run 10: rate=17.36 doorbell=none queue=none vmid=none
+[21:15:11] done

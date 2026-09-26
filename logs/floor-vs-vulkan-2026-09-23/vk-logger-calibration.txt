@@ -1,0 +1,72 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+device      : Vulkan0 (AMD BC-250 (RADV GFX1013))
+nodes       : 256 x ggml_sqrt, 40 reps a measurement, best of 5
+
+== chain: dependent nodes, no overlap possible ==
+    elements  per node (us)     GB/s implied
+----------------
+Vulkan Timings:
+SQRT: 51200 x 3.006 us = 153912 us
+Total time: 153912 us.
+        1024          3.364              2.4
+----------------
+Vulkan Timings:
+SQRT: 51200 x 3.001 us = 153682 us
+Total time: 153682 us.
+       16384          3.792             34.6
+----------------
+Vulkan Timings:
+SQRT: 51200 x 5.109 us = 261601 us
+Total time: 261601 us.
+       65536          6.382             82.2
+----------------
+Vulkan Timings:
+SQRT: 51200 x 13.344 us = 683238 us
+Total time: 683238 us.
+      262144         15.517            135.1
+----------------
+Vulkan Timings:
+SQRT: 51200 x 41.786 us = 2.13948e+06 us
+Total time: 2.13948e+06 us.
+     1048576         45.425            184.7
+floor, measured at smallest tensor :    3.364 us per node
+fit intercept (biased low)         :    3.729 us per node
+fit throughput                     :    199.7 GB/s (read+write f32)
+
+== fan: independent nodes, overlap permitted ==
+    elements  per node (us)     GB/s implied
+----------------
+Vulkan Timings:
+SQRT: 51200 x 7.915 us = 405270 us
+Total time: 405270 us.
+        1024          6.286              1.3
+----------------
+Vulkan Timings:
+SQRT: 51200 x 4.985 us = 255261 us
+Total time: 255261 us.
+       16384          6.375             20.6
+----------------
+Vulkan Timings:
+SQRT: 51200 x 5.56 us = 284706 us
+Total time: 284706 us.
+       65536          7.016             74.7
+----------------
+Vulkan Timings:
+SQRT: 51200 x 12.687 us = 649623 us
+Total time: 649623 us.
+      262144         16.570            126.6
+----------------
+Vulkan Timings:
+SQRT: 51200 x 39.456 us = 2.02015e+06 us
+Total time: 2.02015e+06 us.
+     1048576         46.874            179.0
+floor, measured at smallest tensor :    6.286 us per node
+fit intercept (biased low)         :    5.644 us per node
+fit throughput                     :    203.1 GB/s (read+write f32)
+
+chain 3.364 us, fan 6.286 us, fan/chain 1.869  (1.0 = no overlap gained)
+----------------
+Vulkan Timings:
+SQRT: 7680 x 43.479 us = 333924 us
+Total time: 333924 us.

@@ -1,0 +1,4 @@
+kernel=7.1.2-200.fc43.x86_64
+runlist=1
+map_bit_in_module=0
+simd_count=80

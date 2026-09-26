@@ -1,0 +1,8 @@
+start faults=10
+gemm=on run=1 rc=134 faults 10 -> 20
+gemm=on run=2 rc=134 faults 20 -> 30
+gemm=on run=3 rc=134 faults 30 -> 40
+gemm=off run=1 rc=134 faults 40 -> 50
+gemm=off run=2 rc=134 faults 50 -> 60
+gemm=off run=3 rc=134 faults 60 -> 70
+DONE

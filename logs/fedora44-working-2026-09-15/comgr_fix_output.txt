@@ -1,0 +1,18 @@
+row at file offset 0x80f6ecc: gfx1010
+row at file offset 0x80f6f14: gfx1011
+row at file offset 0x80f6f5c: gfx1012
+row at file offset 0x80f6fa4: gfx1013
+row at file offset 0x80f6fec: gfx1030
+row at file offset 0x80f7034: gfx1031
+row at file offset 0x80f707c: gfx1032
+row at file offset 0x80f70c4: gfx1033
+row at file offset 0x80f710c: gfx1034
+row at file offset 0x80f7154: gfx1035
+row at file offset 0x80f719c: gfx1036
+row at file offset 0x80f7544: gfx10-1-generic
+row at file offset 0x80f758c: gfx10-3-generic
+wrote /tmp/comgr_check.so: total VGPRs 256 -> 1024 in 13 rows
+identical to the library used in the runs
+rocm-comgr-20-13.rocm7.1.1.fc44.x86_64
+d39c4fc5a901
+6dde759b9c00

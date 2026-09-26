@@ -1,0 +1,7 @@
+# FP64 Jacobi 2048x2048, same source, two builds
+## documented build line (no optimisation flag)
+Jacobi FP64 2048x2048, 2000 iters: 13692.0 ms total, 6.85 ms/iter, 2.4 GFLOP/s (FP64), ~24 GB/s effective, max_err vs analytic 9.515e-01 (85849 samples)
+CHECK: err large
+## same source with -O2
+Jacobi FP64 2048x2048, 2000 iters: 381.9 ms total, 0.19 ms/iter, 87.7 GFLOP/s (FP64), ~877 GB/s effective, max_err vs analytic 9.515e-01 (85849 samples)
+CHECK: err large
