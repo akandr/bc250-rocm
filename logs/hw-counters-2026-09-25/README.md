@@ -28,9 +28,10 @@ for 89 counters. `metrics.cpp` looks the agent name up in a map keyed by those l
     get_val(mets->arch_to_metric, std::string(agent->name))
 
 so the bare `gfx10` entry is a key like any other, not a wildcard, and `gfx1013` matches
-nothing and gets no counters. gfx1011 and gfx1012 are missing in the same way. This is the same
-shape of defect as the Tensile fallback, the RDNA1 macro, the comgr VGPR table and the MMVQ table:
-a per-architecture table with the sibling entries present and this one absent.
+nothing and gets no counters. gfx1011 and gfx1012 are missing in the same way. llama.cpp's RDNA1
+macro has the same shape, gfx1010 and gfx1012 listed and gfx1013 not. The other tables that cost
+this board something differ: the MMVQ table has no RDNA1 entry at all, the comgr VGPR table was
+wrong for every gfx10 device alike, and Tensile has only fallback solutions for gfx1013.
 
 Adding `gfx1013` beside every `gfx1010` gives all 89 counters. `aqlprofile`, which actually programs
 them, needs no change: it dispatches on a name prefix, `{"gfx10", GFX10_GPU_ID}` matched with

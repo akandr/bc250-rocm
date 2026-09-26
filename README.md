@@ -747,9 +747,11 @@ kernels crash inside `libamdhip64`
 
 ## Where the speed came from
 
-Thirteen patches, none of them large. The pattern in most of them is the same: gfx1013 is missing
-from a per-architecture table that its neighbours are in, so it falls through to a generic path.
-Full workings for each are in the linked logs and in [INVESTIGATION.md](INVESTIGATION.md).
+Thirteen patches, none of them large. Three share a pattern, an architecture choice that does not
+fit gfx1013: llama.cpp's RDNA1 macro lists gfx1010 and gfx1012 but not gfx1013; the matrix-vector
+table has no RDNA1 entry, so gfx1013 runs the generic one; and the flash-attention tile rows are
+shared by all of RDNA and spill on RDNA1. Five more are one packed-fp16 prefill GEMM and its
+extensions. Full workings for each are in the linked logs and in [INVESTIGATION.md](INVESTIGATION.md).
 
 ### Decode: four passes over the matrix-vector kernel
 
