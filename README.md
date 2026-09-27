@@ -793,10 +793,11 @@ budget:
 | gfx1030 (RDNA2) | 215 | 0 | 0 |
 | gfx1100 (RDNA3) | 125 | 0 | 0 |
 
-An RDNA1 tile table that doubles `nthreads` to 512 and cuts `nbatch_fa` to 32 drops it to 96 VGPRs with
-no spill, and prefill at an 8192-token depth goes from 64.9 to 157.4 tokens/s on the 8B
-([`logs/rdna1-fattn-spill-2026-09-17/`](logs/rdna1-fattn-spill-2026-09-17/)). gfx1010 spills
-identically, so this is not particular to the BC-250.
+An RDNA1 tile table that doubles `nthreads` to 512 and cuts `nbatch_fa` to 32 brings it to 211 VGPRs
+with no spill, and prefill at an 8192-token depth goes from 64.9 to 157.4 tokens/s on the 8B. A later
+row with `nbatch_K` at 128 takes the same kernel to 96 VGPRs, raises occupancy from 4 waves to 10 and
+brings that depth to 184.5 ([`logs/rdna1-fattn-spill-2026-09-17/`](logs/rdna1-fattn-spill-2026-09-17/)).
+gfx1010 spills identically, so this is not particular to the BC-250.
 
 ![The flash-attention kernel before and after, and what it is worth end to end](figures/fig-fa-heads.png)
 

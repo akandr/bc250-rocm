@@ -3319,7 +3319,7 @@ targets ([`logs/vulkan-fa-staging-2026-09-17/`](logs/vulkan-fa-staging-2026-09-1
 real pp2048 graph through `test-backend-ops` on both backends localised the prefill deficit
 ([`logs/op-perf-hip-vs-vulkan-2026-09-17/`](logs/op-perf-hip-vs-vulkan-2026-09-17/)): with `-fa off`
 it is the matmuls and only the matmuls, `MUL_MAT` at a median 1.84 times Vulkan's time against 0.75
-for everything else, summing to 1.74 across the graph against 1.86 measured end to end. With `-fa on`
+for everything else, summing to 1.74 across the qwen2.5-1.5B's graph. With `-fa on`
 the flash-attention kernel is 7.05 times slower, 114.7 ms against 16.3, worse than ROCm's own
 non-flash path for the same work. The cause is a register spill:
 `V_DOT2_F32_F16_AVAILABLE` covers RDNA2 and later but not RDNA1, correctly, since gfx1013 has no

@@ -5,8 +5,10 @@ Fedora 44, kernel 7.2.5 with the bc250 amdgpu module, native gfx1013 rocBLAS 7.1
 comgr from `/opt/bc250-rocm`, GPU clock policy at 1500 MHz with `oberon-governor` active, `ollama`
 stopped.
 
-ROCm prefills the 1.5B at 197 tokens/s against Vulkan's 367, and until now nothing said which
-operation carried that. `test-export-graph-ops` writes out the real graph of a pp2048 prefill (no
+ROCm prefilled far behind Vulkan at this point, the qwen3-8B at 198.2 tokens/s against 367.5 at
+pp2048 with flash attention on ([`../flash-attention-tradeoff-2026-09-17/`](../flash-attention-tradeoff-2026-09-17/)),
+and until now nothing said which operation carried that. The replay below uses the qwen2.5-1.5B's
+graph. `test-export-graph-ops` writes out the real graph of a pp2048 prefill (no
 weights needed), and `test-backend-ops perf --test-file` replays exactly those shapes on each
 backend, so the two are compared on what the model runs, not on a synthetic grid. Both
 backends run inside one pass and the pass is repeated. Exported twice, once with `-fa off` and once
@@ -21,9 +23,11 @@ with `-fa on`, because the two configurations run different graphs.
 
 Summed over the prefill shapes, excluding the output head (llama.cpp computes logits only for the
 last token, so the graph's full-batch `[151936,2048]` case is not work a real prefill does), HIP
-spends 89.2 ms against Vulkan's 51.2 ms, a ratio of **1.74**. End to end the `-fa off` prefill ratio
-is 367/197 = **1.86**. The operation-level accounting and the end-to-end rate agree, so nothing
-outside the matmuls contributes.
+spends 89.2 ms against Vulkan's 51.2 ms, a ratio of **1.74**, so within the graph the whole deficit is
+in the matmuls. An earlier revision set this against an end-to-end ratio of 367/197 = 1.86 and called
+the two in agreement, but those are the qwen3-8B's figures with `-fa on`, not this graph's, and no
+end-to-end `-fa off` pair for the 1.5B was taken that day. The op-level result stands without an
+end-to-end cross-check (corrected 27 September).
 
 Both the quantized path and the f16 attention path are slow, so this is not one kernel family.
 
