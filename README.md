@@ -254,12 +254,16 @@ in their cache. Pass it explicitly:
 the first pool allocation then aborts with `HipVMM Failure: invalid argument`
 ([`logs/vmm-and-deep-context-2026-09-18/`](logs/vmm-and-deep-context-2026-09-18/)).
 
-No environment variable is needed to make this work on Fedora 44, but **one is worth setting for
-speed**: `GGML_CUDA_GRAPH_OPT=1` enables ggml-cuda's multi-stream graph optimisation, which is off by
-default and is worth **9.8 percent of decode on the 1.5B**, about 3 on the 8B and the 14Bs, and nothing
-on the MoE and the 27B. It leaves both perplexity gates identical to four decimals
-([`logs/graph-opt-2026-09-24/`](logs/graph-opt-2026-09-24/), and the paragraph under
-[How to measure](#how-to-measure-on-this-board) for what it does).
+No environment variable is needed to make this work on Fedora 44. **Leave `GGML_CUDA_GRAPH_OPT=1`
+off unless you also apply its fix.** The option enables ggml-cuda's multi-stream graph optimisation,
+which is off by default and is worth 7.6 to 9.8 percent of decode on the 1.5B, about 3 on the 8B and the
+14Bs, and nothing on the MoE and the 27B. As shipped it also computes wrong tokens, word salad on
+qwen3-8B and qwen3-14B, because the Q branch overwrites `attn_norm` while the K and V projections on the
+other streams still read it, and the perplexity gates cannot see that. With
+[`alloc-deps.diff`](logs/graphopt-correctness-2026-10-02/alloc-deps.diff) applied and
+`GGML_CUDA_GRAPH_OPT_ALLOC_DEPS=1` set beside it, the replies are byte-identical to the default and none
+of the gain is lost ([`logs/graphopt-correctness-2026-10-02/`](logs/graphopt-correctness-2026-10-02/),
+and the paragraph under [How to measure](#how-to-measure-on-this-board)).
 
 Current master with the last two patches measures within about 1 percent of this base in both
 directions, so there is no speed reason to move; forcing cuBLAS (`-DGGML_CUDA_FORCE_CUBLAS=ON`) is
@@ -349,19 +353,31 @@ Also stop anything else using the GPU, such as an `ollama` service; it holds mem
 is easy to read as a broken harness when the board is just full. `systemctl is-active ollama` and
 `free -m` before a run, or have the script do it.
 
-**Set `GGML_CUDA_GRAPH_OPT=1`.** It is off by default and it is the one runtime setting that pays.
-ggml-cuda's multi-stream pass finds fork/join regions, the Q/K/V branches and their like, and runs the
-branches on separate streams. On the 1.5B decode goes from 182.98 to 200.83 tokens per second, 9.8
-percent, faster in 10 of 10 interleaved pairs with the ranges not touching; the pooled campaign below
-measures 8.3 percent on a different run. Prefill does not move, and both perplexity gates are identical
-to four decimals ([`logs/graph-opt-2026-09-24/`](logs/graph-opt-2026-09-24/)).
-
-It gives about 3 percent on the 8B and the two 14Bs and nothing at all on the MoE and the 27B, where
-every region is refused. On those two a tensor in the K branch and one in the V branch occupy the same
-2048 bytes, so overlapping the branches would be a genuine write-write hazard. The allocator shares
-that slot because the lifetimes do not overlap in sequential order. The models where the option does
-work get away with it by luck of the free list
+**`GGML_CUDA_GRAPH_OPT=1` is the one runtime setting that pays, and as shipped it computes wrong
+tokens.** It is off by default. ggml-cuda's multi-stream pass finds the fork/join region of each
+attention block, the Q, K and V branches between `attn_norm` and the attention, and runs the branches on
+three streams. On the 1.5B decode goes from 182.98 to 200.83 tokens per second, 9.8 percent, faster in
+10 of 10 interleaved pairs with the ranges not touching; the pooled campaign below measures 8.3 percent
+on a different run ([`logs/graph-opt-2026-09-24/`](logs/graph-opt-2026-09-24/)). It gives about 3
+percent on the 8B and the two 14Bs and nothing at all on the MoE and the 27B, where every region is
+refused: on those two a tensor in the K branch and one in the V branch occupy the same 2048 bytes
 ([`logs/moe-stream-aliasing-2026-09-25/`](logs/moe-stream-aliasing-2026-09-25/)).
+
+The models where it does run do not get away with it, as an earlier revision of this page said they
+did. The graph allocator plans memory for sequential execution, so once the last of the three
+projections has been issued it gives `attn_norm`'s buffer to the Q branch, and on three streams the Q
+branch can write its rotated output there while the K and V projections are still reading it.
+Instrumenting the pass finds that overlap in every region of all four models it runs on. What it does
+depends on how the streams interleave: qwen3-8B and qwen3-14B decode word salad, a different one every
+run; deepseek-r1-14B gives a coherent reply that is not the greedy one and changes between runs; the
+1.5B came out byte-identical to the default in ordinary runs and produced garbage on another build.
+Prefill is untouched, and so are both perplexity gates, which evaluate prompts and could not catch it.
+Keeping every tensor of each region, and every tensor it reads, allocated until the region's join,
+through the allocation-dependency hook of llama.cpp PR #27301, removes every overlap, makes the replies
+byte-identical to the default on all four models, and keeps the gain to within 0.1 percent
+([`logs/graphopt-correctness-2026-10-02/`](logs/graphopt-correctness-2026-10-02/), with the diff). The
+region code is the same in upstream master at the time of writing; whether it corrupts output on other
+GPUs depends on how they schedule the streams, which nothing here measures.
 
 Nothing else I tried moved the needle. `GPU_MAX_HW_QUEUES=1` was worth 7 to 8 percent back when the
 patch set numbered three, and is worth nothing now that the dispatch gap it removed is gone.
@@ -385,10 +401,12 @@ below show both improving as the context fills.
 ![What GGML_CUDA_GRAPH_OPT is worth per model](figures/fig-graph-opt.png)
 
 **The decode column is measured with `GGML_CUDA_GRAPH_OPT=1`**, ggml-cuda's multi-stream graph
-optimisation, which is off by default and which [step 7](#7-llamacpp) tells you to set. Without it the
-same campaign reads 196.7, 38.5, 32.6, 32.7, 71.2 and 15.2, so the option is worth 1.083 on the 1.5B,
-1.026 on the 8B and 1.031 and 1.032 on the two 14Bs, and nothing on the MoE and the 27B, where it launches no
-streams at all and the two arms' sample ranges overlap. Prefill is unchanged by it to within 0.1 percent
+optimisation, which is off by default. It was measured before the option was found to compute wrong
+tokens as shipped ([How to measure](#how-to-measure-on-this-board)); the fix keeps its speed to within
+0.1 percent, so the column stands for the option with the fix. Without the option the same campaign
+reads 196.7, 38.5, 32.6, 32.7, 71.2 and 15.2, which is the build as shipped: the option is worth 1.083 on
+the 1.5B, 1.026 on the 8B and 1.031 and 1.032 on the two 14Bs, and nothing on the MoE and the 27B, where it
+launches no streams at all and the two arms' sample ranges overlap. Prefill is unchanged by it to within 0.1 percent
 on every model.
 
 **One model is faster than Vulkan on both halves**, the 8B, which prefills at 1.04 and decodes at 1.01.
@@ -528,7 +546,10 @@ depth 0 and 1.033 at 30720, which is the shape to expect: as the context fills, 
 into attention over a longer cache and less into the layer work whose independent branches it overlaps.
 Twelve paired comparisons over two passes, the option ahead in 12 of 12 and ahead of Vulkan in 10, the
 exceptions being depth 0 in both passes. The as-shipped row of that run reproduces the thirteen-patch
-row measured on 22 September to within one percent, which is the control.
+row measured on 22 September to within one percent, which is the control. The option rows were
+measured before it was found to compute wrong tokens as shipped. On the 1.5B its replies matched the
+default in ordinary runs, and with the fix it decodes at the same speed at an empty context; the deeper
+rows have not been re-measured with the fix.
 
 The Fedora 43 and three-patch rows are the old ladders, kept for scale;
 [INVESTIGATION.md](INVESTIGATION.md#decode-at-context-depth) covers their provenance.
@@ -863,6 +884,7 @@ or are limits to work within.
 | rocBLAS and PyTorch ship no gfx1013 kernels | build them ([step 4](#4-native-gfx1013-rocblas-711)) | not upstream at the time of writing; [rocm-libraries PR #8838](https://github.com/ROCm/rocm-libraries/pull/8838) proposes the rocBLAS half, so check its current state before trusting this line |
 | comgr gfx10 VGPR count (ROCm 7.0 to 7.1.1) | [step 5](#5-comgr-vgpr-fix) | fixed in ROCm 7.2; verified on Fedora 45, where the patch is unnecessary |
 | llama.cpp: `prop.integrated`, KQV precision, RDNA1 macro, RDNA1 flash attention, RDNA1 matvec in its two passes, transposed concat, GDN lanes, and the packed-fp16 prefill GEMM in its five parts, which is thirteen files in [`patches/llamacpp/`](patches/llamacpp/) | [`patches/llamacpp/`](patches/llamacpp/), provenance of every patch in [`patches/PROVENANCE.md`](patches/PROVENANCE.md) | master now forces `integrated = false` itself (PR #28604, after an attempt to trust the flag was found to corrupt output when `-ub` is below `-b`); the others are still needed, and a second BC-250 owner derived the RDNA1 macro one independently in September 2026. The tile-config patch is new here and applies to RDNA1 generally, gfx1010 included |
+| `GGML_CUDA_GRAPH_OPT=1` computes wrong tokens: the Q branch overwrites `attn_norm` while the K and V projections on the other streams still read it | leave the option off, which is the default, or apply [`alloc-deps.diff`](logs/graphopt-correctness-2026-10-02/alloc-deps.diff) and set `GGML_CUDA_GRAPH_OPT_ALLOC_DEPS=1` with it | found here; the region code is the same in upstream master at the time of writing ([`logs/graphopt-correctness-2026-10-02/`](logs/graphopt-correctness-2026-10-02/)) |
 | HIP graph instantiation fails at very deep context on 14B models | `GGML_CUDA_DISABLE_GRAPHS=1` | workaround; it costs nothing by itself, the 1.5B decoding 0.88 percent *faster* with capture off over 28 processes an arm ([`logs/dispatch-bimodal-2026-09-23/`](logs/dispatch-bimodal-2026-09-23/)), but it also disables `GGML_CUDA_GRAPH_OPT=1`, which needs capture, so the run gives up that option's gain too |
 | A context depth that exceeds the KFD resident-memory limit (13422 MiB here, 63/64 of RAM minus 1.5 GiB) cannot run | use a smaller context; `ttm.pages_limit` and `HSA_XNACK` do not apply, and disabling the limit only trades the failure for swapping. With the stock runtimes the process segfaults; with the rebuilt ROCr and HIP of step 6 it reports `ROCm error: out of memory` | the limit is open; the crash on it is closed, three null checks across two runtimes, one of which upstream still lacks ([`logs/rocr-queue-scratch-2026-09-18/`](logs/rocr-queue-scratch-2026-09-18/)) |
 | Fedora 43 only: ROCm 6.4.2's compiler-rt half-precision helpers are broken, zeroing fp16 GEMMs | on Fedora 43, [`scripts/fix_half_helpers.py`](scripts/fix_half_helpers.py) or `-mf16c` | not present on Fedora 44 ([`logs/fp16-root-cause-2026-09-15/`](logs/fp16-root-cause-2026-09-15/)) |

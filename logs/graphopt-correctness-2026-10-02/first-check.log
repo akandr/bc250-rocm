@@ -1,0 +1,31 @@
+[2026-10-02 14:34:20] throughput pass 201531 frozen between runs
+[2026-10-02 14:34:31] qwen2.5-1.5b-q4km default (rc=0, 645 bytes): A GPU compute queue is a concept in computer graphics and parallel computing. It's a way to organize and manage the execution of multiple ta
+[2026-10-02 14:34:36] qwen2.5-1.5b-q4km graphopt (rc=0, 645 bytes): A GPU compute queue is a concept in computer graphics and parallel computing. It's a way to organize and manage the execution of multiple ta
+[2026-10-02 14:34:42] qwen2.5-1.5b-q4km graphopt2 (rc=0, 645 bytes): A GPU compute queue is a concept in computer graphics and parallel computing. It's a way to organize and manage the execution of multiple ta
+[2026-10-02 14:34:48] qwen2.5-1.5b-q4km nographs (rc=0, 645 bytes): A GPU compute queue is a concept in computer graphics and parallel computing. It's a way to organize and manage the execution of multiple ta
+[2026-10-02 14:34:54] qwen2.5-1.5b-q4km graphopt_nopc (rc=0, 645 bytes): A GPU compute queue is a concept in computer graphics and parallel computing. It's a way to organize and manage the execution of multiple ta
+[2026-10-02 14:34:54] qwen2.5-1.5b-q4km vulkan (rc=127, 0 bytes): 
+[2026-10-02 14:34:54] qwen2.5-1.5b-q4km: GRAPH_OPT vs default identical; GRAPH_OPT twice identical; default vs no graphs identical; default vs Vulkan EMPTY
+[2026-10-02 14:44:58] qwen3-8b-q8_0 default (rc=124, 234 bytes):  [Start thinking]  Okay, so I need to explain what a GPU compute queue is and why a driver bug in it matters, especially in the context of t
+[2026-10-02 14:49:32] qwen3-8b-q8_0 graphopt (rc=0, 603 bytes):  [Start thinking]  Okay, so I need to explain what a GPU compute queue is and why a driver bug in it matters, especially in the context of t
+[2026-10-02 14:50:26] qwen3-8b-q8_0 graphopt2 (rc=0, 212 bytes):  [Start thinking]  about)GPU numpy,,,,  ,化的 is,     _将 sys React sys numpy   sys numpy sys sys sys numpy matplotlib_ sysError: The model pro
+[2026-10-02 14:52:47] qwen3-8b-q8_0 nographs (rc=0, 594 bytes):  [Start thinking]  Okay, so I need to explain what a GPU compute queue is and why a driver bug in it matters, especially in the context of t
+[2026-10-02 14:55:46] qwen3-8b-q8_0 graphopt_nopc (rc=0, 223 bytes):  [Start thinking]       of and in words matplotlib,,,, , ......  ...          9               : :   matplotlib,       ... : : :  numpysetErr
+[2026-10-02 14:55:46] qwen3-8b-q8_0 vulkan (rc=127, 0 bytes): 
+[2026-10-02 14:55:46] qwen3-8b-q8_0: GRAPH_OPT vs default DIFFERENT; GRAPH_OPT twice DIFFERENT; default vs no graphs DIFFERENT; default vs Vulkan EMPTY
+[2026-10-02 14:55:46] generate qwen2.5-1.5b-q4km: packet capture on vs off identical
+[2026-10-02 14:55:46] generate qwen3-8b-q8_0: packet capture on vs off DIFFERENT
+[2026-10-02 14:57:53] deepseek-r1-14b graphopt (rc=0, 596 bytes):  [Start thinking]  , <think> Okay, so I'm trying to understand what a GPU compute queue is and why a driver bug in it matters, especially in
+[2026-10-02 15:00:02] deepseek-r1-14b graphopt_nopc (rc=0, 585 bytes):  [Start thinking]   Okay, so I'm trying to understand what a GPU compute queue is and why a driver bug in it matters, especially in the cont
+[2026-10-02 15:00:02] generate deepseek-r1-14b: packet capture on vs off DIFFERENT
+[2026-10-02 15:01:18] qwen3-14b graphopt (rc=0, 296 bytes):  [Start thinking]   its   words, the the5 sSD 5.,ss ( with and and (   ( ( ( ( ("""""" ground ground ground those: groups in (,,，,, groupss,
+[2026-10-02 15:04:24] qwen3-14b graphopt_nopc (rc=0, 238 bytes):  [Start thinking]     )  )))) or or or or), or)))) , i*'s,))1))))ipsis's)ipsis),) or ,)itional, ,.'tedipsis't))ed order) ted fields,),ed, , 
+[2026-10-02 15:04:24] generate qwen3-14b: packet capture on vs off DIFFERENT
+[2026-10-02 15:05:46] qwen3.6-35b-a3b-iq2m graphopt (rc=0, 527 bytes):  [Start thinking]  Here's a thinking process:  1.  **Analyze User Input:**    - **Device:** BC-250 (mining board based on AMD APU)    - **Qu
+[2026-10-02 15:07:54] qwen3.6-35b-a3b-iq2m graphopt_nopc (rc=0, 527 bytes):  [Start thinking]  Here's a thinking process:  1.  **Analyze User Input:**    - **Device:** BC-250 (mining board based on AMD APU)    - **Qu
+[2026-10-02 15:07:54] generate qwen3.6-35b-a3b-iq2m: packet capture on vs off identical
+[2026-10-02 15:09:08] qwen3.8-27b-iq3xxs graphopt (rc=0, 571 bytes):  [Start thinking]  We need answer user: "The BC-250 is a mining board built around an AMD APU. Explain in plain words what a GPU compute que
+[2026-10-02 15:11:03] qwen3.8-27b-iq3xxs graphopt_nopc (rc=0, 571 bytes):  [Start thinking]  We need answer user: "The BC-250 is a mining board built around an AMD APU. Explain in plain words what a GPU compute que
+[2026-10-02 15:11:04] generate qwen3.8-27b-iq3xxs: packet capture on vs off identical
+[2026-10-02 15:11:04] done
+[2026-10-02 15:11:04] throughput pass resumed

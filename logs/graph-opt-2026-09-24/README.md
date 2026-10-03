@@ -1,5 +1,12 @@
 # ggml-cuda can overlap independent work too, and the switch is off, 2026-09-24
 
+> **Correction, 2 October 2026.** The speeds here stand, but the option, as shipped, computes wrong
+> tokens: the Q branch overwrites `attn_norm` while the K and V projections on the other streams still
+> read it, which turns qwen3-8B and qwen3-14B into word salad. The perplexity gates re-run here cannot
+> see it, because they evaluate prompts and the option only acts on single-token decode.
+> [`logs/graphopt-correctness-2026-10-02/`](../graphopt-correctness-2026-10-02/) has the evidence and a
+> fix that keeps the speed.
+
 This came out of trying to close the last of the MoE's decode gap, and it is the only thing in that
 line of work that makes the board faster.
 

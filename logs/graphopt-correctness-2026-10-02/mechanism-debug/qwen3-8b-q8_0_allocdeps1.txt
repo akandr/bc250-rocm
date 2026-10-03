@@ -1,0 +1,34 @@
+graphopt-allocdeps: 36 regions kept allocated until their join
+graphopt-allocdeps: 0 regions kept allocated until their join
+graphopt-allocdeps: 36 regions kept allocated until their join
+graphopt-region: fork attn_norm-0, join node_25, 3 streams; nodes in their original order:
+graphopt-region:   stream 1 MUL_MAT    Qcur-0                       [0x7f5251008400, +16384) <- blk.0.attn_q.weight [0x7f4e8f6a0000, +17825792) <- attn_norm-0 [0x7f5251004400, +16384)
+graphopt-region:   stream 1 RESHAPE    Qcur-0                       [0x7f5251008400, +16384)
+graphopt-region:   stream 1 RMS_NORM   norm-0                       [0x7f525100e400, +16384)
+graphopt-region:   stream 1 MUL        Qcur_normed-0                [0x7f5251013400, +16384) <- blk.0.attn_q_norm.weight [0x7f4e924e0200, +512)
+graphopt-region:   stream 1 ROPE       Qcur-0                       [0x7f5251018400, +16384) <- ROCm0#leaf_6#0 [0x7f5251004000, +4)
+graphopt-region:   stream 2 MUL_MAT    Vcur-0                       [0x7f525100c400, +4096) <- blk.0.attn_v.weight [0x7f4e90be0000, +8388608) <- attn_norm-0 [0x7f5251004400, +16384)
+graphopt-region:   stream 2 RESHAPE    Vcur-0                       [0x7f525100c400, +4096)
+graphopt-region:   stream 3 MUL_MAT    Kcur-0                       [0x7f525100d400, +4096) <- blk.0.attn_k.weight [0x7f4e907a0000, +4456448) <- attn_norm-0 [0x7f5251004400, +16384)
+graphopt-region:   stream 3 RESHAPE    Kcur-0                       [0x7f525100d400, +4096)
+graphopt-region:   stream 3 RMS_NORM   norm-0                       [0x7f5251012400, +4096)
+graphopt-region:   stream 3 MUL        Kcur_normed-0                [0x7f5251017400, +4096) <- blk.0.attn_k_norm.weight [0x7f4e924e0000, +512)
+graphopt-region:   stream 3 ROPE       Kcur-0                       [0x7f525101c400, +4096) <- ROCm0#leaf_6#0 [0x7f5251004000, +4)
+graphopt-region:   stream 3 VIEW       Kcur-0 (view)                [0x7f525101c400, +4096)
+graphopt-region:   stream 3 SET_ROWS   cache_k_l0 (view)            [0x7f5257e00000, +8388608) <- ROCm0#leaf_10#0 [0x7f5251004080, +8) <- cache_k_l0 [0x7f5257e00000, +8388608)
+graphopt-region:   stream 2 VIEW       Vcur-0 (view)                [0x7f525100c400, +4096)
+graphopt-region:   stream 2 SET_ROWS   cache_v_l0 (view)            [0x7f5258600000, +8388608) <- ROCm0#leaf_12#0 [0x7f5251004100, +8) <- cache_v_l0 [0x7f5258600000, +8388608)
+graphopt-region:   stream 1 VIEW       Qcur-0 (view)                [0x7f5251018400, +16384)
+graphopt-region:   stream 1 PERMUTE    Qcur-0 (view) (permuted)     [0x7f5251018400, +16384)
+graphopt-region:   stream 3 VIEW       cache_k_l0 (view)            [0x7f5257e00000, +524288) <- cache_k_l0 [0x7f5257e00000, +8388608)
+graphopt-region:   stream 3 PERMUTE    cache_k_l0 (view) (permuted) [0x7f5257e00000, +524288)
+graphopt-region:   stream 2 VIEW       cache_v_l0 (view)            [0x7f5258600000, +524288) <- cache_v_l0 [0x7f5258600000, +8388608)
+graphopt-region:   stream 2 PERMUTE    cache_v_l0 (view) (permuted) [0x7f5258600000, +524288)
+graphopt-exec: stream 1: Qcur-0 (MUL_MAT)
+graphopt-exec: stream 1: norm-0 (RMS_NORM) fused through Qcur-0
+graphopt-exec: stream 2: Vcur-0 (MUL_MAT)
+graphopt-exec: stream 3: Kcur-0 (MUL_MAT)
+graphopt-exec: stream 3: norm-0 (RMS_NORM) fused through cache_k_l0 (view)
+graphopt-exec: stream 2: cache_v_l0 (view) (SET_ROWS)
+graphopt-debug: capture 0: 36 regions, all valid; 36 ran on concurrent streams, 0 of them writing over 0 sources another stream reads
+graphopt-debug: capture 1: 36 regions, all valid; 36 ran on concurrent streams, 0 of them writing over 0 sources another stream reads

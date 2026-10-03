@@ -1,0 +1,55 @@
+[2026-10-02 23:21:07] waiting for phase C (bisect 521838) to reach the 20 s pause after a run
+[2026-10-03 00:27:53] phase C frozen; last result: [2026-10-03 00:27:49] hipng qwen2.5-1.5b-q4km q8_0 d638976: ok 3.13 12816s rc=0  edge=+82.0°C avail=14457M swap=443M swapped-out-pages=278
+[2026-10-03 00:27:53] copy the source tree (no build directories, no .git)
+instrumented ggml/src/ggml-cuda/ggml-cuda.cu
+[2026-10-03 00:27:56] patched:  8 files changed, 278 insertions(+), 15 deletions(-)
+[2026-10-03 00:28:01] GGML options differing from build-hip-pkf16: 0
+[2026-10-03 00:28:01] build llama-cli and llama-bench, -j 7
+[2026-10-03 00:36:20] built in 499 s
+[2026-10-03 00:36:21] expected default md5 from the campaign build: qwen3-8b-q8_0 90b056d9, qwen3-14b 679a50d9
+[2026-10-03 00:37:33] qwen3-8b-q8_0 default: rc=0 md5=90b056d9 594B overlaps=0  |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-03 00:40:43] qwen3-8b-q8_0 graphopt1: rc=0 md5=2588e465 216B overlaps=48 graphopt-debug: capture 0: 36 regions, all valid; 36 ran on concurrent streams, 36 of them writing over 72 sou |  [Start thinking]  $rows  也許一个,note numpy, and and of is is is sys num
+[2026-10-03 00:44:36] qwen3-8b-q8_0 graphopt2: rc=0 md5=8b4e75c2 327B overlaps=48 graphopt-debug: capture 0: 36 regions, all valid; 36 ran on concurrent streams, 36 of them writing over 72 sou |  [Start thinking]   (the andand and 1..-, the matplotliband sys以 the t
+[2026-10-03 00:49:39] qwen3-8b-q8_0 allocdeps1: rc=0 md5=90b056d9 594B overlaps=0 graphopt-allocdeps: 36 regions kept allocated until their join |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-03 00:51:46] qwen3-8b-q8_0 allocdeps2: rc=0 md5=90b056d9 594B overlaps=0  |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-03 00:54:20] qwen3-8b-q8_0 allocdeps3: rc=0 md5=90b056d9 594B overlaps=0  |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-03 00:56:22] qwen3-14b default: rc=0 md5=679a50d9 649B overlaps=0  |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-03 01:01:32] qwen3-14b graphopt1: rc=0 md5=286975ef 331B overlaps=48 graphopt-debug: capture 0: 40 regions, all valid; 40 ran on concurrent streams, 40 of them writing over 80 sou |  [Start thinking]   its the  the  to and the and and ( (  is     ( (37
+[2026-10-03 01:03:36] qwen3-14b allocdeps1: rc=0 md5=679a50d9 649B overlaps=0 graphopt-allocdeps: 40 regions kept allocated until their join |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-03 01:07:27] qwen3-14b allocdeps2: rc=0 md5=679a50d9 649B overlaps=0  |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-03 01:11:40] qwen3-14b allocdeps3: rc=0 md5=679a50d9 649B overlaps=0  |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-03 01:11:44] qwen2.5-1.5b-q4km default: rc=0 md5=7033302a 612B overlaps=0  | A GPU compute queue is a concept in computer graphics and parallel com
+[2026-10-03 01:11:46] qwen2.5-1.5b-q4km graphopt1: rc=0 md5=411cfcaa 23B overlaps=48 graphopt-debug: capture 0: 28 regions, all valid; 28 ran on concurrent streams, 28 of them writing over 56 sou | A：一个， ,    (   
+[2026-10-03 01:11:48] qwen2.5-1.5b-q4km allocdeps1: rc=0 md5=7033302a 612B overlaps=0 graphopt-allocdeps: 28 regions kept allocated until their join | A GPU compute queue is a concept in computer graphics and parallel com
+[2026-10-03 01:13:28] deepseek-r1-14b default1: rc=0 md5=96357da6 581B overlaps=0  |  [Start thinking]   Okay, so I'm trying to understand what a GPU compu
+[2026-10-03 01:16:51] deepseek-r1-14b default2: rc=0 md5=96357da6 581B overlaps=0  |  [Start thinking]   Okay, so I'm trying to understand what a GPU compu
+[2026-10-03 01:20:04] deepseek-r1-14b graphopt1: rc=0 md5=f06a88dc 605B overlaps=48 graphopt-debug: capture 0: 48 regions, all valid; 48 ran on concurrent streams, 48 of them writing over 96 sou |  [Start thinking]  <think> Okay, so I'm trying to understand what a GP
+[2026-10-03 01:22:11] deepseek-r1-14b graphopt2: rc=0 md5=11f684da 596B overlaps=48 graphopt-debug: capture 0: 48 regions, all valid; 48 ran on concurrent streams, 48 of them writing over 96 sou |  [Start thinking]  , <think> Okay, so I'm trying to understand what a 
+[2026-10-03 01:24:47] deepseek-r1-14b allocdeps1: rc=0 md5=96357da6 581B overlaps=0 graphopt-allocdeps: 48 regions kept allocated until their join |  [Start thinking]   Okay, so I'm trying to understand what a GPU compu
+[2026-10-03 01:28:17] deepseek-r1-14b allocdeps2: rc=0 md5=96357da6 581B overlaps=0  |  [Start thinking]   Okay, so I'm trying to understand what a GPU compu
+[2026-10-03 01:28:21] bench qwen2.5-1.5b-q4km default1: tg64=[187.52,197.54,198.079]
+[2026-10-03 01:28:23] bench qwen2.5-1.5b-q4km graphopt1: tg64=[206.43,213.294,213.324]
+[2026-10-03 01:28:25] bench qwen2.5-1.5b-q4km allocdeps1: tg64=[207.45,213.068,213.003]
+[2026-10-03 01:28:28] bench qwen2.5-1.5b-q4km default2: tg64=[194.173,198.159,198.097]
+[2026-10-03 01:28:30] bench qwen2.5-1.5b-q4km graphopt2: tg64=[207.846,213.339,213.326]
+[2026-10-03 01:28:32] bench qwen2.5-1.5b-q4km allocdeps2: tg64=[207.601,213.16,213.439]
+[2026-10-03 01:28:58] bench qwen3-8b-q8_0 default1: tg64=[34.4625,38.5577,38.57]
+[2026-10-03 01:29:27] bench qwen3-8b-q8_0 graphopt1: tg64=[38.9804,39.7243,39.7421]
+[2026-10-03 01:29:47] bench qwen3-8b-q8_0 allocdeps1: tg64=[39.3303,39.7143,39.6052]
+[2026-10-03 01:30:08] bench qwen3-8b-q8_0 default2: tg64=[37.4796,38.4761,38.3183]
+[2026-10-03 01:30:28] bench qwen3-8b-q8_0 graphopt2: tg64=[38.9897,39.7252,39.7237]
+[2026-10-03 01:30:50] bench qwen3-8b-q8_0 allocdeps2: tg64=[38.3639,39.7814,39.7578]
+[2026-10-03 01:31:14] bench deepseek-r1-14b default1: tg64=[31.6965,32.3253,32.308]
+[2026-10-03 01:31:38] bench deepseek-r1-14b graphopt1: tg64=[32.8121,33.3485,33.3318]
+[2026-10-03 01:32:02] bench deepseek-r1-14b allocdeps1: tg64=[32.9203,33.3137,33.3036]
+[2026-10-03 01:32:28] bench deepseek-r1-14b default2: tg64=[31.1052,32.3453,32.335]
+[2026-10-03 01:32:52] bench deepseek-r1-14b graphopt2: tg64=[32.9194,33.345,33.3441]
+[2026-10-03 01:33:17] bench deepseek-r1-14b allocdeps2: tg64=[32.9019,33.3517,33.3513]
+[2026-10-03 01:33:49] bench qwen3-14b default1: tg64=[31.9586,32.2999,32.3215]
+[2026-10-03 01:34:21] bench qwen3-14b graphopt1: tg64=[32.7863,33.3634,33.3014]
+[2026-10-03 01:34:52] bench qwen3-14b allocdeps1: tg64=[33.0988,33.3707,33.3702]
+[2026-10-03 01:35:23] bench qwen3-14b default2: tg64=[31.9024,32.3538,32.3303]
+[2026-10-03 01:35:54] bench qwen3-14b graphopt2: tg64=[33.0206,33.3537,33.3468]
+[2026-10-03 01:36:25] bench qwen3-14b allocdeps2: tg64=[33.0458,33.3358,33.3595]
+[2026-10-03 01:36:25] done
+[2026-10-03 01:36:25] phase C resumed

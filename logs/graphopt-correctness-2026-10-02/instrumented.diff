@@ -1,0 +1,518 @@
+diff --git a/ggml/src/ggml-backend-impl.h b/ggml/src/ggml-backend-impl.h
+index 9c56ec3..6efa7bf 100644
+--- a/ggml/src/ggml-backend-impl.h
++++ b/ggml/src/ggml-backend-impl.h
+@@ -102,6 +102,16 @@ extern "C" {
+     // Backend (stream)
+     //
+ 
++    // passed to graph_optimize so the backend can add allocation dependencies:
++    // if the backend executes parts of the graph out of order (e.g. on concurrent streams),
++    // it must keep the affected tensors allocated until a node where execution is known to have joined
++    struct ggml_backend_graph_optimize_params {
++        // keep `tensor` allocated at least until `until` (a node of the same graph) has been computed
++        // can be called multiple times for the same tensor: the longest lifetime applies
++        void (*add_alloc_dep)(void * user_data, struct ggml_tensor * tensor, struct ggml_tensor * until);
++        void * user_data;
++    };
++
+     struct ggml_backend_i {
+         const char * (*get_name)(ggml_backend_t backend);
+ 
+@@ -136,7 +146,7 @@ extern "C" {
+         void (*event_wait)  (ggml_backend_t backend, ggml_backend_event_t event);
+ 
+         // (optional) sort/optimize the nodes in the graph
+-        void                      (*graph_optimize)    (ggml_backend_t backend, struct ggml_cgraph * cgraph);
++        void                      (*graph_optimize)    (ggml_backend_t backend, struct ggml_cgraph * cgraph, struct ggml_backend_graph_optimize_params * params);
+     };
+ 
+     struct ggml_backend {
+diff --git a/ggml/src/ggml-backend.cpp b/ggml/src/ggml-backend.cpp
+index f6fb917..77af815 100644
+--- a/ggml/src/ggml-backend.cpp
++++ b/ggml/src/ggml-backend.cpp
+@@ -20,6 +20,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <algorithm>
++#include <unordered_map>
+ #include <vector>
+ 
+ #ifdef __APPLE__
+@@ -556,10 +557,10 @@ void ggml_backend_event_wait(ggml_backend_t backend, ggml_backend_event_t event)
+     backend->iface.event_wait(backend, event);
+ }
+ 
+-static void ggml_backend_graph_optimize(ggml_backend_t backend, struct ggml_cgraph * cgraph) {
++static void ggml_backend_graph_optimize(ggml_backend_t backend, struct ggml_cgraph * cgraph, struct ggml_backend_graph_optimize_params * params) {
+     GGML_ASSERT(backend);
+     if (backend->iface.graph_optimize != NULL) {
+-        backend->iface.graph_optimize(backend, cgraph);
++        backend->iface.graph_optimize(backend, cgraph, params);
+     }
+ }
+ 
+@@ -1439,11 +1440,40 @@ void ggml_backend_sched_split_graph(ggml_backend_sched_t sched, struct ggml_cgra
+         sched->prev_leaf_backend_ids = tmp;
+     }
+ 
++    // optimize the split graphs and collect the allocation dependencies added by the backends
++    // this needs to happen before we make graph_copy, so they are in sync
++    // TODO: this may create many small allocations in the scheduler, restructure to use a flat array
++    std::unordered_map<ggml_tensor *, std::vector<ggml_tensor *>> alloc_deps;
++
++    struct ggml_backend_graph_optimize_params opt_params = {
++        /* .add_alloc_dep = */ [](void * user_data, ggml_tensor * tensor, ggml_tensor * until) {
++            auto & deps = *(std::unordered_map<ggml_tensor *, std::vector<ggml_tensor *>> *) user_data;
++            std::vector<ggml_tensor *> & keep = deps[until];
++            if (std::find(keep.begin(), keep.end(), tensor) == keep.end()) {
++                keep.push_back(tensor);
++            }
++        },
++        /* .user_data     = */ &alloc_deps,
++    };
++
++    for (int i = 0; i < sched->n_splits; i++) {
++        struct ggml_backend_sched_split * split = &sched->splits[i];
++        split->graph = ggml_graph_view(graph, split->i_start, split->i_end);
++
++        ggml_backend_graph_optimize(sched->backends[split->backend_id], &split->graph, &opt_params);
++    }
++
++    // each dep is added to graph_copy as a GGML_OP_NONE node with the kept tensors as srcs
++    int n_dep_nodes = 0;
++    for (const auto & it : alloc_deps) {
++        n_dep_nodes += (it.second.size() + GGML_MAX_SRC - 1) / GGML_MAX_SRC;
++    }
++
+     int total_inputs = sched->n_graph_inputs;
+     for (int i = 0; i < sched->n_splits; i++) {
+         total_inputs += sched->splits[i].n_inputs;
+     }
+-    int graph_size = std::max(graph->n_nodes, graph->n_leafs) + total_inputs * 2 * sched->n_copies;
++    int graph_size = std::max(graph->n_nodes, graph->n_leafs) + total_inputs * 2 * sched->n_copies + n_dep_nodes;
+ 
+     // remember the actual graph_size for performing reallocation checks later [GGML_SCHED_DEBUG_REALLOC]
+     sched->debug_prev_graph_size = sched->debug_graph_size;
+@@ -1461,13 +1491,10 @@ void ggml_backend_sched_split_graph(ggml_backend_sched_t sched, struct ggml_cgra
+ 
+     struct ggml_cgraph * graph_copy = &sched->graph;
+ 
++    int n_dep_nodes_added = 0;
++
+     for (int i = 0; i < sched->n_splits; i++) {
+         struct ggml_backend_sched_split * split = &sched->splits[i];
+-        split->graph = ggml_graph_view(graph, split->i_start, split->i_end);
+-
+-        // Optimize this split of the graph. This needs to happen before we make graph_copy,
+-        // so they are in sync.
+-        ggml_backend_graph_optimize(sched->backends[split->backend_id], &split->graph);
+ 
+         // add inputs to the graph copy so that they are allocated by ggml-alloc at the start of the split
+         for (int j = 0; j < split->n_inputs; j++) {
+@@ -1492,9 +1519,32 @@ void ggml_backend_sched_split_graph(ggml_backend_sched_t sched, struct ggml_cgra
+             assert(graph_copy->size > graph_copy->n_nodes);
+             sched->node_backend_ids[graph_copy->n_nodes] = tensor_backend_id(graph->nodes[j]);
+             graph_copy->nodes[graph_copy->n_nodes++] = graph->nodes[j];
++
++            if (alloc_deps.empty()) {
++                continue;
++            }
++
++            // add a dependency node so that the kept tensors are not freed before this node is computed
++            auto it = alloc_deps.find(graph->nodes[j]);
++            if (it != alloc_deps.end()) {
++                const std::vector<ggml_tensor *> & keep = it->second;
++                for (size_t k = 0; k < keep.size(); k += GGML_MAX_SRC) {
++                    struct ggml_tensor * dep = ggml_view_tensor(sched->ctx, keep[k]);
++                    for (size_t s = 0; s < GGML_MAX_SRC && k + s < keep.size(); s++) {
++                        dep->src[s] = keep[k + s];
++                    }
++                    assert(graph_copy->size > graph_copy->n_nodes);
++                    sched->node_backend_ids[graph_copy->n_nodes] = split->backend_id;
++                    graph_copy->nodes[graph_copy->n_nodes++] = dep;
++                    n_dep_nodes_added++;
++                }
++            }
+         }
+     }
+ 
++    // a mismatch means a backend added a dep with an `until` tensor that is not a node of the optimized graph
++    GGML_ASSERT(n_dep_nodes_added == n_dep_nodes);
++
+     if (sched->n_copies > 1) {
+         // add input copies as leafs so that they are allocated first
+         for (int i = 0; i < sched->n_graph_inputs; i++) {
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index 04f5336..42a6c2b 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -4222,6 +4222,53 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
+     ggml_cuda_concurrent_event * concurrent_event           = nullptr;
+     bool                         should_launch_concurrent_events = false;
+ 
++    // is_valid() compares the branches' outputs with each other and rejects a branch that reads another branch's
++    // output; it does not compare a branch's output with what the other branches read from outside the region,
++    // such as the fork node's output that all of them read. With GGML_CUDA_GRAPH_OPT_DEBUG=1 that overlap is
++    // reported for the first captures.
++    static const bool graphopt_debug = [] {
++        const char * env = getenv("GGML_CUDA_GRAPH_OPT_DEBUG");
++        return env != nullptr && atoi(env) == 1;
++    }();
++    static int  graphopt_debug_captures = 0;
++    static bool graphopt_dumped         = false;
++    bool        graphopt_dump           = false;
++    bool        graphopt_region_hit     = false;
++    int         graphopt_regions_run    = 0;
++    int         graphopt_regions_hit    = 0;
++    int         graphopt_conflicts      = 0;
++
++    const auto graphopt_check_write = [&](const ggml_cuda_concurrent_event * ev, const ggml_tensor * w, int sw) {
++        if (w->data == nullptr || ggml_nbytes(w) == 0) {
++            return;
++        }
++        const char * w0 = (const char *) w->data;
++        const char * w1 = w0 + ggml_nbytes(w);
++        for (const auto & [r, sr] : ev->stream_mapping) {
++            if (sr == sw || ggml_cuda_is_view_or_noop(r)) {
++                continue;
++            }
++            for (int s = 0; s < GGML_MAX_SRC; ++s) {
++                const ggml_tensor * rs = r->src[s];
++                if (rs == nullptr || rs->data == nullptr || ev->stream_mapping.count(rs) != 0) {
++                    continue;
++                }
++                const char * r0 = (const char *) rs->data;
++                const char * r1 = r0 + ggml_nbytes(rs);
++                if (w0 < r1 && r0 < w1) {
++                    graphopt_conflicts++;
++                    graphopt_region_hit = true;
++                    if (graphopt_conflicts <= 24) {
++                        fprintf(stderr, "graphopt-recycle: capture %d: %s (%s, stream %d) writes [%p, +%zu) over %s (%s), "
++                                        "which %s (%s, stream %d) reads at [%p, +%zu)\n",
++                                graphopt_debug_captures, w->name, ggml_op_name(w->op), sw, w->data, ggml_nbytes(w),
++                                rs->name, ggml_op_name(rs->op), r->name, ggml_op_name(r->op), sr, rs->data, ggml_nbytes(rs));
++                    }
++                }
++            }
++        }
++    };
++
+     const auto try_launch_concurrent_event = [&](const ggml_tensor * node) {
+         if (stream_ctx.concurrent_events.find(node) != stream_ctx.concurrent_events.end()) {
+             concurrent_event = &stream_ctx.concurrent_events[node];
+@@ -4238,6 +4285,26 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
+                 cudaStream_t stream = cuda_ctx->stream(cuda_ctx->device, i);
+                 CUDA_CHECK(cudaStreamWaitEvent(stream, concurrent_event->fork_event));
+             }
++
++            if (graphopt_debug && graphopt_debug_captures == 0 && !graphopt_dumped) {
++                graphopt_dumped = true;
++                graphopt_dump   = true;
++                fprintf(stderr, "graphopt-region: fork %s, join %s, %d streams; nodes in their original order:\n",
++                        node->name, concurrent_event->join_node->name, concurrent_event->n_streams);
++                for (const ggml_tensor * t : concurrent_event->original_order) {
++                    const auto it = concurrent_event->stream_mapping.find(t);
++                    fprintf(stderr, "graphopt-region:   stream %d %-10s %-28s [%p, +%zu)",
++                            it == concurrent_event->stream_mapping.end() ? -1 : it->second,
++                            ggml_op_name(t->op), t->name, t->data, ggml_nbytes(t));
++                    for (int s = 0; s < GGML_MAX_SRC; ++s) {
++                        const ggml_tensor * ts = t->src[s];
++                        if (ts != nullptr && concurrent_event->stream_mapping.count(ts) == 0) {
++                            fprintf(stderr, " <- %s [%p, +%zu)", ts->name, ts->data, ggml_nbytes(ts));
++                        }
++                    }
++                    fprintf(stderr, "\n");
++                }
++            }
+         }
+     };
+ 
+@@ -4253,6 +4320,7 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
+                     should_launch_concurrent_events = should_launch_concurrent_events && event.is_valid();
+                 }
+             }
++            const size_t graphopt_n_regions = stream_ctx.concurrent_events.size();
+ 
+             if (should_launch_concurrent_events) {
+                 // Restore original node order within each concurrent region to enable fusion within streams
+@@ -4323,6 +4391,14 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
+                             CUDA_CHECK(cudaStreamWaitEvent(cuda_ctx->stream(), concurrent_event->join_events[i - 1]));
+                         }
+ 
++                        if (graphopt_debug && graphopt_debug_captures < 4) {
++                            graphopt_regions_run++;
++                            if (graphopt_region_hit) {
++                                graphopt_regions_hit++;
++                                graphopt_region_hit = false;
++                            }
++                            graphopt_dump = false;
++                        }
+                         is_concurrent_event_active = false;
+                         concurrent_event           = nullptr;
+                     } else {
+@@ -4353,6 +4429,15 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
+ 
+                 int nodes_to_skip = ggml_cuda_try_fuse(cuda_ctx, cgraph, i);
+ 
++                if (graphopt_debug && graphopt_debug_captures < 4 && is_concurrent_event_active) {
++                    graphopt_check_write(concurrent_event, cgraph->nodes[i + nodes_to_skip], cuda_ctx->curr_stream_no);
++                    if (graphopt_dump) {
++                        fprintf(stderr, "graphopt-exec: stream %d: %s (%s)%s%s\n", cuda_ctx->curr_stream_no, node->name,
++                                ggml_op_name(node->op), nodes_to_skip != 0 ? " fused through " : "",
++                                nodes_to_skip != 0 ? cgraph->nodes[i + nodes_to_skip]->name : "");
++                    }
++                }
++
+                 if (nodes_to_skip != 0) {
+ #ifdef GGML_CUDA_DEBUG
+                     const int last_fused = i + nodes_to_skip;
+@@ -4390,6 +4475,15 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
+                     try_launch_concurrent_event(node);
+                }
+             }
++
++            if (graphopt_debug && graphopt_debug_captures < 4 && graphopt_n_regions > 0) {
++                fprintf(stderr, "graphopt-debug: capture %d: %zu regions, %s; %d ran on concurrent streams, "
++                                "%d of them writing over %d sources another stream reads\n",
++                        graphopt_debug_captures, graphopt_n_regions,
++                        should_launch_concurrent_events ? "all valid" : "not all valid, so no streams",
++                        graphopt_regions_run, graphopt_regions_hit, graphopt_conflicts);
++                graphopt_debug_captures++;
++            }
+         }
+ 
+ #ifdef USE_CUDA_GRAPH
+@@ -4530,7 +4624,9 @@ static void ggml_backend_cuda_event_wait(ggml_backend_t backend, ggml_backend_ev
+     }
+ }
+ 
+-static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph * cgraph) {
++static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph * cgraph, ggml_backend_graph_optimize_params * params) {
++    GGML_UNUSED(params);
++
+     ggml_backend_cuda_context * cuda_ctx = (ggml_backend_cuda_context *) backend->context;
+ 
+ #ifdef USE_CUDA_GRAPH
+@@ -4551,6 +4647,16 @@ static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph
+         return;
+     }
+ 
++    static const bool graphopt_alloc_deps = [] {
++        const char * env = getenv("GGML_CUDA_GRAPH_OPT_ALLOC_DEPS");
++        return env != nullptr && atoi(env) == 1;
++    }();
++    static const bool graphopt_debug_opt = [] {
++        const char * env = getenv("GGML_CUDA_GRAPH_OPT_DEBUG");
++        return env != nullptr && atoi(env) == 1;
++    }();
++    int graphopt_dep_regions = 0;
++
+     ggml_cuda_stream_context & stream_context = cuda_ctx->stream_context();
+     stream_context.reset();
+ 
+@@ -4737,6 +4843,22 @@ static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph
+                 GGML_LOG_DEBUG("Adding stream at node %s %p\n", root_node->name, root_node);
+                 concurrent_node_ranges.emplace_back(fork_node_idx, join_node_idx);
+ 
++                // keep every tensor of the region, and every tensor it reads, allocated until the join: the streams
++                // run the branches in any relative order, so nothing may be recycled before all of them have finished
++                if (graphopt_alloc_deps && params != nullptr && params->add_alloc_dep != nullptr) {
++                    ggml_tensor * until = const_cast<ggml_tensor *>(join_node);
++                    for (int k = fork_node_idx + 1; k < join_node_idx; ++k) {
++                        ggml_tensor * n = cgraph->nodes[k];
++                        params->add_alloc_dep(params->user_data, n, until);
++                        for (int s = 0; s < GGML_MAX_SRC; ++s) {
++                            if (n->src[s] != nullptr) {
++                                params->add_alloc_dep(params->user_data, n->src[s], until);
++                            }
++                        }
++                    }
++                    graphopt_dep_regions++;
++                }
++
+                 // interleave tensors to extend lifetimes so that ggml graph doesn't recycle them
+                 // example transformation:
+                 // [attn-norm, QMul, QNorm, QRope, KMul, KNorm, KRope, VMul, attn] ->
+@@ -4772,6 +4894,13 @@ static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph
+             }
+         }
+     }
++
++    if (graphopt_debug_opt && graphopt_alloc_deps) {
++        static int graphopt_opt_reports = 0;
++        if (graphopt_opt_reports++ < 3) {
++            fprintf(stderr, "graphopt-allocdeps: %d regions kept allocated until their join\n", graphopt_dep_regions);
++        }
++    }
+ }
+ 
+ static const ggml_backend_i ggml_backend_cuda_interface = {
+diff --git a/ggml/src/ggml-hexagon/ggml-hexagon.cpp b/ggml/src/ggml-hexagon/ggml-hexagon.cpp
+index bdb8af0..9b466b2 100644
+--- a/ggml/src/ggml-hexagon/ggml-hexagon.cpp
++++ b/ggml/src/ggml-hexagon/ggml-hexagon.cpp
+@@ -3773,7 +3773,9 @@ static std::vector<int> ggml_hexagon_graph_optimize_reorder(const std::vector<ht
+     return res;
+ }
+ 
+-static void ggml_backend_hexagon_graph_optimize(ggml_backend_t backend, ggml_cgraph * gf) {
++static void ggml_backend_hexagon_graph_optimize(ggml_backend_t backend, ggml_cgraph * gf, ggml_backend_graph_optimize_params * params) {
++    GGML_UNUSED(params);
++
+     const int n = gf->n_nodes;
+ 
+     constexpr int MAX_FUSE = 16;
+diff --git a/ggml/src/ggml-metal/ggml-metal.cpp b/ggml/src/ggml-metal/ggml-metal.cpp
+index a1003b3..8edbdbb 100644
+--- a/ggml/src/ggml-metal/ggml-metal.cpp
++++ b/ggml/src/ggml-metal/ggml-metal.cpp
+@@ -551,7 +551,9 @@ static void ggml_backend_metal_event_wait(ggml_backend_t backend, ggml_backend_e
+     ggml_metal_event_wait(ctx, ev);
+ }
+ 
+-static void ggml_backend_metal_graph_optimize(ggml_backend_t backend, ggml_cgraph * cgraph) {
++static void ggml_backend_metal_graph_optimize(ggml_backend_t backend, ggml_cgraph * cgraph, ggml_backend_graph_optimize_params * params) {
++    GGML_UNUSED(params);
++
+     ggml_metal_t ctx = (ggml_metal_t)backend->context;
+ 
+     ggml_metal_graph_optimize(ctx, cgraph);
+diff --git a/ggml/src/ggml-virtgpu/ggml-backend.cpp b/ggml/src/ggml-virtgpu/ggml-backend.cpp
+index 12756c9..996c57e 100644
+--- a/ggml/src/ggml-virtgpu/ggml-backend.cpp
++++ b/ggml/src/ggml-virtgpu/ggml-backend.cpp
+@@ -17,7 +17,8 @@ static ggml_status ggml_backend_remoting_graph_compute(ggml_backend_t backend, g
+     return apir_backend_graph_compute(gpu, cgraph);
+ }
+ 
+-static void ggml_backend_remoting_graph_optimize(ggml_backend_t backend, ggml_cgraph * cgraph) {
++static void ggml_backend_remoting_graph_optimize(ggml_backend_t backend, ggml_cgraph * cgraph, ggml_backend_graph_optimize_params * params) {
++    UNUSED(params);
+     virtgpu * gpu = DEV_TO_GPU(backend->device);
+ #if true
+     UNUSED(gpu);
+diff --git a/ggml/src/ggml-vulkan/ggml-vulkan.cpp b/ggml/src/ggml-vulkan/ggml-vulkan.cpp
+index a923755..c8aee4f 100644
+--- a/ggml/src/ggml-vulkan/ggml-vulkan.cpp
++++ b/ggml/src/ggml-vulkan/ggml-vulkan.cpp
+@@ -17378,8 +17378,9 @@ static ggml_status ggml_backend_vk_graph_compute(ggml_backend_t backend, ggml_cg
+ }
+ 
+ // Sort the graph for improved parallelism.
+-static void ggml_vk_graph_optimize(ggml_backend_t backend, struct ggml_cgraph * graph)
++static void ggml_vk_graph_optimize(ggml_backend_t backend, struct ggml_cgraph * graph, struct ggml_backend_graph_optimize_params * params)
+ {
++    GGML_UNUSED(params);
+     VK_LOG_DEBUG("ggml_vk_graph_optimize(" << graph->n_nodes << " nodes)");
+     ggml_backend_vk_context * ctx = (ggml_backend_vk_context *)backend->context;
+ 
+diff --git a/tests/test-alloc.cpp b/tests/test-alloc.cpp
+index 6d54284..8f1a98a 100644
+--- a/tests/test-alloc.cpp
++++ b/tests/test-alloc.cpp
+@@ -19,6 +19,8 @@ struct dummy_backend_context {
+     size_t alignment       = 8;
+ 
+     ggml_backend_buffer_i              buffer_interface;
++    ggml_backend_device                device;
++    ggml_backend                       backend;
+     std::vector<ggml_backend_buffer_t> buffers;
+ 
+     size_t allocated_total() const {
+@@ -83,7 +85,27 @@ static void dummy_backend_buffer_get_tensor(ggml_backend_buffer_t, const ggml_te
+ 
+ static void dummy_backend_buffer_clear(ggml_backend_buffer_t, uint8_t) {}
+ 
+-// dummy_backend (not really a full backend, just provides what gallocr needs)
++// ggml_backend_device interface
++
++static enum ggml_backend_dev_type dummy_backend_device_get_type(ggml_backend_dev_t) {
++    return GGML_BACKEND_DEVICE_TYPE_CPU;
++}
++
++static bool dummy_backend_device_supports_op(ggml_backend_dev_t, const ggml_tensor *) {
++    return true;
++}
++
++static bool dummy_backend_device_supports_buft(ggml_backend_dev_t device, ggml_backend_buffer_type_t buft) {
++    return device->context == buft->context;
++}
++
++// ggml_backend interface
++
++static const char * dummy_backend_get_name(ggml_backend_t) {
++    return "dummy_backend";
++}
++
++// dummy_backend
+ 
+ struct dummy_backend {
+     std::unique_ptr<dummy_backend_context> context;
+@@ -104,6 +126,16 @@ static dummy_backend dummy_backend_init(size_t max_buffer_size, size_t alignment
+     b.context->buffer_interface.get_tensor    = dummy_backend_buffer_get_tensor;
+     b.context->buffer_interface.clear         = dummy_backend_buffer_clear;
+ 
++    b.context->device.context             = b.context.get();
++    b.context->device.iface.get_type      = dummy_backend_device_get_type;
++    b.context->device.iface.supports_op   = dummy_backend_device_supports_op;
++    b.context->device.iface.supports_buft = dummy_backend_device_supports_buft;
++
++    b.context->backend.context        = b.context.get();
++    b.context->backend.device         = &b.context->device;
++    b.context->backend.iface.get_name = dummy_backend_get_name;
++
++    b.buffer_type.device              = &b.context->device;
+     b.buffer_type.context             = b.context.get();
+     b.buffer_type.iface.get_name      = dummy_backend_buffer_type_get_name;
+     b.buffer_type.iface.alloc_buffer  = dummy_backend_buffer_type_alloc_buffer;
+@@ -583,6 +615,41 @@ static void test_reallocation() {
+     }
+ }
+ 
++static void test_backend_graph_optimize(ggml_backend_t, ggml_cgraph * graph, ggml_backend_graph_optimize_params * params) {
++    GGML_ASSERT(graph->n_nodes == 3);
++    params->add_alloc_dep(params->user_data, graph->nodes[0], graph->nodes[2]);
++}
++
++static bool graph_reuses_allocation(bool add_alloc_dep) {
++    auto [ctx, graph, ctx_ptr] = make_context();
++
++    ggml_tensor * x[4];
++    x[0] = make_input_with_size(ctx, 16);
++    x[1] = ggml_scale(ctx, x[0], 2.0f);
++    x[2] = ggml_scale(ctx, x[1], 2.0f);
++    x[3] = ggml_scale(ctx, x[2], 2.0f);
++
++    ggml_set_output(x[3]);
++    ggml_build_forward_expand(graph, x[3]);
++
++    dummy_backend backend = dummy_backend_init(SIZE_MAX);
++    if (add_alloc_dep) {
++        backend.context->backend.iface.graph_optimize = test_backend_graph_optimize;
++    }
++
++    ggml_backend_t             backend_ptr = &backend.context->backend;
++    ggml_backend_buffer_type_t buft        = &backend.buffer_type;
++    ggml_backend_sched_ptr     sched(ggml_backend_sched_new(&backend_ptr, &buft, 1, 8, false, true));
++    GGML_ASSERT(ggml_backend_sched_alloc_graph(sched.get(), graph));
++
++    return x[1]->data == x[2]->data;
++}
++
++static void test_graph_optimize_alloc_dep() {
++    GGML_ASSERT(graph_reuses_allocation(false));
++    GGML_ASSERT(!graph_reuses_allocation(true));
++}
++
+ static void run(const char * name, void (*f)()) {
+     printf("%s ", name);
+     fflush(stdout);
+@@ -604,5 +671,6 @@ int main() {
+     run("test_multiple_buffer_types", test_multiple_buffer_types);
+     run("test_buffer_size_zero", test_buffer_size_zero);
+     run("test_reallocation", test_reallocation);
++    run("test_graph_optimize_alloc_dep", test_graph_optimize_alloc_dep);
+     return 0;
+ }

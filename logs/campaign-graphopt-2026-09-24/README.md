@@ -1,5 +1,12 @@
 # The campaign with ggml-cuda's multi-stream optimisation turned on, 2026-09-24
 
+> **Correction, 2 October 2026.** The speeds here stand, but "safe to recommend unconditionally" below
+> does not: as shipped, the option computes wrong tokens, word salad on qwen3-8B and qwen3-14B, because
+> the Q branch overwrites `attn_norm` while the K and V projections on the other streams still read it.
+> The perplexity gates checked here cannot see it.
+> [`logs/graphopt-correctness-2026-10-02/`](../graphopt-correctness-2026-10-02/) has the evidence and a
+> fix that keeps the speed.
+
 [`logs/graph-opt-2026-09-24/`](../graph-opt-2026-09-24/) found that `GGML_CUDA_GRAPH_OPT=1`, which is
 off by default, is worth about ten percent of decode on the 1.5B in an A/B. An A/B is not a campaign,
 so this is the campaign. **This is the campaign the front page shows.**

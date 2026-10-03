@@ -1,5 +1,11 @@
 # Why the MoE and the 27B launch no concurrent streams: K and V share one buffer, 2026-09-25
 
+> **Correction, 2 October 2026.** The models that launch streams are not saved by the free list either:
+> in every one of their regions the Q branch is given `attn_norm`'s buffer and overwrites it while the K
+> and V projections still read it, which corrupts decode
+> ([`logs/graphopt-correctness-2026-10-02/`](../graphopt-correctness-2026-10-02/)). The K/V collision
+> described here still stands, and is why the MoE and the 27B are unaffected.
+
 ## What was open
 
 `GGML_CUDA_GRAPH_OPT=1` is worth about 3 percent on the 8B and the two 14Bs and nothing at all on the

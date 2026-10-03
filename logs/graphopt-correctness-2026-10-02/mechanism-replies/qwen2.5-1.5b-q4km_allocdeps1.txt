@@ -1,0 +1,6 @@
+A GPU compute queue is a concept in computer graphics and parallel computing. It's a queue that holds a series of tasks that need to be executed on a graphics processing unit (GPU). Think of it as a line of tasks that need to be processed one by one.
+
+In the context of the BC-250 mining board, which is built around an AMD APU (Accelerated Processing Unit), the GPU compute queue is used to manage the tasks that need to be processed by the GPU. The GPU compute queue is responsible for scheduling and executing these tasks efficiently.
+
+A driver bug in the GPU compute queue can be significant because it can
+
