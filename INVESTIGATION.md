@@ -14,6 +14,18 @@ below is worth repeating at the top, because it saves the most time: the kernel 
 determining factor. The same recipe measures identically on six kernels from 6.18.9 to 7.2.5, so
 what matters is a patch set and a set of boot arguments, not a kernel to upgrade to.
 
+Where to start, by what you came for:
+
+- why ROCm failed on this board and what fixed it: [Observation 1](#observation-1-occasional-silent-wrong-results)
+  (silent wrong results), [Observation 2](#observation-2-the-compute-queue-wedges-under-load) (the wedge),
+  [Building a native gfx1013 rocBLAS](#building-a-native-gfx1013-rocblas);
+- the llama.cpp work: [Inference-path caveats](#inference-path-caveats-what-the-perplexity-gate-caught),
+  which includes the zeroed fp16 GEMM traced to Fedora 43's compiler-rt, then
+  [How far ROCm inference gets](#how-far-rocm-inference-gets) and [ROCm vs Vulkan](#rocm-vs-vulkan);
+- the system as it is now: [Fedora 44 and 45](#fedora-44-and-45-rocm-711-and-722);
+- method: [How the measurements here are controlled](#how-the-measurements-here-are-controlled);
+- what is still unexplained: [Open questions](#open-questions).
+
 Native gfx1013 rocBLAS sustained 4.5 to 4.6 TFLOP/s of verified-correct SGEMM. PyTorch, once built
 for gfx1013, runs everything tried here including training, where a 50-step loop tracks the CPU to
 1.799e-05 per step on the losses and returns an identical final loss on all fourteen runs of an
@@ -29,9 +41,8 @@ work runs on both backends with the two agreeing on perplexity to 0.3 percent. H
 stable over time, not a good run on one board, is not something a single board can answer.
 
 Those figures are the three-patch build, which is where this document's narrative begins. The patch
-set has since grown to thirteen and the same 1.5B reads 196.7 t/s decode as shipped, 213.1 with the
-multi-stream option the README now recommends, and 1799 t/s prefill, with two of the six models
-faster than Vulkan on both prefill and decode. The [README](README.md) carries the current
+set has since grown to thirteen, and the same 1.5B reads 1799 t/s prefill and 196.7 t/s decode as
+shipped, 213.1 with the multi-stream option and its fix. The [README](README.md) carries the current
 numbers; this file keeps the ones each section was written against, because the point of it is how
 the conclusions moved.
 
@@ -104,8 +115,9 @@ version is a detail of when the work was done, not a condition for it.
   - [How this was arrived at](#how-this-was-arrived-at)
 - [Fedora 44 and 45: ROCm 7.1.1 and 7.2.2](#fedora-44-and-45-rocm-711-and-722)
 - [How the measurements here are controlled](#how-the-measurements-here-are-controlled)
+- [Hardware performance counters](#hardware-performance-counters)
 - [Open questions](#open-questions)
-- [Reproducing](#reproducing)
+- [Reproducing](#reproducing-1)
 - [Files](#files)
 - [References](#references)
 - [Author and license](#author-and-license)
@@ -2659,8 +2671,9 @@ The first is a hand-port of GabriWar's runlist-rebuild flush, made runtime-switc
 extends it to the SVM map side, which is this repository's part. Those two produce
 `bc250_flush_by_runlist` and nothing else, which matters because the
 check below expects three. The other two come from elsewhere:
-`bc250_flush_pasid_kiq` is added to `gmc_v10_0.c` by the embedded patcher in
-[`scripts/ladder_prep_rung.sh`](scripts/ladder_prep_rung.sh) (the `FLUSHPARAM` step, which turns
+`bc250_flush_pasid_kiq` is added to `gmc_v10_0.c` by
+[`scripts/apply_flush_pasid_param.py`](scripts/apply_flush_pasid_param.py) (the step
+[`scripts/ladder_prep_rung.sh`](scripts/ladder_prep_rung.sh) carried inline, which turns
 `flush_pasid_uses_kiq` into a module parameter defaulting to the stock behaviour), and
 [`patches/amdgpu-flush-pasid-mmio.patch`](patches/amdgpu-flush-pasid-mmio.patch) is the same change
 hardcoded rather than parameterised, which works but leaves nothing to set at boot.
@@ -3279,7 +3292,9 @@ the run then swaps and does not finish, so the limit is left alone. Fedora 45's 
 loaded on Fedora 44 through `LD_LIBRARY_PATH`, runs at unchanged speed and still crashes at the same fault
 address, so the fix is not a newer runtime
 ([`logs/fedora44-ceilings-2026-09-16/`](logs/fedora44-ceilings-2026-09-16/),
-[`logs/fedora44-hostoverhead-2026-09-16/`](logs/fedora44-hostoverhead-2026-09-16/)).
+[`logs/fedora44-hostoverhead-2026-09-16/`](logs/fedora44-hostoverhead-2026-09-16/)). Much of that budget,
+it turned out in October, was llama-bench's own copy of the KV cache, made after every depth fill; without
+it the ceilings are about twice as deep ([`logs/context-ceilings-2026-09-30/`](logs/context-ceilings-2026-09-30/)).
 
 **The board throttles even at the policy this repository uses.** Twenty minutes of continuous 8B prefill at
 the 1500 MHz policy holds 197.7 to 198.2 t/s in twenty of twenty-two rounds, but the edge sensor reaches
@@ -3604,10 +3619,10 @@ Data, corrections, or a "you are holding it wrong" are all welcome, as an issue 
   environment of every HIP process. That last point was stale until 26 August and read as though
   the environment variable were required: it is one of two ways, and the firmware substitution is
   the one the front page now leads with, since it fixes the transfers rather than avoiding them.
-  Of the three command-line parameters, only `bc250_flush_by_runlist` comes from the scripts below.
-  `bc250_flush_pasid_kiq` is added by the embedded patcher in
-  [`scripts/ladder_prep_rung.sh`](scripts/ladder_prep_rung.sh) and `bc250_cc_write_mode` by the
-  community 40-CU unlock, neither of which the pair below produces. The runlist parameter needs the
+  Of the three command-line parameters, only `bc250_flush_by_runlist` comes from the pair of scripts
+  below. `bc250_flush_pasid_kiq` is added by
+  [`scripts/apply_flush_pasid_param.py`](scripts/apply_flush_pasid_param.py) and `bc250_cc_write_mode`
+  by the community 40-CU unlock. The runlist parameter needs the
   module built with two scripts, in this order, each taking the amdkfd directory as an argument:
   [`scripts/apply_runlist_flush.py`](scripts/apply_runlist_flush.py) then
   [`scripts/apply_svmflush_generic.py`](scripts/apply_svmflush_generic.py). That pair is
@@ -3743,6 +3758,8 @@ carries no such paths.
 | [`patches/gen_reuse.cpp`](patches/gen_reuse.cpp) | Targeted reproducer for the stale-translation-on-address-reuse mechanism, written against the description from bc250-rocm-working. Used by [`scripts/aba_mapflush_verify.sh`](scripts/aba_mapflush_verify.sh), so it is shipped alongside it |
 | [`patches/seq_probe.c`](patches/seq_probe.c) | Deterministic allocation-reuse reproducer (heavy dispatch, free, realloc, dispatch); the flush-by-runlist A/B evidence in [`logs/bench-2026-08/runlist-verify/`](logs/bench-2026-08/runlist-verify/) |
 | [`scripts/apply_runlist_flush.py`](scripts/apply_runlist_flush.py) | Applies the runlist-rebuild-on-unmap flush (ported from bc250-rocm-working) as the `bc250_flush_by_runlist` module parameter. Takes the amdkfd directory as an argument and validates it; works on kernels where `kfd_flush_tlb` takes either one or two arguments. Step one of two |
+| [`scripts/apply_flush_pasid_param.py`](scripts/apply_flush_pasid_param.py) | Puts anrp's `flush_pasid_uses_kiq = false` behind the `bc250_flush_pasid_kiq` module parameter in `gmc_v10_0.c`, default stock; the step `ladder_prep_rung.sh` carried inline |
+| [`scripts/gguf_metadata.py`](scripts/gguf_metadata.py) | What every GGUF in a directory records about itself: name, quantisation, origin if written in, trained context |
 | [`scripts/soak_current_stack.sh`](scripts/soak_current_stack.sh) | The endurance soak for the current recipe: prefill, a perplexity gate, an allocation-churn sweep every round and a PyTorch training loop every third, which is the path the earlier soaks never covered |
 | [`scripts/loose_end_controls.sh`](scripts/loose_end_controls.sh) | Three controls run together: the quantized-value model that should never reach the fp16 path, a low-bandwidth model measured the same way as the high-bandwidth one, which was the first half of the bandwidth explanation for decode variance, and the fp16 case with flash attention off |
 | [`scripts/gap_probe_three.sh`](scripts/gap_probe_three.sh) | Three gaps in one run: fp16 error against amount of text evaluated, whether the SDMA boundary moves with the staging-buffer knob as well as the blit-copy one, and decode variance for a third model at intermediate bandwidth utilisation. The first arm rests on a design assumption that does not hold, and the header says so |
@@ -3826,6 +3843,15 @@ carries no such paths.
 | [`scripts/journal_retro_sweep.sh`](scripts/journal_retro_sweep.sh) | Sweeps every retained boot in the persistent journal for GPU faults and resets, identifying boots by kernel and scheduler policy, not by wall-clock time, which jumps across reboots here |
 | [`scripts/soak_sdma_alternating.sh`](scripts/soak_sdma_alternating.sh) | The endurance soak alternating SDMA on and off round by round, which ran 253 rounds bit-identical before the board reset itself |
 | [`scripts/nommap_ceiling.sh`](scripts/nommap_ceiling.sh) | The depth ladder in both load modes, and memory sampled through one run of each at the failing depth, which is how the no-mmap context ceiling was traced to reclaimable memory |
+| [`scripts/ceilings_compare.sh`](scripts/ceilings_compare.sh) | Context ceilings on both backends at three KV cache types, a doubling ladder per model with a depth cap; the first of the passes that seed the campaign below |
+| [`scripts/ceilings_bisect.sh`](scripts/ceilings_bisect.sh) | Context ceilings found to the real limit, four arms and three cache types: doubles past the deepest pass, bisects to an eighth of the bracket, reuses what memory implies, samples KFD's accounting every five seconds |
+| [`scripts/ceilings_nosnap_chain.sh`](scripts/ceilings_nosnap_chain.sh), [`scripts/ceilings_refine_chain.sh`](scripts/ceilings_refine_chain.sh) | The order and parameters of the ceiling campaign without llama-bench's state copy, and its refinement of the 1.5B's quantised-cache cells |
+| [`scripts/build_llama_bench_nosnap.sh`](scripts/build_llama_bench_nosnap.sh) | llama-bench with [`scripts/llama-bench-no-depth-cache.patch`](scripts/llama-bench-no-depth-cache.patch), built against the existing ROCm and Vulkan builds: `LLAMA_BENCH_NO_DEPTH_CACHE=1` skips the copy of the sequence state after each depth fill |
+| [`scripts/nosnap_check.sh`](scripts/nosnap_check.sh) | The 14B at two depths where llama-bench as shipped fails, without the copy |
+| [`scripts/ceilings_followup.sh`](scripts/ceilings_followup.sh), [`scripts/ceilings_pinned_fallback.sh`](scripts/ceilings_pinned_fallback.sh) | Three ceiling runs repeated with more output: a late failure with clr's error log, a segfault under gdb, and a run whose pinned input buffer did not fit, with llama.cpp's debug log |
+| [`scripts/rebuild_check.sh`](scripts/rebuild_check.sh) | Rebuilds llama.cpp from 7ba604f and the thirteen published patches and compares the result with the build every figure was measured on: CMake options, source trees, greedy replies on six models, and speed |
+| [`scripts/clock_sampler.sh`](scripts/clock_sampler.sh) | The SMU's real gfxclk and GPU temperature every second during a campaign, a per-minute summary, and a safety net that restores the packaged governor on a throttle flag, 101 C or a GPU fault |
+| [`scripts/ceilings_analyse.py`](scripts/ceilings_analyse.py), [`scripts/decode_window_clock.py`](scripts/decode_window_clock.py), [`scripts/gguf_context.py`](scripts/gguf_context.py), [`scripts/make_ceilings_figure.py`](scripts/make_ceilings_figure.py) | The ceiling campaign's tables, the clock through each pass's decode, the models' trained context lengths, and the figure |
 | [`scripts/decode_variance_process_state.sh`](scripts/decode_variance_process_state.sh) | Decode at depth under three process-state arms, default, CPU-pinned and cache-dropped, rotated |
 | [`scripts/decode_variance_confirm.sh`](scripts/decode_variance_confirm.sh) | The twelve-round confirmation of that comparison, which is where the apparent effect evaporated |
 | [`scripts/f32_workaround_cost.sh`](scripts/f32_workaround_cost.sh) | What the f32 compute-type workaround costs, measured on a stated configuration after the original figures were found to have no shipped log |

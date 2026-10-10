@@ -1,0 +1,61 @@
+model	kv	arm	generates_at	fails_at	pass_measured_in	tg64_at_pass	fill_seconds	failure	seconds_to_failure
+qwen3-14b	f16	hip	26624	29696	this campaign	11.24	547	context not created	55
+qwen3-14b	f16	hipng	27648	30720	bisect pass			context not created	217
+qwen3-14b	f16	hippc	26624	29696	bisect pass			context not created	85
+qwen3-14b	f16	vk	38912	43008	bisect pass			OOM killer	41
+qwen3-14b	q8_0	hip	51200	53248	this campaign	6.73	1470	ROCm error in ggml_cuda_mul_mat_cublas	69
+qwen3-14b	q8_0	hipng	51200	57344	bisect pass			context not created	248
+qwen3-14b	q8_0	hippc	51200	57344	bisect pass			context not created	98
+qwen3-14b	q8_0	vk	65536	73728	compare pass			OOM killer	49
+qwen3-14b	q4_0	hip	89088	95232	this campaign	5.40	3539	ROCm error in ggml_cuda_graph_evaluate_and_capture	4033
+qwen3-14b	q4_0	hipng	95232	106496	bisect pass			context not created	93
+qwen3-14b	q4_0	hippc	95232	106496	bisect pass			context not created	97
+qwen3-14b	q4_0	vk	131072	147456	bisect pass			OOM killer	46
+qwen3-8b-q8_0	f16	hip	32768	36864	this campaign	25.20	256	context not created	197
+qwen3-8b-q8_0	f16	hipng	32768	36864	bisect pass			context not created	112
+qwen3-8b-q8_0	f16	hippc	32768	36864	bisect pass			context not created	132
+qwen3-8b-q8_0	f16	vk	45056	50176	bisect pass			OOM killer	24
+qwen3-8b-q8_0	q8_0	hip	61440	65536	this campaign	7.25	793	ROCm error in ggml_cuda_graph_evaluate_and_capture	683
+qwen3-8b-q8_0	q8_0	hipng	61440	68608	bisect pass			context not created	94
+qwen3-8b-q8_0	q8_0	hippc	65536	73728	bisect pass			context not created	154
+qwen3-8b-q8_0	q8_0	vk	81920	92160	bisect pass			OOM killer	26
+qwen3-8b-q8_0	q4_0	hip	114688	118784	this campaign	5.31	1810	ROCm error in ggml_cuda_graph_evaluate_and_capture	1927
+qwen3-8b-q8_0	q4_0	hipng	118784	133120	bisect pass			context not created	212
+qwen3-8b-q8_0	q4_0	hippc	114688	129024	bisect pass			context not created	134
+qwen3-8b-q8_0	q4_0	vk	163840	184320	bisect pass			OOM killer	28
+qwen3.8-27b-iq3xxs	f16	hip	25600	27648	this campaign	10.94	456	ROCm error in ggml_cuda_pool_leg::alloc	209
+qwen3.8-27b-iq3xxs	f16	hipng	24576	27648	bisect pass			ROCm error in ggml_cuda_pool_leg::alloc	122
+qwen3.8-27b-iq3xxs	f16	hippc	24576	27648	bisect pass			ROCm error in ggml_cuda_pool_leg::alloc	56
+qwen3.8-27b-iq3xxs	f16	vk	49152	55296	bisect pass			OOM killer	34
+qwen3.8-27b-iq3xxs	q8_0	hip	47104	49152	this campaign	7.21	827	ROCm error in ggml_cuda_graph_evaluate_and_capture	912
+qwen3.8-27b-iq3xxs	q8_0	hipng	49152	55296	bisect pass			context not created	196
+qwen3.8-27b-iq3xxs	q8_0	hippc	49152	55296	bisect pass			context not created	202
+qwen3.8-27b-iq3xxs	q8_0	vk	98304	110592	bisect pass			OOM killer	34
+qwen3.8-27b-iq3xxs	q4_0	hip	88064	91136	this campaign	6.19	1891	ROCm error in ggml_cuda_pool_leg::alloc	143
+qwen3.8-27b-iq3xxs	q4_0	hipng	82944	92160	this campaign	6.46	1706	ROCm error in ggml_cuda_mul_mat_cublas	107
+qwen3.8-27b-iq3xxs	q4_0	hippc	82944	92160	this campaign	6.45	1608	ROCm error in ggml_cuda_mul_mat_cublas	224
+qwen3.8-27b-iq3xxs	q4_0	vk	184320	206848	bisect pass			OOM killer	40
+qwen3.6-35b-a3b-iq2m	f16	hip	90112	101376	this campaign	39.01	483	ROCm error in ggml_cuda_mul_mat_cublas	256
+qwen3.6-35b-a3b-iq2m	f16	hipng	98304	110592	bisect pass			context not created	101
+qwen3.6-35b-a3b-iq2m	f16	hippc	98304	110592	bisect pass			context not created	286
+qwen3.6-35b-a3b-iq2m	f16	vk	163840	184320	bisect pass			OOM killer	37
+qwen3.6-35b-a3b-iq2m	q8_0	hip	157696	168960	this campaign	10.18	1282	ROCm error in ggml_cuda_mul_mat_cublas	166
+qwen3.6-35b-a3b-iq2m	q8_0	hipng	159744	168960	this campaign	10.16	1269	ROCm error in ggml_cuda_mul_mat_cublas	137
+qwen3.6-35b-a3b-iq2m	q8_0	hippc	159744	168960	this campaign	10.21	1263	ROCm error in ggml_cuda_mul_mat_cublas	270
+qwen3.6-35b-a3b-iq2m	q8_0	vk	286720	322560	bisect pass			OOM killer	43
+qwen3.6-35b-a3b-iq2m	q4_0	hip	236544	256000	this campaign	8.57	2379	ROCm error in ggml_cuda_mul_mat_cublas	103
+qwen3.6-35b-a3b-iq2m	q4_0	hipng	239616	259072	this campaign	8.50	2433	segfault	72
+qwen3.6-35b-a3b-iq2m	q4_0	hippc	239616	259072	this campaign	8.47	2443	segfault	126
+qwen3.6-35b-a3b-iq2m	q4_0	vk	537600	573440	this campaign	10.05	13597	OOM killer	38
+qwen2.5-1.5b-q4km	f16	hip	393216	425984	this campaign	16.88	4942	ROCm error in ggml_cuda_graph_evaluate_and_capture	5930
+qwen2.5-1.5b-q4km	f16	hipng	425984	458752	this campaign	15.59	5917	context not created	1
+qwen2.5-1.5b-q4km	f16	hippc	425984	458752	this campaign	15.56	5916	context not created	2
+qwen2.5-1.5b-q4km	f16	vk	458752	491520	this campaign	15.47	7906	OOM killer	6
+qwen2.5-1.5b-q4km	q8_0	hip	688128	737280	this campaign	2.90	14716	ROCm error in ggml_cuda_graph_evaluate_and_capture	17585
+qwen2.5-1.5b-q4km	q8_0	hipng	692224	745472	this campaign	2.88	15002	context not created	2
+qwen2.5-1.5b-q4km	q8_0	hippc	692224	745472	this campaign	2.88	14936	context not created	4
+qwen2.5-1.5b-q4km	q8_0	vk	802816	860160	this campaign	7.82	22845	OOM killer	5
+qwen2.5-1.5b-q4km	q4_0	hip	1105920	1179648	this campaign	2.32	37444	ROCm error in ggml_cuda_graph_evaluate_and_capture	43253
+qwen2.5-1.5b-q4km	q4_0	hipng	1198080	1277952	this campaign	2.13	45128	context not created	2
+qwen2.5-1.5b-q4km	q4_0	hippc	1198080	1277952	this campaign	2.13	44786	context not created	2
+qwen2.5-1.5b-q4km	q4_0	vk	1376256	1548288	this campaign	3.44	89127	OOM killer	4

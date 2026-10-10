@@ -24,7 +24,7 @@ in the GitHub-project patches and as the kernel's `Assisted-by: LLM` in the kern
 | `hip-graph-capture-null-stream.patch` | this repository; `ROCm/clr` `develop` lacks the check as of 2026-09-19 | |
 | `rocclr-hostqueue-thread-release-null-vdev.patch` | **not ours**: a backport of ROCm/clr commit 7d979ab5a0 (Jaydeep, 2026-05-25); the same guard was written here from the crash before that commit was found, and replaced by it | `From:` is the upstream author; the porter note says what was done here |
 | `rocr-guard-queue-scratch-release.patch` | **not ours**: a port of rocm-systems PR #2850 (Luna Nova, merged 2026-02-07) to the 7.1.1 source layout, path prefix only | `From:` is the upstream author |
-| `amdgpu-flush-pasid-mmio.patch` | **the line is anrp's** (ROCm/ROCm#6313, 2026-05-30), confirmed by ahorek; this repository adds only the correctness A/B | a bare diff with a credit note, no `From:` and no sign-off: nothing to claim |
+| `amdgpu-flush-pasid-mmio.patch`, and the same line behind a module parameter in `scripts/apply_flush_pasid_param.py` | **the line is anrp's** (ROCm/ROCm#6313, 2026-05-30), confirmed by ahorek; this repository adds only the parameter and the correctness A/B | a bare diff with a credit note, no `From:` and no sign-off: nothing to claim |
 | `amdgpu-fence-fallback-2ms.patch` | this repository, a probe that did not help, kept for the record | |
 
 The kernel-module changes that the recipe applies through scripts, not patch files

@@ -1,0 +1,9 @@
+
+[Start thinking]
+
+,
+<think>
+Okay, so I'm trying to understand what a GPU compute queue is and why a driver bug in it matters, especially in the context of the BC-250 mining board with an AMD APU. I'm not super familiar with GPU terminology, so I'll start by breaking down the terms.
+
+First, I know that a GPU, or Graphics Processing Unit, is responsible for handling the graphics on a computer. But I've heard that GPUs can also be used for computing tasks, not just rendering graphics. So, maybe a GPU compute queue is related to using the GPU for calculations or processing tasks beyond just
+

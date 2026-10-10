@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (c) 2026 Artur Andrzejczak <andrzejczak.artur@gmail.com>
 # Assisted-by: Claude (Anthropic)
-"""Figures from the gfx1013 hardware counter runs, repo style, grayscale.
+"""Figures from the gfx1013 hardware counter runs. Colours come from figstyle.py.
 
 Driven straight from the rocprofv3 counter_collection.csv files so the plots and the text cannot
 drift apart, which is the failure this repository has already had once with transcribed literals.
@@ -24,14 +24,11 @@ ROOT = os.path.join(_d, "..")
 OUT = os.path.join(ROOT, "figures")
 os.makedirs(OUT, exist_ok=True)
 
-DARK = "#2b2b2b"
-MID = "#9a9a9a"
-ACC = "#555555"
-plt.rcParams.update({
-    "font.size": 9, "axes.spines.top": False, "axes.spines.right": False,
-    "axes.grid": True, "grid.color": "#dddddd", "grid.linewidth": 0.5,
-    "axes.axisbelow": True, "figure.dpi": 150,
-})
+sys.path.insert(0, _d)
+import figstyle as S
+S.apply()
+# DARK marks the series a figure is about (the measurement, the hand-written kernel), MID the reference.
+DARK, MID, ACC = S.ROCM, S.GREY_MID, S.INK
 
 
 def read_dispatches(path):

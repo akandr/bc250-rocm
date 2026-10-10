@@ -1,0 +1,7 @@
+Each model's trained context length, <arch>.context_length from its GGUF header (scripts/gguf_context.py).
+
+qwen2.5-1.5b-q4km.gguf      qwen2      32768
+qwen3-8b-q8_0.gguf          qwen3      40960
+qwen3-14b.gguf              qwen3      40960
+qwen3.8-27b-iq3xxs.gguf     qwen35     262144
+qwen3.6-35b-a3b-iq2m.gguf   qwen35moe  262144

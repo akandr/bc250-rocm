@@ -1,0 +1,9 @@
+[2026-10-10 09:47:08] 1: hip qwen3-8b-q8_0 q8_0 d65536 with -v and AMD_LOG_LEVEL=1
+[2026-10-10 09:57:49] 1: rc=134 after 641s; ...........................................................:1:rocdevice.cpp            :1866: 1015741290169 us:  Failed creating memory :1:memory.cpp               :357 : 1015741294192 us:  Video memory allocation failed! :1:rocdevice.cpp            :1866: 1015741294501 us:  Failed creating memory 
+[2026-10-10 09:58:19] 2: hipng qwen3.6-35b-a3b-iq2m q4_0 d259072 under gdb
+[2026-10-10 10:00:42] 2: rc=0 after 143s; Thread 1 "llama-bench" received signal SIGSEGV, Segmentation fault. #0  0x00007fffef69d56c in amd::Kernel::getDeviceKernel(amd::Device const&) const () from /opt/bc250-rocm/lib64/libamdhip64.so.7 #1  0x00007fffef542ac5 in hip::ihipLaunchKernel_validate(ihipModuleSymbol_t*, amd::LaunchParams const&, 
+[2026-10-10 10:00:42] done
+[2026-10-10 10:01:52] 3: hip qwen3-8b-q8_0 q4_0 d118784 with -v, stopped once the fill has started
+[2026-10-10 10:03:13] 3: ggml_cuda_host_malloc: failed to allocate 132.34 MiB of pinned memory: out of memory 
+[2026-10-10 10:03:13] 3: load_tensors:   CPU_Mapped model buffer size =   630.59 MiB llama_context:  ROCm_Host  output buffer size =     0.58 MiB sched_reserve:      ROCm0 compute buffer size =   613.34 MiB sched_reserve:  ROCm_Host compute buffer size =   132.34 MiB 
+[2026-10-10 10:03:13] done3

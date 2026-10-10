@@ -1,0 +1,13 @@
+8bd8df5 ggml-cuda: do not trust prop.integrated on HIP (gfx1013 corrupts with it)
+ff02b32 llama: request F32 precision for the KQ.V product
+86b8f25 ggml-cuda: gfx1013 is RDNA1
+678c346 ggml-cuda: RDNA1 flash-attention tile rows and one-token kernel choice
+eb59f40 ggml-cuda: RDNA1 matrix-vector kernels: parameter table, v_sad_u8 sums, float-activation matvec
+85ecb03 ggml-cuda: concat a transposed second source through a shared-memory tile
+e6fe095 ggml-cuda: gated delta net lanes per column on RDNA1
+4fcee31 ggml-cuda: RDNA1 prefill through a packed-fp16 tile GEMM
+d6d8bba ggml-cuda: RDNA1 IQ matvec: stage the codebook in shared memory
+3bc1db1 ggml-cuda: RDNA1 prefill GEMM: halve the column tile
+daefa0d ggml-cuda: RDNA1 prefill GEMM: q8_0 too
+2365a05 ggml-cuda: RDNA1 prefill GEMM: the mixture-of-experts path
+80704f1 ggml-cuda: RDNA1 prefill GEMM: admit 128-token batches

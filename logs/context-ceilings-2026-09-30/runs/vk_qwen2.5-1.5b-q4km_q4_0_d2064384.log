@@ -1,0 +1,6 @@
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD BC-250 (RADV GFX1013) (radv) | uma: 1 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 65536 | int dot: 0 | matrix cores: none
+radv/amdgpu: Failed to allocate a buffer:
+radv/amdgpu:    size      : 891924480 bytes
+radv/amdgpu:    alignment : 65536 bytes
+radv/amdgpu:    domains   : 4

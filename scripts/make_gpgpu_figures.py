@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (c) 2026 Artur Andrzejczak <andrzejczak.artur@gmail.com>
 # Assisted-by: Claude (Anthropic)
-"""Figures for the PyTorch, rocBLAS and multi-stream measurements, repo style, grayscale.
+"""Figures for the PyTorch, rocBLAS and multi-stream measurements. Colours come from figstyle.py.
 
 Kept separate from make_figures.py, which carries transcribed literals from older campaigns. These are
 driven from the JSON that scripts/torch_bench.py writes, so a re-run updates the plots instead of requiring the numbers to be copied by hand, which is how a figure in this repository once ended up
@@ -24,14 +24,11 @@ ROOT = os.path.join(_d, "..")
 OUT = os.path.join(ROOT, "figures")
 os.makedirs(OUT, exist_ok=True)
 
-VK = "#2b2b2b"
-HIP = "#9a9a9a"
-ACC = "#555555"
-plt.rcParams.update({
-    "font.size": 9, "axes.spines.top": False, "axes.spines.right": False,
-    "axes.grid": True, "grid.color": "#dddddd", "grid.linewidth": 0.5,
-    "axes.axisbelow": True, "figure.dpi": 150,
-})
+sys.path.insert(0, _d)
+import figstyle as S
+S.apply()
+# These figures are ROCm only, so the precisions get their own colours and blue stays Vulkan's.
+F32, F16, BF16 = S.TEAL, S.AMBER, S.VIOLET
 
 # Ceilings measured on this board, logs/alu-rates-recheck-2026-09-25/. The earlier pair,
 # 4.74 and 14.40, was taken with the governor below its cap and gave a 3x fp16 advantage that the
@@ -70,30 +67,30 @@ def load(path):
 def fig_gemm_ceiling(rows):
     """Achieved GEMM rate against the two ceilings: fp32 reaches its roof, fp16 does not."""
     fig, ax = plt.subplots(figsize=(6.2, 3.6))
-    styles = {"float32": ("-o", VK), "float16": ("-D", HIP), "bfloat16": ("--s", "#c0c0c0")}
+    styles = {"float32": ("-o", F32), "float16": ("-D", F16), "bfloat16": ("--s", BF16)}
     for dt, (mk, col) in styles.items():
         pts = sorted([(r["n"], r["tflops"]) for r in rows if r["kind"] == "gemm" and r["dtype"] == dt])
         if pts:
             ax.plot([p[0] for p in pts], [p[1] for p in pts], mk, color=col, ms=5, label=f"PyTorch {dt}")
     rb = sorted(ROCBLAS["SGEMM fp32"].items())
-    ax.plot([k for k, _ in rb], [v / 1000 for _, v in rb], ":", color=VK, lw=1.2, label="rocBLAS SGEMM")
+    ax.plot([k for k, _ in rb], [v / 1000 for _, v in rb], ":", color=F32, lw=1.4, label="rocBLAS SGEMM")
     rb = sorted(ROCBLAS["HGEMM fp16"].items())
-    ax.plot([k for k, _ in rb], [v / 1000 for _, v in rb], ":", color=HIP, lw=1.2, label="rocBLAS HGEMM")
+    ax.plot([k for k, _ in rb], [v / 1000 for _, v in rb], ":", color=F16, lw=1.4, label="rocBLAS HGEMM")
 
     pk = sorted(PKF16.items())
-    ax.plot([k for k, _ in pk], [v for _, v in pk], "-^", color="#111111", ms=6, lw=1.6,
+    ax.plot([k for k, _ in pk], [v for _, v in pk], "-^", color=S.ROCM, ms=6, lw=1.8,
             label="hand-written packed-fp16 kernel")
 
-    ax.axhline(CEIL_F32, color=VK, lw=1.0, ls="--")
-    ax.axhline(CEIL_F16, color=HIP, lw=1.0, ls="--")
+    ax.axhline(CEIL_F32, color=F32, lw=1.0, ls="--")
+    ax.axhline(CEIL_F16, color=F16, lw=1.0, ls="--")
     # Ceiling labels ride just under their lines on the right, clear of the legend on the left.
-    ax.text(8100, CEIL_F32 - 0.75, f"fp32 ceiling {CEIL_F32}", fontsize=7.5, color=VK, ha="right")
+    ax.text(8100, CEIL_F32 - 0.75, f"fp32 ceiling {CEIL_F32}", fontsize=7.5, color=F32, ha="right")
     ax.text(8100, CEIL_F16 - 0.85, f"packed fp16 ceiling {CEIL_F16}", fontsize=7.5,
-            color="#6a6a6a", ha="right")
+            color=F16, ha="right")
     # The arrow is drawn between the two points it compares; its label sits beside it, not on it.
     ax.annotate("", xy=(8192, 8.91), xytext=(8192, 4.64),
-                arrowprops=dict(arrowstyle="<->", color="#444444", lw=1.1))
-    ax.text(7400, 6.6, "1.9x", fontsize=8, color="#222222", ha="right", fontweight="bold")
+                arrowprops=dict(arrowstyle="<->", color=S.ROCM, lw=1.1))
+    ax.text(7400, 6.6, "1.9x", fontsize=8, color=S.ROCM, ha="right", fontweight="bold")
 
     ax.set_xscale("log", base=2)
     ax.set_xticks([512, 1024, 2048, 4096, 8192])
@@ -112,9 +109,9 @@ def fig_roofline(rows):
     """Every measured kernel against the memory roof and the two compute roofs."""
     fig, ax = plt.subplots(figsize=(6.4, 3.9))
     ai = np.logspace(-2, 4, 400)
-    ax.plot(ai, np.minimum(CEIL_BW * ai / 1000, CEIL_F16), color=HIP, lw=1.3, ls="--",
+    ax.plot(ai, np.minimum(CEIL_BW * ai / 1000, CEIL_F16), color=F16, lw=1.3, ls="--",
             label=f"roof, packed fp16 ({CEIL_F16} TFLOP/s)")
-    ax.plot(ai, np.minimum(CEIL_BW * ai / 1000, CEIL_F32), color=VK, lw=1.5,
+    ax.plot(ai, np.minimum(CEIL_BW * ai / 1000, CEIL_F32), color=F32, lw=1.5,
             label=f"roof, fp32 ({CEIL_F32} TFLOP/s) over memory at {CEIL_BW:.0f} GB/s")
 
     get = lambda k, **kw: next((r for r in rows if r["kind"] == k
@@ -122,8 +119,8 @@ def fig_roofline(rows):
 
     # GEMM: 2N^3 flops over 3N^2 elements, so intensity is N/(3*bytes)
     pts = []
-    for dt, mk, col, bs in (("float32", "o", VK, 4), ("float16", "D", HIP, 2),
-                            ("bfloat16", "s", "#c6c6c6", 2)):
+    for dt, mk, col, bs in (("float32", "o", F32, 4), ("float16", "D", F16, 2),
+                            ("bfloat16", "s", BF16, 2)):
         r = get("gemm", dtype=dt, n=8192)
         if r:
             pts.append((8192 / (3.0 * bs), r["tflops"], dt, mk, col))
@@ -137,13 +134,13 @@ def fig_roofline(rows):
     r = get("bw", n=1 << 26)
     if r:
         x, y = 1.0 / 12.0, r["gbs"] / 12.0 / 1000
-        ax.plot([x], [y], "s", color=VK, ms=7, zorder=5)
+        ax.plot([x], [y], "s", color=F32, ms=7, zorder=5)
         ax.annotate(f"elementwise add\n{r['gbs']:.0f} GB/s, {r['pct_peak']:.0f}% of the roof",
                     (x * 1.35, y * 0.72), fontsize=7.5, color="#333333")
 
     r = get("attn", dtype="float32", seq=2048)
     if r:
-        ax.plot([60.0], [r["tflops"]], "^", color=VK, ms=7, zorder=5)
+        ax.plot([60.0], [r["tflops"]], "^", color=F32, ms=7, zorder=5)
         ax.annotate("attention fp32, seq 2048", (72.0, r["tflops"] * 0.80),
                     fontsize=7.5, color="#333333")
 
@@ -152,7 +149,7 @@ def fig_roofline(rows):
     if rf:
         xf = 8192 / 6.0
         ax.annotate("", xy=(xf, CEIL_F16), xytext=(xf, rf["tflops"]),
-                    arrowprops=dict(arrowstyle="<->", color="#777777", lw=1.1))
+                    arrowprops=dict(arrowstyle="<->", color=F16, lw=1.1))
         # Sits in the empty band between the two roofs and to the left of the arrow; to the right
         # of it the fp32 roof runs straight through the second line of the label.
         ax.annotate("fp16 GEMM runs at about\na third of its own roof", (xf * 0.45, 8.3),
@@ -172,7 +169,7 @@ def fig_roofline(rows):
 def fig_training(rows):
     """fp32 scales with batch; fp16 autocast goes the wrong way."""
     fig, ax = plt.subplots(figsize=(5.6, 3.3))
-    for dt, mk, col in (("float32", "-o", VK), ("float16", "-D", HIP)):
+    for dt, mk, col in (("float32", "-o", F32), ("float16", "-D", F16)):
         pts = sorted([(r["batch"], r["tok_per_s"] / 1000) for r in rows
                       if r["kind"] == "train" and r["dtype"] == dt])
         if pts:
@@ -202,12 +199,14 @@ def fig_graph_opt():
     on = np.array([g[2] for g in GRAPH_OPT][::-1])
     vk = np.array([g[3] for g in GRAPH_OPT][::-1])
     y = np.arange(len(names))
-    ax.barh(y + 0.20, off / vk, height=0.36, color="#cfcfcf", label="ROCm as shipped / Vulkan")
-    ax.barh(y - 0.20, on / vk, height=0.36, color=HIP, label="ROCm + GRAPH_OPT / Vulkan")
-    ax.axvline(1.0, color=VK, lw=1.2)
+    ax.barh(y + 0.20, off / vk, height=0.36, color=S.ROCM_PALE, label="ROCm as shipped / Vulkan")
+    ax.barh(y - 0.20, on / vk, height=0.36, color=S.ROCM, label="ROCm + GRAPH_OPT / Vulkan")
+    ax.axvline(1.0, color=S.VULKAN, lw=1.4, zorder=1)
+    # labels on a white ground: two of them sit on the parity line
+    box = dict(facecolor="white", edgecolor="none", pad=0.4)
     for i, (a, b) in enumerate(zip(off / vk, on / vk)):
-        ax.text(b + 0.012, i - 0.20, f"{b:.2f}", va="center", fontsize=7, color="#222222")
-        ax.text(a + 0.012, i + 0.20, f"{a:.2f}", va="center", fontsize=7, color="#666666")
+        ax.text(b + 0.012, i - 0.20, f"{b:.2f}", va="center", fontsize=7, color="#222222", bbox=box, zorder=4)
+        ax.text(a + 0.012, i + 0.20, f"{a:.2f}", va="center", fontsize=7, color="#666666", bbox=box, zorder=4)
     ax.set_yticks(y); ax.set_yticklabels(names, fontsize=8)
     ax.set_xlim(0.7, 1.13); ax.set_xlabel("decode rate relative to Vulkan (1.0 = parity)")
     ax.set_title("GGML_CUDA_GRAPH_OPT=1: gains where it forks streams, nothing where it cannot",

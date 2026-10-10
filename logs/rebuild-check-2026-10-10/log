@@ -1,0 +1,46 @@
+[2026-10-10 10:54:04] clone 7ba604f from ~/llama-master and apply 13 patches with git am
+[2026-10-10 10:54:06] applied: 13 commits
+[2026-10-10 10:54:06] files differing from ~/llama-master's working tree: 2
+[2026-10-10 10:54:07] configure and build as README step 7 says (llama-cli and llama-bench)
+[2026-10-10 10:54:11] GGML options differing from build-hip-pkf16: 0
+[2026-10-10 11:02:48] built in 517 s
+[2026-10-10 11:02:48] greedy replies, every other GPU user stopped: inactive inactive inactive 
+[2026-10-10 11:02:50] qwen2.5-1.5b-q4km campaign: rc=0 md5=7033302a 612B | A GPU compute queue is a concept in computer graphics and parallel com
+[2026-10-10 11:02:53] qwen2.5-1.5b-q4km rebuild: rc=0 md5=7033302a 612B | A GPU compute queue is a concept in computer graphics and parallel com
+[2026-10-10 11:02:55] qwen2.5-1.5b-q4km campaign-again: rc=0 md5=7033302a 612B | A GPU compute queue is a concept in computer graphics and parallel com
+[2026-10-10 11:03:59] qwen3-8b-q8_0 campaign: rc=0 md5=90b056d9 594B |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-10 11:08:04] qwen3-8b-q8_0 rebuild: rc=0 md5=90b056d9 594B |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-10 11:08:56] qwen3-8b-q8_0 campaign-again: rc=0 md5=90b056d9 594B |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-10 11:10:02] deepseek-r1-14b campaign: rc=0 md5=96357da6 581B |  [Start thinking]   Okay, so I'm trying to understand what a GPU compu
+[2026-10-10 11:11:44] deepseek-r1-14b rebuild: rc=0 md5=96357da6 581B |  [Start thinking]   Okay, so I'm trying to understand what a GPU compu
+[2026-10-10 11:13:30] deepseek-r1-14b campaign-again: rc=0 md5=96357da6 581B |  [Start thinking]   Okay, so I'm trying to understand what a GPU compu
+[2026-10-10 11:14:37] qwen3-14b campaign: rc=0 md5=679a50d9 649B |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-10 11:16:24] qwen3-14b rebuild: rc=0 md5=679a50d9 649B |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-10 11:17:20] qwen3-14b campaign-again: rc=0 md5=679a50d9 649B |  [Start thinking]  Okay, so I need to explain what a GPU compute queue
+[2026-10-10 11:19:55] qwen3.6-35b-a3b-iq2m campaign: rc=0 md5=b5ca281a 527B |  [Start thinking]  Here's a thinking process:  1.  **Analyze User Inpu
+[2026-10-10 11:24:09] qwen3.6-35b-a3b-iq2m rebuild: rc=0 md5=b5ca281a 527B |  [Start thinking]  Here's a thinking process:  1.  **Analyze User Inpu
+[2026-10-10 11:26:04] qwen3.6-35b-a3b-iq2m campaign-again: rc=0 md5=b5ca281a 527B |  [Start thinking]  Here's a thinking process:  1.  **Analyze User Inpu
+[2026-10-10 11:27:37] qwen3.8-27b-iq3xxs campaign: rc=0 md5=817f1ab2 571B |  [Start thinking]  We need answer user: "The BC-250 is a mining board 
+[2026-10-10 11:29:00] qwen3.8-27b-iq3xxs rebuild: rc=0 md5=817f1ab2 571B |  [Start thinking]  We need answer user: "The BC-250 is a mining board 
+[2026-10-10 11:32:13] qwen3.8-27b-iq3xxs campaign-again: rc=0 md5=817f1ab2 571B |  [Start thinking]  We need answer user: "The BC-250 is a mining board 
+[2026-10-10 11:32:13] speed, edge +61.0°C
+[2026-10-10 11:32:40] qwen2.5-1.5b-q4km speed done, edge +69.0°C
+[2026-10-10 11:36:14] qwen3-8b-q8_0 speed done, edge +67.0°C
+[2026-10-10 11:41:17] deepseek-r1-14b speed done, edge +71.0°C
+[2026-10-10 11:46:52] qwen3-14b speed done, edge +71.0°C
+[2026-10-10 11:51:04] qwen3.6-35b-a3b-iq2m speed done, edge +63.0°C
+[2026-10-10 11:57:54] qwen3.8-27b-iq3xxs speed done, edge +75.0°C
+model test campaign rebuild rebuild/campaign samples
+qwen2.5-1.5b-q4km pp512 1798.22 1798.93 1.0004 9/9
+qwen2.5-1.5b-q4km tg64 197.83 197.56 0.9987 9/9
+qwen3-8b-q8_0 pp512 406.39 407.54 1.0028 9/9
+qwen3-8b-q8_0 tg64 38.48 38.48 1.0000 9/9
+deepseek-r1-14b pp512 192.19 192.24 1.0003 9/9
+deepseek-r1-14b tg64 32.37 32.33 0.9989 9/9
+qwen3-14b pp512 193.33 193.45 1.0006 9/9
+qwen3-14b tg64 32.37 32.38 1.0005 9/9
+qwen3.6-35b-a3b-iq2m pp512 587.20 587.20 1.0000 9/9
+qwen3.6-35b-a3b-iq2m tg64 70.01 70.34 1.0047 9/9
+qwen3.8-27b-iq3xxs pp512 102.04 102.01 0.9998 9/9
+qwen3.8-27b-iq3xxs tg64 15.03 15.02 0.9994 9/9
+[2026-10-10 11:57:54] done

@@ -46,8 +46,35 @@ wave of occupancy (17408 to 34816 bytes of shared memory) and gains nothing.
 Co-authored-by: Claude Opus 5 <noreply@anthropic.com>
 Signed-off-by: Artur Andrzejczak <andrzejczak.artur@gmail.com>
 ---
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index ce95a2a..b920542 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -30,6 +30,7 @@
+ #include "ggml-cuda/im2col.cuh"
+ #include "ggml-cuda/mmf.cuh"
+ #include "ggml-cuda/mmq.cuh"
++#include "ggml-cuda/mmf16-rdna1.cuh"
+ #include "ggml-cuda/mmvf.cuh"
+ #include "ggml-cuda/mmvq.cuh"
+ #include "ggml-cuda/norm.cuh"
+@@ -1858,6 +1859,13 @@ static void ggml_cuda_mul_mat(ggml_backend_cuda_context & ctx, const ggml_tensor
+         ggml_cuda_mul_mat_vec_q(ctx, src0, src1, nullptr, dst);
+         return;
+     }
++    // RDNA1 has no int8 dot product, so MMQ runs the slowest arithmetic on the chip; a packed-fp16
++    // tile GEMM is 2.2 to 2.4 times faster for prefill (logs/alu-rates-2026-09-19)
++    if (ggml_cuda_mmf16_rdna1_supported(src0, src1, dst, cc)) {
++        ggml_cuda_mmf16_rdna1(ctx, src0, src1, dst);
++        return;
++    }
++
+     if (ggml_cuda_should_use_mmq(src0->type, cc, ne11, /*n_experts =*/ 0)) {
+         ggml_cuda_mul_mat_q(ctx, src0, src1, nullptr, dst);
+         return;
 diff --git a/ggml/src/ggml-cuda/mmf16-rdna1.cu b/ggml/src/ggml-cuda/mmf16-rdna1.cu
 new file mode 100644
+index 0000000..8c916ad
 --- /dev/null
 +++ b/ggml/src/ggml-cuda/mmf16-rdna1.cu
 @@ -0,0 +1,329 @@
@@ -382,6 +409,7 @@ new file mode 100644
 +}
 diff --git a/ggml/src/ggml-cuda/mmf16-rdna1.cuh b/ggml/src/ggml-cuda/mmf16-rdna1.cuh
 new file mode 100644
+index 0000000..acdbc17
 --- /dev/null
 +++ b/ggml/src/ggml-cuda/mmf16-rdna1.cuh
 @@ -0,0 +1,6 @@
@@ -391,27 +419,3 @@ new file mode 100644
 +// RDNA1: prefill matmuls through a packed-fp16 tile GEMM instead of MMQ's emulated int8 tiles.
 +bool ggml_cuda_mmf16_rdna1_supported(const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * dst, int cc);
 +void ggml_cuda_mmf16_rdna1(ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst);
---- a/ggml/src/ggml-cuda/ggml-cuda.cu
-+++ b/ggml/src/ggml-cuda/ggml-cuda.cu
-@@ -34,6 +34,7 @@
- #include "ggml-cuda/im2col.cuh"
- #include "ggml-cuda/mmf.cuh"
- #include "ggml-cuda/mmq.cuh"
-+#include "ggml-cuda/mmf16-rdna1.cuh"
- #include "ggml-cuda/mmvf.cuh"
- #include "ggml-cuda/mmvq.cuh"
- #include "ggml-cuda/norm.cuh"
-@@ -2085,6 +2086,13 @@
-         ggml_cuda_mul_mat_vec_q(ctx, src0, src1, nullptr, dst);
-         return;
-     }
-+    // RDNA1 has no int8 dot product, so MMQ runs the slowest arithmetic on the chip; a packed-fp16
-+    // tile GEMM is 2.2 to 2.4 times faster for prefill (logs/alu-rates-2026-09-19)
-+    if (ggml_cuda_mmf16_rdna1_supported(src0, src1, dst, cc)) {
-+        ggml_cuda_mmf16_rdna1(ctx, src0, src1, dst);
-+        return;
-+    }
-+
-     if (ggml_cuda_should_use_mmq(src0->type, cc, ne11, /*n_experts =*/ 0)) {
-         if (getenv("BC250_PATH")) fprintf(stderr, "BC250PATH %s -> MMQ (src0=%s src1=%s ne11=%lld)\n", dst->name, ggml_type_name(src0->type), ggml_type_name(src1->type), (long long) ne11);
-         ggml_cuda_mul_mat_q(ctx, src0, src1, nullptr, dst);

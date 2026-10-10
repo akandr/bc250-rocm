@@ -1,0 +1,78 @@
+pass                                       t/s   window  source  seconds at 1500 / below 1450
+hip qwen3-14b f16 d26624                    11.24            no clock log yet
+hip qwen3-14b q8_0 d39936                    8.39            no clock log yet
+hip qwen3-14b q8_0 d46080                    7.29            no clock log yet
+hip qwen3-14b q8_0 d49152                    6.94            no clock log yet
+hip qwen3-14b q8_0 d51200                    6.73            no clock log yet
+hip qwen3-14b q4_0 d76800                    6.38            no clock log yet
+hip qwen3-14b q4_0 d89088                    5.40            no clock log yet
+hip qwen3-8b-q8_0 f16 d32768                25.20            no clock log yet
+hip qwen3-8b-q8_0 q8_0 d49152                9.01   1 min  1 min   0 / 8  (minutes include fill)
+hip qwen3-8b-q8_0 q8_0 d57344                7.67   1 min  1 min   42 / 10  (minutes include fill)
+hip qwen3-8b-q8_0 q8_0 d61440                7.25   1 min  1 min   24 / 26  (minutes include fill)
+hip qwen3-8b-q8_0 q4_0 d92160                6.53   1 min  1 min   26 / 23  (minutes include fill)
+hip qwen3-8b-q8_0 q4_0 d107520               5.59   1 min  1 min   24 / 30  (minutes include fill)
+hip qwen3-8b-q8_0 q4_0 d114688               5.31   2 min  1 min   50 / 46  (minutes include fill)
+hip qwen3.8-27b-iq3xxs f16 d22528           13.28   1 min  1 min   51 / 3  (minutes include fill)
+hip qwen3.8-27b-iq3xxs f16 d24576           13.10   1 min  1 min   28 / 23  (minutes include fill)
+hip qwen3.8-27b-iq3xxs f16 d25600           10.94   1 min  1 min   25 / 25  (minutes include fill)
+hip qwen3.8-27b-iq3xxs q8_0 d37888           8.20   1 min  1 min   18 / 31  (minutes include fill)
+hip qwen3.8-27b-iq3xxs q8_0 d44032           7.42   1 min  1 min   34 / 14  (minutes include fill)
+hip qwen3.8-27b-iq3xxs q8_0 d47104           7.21   1 min  1 min   50 / 4  (minutes include fill)
+hip qwen3.8-27b-iq3xxs q4_0 d70656           6.96   1 min  1 min   13 / 41  (minutes include fill)
+hip qwen3.8-27b-iq3xxs q4_0 d81920           6.47   1 min  1 min   43 / 6  (minutes include fill)
+hip qwen3.8-27b-iq3xxs q4_0 d88064           6.19   1 min  1 min   44 / 10  (minutes include fill)
+hipng qwen3.8-27b-iq3xxs q4_0 d82944         6.46   2 min  1 min   56 / 47  (minutes include fill)
+hippc qwen3.8-27b-iq3xxs q4_0 d82944         6.45   2 min  1 min   62 / 42  (minutes include fill)
+hip qwen3.6-35b-a3b-iq2m f16 d90112         39.01   1 min  1 min   46 / 8  (minutes include fill)
+hip qwen3.6-35b-a3b-iq2m q8_0 d135168       11.93   1 min  1 min   35 / 14  (minutes include fill)
+hip qwen3.6-35b-a3b-iq2m q8_0 d157696       10.18   1 min  1 min   26 / 23  (minutes include fill)
+hipng qwen3.6-35b-a3b-iq2m q8_0 d151552     10.75   2 min  1 min   58 / 44  (minutes include fill)
+hipng qwen3.6-35b-a3b-iq2m q8_0 d159744     10.16   1 min  1 min   34 / 15  (minutes include fill)
+hippc qwen3.6-35b-a3b-iq2m q8_0 d151552     10.66   1 min  1 min   12 / 41  (minutes include fill)
+hippc qwen3.6-35b-a3b-iq2m q8_0 d159744     10.21   1 min  1 min   32 / 19  (minutes include fill)
+hip qwen3.6-35b-a3b-iq2m q4_0 d236544        8.57   1 min  1 min   27 / 24  (minutes include fill)
+hipng qwen3.6-35b-a3b-iq2m q4_0 d239616      8.50   2 min  1 min   51 / 43  (minutes include fill)
+hippc qwen3.6-35b-a3b-iq2m q4_0 d239616      8.47   1 min  1 min   16 / 32  (minutes include fill)
+vk qwen3.6-35b-a3b-iq2m q4_0 d430080        12.65   2 min  1 min   52 / 49  (minutes include fill)
+vk qwen3.6-35b-a3b-iq2m q4_0 d501760        10.53   1 min  1 min   32 / 20  (minutes include fill)
+vk qwen3.6-35b-a3b-iq2m q4_0 d537600        10.05   1 min  1 min   36 / 13  (minutes include fill)
+hip qwen2.5-1.5b-q4km f16 d262144           24.66   1 min  1 min   32 / 18  (minutes include fill)
+hip qwen2.5-1.5b-q4km f16 d393216           16.88   1 min  1 min   33 / 17  (minutes include fill)
+hipng qwen2.5-1.5b-q4km f16 d8192          162.83   1 min  1 min   16 / 33  (minutes include fill)
+hipng qwen2.5-1.5b-q4km f16 d16384         141.12   1 min  1 min   16 / 33  (minutes include fill)
+hipng qwen2.5-1.5b-q4km f16 d32768         109.55   1 min  1 min   35 / 19  (minutes include fill)
+hipng qwen2.5-1.5b-q4km f16 d65536          74.39   1 min  1 min   33 / 20  (minutes include fill)
+hipng qwen2.5-1.5b-q4km f16 d131072         44.70   1 min  1 min   26 / 28  (minutes include fill)
+hipng qwen2.5-1.5b-q4km f16 d262144         24.70   1 min  1 min   49 / 5  (minutes include fill)
+hipng qwen2.5-1.5b-q4km f16 d393216         16.97   1 min  1 min   39 / 11  (minutes include fill)
+hipng qwen2.5-1.5b-q4km f16 d425984         15.59   1 min  1 min   22 / 28  (minutes include fill)
+hippc qwen2.5-1.5b-q4km f16 d8192          162.09   1 min  1 min   22 / 28  (minutes include fill)
+hippc qwen2.5-1.5b-q4km f16 d16384         140.92   1 min  1 min   17 / 33  (minutes include fill)
+hippc qwen2.5-1.5b-q4km f16 d32768         108.85   1 min  1 min   45 / 5  (minutes include fill)
+hippc qwen2.5-1.5b-q4km f16 d65536          74.28   1 min  1 min   49 / 2  (minutes include fill)
+hippc qwen2.5-1.5b-q4km f16 d131072         44.69   1 min  1 min   30 / 20  (minutes include fill)
+hippc qwen2.5-1.5b-q4km f16 d262144         24.39   1 min  1 min   33 / 20  (minutes include fill)
+hippc qwen2.5-1.5b-q4km f16 d393216         16.98   1 min  1 min   20 / 30  (minutes include fill)
+hippc qwen2.5-1.5b-q4km f16 d425984         15.56   1 min  1 min   39 / 16  (minutes include fill)
+vk qwen2.5-1.5b-q4km f16 d262144            27.19   1 min  1 min   17 / 31  (minutes include fill)
+vk qwen2.5-1.5b-q4km f16 d393216            19.08   1 min  1 min   26 / 23  (minutes include fill)
+vk qwen2.5-1.5b-q4km f16 d458752            15.47   1 min  1 min   29 / 21  (minutes include fill)
+hip qwen2.5-1.5b-q4km q8_0 d589824           3.40   1 min  1 min   25 / 31  (minutes include fill)
+hipng qwen2.5-1.5b-q4km q8_0 d638976         3.13    23 s  1 s     23 / 0
+hippc qwen2.5-1.5b-q4km q8_0 d638976         3.13    20 s  1 s     20 / 0
+vk qwen2.5-1.5b-q4km q8_0 d688128            9.16     9 s  1 s     9 / 0
+hip qwen2.5-1.5b-q4km q4_0 d884736           2.91    24 s  1 s     24 / 0
+hipng qwen2.5-1.5b-q4km q4_0 d958464         2.69    26 s  1 s     26 / 0
+hippc qwen2.5-1.5b-q4km q4_0 d958464         2.69    26 s  1 s     26 / 0
+vk qwen2.5-1.5b-q4km q4_0 d1376256           3.44    21 s  1 s     21 / 0
+hip qwen2.5-1.5b-q4km q8_0 d688128           2.90    25 s  1 s     25 / 0
+hipng qwen2.5-1.5b-q4km q8_0 d692224         2.88    25 s  1 s     25 / 0
+hippc qwen2.5-1.5b-q4km q8_0 d692224         2.88    25 s  1 s     25 / 0
+vk qwen2.5-1.5b-q4km q8_0 d802816            7.82    10 s  1 s     10 / 0
+hip qwen2.5-1.5b-q4km q4_0 d1032192          2.49    27 s  1 s     27 / 0
+hip qwen2.5-1.5b-q4km q4_0 d1105920          2.32    30 s  1 s     30 / 0
+hipng qwen2.5-1.5b-q4km q4_0 d1118208        2.30    29 s  1 s     29 / 0
+hipng qwen2.5-1.5b-q4km q4_0 d1198080        2.13    32 s  1 s     32 / 0
+hippc qwen2.5-1.5b-q4km q4_0 d1118208        2.30    29 s  1 s     26 / 3
+hippc qwen2.5-1.5b-q4km q4_0 d1198080        2.13    32 s  1 s     32 / 0

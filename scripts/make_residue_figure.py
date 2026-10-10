@@ -8,6 +8,7 @@ Driven by the numbers in logs/decode-residue-2026-09-25/README.md, which are in 
 kerntrace tables and llama-bench runs in that directory.
 """
 import os
+import sys
 
 import matplotlib
 matplotlib.use("Agg")
@@ -17,12 +18,11 @@ import numpy as np
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures")
 os.makedirs(OUT, exist_ok=True)
 
-DARK, MID, ACC = "#2b2b2b", "#9a9a9a", "#555555"
-plt.rcParams.update({
-    "font.size": 9, "axes.spines.top": False, "axes.spines.right": False,
-    "axes.grid": True, "grid.color": "#dddddd", "grid.linewidth": 0.5,
-    "axes.axisbelow": True, "figure.dpi": 150,
-})
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import figstyle as S
+S.apply()
+# ROCm only: time inside kernels in ROCm's red, the part outside any kernel in amber
+DARK, MID, ACC = S.ROCM, S.AMBER, S.INK
 
 # model, tokens a second untraced, kernel ms a token, dispatches a token
 M = [("qwen2.5-1.5B", 183.82, 4.783, 369),

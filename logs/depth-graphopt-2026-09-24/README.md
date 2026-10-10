@@ -1,9 +1,10 @@
 # The decode ladder with the multi-stream option, 2026-09-24
 
 > **Correction, 2 October 2026.** The rates here stand, but the option, as shipped, computes wrong
-> tokens on the models where it launches streams; the 1.5B's replies happened to match the default in
-> ordinary runs. [`logs/graphopt-correctness-2026-10-02/`](../graphopt-correctness-2026-10-02/) has the
-> evidence and a fix that keeps the speed.
+> tokens on the models where it launches streams, this 1.5B included.
+> [`logs/graphopt-correctness-2026-10-02/`](../graphopt-correctness-2026-10-02/) has the evidence and a
+> fix, and [`logs/depth-graphopt-fix-2026-10-10/`](../depth-graphopt-fix-2026-10-10/) this ladder with the
+> fix, which keeps the speed at every depth.
 
 The front page's decode-at-depth table was measured before `GGML_CUDA_GRAPH_OPT=1` existed in this
 repository's vocabulary ([`logs/graph-opt-2026-09-24/`](../graph-opt-2026-09-24/)), and decode at depth

@@ -1,0 +1,27 @@
+gfx ring timeouts the kernel logged during Vulkan's deepest passes ("amdgpu: ring gfx_0.0.0 timeout,
+signaled seq=..., emitted seq=..."), as the campaign's monitor read them from the kernel log while the
+runs went. It read the kernel log from before the first run to the last; of all the campaign's runs,
+ROCm and Vulkan, only these three logged any. The first ones it printed line by line: 2026-10-01
+18:06:02, 18:06:53, 18:06:55, 18:06:57, 18:07:00 and 18:07:13 (signaled seq 249611 to 249727); from 18:08
+it counted them, at most one report an hour. The kernel log of that boot has since rotated past them, so
+these lines, and the sequence numbers that show the ring still advancing, are the record. Times are CEST.
+
+report at          timeouts since the previous report   last signaled seq   run
+2026-10-01 18:08      7                                  249878              vk qwen3.6-35b-a3b-iq2m q4_0 d501760 (15:16 to 18:35)
+2026-10-01 19:09    653                                  -                   d501760, then d537600 (18:36 to 22:22)
+2026-10-01 21:26      4                                  282619              vk qwen3.6-35b-a3b-iq2m q4_0 d537600
+2026-10-01 22:26   1370                                  -                   d537600
+2026-10-06 00:13      1                                  1520033             vk qwen2.5-1.5b-q4km q4_0 d1376256 (2026-10-05 06:12 to 2026-10-06 06:57)
+2026-10-06 01:14    831                                  1523918             d1376256
+2026-10-06 02:14   1701                                  1527631             d1376256
+2026-10-06 03:15   1695                                  1531276             d1376256
+2026-10-06 04:15   1642                                  1534811             d1376256
+2026-10-06 05:15   1604                                  1538261             d1376256
+2026-10-06 06:16   1570                                  1541639             d1376256
+2026-10-06 07:16   1048                                  -                   d1376256, the last one at 06:57:00
+
+The MoE's two deepest passes: 2040 at least between them, six of them printed before counting began.
+The 1.5B's deepest pass: 10092, from about 18 hours into its fill to its end, one every 2.3 s at the
+end, the ring advancing two jobs per timeout (about 3500 jobs an hour). amdgpu.gpu_recovery=0 is part
+of this board's setup (README, step 2); with recovery on, the driver would have tried a GPU reset at the
+first of them, which on this chip takes the host down.

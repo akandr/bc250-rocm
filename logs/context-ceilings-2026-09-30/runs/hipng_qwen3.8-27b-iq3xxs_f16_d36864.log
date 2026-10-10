@@ -1,0 +1,39 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |
+/home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:111: ROCm error
+⚠️ warning: The current terminal doesn't support styling.  Styled output might not appear as expected.
+[New LWP 3794420]
+[New LWP 3793887]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+0x00007fda02682312 in __syscall_cancel_arch () from /lib64/libc.so.6
+#0  0x00007fda02682312 in __syscall_cancel_arch () from /lib64/libc.so.6
+#1  0x00007fda0267652c in __internal_syscall_cancel () from /lib64/libc.so.6
+#2  0x00007fda02676574 in __syscall_cancel () from /lib64/libc.so.6
+#3  0x00007fda026e614f in wait4 () from /lib64/libc.so.6
+#4  0x00007fda0771505b in ggml_print_backtrace () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-base.so.0
+#5  0x00007fda077151cd in ggml_abort () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-base.so.0
+#6  0x00007fda0620a9e2 in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+#7  0x00007fda06210707 in ggml_backend_cuda_synchronize(ggml_backend*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+#8  0x00007fda0772ec8e in ggml_backend_sched_synchronize () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-base.so.0
+#9  0x00007fda077319d9 in ggml_backend_sched_reserve () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-base.so.0
+#10 0x00007fda06e4f818 in llama_context::graph_reserve(unsigned int, unsigned int, unsigned int, llama_memory_context_i const*, bool, unsigned long*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libllama.so.0
+#11 0x00007fda06e50c72 in llama_context::sched_reserve() () from /home/akandr/llama-master/build-hip-pkf16/bin/libllama.so.0
+#12 0x00007fda06e5658d in llama_context::llama_context(llama_model const&, llama_context_params) () from /home/akandr/llama-master/build-hip-pkf16/bin/libllama.so.0
+#13 0x00007fda06e579dd in llama_init_from_model () from /home/akandr/llama-master/build-hip-pkf16/bin/libllama.so.0
+#14 0x0000000000419f29 in llama_bench(int, char**) ()
+#15 0x00007fda0260a681 in __libc_start_call_main () from /lib64/libc.so.6
+#16 0x00007fda0260a798 in __libc_start_main_impl () from /lib64/libc.so.6
+#17 0x00000000004038b5 in _start ()
+[Inferior 1 (process 3793877) detached]
+timeout: monitowane polecenie zrobiło zrzut pamięci

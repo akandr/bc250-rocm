@@ -1,0 +1,405 @@
+[2026-09-30 12:25:16] cell hip qwen3-14b f16: known pass <= 13312, known fail >= 0
+[2026-09-30 12:34:23] hip qwen3-14b f16 d26624: ok 11.24 547s rc=0  edge=+70.0°C avail=14550M swap=443M swapped-out-pages=26871
+[2026-09-30 12:37:14] hip qwen3-14b f16 d53248: fails - 146s rc=1  edge=+58.0°C avail=14484M swap=444M swapped-out-pages=22654
+[2026-09-30 12:41:55] hip qwen3-14b f16 d39936: fails - 253s rc=1  edge=+57.0°C avail=14500M swap=444M swapped-out-pages=22271
+[2026-09-30 12:46:09] hip qwen3-14b f16 d32768: fails - 226s rc=1  edge=+56.0°C avail=14540M swap=444M swapped-out-pages=22483
+[2026-09-30 12:47:33] hip qwen3-14b f16 d29696: fails - 55s rc=1  edge=+56.0°C avail=14437M swap=445M swapped-out-pages=22803
+[2026-09-30 12:48:02]   RESULT hip qwen3-14b f16: generates at 26624, fails at 29696
+[2026-09-30 12:48:02] cell hipng qwen3-14b f16: known pass <= 27648, known fail >= 0
+[2026-09-30 12:51:33] hipng qwen3-14b f16 d55296: fails - 211s rc=1  edge=+56.0°C avail=14523M swap=444M swapped-out-pages=22497
+[2026-09-30 12:56:27] hipng qwen3-14b f16 d40960: fails - 266s rc=1  edge=+55.0°C avail=14535M swap=445M swapped-out-pages=23548
+[2026-09-30 12:59:01] hipng qwen3-14b f16 d33792: fails - 125s rc=1  edge=+55.0°C avail=14505M swap=444M swapped-out-pages=21445
+[2026-09-30 13:03:06] hipng qwen3-14b f16 d30720: fails - 217s rc=1  edge=+56.0°C avail=14455M swap=444M swapped-out-pages=22417
+[2026-09-30 13:03:35]   RESULT hipng qwen3-14b f16: generates at 27648, fails at 30720
+[2026-09-30 13:03:35] cell hippc qwen3-14b f16: known pass <= 26624, known fail >= 0
+[2026-09-30 13:06:31] hippc qwen3-14b f16 d53248: fails - 176s rc=1  edge=+55.0°C avail=14467M swap=444M swapped-out-pages=21710
+[2026-09-30 13:08:35] hippc qwen3-14b f16 d39936: fails - 96s rc=1  edge=+56.0°C avail=14542M swap=444M swapped-out-pages=21533
+[2026-09-30 13:10:24] hippc qwen3-14b f16 d32768: fails - 81s rc=1  edge=+55.0°C avail=14587M swap=444M swapped-out-pages=21727
+[2026-09-30 13:12:18] hippc qwen3-14b f16 d29696: fails - 85s rc=1  edge=+55.0°C avail=14492M swap=444M swapped-out-pages=21986
+[2026-09-30 13:12:46]   RESULT hippc qwen3-14b f16: generates at 26624, fails at 29696
+[2026-09-30 13:12:46] cell vk qwen3-14b f16: known pass <= 38912, known fail >= 0
+[2026-09-30 13:13:32] vk qwen3-14b f16 d77824: killed - 46s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14658M swap=451M swapped-out-pages=18513
+[2026-09-30 13:14:42] vk qwen3-14b f16 d58368: killed - 42s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14670M swap=451M swapped-out-pages=18727
+[2026-09-30 13:15:56] vk qwen3-14b f16 d48128: killed - 46s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14656M swap=445M swapped-out-pages=18741
+[2026-09-30 13:17:06] vk qwen3-14b f16 d43008: killed - 41s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14673M swap=451M swapped-out-pages=20247
+[2026-09-30 13:17:34]   RESULT vk qwen3-14b f16: generates at 38912, fails at 43008
+[2026-09-30 13:17:34] cell hip qwen3-14b q8_0: known pass <= 26624, known fail >= 0
+[2026-09-30 13:18:43] hip qwen3-14b q8_0 d53248: fails - 69s rc=134 ROCm error edge=+56.0°C avail=4343M swap=444M swapped-out-pages=19758
+[2026-09-30 13:35:07] hip qwen3-14b q8_0 d39936: ok 8.39 956s rc=0  edge=+70.0°C avail=14570M swap=444M swapped-out-pages=22452
+[2026-09-30 13:55:34] hip qwen3-14b q8_0 d46080: ok 7.29 1202s rc=0  edge=+70.0°C avail=14442M swap=444M swapped-out-pages=23550
+[2026-09-30 14:20:26] hip qwen3-14b q8_0 d49152: ok 6.94 1466s rc=0  edge=+70.0°C avail=14526M swap=445M swapped-out-pages=25357
+[2026-09-30 14:45:22] hip qwen3-14b q8_0 d51200: ok 6.73 1470s rc=0  edge=+70.0°C avail=14542M swap=444M swapped-out-pages=22353
+[2026-09-30 14:45:48]   RESULT hip qwen3-14b q8_0: generates at 51200, fails at 53248
+[2026-09-30 14:45:48] cell hipng qwen3-14b q8_0: known pass <= 51200, known fail >= 0
+[2026-09-30 14:50:22] hipng qwen3-14b q8_0 d102400: fails - 274s rc=1  edge=+57.0°C avail=14512M swap=445M swapped-out-pages=19268
+[2026-09-30 14:52:42] hipng qwen3-14b q8_0 d76800: fails - 112s rc=1  edge=+55.0°C avail=14526M swap=445M swapped-out-pages=22200
+[2026-09-30 14:56:41] hipng qwen3-14b q8_0 d63488: fails - 210s rc=1  edge=+56.0°C avail=14541M swap=445M swapped-out-pages=22236
+[2026-09-30 15:01:17] hipng qwen3-14b q8_0 d57344: fails - 248s rc=1  edge=+56.0°C avail=14552M swap=445M swapped-out-pages=22860
+[2026-09-30 15:01:45]   RESULT hipng qwen3-14b q8_0: generates at 51200, fails at 57344
+[2026-09-30 15:01:45] cell hippc qwen3-14b q8_0: known pass <= 51200, known fail >= 0
+[2026-09-30 15:05:47] hippc qwen3-14b q8_0 d102400: fails - 242s rc=1  edge=+56.0°C avail=14502M swap=444M swapped-out-pages=21996
+[2026-09-30 15:09:52] hippc qwen3-14b q8_0 d76800: fails - 217s rc=1  edge=+56.0°C avail=14516M swap=444M swapped-out-pages=22377
+[2026-09-30 15:12:22] hippc qwen3-14b q8_0 d63488: fails - 122s rc=1  edge=+56.0°C avail=14359M swap=444M swapped-out-pages=21731
+[2026-09-30 15:14:29] hippc qwen3-14b q8_0 d57344: fails - 98s rc=1  edge=+56.0°C avail=14572M swap=444M swapped-out-pages=22439
+[2026-09-30 15:14:58]   RESULT hippc qwen3-14b q8_0: generates at 51200, fails at 57344
+[2026-09-30 15:14:58] cell vk qwen3-14b q8_0: known pass <= 65536, known fail >= 0
+[2026-09-30 15:15:43] vk qwen3-14b q8_0 d131072: killed - 45s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14665M swap=451M swapped-out-pages=18483
+[2026-09-30 15:16:56] vk qwen3-14b q8_0 d98304: killed - 44s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14672M swap=451M swapped-out-pages=18116
+[2026-09-30 15:18:14] vk qwen3-14b q8_0 d81920: killed - 50s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14669M swap=451M swapped-out-pages=18953
+[2026-09-30 15:19:31] vk qwen3-14b q8_0 d73728: killed - 49s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+62.0°C avail=14605M swap=450M swapped-out-pages=27652
+[2026-09-30 15:20:00]   RESULT vk qwen3-14b q8_0: generates at 65536, fails at 73728
+[2026-09-30 15:20:00] cell hip qwen3-14b q4_0: known pass <= 51200, known fail >= 0
+[2026-09-30 15:21:13] hip qwen3-14b q4_0 d102400: fails - 73s rc=1  edge=+56.0°C avail=14554M swap=447M swapped-out-pages=24287
+[2026-09-30 16:05:00] hip qwen3-14b q4_0 d76800: ok 6.38 2598s rc=0  edge=+70.0°C avail=14550M swap=444M swapped-out-pages=30296
+[2026-09-30 17:04:25] hip qwen3-14b q4_0 d89088: ok 5.40 3539s rc=0  edge=+70.0°C avail=14487M swap=445M swapped-out-pages=23247
+[2026-09-30 18:12:04] hip qwen3-14b q4_0 d95232: fails - 4033s rc=134 ROCm error edge=+67.0°C avail=1208M swap=445M swapped-out-pages=23974
+[2026-09-30 18:12:33]   RESULT hip qwen3-14b q4_0: generates at 89088, fails at 95232
+[2026-09-30 18:12:33] cell hipng qwen3-14b q4_0: known pass <= 95232, known fail >= 0
+[2026-09-30 18:13:39] hipng qwen3-14b q4_0 d190464: fails - 66s rc=1  edge=+58.0°C avail=14511M swap=445M swapped-out-pages=20467
+[2026-09-30 18:14:59] hipng qwen3-14b q4_0 d142336: fails - 52s rc=1  edge=+57.0°C avail=14546M swap=446M swapped-out-pages=21932
+[2026-09-30 18:17:19] hipng qwen3-14b q4_0 d118784: fails - 111s rc=1  edge=+56.0°C avail=14494M swap=446M swapped-out-pages=21991
+[2026-09-30 18:19:21] hipng qwen3-14b q4_0 d106496: fails - 93s rc=1  edge=+56.0°C avail=14478M swap=445M swapped-out-pages=22552
+[2026-09-30 18:19:49]   RESULT hipng qwen3-14b q4_0: generates at 95232, fails at 106496
+[2026-09-30 18:19:49] cell hippc qwen3-14b q4_0: known pass <= 95232, known fail >= 0
+[2026-09-30 18:24:13] hippc qwen3-14b q4_0 d190464: fails - 264s rc=1  edge=+57.0°C avail=14525M swap=445M swapped-out-pages=21975
+[2026-09-30 18:26:10] hippc qwen3-14b q4_0 d142336: fails - 89s rc=1  edge=+56.0°C avail=14496M swap=445M swapped-out-pages=19565
+[2026-09-30 18:28:43] hippc qwen3-14b q4_0 d118784: fails - 126s rc=1  edge=+56.0°C avail=14515M swap=447M swapped-out-pages=22320
+[2026-09-30 18:30:48] hippc qwen3-14b q4_0 d106496: fails - 97s rc=1  edge=+55.0°C avail=14473M swap=445M swapped-out-pages=22642
+[2026-09-30 18:31:16]   RESULT hippc qwen3-14b q4_0: generates at 95232, fails at 106496
+[2026-09-30 18:31:16] cell vk qwen3-14b q4_0: known pass <= 131072, known fail >= 0
+[2026-09-30 18:32:03] vk qwen3-14b q4_0 d262144: killed - 47s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14602M swap=449M swapped-out-pages=18588
+[2026-09-30 18:33:14] vk qwen3-14b q4_0 d196608: killed - 43s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14639M swap=451M swapped-out-pages=18899
+[2026-09-30 18:34:24] vk qwen3-14b q4_0 d163840: killed - 42s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14667M swap=452M swapped-out-pages=18596
+[2026-09-30 18:35:38] vk qwen3-14b q4_0 d147456: killed - 46s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14677M swap=452M swapped-out-pages=19527
+[2026-09-30 18:36:07]   RESULT vk qwen3-14b q4_0: generates at 131072, fails at 147456
+[2026-09-30 18:36:07] cell hip qwen3-8b-q8_0 f16: known pass <= 16384, known fail >= 0
+[2026-09-30 18:40:23] hip qwen3-8b-q8_0 f16 d32768: ok 25.20 256s rc=0  edge=+74.0°C avail=14384M swap=445M swapped-out-pages=21244
+[2026-09-30 18:42:23] hip qwen3-8b-q8_0 f16 d65536: fails - 95s rc=1  edge=+58.0°C avail=14425M swap=445M swapped-out-pages=21214
+[2026-09-30 18:46:08] hip qwen3-8b-q8_0 f16 d49152: fails - 197s rc=1  edge=+56.0°C avail=14184M swap=445M swapped-out-pages=22637
+[2026-09-30 18:48:55] hip qwen3-8b-q8_0 f16 d40960: fails - 139s rc=1  edge=+55.0°C avail=14502M swap=445M swapped-out-pages=21674
+[2026-09-30 18:52:39] hip qwen3-8b-q8_0 f16 d36864: fails - 197s rc=1  edge=+56.0°C avail=14329M swap=445M swapped-out-pages=22462
+[2026-09-30 18:53:08]   RESULT hip qwen3-8b-q8_0 f16: generates at 32768, fails at 36864
+[2026-09-30 18:53:08] cell hipng qwen3-8b-q8_0 f16: known pass <= 32768, known fail >= 0
+[2026-09-30 18:53:47] hipng qwen3-8b-q8_0 f16 d65536: fails - 39s rc=1  edge=+56.0°C avail=14522M swap=446M swapped-out-pages=17836
+[2026-09-30 18:55:36] hipng qwen3-8b-q8_0 f16 d49152: fails - 81s rc=1  edge=+56.0°C avail=14547M swap=445M swapped-out-pages=21677
+[2026-09-30 18:57:42] hipng qwen3-8b-q8_0 f16 d40960: fails - 98s rc=1  edge=+56.0°C avail=14470M swap=445M swapped-out-pages=18138
+[2026-09-30 19:00:02] hipng qwen3-8b-q8_0 f16 d36864: fails - 112s rc=1  edge=+56.0°C avail=14438M swap=448M swapped-out-pages=25605
+[2026-09-30 19:00:30]   RESULT hipng qwen3-8b-q8_0 f16: generates at 32768, fails at 36864
+[2026-09-30 19:00:30] cell hippc qwen3-8b-q8_0 f16: known pass <= 32768, known fail >= 0
+[2026-09-30 19:02:04] hippc qwen3-8b-q8_0 f16 d65536: fails - 94s rc=1  edge=+56.0°C avail=14471M swap=445M swapped-out-pages=18952
+[2026-09-30 19:04:58] hippc qwen3-8b-q8_0 f16 d49152: fails - 146s rc=1  edge=+56.0°C avail=14460M swap=445M swapped-out-pages=20438
+[2026-09-30 19:07:12] hippc qwen3-8b-q8_0 f16 d40960: fails - 106s rc=1  edge=+56.0°C avail=14508M swap=446M swapped-out-pages=19829
+[2026-09-30 19:09:52] hippc qwen3-8b-q8_0 f16 d36864: fails - 132s rc=1  edge=+55.0°C avail=14398M swap=445M swapped-out-pages=22290
+[2026-09-30 19:10:20]   RESULT hippc qwen3-8b-q8_0 f16: generates at 32768, fails at 36864
+[2026-09-30 19:10:20] cell vk qwen3-8b-q8_0 f16: known pass <= 45056, known fail >= 0
+[2026-09-30 19:10:49] vk qwen3-8b-q8_0 f16 d90112: killed - 29s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14644M swap=452M swapped-out-pages=18424
+[2026-09-30 19:11:39] vk qwen3-8b-q8_0 f16 d67584: killed - 23s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14664M swap=452M swapped-out-pages=18734
+[2026-09-30 19:12:34] vk qwen3-8b-q8_0 f16 d56320: killed - 27s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+57.0°C avail=14648M swap=451M swapped-out-pages=19841
+[2026-09-30 19:13:26] vk qwen3-8b-q8_0 f16 d50176: killed - 24s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14684M swap=452M swapped-out-pages=18260
+[2026-09-30 19:13:54]   RESULT vk qwen3-8b-q8_0 f16: generates at 45056, fails at 50176
+[2026-09-30 19:13:54] cell hip qwen3-8b-q8_0 q8_0: known pass <= 32768, known fail >= 0
+[2026-09-30 19:25:17] hip qwen3-8b-q8_0 q8_0 d65536: fails - 683s rc=134 ROCm error edge=+72.0°C avail=3861M swap=445M swapped-out-pages=21454
+[2026-09-30 19:33:27] hip qwen3-8b-q8_0 q8_0 d49152: ok 9.01 462s rc=0  edge=+76.0°C avail=14382M swap=442M swapped-out-pages=22310
+[2026-09-30 19:44:51] hip qwen3-8b-q8_0 q8_0 d57344: ok 7.67 658s rc=0  edge=+79.0°C avail=14366M swap=442M swapped-out-pages=21877
+[2026-09-30 19:58:29] hip qwen3-8b-q8_0 q8_0 d61440: ok 7.25 793s rc=0  edge=+77.0°C avail=14385M swap=442M swapped-out-pages=22281
+[2026-09-30 19:58:55]   RESULT hip qwen3-8b-q8_0 q8_0: generates at 61440, fails at 65536
+[2026-09-30 19:58:55] cell hipng qwen3-8b-q8_0 q8_0: known pass <= 61440, known fail >= 0
+[2026-09-30 20:01:46] hipng qwen3-8b-q8_0 q8_0 d122880: fails - 171s rc=1  edge=+57.0°C avail=14521M swap=445M swapped-out-pages=22758
+[2026-09-30 20:04:39] hipng qwen3-8b-q8_0 q8_0 d92160: fails - 145s rc=1  edge=+56.0°C avail=14550M swap=445M swapped-out-pages=23634
+[2026-09-30 20:07:21] hipng qwen3-8b-q8_0 q8_0 d76800: fails - 134s rc=1  edge=+57.0°C avail=14549M swap=445M swapped-out-pages=19663
+[2026-09-30 20:09:23] hipng qwen3-8b-q8_0 q8_0 d68608: fails - 94s rc=1  edge=+55.0°C avail=14520M swap=445M swapped-out-pages=18790
+[2026-09-30 20:09:51]   RESULT hipng qwen3-8b-q8_0 q8_0: generates at 61440, fails at 68608
+[2026-09-30 20:09:51] cell hippc qwen3-8b-q8_0 q8_0: known pass <= 65536, known fail >= 0
+[2026-09-30 20:10:33] hippc qwen3-8b-q8_0 q8_0 d131072: fails - 42s rc=1  edge=+55.0°C avail=14510M swap=448M swapped-out-pages=20140
+[2026-09-30 20:12:01] hippc qwen3-8b-q8_0 q8_0 d98304: fails - 61s rc=1  edge=+55.0°C avail=14527M swap=445M swapped-out-pages=21776
+[2026-09-30 20:13:59] hippc qwen3-8b-q8_0 q8_0 d81920: fails - 90s rc=1  edge=+55.0°C avail=14544M swap=446M swapped-out-pages=20248
+[2026-09-30 20:17:01] hippc qwen3-8b-q8_0 q8_0 d73728: fails - 154s rc=1  edge=+55.0°C avail=14521M swap=445M swapped-out-pages=19939
+[2026-09-30 20:17:28]   RESULT hippc qwen3-8b-q8_0 q8_0: generates at 65536, fails at 73728
+[2026-09-30 20:17:28] cell vk qwen3-8b-q8_0 q8_0: known pass <= 81920, known fail >= 0
+[2026-09-30 20:17:50] vk qwen3-8b-q8_0 q8_0 d163840: killed - 22s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14632M swap=451M swapped-out-pages=19921
+[2026-09-30 20:18:47] vk qwen3-8b-q8_0 q8_0 d122880: killed - 29s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14625M swap=453M swapped-out-pages=19430
+[2026-09-30 20:19:42] vk qwen3-8b-q8_0 q8_0 d102400: killed - 27s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14662M swap=453M swapped-out-pages=19036
+[2026-09-30 20:20:36] vk qwen3-8b-q8_0 q8_0 d92160: killed - 26s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14670M swap=453M swapped-out-pages=20392
+[2026-09-30 20:21:04]   RESULT vk qwen3-8b-q8_0 q8_0: generates at 81920, fails at 92160
+[2026-09-30 20:21:04] cell hip qwen3-8b-q8_0 q4_0: known pass <= 61440, known fail >= 0
+[2026-09-30 20:21:38] hip qwen3-8b-q8_0 q4_0 d122880: fails - 34s rc=1  edge=+57.0°C avail=14357M swap=449M swapped-out-pages=22175
+[2026-09-30 20:43:33] hip qwen3-8b-q8_0 q4_0 d92160: ok 6.53 1287s rc=0  edge=+79.0°C avail=14550M swap=445M swapped-out-pages=22744
+[2026-09-30 21:11:29] hip qwen3-8b-q8_0 q4_0 d107520: ok 5.59 1651s rc=0  edge=+77.0°C avail=14488M swap=446M swapped-out-pages=24896
+[2026-09-30 21:42:05] hip qwen3-8b-q8_0 q4_0 d114688: ok 5.31 1810s rc=0  edge=+77.0°C avail=14497M swap=445M swapped-out-pages=22714
+[2026-09-30 22:14:37] hip qwen3-8b-q8_0 q4_0 d118784: fails - 1927s rc=134 ROCm error edge=+76.0°C avail=2263M swap=445M swapped-out-pages=28359
+[2026-09-30 22:15:05]   RESULT hip qwen3-8b-q8_0 q4_0: generates at 114688, fails at 118784
+[2026-09-30 22:15:05] cell hipng qwen3-8b-q8_0 q4_0: known pass <= 118784, known fail >= 0
+[2026-09-30 22:15:48] hipng qwen3-8b-q8_0 q4_0 d237568: fails - 43s rc=1  edge=+62.0°C avail=14506M swap=448M swapped-out-pages=23774
+[2026-09-30 22:16:49] hipng qwen3-8b-q8_0 q4_0 d178176: fails - 33s rc=1  edge=+58.0°C avail=14569M swap=446M swapped-out-pages=21009
+[2026-09-30 22:18:55] hipng qwen3-8b-q8_0 q4_0 d148480: fails - 98s rc=1  edge=+56.0°C avail=14512M swap=446M swapped-out-pages=22819
+[2026-09-30 22:22:54] hipng qwen3-8b-q8_0 q4_0 d133120: fails - 212s rc=1  edge=+56.0°C avail=14544M swap=446M swapped-out-pages=22563
+[2026-09-30 22:23:22]   RESULT hipng qwen3-8b-q8_0 q4_0: generates at 118784, fails at 133120
+[2026-09-30 22:23:22] cell hippc qwen3-8b-q8_0 q4_0: known pass <= 114688, known fail >= 0
+[2026-09-30 22:24:27] hippc qwen3-8b-q8_0 q4_0 d229376: fails - 65s rc=1  edge=+56.0°C avail=14412M swap=446M swapped-out-pages=21895
+[2026-09-30 22:28:17] hippc qwen3-8b-q8_0 q4_0 d172032: fails - 202s rc=1  edge=+56.0°C avail=14489M swap=446M swapped-out-pages=22610
+[2026-09-30 22:30:27] hippc qwen3-8b-q8_0 q4_0 d143360: fails - 102s rc=1  edge=+55.0°C avail=14455M swap=446M swapped-out-pages=18865
+[2026-09-30 22:33:09] hippc qwen3-8b-q8_0 q4_0 d129024: fails - 134s rc=1  edge=+55.0°C avail=14524M swap=446M swapped-out-pages=21467
+[2026-09-30 22:33:36]   RESULT hippc qwen3-8b-q8_0 q4_0: generates at 114688, fails at 129024
+[2026-09-30 22:33:36] cell vk qwen3-8b-q8_0 q4_0: known pass <= 163840, known fail >= 0
+[2026-09-30 22:34:05] vk qwen3-8b-q8_0 q4_0 d327680: killed - 28s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14659M swap=453M swapped-out-pages=19824
+[2026-09-30 22:35:06] vk qwen3-8b-q8_0 q4_0 d245760: killed - 33s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+57.0°C avail=14563M swap=456M swapped-out-pages=20890
+[2026-09-30 22:36:01] vk qwen3-8b-q8_0 q4_0 d204800: killed - 27s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14692M swap=453M swapped-out-pages=19766
+[2026-09-30 22:36:57] vk qwen3-8b-q8_0 q4_0 d184320: killed - 28s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+57.0°C avail=14575M swap=456M swapped-out-pages=19564
+[2026-09-30 22:37:25]   RESULT vk qwen3-8b-q8_0 q4_0: generates at 163840, fails at 184320
+[2026-09-30 22:37:25] cell hip qwen3.8-27b-iq3xxs f16: known pass <= 11264, known fail >= 0
+[2026-09-30 22:43:57] hip qwen3.8-27b-iq3xxs f16 d22528: ok 13.28 392s rc=0  edge=+77.0°C avail=14538M swap=446M swapped-out-pages=34425
+[2026-09-30 22:48:14] hip qwen3.8-27b-iq3xxs f16 d45056: fails - 232s rc=1  edge=+58.0°C avail=14442M swap=446M swapped-out-pages=34465
+[2026-09-30 22:51:22] hip qwen3.8-27b-iq3xxs f16 d33792: fails - 160s rc=1  edge=+58.0°C avail=14510M swap=446M swapped-out-pages=34112
+[2026-09-30 22:55:19] hip qwen3.8-27b-iq3xxs f16 d27648: fails - 209s rc=134 ROCm error edge=+57.0°C avail=3959M swap=446M swapped-out-pages=32654
+[2026-09-30 23:03:34] hip qwen3.8-27b-iq3xxs f16 d24576: ok 13.10 466s rc=0  edge=+78.0°C avail=14537M swap=446M swapped-out-pages=41689
+[2026-09-30 23:11:35] hip qwen3.8-27b-iq3xxs f16 d25600: ok 10.94 456s rc=0  edge=+76.0°C avail=14504M swap=446M swapped-out-pages=32670
+[2026-09-30 23:12:00]   RESULT hip qwen3.8-27b-iq3xxs f16: generates at 25600, fails at 27648
+[2026-09-30 23:12:00] cell hipng qwen3.8-27b-iq3xxs f16: known pass <= 24576, known fail >= 0
+[2026-09-30 23:14:18] hipng qwen3.8-27b-iq3xxs f16 d49152: fails - 138s rc=1  edge=+58.0°C avail=14518M swap=446M swapped-out-pages=34167
+[2026-09-30 23:17:01] hipng qwen3.8-27b-iq3xxs f16 d36864: fails - 134s rc=134 ROCm error edge=+56.0°C avail=2600M swap=446M swapped-out-pages=32309
+[2026-09-30 23:21:03] hipng qwen3.8-27b-iq3xxs f16 d30720: fails - 212s rc=1  edge=+56.0°C avail=14392M swap=446M swapped-out-pages=38285
+[2026-09-30 23:23:33] hipng qwen3.8-27b-iq3xxs f16 d27648: fails - 122s rc=134 ROCm error edge=+56.0°C avail=4530M swap=446M swapped-out-pages=34197
+[2026-09-30 23:24:02]   RESULT hipng qwen3.8-27b-iq3xxs f16: generates at 24576, fails at 27648
+[2026-09-30 23:24:02] cell hippc qwen3.8-27b-iq3xxs f16: known pass <= 24576, known fail >= 0
+[2026-09-30 23:26:40] hippc qwen3.8-27b-iq3xxs f16 d49152: fails - 158s rc=1  edge=+55.0°C avail=14477M swap=446M swapped-out-pages=33757
+[2026-09-30 23:29:09] hippc qwen3.8-27b-iq3xxs f16 d36864: fails - 121s rc=134 ROCm error edge=+56.0°C avail=2879M swap=446M swapped-out-pages=35344
+[2026-09-30 23:32:53] hippc qwen3.8-27b-iq3xxs f16 d30720: fails - 195s rc=1  edge=+55.0°C avail=14369M swap=446M swapped-out-pages=32572
+[2026-09-30 23:34:17] hippc qwen3.8-27b-iq3xxs f16 d27648: fails - 56s rc=134 ROCm error edge=+58.0°C avail=4027M swap=446M swapped-out-pages=37188
+[2026-09-30 23:34:46]   RESULT hippc qwen3.8-27b-iq3xxs f16: generates at 24576, fails at 27648
+[2026-09-30 23:34:46] cell vk qwen3.8-27b-iq3xxs f16: known pass <= 49152, known fail >= 0
+[2026-09-30 23:35:19] vk qwen3.8-27b-iq3xxs f16 d98304: killed - 33s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14639M swap=454M swapped-out-pages=29605
+[2026-09-30 23:36:21] vk qwen3.8-27b-iq3xxs f16 d73728: killed - 33s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14662M swap=454M swapped-out-pages=30107
+[2026-09-30 23:37:23] vk qwen3.8-27b-iq3xxs f16 d61440: killed - 34s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14585M swap=457M swapped-out-pages=32413
+[2026-09-30 23:38:25] vk qwen3.8-27b-iq3xxs f16 d55296: killed - 34s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14642M swap=453M swapped-out-pages=29304
+[2026-09-30 23:38:53]   RESULT vk qwen3.8-27b-iq3xxs f16: generates at 49152, fails at 55296
+[2026-09-30 23:38:53] cell hip qwen3.8-27b-iq3xxs q8_0: known pass <= 25600, known fail >= 0
+[2026-09-30 23:41:23] hip qwen3.8-27b-iq3xxs q8_0 d51200: fails - 150s rc=134 ROCm error edge=+56.0°C avail=3489M swap=446M swapped-out-pages=34390
+[2026-09-30 23:54:24] hip qwen3.8-27b-iq3xxs q8_0 d37888: ok 8.20 753s rc=0  edge=+78.0°C avail=14556M swap=446M swapped-out-pages=33999
+[2026-10-01 00:09:43] hip qwen3.8-27b-iq3xxs q8_0 d44032: ok 7.42 894s rc=0  edge=+77.0°C avail=14462M swap=446M swapped-out-pages=45499
+[2026-10-01 00:23:56] hip qwen3.8-27b-iq3xxs q8_0 d47104: ok 7.21 827s rc=0  edge=+78.0°C avail=14491M swap=446M swapped-out-pages=33435
+[2026-10-01 00:39:33] hip qwen3.8-27b-iq3xxs q8_0 d49152: fails - 912s rc=134 ROCm error edge=+78.0°C avail=3463M swap=446M swapped-out-pages=42528
+[2026-10-01 00:40:01]   RESULT hip qwen3.8-27b-iq3xxs q8_0: generates at 47104, fails at 49152
+[2026-10-01 00:40:01] cell hipng qwen3.8-27b-iq3xxs q8_0: known pass <= 49152, known fail >= 0
+[2026-10-01 00:43:31] hipng qwen3.8-27b-iq3xxs q8_0 d98304: fails - 210s rc=1  edge=+57.0°C avail=14528M swap=447M swapped-out-pages=32774
+[2026-10-01 00:46:32] hipng qwen3.8-27b-iq3xxs q8_0 d73728: fails - 153s rc=1  edge=+56.0°C avail=14400M swap=448M swapped-out-pages=34156
+[2026-10-01 00:50:24] hipng qwen3.8-27b-iq3xxs q8_0 d61440: fails - 204s rc=1  edge=+55.0°C avail=14496M swap=447M swapped-out-pages=33449
+[2026-10-01 00:54:08] hipng qwen3.8-27b-iq3xxs q8_0 d55296: fails - 196s rc=1  edge=+56.0°C avail=14535M swap=447M swapped-out-pages=32336
+[2026-10-01 00:54:36]   RESULT hipng qwen3.8-27b-iq3xxs q8_0: generates at 49152, fails at 55296
+[2026-10-01 00:54:36] cell hippc qwen3.8-27b-iq3xxs q8_0: known pass <= 49152, known fail >= 0
+[2026-10-01 00:56:47] hippc qwen3.8-27b-iq3xxs q8_0 d98304: fails - 131s rc=1  edge=+55.0°C avail=14514M swap=447M swapped-out-pages=31473
+[2026-10-01 01:00:36] hippc qwen3.8-27b-iq3xxs q8_0 d73728: fails - 201s rc=1  edge=+56.0°C avail=14475M swap=447M swapped-out-pages=33571
+[2026-10-01 01:03:18] hippc qwen3.8-27b-iq3xxs q8_0 d61440: fails - 134s rc=1  edge=+56.0°C avail=14410M swap=448M swapped-out-pages=38450
+[2026-10-01 01:07:08] hippc qwen3.8-27b-iq3xxs q8_0 d55296: fails - 202s rc=1  edge=+55.0°C avail=14528M swap=447M swapped-out-pages=32836
+[2026-10-01 01:07:37]   RESULT hippc qwen3.8-27b-iq3xxs q8_0: generates at 49152, fails at 55296
+[2026-10-01 01:07:37] cell vk qwen3.8-27b-iq3xxs q8_0: known pass <= 98304, known fail >= 0
+[2026-10-01 01:08:10] vk qwen3.8-27b-iq3xxs q8_0 d196608: killed - 33s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14610M swap=458M swapped-out-pages=30594
+[2026-10-01 01:09:16] vk qwen3.8-27b-iq3xxs q8_0 d147456: killed - 38s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14613M swap=454M swapped-out-pages=28956
+[2026-10-01 01:10:25] vk qwen3.8-27b-iq3xxs q8_0 d122880: killed - 40s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14527M swap=454M swapped-out-pages=28786
+[2026-10-01 01:11:27] vk qwen3.8-27b-iq3xxs q8_0 d110592: killed - 34s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14684M swap=454M swapped-out-pages=30504
+[2026-10-01 01:11:55]   RESULT vk qwen3.8-27b-iq3xxs q8_0: generates at 98304, fails at 110592
+[2026-10-01 01:11:55] cell hip qwen3.8-27b-iq3xxs q4_0: known pass <= 47104, known fail >= 0
+[2026-10-01 01:45:50] hip qwen3.8-27b-iq3xxs q4_0 d94208: fails - 2035s rc=139  edge=+75.0°C avail=2223M swap=446M swapped-out-pages=39178
+[2026-10-01 02:09:13] hip qwen3.8-27b-iq3xxs q4_0 d70656: ok 6.96 1375s rc=0  edge=+78.0°C avail=14534M swap=446M swapped-out-pages=40285
+[2026-10-01 02:35:54] hip qwen3.8-27b-iq3xxs q4_0 d81920: ok 6.47 1576s rc=0  edge=+77.0°C avail=14355M swap=446M swapped-out-pages=34312
+[2026-10-01 03:07:50] hip qwen3.8-27b-iq3xxs q4_0 d88064: ok 6.19 1891s rc=0  edge=+76.0°C avail=14494M swap=447M swapped-out-pages=39787
+[2026-10-01 03:10:38] hip qwen3.8-27b-iq3xxs q4_0 d91136: fails - 143s rc=134 ROCm error edge=+60.0°C avail=3852M swap=448M swapped-out-pages=38864
+[2026-10-01 03:11:06]   RESULT hip qwen3.8-27b-iq3xxs q4_0: generates at 88064, fails at 91136
+[2026-10-01 03:11:06] cell hipng qwen3.8-27b-iq3xxs q4_0: known pass <= 73728, known fail >= 0
+[2026-10-01 03:13:26] hipng qwen3.8-27b-iq3xxs q4_0 d147456: fails - 140s rc=1  edge=+57.0°C avail=14487M swap=447M swapped-out-pages=34416
+[2026-10-01 03:16:52] hipng qwen3.8-27b-iq3xxs q4_0 d110592: fails - 178s rc=1  edge=+56.0°C avail=14481M swap=448M swapped-out-pages=35558
+[2026-10-01 03:19:08] hipng qwen3.8-27b-iq3xxs q4_0 d92160: fails - 107s rc=134 ROCm error edge=+58.0°C avail=3236M swap=448M swapped-out-pages=38444
+[2026-10-01 03:48:02] hipng qwen3.8-27b-iq3xxs q4_0 d82944: ok 6.46 1706s rc=0  edge=+76.0°C avail=14469M swap=447M swapped-out-pages=39948
+[2026-10-01 03:48:27]   RESULT hipng qwen3.8-27b-iq3xxs q4_0: generates at 82944, fails at 92160
+[2026-10-01 03:48:27] cell hippc qwen3.8-27b-iq3xxs q4_0: known pass <= 73728, known fail >= 0
+[2026-10-01 03:50:53] hippc qwen3.8-27b-iq3xxs q4_0 d147456: fails - 146s rc=1  edge=+58.0°C avail=14561M swap=448M swapped-out-pages=33798
+[2026-10-01 03:53:43] hippc qwen3.8-27b-iq3xxs q4_0 d110592: fails - 142s rc=1  edge=+56.0°C avail=14523M swap=447M swapped-out-pages=33511
+[2026-10-01 03:57:55] hippc qwen3.8-27b-iq3xxs q4_0 d92160: fails - 224s rc=134 ROCm error edge=+58.0°C avail=4968M swap=447M swapped-out-pages=34551
+[2026-10-01 04:25:12] hippc qwen3.8-27b-iq3xxs q4_0 d82944: ok 6.45 1608s rc=0  edge=+77.0°C avail=14527M swap=447M swapped-out-pages=32841
+[2026-10-01 04:25:36]   RESULT hippc qwen3.8-27b-iq3xxs q4_0: generates at 82944, fails at 92160
+[2026-10-01 04:25:37] cell vk qwen3.8-27b-iq3xxs q4_0: known pass <= 184320, known fail >= 0
+[2026-10-01 04:26:11] vk qwen3.8-27b-iq3xxs q4_0 d368640: killed - 34s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+65.0°C avail=14595M swap=458M swapped-out-pages=30491
+[2026-10-01 04:27:12] vk qwen3.8-27b-iq3xxs q4_0 d276480: killed - 33s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+59.0°C avail=14645M swap=455M swapped-out-pages=29071
+[2026-10-01 04:28:13] vk qwen3.8-27b-iq3xxs q4_0 d230400: killed - 33s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+58.0°C avail=14662M swap=455M swapped-out-pages=29837
+[2026-10-01 04:29:21] vk qwen3.8-27b-iq3xxs q4_0 d206848: killed - 40s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+57.0°C avail=14614M swap=455M swapped-out-pages=30691
+[2026-10-01 04:29:49]   RESULT vk qwen3.8-27b-iq3xxs q4_0: generates at 184320, fails at 206848
+[2026-10-01 04:29:49] cell hip qwen3.6-35b-a3b-iq2m f16: known pass <= 45056, known fail >= 0
+[2026-10-01 04:37:52] hip qwen3.6-35b-a3b-iq2m f16 d90112: ok 39.01 483s rc=0  edge=+75.0°C avail=14517M swap=447M swapped-out-pages=56257
+[2026-10-01 04:41:39] hip qwen3.6-35b-a3b-iq2m f16 d180224: fails - 202s rc=1  edge=+57.0°C avail=14543M swap=448M swapped-out-pages=32956
+[2026-10-01 04:43:14] hip qwen3.6-35b-a3b-iq2m f16 d135168: fails - 67s rc=1  edge=+55.0°C avail=14559M swap=448M swapped-out-pages=31780
+[2026-10-01 04:46:12] hip qwen3.6-35b-a3b-iq2m f16 d112640: fails - 150s rc=1  edge=+56.0°C avail=14524M swap=449M swapped-out-pages=35936
+[2026-10-01 04:50:55] hip qwen3.6-35b-a3b-iq2m f16 d101376: fails - 256s rc=134 ROCm error edge=+57.0°C avail=5108M swap=447M swapped-out-pages=33123
+[2026-10-01 04:51:23]   RESULT hip qwen3.6-35b-a3b-iq2m f16: generates at 90112, fails at 101376
+[2026-10-01 04:51:23] cell hipng qwen3.6-35b-a3b-iq2m f16: known pass <= 98304, known fail >= 0
+[2026-10-01 04:53:41] hipng qwen3.6-35b-a3b-iq2m f16 d196608: fails - 138s rc=1  edge=+55.0°C avail=14501M swap=449M swapped-out-pages=33583
+[2026-10-01 04:56:38] hipng qwen3.6-35b-a3b-iq2m f16 d147456: fails - 149s rc=1  edge=+55.0°C avail=14509M swap=447M swapped-out-pages=32808
+[2026-10-01 04:59:45] hipng qwen3.6-35b-a3b-iq2m f16 d122880: fails - 159s rc=1  edge=+55.0°C avail=14416M swap=448M swapped-out-pages=33773
+[2026-10-01 05:01:54] hipng qwen3.6-35b-a3b-iq2m f16 d110592: fails - 101s rc=1  edge=+55.0°C avail=14546M swap=447M swapped-out-pages=32036
+[2026-10-01 05:02:22]   RESULT hipng qwen3.6-35b-a3b-iq2m f16: generates at 98304, fails at 110592
+[2026-10-01 05:02:22] cell hippc qwen3.6-35b-a3b-iq2m f16: known pass <= 98304, known fail >= 0
+[2026-10-01 05:04:55] hippc qwen3.6-35b-a3b-iq2m f16 d196608: fails - 153s rc=1  edge=+56.0°C avail=14455M swap=448M swapped-out-pages=33225
+[2026-10-01 05:09:06] hippc qwen3.6-35b-a3b-iq2m f16 d147456: fails - 224s rc=1  edge=+55.0°C avail=14481M swap=447M swapped-out-pages=33171
+[2026-10-01 05:12:03] hippc qwen3.6-35b-a3b-iq2m f16 d122880: fails - 149s rc=1  edge=+55.0°C avail=14409M swap=447M swapped-out-pages=32740
+[2026-10-01 05:17:17] hippc qwen3.6-35b-a3b-iq2m f16 d110592: fails - 286s rc=1  edge=+55.0°C avail=14519M swap=448M swapped-out-pages=34680
+[2026-10-01 05:17:46]   RESULT hippc qwen3.6-35b-a3b-iq2m f16: generates at 98304, fails at 110592
+[2026-10-01 05:17:46] cell vk qwen3.6-35b-a3b-iq2m f16: known pass <= 163840, known fail >= 0
+[2026-10-01 05:18:23] vk qwen3.6-35b-a3b-iq2m f16 d327680: killed - 37s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+56.0°C avail=14627M swap=455M swapped-out-pages=29658
+[2026-10-01 05:19:27] vk qwen3.6-35b-a3b-iq2m f16 d245760: killed - 36s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14659M swap=454M swapped-out-pages=28087
+[2026-10-01 05:20:40] vk qwen3.6-35b-a3b-iq2m f16 d204800: killed - 45s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14670M swap=455M swapped-out-pages=28959
+[2026-10-01 05:21:44] vk qwen3.6-35b-a3b-iq2m f16 d184320: killed - 37s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+55.0°C avail=14650M swap=455M swapped-out-pages=29482
+[2026-10-01 05:22:12]   RESULT vk qwen3.6-35b-a3b-iq2m f16: generates at 163840, fails at 184320
+[2026-10-01 05:22:12] cell hip qwen3.6-35b-a3b-iq2m q8_0: known pass <= 90112, known fail >= 0
+[2026-10-01 05:23:52] hip qwen3.6-35b-a3b-iq2m q8_0 d180224: fails - 100s rc=134 ROCm error edge=+55.0°C avail=4324M swap=447M swapped-out-pages=33585
+[2026-10-01 05:41:44] hip qwen3.6-35b-a3b-iq2m q8_0 d135168: ok 11.93 1044s rc=0  edge=+76.0°C avail=14489M swap=447M swapped-out-pages=32921
+[2026-10-01 06:03:31] hip qwen3.6-35b-a3b-iq2m q8_0 d157696: ok 10.18 1282s rc=0  edge=+75.0°C avail=14504M swap=447M swapped-out-pages=33559
+[2026-10-01 06:06:43] hip qwen3.6-35b-a3b-iq2m q8_0 d168960: fails - 166s rc=134 ROCm error edge=+57.0°C avail=4851M swap=451M swapped-out-pages=35822
+[2026-10-01 06:07:12]   RESULT hip qwen3.6-35b-a3b-iq2m q8_0: generates at 157696, fails at 168960
+[2026-10-01 06:07:12] cell hipng qwen3.6-35b-a3b-iq2m q8_0: known pass <= 135168, known fail >= 0
+[2026-10-01 06:09:08] hipng qwen3.6-35b-a3b-iq2m q8_0 d270336: fails - 116s rc=1  edge=+56.0°C avail=14539M swap=448M swapped-out-pages=32930
+[2026-10-01 06:11:13] hipng qwen3.6-35b-a3b-iq2m q8_0 d202752: fails - 97s rc=1  edge=+57.0°C avail=14479M swap=450M swapped-out-pages=33519
+[2026-10-01 06:13:58] hipng qwen3.6-35b-a3b-iq2m q8_0 d168960: fails - 137s rc=134 ROCm error edge=+56.0°C avail=3270M swap=447M swapped-out-pages=32489
+[2026-10-01 06:34:06] hipng qwen3.6-35b-a3b-iq2m q8_0 d151552: ok 10.75 1179s rc=0  edge=+75.0°C avail=14455M swap=447M swapped-out-pages=39421
+[2026-10-01 06:55:40] hipng qwen3.6-35b-a3b-iq2m q8_0 d159744: ok 10.16 1269s rc=0  edge=+75.0°C avail=14505M swap=447M swapped-out-pages=37990
+[2026-10-01 06:56:05]   RESULT hipng qwen3.6-35b-a3b-iq2m q8_0: generates at 159744, fails at 168960
+[2026-10-01 06:56:05] cell hippc qwen3.6-35b-a3b-iq2m q8_0: known pass <= 135168, known fail >= 0
+[2026-10-01 06:58:12] hippc qwen3.6-35b-a3b-iq2m q8_0 d270336: fails - 127s rc=1  edge=+58.0°C avail=14527M swap=447M swapped-out-pages=32769
+[2026-10-01 07:02:10] hippc qwen3.6-35b-a3b-iq2m q8_0 d202752: fails - 209s rc=1  edge=+56.0°C avail=14545M swap=448M swapped-out-pages=33745
+[2026-10-01 07:07:09] hippc qwen3.6-35b-a3b-iq2m q8_0 d168960: fails - 270s rc=134 ROCm error edge=+56.0°C avail=9198M swap=447M swapped-out-pages=34840
+[2026-10-01 07:28:13] hippc qwen3.6-35b-a3b-iq2m q8_0 d151552: ok 10.66 1235s rc=0  edge=+75.0°C avail=14443M swap=447M swapped-out-pages=33779
+[2026-10-01 07:49:41] hippc qwen3.6-35b-a3b-iq2m q8_0 d159744: ok 10.21 1263s rc=0  edge=+75.0°C avail=14531M swap=447M swapped-out-pages=35792
+[2026-10-01 07:50:07]   RESULT hippc qwen3.6-35b-a3b-iq2m q8_0: generates at 159744, fails at 168960
+[2026-10-01 07:50:07] cell vk qwen3.6-35b-a3b-iq2m q8_0: known pass <= 286720, known fail >= 0
+[2026-10-01 07:50:45] vk qwen3.6-35b-a3b-iq2m q8_0 d573440: killed - 38s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+64.0°C avail=14591M swap=452M swapped-out-pages=30198
+[2026-10-01 07:51:49] vk qwen3.6-35b-a3b-iq2m q8_0 d430080: killed - 36s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+58.0°C avail=14670M swap=455M swapped-out-pages=28608
+[2026-10-01 07:52:54] vk qwen3.6-35b-a3b-iq2m q8_0 d358400: killed - 37s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+58.0°C avail=14482M swap=460M swapped-out-pages=32946
+[2026-10-01 07:54:05] vk qwen3.6-35b-a3b-iq2m q8_0 d322560: killed - 43s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+57.0°C avail=14624M swap=455M swapped-out-pages=29485
+[2026-10-01 07:54:33]   RESULT vk qwen3.6-35b-a3b-iq2m q8_0: generates at 286720, fails at 322560
+[2026-10-01 07:54:33] cell hip qwen3.6-35b-a3b-iq2m q4_0: known pass <= 157696, known fail >= 0
+[2026-10-01 07:56:23] hip qwen3.6-35b-a3b-iq2m q4_0 d315392: fails - 110s rc=1  edge=+56.0°C avail=14503M swap=448M swapped-out-pages=33629
+[2026-10-01 08:36:30] hip qwen3.6-35b-a3b-iq2m q4_0 d236544: ok 8.57 2379s rc=0  edge=+74.0°C avail=14489M swap=443M swapped-out-pages=33752
+[2026-10-01 09:27:36] hip qwen3.6-35b-a3b-iq2m q4_0 d275456: fails - 3041s rc=139  edge=+76.0°C avail=3639M swap=447M swapped-out-pages=68150
+[2026-10-01 09:29:48] hip qwen3.6-35b-a3b-iq2m q4_0 d256000: fails - 103s rc=134 ROCm error edge=+60.0°C avail=5135M swap=451M swapped-out-pages=92449
+[2026-10-01 09:30:17]   RESULT hip qwen3.6-35b-a3b-iq2m q4_0: generates at 236544, fails at 256000
+[2026-10-01 09:30:17] cell hipng qwen3.6-35b-a3b-iq2m q4_0: known pass <= 159744, known fail >= 0
+[2026-10-01 09:32:02] hipng qwen3.6-35b-a3b-iq2m q4_0 d319488: fails - 105s rc=1  edge=+57.0°C avail=14501M swap=448M swapped-out-pages=30380
+[2026-10-01 10:13:03] hipng qwen3.6-35b-a3b-iq2m q4_0 d239616: ok 8.50 2433s rc=0  edge=+75.0°C avail=14491M swap=447M swapped-out-pages=36038
+[2026-10-01 11:04:29] hipng qwen3.6-35b-a3b-iq2m q4_0 d279552: fails - 3060s rc=139  edge=+76.0°C avail=2795M swap=447M swapped-out-pages=58752
+[2026-10-01 11:06:10] hipng qwen3.6-35b-a3b-iq2m q4_0 d259072: fails - 72s rc=139  edge=+61.0°C avail=4025M swap=448M swapped-out-pages=33840
+[2026-10-01 11:06:39]   RESULT hipng qwen3.6-35b-a3b-iq2m q4_0: generates at 239616, fails at 259072
+[2026-10-01 11:06:39] cell hippc qwen3.6-35b-a3b-iq2m q4_0: known pass <= 159744, known fail >= 0
+[2026-10-01 11:10:10] hippc qwen3.6-35b-a3b-iq2m q4_0 d319488: fails - 211s rc=1  edge=+56.0°C avail=14530M swap=448M swapped-out-pages=32894
+[2026-10-01 11:51:21] hippc qwen3.6-35b-a3b-iq2m q4_0 d239616: ok 8.47 2443s rc=0  edge=+75.0°C avail=14532M swap=447M swapped-out-pages=32541
+[2026-10-01 12:44:24] hippc qwen3.6-35b-a3b-iq2m q4_0 d279552: fails - 3157s rc=139  edge=+76.0°C avail=2729M swap=448M swapped-out-pages=69110
+[2026-10-01 12:46:59] hippc qwen3.6-35b-a3b-iq2m q4_0 d259072: fails - 126s rc=139  edge=+58.0°C avail=4811M swap=448M swapped-out-pages=33429
+[2026-10-01 12:47:28]   RESULT hippc qwen3.6-35b-a3b-iq2m q4_0: generates at 239616, fails at 259072
+[2026-10-01 12:47:28] cell vk qwen3.6-35b-a3b-iq2m q4_0: known pass <= 286720, known fail >= 0
+[2026-10-01 12:48:06] vk qwen3.6-35b-a3b-iq2m q4_0 d573440: killed - 38s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+58.0°C avail=14687M swap=455M swapped-out-pages=31468
+[2026-10-01 15:16:02] vk qwen3.6-35b-a3b-iq2m q4_0 d430080: ok 12.65 8847s rc=0  edge=+75.0°C avail=14420M swap=448M swapped-out-pages=84213
+[2026-10-01 18:35:40] vk qwen3.6-35b-a3b-iq2m q4_0 d501760: ok 10.53 11952s rc=0  edge=+73.0°C avail=14551M swap=455M swapped-out-pages=3477863
+[2026-10-01 22:22:43] vk qwen3.6-35b-a3b-iq2m q4_0 d537600: ok 10.05 13597s rc=0  edge=+74.0°C avail=14389M swap=454M swapped-out-pages=3587983
+[2026-10-01 22:23:08]   RESULT vk qwen3.6-35b-a3b-iq2m q4_0: generates at 537600, fails at 573440
+[2026-10-01 22:23:18] cell hip qwen2.5-1.5b-q4km f16: known pass <= 131072, known fail >= 0
+[2026-10-01 23:00:35] hip qwen2.5-1.5b-q4km f16 d262144: ok 24.66 2237s rc=0  edge=+86.0°C avail=14553M swap=446M swapped-out-pages=0
+[2026-10-01 23:01:01] hip qwen2.5-1.5b-q4km f16 d524288: fails - 1s rc=1  edge=+69.0°C avail=14422M swap=446M swapped-out-pages=0
+[2026-10-02 00:23:49] hip qwen2.5-1.5b-q4km f16 d393216: ok 16.88 4942s rc=0  edge=+81.0°C avail=14461M swap=446M swapped-out-pages=24122
+[2026-10-02 00:24:16] hip qwen2.5-1.5b-q4km f16 d458752: fails - 2s rc=1  edge=+68.0°C avail=14421M swap=446M swapped-out-pages=0
+[2026-10-02 02:03:32] hip qwen2.5-1.5b-q4km f16 d425984: fails - 5930s rc=134 ROCm error edge=+77.0°C avail=10661M swap=447M swapped-out-pages=27396
+[2026-10-02 02:04:00]   RESULT hip qwen2.5-1.5b-q4km f16: generates at 393216, fails at 425984
+[2026-10-02 02:04:00] cell hipng qwen2.5-1.5b-q4km f16: known pass <= 0, known fail >= 0
+[2026-10-02 02:04:08] hipng qwen2.5-1.5b-q4km f16 d8192: ok 162.83 8s rc=0  edge=+79.0°C avail=14524M swap=447M swapped-out-pages=2
+[2026-10-02 02:04:51] hipng qwen2.5-1.5b-q4km f16 d16384: ok 141.12 18s rc=0  edge=+76.0°C avail=14536M swap=446M swapped-out-pages=0
+[2026-10-02 02:06:06] hipng qwen2.5-1.5b-q4km f16 d32768: ok 109.55 50s rc=0  edge=+79.0°C avail=14563M swap=446M swapped-out-pages=1
+[2026-10-02 02:09:10] hipng qwen2.5-1.5b-q4km f16 d65536: ok 74.39 159s rc=0  edge=+86.0°C avail=14562M swap=446M swapped-out-pages=0
+[2026-10-02 02:19:25] hipng qwen2.5-1.5b-q4km f16 d131072: ok 44.70 590s rc=0  edge=+86.0°C avail=14556M swap=446M swapped-out-pages=0
+[2026-10-02 02:56:53] hipng qwen2.5-1.5b-q4km f16 d262144: ok 24.70 2223s rc=0  edge=+86.0°C avail=14486M swap=446M swapped-out-pages=0
+[2026-10-02 02:57:19] hipng qwen2.5-1.5b-q4km f16 d524288: fails - 1s rc=1  edge=+69.0°C avail=14507M swap=446M swapped-out-pages=0
+[2026-10-02 04:19:53] hipng qwen2.5-1.5b-q4km f16 d393216: ok 16.97 4928s rc=0  edge=+85.0°C avail=14549M swap=447M swapped-out-pages=643
+[2026-10-02 04:20:20] hipng qwen2.5-1.5b-q4km f16 d458752: fails - 1s rc=1  edge=+68.0°C avail=14519M swap=447M swapped-out-pages=0
+[2026-10-02 05:59:22] hipng qwen2.5-1.5b-q4km f16 d425984: ok 15.59 5917s rc=0  edge=+81.0°C avail=2290M swap=448M swapped-out-pages=19480
+[2026-10-02 05:59:46]   RESULT hipng qwen2.5-1.5b-q4km f16: generates at 425984, fails at 458752
+[2026-10-02 05:59:46] cell hippc qwen2.5-1.5b-q4km f16: known pass <= 0, known fail >= 0
+[2026-10-02 05:59:55] hippc qwen2.5-1.5b-q4km f16 d8192: ok 162.09 9s rc=0  edge=+79.0°C avail=14429M swap=448M swapped-out-pages=41
+[2026-10-02 06:00:38] hippc qwen2.5-1.5b-q4km f16 d16384: ok 140.92 18s rc=0  edge=+77.0°C avail=14555M swap=448M swapped-out-pages=28
+[2026-10-02 06:01:53] hippc qwen2.5-1.5b-q4km f16 d32768: ok 108.85 50s rc=0  edge=+80.0°C avail=14566M swap=448M swapped-out-pages=0
+[2026-10-02 06:04:56] hippc qwen2.5-1.5b-q4km f16 d65536: ok 74.28 159s rc=0  edge=+86.0°C avail=14564M swap=448M swapped-out-pages=3
+[2026-10-02 06:15:06] hippc qwen2.5-1.5b-q4km f16 d131072: ok 44.69 585s rc=0  edge=+86.0°C avail=14560M swap=448M swapped-out-pages=28
+[2026-10-02 06:52:40] hippc qwen2.5-1.5b-q4km f16 d262144: ok 24.39 2229s rc=0  edge=+85.0°C avail=14554M swap=448M swapped-out-pages=10
+[2026-10-02 06:53:06] hippc qwen2.5-1.5b-q4km f16 d524288: fails - 1s rc=1  edge=+69.0°C avail=14464M swap=448M swapped-out-pages=0
+[2026-10-02 08:15:24] hippc qwen2.5-1.5b-q4km f16 d393216: ok 16.98 4913s rc=0  edge=+84.0°C avail=14552M swap=444M swapped-out-pages=124
+[2026-10-02 08:15:51] hippc qwen2.5-1.5b-q4km f16 d458752: fails - 2s rc=1  edge=+70.0°C avail=14453M swap=444M swapped-out-pages=0
+[2026-10-02 09:54:52] hippc qwen2.5-1.5b-q4km f16 d425984: ok 15.56 5916s rc=0  edge=+82.0°C avail=2300M swap=446M swapped-out-pages=21090
+[2026-10-02 09:55:16]   RESULT hippc qwen2.5-1.5b-q4km f16: generates at 425984, fails at 458752
+[2026-10-02 09:55:16] cell vk qwen2.5-1.5b-q4km f16: known pass <= 131072, known fail >= 0
+[2026-10-02 10:37:20] vk qwen2.5-1.5b-q4km f16 d262144: ok 27.19 2524s rc=0  edge=+83.0°C avail=14522M swap=446M swapped-out-pages=1
+[2026-10-02 10:37:47] vk qwen2.5-1.5b-q4km f16 d524288: killed - 3s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+69.0°C avail=14605M swap=460M swapped-out-pages=20036
+[2026-10-02 12:13:25] vk qwen2.5-1.5b-q4km f16 d393216: ok 19.08 5711s rc=0  edge=+82.0°C avail=14542M swap=448M swapped-out-pages=277
+[2026-10-02 14:25:35] vk qwen2.5-1.5b-q4km f16 d458752: ok 15.47 7906s rc=0  edge=+75.0°C avail=14562M swap=455M swapped-out-pages=1641689
+[2026-10-02 14:26:05] vk qwen2.5-1.5b-q4km f16 d491520: killed - 6s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+67.0°C avail=14643M swap=456M swapped-out-pages=16294
+[2026-10-02 14:26:32]   RESULT vk qwen2.5-1.5b-q4km f16: generates at 458752, fails at 491520
+[2026-10-02 17:51:17] cell hip qwen2.5-1.5b-q4km q8_0: known pass <= 393216, known fail >= 0
+[2026-10-02 17:51:21] hip qwen2.5-1.5b-q4km q8_0 d786432: fails - 4s rc=1  edge=+65.0°C avail=14577M swap=448M swapped-out-pages=55
+[2026-10-02 20:53:23] hip qwen2.5-1.5b-q4km q8_0 d589824: ok 3.40 10897s rc=0  edge=+83.0°C avail=14537M swap=446M swapped-out-pages=13
+[2026-10-02 20:53:47]   RESULT hip qwen2.5-1.5b-q4km q8_0: generates at 589824, fails at 786432
+[2026-10-02 20:53:47] cell hipng qwen2.5-1.5b-q4km q8_0: known pass <= 425984, known fail >= 0
+[2026-10-02 20:53:48] hipng qwen2.5-1.5b-q4km q8_0 d851968: fails - 1s rc=1  edge=+69.0°C avail=14497M swap=446M swapped-out-pages=0
+[2026-10-03 00:27:49] hipng qwen2.5-1.5b-q4km q8_0 d638976: ok 3.13 12816s rc=0  edge=+82.0°C avail=14457M swap=443M swapped-out-pages=278
+[2026-10-03 01:36:25]   RESULT hipng qwen2.5-1.5b-q4km q8_0: generates at 638976, fails at 851968
+[2026-10-03 01:36:25] cell hippc qwen2.5-1.5b-q4km q8_0: known pass <= 425984, known fail >= 0
+[2026-10-03 01:36:28] hippc qwen2.5-1.5b-q4km q8_0 d851968: fails - 3s rc=1  edge=+59.0°C avail=14485M swap=468M swapped-out-pages=0
+[2026-10-03 05:09:16] hippc qwen2.5-1.5b-q4km q8_0 d638976: ok 3.13 12743s rc=0  edge=+82.0°C avail=14485M swap=464M swapped-out-pages=1726
+[2026-10-03 05:09:40]   RESULT hippc qwen2.5-1.5b-q4km q8_0: generates at 638976, fails at 851968
+[2026-10-03 05:09:40] cell vk qwen2.5-1.5b-q4km q8_0: known pass <= 458752, known fail >= 0
+[2026-10-03 05:09:46] vk qwen2.5-1.5b-q4km q8_0 d917504: killed - 6s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+69.0°C avail=14562M swap=479M swapped-out-pages=22982
+[2026-10-03 09:50:11] vk qwen2.5-1.5b-q4km q8_0 d688128: ok 9.16 16799s rc=0  edge=+85.0°C avail=14502M swap=464M swapped-out-pages=24
+[2026-10-03 09:50:34]   RESULT vk qwen2.5-1.5b-q4km q8_0: generates at 688128, fails at 917504
+[2026-10-03 09:50:34] cell hip qwen2.5-1.5b-q4km q4_0: known pass <= 589824, known fail >= 0
+[2026-10-03 19:37:02] cell hip qwen2.5-1.5b-q4km q8_0: known pass <= 589824, known fail >= 786432
+[2026-10-03 19:50:50] cell hip qwen2.5-1.5b-q4km q4_0: known pass <= 589824, known fail >= 0
+[2026-10-03 19:53:11] cell hip qwen2.5-1.5b-q4km q4_0: known pass <= 589824, known fail >= 0
+[2026-10-04 07:54:04] hip qwen2.5-1.5b-q4km q4_0 d1179648: fails - 43253s rc=134 ROCm error edge=+75.0°C avail=6727M swap=458M swapped-out-pages=54842
+[2026-10-04 14:36:56] hip qwen2.5-1.5b-q4km q4_0 d884736: ok 2.91 24147s rc=0  edge=+83.0°C avail=14547M swap=456M swapped-out-pages=44
+[2026-10-04 14:37:18]   RESULT hip qwen2.5-1.5b-q4km q4_0: generates at 884736, fails at 1179648
+[2026-10-04 14:37:18] cell hipng qwen2.5-1.5b-q4km q4_0: known pass <= 638976, known fail >= 0
+[2026-10-04 14:37:20] hipng qwen2.5-1.5b-q4km q4_0 d1277952: fails - 2s rc=1  edge=+70.0°C avail=14463M swap=456M swapped-out-pages=0
+[2026-10-04 22:25:41] hipng qwen2.5-1.5b-q4km q4_0 d958464: ok 2.69 28078s rc=0  edge=+83.0°C avail=14531M swap=455M swapped-out-pages=23
+[2026-10-04 22:26:03]   RESULT hipng qwen2.5-1.5b-q4km q4_0: generates at 958464, fails at 1277952
+[2026-10-04 22:26:03] cell hippc qwen2.5-1.5b-q4km q4_0: known pass <= 638976, known fail >= 0
+[2026-10-04 22:26:05] hippc qwen2.5-1.5b-q4km q4_0 d1277952: fails - 2s rc=1  edge=+70.0°C avail=14542M swap=455M swapped-out-pages=0
+[2026-10-05 06:11:33] hippc qwen2.5-1.5b-q4km q4_0 d958464: ok 2.69 27906s rc=0  edge=+82.0°C avail=14474M swap=454M swapped-out-pages=0
+[2026-10-05 06:11:54]   RESULT hippc qwen2.5-1.5b-q4km q4_0: generates at 958464, fails at 1277952
+[2026-10-05 06:11:54] cell vk qwen2.5-1.5b-q4km q4_0: known pass <= 688128, known fail >= 0
+[2026-10-06 06:57:21] vk qwen2.5-1.5b-q4km q4_0 d1376256: ok 3.44 89127s rc=0  edge=+73.0°C avail=14504M swap=460M swapped-out-pages=122457
+[2026-10-06 06:57:47] vk qwen2.5-1.5b-q4km q4_0 d2752512: killed - 5s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+66.0°C avail=14644M swap=474M swapped-out-pages=21158
+[2026-10-06 06:58:13] vk qwen2.5-1.5b-q4km q4_0 d2064384: killed - 2s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+63.0°C avail=14657M swap=474M swapped-out-pages=17126
+[2026-10-06 06:58:37]   RESULT vk qwen2.5-1.5b-q4km q4_0: generates at 1376256, fails at 2064384
+[2026-10-06 06:59:20] cell hip qwen2.5-1.5b-q4km q8_0: known pass <= 589824, known fail >= 786432
+[2026-10-06 11:04:37] hip qwen2.5-1.5b-q4km q8_0 d688128: ok 2.90 14716s rc=0  edge=+81.0°C avail=14533M swap=465M swapped-out-pages=2405
+[2026-10-06 15:58:02] hip qwen2.5-1.5b-q4km q8_0 d737280: fails - 17585s rc=134 ROCm error edge=+76.0°C avail=14351M swap=466M swapped-out-pages=66853
+[2026-10-06 15:58:29]   RESULT hip qwen2.5-1.5b-q4km q8_0: generates at 688128, fails at 737280
+[2026-10-06 15:58:29] cell hipng qwen2.5-1.5b-q4km q8_0: known pass <= 638976, known fail >= 851968
+[2026-10-06 15:58:31] hipng qwen2.5-1.5b-q4km q8_0 d745472: fails - 2s rc=1  edge=+68.0°C avail=14498M swap=466M swapped-out-pages=76
+[2026-10-06 20:08:57] hipng qwen2.5-1.5b-q4km q8_0 d692224: ok 2.88 15002s rc=0  edge=+83.0°C avail=14533M swap=465M swapped-out-pages=564
+[2026-10-06 20:09:20]   RESULT hipng qwen2.5-1.5b-q4km q8_0: generates at 692224, fails at 745472
+[2026-10-06 20:09:20] cell hippc qwen2.5-1.5b-q4km q8_0: known pass <= 638976, known fail >= 851968
+[2026-10-06 20:09:24] hippc qwen2.5-1.5b-q4km q8_0 d745472: fails - 4s rc=1  edge=+68.0°C avail=14465M swap=465M swapped-out-pages=40
+[2026-10-07 00:18:44] hippc qwen2.5-1.5b-q4km q8_0 d692224: ok 2.88 14936s rc=0  edge=+81.0°C avail=14469M swap=463M swapped-out-pages=19899
+[2026-10-07 00:19:08]   RESULT hippc qwen2.5-1.5b-q4km q8_0: generates at 692224, fails at 745472
+[2026-10-07 00:19:08] cell vk qwen2.5-1.5b-q4km q8_0: known pass <= 688128, known fail >= 917504
+[2026-10-07 06:39:53] vk qwen2.5-1.5b-q4km q8_0 d802816: ok 7.82 22845s rc=0  edge=+77.0°C avail=14518M swap=466M swapped-out-pages=496157
+[2026-10-07 06:40:23] vk qwen2.5-1.5b-q4km q8_0 d860160: killed - 5s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+69.0°C avail=14661M swap=474M swapped-out-pages=17204
+[2026-10-07 06:40:49]   RESULT vk qwen2.5-1.5b-q4km q8_0: generates at 802816, fails at 860160
+[2026-10-07 06:40:49] cell hip qwen2.5-1.5b-q4km q4_0: known pass <= 884736, known fail >= 1179648
+[2026-10-07 15:45:43] hip qwen2.5-1.5b-q4km q4_0 d1032192: ok 2.49 32694s rc=0  edge=+82.0°C avail=14518M swap=464M swapped-out-pages=0
+[2026-10-08 02:10:10] hip qwen2.5-1.5b-q4km q4_0 d1105920: ok 2.32 37444s rc=0  edge=+81.0°C avail=14523M swap=462M swapped-out-pages=19289
+[2026-10-08 02:10:33]   RESULT hip qwen2.5-1.5b-q4km q4_0: generates at 1105920, fails at 1179648
+[2026-10-08 02:10:33] cell hipng qwen2.5-1.5b-q4km q4_0: known pass <= 958464, known fail >= 1277952
+[2026-10-08 12:48:09] hipng qwen2.5-1.5b-q4km q4_0 d1118208: ok 2.30 38256s rc=0  edge=+81.0°C avail=14462M swap=460M swapped-out-pages=2482
+[2026-10-09 01:20:39] hipng qwen2.5-1.5b-q4km q4_0 d1198080: ok 2.13 45128s rc=0  edge=+76.0°C avail=3542M swap=464M swapped-out-pages=53328
+[2026-10-09 01:21:02]   RESULT hipng qwen2.5-1.5b-q4km q4_0: generates at 1198080, fails at 1277952
+[2026-10-09 01:21:02] cell hippc qwen2.5-1.5b-q4km q4_0: known pass <= 958464, known fail >= 1277952
+[2026-10-09 11:57:07] hippc qwen2.5-1.5b-q4km q4_0 d1118208: ok 2.30 38165s rc=0  edge=+81.0°C avail=14446M swap=463M swapped-out-pages=692
+[2026-10-10 00:23:55] hippc qwen2.5-1.5b-q4km q4_0 d1198080: ok 2.13 44786s rc=0  edge=+76.0°C avail=2887M swap=408M swapped-out-pages=81199
+[2026-10-10 00:24:20]   RESULT hippc qwen2.5-1.5b-q4km q4_0: generates at 1198080, fails at 1277952
+[2026-10-10 00:24:20] cell vk qwen2.5-1.5b-q4km q4_0: known pass <= 1376256, known fail >= 2064384
+[2026-10-10 00:24:26] vk qwen2.5-1.5b-q4km q4_0 d1720320: killed - 6s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+67.0°C avail=14643M swap=417M swapped-out-pages=19544
+[2026-10-10 00:24:57] vk qwen2.5-1.5b-q4km q4_0 d1548288: killed - 4s rc=137 SIGKILL before the timeout (OOM killer, see the kernel log) edge=+64.0°C avail=14636M swap=416M swapped-out-pages=17037
+[2026-10-10 00:25:24]   RESULT vk qwen2.5-1.5b-q4km q4_0: generates at 1376256, fails at 1548288

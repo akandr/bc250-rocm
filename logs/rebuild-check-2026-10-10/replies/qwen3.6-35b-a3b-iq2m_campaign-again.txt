@@ -1,0 +1,13 @@
+
+[Start thinking]
+
+Here's a thinking process:
+
+1.  **Analyze User Input:**
+   - **Device:** BC-250 (mining board based on AMD APU)
+   - **Question:** Explain in plain words what a GPU compute queue is and why a driver bug in it matters
+   - **Key Concepts:** GPU compute queue, driver bug, plain language explanation, relevance to mining/APU context
+
+2.  **Deconstruct Key Concepts:**
+   - *GPU Compute Queue:* What is it? It's a software/driver mechanism that manages and schedules tasks (compute jobs) to be executed by the
+

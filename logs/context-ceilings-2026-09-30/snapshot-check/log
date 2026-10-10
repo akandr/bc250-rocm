@@ -1,0 +1,7 @@
+[2026-09-30 11:59:43] building llama-bench-nosnap-hip
+[2026-09-30 11:59:56] built; cooling down 120 s before measuring
+[2026-09-30 12:08:08] stock ROCm, no snapshot, 14B f16 d16384: rc=0 after 368s "avg_ts": 16.182918; System mem used, last phases [samples value]:  1 11641 1 220 1 0 
+[2026-09-30 12:17:52] stock ROCm, no snapshot, 14B f16 d24576: rc=0 after 580s "avg_ts": 11.788715; System mem used, last phases [samples value]:  148 12909 2 12929 2 0 
+[2026-09-30 12:17:52] done
+resumed
+[2026-09-30 12:17:52] campaign resumed

@@ -1,0 +1,7 @@
+
+[Start thinking]
+
+[:er-ed andtextposeCanding and
+ the the of of of of the the of matplotlib sys matplotlib sysError: The model produced output that does not match the expected peg-native format
+
+

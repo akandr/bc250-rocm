@@ -1,5 +1,11 @@
 # Context ceilings on Fedora 44, and two depths that no longer work, 2026-09-16
 
+> **Correction, October 2026.** The depths that fail here are llama-bench's limit, not ROCm's: after the
+> depth fill llama-bench copies the sequence state into host memory, as large as the KV cache, and clr
+> pins it against the same KFD budget. On the thirteen-patch build without the copy, the 14B generates at
+> 26624 and the 1.5B at 393216 with an f16 cache, so both depths this log calls lost generate.
+> [`logs/context-ceilings-2026-09-30/`](../context-ceilings-2026-09-30/) has the ceilings without it.
+
 [`scripts/ceilings_f44.sh`](../../scripts/ceilings_f44.sh) on the default Fedora 44 configuration with the
 GPU clock policy corrected (1500 MHz), ROCm backend, mmap on as `llama-bench` defaults, one depth per
 invocation, `-r 2`. Decode rate in tokens per second after the given context depth; the Fedora 43 column is

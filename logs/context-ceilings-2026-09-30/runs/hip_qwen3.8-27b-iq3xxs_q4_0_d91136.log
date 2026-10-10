@@ -1,0 +1,43 @@
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):
+  Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB
+| model                          |       size |     params | backend    | ngl | type_k | type_v |  fa |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | -----: | -----: | --: | --------------: | -------------------: |
+/home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:111: ROCm error
+⚠️ warning: The current terminal doesn't support styling.  Styled output might not appear as expected.
+[New LWP 61879]
+[New LWP 61271]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+0x00007fb874c82312 in __syscall_cancel_arch () from /lib64/libc.so.6
+#0  0x00007fb874c82312 in __syscall_cancel_arch () from /lib64/libc.so.6
+#1  0x00007fb874c7652c in __internal_syscall_cancel () from /lib64/libc.so.6
+#2  0x00007fb874c76574 in __syscall_cancel () from /lib64/libc.so.6
+#3  0x00007fb874ce614f in wait4 () from /lib64/libc.so.6
+#4  0x00007fb87933205b in ggml_print_backtrace () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-base.so.0
+#5  0x00007fb8793321cd in ggml_abort () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-base.so.0
+#6  0x00007fb87880a9e2 in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+#7  0x00007fb87882321f in ggml_cuda_pool_leg::alloc(unsigned long, unsigned long*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+#8  0x00007fb8789f7111 in void launch_fattn<256, 16, 2>(ggml_backend_cuda_context&, ggml_tensor*, void (*)(char const*, char const*, char const*, char const*, char const*, int const*, float*, HIP_vector_type<float, 2u>*, float, float, float, float, unsigned int, float, int, HIP_vector_type<unsigned int, 3u>, int, int, int, int, int, int, int, int, int, int, int, long, int, int, long, int, int, int, int, int, long), int, unsigned long, int, bool, bool, bool, int) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+#9  0x00007fb8789e8348 in void ggml_cuda_flash_attn_ext_tile_case<256, 256>(ggml_backend_cuda_context&, ggml_tensor*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+#10 0x00007fb8788142fb in ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+#11 0x00007fb878810e2c in ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-hip.so.0
+#12 0x00007fb87934f4d7 in ggml_backend_sched_graph_compute_async () from /home/akandr/llama-master/build-hip-pkf16/bin/libggml-base.so.0
+#13 0x00007fb87944aa20 in llama_context::graph_compute(ggml_cgraph*, bool) () from /home/akandr/llama-master/build-hip-pkf16/bin/libllama.so.0
+#14 0x00007fb87944ee9b in llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&) () from /home/akandr/llama-master/build-hip-pkf16/bin/libllama.so.0
+#15 0x00007fb879452a7b in llama_context::decode(llama_batch const&) () from /home/akandr/llama-master/build-hip-pkf16/bin/libllama.so.0
+#16 0x00007fb879454ade in llama_decode () from /home/akandr/llama-master/build-hip-pkf16/bin/libllama.so.0
+#17 0x0000000000404a6b in test_prompt(llama_context*, int, int, int) ()
+#18 0x000000000041a6d7 in llama_bench(int, char**) ()
+#19 0x00007fb874c0a681 in __libc_start_call_main () from /lib64/libc.so.6
+#20 0x00007fb874c0a798 in __libc_start_main_impl () from /lib64/libc.so.6
+#21 0x00000000004038b5 in _start ()
+[Inferior 1 (process 61260) detached]
+timeout: monitowane polecenie zrobiło zrzut pamięci

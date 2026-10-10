@@ -17,10 +17,16 @@ build, `build-hip-pkf16`, every reply hashed, with every other GPU user stopped 
 |---|---|---|---|
 | qwen3-14B Q4_K_M | 3 of 3 identical, `679a50d9` | 2 of 2 identical to the default | 3 of 3 different, all word salad |
 | qwen3-8B Q8_0 | 3 of 3 identical, `90b056d9` | 2 of 2 identical to the default | 3 of 3 different, all word salad |
+| qwen2.5-1.5B Q4_K_M | 3 of 3 identical, `7033302a` | 3 of 3 identical to the default | 3 of 3 different, all leaving the default at the second token |
 
 The default reply begins *Okay, so I need to explain what a GPU compute queue is and why a driver bug
 in it matters*; the option's begins *its     ,      亚>斯:8》 (),, -, (,5',5 (5),5)\*\*5)ﬃ,s,,  用*, and
-the next run's *its0  0   a any isam  and that , the)-)) and and or players)*.
+the next run's *its0  0   a any isam  and that , the)-)) and and or players)*. The 1.5B's default begins
+*A GPU compute queue is a concept in computer graphics and parallel computing*; with the option all three
+begin *A：GPU compute queue is a concept from GPU programming. it a queue is a collection of of* and go on
+repeating *a*, each differently. The first generated token comes from the prompt, which the option does
+not touch, and the second is the first that decode computes. The 1.5B row was measured on 10 October
+(`gpu-1.5b/`, [`scripts/graphopt_15b_gpu.sh`](../../scripts/graphopt_15b_gpu.sh)).
 
 ## Where: the Q branch writes into `attn_norm`
 
@@ -76,10 +82,6 @@ The instrumented build, the same prompt (`mechanism.log`, `mechanism-replies/`):
 | qwen2.5-1.5B Q4_K_M | `7033302a` | 23 bytes of garbage | `7033302a` |
 | deepseek-r1-14B Q4_K_M | 2 of 2 `96357da6` | 2 runs, 2 different coherent replies, neither the default | 2 of 2 `96357da6` |
 
-The 1.5B is the one to remember. On the campaign build its replies with and without the option were
-byte-identical in three ordinary runs (`first-check.log`); on this build the same option turned it into
-garbage. A race whose effect depends on timing is not cleared by a run that comes out right.
-
 ## The dependencies fix it and keep the speed
 
 `alloc-deps.diff` is PR #27301 for the backends plus the dependency loop in
@@ -104,6 +106,23 @@ The fixed option is within 0.1 percent of the unfixed one on every model. The fi
 arm is slower than the other two, 187.5 and 194.2 against 198 for the 1.5B's default, which is why it is
 left out; counting it changes no ratio by more than 0.003.
 
+## On the published patches
+
+The fix was tested above on a copy of the campaign's working tree.
+[`scripts/graphopt_fix_check.sh`](../../scripts/graphopt_fix_check.sh) applies `alloc-deps.diff` to the
+thirteen published patches on 7ba604f, the tree of
+[`logs/rebuild-check-2026-10-10/`](../rebuild-check-2026-10-10/), where it applies cleanly, builds it,
+and compares the same greedy replies (10 October, `published-tree/`):
+
+| model | default | option with the fix, two runs | option alone |
+|---|---|---|---|
+| qwen2.5-1.5B Q4_K_M | `7033302a` | `7033302a`, `7033302a` | `b0710638` |
+| qwen3-8B Q8_0 | `90b056d9` | `90b056d9`, `90b056d9` | `c6b01955` |
+| qwen3-14B Q4_K_M | `679a50d9` | `679a50d9`, `679a50d9` | `33e15540` |
+| deepseek-r1-14B Q4_K_M | `96357da6` | `96357da6`, `96357da6` | `11f684da` |
+
+With the fix every reply is the default's, and without it the option still breaks all four.
+
 ## Upstream
 
 The region code, the Q/K/V part of `ggml_backend_cuda_graph_optimize` and `is_valid()`, is identical
@@ -114,16 +133,16 @@ three streams, which nothing here measures.
 
 ## Caveats
 
-- The instrumented copy reproduces the campaign build's default replies byte for byte on qwen3-8B and
-  qwen3-14B, but not on the 1.5B: `431965dd` there, `7033302a` here, both coherent and each
-  reproducible. Some difference between the source tree it was copied from and the one
-  `build-hip-pkf16` was built from on 21 September has not been found. Every comparison in the tables
+- The instrumented copy gives the campaign build's default reply byte for byte on all four models: the
+  campaign build's 1.5B and deepseek-r1-14B replies are in `gpu-1.5b/` and
+  [`logs/rebuild-check-2026-10-10/`](../rebuild-check-2026-10-10/). Every comparison in the tables
   above is within one build.
 - `first-check.log` is the first, rougher pass. An `ollama` service, restarted by the previous
-  measurement's cleanup, was running for its first twenty minutes; its 8B default run found no ROCm
-  device and fell back to the CPU until the timeout; and the Vulkan build has no `llama-cli`. It is kept
-  because it is where the problem first showed. The tables come from the two later passes, with every
-  other GPU user stopped.
+  measurement's cleanup, was running for its first twenty minutes. Its first seven ROCm runs, the
+  1.5B's five and the 8B's default and first run with the option, found no ROCm device and ran on the
+  CPU, where the option does nothing; that is why the 1.5B's replies agree there. The Vulkan build has
+  no `llama-cli`. The log is kept because it is where the problem first showed. The tables come from
+  the later passes, with every other GPU user stopped.
 - The check ran in a pause of a long ceiling campaign, frozen between two of its runs.
 - CUDA is not tested.
 
@@ -132,6 +151,10 @@ three streams, which nothing here measures.
 - `repeat.log`, `repeat-replies/`: the campaign build, three replies per configuration
   (`scripts/graphopt_repeat.sh`).
 - `first-check.log`: the first pass (`scripts/graphopt_check.sh`).
+- `gpu-1.5b/`: the campaign build's 1.5B on 10 October, three replies per configuration
+  (`scripts/graphopt_15b_gpu.sh`).
+- `published-tree/`: the fix on the thirteen published patches, 10 October
+  (`scripts/graphopt_fix_check.sh`).
 - `mechanism.log`, `mechanism-replies/`, `mechanism-debug/`, `bench/`: the instrumented build
   (`scripts/graphopt_mechanism.sh`), with each run's diagnostics and each benchmark's samples.
 - `region-layer0.txt`: the first region of qwen3-8B with and without the dependencies, and the order

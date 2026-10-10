@@ -1,0 +1,7 @@
+
+[Start thinking]
+
+We need answer user: "The BC-250 is a mining board built around an AMD APU. Explain in plain words what a GPU compute queue is and why a driver bug in it matters:"
+
+Need produce final. Need likely explain GPU compute queue in plain words, and why driver bug matters, maybe context BC-250 mining board AMD APU. Need maybe mention compute queue is a line of work items for GPU compute engine, driver bug can cause hangs, crashes, wrong results, security? Need likely answer concise but thorough. Need maybe infer from known issue? BC-250? Maybe Bitmain
+

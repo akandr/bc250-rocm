@@ -1,0 +1,21 @@
+[2026-10-10 13:20:11] thirteen patches (80704f1 ggml-cuda: RDNA1 prefill GEMM: admit 128-token batch) + alloc-deps.diff applied
+[2026-10-10 13:29:24] built in 548 s
+[2026-10-10 13:29:24] ollama was active, stopped for the test
+[2026-10-10 13:29:29] qwen2.5-1.5b-q4km default: rc=0 md5=7033302a 612B
+[2026-10-10 13:29:31] qwen2.5-1.5b-q4km fix1: rc=0 md5=7033302a 612B
+[2026-10-10 13:29:33] qwen2.5-1.5b-q4km fix2: rc=0 md5=7033302a 612B
+[2026-10-10 13:29:36] qwen2.5-1.5b-q4km optonly: rc=0 md5=b0710638 287B
+[2026-10-10 13:30:17] qwen3-8b-q8_0 default: rc=0 md5=90b056d9 594B
+[2026-10-10 13:31:13] qwen3-8b-q8_0 fix1: rc=0 md5=90b056d9 594B
+[2026-10-10 13:32:27] qwen3-8b-q8_0 fix2: rc=0 md5=90b056d9 594B
+[2026-10-10 13:34:44] qwen3-8b-q8_0 optonly: rc=0 md5=c6b01955 197B
+[2026-10-10 13:36:06] qwen3-14b default: rc=0 md5=679a50d9 649B
+[2026-10-10 13:37:44] qwen3-14b fix1: rc=0 md5=679a50d9 649B
+[2026-10-10 13:40:49] qwen3-14b fix2: rc=0 md5=679a50d9 649B
+[2026-10-10 13:42:12] qwen3-14b optonly: rc=0 md5=33e15540 389B
+[2026-10-10 13:44:06] deepseek-r1-14b default: rc=0 md5=96357da6 581B
+[2026-10-10 13:46:14] deepseek-r1-14b fix1: rc=0 md5=96357da6 581B
+[2026-10-10 13:47:52] deepseek-r1-14b fix2: rc=0 md5=96357da6 581B
+[2026-10-10 13:50:47] deepseek-r1-14b optonly: rc=0 md5=11f684da 596B
+[2026-10-10 13:50:47] ollama active
+[2026-10-10 13:50:47] done
