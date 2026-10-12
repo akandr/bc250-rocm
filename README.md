@@ -18,7 +18,7 @@ thirteen small llama.cpp patches. The stock packages do not work. A GPU reset st
 | | ROCm | Vulkan |
 |---|---|---|
 | PyTorch, BLAS, ported CUDA code | **works**: PyTorch trains a small transformer at 33.8 ktok/s, fp32 GEMM reaches 70.7 % of the measured ceiling, `hipify-perl` output runs unedited ([GPGPU](#gpgpu)) | PyTorch's Vulkan backend is inference-only and unmaintained; no BLAS; CUDA has to be rewritten |
-| llama.cpp prefill | 0.96 to 1.29 of Vulkan at an empty context, **1.38 and 1.49 times** stock Vulkan at 4096 and 8192 tokens | 2 to 4 % faster on four of six models at an empty context |
+| llama.cpp prefill | 0.96 to 1.29 of Vulkan at an empty context, **1.4 to 2.3 times** stock Vulkan from 4096 to 24576 tokens, level with Vulkan carrying #28507 | 2 to 4 % faster on four of six models at an empty context |
 | llama.cpp decode | 0.82 to 0.99 of Vulkan at an empty context; level from 4096 tokens on the 1.5B | **faster at short context**, most on the big quantised models |
 | longest context | stops at KFD's 13.1 GiB limit | **1.17 to 2.27 times as deep** |
 | running unattended | a rare GPU page fault can wedge the compute queue until a reboot | kept working after one, when checked |
@@ -439,7 +439,7 @@ with Vulkan and the 8B ahead of it, 1.01. On the MoE and the 27B it launches no 
 nothing, and it does not move prefill on any model. As shipped the option computes wrong tokens, and the
 campaign measured it as shipped; its fix, in [step 7](#7-llamacpp), keeps the speed to within 0.1 percent.
 
-Prefill at a 4096- and 8192-token depth is 1.38 and 1.49 times Vulkan
+Prefill behind 4096 to 24576 cached tokens is 1.4 to 2.3 times Vulkan
 ([prefill at depth](#prefill-at-depth)). The 1.5B's decode is level with Vulkan from 4096 tokens to
 30720, and 1.04 to 1.07 times Vulkan with the option and its fix ([decode at depth](#decode-at-depth)).
 
@@ -481,8 +481,8 @@ the patch set, so any step of the progression can be re-read on its own.
 Vulkan worked on this board before any of this and is still the better choice for some of it.
 
 **For llama.cpp alone it is a trade.** Prefill: ROCm is ahead on two of six models at an empty context
-and within four percent on the rest, and the gap widens with context, to **1.38 and 1.49 times** Vulkan
-at 4096 and 8192 tokens ([prefill at depth](#prefill-at-depth)). Decode: behind on all six at an empty
+and within four percent on the rest, and the gap widens with context, to **1.4, 1.7, 2.0 and 2.3 times** Vulkan
+at 4096, 8192, 16384 and 24576 tokens ([prefill at depth](#prefill-at-depth)). Decode: behind on all six at an empty
 context, 0.82 to 0.99, most on the MoE and the 27B, which is the quantised matvec gap described
 [below](#decode-four-passes-over-the-matrix-vector-kernel); level with Vulkan from 4096 tokens on the
 1.5B, and ahead there with `GGML_CUDA_GRAPH_OPT=1` and its fix ([decode at depth](#decode-at-depth)).
@@ -532,10 +532,42 @@ four-patch one [`logs/rdna1-fattn-spill-2026-09-17/`](logs/rdna1-fattn-spill-202
 Before the patch ROCm fell off fastest and was under a third of patched Vulkan by 8192 tokens, 65.5
 against 236.1. The fourth patch stopped the gap widening with context; the prefill GEMM and the five
 patches around it closed it and went past it. **On the thirteen-patch build ROCm prefills faster than
-Vulkan at every depth measured**, by 1.07, 1.38 and 1.49 times. ROCm is ahead of Vulkan carrying #28507
-at depth 0 and at 4096 as well, and behind it at 8192. The Vulkan columns are unchanged measurements,
+Vulkan at every depth measured**, by 1.07, 1.38 and 1.49 times in this table; the October ladder below
+puts the 8192 figure higher. The Vulkan columns are unchanged measurements,
 not old ones: re-run on 22 September they return 367.0, 217.5 and 143.8 against the 366.8, 217.0 and
 143.5 of September 17, which is what makes the ROCm column readable.
+
+#### To 24576 tokens
+
+![Prefill against context to 24k](figures/fig-prefill-vs-depth-24k.png)
+
+The table above stops at 8192 because the September runs did. [`logs/prefill-deep-2026-10-12/`](logs/prefill-deep-2026-10-12/)
+carries the same ladder to 16384 and 24576 with the same three arms interleaved within each depth, one
+invocation per point, three passes, 25 seconds of cooling between points and the shader clock sampled
+during every run ([`scripts/prefill_deep.sh`](scripts/prefill_deep.sh)):
+
+| existing context | ROCm, thirteen patches | Vulkan | Vulkan with #28507 | ROCm / Vulkan | ROCm / #28507 |
+|---|---|---|---|---|---|
+| 0 | **390.9** | 367.4 | 377.2 | 1.06 | 1.04 |
+| 4096 | **302.2** | 217.9 | 294.1 | 1.39 | 1.03 |
+| 8192 | **246.5** | 143.2 | 242.4 | 1.72 | 1.02 |
+| 16384 | **171.8** | 84.1 | 176.5 | 2.04 | 0.97 |
+| 24576 | **134.6** | 58.9 | 135.3 | 2.29 | 0.99 |
+
+This corrects two readings of the September table. Its ROCm figure at 8192, 214.6, was the median of
+three passes whose spreads ran from 4.5 to 21.6, and it was low: measured nine more times in October it
+reads 246.4 to 246.6 with spreads under 0.1, while the two Vulkan arms reproduce September to within a
+few percent (143.2 against 143.8, 242.4 against 236.1). So ROCm's lead over stock Vulkan is 1.7 times at
+8192, not 1.49, and it keeps growing with context, to 2.3 times at 24576. And against Vulkan carrying
+#28507 ROCm is level at every depth, 0.97 to 1.04, not behind it at 8192.
+
+One qualification on the last row. Every run has six to nine clock samples at 1000 MHz, the seconds
+before the model is loaded, and at 8192 and 16384 that is all of them. At 24576 the ROCm runs have 51
+to 59 of about 135, the Vulkan runs 35 to 37 of 200 and the #28507 runs 26 to 34 of about 115, and the
+governor logged an overheat during the first 24576 point. A second phase with `-r 1` and three minutes
+of idle before each arm, every point started at 56 to 57 °C, throttles less (10 to 15 samples beyond the
+load on ROCm, a handful on the Vulkan arms) and returns 137.2, 58.5 and 134.2, within two percent. So a
+24k fill throttles by itself on this cooling, and the 2.29 is a floor for what the chip does at 1500 MHz.
 
 One warning that page carries and this table depends on. Every figure here is **one `llama-bench`
 invocation per depth**. Passing the depths as a list, `-d 0,4096,8192`, is not the same measurement: it

@@ -1,0 +1,43 @@
+[21:40:19] start: stopped ollama hw-watcher.timer crond; faults 0; edge +53.0°C; avail 14460 MiB; kfd holders: 
+[21:40:19] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[21:40:19] oberon: active,  - max: 1500 - max: 1000
+[21:40:56] p1 d=0 hip pp2048=390.95±0.04 clk=0:1000Mhz:8 1:1500Mhz:11  edge=+68.0°C
+[21:41:57] p1 d=0 vk pp2048=367.35±0.04 clk=0:1000Mhz:7 1:1500Mhz:11  edge=+72.0°C
+[21:42:59] p1 d=0 vkpr pp2048=377.19±0.01 clk=0:1000Mhz:8 1:1500Mhz:11  edge=+73.0°C
+[21:44:15] p1 d=4096 hip pp2048=302.17±0.85 clk=0:1000Mhz:7 1:1500Mhz:19  edge=+71.0°C
+[21:45:41] p1 d=4096 vk pp2048=217.99±0.02 clk=0:1000Mhz:8 1:1500Mhz:23  edge=+73.0°C
+[21:46:59] p1 d=4096 vkpr pp2048=294.11±0.24 clk=0:1000Mhz:8 1:1500Mhz:19  edge=+75.0°C
+[21:48:00] p2 d=0 hip pp2048=391.48±0.06 clk=0:1000Mhz:7 1:1500Mhz:11  edge=+73.0°C
+[21:49:00] p2 d=0 vk pp2048=367.40±0.07 clk=0:1000Mhz:6 1:1500Mhz:12  edge=+74.0°C
+[21:50:00] p2 d=0 vkpr pp2048=377.38±0.07 clk=0:1000Mhz:7 1:1500Mhz:11  edge=+74.0°C
+[21:51:16] p2 d=4096 hip pp2048=301.72±0.10 clk=0:1000Mhz:6 1:1500Mhz:19  edge=+73.0°C
+[21:52:42] p2 d=4096 vk pp2048=217.92±0.13 clk=0:1000Mhz:8 1:1500Mhz:23  edge=+73.0°C
+[21:53:58] p2 d=4096 vkpr pp2048=294.24±0.11 clk=0:1000Mhz:7 1:1500Mhz:19  edge=+75.0°C
+[21:54:58] p3 d=0 hip pp2048=389.09±0.08 clk=0:1000Mhz:6 1:1500Mhz:11  edge=+72.0°C
+[21:55:57] p3 d=0 vk pp2048=367.25±0.08 clk=0:1000Mhz:7 1:1500Mhz:11  edge=+75.0°C
+[21:56:56] p3 d=0 vkpr pp2048=377.21±0.11 clk=0:1000Mhz:6 1:1500Mhz:12  edge=+75.0°C
+[21:58:10] p3 d=4096 hip pp2048=302.90±0.09 clk=0:1000Mhz:6 1:1500Mhz:19  edge=+73.0°C
+[21:59:35] p3 d=4096 vk pp2048=217.55±0.11 clk=0:1000Mhz:7 1:1500Mhz:23  edge=+73.0°C
+[22:00:50] p3 d=4096 vkpr pp2048=293.75±0.02 clk=0:1000Mhz:6 1:1500Mhz:20  edge=+76.0°C
+[22:04:15] p1 d=24576 r1 hip start edge=+56.0°C
+[22:07:09] p1 d=24576 r1 hip pp2048=132.77±0.00 clk=0:1000Mhz:18 1:1500Mhz:69  edge=+68.0°C
+[22:10:10] p1 d=24576 r1 vk start edge=+56.0°C
+[22:14:54] p1 d=24576 r1 vk pp2048=58.47±0.00 clk=0:1000Mhz:12 1:1500Mhz:130  edge=+68.0°C
+[22:17:54] p1 d=24576 r1 vkpr start edge=+56.0°C
+[22:20:37] p1 d=24576 r1 vkpr pp2048=133.61±0.00 clk=0:1000Mhz:13 1:1500Mhz:69  edge=+74.0°C
+[22:23:38] p2 d=24576 r1 hip start edge=+56.0°C
+[22:26:34] p2 d=24576 r1 hip pp2048=137.22±0.00 clk=0:1000Mhz:22 1:1500Mhz:66  edge=+68.0°C
+[22:29:35] p2 d=24576 r1 vk start edge=+56.0°C
+[22:34:20] p2 d=24576 r1 vk pp2048=58.33±0.00 clk=0:1000Mhz:13 1:1500Mhz:130  edge=+68.0°C
+[22:37:20] p2 d=24576 r1 vkpr start edge=+56.0°C
+[22:40:02] p2 d=24576 r1 vkpr pp2048=134.17±0.00 clk=0:1000Mhz:12 1:1500Mhz:69  edge=+73.0°C
+[22:43:03] p3 d=24576 r1 hip start edge=+56.0°C
+[22:46:02] p3 d=24576 r1 hip pp2048=137.65±0.00 clk=0:1000Mhz:23 1:1500Mhz:66  edge=+68.0°C
+[22:49:02] p3 d=24576 r1 vk start edge=+56.0°C
+[22:53:47] p3 d=24576 r1 vk pp2048=59.03±0.00 clk=0:1000Mhz:13 1:1500Mhz:130  edge=+68.0°C
+[22:56:48] p3 d=24576 r1 vkpr start edge=+55.0°C
+[22:59:30] p3 d=24576 r1 vkpr pp2048=134.80±0.00 clk=0:1000Mhz:13 1:1500Mhz:69  edge=+73.0°C
+[22:59:31] faults at end: 0
+[22:59:31] DONE
+[22:59:32] restored: ollama hw-watcher.timer crond
+[23:00:10] timers restarted: claude-improve.timer claude-batch.timer car-watcher.timer daily-digest.timer dnf-makecache.timer plocate-updatedb.timer sysstat-collect.timer

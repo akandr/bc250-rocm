@@ -1,0 +1,44 @@
+[19:32:56] start: stopped ollama hw-watcher.timer crond; faults 0; edge +57.0°C; avail 14440 MiB; kfd holders: 
+[19:32:56] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[19:32:56] oberon: active,  - max: 1500 - max: 1000
+[19:34:06] p1 d=8192 hip pp2048=246.46±0.07 clk=0:1000Mhz:8 1:1500Mhz:28  edge=+73.0°C
+[19:36:09] p1 d=8192 vk pp2048=143.20±0.07 clk=0:1000Mhz:7 1:1500Mhz:42  edge=+71.0°C
+[19:37:47] p1 d=8192 vkpr pp2048=238.61±0.45 clk=0:1000Mhz:8 1:1500Mhz:29  edge=+75.0°C
+[19:40:13] p1 d=16384 hip pp2048=176.11±0.26 clk=0:1000Mhz:6 1:1500Mhz:55  edge=+76.0°C
+[19:43:58] p1 d=16384 vk pp2048=84.23±0.17 clk=0:1000Mhz:8 1:1500Mhz:93  edge=+71.0°C
+[19:46:25] p1 d=16384 vkpr pp2048=176.95±0.16 clk=0:1000Mhz:8 1:1500Mhz:53  edge=+77.0°C
+[19:51:16] p1 d=24576 hip pp2048=129.93±5.82 clk=0:1000Mhz:51 1:1500Mhz:82  edge=+64.0°C
+[19:58:25] p1 d=24576 vk pp2048=58.95±0.13 clk=0:1000Mhz:35 1:1500Mhz:167  edge=+65.0°C
+[20:02:32] p1 d=24576 vkpr pp2048=136.22±0.87 clk=0:1000Mhz:26 1:1500Mhz:85  edge=+70.0°C
+[20:02:58] GOVERNOR THROTTLED at p1 d=24576, points from here are suspect
+[20:02:58] pass 1 done, edge +60.0°C
+[20:04:10] p2 d=8192 hip pp2048=246.48±0.05 clk=0:1000Mhz:8 1:1500Mhz:28  edge=+76.0°C
+[20:06:14] p2 d=8192 vk pp2048=143.12±0.43 clk=0:1000Mhz:8 1:1500Mhz:42  edge=+73.0°C
+[20:07:52] p2 d=8192 vkpr pp2048=242.40±0.38 clk=0:1000Mhz:8 1:1500Mhz:29  edge=+77.0°C
+[20:08:17] GOVERNOR THROTTLED at p2 d=8192, points from here are suspect
+[20:10:16] p2 d=16384 hip pp2048=169.89±12.08 clk=0:1000Mhz:8 1:1500Mhz:52  edge=+78.0°C
+[20:14:03] p2 d=16384 vk pp2048=84.06±0.14 clk=0:1000Mhz:8 1:1500Mhz:93  edge=+72.0°C
+[20:16:30] p2 d=16384 vkpr pp2048=176.51±0.14 clk=0:1000Mhz:8 1:1500Mhz:54  edge=+79.0°C
+[20:16:56] GOVERNOR THROTTLED at p2 d=16384, points from here are suspect
+[20:21:31] p2 d=24576 hip pp2048=136.04±1.01 clk=0:1000Mhz:59 1:1500Mhz:79  edge=+64.0°C
+[20:28:43] p2 d=24576 vk pp2048=58.86±0.03 clk=0:1000Mhz:37 1:1500Mhz:166  edge=+66.0°C
+[20:33:06] p2 d=24576 vkpr pp2048=135.29±1.68 clk=0:1000Mhz:34 1:1500Mhz:85  edge=+69.0°C
+[20:33:32] GOVERNOR THROTTLED at p2 d=24576, points from here are suspect
+[20:33:32] pass 2 done, edge +60.0°C
+[20:34:43] p3 d=8192 hip pp2048=246.60±0.06 clk=0:1000Mhz:8 1:1500Mhz:28  edge=+76.0°C
+[20:36:47] p3 d=8192 vk pp2048=143.34±0.22 clk=0:1000Mhz:8 1:1500Mhz:42  edge=+73.0°C
+[20:38:26] p3 d=8192 vkpr pp2048=242.48±0.41 clk=0:1000Mhz:7 1:1500Mhz:30  edge=+77.0°C
+[20:38:51] GOVERNOR THROTTLED at p3 d=8192, points from here are suspect
+[20:40:50] p3 d=16384 hip pp2048=171.81±12.31 clk=0:1000Mhz:9 1:1500Mhz:51  edge=+79.0°C
+[20:44:36] p3 d=16384 vk pp2048=84.05±0.18 clk=0:1000Mhz:8 1:1500Mhz:93  edge=+72.0°C
+[20:47:03] p3 d=16384 vkpr pp2048=175.70±0.16 clk=0:1000Mhz:8 1:1500Mhz:54  edge=+79.0°C
+[20:47:29] GOVERNOR THROTTLED at p3 d=16384, points from here are suspect
+[20:51:57] p3 d=24576 hip pp2048=134.59±6.97 clk=0:1000Mhz:56 1:1500Mhz:78  edge=+65.0°C
+[20:59:02] p3 d=24576 vk pp2048=58.91±0.17 clk=0:1000Mhz:35 1:1500Mhz:165  edge=+66.0°C
+[21:03:25] p3 d=24576 vkpr pp2048=133.44±0.67 clk=0:1000Mhz:34 1:1500Mhz:85  edge=+69.0°C
+[21:03:51] GOVERNOR THROTTLED at p3 d=24576, points from here are suspect
+[21:03:51] pass 3 done, edge +60.0°C
+[21:03:51] faults at end: 0
+[21:03:51] DONE
+[21:03:51] restored: ollama hw-watcher.timer crond
+[21:04:16] timers restarted: claude-improve.timer claude-batch.timer car-watcher.timer daily-digest.timer dnf-makecache.timer plocate-updatedb.timer sysstat-collect.timer

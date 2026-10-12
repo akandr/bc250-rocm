@@ -448,6 +448,48 @@ def fig_prefill_depth():
     print("fig-prefill-vs-depth.png")
 
 
+# ================= prefill against depth to 24576 (logs/prefill-deep-2026-10-12) =================
+# The same 8B prefill ladder carried to 16384 and 24576 cached tokens, three arms interleaved within each
+# depth, medians of three passes: ROCm build-hip-pkf16 (thirteen patches), Vulkan build-vk-f44, and the
+# vulkan-fa-staging build of master bfdc321 carrying PR #28507. At 24576 every arm ran part of the time at
+# 1000 MHz (the shader clock sampled during each run: 25 to 40 percent of the samples, ROCm the most), so
+# the last ROCm/Vulkan ratio is a floor, not a measurement at 1500 MHz.
+PP24 = {
+    "ROCm, thirteen patches": {0: 390.9, 4096: 302.2, 8192: 246.5, 16384: 171.8, 24576: 134.6},
+    "Vulkan": {0: 367.4, 4096: 217.9, 8192: 143.2, 16384: 84.1, 24576: 58.9},
+    "Vulkan with PR #28507": {0: 377.2, 4096: 294.1, 8192: 242.4, 16384: 176.5, 24576: 135.3},
+}
+
+def fig_prefill_depth_24k():
+    ds = sorted(PP24["Vulkan"])
+    fig, ax = plt.subplots(figsize=(6.4, 3.6))
+    ax.axvspan(20480, 26200, color=S.GREY_PALE, alpha=0.45, lw=0, zorder=0)
+    ax.text(24576, 8, "all three arms\nthrottle here", ha="center", va="bottom", fontsize=7, color=S.GREY)
+    styles = {"ROCm, thirteen patches": (S.ROCM, "-D"), "Vulkan": (S.VULKAN, "-o"),
+              "Vulkan with PR #28507": (S.VULKAN_DARK, "--^")}
+    for name, (col, style) in styles.items():
+        vals = [PP24[name][d] for d in ds]
+        ax.plot(ds, vals, style, color=col, ms=5, linewidth=1.6, label=name, zorder=3)
+        ax.text(ds[-1] + 500, vals[-1] + (6 if "PR" in name else -6 if "ROCm" in name else 0),
+                f"{vals[-1]:.0f}", fontsize=7.5, va="center", color=col, fontweight="bold")
+    for d in ds:  # ROCm over stock Vulkan, written above the ROCm point
+        r = PP24["ROCm, thirteen patches"][d] / PP24["Vulkan"][d]
+        ax.text(d, PP24["ROCm, thirteen patches"][d] + 14, f"{r:.2f}x", ha="center", fontsize=7.5,
+                color=S.ROCM, fontweight="bold")
+    ax.set_xlabel("tokens of context already present")
+    ax.set_ylabel("prefill tokens/s (pp2048)")
+    ax.set_title("Prefill against context to 24k: ROCm over stock Vulkan grows with depth, level with #28507",
+                 fontsize=9.5)
+    ax.set_xticks(ds); ax.set_xticklabels(["0", "4k", "8k", "16k", "24k"])
+    ax.set_xlim(-600, ds[-1] + 2600); ax.set_ylim(0, 430)
+    ax.legend(fontsize=8, frameon=False, loc="upper right")
+    fig.text(0.01, -0.04, "qwen3-8B Q8_0, -p 2048 -n 0, -fa on, one llama-bench invocation per point, medians of three passes, 2026-10-12. "
+             "Labels above the ROCm points are ROCm / Vulkan.", fontsize=7, color="#444")
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "fig-prefill-vs-depth-24k.png"), bbox_inches="tight")
+    print("fig-prefill-vs-depth-24k.png")
+
+
 # ================= eight-hour soak (logs/soak-thirteen-2026-09-22) =================
 # 152 rounds rotating four models, 38 each: pp512/tg64, a six-chunk perplexity gate against the value
 # measured when that model's patch landed, and an allocation-churn sweep every fourth round. The four
@@ -702,4 +744,4 @@ if __name__ == "__main__":
     fig_backends(); fig_depth(); fig_sgemm(); fig_gemm_shapes()
     fig_op_perf(); fig_spill(); fig_heads(); fig_mmvq()
     fig_f44_backends(); fig_f43_vs_f44(); fig_probes(); fig_f44_depth()
-    fig_fa_tradeoff(); fig_prefill_depth(); fig_soak()
+    fig_fa_tradeoff(); fig_prefill_depth(); fig_prefill_depth_24k(); fig_soak()
