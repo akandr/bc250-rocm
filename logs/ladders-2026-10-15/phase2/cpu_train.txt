@@ -1,0 +1,10 @@
+torch 2.9.1, 12 CPU threads, mkl False, mkldnn False
+
+## Training step, 4 pre-norm transformer blocks, d_model=512, heads=8, seq=256, Adam
+precision   batch   ms/step  steps/s   ktok/s  spread
+float32         1    1907.9     0.52      0.1    5.9%
+float32         4    3345.5     0.30      0.3   11.0%
+float32        16    8898.6     0.11      0.5    5.7%
+{'kind': 'train', 'dtype': 'float32', 'batch': 1, 'ms': 1907.9479650245048, 'steps_per_s': 0.5241233085657849, 'tok_per_s': 134.17556699284094}
+{'kind': 'train', 'dtype': 'float32', 'batch': 4, 'ms': 3345.5441429978237, 'steps_per_s': 0.2989050382410843, 'tok_per_s': 306.0787591588703}
+{'kind': 'train', 'dtype': 'float32', 'batch': 16, 'ms': 8898.604203015566, 'steps_per_s': 0.1123771748001916, 'tok_per_s': 460.2969079815848}

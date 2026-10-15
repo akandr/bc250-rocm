@@ -1,0 +1,107 @@
+[11:11:21] start: stopped ollama hw-watcher.timer crond; faults 0; overheat lines 1; edge +58.0°C; avail 14536 MiB; kfd holders: 
+[11:11:21] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[11:11:21] oberon: active,  - max: 1500 - max: 1000
+[11:11:42] A p1 d=0 hip tg64=38.53±0.45 clk=0:1000Mhz:8 1:1500Mhz:3  edge=+67.0°C
+[11:12:27] A p1 d=0 fix tg64=39.86±0.15 clk=0:1000Mhz:8 1:1500Mhz:2  edge=+66.0°C
+[11:13:12] A p1 d=0 vk tg64=39.06±0.05 clk=0:1000Mhz:8 1:1500Mhz:2  edge=+67.0°C
+[11:14:31] A p1 d=4096 hip tg64=36.13±0.06 clk=0:1000Mhz:8 1:1500Mhz:19  edge=+73.0°C
+[11:15:50] A p1 d=4096 fix tg64=37.08±0.04 clk=0:1000Mhz:8 1:1500Mhz:19  edge=+74.0°C
+[11:17:13] A p1 d=4096 vk tg64=35.77±0.01 clk=0:1000Mhz:8 1:1500Mhz:21  edge=+76.0°C
+[11:19:16] A p1 d=8192 hip tg64=34.03±0.05 clk=0:1000Mhz:8 1:1500Mhz:41  edge=+79.0°C
+[11:21:19] A p1 d=8192 fix tg64=34.53±0.66 clk=0:1000Mhz:11 1:1500Mhz:38  edge=+79.0°C
+[11:23:46] A p1 d=8192 vk tg64=33.23±0.01 clk=0:1000Mhz:8 1:1500Mhz:53  edge=+79.0°C
+[11:27:58] A p1 d=16384 hip tg64=29.62±1.34 clk=0:1000Mhz:31 1:1500Mhz:83  edge=+79.0°C
+[11:32:12] A p1 d=16384 fix tg64=28.89±2.23 clk=0:1000Mhz:38 1:1300Mhz:1 1:1500Mhz:76  edge=+80.0°C
+[11:38:14] A p1 d=16384 vk tg64=29.24±0.01 clk=0:1000Mhz:8 1:1500Mhz:161  edge=+75.0°C
+[11:45:22] A p1 d=24576 hip tg64=27.53±0.94 clk=0:1000Mhz:64 1:1500Mhz:138  edge=+79.0°C
+[11:52:34] A p1 d=24576 fix tg64=26.58±1.80 clk=0:1000Mhz:80 1:1089Mhz:1 1:1138Mhz:1 1:1272Mhz:1 1:1500Mhz:121  edge=+80.0°C
+[12:04:17] A p1 d=24576 vk tg64=26.19±0.00 clk=0:1000Mhz:8 1:1500Mhz:331  edge=+74.0°C
+[12:05:02] A p2 d=0 hip tg64=38.43±0.54 clk=0:1000Mhz:7 1:1500Mhz:3  edge=+69.0°C
+[12:05:45] A p2 d=0 fix tg64=39.64±0.51 clk=0:1000Mhz:7 1:1500Mhz:2  edge=+67.0°C
+[12:06:28] A p2 d=0 vk tg64=39.08±0.03 clk=0:1000Mhz:7 1:1500Mhz:2  edge=+68.0°C
+[12:07:45] A p2 d=4096 hip tg64=36.08±0.07 clk=0:1000Mhz:7 1:1500Mhz:20  edge=+73.0°C
+[12:09:03] A p2 d=4096 fix tg64=37.08±0.06 clk=0:1000Mhz:7 1:1500Mhz:20  edge=+75.0°C
+[12:10:24] A p2 d=4096 vk tg64=35.72±0.01 clk=0:1000Mhz:7 1:1500Mhz:22  edge=+76.0°C
+[12:12:26] A p2 d=8192 hip tg64=34.05±0.06 clk=0:1000Mhz:7 1:1500Mhz:41  edge=+79.0°C
+[12:14:28] A p2 d=8192 fix tg64=34.99±0.05 clk=0:1000Mhz:10 1:1500Mhz:39  edge=+80.0°C
+[12:16:56] A p2 d=8192 vk tg64=33.19±0.00 clk=0:1000Mhz:9 1:1500Mhz:53  edge=+77.0°C
+[12:21:11] A p2 d=16384 hip tg64=30.74±0.05 clk=0:1000Mhz:33 1:1500Mhz:82  edge=+79.0°C
+[12:25:26] A p2 d=16384 fix tg64=30.89±0.72 clk=0:1000Mhz:37 1:1500Mhz:79  edge=+79.0°C
+[12:31:29] A p2 d=16384 vk tg64=29.25±0.03 clk=0:1000Mhz:7 1:1500Mhz:162  edge=+76.0°C
+[12:38:38] A p2 d=24576 hip tg64=26.71±2.30 clk=0:1000Mhz:69 1:1320Mhz:1 1:1500Mhz:132  edge=+78.0°C
+[12:45:53] A p2 d=24576 fix tg64=27.43±1.84 clk=0:1000Mhz:78 1:1500Mhz:127  edge=+80.0°C
+[12:57:33] A p2 d=24576 vk tg64=26.11±0.01 clk=0:1000Mhz:8 1:1500Mhz:330  edge=+74.0°C
+[12:58:18] A p3 d=0 hip tg64=38.30±0.70 clk=0:1000Mhz:8 1:1500Mhz:2  edge=+69.0°C
+[12:59:01] A p3 d=0 fix tg64=39.85±0.14 clk=0:1000Mhz:7 1:1500Mhz:2  edge=+68.0°C
+[12:59:43] A p3 d=0 vk tg64=39.03±0.06 clk=0:1000Mhz:7 1:1500Mhz:2  edge=+68.0°C
+[13:01:00] A p3 d=4096 hip tg64=36.18±0.07 clk=0:1000Mhz:7 1:1500Mhz:19  edge=+73.0°C
+[13:02:17] A p3 d=4096 fix tg64=37.04±0.04 clk=0:1000Mhz:7 1:1500Mhz:19  edge=+74.0°C
+[13:03:38] A p3 d=4096 vk tg64=35.73±0.01 clk=0:1000Mhz:7 1:1500Mhz:21  edge=+76.0°C
+[13:05:39] A p3 d=8192 hip tg64=33.28±1.18 clk=0:1000Mhz:10 1:1500Mhz:38  edge=+78.0°C
+[13:07:43] A p3 d=8192 fix tg64=34.72±0.40 clk=0:1000Mhz:12 1:1500Mhz:38  edge=+79.0°C
+[13:10:10] A p3 d=8192 vk tg64=33.22±0.02 clk=0:1000Mhz:10 1:1500Mhz:51  edge=+79.0°C
+[13:14:23] A p3 d=16384 hip tg64=29.46±2.15 clk=0:1000Mhz:35 1:1500Mhz:79  edge=+80.0°C
+[13:18:41] A p3 d=16384 fix tg64=29.27±2.12 clk=0:1000Mhz:40 1:1500Mhz:76  edge=+79.0°C
+[13:24:42] A p3 d=16384 vk tg64=29.29±0.01 clk=0:1000Mhz:7 1:1500Mhz:162  edge=+76.0°C
+[13:31:51] A p3 d=24576 hip tg64=27.99±0.06 clk=0:1000Mhz:59 1:1500Mhz:143  edge=+79.0°C
+[13:39:07] A p3 d=24576 fix tg64=28.61±0.06 clk=0:1000Mhz:79 1:1500Mhz:126  edge=+80.0°C
+[13:50:49] A p3 d=24576 vk tg64=26.35±0.01 clk=0:1000Mhz:8 1:1500Mhz:331  edge=+74.0°C
+[13:51:23] B p1 d=0 hip pp2048=1676.09±0.59 clk=0:1000Mhz:2 1:1500Mhz:2  edge=+72.0°C
+[13:51:54] B p1 d=0 vk pp2048=1718.15±0.58 clk=0:1000Mhz:1 1:1500Mhz:2  edge=+72.0°C
+[13:52:25] B p1 d=0 vkpr pp2048=1722.86±0.77 clk=0:1000Mhz:1 1:1500Mhz:2  edge=+70.0°C
+[13:53:00] B p1 d=4096 hip pp2048=1205.19±0.58 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+69.0°C
+[13:53:36] B p1 d=4096 vk pp2048=1139.20±1.81 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+70.0°C
+[13:54:11] B p1 d=4096 vkpr pp2048=1258.91±0.19 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+69.0°C
+[13:54:52] B p1 d=8192 hip pp2048=941.56±0.29 clk=0:1000Mhz:1 1:1500Mhz:7  edge=+69.0°C
+[13:55:34] B p1 d=8192 vk pp2048=884.04±9.57 clk=0:1000Mhz:2 1:1500Mhz:7  edge=+70.0°C
+[13:56:15] B p1 d=8192 vkpr pp2048=979.04±5.91 clk=0:1000Mhz:1 1:1500Mhz:8  edge=+70.0°C
+[13:57:09] B p1 d=16384 hip pp2048=654.52±0.16 clk=0:1000Mhz:1 1:1500Mhz:14  edge=+71.0°C
+[13:58:04] B p1 d=16384 vk pp2048=584.53±3.00 clk=0:1000Mhz:1 1:1500Mhz:15  edge=+72.0°C
+[13:58:56] B p1 d=16384 vkpr pp2048=681.05±0.51 clk=0:1000Mhz:1 1:1500Mhz:13  edge=+73.0°C
+[14:00:07] B p1 d=24576 hip pp2048=501.52±0.03 clk=0:1000Mhz:1 1:1500Mhz:22  edge=+75.0°C
+[14:01:21] B p1 d=24576 vk pp2048=453.24±1.23 clk=0:1000Mhz:1 1:1500Mhz:24  edge=+76.0°C
+[14:02:29] B p1 d=24576 vkpr pp2048=521.40±0.53 clk=0:1000Mhz:1 1:1500Mhz:21  edge=+75.0°C
+[14:03:55] B p1 d=30720 hip pp2048=426.72±0.06 clk=0:1000Mhz:1 1:1500Mhz:30  edge=+77.0°C
+[14:05:26] B p1 d=30720 vk pp2048=387.53±0.92 clk=0:1000Mhz:1 1:1500Mhz:32  edge=+77.0°C
+[14:06:49] B p1 d=30720 vkpr pp2048=443.78±0.11 clk=0:1000Mhz:1 1:1500Mhz:28  edge=+76.0°C
+[14:07:20] B p2 d=0 hip pp2048=1676.51±0.46 clk=0:1000Mhz:1 1:1500Mhz:2  edge=+72.0°C
+[14:07:51] B p2 d=0 vk pp2048=1718.69±0.57 clk=0:1000Mhz:1 1:1500Mhz:2  edge=+72.0°C
+[14:08:21] B p2 d=0 vkpr pp2048=1721.70±0.21 clk=0:1000Mhz:1 1:1500Mhz:2  edge=+70.0°C
+[14:08:57] B p2 d=4096 hip pp2048=1205.63±0.08 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+68.0°C
+[14:09:33] B p2 d=4096 vk pp2048=1139.54±1.50 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+69.0°C
+[14:10:08] B p2 d=4096 vkpr pp2048=1258.54±0.69 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+69.0°C
+[14:10:49] B p2 d=8192 hip pp2048=940.81±0.22 clk=0:1000Mhz:1 1:1500Mhz:7  edge=+69.0°C
+[14:11:31] B p2 d=8192 vk pp2048=888.57±11.56 clk=0:1000Mhz:2 1:1500Mhz:7  edge=+70.0°C
+[14:12:12] B p2 d=8192 vkpr pp2048=976.79±7.93 clk=0:1000Mhz:1 1:1500Mhz:8  edge=+70.0°C
+[14:13:06] B p2 d=16384 hip pp2048=654.07±0.04 clk=0:1000Mhz:1 1:1500Mhz:14  edge=+72.0°C
+[14:14:01] B p2 d=16384 vk pp2048=585.62±4.78 clk=0:1000Mhz:1 1:1500Mhz:15  edge=+73.0°C
+[14:14:53] B p2 d=16384 vkpr pp2048=680.72±0.21 clk=0:1000Mhz:1 1:1500Mhz:13  edge=+73.0°C
+[14:16:04] B p2 d=24576 hip pp2048=501.59±0.03 clk=0:1000Mhz:1 1:1500Mhz:22  edge=+75.0°C
+[14:17:18] B p2 d=24576 vk pp2048=450.30±1.76 clk=0:1000Mhz:1 1:1500Mhz:24  edge=+75.0°C
+[14:18:26] B p2 d=24576 vkpr pp2048=521.51±0.40 clk=0:1000Mhz:1 1:1500Mhz:21  edge=+74.0°C
+[14:19:52] B p2 d=30720 hip pp2048=426.61±0.07 clk=0:1000Mhz:1 1:1500Mhz:30  edge=+77.0°C
+[14:21:23] B p2 d=30720 vk pp2048=385.57±2.31 clk=0:1000Mhz:1 1:1500Mhz:32  edge=+77.0°C
+[14:22:46] B p2 d=30720 vkpr pp2048=443.78±0.19 clk=0:1000Mhz:1 1:1500Mhz:28  edge=+76.0°C
+[14:23:17] B p3 d=0 hip pp2048=1677.05±0.25 clk=0:1000Mhz:1 1:1500Mhz:2  edge=+72.0°C
+[14:23:48] B p3 d=0 vk pp2048=1718.81±1.01 clk=0:1000Mhz:1 1:1500Mhz:2  edge=+71.0°C
+[14:24:18] B p3 d=0 vkpr pp2048=1721.71±0.36 clk=0:1000Mhz:1 1:1500Mhz:2  edge=+70.0°C
+[14:24:54] B p3 d=4096 hip pp2048=1205.18±0.16 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+68.0°C
+[14:25:30] B p3 d=4096 vk pp2048=1139.66±4.07 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+69.0°C
+[14:26:05] B p3 d=4096 vkpr pp2048=1258.52±0.26 clk=0:1000Mhz:1 1:1500Mhz:5  edge=+69.0°C
+[14:26:46] B p3 d=8192 hip pp2048=941.41±0.11 clk=0:1000Mhz:1 1:1500Mhz:7  edge=+68.0°C
+[14:27:28] B p3 d=8192 vk pp2048=889.44±7.88 clk=0:1000Mhz:2 1:1500Mhz:7  edge=+70.0°C
+[14:28:09] B p3 d=8192 vkpr pp2048=978.30±5.78 clk=0:1000Mhz:1 1:1500Mhz:8  edge=+70.0°C
+[14:29:03] B p3 d=16384 hip pp2048=654.37±0.04 clk=0:1000Mhz:1 1:1500Mhz:14  edge=+71.0°C
+[14:29:58] B p3 d=16384 vk pp2048=585.94±3.65 clk=0:1000Mhz:1 1:1500Mhz:15  edge=+73.0°C
+[14:30:50] B p3 d=16384 vkpr pp2048=680.65±0.11 clk=0:1000Mhz:1 1:1500Mhz:13  edge=+72.0°C
+[14:32:01] B p3 d=24576 hip pp2048=501.48±0.06 clk=0:1000Mhz:1 1:1500Mhz:22  edge=+74.0°C
+[14:33:15] B p3 d=24576 vk pp2048=452.12±2.30 clk=0:1000Mhz:1 1:1500Mhz:24  edge=+75.0°C
+[14:34:23] B p3 d=24576 vkpr pp2048=521.34±0.27 clk=0:1000Mhz:1 1:1500Mhz:21  edge=+74.0°C
+[14:35:49] B p3 d=30720 hip pp2048=426.70±0.09 clk=0:1000Mhz:1 1:1500Mhz:30  edge=+77.0°C
+[14:37:20] B p3 d=30720 vk pp2048=386.50±1.42 clk=0:1000Mhz:1 1:1500Mhz:32  edge=+77.0°C
+[14:38:43] B p3 d=30720 vkpr pp2048=443.77±0.09 clk=0:1000Mhz:1 1:1500Mhz:28  edge=+76.0°C
+[14:39:09] faults at end: 0
+[14:39:09] DONE
+[14:39:09] restored: ollama hw-watcher.timer crond
+[14:39:11] timers restarted: claude-improve.timer claude-batch.timer car-watcher.timer daily-digest.timer dnf-makecache.timer plocate-updatedb.timer sysstat-collect.timer
+[14:39:18] timers restarted: claude-improve.timer claude-batch.timer car-watcher.timer daily-digest.timer dnf-makecache.timer plocate-updatedb.timer sysstat-collect.timer

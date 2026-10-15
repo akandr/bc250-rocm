@@ -490,6 +490,53 @@ def fig_prefill_depth_24k():
     print("fig-prefill-vs-depth-24k.png")
 
 
+# ================= decode against depth on the 8B (logs/ladders-2026-10-15) =================
+# qwen3-8B Q8_0 tg64 behind 0 to 24576 cached tokens, three arms interleaved per depth, medians of three
+# passes, the no-depth-cache llama-bench. The 16384 and 24576 ROCm points of the main run throttled (30 to
+# 40 percent of the clock samples at 1000 MHz); the cold points are phase 2, -r 1 after three idle minutes.
+DEC8 = {
+    "ROCm, thirteen patches, as shipped": {0: 38.43, 4096: 36.13, 8192: 34.03, 16384: 29.62, 24576: 27.53},
+    "ROCm, GGML_CUDA_GRAPH_OPT=1 with its fix": {0: 39.85, 4096: 37.08, 8192: 34.72, 16384: 29.27, 24576: 27.43},
+    "Vulkan": {0: 39.06, 4096: 35.73, 8192: 33.22, 16384: 29.25, 24576: 26.19},
+}
+DEC8_COLD = {   # phase 2: -r 1 after three idle minutes, medians of three, no throttling
+    "ROCm, thirteen patches, as shipped": {16384: 30.71, 24576: 28.00},
+    "ROCm, GGML_CUDA_GRAPH_OPT=1 with its fix": {16384: 31.44, 24576: 28.54},
+    "Vulkan": {16384: 29.32, 24576: 26.14},
+}
+
+def fig_decode_depth_8b():
+    ds = sorted(DEC8["Vulkan"])
+    fig, ax = plt.subplots(figsize=(6.4, 3.4))
+    styles = {"ROCm, thirteen patches, as shipped": (S.ROCM, "-D"),
+              "ROCm, GGML_CUDA_GRAPH_OPT=1 with its fix": (S.ROCM_DARK, "--D"), "Vulkan": (S.VULKAN, "-o")}
+    for name, (col, style) in styles.items():
+        vals = [DEC8[name][d] for d in ds]
+        ax.plot(ds, vals, style, color=col, ms=5, linewidth=1.6, label=name, zorder=3)
+        ax.text(ds[-1] + 400, vals[-1] + (0.5 if "fix" in name else -0.5 if "shipped" in name else 0),
+                f"{vals[-1]:.1f}", fontsize=7.5, va="center", color=col, fontweight="bold")
+    for name, cold in DEC8_COLD.items():
+        col = styles[name][0]
+        ax.plot(sorted(cold), [cold[d] for d in sorted(cold)], "x", color=col, ms=6, mew=1.4, zorder=4,
+                label="phase 2, cold -r 1 (x)" if "Vulkan" in name else None)
+    ax.axvspan(14000, 26200, color=S.GREY_PALE, alpha=0.45, lw=0, zorder=0)
+    ax.text(20480, 36.8, "ROCm throttles here\nin the three-pass run", ha="center", va="top", fontsize=7, color=S.GREY)
+    for d in ds:
+        r = DEC8["ROCm, thirteen patches, as shipped"][d] / DEC8["Vulkan"][d]
+        ax.text(d, 24.9, f"{r:.2f}x", ha="center", va="bottom", fontsize=7.5, color=S.ROCM, fontweight="bold")
+    ax.text(-400, 23.85, "this row: ROCm as shipped / Vulkan, three-pass run", ha="left", va="bottom", fontsize=6.5, color=S.ROCM)
+    ax.set_xlabel("tokens of context already present"); ax.set_ylabel("decode tokens/s (tg64)")
+    ax.set_title("Decode against context on the 8B: ROCm ahead from 4k, where on the 1.5B it is level", fontsize=9.5)
+    ax.set_xticks(ds); ax.set_xticklabels(["0", "4k", "8k", "16k", "24k"])
+    ax.set_xlim(-600, ds[-1] + 2400); ax.set_ylim(23.6, 43)
+    ax.legend(fontsize=8, frameon=False, loc="upper right")
+    fig.text(0.01, -0.07, "qwen3-8B Q8_0, -p 0 -n 64, one llama-bench invocation per point (no-depth-cache build), medians of three passes, 2026-10-15.\n"
+             "Crosses: phase 2, the same arms cold with -r 1, where the three-pass run throttled.", fontsize=7, color="#444")
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "fig-decode-vs-depth-8b.png"), bbox_inches="tight")
+    print("fig-decode-vs-depth-8b.png")
+
+
 # ================= eight-hour soak (logs/soak-thirteen-2026-09-22) =================
 # 152 rounds rotating four models, 38 each: pp512/tg64, a six-chunk perplexity gate against the value
 # measured when that model's patch landed, and an allocation-churn sweep every fourth round. The four
@@ -744,4 +791,4 @@ if __name__ == "__main__":
     fig_backends(); fig_depth(); fig_sgemm(); fig_gemm_shapes()
     fig_op_perf(); fig_spill(); fig_heads(); fig_mmvq()
     fig_f44_backends(); fig_f43_vs_f44(); fig_probes(); fig_f44_depth()
-    fig_fa_tradeoff(); fig_prefill_depth(); fig_prefill_depth_24k(); fig_soak()
+    fig_fa_tradeoff(); fig_prefill_depth(); fig_prefill_depth_24k(); fig_decode_depth_8b(); fig_soak()

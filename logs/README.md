@@ -2,7 +2,7 @@
 
 Every measurement in [README.md](../README.md) and [INVESTIGATION.md](../INVESTIGATION.md)
 has a directory here holding the raw output and a README naming the harness that produced it.
-There are 220 of them, grouped by subject below.
+There are 221 of them, grouped by subject below.
 
 ## llama.cpp speed: campaigns and depth
 
@@ -37,6 +37,7 @@ The headline table, the decode and prefill ladders, and every intermediate campa
 | [`fedora44-campaign-tile-2026-09-20`](fedora44-campaign-tile-2026-09-20/) | The campaign on the ten-patch build |
 | [`flash-attention-tradeoff-2026-09-17`](flash-attention-tradeoff-2026-09-17/) | Flash attention is a trade at depth, not a default |
 | [`frontpage-verify-2026-08-22`](frontpage-verify-2026-08-22/) | The remaining published claims, verified in one powered window |
+| [`ladders-2026-10-15`](ladders-2026-10-15/) | The 8B decode ladder and the 1.5B prefill ladder, so both metrics exist for both models |
 | [`graph-opt-2026-09-24`](graph-opt-2026-09-24/) | ggml-cuda can overlap independent work too, and the switch is off |
 | [`prefill-deep-2026-10-12`](prefill-deep-2026-10-12/) | The 8B prefill ladder to 24576: 1.7 to 2.3 times stock Vulkan, level with #28507, and the September 8192 figure was low |
 | [`qwen38-2026-08-17`](qwen38-2026-08-17/) | Qwen3.8-27B on both backends |

@@ -1,0 +1,44 @@
+[14:42:00] start: stopped ollama hw-watcher.timer crond; faults 0; overheat lines 1; edge +56.0°C; avail 14497 MiB; kfd holders: 
+[14:42:00] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[14:42:00] oberon: active,  - max: 1500 - max: 1000
+[14:45:00] A2 p1 d=16384 r1 hip start edge=+56.0°C
+[14:46:21] A2 p1 d=16384 r1 hip tg64=30.71±0.00 clk=0:1000Mhz:8 1:1500Mhz:33  edge=+75.0°C
+[14:49:22] A2 p1 d=16384 r1 fix start edge=+56.0°C
+[14:50:43] A2 p1 d=16384 r1 fix tg64=31.44±0.00 clk=0:1000Mhz:8 1:1500Mhz:33  edge=+76.0°C
+[14:53:44] A2 p1 d=16384 r1 vk start edge=+57.0°C
+[14:55:46] A2 p1 d=16384 r1 vk tg64=29.32±0.00 clk=0:1000Mhz:8 1:1500Mhz:53  edge=+73.0°C
+[14:58:46] A2 p1 d=24576 r1 hip start edge=+56.0°C
+[15:00:57] A2 p1 d=24576 r1 hip tg64=28.00±0.00 clk=0:1000Mhz:7 1:1500Mhz:59  edge=+79.0°C
+[15:03:57] A2 p1 d=24576 r1 fix start edge=+56.0°C
+[15:06:13] A2 p1 d=24576 r1 fix tg64=28.59±0.00 clk=0:1000Mhz:10 1:1500Mhz:58  edge=+79.0°C
+[15:09:13] A2 p1 d=24576 r1 vk start edge=+56.0°C
+[15:13:09] A2 p1 d=24576 r1 vk tg64=26.14±0.00 clk=0:1000Mhz:8 1:1500Mhz:110  edge=+73.0°C
+[15:16:10] A2 p2 d=16384 r1 hip start edge=+56.0°C
+[15:17:31] A2 p2 d=16384 r1 hip tg64=30.75±0.00 clk=0:1000Mhz:8 1:1500Mhz:33  edge=+76.0°C
+[15:20:31] A2 p2 d=16384 r1 fix start edge=+55.0°C
+[15:21:51] A2 p2 d=16384 r1 fix tg64=31.44±0.00 clk=0:1000Mhz:8 1:1500Mhz:32  edge=+76.0°C
+[15:24:52] A2 p2 d=16384 r1 vk start edge=+56.0°C
+[15:26:54] A2 p2 d=16384 r1 vk tg64=29.29±0.00 clk=0:1000Mhz:8 1:1500Mhz:54  edge=+73.0°C
+[15:29:54] A2 p2 d=24576 r1 hip start edge=+56.0°C
+[15:32:05] A2 p2 d=24576 r1 hip tg64=27.99±0.00 clk=0:1000Mhz:6 1:1500Mhz:60  edge=+79.0°C
+[15:35:06] A2 p2 d=24576 r1 fix start edge=+56.0°C
+[15:37:23] A2 p2 d=24576 r1 fix tg64=28.35±0.00 clk=0:1000Mhz:13 1:1500Mhz:56  edge=+73.0°C
+[15:40:24] A2 p2 d=24576 r1 vk start edge=+57.0°C
+[15:44:21] A2 p2 d=24576 r1 vk tg64=26.11±0.00 clk=0:1000Mhz:9 1:1500Mhz:110  edge=+72.0°C
+[15:47:21] A2 p3 d=16384 r1 hip start edge=+56.0°C
+[15:48:42] A2 p3 d=16384 r1 hip tg64=30.71±0.00 clk=0:1000Mhz:8 1:1500Mhz:33  edge=+76.0°C
+[15:51:42] A2 p3 d=16384 r1 fix start edge=+56.0°C
+[15:53:02] A2 p3 d=16384 r1 fix tg64=31.41±0.00 clk=0:1000Mhz:8 1:1500Mhz:32  edge=+76.0°C
+[15:56:03] A2 p3 d=16384 r1 vk start edge=+56.0°C
+[15:58:07] A2 p3 d=16384 r1 vk tg64=29.43±0.00 clk=0:1000Mhz:9 1:1500Mhz:54  edge=+73.0°C
+[16:01:08] A2 p3 d=24576 r1 hip start edge=+56.0°C
+[16:03:20] A2 p3 d=24576 r1 hip tg64=28.00±0.00 clk=0:1000Mhz:8 1:1500Mhz:58  edge=+78.0°C
+[16:06:20] A2 p3 d=24576 r1 fix start edge=+56.0°C
+[16:08:36] A2 p3 d=24576 r1 fix tg64=28.54±0.00 clk=0:1000Mhz:11 1:1500Mhz:57  edge=+79.0°C
+[16:11:36] A2 p3 d=24576 r1 vk start edge=+56.0°C
+[16:15:34] A2 p3 d=24576 r1 vk tg64=26.19±0.00 clk=0:1000Mhz:9 1:1500Mhz:110  edge=+72.0°C
+[16:15:35] faults at end: 0
+[16:15:35] DONE
+[16:15:35] restored: ollama hw-watcher.timer crond
+[16:15:35] timers restarted: claude-improve.timer claude-batch.timer car-watcher.timer daily-digest.timer dnf-makecache.timer plocate-updatedb.timer sysstat-collect.timer
+[16:21:23] cpu reference done
