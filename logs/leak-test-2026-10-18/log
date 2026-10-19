@@ -1,0 +1,25 @@
+[14:37:11] 0 baseline: avail 14506 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:37:12] 1_hip_exit before: avail 14506 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:37:25] 1_hip_exit after (rc 0): avail 14506 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+    /home/akandr/leak-test-2026-10-18/raw_1_hip_exit:| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |            t
+[14:37:25] 2_vk_exit before: avail 14510 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:37:36] 2_vk_exit after (rc 0): avail 14502 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+    /home/akandr/leak-test-2026-10-18/raw_2_vk_exit:| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     |  99 |   1 |       none |            tg
+[14:37:36] 3_hip_kill before: avail 14502 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:37:42] 3_hip_kill loaded, avail 12792 MiB; kfd: System mem used 1614M out of 13423M TTM mem used 1398M out of 16384M ; gtt_used 1411 MiB; killing with SIGKILL
+[14:37:52] 3_hip_kill after (rc 137): avail 14512 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+    /home/akandr/leak-test-2026-10-18/raw_3_hip_kill:| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |   1 |       none |           pp
+[14:37:52] 4_vk_kill before: avail 14512 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:37:58] 4_vk_kill loaded, avail 13374 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 1080 MiB; killing with SIGKILL
+[14:38:08] 4_vk_kill after (rc 137): avail 14516 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+    /home/akandr/leak-test-2026-10-18/raw_4_vk_kill:| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | Vulkan     |  99 |   1 |       none |           pp5
+[14:38:08] 5_hip_abort before: avail 14519 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:38:35] 5_hip_abort after (rc 1): avail 14578 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:38:43] 6 ollama before: avail 14514 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:38:44] 6 ollama model: qwen2.5:1.5b
+[14:39:18] 6 ollama loaded: avail 12651 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 1750 MiB
+[14:40:18] 6 ollama 60 s later (keep_alive 30 s, runner unloaded by its scheduler): avail 12997 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB; runners: 0
+[14:40:40] 6 ollama after keep_alive 0 (immediate unload): avail 12976 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB; runners: 0
+[14:40:40] end: avail 13055 MiB; kfd: System mem used 0M out of 13423M TTM mem used 0M out of 16384M ; gtt_used 12 MiB
+[14:40:40] DONE
+[14:40:40] restored: ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer

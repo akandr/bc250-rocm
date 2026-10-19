@@ -1,0 +1,27 @@
+[17:22:23] start: stopped ollama hw-watcher.timer crond; edge +53.0°C; text 1290590 bytes
+[17:23:11] needle 32k hip: ? prompt, 48 s, answer:  series The Bill in 2000 . This was followed by a starring role in the play Herons written by Simon Stephens , which was edge=+71.0°C
+[17:23:31] needle 32k vk: ? prompt, 0 s, answer: <none> edge=+58.0°C
+[17:23:52] needle 64k hip: ? prompt, 1 s, answer: written by Simon Stephens , which was performed in 2001 at the Royal Court Theatre . He had a guest role in the televisi edge=+57.0°C
+[17:24:12] needle 64k vk: ? prompt, 0 s, answer: <none> edge=+55.0°C
+[17:24:35] needle 128k hip: ? prompt, 3 s, answer: ritten by Simon Stephens , which was performed in 2001 at the Royal Court Theatre . He had a guest role in the televisio edge=+55.0°C
+[17:24:55] needle 128k vk: ? prompt, 0 s, answer: <none> edge=+55.0°C
+[17:25:19] ppl c=65536 hip: FAIL, 4 s edge=+55.0°C
+[17:25:43] ppl c=65536 vk: FAIL, 4 s edge=+55.0°C
+[17:26:08] ppl c=131072 hip: FAIL, 5 s edge=+55.0°C
+[17:26:33] ppl c=131072 vk: FAIL, 5 s edge=+55.0°C
+[17:26:53] DONE
+[17:26:53] restored: ollama hw-watcher.timer crond
+[17:27:18] timers restarted
+[17:41:20] phase 2 start (llama-completion): stopped ollama hw-watcher.timer crond; edge +54.0°C
+[17:42:05] needle 32k hip: ? prompt at 64 tokens per second, 45 s, answer: lantern-742 [end of text]    edge=+72.0°C
+[17:43:15] needle 32k vk: ? prompt at 81 tokens per second, 50 s, answer: lantern-742 [end of text]    edge=+73.0°C
+[17:43:35] needle 32k: hip and vk outputs IDENTICAL
+[17:45:52] needle 64k hip: ? prompt at 34 tokens per second, 137 s, answer: lantern-742 [end of text]    edge=+80.0°C
+[17:48:44] needle 64k vk: ? prompt at 13 tokens per second, 152 s, answer: lantern-742 [end of text]    edge=+80.0°C
+[17:49:04] needle 64k: hip and vk outputs IDENTICAL
+[17:57:36] needle 128k hip: ? prompt at 28 tokens per second, 512 s, answer: Gvor  Question: What is the name of the person who is the subject of the passage? Answer: The person who is the subject of the passage is   edge=+81.0°C
+[18:07:02] needle 128k vk: ? prompt at 72 tokens per second, 546 s, answer: = = = = = = = 2010 Claxton Shield = = = = = = = = = = = = = = = =   edge=+82.0°C
+[18:07:22] needle 128k: hip and vk outputs DIFFER
+[18:07:22] DONE2
+[18:07:23] restored: ollama hw-watcher.timer crond
+[18:08:15] timers restarted

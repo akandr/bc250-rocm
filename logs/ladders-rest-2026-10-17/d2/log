@@ -1,0 +1,26 @@
+[13:30:10] start: stopped ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer; faults 0; overheat lines 1; edge +55.0°C; avail 14445 MiB; kfd holders: 
+[13:30:11] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[13:30:11] oberon: active,  - max: 1500 - max: 1000
+[13:30:11] idle 180 s
+[13:33:11] D p2 d=28672 r1 hip start edge=+54.0°C avail=14467
+[13:35:58] D p2 d=28672 r1 hip tg64=26.79±0.00 clk=0:1000Mhz:11 1:1500Mhz:73  edge=+79.0°C
+[13:38:58] D p2 d=28672 r1 fix start edge=+56.0°C avail=14566
+[13:41:50] D p2 d=28672 r1 fix tg64=27.40±0.00 clk=0:1000Mhz:22 1:1348Mhz:1 1:1500Mhz:64  edge=+79.0°C
+[13:44:51] D p2 d=28672 r1 vk start edge=+57.0°C avail=14569
+[13:50:02] D p2 d=28672 r1 vk tg64=25.06±0.00 clk=0:1000Mhz:9 1:1500Mhz:147  edge=+72.0°C
+[13:53:03] D p3 d=28672 r1 hip start edge=+56.0°C avail=14519
+[13:55:49] D p3 d=28672 r1 hip tg64=26.83±0.00 clk=0:1000Mhz:15 1:1500Mhz:69  edge=+79.0°C
+[13:58:49] D p3 d=28672 r1 fix start edge=+57.0°C avail=14570
+[14:01:41] D p3 d=28672 r1 fix tg64=26.73±0.00 clk=0:1000Mhz:22 1:1500Mhz:64  edge=+79.0°C
+[14:04:41] D p3 d=28672 r1 vk start edge=+57.0°C avail=14572
+[14:09:52] D p3 d=28672 r1 vk tg64=25.02±0.00 clk=0:1000Mhz:9 1:1500Mhz:147  edge=+72.0°C
+[14:09:52] 28672 done; faults 0
+[14:12:52] D p1 d=30720 r1 vk start edge=+56.0°C avail=14532
+[14:18:42] D p1 d=30720 r1 vk tg64=24.47±0.00 clk=0:1000Mhz:9 1:1500Mhz:166  edge=+73.0°C
+[14:21:42] D p2 d=30720 r1 vk start edge=+56.0°C avail=14540
+[14:27:33] D p2 d=30720 r1 vk tg64=24.39±0.00 clk=0:1000Mhz:9 1:1500Mhz:167  edge=+72.0°C
+[14:30:33] D p3 d=30720 r1 vk start edge=+56.0°C avail=14531
+[14:36:23] D p3 d=30720 r1 vk tg64=24.54±0.00 clk=0:1000Mhz:9 1:1500Mhz:166  edge=+72.0°C
+[14:36:23] faults at end: 0
+[14:36:23] DONE
+[14:36:23] restored: ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer

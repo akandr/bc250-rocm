@@ -1,0 +1,37 @@
+[19:12:02] start: stopped ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer; faults 0; overheat lines 1; edge +56.0°C; avail 14483 MiB; kfd holders: 
+[19:12:02] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[19:12:02] oberon: active,  - max: 1500 - max: 1000
+[19:12:02] idle 120 s, points: q14:24576 moe:24576 ds14:24576:vk
+[19:14:02] C p1 q14 d=24576 r1 hip start edge=+55.0°C avail=14483
+[19:19:50] C p1 q14 d=24576 r1 hip tg64=12.14±0.00 clk=0:1000Mhz:15 1:1500Mhz:159  edge=+73.0°C
+[19:21:51] C p1 q14 d=24576 r1 vk start edge=+58.0°C avail=14609
+[19:28:03] C p1 q14 d=24576 r1 vk tg64=21.79±0.00 clk=0:1000Mhz:15 1:1500Mhz:171  edge=+74.0°C
+[19:30:03] C p1 moe d=24576 r1 hip start edge=+57.0°C avail=14578
+[19:31:25] C p1 moe d=24576 r1 hip tg64=60.13±0.00 clk=0:1000Mhz:12 1:1500Mhz:30  edge=+73.0°C
+[19:33:25] C p1 moe d=24576 r1 vk start edge=+57.0°C avail=14576
+[19:35:07] C p1 moe d=24576 r1 vk tg64=74.10±0.00 clk=0:1000Mhz:11 1:1500Mhz:40  edge=+74.0°C
+[19:37:07] C p1 ds14 d=24576 r1 vk start edge=+57.0°C avail=14564
+[19:43:59] C p1 ds14 d=24576 r1 vk tg64=20.54±0.00 clk=0:1000Mhz:12 1:1500Mhz:194  edge=+74.0°C
+[19:45:59] C p2 q14 d=24576 r1 hip start edge=+57.0°C avail=14557
+[19:51:37] C p2 q14 d=24576 r1 hip tg64=12.14±0.00 clk=0:1000Mhz:15 1:1500Mhz:154  edge=+76.0°C
+[19:53:37] C p2 q14 d=24576 r1 vk start edge=+57.0°C avail=14535
+[19:59:46] C p2 q14 d=24576 r1 vk tg64=21.79±0.00 clk=0:1000Mhz:14 1:1500Mhz:171  edge=+74.0°C
+[20:01:46] C p2 moe d=24576 r1 hip start edge=+57.0°C avail=14561
+[20:03:08] C p2 moe d=24576 r1 hip tg64=59.77±0.00 clk=0:1000Mhz:12 1:1500Mhz:29  edge=+73.0°C
+[20:05:08] C p2 moe d=24576 r1 vk start edge=+57.0°C avail=14563
+[20:06:50] C p2 moe d=24576 r1 vk tg64=73.72±0.00 clk=0:1000Mhz:11 1:1500Mhz:40  edge=+73.0°C
+[20:08:50] C p2 ds14 d=24576 r1 vk start edge=+57.0°C avail=14530
+[20:15:41] C p2 ds14 d=24576 r1 vk tg64=20.41±0.00 clk=0:1000Mhz:12 1:1500Mhz:194  edge=+73.0°C
+[20:17:42] C p3 q14 d=24576 r1 hip start edge=+57.0°C avail=14556
+[20:23:23] C p3 q14 d=24576 r1 hip tg64=12.17±0.00 clk=0:1000Mhz:14 1:1414Mhz:1 1:1500Mhz:156  edge=+75.0°C
+[20:25:23] C p3 q14 d=24576 r1 vk start edge=+57.0°C avail=14564
+[20:31:33] C p3 q14 d=24576 r1 vk tg64=21.81±0.00 clk=0:1000Mhz:15 1:1500Mhz:170  edge=+75.0°C
+[20:33:33] C p3 moe d=24576 r1 hip start edge=+57.0°C avail=14563
+[20:34:55] C p3 moe d=24576 r1 hip tg64=60.21±0.00 clk=0:1000Mhz:12 1:1500Mhz:29  edge=+74.0°C
+[20:36:55] C p3 moe d=24576 r1 vk start edge=+56.0°C avail=14573
+[20:38:37] C p3 moe d=24576 r1 vk tg64=73.73±0.00 clk=0:1000Mhz:11 1:1500Mhz:40  edge=+74.0°C
+[20:40:37] C p3 ds14 d=24576 r1 vk start edge=+56.0°C avail=14560
+[20:47:29] C p3 ds14 d=24576 r1 vk tg64=20.38±0.00 clk=0:1000Mhz:12 1:1500Mhz:194  edge=+74.0°C
+[20:47:29] faults at end: 0
+[20:47:29] DONE
+[20:47:29] restored: ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer

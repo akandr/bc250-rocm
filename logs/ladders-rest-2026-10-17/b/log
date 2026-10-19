@@ -1,0 +1,162 @@
+[14:54:53] start: stopped ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer; faults 0; overheat lines 0; edge +57.0°C; avail 14248 MiB; kfd holders: 
+[14:54:53] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[14:54:53] oberon: active,  - max: 1500 - max: 1000
+[14:56:23] B p1 ds14 d=4096 r1 hip start edge=+56.0°C avail=14271
+[14:57:12] B p1 ds14 d=4096 r1 hip tg64=26.56±0.00 clk=0:1000Mhz:11 1:1500Mhz:14  edge=+72.0°C
+[14:58:42] B p1 ds14 d=4096 r1 vk start edge=+57.0°C avail=14275
+[14:59:25] B p1 ds14 d=4096 r1 vk tg64=31.17±0.00 clk=0:1000Mhz:8 1:1500Mhz:14  edge=+73.0°C
+[15:00:55] B p1 ds14 d=8192 r1 hip start edge=+56.0°C avail=14226
+[15:02:18] B p1 ds14 d=8192 r1 hip tg64=22.29±0.00 clk=0:1000Mhz:8 1:1500Mhz:34  edge=+75.0°C
+[15:03:48] B p1 ds14 d=8192 r1 vk start edge=+57.0°C avail=14236
+[15:05:10] B p1 ds14 d=8192 r1 vk tg64=28.08±0.00 clk=0:1000Mhz:8 1:1500Mhz:34  edge=+76.0°C
+[15:06:40] B p1 ds14 d=16384 r1 hip start edge=+57.0°C avail=14238
+[15:10:02] B p1 ds14 d=16384 r1 hip tg64=14.99±0.00 clk=0:1000Mhz:8 1:1500Mhz:93  edge=+76.0°C
+[15:11:32] B p1 ds14 d=16384 r1 vk start edge=+58.0°C avail=14214
+[15:15:04] B p1 ds14 d=16384 r1 vk tg64=23.65±0.00 clk=0:1000Mhz:10 1:1500Mhz:96  edge=+75.0°C
+[15:16:35] B p1 q14 d=4096 r1 hip start edge=+57.0°C avail=14355
+[15:17:31] B p1 q14 d=4096 r1 hip tg64=27.42±0.00 clk=0:1000Mhz:15 1:1500Mhz:14  edge=+72.0°C
+[15:19:01] B p1 q14 d=4096 r1 vk start edge=+56.0°C avail=14352
+[15:19:54] B p1 q14 d=4096 r1 vk tg64=31.45±0.00 clk=0:1000Mhz:14 1:1500Mhz:13  edge=+74.0°C
+[15:21:25] B p1 q14 d=8192 r1 hip start edge=+56.0°C avail=14348
+[15:22:55] B p1 q14 d=8192 r1 hip tg64=23.76±0.00 clk=0:1000Mhz:14 1:1500Mhz:32  edge=+75.0°C
+[15:24:25] B p1 q14 d=8192 r1 vk start edge=+57.0°C avail=14352
+[15:25:54] B p1 q14 d=8192 r1 vk tg64=28.67±0.00 clk=0:1000Mhz:14 1:1500Mhz:31  edge=+76.0°C
+[15:27:24] B p1 q14 d=16384 r1 hip start edge=+56.0°C avail=14356
+[15:30:42] B p1 q14 d=16384 r1 hip tg64=16.71±0.00 clk=0:1000Mhz:14 1:1500Mhz:85  edge=+75.0°C
+[15:32:12] B p1 q14 d=16384 r1 vk start edge=+58.0°C avail=14431
+[15:35:34] B p1 q14 d=16384 r1 vk tg64=24.57±0.00 clk=0:1000Mhz:15 1:1500Mhz:86  edge=+76.0°C
+[15:37:04] B p1 moe d=4096 r1 hip start edge=+58.0°C avail=14448
+[15:37:34] B p1 moe d=4096 r1 hip tg64=68.95±0.00 clk=0:1000Mhz:11 1:1500Mhz:5  edge=+67.0°C
+[15:39:04] B p1 moe d=4096 r1 vk start edge=+56.0°C avail=14447
+[15:39:36] B p1 moe d=4096 r1 vk tg64=83.88±0.00 clk=0:1000Mhz:11 1:1500Mhz:5  edge=+66.0°C
+[15:41:06] B p1 moe d=8192 r1 hip start edge=+56.0°C avail=14442
+[15:41:44] B p1 moe d=8192 r1 hip tg64=67.02±0.00 clk=0:1000Mhz:11 1:1500Mhz:8  edge=+67.0°C
+[15:43:14] B p1 moe d=8192 r1 vk start edge=+55.0°C avail=14437
+[15:43:56] B p1 moe d=8192 r1 vk tg64=81.49±0.00 clk=0:1000Mhz:10 1:1500Mhz:11  edge=+68.0°C
+[15:45:26] B p1 moe d=16384 r1 hip start edge=+55.0°C avail=14423
+[15:46:23] B p1 moe d=16384 r1 hip tg64=63.34±0.00 clk=0:1000Mhz:11 1:1500Mhz:18  edge=+70.0°C
+[15:47:53] B p1 moe d=16384 r1 vk start edge=+56.0°C avail=14491
+[15:49:02] B p1 moe d=16384 r1 vk tg64=78.08±0.00 clk=0:1000Mhz:11 1:1500Mhz:24  edge=+71.0°C
+[15:50:32] B p1 b27 d=4096 r1 hip start edge=+56.0°C avail=14493
+[15:51:34] B p1 b27 d=4096 r1 hip tg64=14.95±0.00 clk=0:1000Mhz:9 1:1500Mhz:22  edge=+74.0°C
+[15:53:04] B p1 b27 d=4096 r1 vk start edge=+57.0°C avail=14491
+[15:54:05] B p1 b27 d=4096 r1 vk tg64=17.26±0.00 clk=0:1000Mhz:9 1:1500Mhz:22  edge=+74.0°C
+[15:55:35] B p1 b27 d=8192 r1 hip start edge=+57.0°C avail=14472
+[15:57:21] B p1 b27 d=8192 r1 hip tg64=14.67±0.00 clk=0:1000Mhz:9 1:1500Mhz:44  edge=+78.0°C
+[15:58:51] B p1 b27 d=8192 r1 vk start edge=+57.0°C avail=14565
+[16:00:45] B p1 b27 d=8192 r1 vk tg64=15.21±0.00 clk=0:1000Mhz:14 1:1500Mhz:43  edge=+77.0°C
+[16:00:45] GOVERNOR OVERHEAT LINE at B p1 b27 d=8192 vk (0 -> 1)
+[16:02:15] B p1 b27 d=16384 r1 hip start edge=+58.0°C avail=14511
+[16:05:42] B p1 b27 d=16384 r1 hip tg64=10.91±0.00 clk=0:1000Mhz:27 1:1210Mhz:1 1:1500Mhz:76  edge=+74.0°C
+[16:07:12] B p1 b27 d=16384 r1 vk start edge=+59.0°C avail=14569
+[16:11:19] B p1 b27 d=16384 r1 vk tg64=16.48±0.00 clk=0:1000Mhz:24 1:1500Mhz:100  edge=+80.0°C
+[16:12:49] B p2 ds14 d=4096 r1 hip start edge=+58.0°C avail=14527
+[16:13:40] B p2 ds14 d=4096 r1 hip tg64=26.53±0.00 clk=0:1000Mhz:12 1:1500Mhz:14  edge=+74.0°C
+[16:15:10] B p2 ds14 d=4096 r1 vk start edge=+57.0°C avail=14513
+[16:15:56] B p2 ds14 d=4096 r1 vk tg64=31.03±0.00 clk=0:1000Mhz:10 1:1500Mhz:13  edge=+74.0°C
+[16:17:26] B p2 ds14 d=8192 r1 hip start edge=+57.0°C avail=14519
+[16:18:51] B p2 ds14 d=8192 r1 hip tg64=22.43±0.00 clk=0:1000Mhz:10 1:1500Mhz:33  edge=+75.0°C
+[16:20:21] B p2 ds14 d=8192 r1 vk start edge=+57.0°C avail=14516
+[16:21:46] B p2 ds14 d=8192 r1 vk tg64=27.96±0.00 clk=0:1000Mhz:10 1:1500Mhz:32  edge=+76.0°C
+[16:23:16] B p2 ds14 d=16384 r1 hip start edge=+57.0°C avail=14522
+[16:26:37] B p2 ds14 d=16384 r1 hip tg64=14.97±0.00 clk=0:1000Mhz:10 1:1500Mhz:91  edge=+76.0°C
+[16:28:07] B p2 ds14 d=16384 r1 vk start edge=+58.0°C avail=14514
+[16:31:40] B p2 ds14 d=16384 r1 vk tg64=23.63±0.00 clk=0:1000Mhz:10 1:1500Mhz:97  edge=+75.0°C
+[16:33:10] B p2 q14 d=4096 r1 hip start edge=+57.0°C avail=14499
+[16:34:07] B p2 q14 d=4096 r1 hip tg64=27.34±0.00 clk=0:1000Mhz:15 1:1500Mhz:14  edge=+72.0°C
+[16:35:37] B p2 q14 d=4096 r1 vk start edge=+57.0°C avail=14520
+[16:36:30] B p2 q14 d=4096 r1 vk tg64=31.35±0.00 clk=0:1000Mhz:15 1:1500Mhz:12  edge=+72.0°C
+[16:38:01] B p2 q14 d=8192 r1 hip start edge=+56.0°C avail=14527
+[16:39:32] B p2 q14 d=8192 r1 hip tg64=23.66±0.00 clk=0:1000Mhz:15 1:1500Mhz:31  edge=+74.0°C
+[16:41:02] B p2 q14 d=8192 r1 vk start edge=+57.0°C avail=14522
+[16:42:31] B p2 q14 d=8192 r1 vk tg64=28.89±0.00 clk=0:1000Mhz:14 1:1500Mhz:31  edge=+75.0°C
+[16:44:01] B p2 q14 d=16384 r1 hip start edge=+56.0°C avail=14518
+[16:47:13] B p2 q14 d=16384 r1 hip tg64=16.29±0.00 clk=0:1000Mhz:14 1:1500Mhz:82  edge=+76.0°C
+[16:48:43] B p2 q14 d=16384 r1 vk start edge=+58.0°C avail=14523
+[16:52:05] B p2 q14 d=16384 r1 vk tg64=24.99±0.00 clk=0:1000Mhz:15 1:1500Mhz:86  edge=+76.0°C
+[16:53:35] B p2 moe d=4096 r1 hip start edge=+57.0°C avail=14525
+[16:54:06] B p2 moe d=4096 r1 hip tg64=68.69±0.00 clk=0:1000Mhz:11 1:1500Mhz:5  edge=+66.0°C
+[16:55:36] B p2 moe d=4096 r1 vk start edge=+55.0°C avail=14521
+[16:56:08] B p2 moe d=4096 r1 vk tg64=83.88±0.00 clk=0:1000Mhz:11 1:1500Mhz:5  edge=+66.0°C
+[16:57:38] B p2 moe d=8192 r1 hip start edge=+55.0°C avail=14533
+[16:58:16] B p2 moe d=8192 r1 hip tg64=67.35±0.00 clk=0:1000Mhz:11 1:1500Mhz:8  edge=+67.0°C
+[16:59:46] B p2 moe d=8192 r1 vk start edge=+56.0°C avail=14541
+[17:00:29] B p2 moe d=8192 r1 vk tg64=81.76±0.00 clk=0:1000Mhz:11 1:1500Mhz:11  edge=+68.0°C
+[17:01:59] B p2 moe d=16384 r1 hip start edge=+55.0°C avail=14539
+[17:02:56] B p2 moe d=16384 r1 hip tg64=63.73±0.00 clk=0:1000Mhz:10 1:1413Mhz:1 1:1500Mhz:18  edge=+70.0°C
+[17:04:26] B p2 moe d=16384 r1 vk start edge=+56.0°C avail=14525
+[17:05:34] B p2 moe d=16384 r1 vk tg64=78.12±0.00 clk=0:1000Mhz:11 1:1500Mhz:24  edge=+72.0°C
+[17:07:05] B p2 b27 d=4096 r1 hip start edge=+56.0°C avail=14538
+[17:08:06] B p2 b27 d=4096 r1 hip tg64=14.95±0.00 clk=0:1000Mhz:9 1:1500Mhz:22  edge=+74.0°C
+[17:09:36] B p2 b27 d=4096 r1 vk start edge=+57.0°C avail=14607
+[17:10:38] B p2 b27 d=4096 r1 vk tg64=17.25±0.00 clk=0:1000Mhz:9 1:1500Mhz:22  edge=+75.0°C
+[17:12:08] B p2 b27 d=8192 r1 hip start edge=+57.0°C avail=14544
+[17:13:53] B p2 b27 d=8192 r1 hip tg64=14.67±0.00 clk=0:1000Mhz:9 1:1500Mhz:44  edge=+76.0°C
+[17:15:23] B p2 b27 d=8192 r1 vk start edge=+58.0°C avail=14616
+[17:17:17] B p2 b27 d=8192 r1 vk tg64=16.96±0.00 clk=0:1000Mhz:15 1:1500Mhz:42  edge=+77.0°C
+[17:18:47] B p2 b27 d=16384 r1 hip start edge=+58.0°C avail=14542
+[17:22:16] B p2 b27 d=16384 r1 hip tg64=10.79±0.00 clk=0:1000Mhz:21 1:1500Mhz:84  edge=+79.0°C
+[17:23:46] B p2 b27 d=16384 r1 vk start edge=+59.0°C avail=14611
+[17:27:55] B p2 b27 d=16384 r1 vk tg64=16.48±0.00 clk=0:1000Mhz:31 1:1500Mhz:94  edge=+77.0°C
+[17:29:25] B p3 ds14 d=4096 r1 hip start edge=+58.0°C avail=14549
+[17:30:15] B p3 ds14 d=4096 r1 hip tg64=26.54±0.00 clk=0:1000Mhz:11 1:1500Mhz:15  edge=+73.0°C
+[17:31:45] B p3 ds14 d=4096 r1 vk start edge=+57.0°C avail=14549
+[17:32:30] B p3 ds14 d=4096 r1 vk tg64=30.99±0.00 clk=0:1000Mhz:9 1:1500Mhz:14  edge=+72.0°C
+[17:34:00] B p3 ds14 d=8192 r1 hip start edge=+56.0°C avail=14552
+[17:35:25] B p3 ds14 d=8192 r1 hip tg64=22.46±0.00 clk=0:1000Mhz:9 1:1500Mhz:34  edge=+74.0°C
+[17:36:55] B p3 ds14 d=8192 r1 vk start edge=+57.0°C avail=14554
+[17:38:18] B p3 ds14 d=8192 r1 vk tg64=28.09±0.00 clk=0:1000Mhz:9 1:1500Mhz:33  edge=+75.0°C
+[17:39:49] B p3 ds14 d=16384 r1 hip start edge=+56.0°C avail=14541
+[17:43:09] B p3 ds14 d=16384 r1 hip tg64=15.02±0.00 clk=0:1000Mhz:9 1:1500Mhz:92  edge=+75.0°C
+[17:44:39] B p3 ds14 d=16384 r1 vk start edge=+58.0°C avail=14539
+[17:48:12] B p3 ds14 d=16384 r1 vk tg64=23.82±0.00 clk=0:1000Mhz:10 1:1500Mhz:97  edge=+74.0°C
+[17:49:42] B p3 q14 d=4096 r1 hip start edge=+57.0°C avail=14546
+[17:50:39] B p3 q14 d=4096 r1 hip tg64=27.33±0.00 clk=0:1000Mhz:15 1:1500Mhz:14  edge=+72.0°C
+[17:52:09] B p3 q14 d=4096 r1 vk start edge=+57.0°C avail=14548
+[17:53:03] B p3 q14 d=4096 r1 vk tg64=31.34±0.00 clk=0:1000Mhz:15 1:1500Mhz:12  edge=+72.0°C
+[17:54:33] B p3 q14 d=8192 r1 hip start edge=+56.0°C avail=14550
+[17:56:04] B p3 q14 d=8192 r1 hip tg64=23.66±0.00 clk=0:1000Mhz:15 1:1500Mhz:31  edge=+75.0°C
+[17:57:35] B p3 q14 d=8192 r1 vk start edge=+57.0°C avail=14538
+[17:59:04] B p3 q14 d=8192 r1 vk tg64=28.69±0.00 clk=0:1000Mhz:15 1:1500Mhz:30  edge=+75.0°C
+[18:00:34] B p3 q14 d=16384 r1 hip start edge=+57.0°C avail=14559
+[18:03:46] B p3 q14 d=16384 r1 hip tg64=16.53±0.00 clk=0:1000Mhz:15 1:1500Mhz:81  edge=+76.0°C
+[18:05:16] B p3 q14 d=16384 r1 vk start edge=+58.0°C avail=14593
+[18:08:39] B p3 q14 d=16384 r1 vk tg64=25.03±0.00 clk=0:1000Mhz:15 1:1500Mhz:86  edge=+76.0°C
+[18:10:09] B p3 moe d=4096 r1 hip start edge=+57.0°C avail=14574
+[18:10:40] B p3 moe d=4096 r1 hip tg64=68.99±0.00 clk=0:1000Mhz:12 1:1500Mhz:4  edge=+66.0°C
+[18:12:10] B p3 moe d=4096 r1 vk start edge=+55.0°C avail=14565
+[18:12:42] B p3 moe d=4096 r1 vk tg64=83.84±0.00 clk=0:1000Mhz:11 1:1500Mhz:6  edge=+65.0°C
+[18:14:13] B p3 moe d=8192 r1 hip start edge=+55.0°C avail=14566
+[18:14:51] B p3 moe d=8192 r1 hip tg64=66.83±0.00 clk=0:1000Mhz:11 1:1500Mhz:8  edge=+66.0°C
+[18:16:21] B p3 moe d=8192 r1 vk start edge=+55.0°C avail=14561
+[18:17:04] B p3 moe d=8192 r1 vk tg64=81.55±0.00 clk=0:1000Mhz:11 1:1500Mhz:11  edge=+67.0°C
+[18:18:34] B p3 moe d=16384 r1 hip start edge=+56.0°C avail=14570
+[18:19:32] B p3 moe d=16384 r1 hip tg64=63.55±0.00 clk=0:1000Mhz:11 1:1500Mhz:18  edge=+70.0°C
+[18:21:02] B p3 moe d=16384 r1 vk start edge=+56.0°C avail=14569
+[18:22:11] B p3 moe d=16384 r1 vk tg64=78.06±0.00 clk=0:1000Mhz:11 1:1500Mhz:24  edge=+71.0°C
+[18:23:42] B p3 b27 d=4096 r1 hip start edge=+56.0°C avail=14574
+[18:24:43] B p3 b27 d=4096 r1 hip tg64=14.96±0.00 clk=0:1000Mhz:9 1:1500Mhz:22  edge=+75.0°C
+[18:26:14] B p3 b27 d=4096 r1 vk start edge=+56.0°C avail=14590
+[18:27:15] B p3 b27 d=4096 r1 vk tg64=17.26±0.00 clk=0:1000Mhz:9 1:1500Mhz:22  edge=+74.0°C
+[18:28:45] B p3 b27 d=8192 r1 hip start edge=+56.0°C avail=14553
+[18:30:30] B p3 b27 d=8192 r1 hip tg64=14.69±0.00 clk=0:1000Mhz:9 1:1500Mhz:44  edge=+78.0°C
+[18:32:00] B p3 b27 d=8192 r1 vk start edge=+58.0°C avail=14533
+[18:33:53] B p3 b27 d=8192 r1 vk tg64=16.94±0.00 clk=0:1000Mhz:14 1:1500Mhz:43  edge=+77.0°C
+[18:35:23] B p3 b27 d=16384 r1 hip start edge=+57.0°C avail=14551
+[18:38:49] B p3 b27 d=16384 r1 hip tg64=10.83±0.00 clk=0:1000Mhz:25 1:1500Mhz:78  edge=+79.0°C
+[18:40:19] B p3 b27 d=16384 r1 vk start edge=+59.0°C avail=14489
+[18:44:26] B p3 b27 d=16384 r1 vk tg64=16.48±0.00 clk=0:1000Mhz:29 1:1500Mhz:95  edge=+78.0°C
+[18:44:26] B1 done; faults 0
+[18:45:56] B p1 q14 d=24576 r1 hip start edge=+58.0°C avail=14536
+[18:51:34] B p1 q14 d=24576 r1 hip tg64=12.19±0.00 clk=0:1000Mhz:16 1:1500Mhz:153  edge=+76.0°C
+[18:53:04] B p1 q14 d=24576 r1 vk start edge=+58.0°C avail=14543
+[18:59:16] B p1 q14 d=24576 r1 vk tg64=21.85±0.00 clk=0:1000Mhz:15 1:1500Mhz:171  edge=+74.0°C
+[19:00:46] B p1 moe d=24576 r1 hip start edge=+57.0°C avail=14550
+[19:02:08] B p1 moe d=24576 r1 hip tg64=60.60±0.00 clk=0:1000Mhz:12 1:1500Mhz:29  edge=+73.0°C
+[19:03:38] B p1 moe d=24576 r1 vk start edge=+58.0°C avail=14540
+[19:05:19] B p1 moe d=24576 r1 vk tg64=74.07±0.00 clk=0:1000Mhz:11 1:1500Mhz:40  edge=+73.0°C
+[19:06:49] B p1 b27 d=24576 r1 hip start edge=+57.0°C avail=14544
+[19:07:06] B p1 b27 d=24576 r1 hip tg64=FAIL clk=0:1000Mhz:9  edge=+58.0°C
+[19:07:06] B p1 b27 hip err: ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):   Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB 
+[19:07:06] FAILED RUN, stopping so the board can be rebooted (avail now 14437 MiB)
+[19:07:06] restored: ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer

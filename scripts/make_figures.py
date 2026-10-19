@@ -453,18 +453,20 @@ def fig_prefill_depth():
 # depth, medians of three passes: ROCm build-hip-pkf16 (thirteen patches), Vulkan build-vk-f44, and the
 # vulkan-fa-staging build of master bfdc321 carrying PR #28507. At 24576 every arm ran part of the time at
 # 1000 MHz (the shader clock sampled during each run: 25 to 40 percent of the samples, ROCm the most), so
-# the last ROCm/Vulkan ratio is a floor, not a measurement at 1500 MHz.
+# the last ROCm/Vulkan ratio is a floor, not a measurement at 1500 MHz. The 28672 point (30720 in context,
+# the deepest pp2048 under the 8B's 32768 ROCm limit) is logs/ladders-rest-2026-10-17/a: -r 1 after three
+# idle minutes, medians of three; the governor overheated during one ROCm run there too.
 PP24 = {
-    "ROCm, thirteen patches": {0: 390.9, 4096: 302.2, 8192: 246.5, 16384: 171.8, 24576: 134.6},
-    "Vulkan": {0: 367.4, 4096: 217.9, 8192: 143.2, 16384: 84.1, 24576: 58.9},
-    "Vulkan with PR #28507": {0: 377.2, 4096: 294.1, 8192: 242.4, 16384: 176.5, 24576: 135.3},
+    "ROCm, thirteen patches": {0: 390.9, 4096: 302.2, 8192: 246.5, 16384: 171.8, 24576: 134.6, 28672: 122.7},
+    "Vulkan": {0: 367.4, 4096: 217.9, 8192: 143.2, 16384: 84.1, 24576: 58.9, 28672: 51.1},
+    "Vulkan with PR #28507": {0: 377.2, 4096: 294.1, 8192: 242.4, 16384: 176.5, 24576: 135.3, 28672: 123.0},
 }
 
 def fig_prefill_depth_24k():
     ds = sorted(PP24["Vulkan"])
     fig, ax = plt.subplots(figsize=(6.4, 3.6))
-    ax.axvspan(20480, 26200, color=S.GREY_PALE, alpha=0.45, lw=0, zorder=0)
-    ax.text(24576, 8, "all three arms\nthrottle here", ha="center", va="bottom", fontsize=7, color=S.GREY)
+    ax.axvspan(20480, 30300, color=S.GREY_PALE, alpha=0.45, lw=0, zorder=0)
+    ax.text(26624, 8, "all three arms\nthrottle here", ha="center", va="bottom", fontsize=7, color=S.GREY)
     styles = {"ROCm, thirteen patches": (S.ROCM, "-D"), "Vulkan": (S.VULKAN, "-o"),
               "Vulkan with PR #28507": (S.VULKAN_DARK, "--^")}
     for name, (col, style) in styles.items():
@@ -478,12 +480,12 @@ def fig_prefill_depth_24k():
                 color=S.ROCM, fontweight="bold")
     ax.set_xlabel("tokens of context already present")
     ax.set_ylabel("prefill tokens/s (pp2048)")
-    ax.set_title("Prefill against context to 24k: ROCm over stock Vulkan grows with depth, level with #28507",
+    ax.set_title("Prefill against context to 28k: ROCm over stock Vulkan grows with depth, level with #28507",
                  fontsize=9.5)
-    ax.set_xticks(ds); ax.set_xticklabels(["0", "4k", "8k", "16k", "24k"])
+    ax.set_xticks(ds); ax.set_xticklabels(["0", "4k", "8k", "16k", "24k", "28k"])
     ax.set_xlim(-600, ds[-1] + 2600); ax.set_ylim(0, 430)
     ax.legend(fontsize=8, frameon=False, loc="upper right")
-    fig.text(0.01, -0.04, "qwen3-8B Q8_0, -p 2048 -n 0, -fa on, one llama-bench invocation per point, medians of three passes, 2026-10-12. "
+    fig.text(0.01, -0.04, "qwen3-8B Q8_0, -p 2048 -n 0, -fa on, one llama-bench invocation per point, medians of three passes, 2026-10-12 (28k: 2026-10-17). "
              "Labels above the ROCm points are ROCm / Vulkan.", fontsize=7, color="#444")
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-prefill-vs-depth-24k.png"), bbox_inches="tight")
@@ -499,10 +501,11 @@ DEC8 = {
     "ROCm, GGML_CUDA_GRAPH_OPT=1 with its fix": {0: 39.85, 4096: 37.08, 8192: 34.72, 16384: 29.27, 24576: 27.43},
     "Vulkan": {0: 39.06, 4096: 35.73, 8192: 33.22, 16384: 29.25, 24576: 26.19},
 }
-DEC8_COLD = {   # phase 2: -r 1 after three idle minutes, medians of three, no throttling
-    "ROCm, thirteen patches, as shipped": {16384: 30.71, 24576: 28.00},
-    "ROCm, GGML_CUDA_GRAPH_OPT=1 with its fix": {16384: 31.44, 24576: 28.54},
-    "Vulkan": {16384: 29.32, 24576: 26.14},
+DEC8_COLD = {   # phase 2: -r 1 after three idle minutes, medians of three, no throttling; 28672 is
+                # logs/ladders-rest-2026-10-17/d (2026-10-18), same method, the last rung the no-mmap 8B holds on ROCm
+    "ROCm, thirteen patches, as shipped": {16384: 30.71, 24576: 28.00, 28672: 26.83},
+    "ROCm, GGML_CUDA_GRAPH_OPT=1 with its fix": {16384: 31.44, 24576: 28.54, 28672: 27.34},
+    "Vulkan": {16384: 29.32, 24576: 26.14, 28672: 25.02},
 }
 
 def fig_decode_depth_8b():
@@ -519,7 +522,10 @@ def fig_decode_depth_8b():
         col = styles[name][0]
         ax.plot(sorted(cold), [cold[d] for d in sorted(cold)], "x", color=col, ms=6, mew=1.4, zorder=4,
                 label="phase 2, cold -r 1 (x)" if "Vulkan" in name else None)
-    ax.axvspan(14000, 26200, color=S.GREY_PALE, alpha=0.45, lw=0, zorder=0)
+        if 28672 in cold:
+            ax.text(28672 + 450, cold[28672] + (0.45 if "fix" in name else -0.45 if "shipped" in name else 0),
+                    f"{cold[28672]:.1f}", fontsize=7.5, va="center", color=col, fontweight="bold")
+    ax.axvspan(14000, 30300, color=S.GREY_PALE, alpha=0.45, lw=0, zorder=0)
     ax.text(20480, 36.8, "ROCm throttles here\nin the three-pass run", ha="center", va="top", fontsize=7, color=S.GREY)
     for d in ds:
         r = DEC8["ROCm, thirteen patches, as shipped"][d] / DEC8["Vulkan"][d]
@@ -527,14 +533,59 @@ def fig_decode_depth_8b():
     ax.text(-400, 23.85, "this row: ROCm as shipped / Vulkan, three-pass run", ha="left", va="bottom", fontsize=6.5, color=S.ROCM)
     ax.set_xlabel("tokens of context already present"); ax.set_ylabel("decode tokens/s (tg64)")
     ax.set_title("Decode against context on the 8B: ROCm ahead from 4k, where on the 1.5B it is level", fontsize=9.5)
-    ax.set_xticks(ds); ax.set_xticklabels(["0", "4k", "8k", "16k", "24k"])
-    ax.set_xlim(-600, ds[-1] + 2400); ax.set_ylim(23.6, 43)
+    ax.set_xticks(ds + [28672]); ax.set_xticklabels(["0", "4k", "8k", "16k", "24k", "28k"])
+    ax.set_xlim(-600, 28672 + 2400); ax.set_ylim(23.6, 43)
     ax.legend(fontsize=8, frameon=False, loc="upper right")
     fig.text(0.01, -0.07, "qwen3-8B Q8_0, -p 0 -n 64, one llama-bench invocation per point (no-depth-cache build), medians of three passes, 2026-10-15.\n"
-             "Crosses: phase 2, the same arms cold with -r 1, where the three-pass run throttled.", fontsize=7, color="#444")
+             "Crosses: phase 2, the same arms cold with -r 1, where the three-pass run throttled; 28k (2026-10-18) the same way. ROCm does not hold 30k without mmap.", fontsize=7, color="#444")
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-decode-vs-depth-8b.png"), bbox_inches="tight")
     print("fig-decode-vs-depth-8b.png")
+
+
+# ================= decode against depth on all six models (logs/ladders-rest-2026-10-17) =================
+# ROCm as shipped over Vulkan, tg64 behind 0 to 24576 cached tokens. The 1.5B is logs/depth-graphopt-fix-2026-10-10,
+# the 8B is logs/ladders-2026-10-15 (its 16384 and 24576 the cold phase-2 points), the other four are
+# logs/ladders-rest-2026-10-17: one no-depth-cache llama-bench invocation per point, -r 1, arms interleaved,
+# medians of three (four where a point was measured in both attempts). deepseek-14B does not fit 24576 on
+# ROCm; the 27B's 8192 and 16384 are phase C2, -r 1 after five idle minutes, because the 90-second rests of
+# the main run let the governor throttle its long fills.
+DEC6 = {
+    "qwen2.5-1.5B Q4_K_M": {0: 196.6 / 212.0, 4096: 176.3 / 179.1, 8192: 162.9 / 161.6, 16384: 141.1 / 138.1, 24576: 122.9 / 121.0},
+    "qwen3-8B Q8_0": {0: 38.43 / 39.06, 4096: 36.13 / 35.73, 8192: 34.03 / 33.22, 16384: 30.71 / 29.32, 24576: 28.00 / 26.14, 28672: 26.83 / 25.02},
+    "deepseek-r1-14B Q4_K_M": {0: 32.6 / 35.1, 4096: 26.5 / 31.0, 8192: 22.4 / 28.1, 16384: 15.0 / 23.7},
+    "qwen3-14B Q4_K_M": {0: 32.7 / 34.7, 4096: 27.3 / 31.4, 8192: 23.7 / 28.7, 16384: 16.5 / 25.0, 24576: 12.2 / 21.8},
+    "qwen3.6-35B-A3B MoE IQ2_M": {0: 71.2 / 86.9, 4096: 69.0 / 83.9, 8192: 67.0 / 81.5, 16384: 63.5 / 78.1, 24576: 60.2 / 73.9},
+    "qwen3.8-27B UD-IQ3_XXS": {0: 15.2 / 17.6, 4096: 14.9 / 17.3, 8192: 14.7 / 16.4, 16384: 10.8 / 16.5},   # 8192 and 16384 pool B and C2, six runs each
+}
+
+def fig_decode_depth_six():
+    fig, ax = plt.subplots(figsize=(6.4, 3.6))
+    ax.axhspan(1.0, 1.15, color=S.ROCM, alpha=0.06, lw=0, zorder=0)
+    ax.axhspan(0.42, 1.0, color=S.VULKAN, alpha=0.06, lw=0, zorder=0)
+    ax.axhline(1.0, color=S.GREY, lw=0.8, zorder=1)
+    styles = {"qwen2.5-1.5B Q4_K_M": ("#6A3D9A", "-o"), "qwen3-8B Q8_0": (S.ROCM, "-D"),
+              "deepseek-r1-14B Q4_K_M": ("#B15928", "-s"), "qwen3-14B Q4_K_M": ("#E6550D", "--s"),
+              "qwen3.6-35B-A3B MoE IQ2_M": (S.GREEN if hasattr(S, "GREEN") else "#2A9D8F", "-^"),
+              "qwen3.8-27B UD-IQ3_XXS": (S.VULKAN_DARK, "-v")}
+    for name, (col, style) in styles.items():
+        pts = DEC6[name]; ds = sorted(pts)
+        ax.plot(ds, [pts[d] for d in ds], style, color=col, ms=4.5, linewidth=1.5, label=name, zorder=3)
+        dy = 0.022 if "27B" in name else -0.012 if "deepseek" in name else 0
+        ax.text(ds[-1] + 400, pts[ds[-1]] + dy, f"{pts[ds[-1]]:.2f}", fontsize=7.5, va="center", color=col, fontweight="bold")
+    ax.text(31000, 1.13, "ROCm faster", color=S.ROCM, fontsize=8, alpha=0.7, va="top", ha="right")
+    ax.text(31000, 0.435, "Vulkan faster", color=S.VULKAN, fontsize=8, alpha=0.7, va="bottom", ha="right")
+    ax.set_xlabel("tokens of context already present"); ax.set_ylabel("decode speed, ROCm / Vulkan (tg64)")
+    ax.set_title("Decode against context on six models: ahead on the 8B, level on the 1.5B, the dense big ones fall away",
+                 fontsize=9.5)
+    ax.set_xticks([0, 4096, 8192, 16384, 24576, 28672]); ax.set_xticklabels(["0", "4k", "8k", "16k", "24k", "28k"])
+    ax.set_xlim(-600, 28672 + 3200); ax.set_ylim(0.42, 1.15)
+    ax.legend(fontsize=7, frameon=False, loc="lower left", ncol=2, bbox_to_anchor=(0.0, 0.0))
+    fig.text(0.01, -0.07, "ROCm thirteen patches as shipped / Vulkan, -p 0 -n 64, one no-depth-cache llama-bench invocation per point, -r 1, medians of three.\n"
+             "1.5B: 2026-10-10, 8B: 2026-10-15 (16k and 24k cold), the other four: 2026-10-17. deepseek-14B does not fit 24k on ROCm, the 27B stops at 16k, the 8B at 28k.", fontsize=7, color="#444")
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "fig-decode-vs-depth-six.png"), bbox_inches="tight")
+    print("fig-decode-vs-depth-six.png")
 
 
 # ================= eight-hour soak (logs/soak-thirteen-2026-09-22) =================
@@ -791,4 +842,4 @@ if __name__ == "__main__":
     fig_backends(); fig_depth(); fig_sgemm(); fig_gemm_shapes()
     fig_op_perf(); fig_spill(); fig_heads(); fig_mmvq()
     fig_f44_backends(); fig_f43_vs_f44(); fig_probes(); fig_f44_depth()
-    fig_fa_tradeoff(); fig_prefill_depth(); fig_prefill_depth_24k(); fig_decode_depth_8b(); fig_soak()
+    fig_fa_tradeoff(); fig_prefill_depth(); fig_prefill_depth_24k(); fig_decode_depth_8b(); fig_decode_depth_six(); fig_soak()

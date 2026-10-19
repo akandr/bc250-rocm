@@ -1,0 +1,16 @@
+[12:58:21] start: stopped ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer; faults 0; overheat lines 0; edge +54.0°C; avail 14234 MiB; kfd holders: 
+[12:58:21] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[12:58:21] oberon: active,  - max: 1500 - max: 1000
+[12:58:22] idle 180 s
+[13:01:22] D p1 d=28672 r1 hip start edge=+53.0°C avail=14272
+[13:04:05] D p1 d=28672 r1 hip tg64=26.93±0.00 clk=0:1000Mhz:9 1:1500Mhz:73  edge=+80.0°C
+[13:07:06] D p1 d=28672 r1 fix start edge=+56.0°C avail=14293
+[13:09:56] D p1 d=28672 r1 fix tg64=27.34±0.00 clk=0:1000Mhz:18 1:1500Mhz:67  edge=+79.0°C
+[13:09:56] GOVERNOR OVERHEAT LINE at D p1 d=28672 fix (0 -> 1)
+[13:12:56] D p1 d=28672 r1 vk start edge=+56.0°C avail=14292
+[13:18:07] D p1 d=28672 r1 vk tg64=24.88±0.00 clk=0:1000Mhz:9 1:1500Mhz:147  edge=+71.0°C
+[13:21:07] D p1 d=30720 r1 hip start edge=+56.0°C avail=14361
+[13:24:15] D p1 d=30720 r1 hip tg64=FAIL clk=0:1000Mhz:20 1:1500Mhz:74  edge=+70.0°C
+[13:24:15] D p1 hip err: ggml_cuda_init: found 1 ROCm devices (Total VRAM: 16384 MiB):   Device 0: AMD BC-250, gfx1013:xnack- (0x1013), VMM: no, Wave Size: 32, VRAM: 16384 MiB timeout: monitowane polecenie zrobiło zrzut pamięci 
+[13:24:15] FAILED RUN, stopping (avail now 14481 MiB)
+[13:24:16] restored: ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer

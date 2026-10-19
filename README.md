@@ -18,8 +18,8 @@ thirteen small llama.cpp patches. The stock packages do not work. A GPU reset st
 | | ROCm | Vulkan |
 |---|---|---|
 | PyTorch, BLAS, ported CUDA code | **works**: PyTorch trains a small transformer at 33.8 ktok/s, fp32 GEMM reaches 70.7 % of the measured ceiling, `hipify-perl` output runs unedited ([GPGPU](#gpgpu)) | PyTorch's Vulkan backend is inference-only and unmaintained; no BLAS; CUDA has to be rewritten |
-| llama.cpp prefill | 0.96 to 1.29 of Vulkan at an empty context, **1.4 to 2.3 times** stock Vulkan from 4096 to 24576 tokens, level with Vulkan carrying #28507 | 2 to 4 % faster on four of six models at an empty context |
-| llama.cpp decode | 0.82 to 0.99 of Vulkan at an empty context; level from 4096 tokens on the 1.5B, 1 to 5 % ahead on the 8B | **faster at short context**, most on the big quantised models |
+| llama.cpp prefill | 0.96 to 1.29 of Vulkan at an empty context, **1.4 to 2.4 times** stock Vulkan from 4096 to 28672 tokens, level with Vulkan carrying #28507 | 2 to 4 % faster on four of six models at an empty context |
+| llama.cpp decode | 0.82 to 0.99 of Vulkan at an empty context; level from 4096 tokens on the 1.5B, 1 to 5 % ahead on the 8B; the 14Bs and the 27B fall to about two thirds of Vulkan by 16384, the MoE holds 0.82 | **faster at short context**, most on the big quantised models, and **further ahead on the dense big models the deeper the context** |
 | longest context | stops at KFD's 13.1 GiB limit | **1.17 to 2.27 times as deep** |
 | running unattended | a rare GPU page fault can wedge the compute queue until a reboot | kept working after one, when checked |
 
@@ -439,10 +439,11 @@ with Vulkan and the 8B ahead of it, 1.01. On the MoE and the 27B it launches no 
 nothing, and it does not move prefill on any model. As shipped the option computes wrong tokens, and the
 campaign measured it as shipped; its fix, in [step 7](#7-llamacpp), keeps the speed to within 0.1 percent.
 
-Prefill behind 4096 to 24576 cached tokens is 1.4 to 2.3 times Vulkan
+Prefill behind 4096 to 28672 cached tokens is 1.4 to 2.4 times Vulkan
 ([prefill at depth](#prefill-at-depth)). The 1.5B's decode is level with Vulkan from 4096 tokens to
 30720, and 1.04 to 1.07 times Vulkan with the option and its fix; the 8B's is 1 to 5 percent ahead
-from 4096 ([decode at depth](#decode-at-depth)).
+from 4096; the two 14Bs and the 27B fall to about two thirds of Vulkan by 16384 and the MoE keeps its 0.82
+([decode at depth](#decode-at-depth)).
 
 Where the gains come from, in order of size: the matrix-vector patch for decode, the packed-fp16
 prefill GEMM and its tile for prefill, and the flash-attention patch, whose prefill share grows with
@@ -482,11 +483,12 @@ the patch set, so any step of the progression can be re-read on its own.
 Vulkan worked on this board before any of this and is still the better choice for some of it.
 
 **For llama.cpp alone it is a trade.** Prefill: ROCm is ahead on two of six models at an empty context
-and within four percent on the rest, and the gap widens with context, to **1.4, 1.7, 2.0 and 2.3 times** Vulkan
-at 4096, 8192, 16384 and 24576 tokens ([prefill at depth](#prefill-at-depth)). Decode: behind on all six at an empty
+and within four percent on the rest, and the gap widens with context, to **1.4, 1.7, 2.0, 2.3 and 2.4 times** Vulkan
+at 4096, 8192, 16384, 24576 and 28672 tokens ([prefill at depth](#prefill-at-depth)). Decode: behind on all six at an empty
 context, 0.82 to 0.99, most on the MoE and the 27B, which is the quantised matvec gap described
 [below](#decode-four-passes-over-the-matrix-vector-kernel); level with Vulkan from 4096 tokens on the
-1.5B, and ahead there with `GGML_CUDA_GRAPH_OPT=1` and its fix ([decode at depth](#decode-at-depth)).
+1.5B, ahead there with `GGML_CUDA_GRAPH_OPT=1` and its fix and on the 8B as shipped, and further behind the
+deeper the context on the 14Bs and the 27B, about two thirds of Vulkan by 16384 ([decode at depth](#decode-at-depth)).
 Context: Vulkan fits 1.17 to 2.27 times as much ([context ceilings](#context-ceilings)), and it is the
 steadier of the two.
 
@@ -538,9 +540,9 @@ puts the 8192 figure higher. The Vulkan columns are unchanged measurements,
 not old ones: re-run on 22 September they return 367.0, 217.5 and 143.8 against the 366.8, 217.0 and
 143.5 of September 17, which is what makes the ROCm column readable.
 
-#### To 24576 tokens
+#### To 28672 tokens
 
-![Prefill against context to 24k](figures/fig-prefill-vs-depth-24k.png)
+![Prefill against context to 28k](figures/fig-prefill-vs-depth-24k.png)
 
 The table above stops at 8192 because the September runs did. [`logs/prefill-deep-2026-10-12/`](logs/prefill-deep-2026-10-12/)
 carries the same ladder to 16384 and 24576 with the same three arms interleaved within each depth, one
@@ -554,12 +556,19 @@ during every run ([`scripts/prefill_deep.sh`](scripts/prefill_deep.sh)):
 | 8192 | **246.5** | 143.2 | 242.4 | 1.72 | 1.02 |
 | 16384 | **171.8** | 84.1 | 176.5 | 2.04 | 0.97 |
 | 24576 | **134.6** | 58.9 | 135.3 | 2.29 | 0.99 |
+| 28672 | **122.7** | 51.1 | 123.0 | 2.40 | 1.00 |
+
+The 28672 row is the last rung the 8B's cache allows on ROCm (30720 in context against its 32768 f16-cache
+limit), measured on 2026-10-17 with `-r 1` after three idle minutes, medians of three
+([`logs/ladders-rest-2026-10-17/`](logs/ladders-rest-2026-10-17/)): 120.8, 122.7, 123.5 against Vulkan's 51.0,
+51.1, 51.3 and the #28507 build's 122.0, 123.0, 124.3. The governor logged an overheat during one ROCm run
+there as it did at 24576, so 2.40 is a floor like 2.29.
 
 This corrects two readings of the September table. Its ROCm figure at 8192, 214.6, was the median of
 three passes whose spreads ran from 4.5 to 21.6, and it was low: measured nine more times in October it
 reads 246.4 to 246.6 with spreads under 0.1, while the two Vulkan arms reproduce September to within a
 few percent (143.2 against 143.8, 242.4 against 236.1). So ROCm's lead over stock Vulkan is 1.7 times at
-8192, not 1.49, and it keeps growing with context, to 2.3 times at 24576. And against Vulkan carrying
+8192, not 1.49, and it keeps growing with context, to 2.3 times at 24576 and 2.4 at 28672. And against Vulkan carrying
 #28507 ROCm is level at every depth, 0.97 to 1.04, not behind it at 8192.
 
 One qualification on the last row. Every run has six to nine clock samples at 1000 MHz, the seconds
@@ -642,18 +651,18 @@ depth, three passes ([`scripts/ladders_8b_15b.sh`](scripts/ladders_8b_15b.sh)). 
 of [`scripts/llama-bench-no-depth-cache.patch`](scripts/llama-bench-no-depth-cache.patch): the stock one
 pins a copy of the KV cache after the fill and the 8B then runs out of ROCm memory at 16384.
 
-| depth | 0 | 4096 | 8192 | 16384 | 24576 |
-|---|---|---|---|---|---|
-| **ROCm, thirteen patches, `GGML_CUDA_GRAPH_OPT=1` with its fix** | 39.9 | 37.1 | 34.7 | 29.3 | 27.4 |
-| ROCm, thirteen patches, as shipped | 38.4 | 36.1 | 34.0 | 29.6 | 27.5 |
-| Vulkan, same run | 39.1 | 35.7 | 33.2 | 29.3 | 26.2 |
-| as shipped / Vulkan | 0.98 | 1.01 | 1.02 | 1.01 | 1.05 |
-| with the fix / Vulkan | 1.02 | 1.04 | 1.05 | 1.00 | 1.05 |
-| ROCm, as shipped, cold `-r 1` (phase 2) | | | | 30.7 | 28.0 |
-| ROCm, with the fix, cold `-r 1` (phase 2) | | | | 31.4 | 28.5 |
-| Vulkan, cold `-r 1` (phase 2) | | | | 29.3 | 26.1 |
-| cold, as shipped / Vulkan | | | | 1.05 | 1.07 |
-| cold, with the fix / Vulkan | | | | 1.07 | 1.09 |
+| depth | 0 | 4096 | 8192 | 16384 | 24576 | 28672 |
+|---|---|---|---|---|---|---|
+| **ROCm, thirteen patches, `GGML_CUDA_GRAPH_OPT=1` with its fix** | 39.9 | 37.1 | 34.7 | 29.3 | 27.4 | |
+| ROCm, thirteen patches, as shipped | 38.4 | 36.1 | 34.0 | 29.6 | 27.5 | |
+| Vulkan, same run | 39.1 | 35.7 | 33.2 | 29.3 | 26.2 | |
+| as shipped / Vulkan | 0.98 | 1.01 | 1.02 | 1.01 | 1.05 | |
+| with the fix / Vulkan | 1.02 | 1.04 | 1.05 | 1.00 | 1.05 | |
+| ROCm, as shipped, cold `-r 1` (phase 2) | | | | 30.7 | 28.0 | 26.8 |
+| ROCm, with the fix, cold `-r 1` (phase 2) | | | | 31.4 | 28.5 | 27.3 |
+| Vulkan, cold `-r 1` (phase 2) | | | | 29.3 | 26.1 | 25.0 |
+| cold, as shipped / Vulkan | | | | 1.05 | 1.07 | 1.07 |
+| cold, with the fix / Vulkan | | | | 1.07 | 1.09 | 1.09 |
 
 **On the 8B ROCm decodes ahead of Vulkan from 4096 tokens on, as shipped by 1 to 5 percent and with the
 option and its fix by 4 to 5 percent**, and 2 percent behind at an empty context as shipped. The 16384 and
@@ -662,10 +671,47 @@ drops the clock, 30 to 40 percent of the clock samples at 1000 MHz on the ROCm a
 Vulkan, and the option's row falls to parity at 16384 for that reason alone. Phase 2 ([`scripts/ladders_phase2.sh`](scripts/ladders_phase2.sh)) measures those two points again with
 `-r 1` after three idle minutes per arm, three passes, every one at 1500 MHz throughout: ROCm 30.7 and 28.0,
 with the fix 31.4 and 28.5, Vulkan 29.3 and 26.1, so **1.05 and 1.07 times Vulkan as shipped, 1.07 and 1.09
-with the fix**, and the lead keeps growing with depth on the 8B as it does for prefill.
+with the fix**, and the lead keeps growing with depth on the 8B as it does for prefill. The 28672 column is the
+same method on 2026-10-18 ([`logs/ladders-rest-2026-10-17/`](logs/ladders-rest-2026-10-17/), part D): 26.8 and
+27.3 against 25.0, **1.07 and 1.09**, the as-shipped arm at 1500 MHz throughout and the option's arm throttling
+during its fill (18 to 22 of about 85 clock samples at 1000 MHz), so its 1.09 is a floor. It is the last rung:
+behind 30720 cached tokens the ROCm run fills the context and then aborts at an allocation (`ggml-cuda.cu:111`),
+with the model in pinned host memory (`-mmp 0`) as in every ladder here, where the [context ceilings](#context-ceilings)
+below, measured with mmap on, reach 32768. Vulkan decodes there at 24.5.
 
 The Fedora 43 and three-patch rows are the old ladders, kept for scale;
 [INVESTIGATION.md](INVESTIGATION.md#decode-at-context-depth) covers their provenance.
+
+#### The other four
+
+![Decode against context on six models](figures/fig-decode-vs-depth-six.png)
+
+[`logs/ladders-rest-2026-10-17/`](logs/ladders-rest-2026-10-17/) runs the remaining four models of the
+headline table through the same decode ladder, ROCm as shipped against Vulkan, the no-depth-cache
+`llama-bench`, `-r 1` after a rest, arms interleaved within each point, three passes
+([`scripts/ladders_rest_b.sh`](scripts/ladders_rest_b.sh), [`scripts/ladders_rest_c.sh`](scripts/ladders_rest_c.sh)).
+Medians, tokens per second, with the ratio ROCm / Vulkan:
+
+| model | 0 | 4096 | 8192 | 16384 | 24576 |
+|---|---|---|---|---|---|
+| deepseek-r1-14B Q4_K_M | 32.6 / 35.1 = 0.93 | 26.5 / 31.0 = 0.85 | 22.4 / 28.1 = 0.80 | 15.0 / 23.7 = 0.63 | does not fit on ROCm, Vulkan 20.4 |
+| qwen3-14B Q4_K_M | 32.7 / 34.7 = 0.94 | 27.3 / 31.4 = 0.87 | 23.7 / 28.7 = 0.82 | 16.5 / 25.0 = 0.66 | 12.2 / 21.8 = 0.56 |
+| qwen3.6-35B-A3B MoE IQ2_M | 71.2 / 86.9 = 0.82 | 69.0 / 83.9 = 0.82 | 67.0 / 81.5 = 0.82 | 63.5 / 78.1 = 0.81 | 60.2 / 73.9 = 0.81 |
+| qwen3.8-27B UD-IQ3_XXS | 15.2 / 17.6 = 0.86 | 14.9 / 17.3 = 0.87 | 14.7 / 16.4 = 0.90 | 10.8 / 16.5 = 0.66 | does not fit on ROCm without mmap, Vulkan not run |
+
+**Two shapes.** The MoE keeps its distance at every depth, 0.81 to 0.82: its decode is the quantised
+matrix-vector work on the active experts, which does not grow with the context, and the ROCm side of it is
+the matvec gap described [below](#decode-four-passes-over-the-matrix-vector-kernel). **The dense models
+fall away as the cache grows.** Both 14Bs go from 0.93 at an empty context to 0.80 at 8192 and about two
+thirds at 16384, qwen3-14B to 0.56 at 24576, and the 27B drops the same way between 8192 and 16384. The
+step from 8192 to 16384 is the big one, a third of the ROCm speed against a sixth of Vulkan's, and it
+reproduces to the tenth across four passes (deepseek-14B at 16384 on ROCm: 15.03, 14.99, 14.97, 15.02).
+The 8B, the same head size with a GQA ratio of 4 instead of 5, does not have it: 1.05 at 16384. Where the
+time goes on the 14Bs behind a long cache is not measured yet; attention over the cache is the only part of
+the token that grows with it, so that is where to point rocprofv3 next. Two qualifications in the log's
+README: the 27B's 16384 point throttles on both backends from its own 160-second fill whatever the rest
+before it, and its Vulkan figure at 8192 splits into two levels across six runs (15.2 and 16.9) where ROCm
+reads 14.7 every time.
 
 ### Context ceilings
 
@@ -687,6 +733,13 @@ failure of every cell and two more ROCm variants):
 
 **Vulkan goes 1.17 to 2.27 times as deep as ROCm.** A quantised cache takes ROCm 1.75 to 1.92 times as
 deep with `q8_0` and 2.63 to 3.50 times with `q4_0`.
+
+These are capacity figures. Asked for a fact planted at the start of a prompt, the 1.5B answers correctly
+behind 32k and 64k of text, identically on both backends byte for byte, and produces garbage behind 128k on
+both ([`logs/depthcheck-2026-10-16/`](logs/depthcheck-2026-10-16/)): its trained length is 32k, and twice
+that still works while four times does not, on either backend. Two tool traps on the way, recorded there:
+the server-based `llama-cli` caps its context at the model's training length whatever `-c` says, and
+`llama-perplexity` cannot hold the logits of a 64k window.
 
 **llama-bench as shipped halves ROCm's ceilings.** After the depth fill it copies the sequence state into
 host memory, as large as the KV cache; clr pins the copy against KFD's limit, and the first generated
@@ -888,7 +941,7 @@ kernels, not a usable fp16 GEMM.
 
 Training a small transformer, four pre-norm blocks at d_model 512, reaches **33.8 kilotokens a second**
 in fp32 at batch 16, where the board's own six cores reach 0.46 in the same PyTorch, a build without MKL or
-oneDNN ([`logs/ladders-2026-10-15/phase2/cpu_train.txt`](logs/ladders-2026-10-15/phase2/cpu_train.txt)), and and `torch.autocast` with fp16 is a **7.7 times regression** and not a
+oneDNN ([`logs/ladders-2026-10-15/phase2/cpu_train.txt`](logs/ladders-2026-10-15/phase2/cpu_train.txt)), and `torch.autocast` with fp16 is a **7.7 times regression** and not a
 speedup, which follows the GEMM result in direction. Convolution and attention agree: fp16 conv2d is
 about four times slower than fp32 and fp16 attention slower than fp32 attention, so the pattern is the
 precision and not one operator ([`logs/torch-rocblas-bench-2026-09-24/`](logs/torch-rocblas-bench-2026-09-24/)).
@@ -1105,6 +1158,7 @@ or are limits to work within.
 | Fedora 43 only: ROCm 6.4.2's compiler-rt half-precision helpers are broken, zeroing fp16 GEMMs | on Fedora 43, [`scripts/fix_half_helpers.py`](scripts/fix_half_helpers.py) or `-mf16c` | not present on Fedora 44 ([`logs/fp16-root-cause-2026-09-15/`](logs/fp16-root-cause-2026-09-15/)) |
 | A plain reboot can land on a stale bootloader entry for the same kernel, without `bc250_flush_by_runlist` and with `sched_policy=2`, both of which this table says are wrong | `grubby --set-default-index` at the documented entry, and check `/proc/cmdline` after any reboot before trusting a measurement | understood ([`logs/boot-entry-2026-09-21/`](logs/boot-entry-2026-09-21/)) |
 | A distribution upgrade can replace the oberon governor configuration with the package default, which overheats the board and throttles it to 1000 MHz | restore the 1500 MHz configuration, [step 3](#3-gpu-clock-policy) | understood; it is what once made Fedora 44 read 23 to 29 percent faster than Fedora 43 |
+| ollama's runner leaves about the loaded model's size of system memory unaccounted for after it unloads, until a reboot: 1.5 GiB after one `qwen2.5:1.5b` load, 10 GiB after an 8B overnight; `llama-bench` on either backend returns everything however it ends, killed included | check `MemAvailable` before measuring; if ollama has loaded a model since boot, reboot first | observed on ollama 0.20.0 with its Vulkan runner, cause not identified ([`logs/leak-test-2026-10-18/`](logs/leak-test-2026-10-18/)) |
 
 Suspend (s2idle) does not return on this board, and rebinding the driver hangs the host
 ([`logs/suspend-recovery-2026-09-15/`](logs/suspend-recovery-2026-09-15/),

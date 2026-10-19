@@ -1,0 +1,31 @@
+[20:47:39] start: stopped ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer; faults 0; overheat lines 1; edge +63.0°C; avail 14537 MiB; kfd holders: 
+[20:47:39] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[20:47:39] oberon: active,  - max: 1500 - max: 1000
+[20:47:39] idle 300 s, points: b27:8192 b27:16384
+[20:52:39] C p1 b27 d=8192 r1 hip start edge=+56.0°C avail=14552
+[20:54:24] C p1 b27 d=8192 r1 hip tg64=14.70±0.00 clk=0:1000Mhz:9 1:1500Mhz:44  edge=+79.0°C
+[20:59:24] C p1 b27 d=8192 r1 vk start edge=+55.0°C avail=14611
+[21:01:15] C p1 b27 d=8192 r1 vk tg64=15.83±0.00 clk=0:1000Mhz:11 1:1500Mhz:45  edge=+78.0°C
+[21:06:15] C p1 b27 d=16384 r1 hip start edge=+56.0°C avail=14549
+[21:09:39] C p1 b27 d=16384 r1 hip tg64=10.93±0.00 clk=0:1000Mhz:20 1:1500Mhz:82  edge=+76.0°C
+[21:14:39] C p1 b27 d=16384 r1 vk start edge=+55.0°C avail=14608
+[21:18:43] C p1 b27 d=16384 r1 vk tg64=16.44±0.00 clk=0:1000Mhz:19 1:1500Mhz:103  edge=+78.0°C
+[21:23:44] C p2 b27 d=8192 r1 hip start edge=+56.0°C avail=14546
+[21:25:26] C p2 b27 d=8192 r1 hip tg64=14.66±0.00 clk=0:1000Mhz:8 1:1500Mhz:44  edge=+79.0°C
+[21:30:26] C p2 b27 d=8192 r1 vk start edge=+55.0°C avail=14560
+[21:32:17] C p2 b27 d=8192 r1 vk tg64=16.92±0.00 clk=0:1000Mhz:11 1:1500Mhz:45  edge=+78.0°C
+[21:37:17] C p2 b27 d=16384 r1 hip start edge=+55.0°C avail=14535
+[21:40:41] C p2 b27 d=16384 r1 hip tg64=10.81±0.00 clk=0:1000Mhz:18 1:1500Mhz:84  edge=+79.0°C
+[21:45:41] C p2 b27 d=16384 r1 vk start edge=+56.0°C avail=14612
+[21:49:43] C p2 b27 d=16384 r1 vk tg64=16.45±0.00 clk=0:1000Mhz:16 1:1500Mhz:105  edge=+78.0°C
+[21:54:44] C p3 b27 d=8192 r1 hip start edge=+56.0°C avail=14551
+[21:56:27] C p3 b27 d=8192 r1 hip tg64=14.68±0.00 clk=0:1000Mhz:8 1:1500Mhz:44  edge=+79.0°C
+[22:01:27] C p3 b27 d=8192 r1 vk start edge=+56.0°C avail=14549
+[22:03:18] C p3 b27 d=8192 r1 vk tg64=15.17±0.00 clk=0:1000Mhz:10 1:1500Mhz:46  edge=+77.0°C
+[22:08:18] C p3 b27 d=16384 r1 hip start edge=+55.0°C avail=14548
+[22:11:42] C p3 b27 d=16384 r1 hip tg64=10.82±0.00 clk=0:1000Mhz:21 1:1500Mhz:81  edge=+79.0°C
+[22:16:42] C p3 b27 d=16384 r1 vk start edge=+56.0°C avail=14611
+[22:20:47] C p3 b27 d=16384 r1 vk tg64=16.45±0.00 clk=0:1000Mhz:17 1:1500Mhz:106  edge=+77.0°C
+[22:20:47] faults at end: 0
+[22:20:47] DONE
+[22:20:47] restored: ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer

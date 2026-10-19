@@ -2,7 +2,7 @@
 
 Every measurement in [README.md](../README.md) and [INVESTIGATION.md](../INVESTIGATION.md)
 has a directory here holding the raw output and a README naming the harness that produced it.
-There are 221 of them, grouped by subject below.
+There are 224 of them, grouped by subject below.
 
 ## llama.cpp speed: campaigns and depth
 
@@ -15,6 +15,7 @@ The headline table, the decode and prefill ladders, and every intermediate campa
 | [`campaign-current-2026-08-22`](campaign-current-2026-08-22/) | The headline campaign, re-run on the current configuration |
 | [`campaign-graphopt-2026-09-24`](campaign-graphopt-2026-09-24/) | The campaign with ggml-cuda's multi-stream optimisation turned on |
 | [`campaign-rerun-2026-08-18`](campaign-rerun-2026-08-18/) | The ROCm arms of the 12 August campaign repeated on the stack of 18 August |
+| [`depthcheck-2026-10-16`](depthcheck-2026-10-16/) | A needle in a 32k, 64k and 128k haystack: right and identical on both backends to 64k, garbage on both at 128k |
 | [`depth-graphopt-2026-09-24`](depth-graphopt-2026-09-24/) | The decode ladder with the multi-stream option |
 | [`depth-graphopt-fix-2026-10-10`](depth-graphopt-fix-2026-10-10/) | The decode ladder with the multi-stream option's fix: no cost at any depth, ahead of Vulkan from 4096 |
 | [`depth-thirteen-2026-09-22`](depth-thirteen-2026-09-22/) | Depth on the thirteen-patch build, and a measurement trap |
@@ -38,6 +39,7 @@ The headline table, the decode and prefill ladders, and every intermediate campa
 | [`flash-attention-tradeoff-2026-09-17`](flash-attention-tradeoff-2026-09-17/) | Flash attention is a trade at depth, not a default |
 | [`frontpage-verify-2026-08-22`](frontpage-verify-2026-08-22/) | The remaining published claims, verified in one powered window |
 | [`ladders-2026-10-15`](ladders-2026-10-15/) | The 8B decode ladder and the 1.5B prefill ladder, so both metrics exist for both models |
+| [`ladders-rest-2026-10-17`](ladders-rest-2026-10-17/) | The 8B's prefill and decode one rung deeper, 28672, and decode against depth on the other four models |
 | [`graph-opt-2026-09-24`](graph-opt-2026-09-24/) | ggml-cuda can overlap independent work too, and the switch is off |
 | [`prefill-deep-2026-10-12`](prefill-deep-2026-10-12/) | The 8B prefill ladder to 24576: 1.7 to 2.3 times stock Vulkan, level with #28507, and the September 8192 figure was low |
 | [`qwen38-2026-08-17`](qwen38-2026-08-17/) | Qwen3.8-27B on both backends |
@@ -178,6 +180,7 @@ Fedora versions, the environment, the recipe and the reproducer, and how measure
 | [`fedora45-rocm722-2026-09-16`](fedora45-rocm722-2026-09-16/) | Fedora 45 with ROCm 7.2.2: one custom piece instead of two |
 | [`historical-sources`](historical-sources/) | Original runs behind figures whose run directories were never shipped, copied unchanged |
 | [`inference`](inference/) | Inference logs from the July investigation |
+| [`leak-test-2026-10-18`](leak-test-2026-10-18/) | Which GPU process endings leave system memory behind: none of llama-bench's, ollama's unload does |
 | [`loose-ends-2026-08-18`](loose-ends-2026-08-18/) | Closing the remaining loose ends |
 | [`models-2026-10-10`](models-2026-10-10/) | The six benchmark models as their GGUF files describe them, and their SHA-256 sums |
 | [`override-trap-2026-08-26`](override-trap-2026-08-26/) | What `HSA_OVERRIDE_GFX_VERSION` does to a kernel you built yourself |

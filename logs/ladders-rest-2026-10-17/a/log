@@ -1,0 +1,40 @@
+[13:21:22] start: stopped ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer; faults 0; overheat lines 0; edge +54.0°C; avail 14250 MiB; kfd holders: 
+[13:21:22] cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.2.5-200.fc44.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=3 ttm.pages_limit=4194304 mitigations=off amdgpu.bc250_cc_write_mode=3 amdgpu.gpu_recovery=0 rhgb quiet
+[13:21:22] oberon: active,  - max: 1500 - max: 1000
+[13:24:22] A p1 d=28672 r1 hip start edge=+54.0°C
+[13:27:52] A p1 d=28672 r1 hip pp2048=120.76±0.00 clk=0:1000Mhz:21 1:1500Mhz:84  edge=+68.0°C
+[13:30:52] A p1 d=28672 r1 vk start edge=+56.0°C
+[13:37:01] A p1 d=28672 r1 vk pp2048=51.14±0.00 clk=0:1000Mhz:16 1:1500Mhz:168  edge=+67.0°C
+[13:40:02] A p1 d=28672 r1 vkpr start edge=+55.0°C
+[13:43:24] A p1 d=28672 r1 vkpr pp2048=122.02±0.00 clk=0:1000Mhz:16 1:1500Mhz:85  edge=+73.0°C
+[13:46:24] A p2 d=28672 r1 hip start edge=+57.0°C
+[13:49:59] A p2 d=28672 r1 hip pp2048=123.46±0.00 clk=0:1000Mhz:26 1:1500Mhz:81  edge=+69.0°C
+[13:50:00] GOVERNOR OVERHEAT LINE at A p2 hip (0 -> 1)
+[13:53:00] A p2 d=28672 r1 vk start edge=+56.0°C
+[13:59:10] A p2 d=28672 r1 vk pp2048=51.28±0.00 clk=0:1000Mhz:16 1:1500Mhz:169  edge=+67.0°C
+[14:02:10] A p2 d=28672 r1 vkpr start edge=+56.0°C
+[14:05:30] A p2 d=28672 r1 vkpr pp2048=124.34±0.00 clk=0:1000Mhz:15 1:1500Mhz:85  edge=+74.0°C
+[14:08:30] A p3 d=28672 r1 hip start edge=+57.0°C
+[14:12:04] A p3 d=28672 r1 hip pp2048=122.68±0.00 clk=0:1000Mhz:27 1:1500Mhz:80  edge=+69.0°C
+[14:15:04] A p3 d=28672 r1 vk start edge=+56.0°C
+[14:21:13] A p3 d=28672 r1 vk pp2048=51.03±0.00 clk=0:1000Mhz:15 1:1500Mhz:170  edge=+68.0°C
+[14:24:14] A p3 d=28672 r1 vkpr start edge=+56.0°C
+[14:27:35] A p3 d=28672 r1 vkpr pp2048=122.97±0.00 clk=0:1000Mhz:16 1:1500Mhz:85  edge=+73.0°C
+[14:27:36] A done; faults 0
+[14:29:06] B p1 ds14 d=4096 r1 hip start edge=+57.0°C
+[14:29:55] B p1 ds14 d=4096 r1 hip tg64=26.51±0.00 clk=0:1000Mhz:11 1:1500Mhz:14  edge=+73.0°C
+[14:31:25] B p1 ds14 d=4096 r1 vk start edge=+57.0°C
+[14:32:08] B p1 ds14 d=4096 r1 vk tg64=31.05±0.00 clk=0:1000Mhz:9 1:1500Mhz:13  edge=+74.0°C
+[14:33:38] B p1 ds14 d=8192 r1 hip start edge=+56.0°C
+[14:35:01] B p1 ds14 d=8192 r1 hip tg64=22.40±0.00 clk=0:1000Mhz:8 1:1500Mhz:34  edge=+75.0°C
+[14:36:31] B p1 ds14 d=8192 r1 vk start edge=+57.0°C
+[14:37:53] B p1 ds14 d=8192 r1 vk tg64=28.08±0.00 clk=0:1000Mhz:9 1:1500Mhz:32  edge=+76.0°C
+[14:39:23] B p1 ds14 d=16384 r1 hip start edge=+57.0°C
+[14:42:43] B p1 ds14 d=16384 r1 hip tg64=15.03±0.00 clk=0:1000Mhz:9 1:1500Mhz:92  edge=+76.0°C
+[14:44:13] B p1 ds14 d=16384 r1 vk start edge=+57.0°C
+[14:47:45] B p1 ds14 d=16384 r1 vk tg64=23.77±0.00 clk=0:1000Mhz:9 1:1500Mhz:97  edge=+75.0°C
+[14:49:15] B p1 ds14 d=24576 r1 hip start edge=+57.0°C
+[14:49:42] B p1 ds14 d=24576 r1 hip tg64=FAIL clk=0:1000Mhz:14  edge=+58.0°C
+[14:49:42] B p1 ds14 hip err: ed in favour of --load-mode. Please use --load-mode mmap instead./home/akandr/llama-master/ggml/src/ggml-cuda/ggml-cuda.cu:111: ROCm error ⚠️ warning: The current terminal doesn't support styling.  Styled output might not appear as expected. timeout: monitowane polecenie zrobiło zrzut pamięci 
+[14:51:13] B p1 ds14 d=24576 r1 vk start edge=+56.0°C
+[14:53:27] restored: ollama hw-watcher.timer crond dnf-makecache.timer sysstat-collect.timer plocate-updatedb.timer
