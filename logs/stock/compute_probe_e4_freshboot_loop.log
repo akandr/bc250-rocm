@@ -2,12 +2,12 @@
 #  - 14:59 session (target=30): MIS-ARMED with heavy sustained args
 #    (compute_probe_fresh 65536 6000 8 = 16M-thread x8 sustained). Both
 #    invocations hung by tripping the LIVENESS wedge, not the correctness
-#    path. STOPPED after 2. These are EXCLUDED from the paper's count.
+#    path. STOPPED after 2. These are excluded from the counts.
 #  - 15:25 session (target=25): recalibrated single-dispatch correctness
 #    probe (compute_probe_fresh 32768 6000 1 = 8,388,608-thread single
-#    dispatch), matching the archived silent-wrong run's size. This is the
-#    session the paper cites: 25 invocations = 19 correct, 6 hangs,
-#    0 silent-wrong.
+#    dispatch), matching the archived silent-wrong run's size:
+#    25 invocations = 19 correct, 6 hangs, 0 silent-wrong. This log does
+#    not record the kernel, module or boot arguments.
 #
 === E4 probe loop start 2026-07-14T14:59:01 target=30 invocations ===
 15:00:31 inv=1 HANG rc=124

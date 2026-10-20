@@ -34,7 +34,8 @@ use, the build reproduced the campaign's 1.5B greedy reply verbatim and its spee
 | 128k | garbage | garbage, different | differ |
 
 **Up to twice its trained length the 1.5B still finds the fact at the start of the prompt, and ROCm and
-Vulkan produce the same 32 tokens byte for byte.** At four times, both backends produce unrelated text,
+Vulkan produce the same reply byte for byte** (`lantern-742`, then end of text; the prompts were 30940
+and 60158 tokens, and 32 was only the generation cap). At four times, both backends produce unrelated text,
 and different text, which is what two numerically different implementations do once the model itself has
 left the range its positional encoding was trained for. So the context ceilings are capacity figures: the
 1080k the 1.5B can hold on ROCm is not 1080k it can use, and the useful range ends somewhere between 64k

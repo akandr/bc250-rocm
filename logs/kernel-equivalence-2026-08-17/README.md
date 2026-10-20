@@ -33,7 +33,7 @@ one boot each; only the boot arguments differ.
 | `7.1.5-40cu-hws` | 40 | hardware | clean, full battery |
 | `7.1.5-24cu-hws` | 24 | hardware | clean, full battery, perplexity 8.9442 |
 | `factorial-cells/7.1.5-40cu-sched2` | 40 | `sched_policy=2` | probes hang, SGEMM N=256 wedges, 10 preemption timeouts |
-| `factorial-cells/7.1.5-24cu-sched2` | 24 | `sched_policy=2` | larger probe hangs, SGEMM N=256 wedges, 9 preemption timeouts |
+| `factorial-cells/7.1.5-24cu-sched2` | 24 | `sched_policy=2` | both probes time out (the smaller after printing a correct result), SGEMM N=256 wedges, 9 preemption timeouts |
 
 The two hardware-scheduling cells are clean at both CU counts and the two
 software-scheduling cells wedge at both, so the failure tracks the policy and

@@ -1360,9 +1360,8 @@ bc250-rocm-working project (GabriWar). His instrumentation found that
 hardware scheduling is never written, so the flush matches nothing: 20 of 20 flushes hit zero
 VMIDs in his measurements, reproduced on separate hardware. He also confirmed the consequence
 directly, finding that for 15 of 15 failing pages across 3 runs the physical address the GPU used
-was exactly what that virtual address had pointed to in an earlier generation. His workaround asks the hardware scheduler to rebuild the runlist on unmap; the VMID-level tests in
-[`logs/vmid-flush-2026-08-20/`](logs/vmid-flush-2026-08-20/) suggest that what removes the stale
-translation is the VMID reassignment this involves, not an invalidation. His patch, runtime parameter
+was exactly what that virtual address had pointed to in an earlier generation. His workaround asks the hardware scheduler to rebuild the runlist on unmap; how that clears the stale
+translation is not established ([`logs/tlb-alt-2026-09-15/`](logs/tlb-alt-2026-09-15/)). His patch, runtime parameter
 `amdgpu.bc250_flush_by_runlist` included, was applied here
 ([`scripts/apply_runlist_flush.py`](scripts/apply_runlist_flush.py)); at first it showed no effect,
 because none of the probes here churned allocations.
@@ -2057,8 +2056,8 @@ Full logs: [`logs/stock/`](logs/stock/), [`logs/patched/`](logs/patched/).
 The dropped-store pattern points at address translation. The PASID TLB flush
 (`amdgpu_gmc_flush_gpu_tlb_pasid()`) branches on `adev->gmc.flush_pasid_uses_kiq`. When true (the
 mainline default), the flush is submitted to the KIQ ring, so the MEC firmware performs it while
-compute is in flight, and this path is also the source of a `timeout waiting for kiq fence`
-board-freeze. When false, the driver looks the process's VMIDs up over MMIO instead and invalidates each match
+compute is in flight, and on this board this path freezes the board under hardware scheduling (other owners' logs in the
+ROCm issue show it as `timeout waiting for kiq fence`; no log here carries that line). When false, the driver looks the process's VMIDs up over MMIO instead and invalidates each match
 through a second, inner KIQ request. Under hardware scheduling that lookup finds nothing (see the
 allocation-reuse section below), so there the change removes the freeze but invalidates nothing.
 
@@ -2074,7 +2073,7 @@ adev->gmc.flush_pasid_uses_kiq = false;
 
 The change is [`patches/amdgpu-flush-pasid-mmio.patch`](patches/amdgpu-flush-pasid-mmio.patch),
 built with [`scripts/build_patched_amdgpu.sh`](scripts/build_patched_amdgpu.sh). The same change
-also stops the `kiq fence` board-freeze and greatly speeds up model loading.
+also stops that board freeze.
 
 Credit for the `flush_pasid_uses_kiq = false` idea belongs to **anrp** and **ahorek** in
 [ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221), who found that it stops the freeze (GabriWar's notes credit the same line to neoney). What
@@ -2411,7 +2410,7 @@ the boot arguments verified before booting:
 |---|---|
 | CU count | `simd_count 80`, that is 40 CU, on all five kernels |
 | sustained GEMM | N=4096 at about 30 ms per iteration, no wrong results, no preemption timeouts anywhere. Within this ladder it is 20 iterations on 6.18.9, 6.18.16 and 6.19.14 and 30 on 7.0.13 and 7.1.2. A 50-iteration sustained run does exist for 6.18.9, in [`logs/kernel-equivalence-2026-08-17/`](logs/kernel-equivalence-2026-08-17/) four days later, and the old wording merged the two campaigns |
-| bare compute probe at 8.4M threads | correct three times out of three (the size that returned 525,308 wrong results with the flush left on) |
+| bare compute probe at 8.4M threads | correct on 7.0.13 and 7.1.2 in this ladder, and on 6.18.9 and 6.18.16 in later boots ([`logs/kernel-equivalence-2026-08-17/`](logs/kernel-equivalence-2026-08-17/), [`logs/recipe-e2e-2026-08-17/`](logs/recipe-e2e-2026-08-17/)); not run on 6.19.14 (the size that returned 525,308 wrong results with the flush left on) |
 
 Three controls make that readable. The module parameter only exists in the patched module, so its
 presence identifies which module booted. The parameter does real work: the same kernel booted with the
@@ -2421,12 +2420,11 @@ disabling the unlock drops `simd_count` to 48 and slows the same GEMM to 48.7 ms
 ratio of 1.62 against the 40-CU number, close to the 40 to 24 ratio expected.
 
 The correct flush and 40-CU compute are not mutually exclusive on this part, and two things made it
-look as though they were. The first is a misapplied patch. The unlock's install scripts take care not to match the forward declaration of
-`gfx_v10_0_get_cu_info` that appears earlier in the file, and the 7.1.8 port here showed what happens
-when that goes wrong: the hunk landed in `gfx10_kiq_set_resources`, compiled cleanly and booted at
-24 CU ([`logs/kernel-718-2026-08-19/`](logs/kernel-718-2026-08-19/)). That is the state described
-here, and it explains why the write appeared to live in KIQ context: in that build it did, by
-accident. The second is described below: the scheduler setting that was held fixed across the
+look as though they were. The first is the unlock as built in the tree that showed the coupling. That tree was not kept and the
+cause is not established; rebuilt as its patch intends, the unlock gives 40 CU with the corrected flush
+on every kernel retested. How easily the hunk lands in the wrong function is shown by the 7.1.8 port
+here, where it landed in `gfx10_kiq_set_resources`, compiled cleanly and booted at 24 CU
+([`logs/kernel-718-2026-08-19/`](logs/kernel-718-2026-08-19/)). The second is described below: the scheduler setting that was held fixed across the
 comparison.
 
 **Why it looked that way, established 2026-08-15.** The earlier measurements were right and they
@@ -2450,11 +2448,9 @@ CU count while holding the scheduler fixed across both arms, so the thing doing 
 not be seen. That also dissolves the "more CUs, more stable" paradox the text above flags as
 counterintuitive: it was not a hardware peculiarity, it was a boot argument. The explanation
 offered above, that the unlock's register write lived inside `gfx_v10_0_kiq_reset_hw_queue()` and
-so depended on KIQ activity the flush fix removes, does not match the community patch's history:
-every released version of it, from the first in May 2026, writes those registers from
-`gfx_v10_0_get_cu_info()`, and none mentions the reset path at all. So either the tree used then
-carried a hand-placed variant that was not kept, or the coupling had a different cause. Stating
-that honestly seems better than keeping a tidy mechanism the artifacts do not support.
+so depended on KIQ activity the flush fix removes, does not hold up: `gfx_v10_0_kiq_reset_hw_queue()` has no caller in these kernels, so a write placed
+there would never run. The tree used then was not kept, and the cause of the coupling is not
+established.
 
 One practical trap found while testing this, which would silently invalidate any experiment that
 varies the unlock from the kernel command line: `/etc/modprobe.d/bc250-40cu.conf` carries
@@ -3995,7 +3991,7 @@ carries no such paths.
 - [Preprint on Zenodo](https://doi.org/10.5281/zenodo.21364833): the write-up of these notes as a
   single paper (doi:10.5281/zenodo.21364833). The currently published version predates the working
   configuration and still carries the entanglement and firmware-limit conclusions that the
-  sections above correct; a revised version is in preparation.
+  sections above correct.
 
 ## Author and license
 

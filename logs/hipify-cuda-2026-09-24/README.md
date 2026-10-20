@@ -17,7 +17,7 @@ returns wrong numbers is the failure worth catching.
 
 | | |
 |---|---|
-| lines | 142 → 143 |
+| lines | 142 → 143 (before the 3-line licence header was added to the sources) |
 | lines changed | 41, of which 38 are code |
 | hand edits afterwards | **0** |
 | kernel body | **untouched** |
@@ -38,16 +38,16 @@ Two things hipify does not know about this machine, and both are build flags, no
 
 | | this port | native |
 |---|---|---|
-| hand-written kernel, 4.2 M elements, 64 Newton steps | **3307 GFLOP/s** (median of five, range 3306 to 3309) | n/a |
-| `cublasSgemm` → `hipblasSgemm`, N=4096 | median **4225**, best **4528 GFLOP/s** | rocBLAS SGEMM **4541 GFLOP/s** |
+| hand-written kernel, 4.2 M elements, 64 Newton steps | **3308 GFLOP/s** (median of five; four runs 3307 to 3308, the first 4891) | n/a |
+| `cublasSgemm` → `hipblasSgemm`, N=4096 | median **4295**, best **4550 GFLOP/s** | rocBLAS SGEMM **4527 GFLOP/s** |
 
 The library call lands in the same rocBLAS measured in
 [`logs/torch-rocblas-bench-2026-09-24/`](../torch-rocblas-bench-2026-09-24/), and best against best it
-is the same kernel taking the same time, 30.35 ms here against 30.27 ms there. **There is no runtime
+is the same kernel taking the same time, 30.21 ms here against 30.36 ms there (the 4541.1 printed in `hipify_demo.out` matches no retained run; `rocblas_bench.out` gives 4526.9). **There is no runtime
 penalty for having come from CUDA source**, which is the expected answer and the one worth confirming:
 hipify is a source translation, not a shim, and the binary it produces is an ordinary HIP binary.
 
-N=4096 is a noisy size on this board in both harnesses, 4155 to 4528 over five runs here and a 44.9
+N=4096 is a noisy size on this board in both harnesses, 4147 to 4550 over five runs here and a 44.9
 percent spread in the rocBLAS sweep's own five, so the median and the range are both given
 and why the best-to-best comparison is the meaningful one. The hand-written kernel, which is not a
 Tensile-dispatched shape, is steady to 0.1 percent.

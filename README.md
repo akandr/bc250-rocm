@@ -1283,6 +1283,11 @@ can be traced back to the run that produced it. [`logs/README.md`](logs/README.m
 - [Preprint on Zenodo](https://doi.org/10.5281/zenodo.21364833). It predates both working
   configurations described here, and several of its conclusions have since been withdrawn.
 
+## Archive
+
+A snapshot of this repository is archived on Zenodo:
+[doi:10.5281/zenodo.23568913](https://doi.org/10.5281/zenodo.23568913).
+
 ## Author and license
 
 Copyright (c) 2026 Artur Andrzejczak, written with assistance from Claude.
