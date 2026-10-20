@@ -27,7 +27,10 @@ So: for anything other than llama.cpp ROCm is the only option. For llama.cpp alo
 upgrade: long prompts and prefill into a filled context favour ROCm, decode and maximum context favour
 Vulkan ([which backend](#which-backend-to-use-and-why-rocm-at-all)).
 
-![ROCm against Vulkan in llama.cpp, as shipped](figures/fig-f44-rocm-vs-vulkan.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-f44-rocm-vs-vulkan.png">
+  <img alt="ROCm against Vulkan in llama.cpp, as shipped" src="figures/fig-f44-rocm-vs-vulkan.png">
+</picture>
 
 | component | state on this board | notes |
 |---|---|---|
@@ -96,13 +99,14 @@ away:
     python3 <this repo>/scripts/apply_runlist_flush.py    drivers/gpu/drm/amd/amdkfd   # bc250_flush_by_runlist,
     python3 <this repo>/scripts/apply_svmflush_generic.py drivers/gpu/drm/amd/amdkfd   #   on unmap, then on map too
 
-The unlock is duggasco's. The PASID line is anrp's, from
-[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313); the KIQ ring that the stock driver flushes
-through covers nothing on this chip, and
-[`patches/amdgpu-flush-pasid-mmio.patch`](patches/amdgpu-flush-pasid-mmio.patch) is the same line
-hardcoded. The runlist-rebuild flush is GabriWar's
-([GabriWar/bc250-rocm-working](https://github.com/GabriWar/bc250-rocm-working)), ported here and
-extended to the SVM map side. Each script refuses to run if its anchor has moved; the one porting trap is
+The unlock is duggasco's. The PASID line was posted by anrp in
+[ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221), formerly ROCm/ROCm#6313 (GabriWar's
+notes credit it to neoney). It stops the stock driver sending the PASID flush to the KIQ as one
+packet, which times out on this chip; the per-VMID lookup it falls back to finds no VMID under
+hardware scheduling, which is why the runlist rebuild below is needed. The
+[`patches/amdgpu-flush-pasid-mmio.patch`](patches/amdgpu-flush-pasid-mmio.patch) is the same line hardcoded. The runlist-rebuild flush is GabriWar's, runtime parameter included
+([GabriWar/bc250-rocm-working](https://github.com/GabriWar/bc250-rocm-working)); this repository
+extended it to the SVM map side behind a bitmask. Each script refuses to run if its anchor has moved; the one porting trap is
 that the 40-CU hunk belongs inside the definition of `gfx_v10_0_get_cu_info`, not its forward
 declaration, or the board boots at 24 CU. Then build the module alone against the installed
 `kernel-devel` and install it, here for the running kernel:
@@ -134,10 +138,12 @@ Kernel arguments:
     ttm.pages_limit=4194304 amdgpu.gpu_recovery=0
 
 Do **not** set `amdgpu.sched_policy=2`; it wedges sustained compute. `amdgpu.gpu_recovery=0` stops
-the driver attempting a reset that this chip cannot perform. If the parameters are also set in
+the driver attempting a reset it does not implement for this chip: MODE1 and MODE2 report success
+without reaching the hardware. If the parameters are also set in
 `/etc/modprobe.d`, check what the module received with `cat /sys/module/amdgpu/parameters/<name>`.
 
-The board's own SDMA microcode never completes a transfer above 16384 bytes. The navi12 microcode
+With the SDMA microcode that `linux-firmware` ships for this chip, no transfer above 16384 bytes
+completes. The navi12 microcode
 from `linux-firmware` fixes it. The substitution is GabriWar's
 ([GabriWar/bc250-rocm-working](https://github.com/GabriWar/bc250-rocm-working)); what this page adds
 is the A/B against throughput, the gates and decode at depth:
@@ -431,7 +437,10 @@ expert matmuls it stood at 0.83, and that one patch is worth 1.55 times its pref
 MoE and the 27B, 0.82 and 0.86, which is the quantised matvec gap described
 [below](#decode-four-passes-over-the-matrix-vector-kernel).
 
-![What GGML_CUDA_GRAPH_OPT is worth per model](figures/fig-graph-opt.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-graph-opt.png">
+  <img alt="What GGML_CUDA_GRAPH_OPT is worth per model" src="figures/fig-graph-opt.png">
+</picture>
 
 **`GGML_CUDA_GRAPH_OPT=1` with its fix adds 3 to 8 percent to decode** on the four models where it
 launches streams: the same campaign reads 213.1, 39.5, 33.6 and 33.7 with it, which puts the 1.5B level
@@ -516,7 +525,10 @@ rocBLAS and anything hipified, exists only on the ROCm side.
 
 ### Prefill at depth
 
-![Prefill against context depth](figures/fig-prefill-vs-depth.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-prefill-vs-depth.png">
+  <img alt="Prefill against context depth" src="figures/fig-prefill-vs-depth.png">
+</picture>
 
 Prefill on a context that already holds tokens is the case a long chat or a large document actually hits,
 and it is where the RDNA1 flash-attention patch matters most. qwen3-8B Q8_0, `-p 2048 -n 0`, `-fa on`,
@@ -542,7 +554,10 @@ not old ones: re-run on 22 September they return 367.0, 217.5 and 143.8 against 
 
 #### To 28672 tokens
 
-![Prefill against context to 28k](figures/fig-prefill-vs-depth-24k.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-prefill-vs-depth-24k.png">
+  <img alt="Prefill against context to 28k" src="figures/fig-prefill-vs-depth-24k.png">
+</picture>
 
 The table above stops at 8192 because the September runs did. [`logs/prefill-deep-2026-10-12/`](logs/prefill-deep-2026-10-12/)
 carries the same ladder to 16384 and 24576 with the same three arms interleaved within each depth, one
@@ -607,7 +622,10 @@ at a time.
 
 ### Decode at depth
 
-![Decode vs context depth](figures/fig-f44-decode-vs-depth.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-f44-decode-vs-depth.png">
+  <img alt="Decode vs context depth" src="figures/fig-f44-decode-vs-depth.png">
+</picture>
 
 qwen2.5-1.5B, decode rate after the given context depth, **one `llama-bench` invocation per depth**,
 clock capped at 1500 MHz. The top three rows are three passes of
@@ -643,7 +661,10 @@ nothing about depth.
 
 #### The 8B
 
-![Decode against context on the 8B](figures/fig-decode-vs-depth-8b.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-decode-vs-depth-8b.png">
+  <img alt="Decode against context on the 8B" src="figures/fig-decode-vs-depth-8b.png">
+</picture>
 
 The ladder above is the 1.5B's. [`logs/ladders-2026-10-15/`](logs/ladders-2026-10-15/) runs qwen3-8B Q8_0
 through the same depths with the same three arms, one invocation per point, arms interleaved within each
@@ -684,7 +705,10 @@ The Fedora 43 and three-patch rows are the old ladders, kept for scale;
 
 #### The other four
 
-![Decode against context on six models](figures/fig-decode-vs-depth-six.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-decode-vs-depth-six.png">
+  <img alt="Decode against context on six models" src="figures/fig-decode-vs-depth-six.png">
+</picture>
 
 [`logs/ladders-rest-2026-10-17/`](logs/ladders-rest-2026-10-17/) runs the remaining four models of the
 headline table through the same decode ladder, ROCm as shipped against Vulkan, the no-depth-cache
@@ -715,7 +739,10 @@ reads 14.7 every time.
 
 ### Context ceilings
 
-![Context ceilings, ROCm against Vulkan, by KV cache type](figures/fig-context-ceilings.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-context-ceilings.png">
+  <img alt="Context ceilings, ROCm against Vulkan, by KV cache type" src="figures/fig-context-ceilings.png">
+</picture>
 
 How deep each model can still generate at all: the deepest depth that generated, one `llama-bench`
 invocation per depth with its copy of the sequence state switched off, mmap on, bisected to an eighth of
@@ -807,7 +834,10 @@ The two short gates used throughout this page are in [step 8](#8-verify); the Fe
 
 ### Fedora 43, 44 and 45 measure the same
 
-![Fedora 43 against Fedora 44](figures/fig-f43-vs-f44.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-f43-vs-f44.png">
+  <img alt="Fedora 43 against Fedora 44" src="figures/fig-f43-vs-f44.png">
+</picture>
 
 These figures are the **three-patch build of 15 September**, which is the point: the same llama.cpp on
 all three systems, so the comparison isolates the operating system and the ROCm version. They are not
@@ -829,7 +859,10 @@ percent ahead on decode
 | qwen3.6-35B MoE | 287.6 | 289.7 | 289.7 |
 | qwen3.8-27B | 69.2 | 69.4 | 69.4 |
 
-![Speed probes](figures/fig-f44-speed-probes.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-f44-speed-probes.png">
+  <img alt="Speed probes" src="figures/fig-f44-speed-probes.png">
+</picture>
 
 So a newer ROCm is not faster on this board. One real difference exists and it is host CPU, not
 throughput: ROCm 6.4.2's runtime makes eleven times as many `AMDKFD_IOC_WAIT_EVENTS` calls waiting for GPU
@@ -844,7 +877,10 @@ prefer Fedora 44 or 45 are correctness and reproducibility, not speed.
 
 ### GPGPU
 
-![SGEMM throughput against problem size](figures/fig-sgemm-curve.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-sgemm-curve.png">
+  <img alt="SGEMM throughput against problem size" src="figures/fig-sgemm-curve.png">
+</picture>
 
 rocBLAS on Fedora 44, native gfx1013 build, every result checked against a CPU reference, clock
 sampled and verified at 1500 MHz throughout
@@ -865,7 +901,10 @@ described above is controlled.
 
 ### What PyTorch and rocBLAS deliver, against the board's ceilings
 
-![Roofline for the BC-250](figures/fig-roofline.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-roofline.png">
+  <img alt="Roofline for the BC-250" src="figures/fig-roofline.png">
+</picture>
 
 Both roofs in that figure were measured on this board, not copied off a spec sheet: the sloped
 one is the 432 GB/s streaming read, the flat ones the `v_fma_f32` and `v_pk_fma_f16` rates from
@@ -890,7 +929,10 @@ correctness checks at the end of the section ([`logs/alu-rates-recheck-2026-09-2
 | rocBLAS DGEMM, N=4096 | 457 GFLOP/s | 430 measured for `v_fma_f64` | see below |
 | PyTorch `c = a + b`, 64 M elements | **388 GB/s** | 432 | **90 %** |
 
-![GEMM against the two ceilings](figures/fig-gemm-vs-ceiling.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-gemm-vs-ceiling.png">
+  <img alt="GEMM against the two ceilings" src="figures/fig-gemm-vs-ceiling.png">
+</picture>
 
 Double precision has a measured rate too: `v_fma_f64` costs 80.8 cycles against `v_fma_f32`'s 5.32,
 one fifteenth of the fp32 instruction rate and close to the one sixteenth RDNA1 is documented to have.
@@ -913,7 +955,10 @@ is not arithmetic. The hand-written kernel below issues *more* instructions than
 keeps half as many waves resident, and is still 1.9 times faster, because it does 17.34 VALU
 instructions per LDS instruction against 4.78.
 
-![GEMM instruction counts, LDS traffic, residency and speed](figures/counter-gemm.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/counter-gemm.png">
+  <img alt="GEMM instruction counts, LDS traffic, residency and speed" src="figures/counter-gemm.png">
+</picture>
 
 **The shortfall is rocBLAS's kernel, not the hardware.** A plain hand-written packed-fp16 GEMM, one
 tile geometry for every size, no double buffering and no assembly, reaches **8.9 TFLOP/s at N=8192
@@ -937,7 +982,10 @@ One limit on all of it: fp16 accumulation is too inaccurate for most work at the
 arm, relative error running from 3e-03 to 3e-02. The 1.9x is a gap between two fp16-accumulating
 kernels, not a usable fp16 GEMM.
 
-![Training throughput by precision](figures/fig-training-precision.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-training-precision.png">
+  <img alt="Training throughput by precision" src="figures/fig-training-precision.png">
+</picture>
 
 Training a small transformer, four pre-norm blocks at d_model 512, reaches **33.8 kilotokens a second**
 in fp32 at batch 16, where the board's own six cores reach 0.46 in the same PyTorch, a build without MKL or
@@ -1044,7 +1092,10 @@ extensions. Full workings for each are in the linked logs and in [INVESTIGATION.
 
 ### Decode: four passes over the matrix-vector kernel
 
-![Decode by model, before and after](figures/fig-mmvq-decode.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-mmvq-decode.png">
+  <img alt="Decode by model, before and after" src="figures/fig-mmvq-decode.png">
+</picture>
 
 The quantised matrix-vector kernel picks warps per row from a table holding RDNA4, RDNA3, RDNA2, GCN
 and Turing. RDNA1 is absent, so gfx1013 took the generic entry: four warps per row with a shared-memory
@@ -1068,7 +1119,10 @@ six: every change that added a memory operation lost, and the only one that remo
 
 ### Prefill: a register spill, and a packed-fp16 GEMM
 
-![The register spill and what removing it buys](figures/fig-rdna1-fattn-spill.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-rdna1-fattn-spill.png">
+  <img alt="The register spill and what removing it buys" src="figures/fig-rdna1-fattn-spill.png">
+</picture>
 
 `V_DOT2_F32_F16_AVAILABLE` is defined for RDNA2 and later but not RDNA1, correctly, since gfx1013 has
 no `v_dot2_f32_f16`. Without it `ggml_cuda_mad` unpacks each `half2` into two floats, doubling the live
@@ -1088,7 +1142,10 @@ row with `nbatch_K` at 128 takes the same kernel to 96 VGPRs, raises occupancy f
 brings that depth to 184.5 ([`logs/rdna1-fattn-spill-2026-09-17/`](logs/rdna1-fattn-spill-2026-09-17/)).
 gfx1010 spills identically, so this is not particular to the BC-250.
 
-![The flash-attention kernel before and after, and what it is worth end to end](figures/fig-fa-heads.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-fa-heads.png">
+  <img alt="The flash-attention kernel before and after, and what it is worth end to end" src="figures/fig-fa-heads.png">
+</picture>
 
 The kernel itself gets 3.4 to 4.4 times faster. What that is worth end to end depends on how much of a
 model's prefill is attention: 40 percent on the two D=128 models with GQA sharing, 6 to 11 percent on
@@ -1098,7 +1155,10 @@ That fix also removes a trade. Before it, prefill at depth was faster with `-fa 
 with it on, which is the awkward position the figure below shows. After it, leave flash attention on:
 it wins at every depth measured, by 5 to 34 percent, and keeps the KV cache smaller.
 
-![Flash attention on and off, before the patch](figures/fig-flash-attention-tradeoff.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-flash-attention-tradeoff.png">
+  <img alt="Flash attention on and off, before the patch" src="figures/fig-flash-attention-tradeoff.png">
+</picture>
 
 The other prefill patch is a hand-written packed-fp16 GEMM, since `v_pk_fma_f16` runs at twice the fp32
 rate and rocBLAS does not get near it. Extending it to reach the MoE's experts through
@@ -1111,7 +1171,10 @@ which is how the two culprits were separated from everything else. This is the p
 fix, with flash attention 7 times slower than Vulkan's and the quantised matmuls about 2 times
 ([`logs/op-perf-hip-vs-vulkan-2026-09-17/`](logs/op-perf-hip-vs-vulkan-2026-09-17/)):
 
-![Per-operation HIP against Vulkan, before the two prefill fixes](figures/fig-op-perf-hip-vs-vulkan.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-op-perf-hip-vs-vulkan.png">
+  <img alt="Per-operation HIP against Vulkan, before the two prefill fixes" src="figures/fig-op-perf-hip-vs-vulkan.png">
+</picture>
 
 ### The MoE's decode gap, which is still open
 
@@ -1188,7 +1251,10 @@ Suspend (s2idle) does not return on this board, and rebinding the driver hangs t
 - Stop other GPU users before measuring. Three rounds of the September 16 soak failed their 8B gate
   because an `ollama` service loaded a 14B model behind it; the board was fine.
 
-![Eight-hour soak](figures/fig-soak-stability.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-soak-stability.png">
+  <img alt="Eight-hour soak" src="figures/fig-soak-stability.png">
+</picture>
 
 ## Reproducing
 
@@ -1199,7 +1265,7 @@ can be traced back to the run that produced it. [`logs/README.md`](logs/README.m
 
 ## References
 
-- [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313): BC-250 freeze after compute workloads,
+- [ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221): BC-250 freeze after compute workloads,
   where anrp and ahorek found `flush_pasid_uses_kiq = false`.
 - [GabriWar/bc250-rocm-working](https://github.com/GabriWar/bc250-rocm-working): the runlist-rebuild
   flush ported in step 1, SDMA instrumentation, and the navi12 microcode substitution.

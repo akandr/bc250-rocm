@@ -204,9 +204,10 @@ configuration compute is correct on both; the section that used it explains what
 **KIQ, PASID, and TLB flushes.** The **KIQ** (Kernel Interface Queue) is a special ring the driver
 uses to ask the MEC firmware to do privileged jobs. One such job is invalidating the GPU's
 address-translation cache (a **TLB flush**, the GPU equivalent of a CPU's TLB) for a given process,
-which is identified by a **PASID**. Newer kernels route that PASID TLB flush through the KIQ/MEC
-firmware; older kernels did it directly from the CPU over memory-mapped registers (**MMIO**). That
-choice is the crux of Observation 1.
+which is identified by a **PASID**. The driver can send that PASID TLB flush to the KIQ as one packet, for the MEC firmware to resolve,
+or look up which VMIDs hold the PASID through memory-mapped registers (**MMIO**) and invalidate each
+match; the per-VMID invalidation itself still goes through the KIQ when the KIQ is up. That choice
+is the crux of Observation 1.
 
 **rocBLAS, Tensile, and code objects.** rocBLAS is AMD's matrix-multiply (BLAS) library; **Tensile**
 is the part that generates its GPU programs per architecture. Those compiled GPU programs are
@@ -475,7 +476,10 @@ three larger sizes are insensitive to this and reproduce within a percent. Anyon
 table should take a median, or say which statistic they took
 ([`logs/defects-recheck-2026-08-22/`](logs/defects-recheck-2026-08-22/)).
 
-![SGEMM throughput](figures/fig-sgemm-curve.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-sgemm-curve.png">
+  <img alt="SGEMM throughput" src="figures/fig-sgemm-curve.png">
+</picture>
 
 ### Inference-path caveats: what the perplexity gate caught
 
@@ -822,7 +826,10 @@ the one-line counter-patch, or use a build from around
 
 ### llama.cpp: ROCm vs Vulkan, same build, same boot configuration
 
-![ROCm vs Vulkan](figures/fig-rocm-vs-vulkan.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-rocm-vs-vulkan.png">
+  <img alt="ROCm vs Vulkan" src="figures/fig-rocm-vs-vulkan.png">
+</picture>
 
 Every HIP row below was measured under one configuration: llama.cpp master with the three
 patches, flash attention on at the default micro-batch, the native gfx1013 rocBLAS on the library
@@ -969,7 +976,10 @@ models. Its throughput on layer-shaped problems runs well below its square-matri
 | 8960 x 512 x 1536 | feed-forward up | 2838 |
 | 1536 x 512 x 8960 | feed-forward down | 3917 |
 
-![rocBLAS GEMM throughput by shape](figures/fig-gemm-shapes.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-gemm-shapes.png">
+  <img alt="rocBLAS GEMM throughput by shape" src="figures/fig-gemm-shapes.png">
+</picture>
 
 None of those five numbers is captured, checked 26 August. They are whole numbers, which a search of the
 logs cannot separate from version numbers and line counts, and searching for each returns
@@ -1074,7 +1084,10 @@ ROCm error and recorded no rates at all, and the pre-fix campaign's own 1.5B lad
 Both campaigns were searched. The column is left in place because the contrast it draws is
 described elsewhere from data that does survive, but it should be read as unsourced.
 
-![Decode vs depth](figures/fig-decode-vs-depth.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-decode-vs-depth.png">
+  <img alt="Decode vs depth" src="figures/fig-decode-vs-depth.png">
+</picture>
 
 How far the context can be pushed, which had not been measured here before, on the fixed stack
 with the full recipe (decode of 32 tokens with the cache primed to just under the stated size):
@@ -1347,10 +1360,11 @@ bc250-rocm-working project (GabriWar). His instrumentation found that
 hardware scheduling is never written, so the flush matches nothing: 20 of 20 flushes hit zero
 VMIDs in his measurements, reproduced on separate hardware. He also confirmed the consequence
 directly, finding that for 15 of 15 failing pages across 3 runs the physical address the GPU used
-was exactly what that virtual address had pointed to in an earlier generation. His workaround
-asks the firmware scheduler to rebuild the runlist on unmap, a cycle that does invalidate. That fix was
-ported here as a runtime-switchable module parameter (`amdgpu.bc250_flush_by_runlist`,
-[`scripts/apply_runlist_flush.py`](scripts/apply_runlist_flush.py)); at first it showed no effect,
+was exactly what that virtual address had pointed to in an earlier generation. His workaround asks the hardware scheduler to rebuild the runlist on unmap; the VMID-level tests in
+[`logs/vmid-flush-2026-08-20/`](logs/vmid-flush-2026-08-20/) suggest that what removes the stale
+translation is the VMID reassignment this involves, not an invalidation. His patch, runtime parameter
+`amdgpu.bc250_flush_by_runlist` included, was applied here
+([`scripts/apply_runlist_flush.py`](scripts/apply_runlist_flush.py)); at first it showed no effect,
 because none of the probes here churned allocations.
 
 The reproducer that changed that ([`patches/seq_probe.c`](patches/seq_probe.c)): a heavy dispatch
@@ -2044,7 +2058,9 @@ The dropped-store pattern points at address translation. The PASID TLB flush
 (`amdgpu_gmc_flush_gpu_tlb_pasid()`) branches on `adev->gmc.flush_pasid_uses_kiq`. When true (the
 mainline default), the flush is submitted to the KIQ ring, so the MEC firmware performs it while
 compute is in flight, and this path is also the source of a `timeout waiting for kiq fence`
-board-freeze. When false, the flush is done from the CPU over MMIO, with no MEC involvement.
+board-freeze. When false, the driver looks the process's VMIDs up over MMIO instead and invalidates each match
+through a second, inner KIQ request. Under hardware scheduling that lookup finds nothing (see the
+allocation-reuse section below), so there the change removes the freeze but invalidates nothing.
 
 A plausible reading, and it is only that, is that routing the invalidation through the MEC while a
 compute kernel is running lets a translation get invalidated out from under an in-flight wavefront
@@ -2061,7 +2077,7 @@ built with [`scripts/build_patched_amdgpu.sh`](scripts/build_patched_amdgpu.sh).
 also stops the `kiq fence` board-freeze and greatly speeds up model loading.
 
 Credit for the `flush_pasid_uses_kiq = false` idea belongs to **anrp** and **ahorek** in
-[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313), who found that it stops the freeze. What
+[ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221), who found that it stops the freeze (GabriWar's notes credit the same line to neoney). What
 these tests seem to add is that it also removes the silent wrong results in an A/B comparison. That
 is an n=1 hardware result, so independent reproduction or refutation would be valuable.
 
@@ -2160,7 +2176,7 @@ preemption functions in this path (`gfx_v10_0_kiq_reset_hw_queue`, `gfx_v10_0_re
 byte-for-byte identical between 6.18.9 and current mainline, and mainline carries no gfx1013-specific
 preemption code. It also holds when actually booted. Fedora's kernel 7.1.5 (about a year newer than
 6.18.9, and newer than the ROCm 7.1 / kernel 7.0 stack others report on in
-[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313)), with the same amdgpu rebuilt to carry
+[ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221)), with the same amdgpu rebuilt to carry
 only the 40-CU unlock and the stock flush, comes up at 40 CU and reproduces both problems: the bare
 compute probe is correct at 1M threads but, across four fresh boots, failed every time at 8M, twice
 with silent wrong results (about 2.3M and 3.3M dropped-store elements of 8.4M) and twice with a GPU
@@ -2248,7 +2264,7 @@ decode is in
 [`logs/deep-dive-2026-07-28/l2_fault_decode.log`](logs/deep-dive-2026-07-28/l2_fault_decode.log),
 and the same `GCVM_L2_PROTECTION_FAULT` is the fault class
 others report from an image-bandwidth test in
-[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313). A bare HIP streaming-read kernel
+[ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221). A bare HIP streaming-read kernel
 ([`patches/bw_probe.cpp`](patches/bw_probe.cpp), no arithmetic, no rocBLAS) reproduces the
 size-dependent failure on its own.
 
@@ -2405,10 +2421,10 @@ disabling the unlock drops `simd_count` to 48 and slows the same GEMM to 48.7 ms
 ratio of 1.62 against the 40-CU number, close to the 40 to 24 ratio expected.
 
 The correct flush and 40-CU compute are not mutually exclusive on this part, and two things made it
-look as though they were. The first is a misapplied patch. The companion project's own notes from May warn that targeting
-`gfx_v10_0_get_cu_info` naively can land the register write in a `gfx10_kiq_*` function instead,
-because a forward declaration appears earlier in the file, and that the symptom of getting it
-wrong is a module that loads while the board stays at 24 CU. Which is the state described
+look as though they were. The first is a misapplied patch. The unlock's install scripts take care not to match the forward declaration of
+`gfx_v10_0_get_cu_info` that appears earlier in the file, and the 7.1.8 port here showed what happens
+when that goes wrong: the hunk landed in `gfx10_kiq_set_resources`, compiled cleanly and booted at
+24 CU ([`logs/kernel-718-2026-08-19/`](logs/kernel-718-2026-08-19/)). That is the state described
 here, and it explains why the write appeared to live in KIQ context: in that build it did, by
 accident. The second is described below: the scheduler setting that was held fixed across the
 comparison.
@@ -2637,7 +2653,7 @@ here, while the `LLVM 21.1.8` in the captured device strings is Mesa's radeonsi 
 Every item in that list is checked against the machine in
 [`logs/env-versions-2026-08-27/`](logs/env-versions-2026-08-27/), which exists because the clang
 version was the one thing here no capture carried. Most measurements here were taken with the
-board's own SDMA microcode and `HSA_ENABLE_SDMA=0`, before the navi12 substitution in step 3 below
+stock SDMA microcode and `HSA_ENABLE_SDMA=0`, before the navi12 substitution in step 3 below
 was known; that substitution has since been re-checked against throughput, the correctness gates,
 Vulkan, allocation churn and decode at depth, and changes none of them. The kernel version is not an
 ingredient:
@@ -2759,8 +2775,8 @@ received rather than what you asked for:
 A `modprobe.d` file that accumulated several conflicting `options amdgpu` lines over time is easy
 to end up with and hard to notice, since only the last one takes effect.
 
-**3. Fix SDMA, or disable it.** The board's own SDMA microcode never completes a transfer above
-16384 bytes. Substituting the navi12 microcode fixes it outright, and both blobs ship with
+**3. Fix SDMA, or disable it.** With the SDMA microcode that `linux-firmware` ships for this chip, no
+transfer above 16384 bytes completes. Substituting the navi12 microcode fixes it outright, and both blobs ship with
 `linux-firmware`:
 
     sudo cp /lib/firmware/amdgpu/navi12_sdma.bin.xz  /lib/firmware/amdgpu/cyan_skillfish2_sdma.bin.xz
@@ -2850,7 +2866,10 @@ catch different faults: with the RDNA1 macro entry missing, perplexity reads a h
 
 ### llama.cpp inference
 
-![ROCm against Vulkan across six models](figures/fig-rocm-vs-vulkan.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-rocm-vs-vulkan.png">
+  <img alt="ROCm against Vulkan across six models" src="figures/fig-rocm-vs-vulkan.png">
+</picture>
 
 Tokens per second, same build on both backends, every row gated on perplexity under a matching
 configuration. The build is verified: every log behind this table reports `build: 7ba604f (1)`. This used
@@ -2967,7 +2986,10 @@ needs the whole cache resident alongside the weights.
 
 ### GPGPU
 
-![SGEMM throughput against problem size](figures/fig-sgemm-curve.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/fig-sgemm-curve.png">
+  <img alt="SGEMM throughput against problem size" src="figures/fig-sgemm-curve.png">
+</picture>
 
 **rocBLAS SGEMM**, native gfx1013 build, twenty iterations per size, every result checked against a
 CPU reference:
@@ -3476,7 +3498,10 @@ mapping holds. It does not hold everywhere: `GL2C_HIT_sum` reads exactly zero on
 `FETCH_SIZE` reports a rate thirty times the board's memory bandwidth, so the L2 counters are wrong
 here and are kept in that directory as the evidence.
 
-![counter validation](figures/counter-validation.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/counter-validation.png">
+  <img alt="counter validation" src="figures/counter-validation.png">
+</picture>
 
 Three things came out of it. rocBLAS HGEMM really does issue the packed instruction, half of SGEMM's
 VALU count, and gains nothing because its shared-memory traffic does not halve with it, which closes
@@ -3489,7 +3514,10 @@ because RDNA1 has no scalar float ALU. And
 match its own comment or its own published figure, so the script returned 2.31 TFLOP/s where this
 repository published 8.90; with the documented depth it returns 8.90, and the default is corrected.
 
-![an int8 benchmark that was measuring the scalar unit](figures/counter-scalarised.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/dark/counter-scalarised.png">
+  <img alt="an int8 benchmark that was measuring the scalar unit" src="figures/counter-scalarised.png">
+</picture>
 
 ## Open questions
 
@@ -3573,7 +3601,7 @@ something particular to that model.
   more hardware than one board.
 - Whether any of this works on another gfx1013 board. Everything here is one board.
 - Did the mining stacks run sustained compute on this path, and if so what did their kernel and
-  firmware combination do differently? [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313)
+  firmware combination do differently? [ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221)
   hints that gfx1013 worked under older combinations.
 
 ### Answered since
@@ -3588,8 +3616,7 @@ something particular to that model.
   bc250-rocm-working project; this is a second board agreeing.
 - **The per-iteration alloc/free fault in PyTorch.** The same allocation-reuse defect. Loops with
   varying sizes defeat torch's block cache and do force real map and unmap traffic.
-- **What stops a ROCr SDMA copy above 16384 bytes completing?** Not ROCr: the board's own SDMA
-  microcode. Substituting navi12's makes every size complete. The tip came from GabriWar in response
+- **What stops a ROCr SDMA copy above 16384 bytes completing?** Not ROCr: the SDMA microcode `linux-firmware` ships for this chip. Substituting navi12's makes every size complete. The tip came from GabriWar in response
   to these notes, which is the best argument I have for publishing a defect you cannot fix.
 - **Why does the first fp16 GEMM of each batch return exactly zero?** Fedora 43's ROCm compiler-rt
   ships broken half-precision helpers; the native rocBLAS links them and they make it read `alpha` as
@@ -3598,7 +3625,7 @@ something particular to that model.
   positions and the perplexity are identical to the digit with capture disabled.
 
 Data, corrections, or a "you are holding it wrong" are all welcome, as an issue here or a note on
-[ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313).
+[ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221).
 ## Reproducing
 
 - rocm-hip 6.4.2, rocblas 6.4.4, ROCm LLVM/clang 19, mesa 25.3, llama.cpp build 2da6686. Historical
@@ -3753,7 +3780,7 @@ carries no such paths.
 |------|------------|
 | [`logs/README.md`](logs/README.md) | Index of all 214 log directories, one line each. The table below picks out the ones worth describing at length |
 | [`logs/bench-2026-08/`](logs/bench-2026-08/) | The working-configuration benchmark campaign: per-test llama-bench logs (HIP and Vulkan), SGEMM curve, probe sweeps, depth ladder, load-reliability trials, PyTorch runs |
-| [`figures/`](figures/) | The three figures above, with [`scripts/make_figures.py`](scripts/make_figures.py) to regenerate them from the logged numbers |
+| [`figures/`](figures/) | Every figure on these pages, light on white and in [`figures/dark/`](figures/dark/) for GitHub's dark theme; the `scripts/make_*figure*.py` scripts regenerate them from the logged numbers, with `BC250_THEME=dark` for the second set and colours from [`scripts/figstyle.py`](scripts/figstyle.py) |
 | [`logs/factorial/`](logs/factorial/) | The two-by-two flush-by-scheduler factorial: per-boot raw logs and verdicts, results table, and the battery/orchestration scripts ([`scripts/factorial_battery.sh`](scripts/factorial_battery.sh), [`scripts/factorial_orchestrate.sh`](scripts/factorial_orchestrate.sh)) |
 | [`patches/gen_reuse.cpp`](patches/gen_reuse.cpp) | Targeted reproducer for the stale-translation-on-address-reuse mechanism, written against the description from bc250-rocm-working. Used by [`scripts/aba_mapflush_verify.sh`](scripts/aba_mapflush_verify.sh), so it is shipped alongside it |
 | [`patches/seq_probe.c`](patches/seq_probe.c) | Deterministic allocation-reuse reproducer (heavy dispatch, free, realloc, dispatch); the flush-by-runlist A/B evidence in [`logs/bench-2026-08/runlist-verify/`](logs/bench-2026-08/runlist-verify/) |
@@ -3935,7 +3962,7 @@ carries no such paths.
 
 ## References
 
-- [ROCm/ROCm#6313](https://github.com/ROCm/ROCm/issues/6313): BC-250 system freeze after compute
+- [ROCm/TheRock#9221](https://github.com/ROCm/TheRock/issues/9221): BC-250 system freeze after compute
   workloads. anrp and ahorek found `flush_pasid_uses_kiq = false`. Still open, and AMD was
   engaged in the thread, as of an August 2026 check; both are statements about that check rather
   than about the thread today.

@@ -27,6 +27,7 @@ os.makedirs(OUT, exist_ok=True)
 sys.path.insert(0, _d)
 import figstyle as S
 S.apply()
+OUT = S.out(OUT)
 # These figures are ROCm only, so the precisions get their own colours and blue stays Vulkan's.
 F32, F16, BF16 = S.TEAL, S.AMBER, S.VIOLET
 
@@ -90,7 +91,7 @@ def fig_gemm_ceiling(rows):
     # The arrow is drawn between the two points it compares; its label sits beside it, not on it.
     ax.annotate("", xy=(8192, 8.91), xytext=(8192, 4.64),
                 arrowprops=dict(arrowstyle="<->", color=S.ROCM, lw=1.1))
-    ax.text(7400, 6.6, "1.9x", fontsize=8, color=S.ROCM, ha="right", fontweight="bold")
+    ax.text(7400, 7.5, "1.9x", fontsize=8, color=S.ROCM, ha="right", fontweight="bold")
 
     ax.set_xscale("log", base=2)
     ax.set_xticks([512, 1024, 2048, 4096, 8192])
@@ -129,20 +130,20 @@ def fig_roofline(rows):
     # one label per cluster, placed clear of the markers
     if pts:
         ax.annotate("GEMM N=8192\nfp32 / fp16 / bf16", (pts[0][0] * 0.92, 2.1),
-                    fontsize=7.5, color="#333333", ha="center")
+                    fontsize=7.5, color=S.INK_SOFT, ha="center")
 
     r = get("bw", n=1 << 26)
     if r:
         x, y = 1.0 / 12.0, r["gbs"] / 12.0 / 1000
         ax.plot([x], [y], "s", color=F32, ms=7, zorder=5)
         ax.annotate(f"elementwise add\n{r['gbs']:.0f} GB/s, {r['pct_peak']:.0f}% of the roof",
-                    (x * 1.35, y * 0.72), fontsize=7.5, color="#333333")
+                    (x * 1.35, y * 0.72), fontsize=7.5, color=S.INK_SOFT)
 
     r = get("attn", dtype="float32", seq=2048)
     if r:
         ax.plot([60.0], [r["tflops"]], "^", color=F32, ms=7, zorder=5)
         ax.annotate("attention fp32, seq 2048", (72.0, r["tflops"] * 0.80),
-                    fontsize=7.5, color="#333333")
+                    fontsize=7.5, color=S.INK_SOFT)
 
     # the headline: fp16 GEMM sits far under a roof three times higher
     rf = get("gemm", dtype="float16", n=8192)
@@ -150,10 +151,9 @@ def fig_roofline(rows):
         xf = 8192 / 6.0
         ax.annotate("", xy=(xf, CEIL_F16), xytext=(xf, rf["tflops"]),
                     arrowprops=dict(arrowstyle="<->", color=F16, lw=1.1))
-        # Sits in the empty band between the two roofs and to the left of the arrow; to the right
-        # of it the fp32 roof runs straight through the second line of the label.
-        ax.annotate("fp16 GEMM runs at about\na third of its own roof", (xf * 0.45, 8.3),
-                    fontsize=7.5, color="#444444", ha="right")
+        # One line in the band between the two roofs, right of the arrow, so neither roof crosses it.
+        ax.annotate("fp16 GEMM: a third of its own roof", (xf * 1.12, 9.2),
+                    fontsize=7, color=S.NOTE, ha="left", va="center")
 
     ax.set_xscale("log"); ax.set_yscale("log")
     ax.set_xlabel("arithmetic intensity (FLOP per byte)")
@@ -180,7 +180,7 @@ def fig_training(rows):
             dy = 7 if dt == "float32" else -13
             for x, y in pts:
                 ax.annotate(f"{y:.1f}", (x, y), textcoords="offset points", xytext=(0, dy),
-                            fontsize=7, ha="center", color="#333333")
+                            fontsize=7, ha="center", color=S.INK_SOFT)
     ax.set_xscale("log", base=2); ax.set_xticks([1, 4, 16]); ax.set_xticklabels(["1", "4", "16"])
     ax.set_xlabel("batch size"); ax.set_ylabel("training throughput (ktok/s)")
     ax.set_title("Training a small transformer: fp16 autocast is a regression here", fontsize=9)
@@ -203,10 +203,10 @@ def fig_graph_opt():
     ax.barh(y - 0.20, on / vk, height=0.36, color=S.ROCM, label="ROCm + GRAPH_OPT / Vulkan")
     ax.axvline(1.0, color=S.VULKAN, lw=1.4, zorder=1)
     # labels on a white ground: two of them sit on the parity line
-    box = dict(facecolor="white", edgecolor="none", pad=0.4)
+    box = dict(facecolor=S.BG, edgecolor="none", pad=0.4)
     for i, (a, b) in enumerate(zip(off / vk, on / vk)):
-        ax.text(b + 0.012, i - 0.20, f"{b:.2f}", va="center", fontsize=7, color="#222222", bbox=box, zorder=4)
-        ax.text(a + 0.012, i + 0.20, f"{a:.2f}", va="center", fontsize=7, color="#666666", bbox=box, zorder=4)
+        ax.text(b + 0.012, i - 0.20, f"{b:.2f}", va="center", fontsize=7, color=S.INK_SOFT, bbox=box, zorder=4)
+        ax.text(a + 0.012, i + 0.20, f"{a:.2f}", va="center", fontsize=7, color=S.NOTE, bbox=box, zorder=4)
     ax.set_yticks(y); ax.set_yticklabels(names, fontsize=8)
     ax.set_xlim(0.7, 1.13); ax.set_xlabel("decode rate relative to Vulkan (1.0 = parity)")
     ax.set_title("GGML_CUDA_GRAPH_OPT=1: gains where it forks streams, nothing where it cannot",

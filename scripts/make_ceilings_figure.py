@@ -28,6 +28,7 @@ os.makedirs(OUT, exist_ok=True)
 sys.path.insert(0, HERE)
 import figstyle as S
 S.apply()
+OUT = S.out(OUT)
 VK, HIP = S.VULKAN, S.ROCM
 SHADE = {"hip": {"f16": S.ROCM, "q8_0": S.ROCM_MID, "q4_0": S.ROCM_PALE},
          "vk": {"f16": S.VULKAN, "q8_0": S.VULKAN_MID, "q4_0": S.VULKAN_PALE}}
@@ -61,7 +62,7 @@ for m, label in MODELS:
             c = ceil[(arm, m, kv)]
             ax.barh(y, c - BASE, left=BASE, height=0.55, color=SHADE[arm][kv], edgecolor="none")
         ax.text(ceil[(arm, m, "q4_0")] * 1.05, y, f"{ceil[(arm, m, 'q4_0')]}", va="center", fontsize=7,
-                color="#333333", zorder=4, bbox=dict(facecolor="white", edgecolor="none", pad=0.6))
+                color=S.INK_SOFT, zorder=4, bbox=dict(facecolor=S.BG, edgecolor="none", pad=0.6))
         yt.append(y)
         yl.append(name)
         y += 0.65

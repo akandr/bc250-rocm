@@ -42,7 +42,10 @@ residue is the subtraction. `-p 0 -n 64 -r 1` traced, `-r 5` untraced.
 Two models whose dispatch counts differ by 3.5 times give the same cost per dispatch to within six
 percent. So the residue is: **per-dispatch overhead, about 1.7 microseconds of it.**
 
-![what a decode token is made of](../../figures/decode-residue.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../../figures/dark/decode-residue.png">
+  <img alt="what a decode token is made of" src="../../figures/decode-residue.png">
+</picture>
 
 The estimate this repository already carried,
 [`logs/moe-decode-2026-09-20/`](../moe-decode-2026-09-20/)'s "at the measured 1.78 us a dispatch",

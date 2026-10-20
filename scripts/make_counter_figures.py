@@ -27,6 +27,7 @@ os.makedirs(OUT, exist_ok=True)
 sys.path.insert(0, _d)
 import figstyle as S
 S.apply()
+OUT = S.out(OUT)
 # DARK marks the series a figure is about (the measurement, the hand-written kernel), MID the reference.
 DARK, MID, ACC = S.ROCM, S.GREY_MID, S.INK
 

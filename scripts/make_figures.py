@@ -26,6 +26,7 @@ os.makedirs(OUT, exist_ok=True)
 VK = S.VULKAN
 HIP = S.ROCM
 S.apply()
+OUT = S.out(OUT)
 
 # ---------------- data (fill/verify from logs) ----------------
 # model label -> (hip_tg, vk_tg, hip_pp512, vk_pp512); None = not measured/failed
@@ -96,7 +97,7 @@ def fig_backends():
         ax.barh(y - h/2, hipp, h, color=HIP, label="ROCm/HIP (native gfx1013)")
         for yy, v in list(zip(y + h/2, vkv)) + list(zip(y - h/2, hipv)):
             if v: ax.text(v * (1.04 if not log else 1.12), yy, f"{v:g}",
-                          va="center", fontsize=7.5, color="#222")
+                          va="center", fontsize=7.5, color=S.INK_SOFT)
         ax.set_yticks(y); ax.set_yticklabels(labels if ax is a1 else [""] * len(rows))
         ax.invert_yaxis(); ax.set_title(title, fontsize=9)
         if log: ax.set_xscale("log"); ax.set_xlim(10, max(vk_pp) * 4)
@@ -138,15 +139,15 @@ def fig_sgemm():
     fig, ax = plt.subplots(figsize=(5.4, 3.2))
     ax.plot(ns, gf44, "-o", color=S.ROCM, ms=5, label="Fedora 44, rocBLAS 7.1.1")
     ax.plot(ns, gf, ":s", color=S.GREY_MID, ms=4, label="Fedora 43, rocBLAS 6.4.2")
-    ax.axhline(6520, color="#888", lw=1.0, ls="--")
-    ax.text(8192, 6300, "measured fp32 ceiling 6520", fontsize=7, color="#666", ha="right", va="top")
+    ax.axhline(6520, color=S.GREY_MID, lw=1.0, ls="--")
+    ax.text(8192, 6300, "measured fp32 ceiling 6520", fontsize=7, color=S.NOTE, ha="right", va="top")
     for n, v in zip(ns, gf44):
         ax.text(n, v + 330, f"{v/1000:.1f} TF", fontsize=7.5, ha="center", color=S.ROCM_DARK)
     ax.set_xscale("log", base=2); ax.set_xticks(ns); ax.set_xticklabels([str(n) for n in ns])
     ax.set_xlabel("matrix size N (SGEMM, N x N x N)")
     ax.set_ylabel("GFLOP/s")
     ax.set_title("native gfx1013 rocBLAS SGEMM: the two releases measure the same", fontsize=9)
-    ax.set_ylim(0, 7200); ax.legend(fontsize=7.5, frameon=False, loc="upper left")
+    ax.set_ylim(0, 7200); ax.legend(fontsize=7.5, frameon=False, loc="lower right")
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-sgemm-curve.png"), bbox_inches="tight")
     print("fig-sgemm-curve.png")
@@ -265,7 +266,7 @@ def fig_f44_backends():
         ax.set_xlim(lo, right); ax.set_ylim(len(rows) - 0.05, -1.05)
         ax.set_xticks([0.8, 0.9, 1.0, 1.1, 1.2, 1.3]); ax.set_xticklabels(["0.8", "0.9", "1.0", "1.1", "1.2", "1.3"])
         ax.set_title(title, fontsize=9.5, loc="left")
-        ax.grid(axis="y", visible=False); ax.grid(axis="x", color="white", linewidth=0.8)
+        ax.grid(axis="y", visible=False); ax.grid(axis="x", color=S.BG, linewidth=0.8)
         ax.spines["bottom"].set_bounds(lo, hi); ax.tick_params(axis="y", length=0)
     axes[0].set_yticks(y); axes[0].set_yticklabels(labels)
     fig.text(0.01, -0.04, "Fedora 44, kernel 7.2.5 with the bc250 amdgpu module, 40 CU, GPU clock capped at 1500 MHz. llama.cpp "
@@ -288,9 +289,9 @@ def fig_f43_vs_f44():
         for k, (name, src, off, col, hatch) in enumerate(series):
             vals = [src[l][base + off] for l in labels]
             yy = y + (k - 1.5) * h
-            ax.barh(yy, vals, h, color=col, edgecolor="white", linewidth=0.4, hatch=hatch, label=name)
+            ax.barh(yy, vals, h, color=col, edgecolor=S.BG, linewidth=0.4, hatch=hatch, label=name)
             for v, yv in zip(vals, yy):
-                ax.text(v * (1.1 if log else 1.02), yv, f"{v:g}", va="center", fontsize=6.3, color="#222")
+                ax.text(v * (1.1 if log else 1.02), yv, f"{v:g}", va="center", fontsize=6.3, color=S.INK_SOFT)
         ax.set_yticks(y); ax.set_yticklabels(labels if ax is a1 else [""] * len(labels)); ax.invert_yaxis()
         ax.set_title(title, fontsize=9)
         if log: ax.set_xscale("log"); ax.set_xlim(10, 6000)
@@ -300,7 +301,7 @@ def fig_f43_vs_f44():
     fig.text(0.01, -0.13, "Same board, kernel, llama.cpp patches and GPU clock policy (1500 MHz). Fedora 43: August campaign, "
              "prefill and decode in one invocation\n(27B: 17 August, tg128); Fedora 44: 16 September, separate invocations, which "
              "raises large-model decode by about a quarter. Read the\ndecode bars as an upper bound on any difference.",
-             fontsize=7, color="#444")
+             fontsize=7, color=S.NOTE)
     fig.suptitle("Fedora 43 against Fedora 44 at the same GPU clock: no speed difference", fontsize=10, y=1.0)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-f43-vs-f44.png"), bbox_inches="tight")
@@ -323,8 +324,8 @@ def fig_probes():
     ax.set_xticks(x); ax.set_xticklabels(labels, fontsize=7.5, rotation=15)
     ax.set_ylabel("tokens/s (log scale)")
     for i in range(len(labels)):
-        ax.text(x[i] - w/2, a[i] * 1.02, f"{a[i]:.0f}", ha="center", fontsize=6.8, color="#555")
-        ax.text(x[i] + w/2, b[i] * 1.02, f"{b[i]:.0f}", ha="center", fontsize=6.8, color="#555")
+        ax.text(x[i] - w/2, a[i] * 1.02, f"{a[i]:.0f}", ha="center", fontsize=6.8, color=S.NOTE)
+        ax.text(x[i] + w/2, b[i] * 1.02, f"{b[i]:.0f}", ha="center", fontsize=6.8, color=S.NOTE)
     ax.set_title("qwen2.5-1.5B, same probes on both systems, clock capped at 1500 MHz", fontsize=9)
     ax.legend(fontsize=7.5, frameon=False, loc="upper right")
     fig.tight_layout()
@@ -348,8 +349,8 @@ def fig_f44_depth():
     od = sorted(DEPTH)
     ax.plot(od, [DEPTH[d][1] for d in od], ":o", color=S.VULKAN_MID, ms=3, label="Vulkan, Fedora 43")
     ax.plot(od, [DEPTH[d][0] for d in od], ":s", color=S.GREY_MID, ms=3, label="ROCm, Fedora 43")
-    for d, v in zip(ds, hip): ax.text(d, v - 12, f"{v:.0f}", fontsize=7, ha="center", color="#444")
-    for d, v in zip(ds, hipopt): ax.text(d, v + 7, f"{v:.0f}", fontsize=7, ha="center", color="#222")
+    for d, v in zip(ds, hip): ax.text(d, v - 12, f"{v:.0f}", fontsize=7, ha="center", color=S.NOTE)
+    for d, v in zip(ds, hipopt): ax.text(d, v + 7, f"{v:.0f}", fontsize=7, ha="center", color=S.INK_SOFT)
     for d, v in zip(ds, vk13): ax.text(d, v - 14, f"{v:.0f}", fontsize=7, ha="center", color=VK)
     ax.set_xlabel("context depth before generation (tokens)"); ax.set_ylabel("decode tokens/s (tg64)")
     ax.set_title("qwen2.5-1.5B decode vs depth: level with Vulkan from 4096 as shipped, ahead with the option",
@@ -388,21 +389,21 @@ def fig_fa_tradeoff():
         ax.bar(x + w/2, off, w, color=[h[1] for h in hue], edgecolor="none")
         for i in range(len(labels)):
             hi, lo = max(on[i], off[i]), min(on[i], off[i])
-            ax.text(x[i], hi * 1.03, f"{hi/lo:.1f}x", ha="center", fontsize=7.5, color="#222")
+            ax.text(x[i], hi * 1.03, f"{hi/lo:.1f}x", ha="center", fontsize=7.5, color=S.INK_SOFT)
             # Contrast follows the bar, not the value: keying off the number left every label in the
             # decode panel dark, including the ones sitting on the near-black bars.
-            ax.text(x[i] - w/2, on[i] * 0.5, f"{on[i]:.0f}", ha="center", fontsize=7, color="white")
+            ax.text(x[i] - w/2, on[i] * 0.5, f"{on[i]:.0f}", ha="center", fontsize=7, color=S.ON_BAR)
             ax.text(x[i] + w/2, off[i] * 0.5, f"{off[i]:.0f}", ha="center", fontsize=7, color=S.INK)
         ax.set_xticks(x); ax.set_xticklabels(labels, fontsize=8)
         ax.set_title(title, fontsize=9); ax.set_ylabel("tokens/s")
         ax.set_ylim(0, max(max(on), max(off)) * 1.2)
     from matplotlib.patches import Patch
-    a1.legend(handles=[Patch(color=S.GREY, label="flash attention on (dark)"),
-                       Patch(color=S.GREY_PALE, label="flash attention off (light)")],
+    a1.legend(handles=[Patch(color=S.GREY, label="flash attention on (%s)" % ("bright" if S.DARK else "dark")),
+                       Patch(color=S.GREY_PALE, label="flash attention off (%s)" % ("dim" if S.DARK else "light"))],
               fontsize=8, frameon=False, loc="upper left")
     fig.suptitle("Flash attention before the RDNA1 patch: faster prefill without it, faster decode with it", fontsize=10)
     fig.text(0.01, -0.06, "qwen3-8B Q8_0, Fedora 44, kernel 7.2.5, clock capped at 1500 MHz. Labels above each pair are the ratio.\n"
-             "Turning it off also costs KV-cache memory, so it reduces the context that fits.", fontsize=7, color="#444")
+             "Turning it off also costs KV-cache memory, so it reduces the context that fits.", fontsize=7, color=S.NOTE)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-flash-attention-tradeoff.png"), bbox_inches="tight")
     print("fig-flash-attention-tradeoff.png")
@@ -486,7 +487,7 @@ def fig_prefill_depth_24k():
     ax.set_xlim(-600, ds[-1] + 2600); ax.set_ylim(0, 430)
     ax.legend(fontsize=8, frameon=False, loc="upper right")
     fig.text(0.01, -0.04, "qwen3-8B Q8_0, -p 2048 -n 0, -fa on, one llama-bench invocation per point, medians of three passes, 2026-10-12 (28k: 2026-10-17). "
-             "Labels above the ROCm points are ROCm / Vulkan.", fontsize=7, color="#444")
+             "Labels above the ROCm points are ROCm / Vulkan.", fontsize=7, color=S.NOTE)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-prefill-vs-depth-24k.png"), bbox_inches="tight")
     print("fig-prefill-vs-depth-24k.png")
@@ -537,7 +538,7 @@ def fig_decode_depth_8b():
     ax.set_xlim(-600, 28672 + 2400); ax.set_ylim(23.6, 43)
     ax.legend(fontsize=8, frameon=False, loc="upper right")
     fig.text(0.01, -0.07, "qwen3-8B Q8_0, -p 0 -n 64, one llama-bench invocation per point (no-depth-cache build), medians of three passes, 2026-10-15.\n"
-             "Crosses: phase 2, the same arms cold with -r 1, where the three-pass run throttled; 28k (2026-10-18) the same way. ROCm does not hold 30k without mmap.", fontsize=7, color="#444")
+             "Crosses: phase 2, the same arms cold with -r 1, where the three-pass run throttled; 28k (2026-10-18) the same way. ROCm does not hold 30k without mmap.", fontsize=7, color=S.NOTE)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-decode-vs-depth-8b.png"), bbox_inches="tight")
     print("fig-decode-vs-depth-8b.png")
@@ -561,12 +562,12 @@ DEC6 = {
 
 def fig_decode_depth_six():
     fig, ax = plt.subplots(figsize=(6.4, 3.6))
-    ax.axhspan(1.0, 1.15, color=S.ROCM, alpha=0.06, lw=0, zorder=0)
-    ax.axhspan(0.42, 1.0, color=S.VULKAN, alpha=0.06, lw=0, zorder=0)
+    ax.axhspan(1.0, 1.15, color=S.ROCM, alpha=S.BAND_ALPHA, lw=0, zorder=0)
+    ax.axhspan(0.42, 1.0, color=S.VULKAN, alpha=S.BAND_ALPHA, lw=0, zorder=0)
     ax.axhline(1.0, color=S.GREY, lw=0.8, zorder=1)
-    styles = {"qwen2.5-1.5B Q4_K_M": ("#6A3D9A", "-o"), "qwen3-8B Q8_0": (S.ROCM, "-D"),
-              "deepseek-r1-14B Q4_K_M": ("#B15928", "-s"), "qwen3-14B Q4_K_M": ("#E6550D", "--s"),
-              "qwen3.6-35B-A3B MoE IQ2_M": (S.GREEN if hasattr(S, "GREEN") else "#2A9D8F", "-^"),
+    styles = {"qwen2.5-1.5B Q4_K_M": (S.PURPLE, "-o"), "qwen3-8B Q8_0": (S.ROCM, "-D"),
+              "deepseek-r1-14B Q4_K_M": (S.BROWN, "-s"), "qwen3-14B Q4_K_M": (S.ORANGE, "--s"),
+              "qwen3.6-35B-A3B MoE IQ2_M": (S.GREEN, "-^"),
               "qwen3.8-27B UD-IQ3_XXS": (S.VULKAN_DARK, "-v")}
     for name, (col, style) in styles.items():
         pts = DEC6[name]; ds = sorted(pts)
@@ -582,7 +583,7 @@ def fig_decode_depth_six():
     ax.set_xlim(-600, 28672 + 3200); ax.set_ylim(0.42, 1.15)
     ax.legend(fontsize=7, frameon=False, loc="lower left", ncol=2, bbox_to_anchor=(0.0, 0.0))
     fig.text(0.01, -0.07, "ROCm thirteen patches as shipped / Vulkan, -p 0 -n 64, one no-depth-cache llama-bench invocation per point, -r 1, medians of three.\n"
-             "1.5B: 2026-10-10, 8B: 2026-10-15 (16k and 24k cold), the other four: 2026-10-17. deepseek-14B does not fit 24k on ROCm, the 27B stops at 16k, the 8B at 28k.", fontsize=7, color="#444")
+             "1.5B: 2026-10-10, 8B: 2026-10-15 (16k and 24k cold), the other four: 2026-10-17. deepseek-14B does not fit 24k on ROCm, the 27B stops at 16k, the 8B at 28k.", fontsize=7, color=S.NOTE)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-decode-vs-depth-six.png"), bbox_inches="tight")
     print("fig-decode-vs-depth-six.png")
@@ -623,11 +624,11 @@ def fig_soak():
     axes[0].set_title("Eight hours, 152 rounds, four models: every gate bit-identical, no faults",
                       fontsize=9.5)
     gates = ", ".join("%s %s" % g for g in SOAK13_GATES)
-    fig.text(0.01, -0.02,
+    fig.text(0.01, -0.035,
              "Fedora 44, kernel 7.2.5, amdgpu.gpu_recovery=0, clock capped at 1500 MHz, thirteen patches. "
              "Each model's gate returned one value\nacross all 38 of its rounds (" + gates +
              ");\n38 of 38 allocation-churn sweeps passed; the kernel logged no GPU fault. "
-             "Spreads 0.4 to 2.3 percent.", fontsize=7, color=S.NOTE)
+             "Spreads 0.4 to 2.3 percent.", fontsize=7, color=S.NOTE, va="top")
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-soak-stability.png"), bbox_inches="tight")
     print("fig-soak-stability.png")
@@ -664,12 +665,12 @@ def fig_op_perf():
         ratio = [d[1] / d[2] for d in data]
         colors = [S.VULKAN if r > 1 else S.ROCM for r in ratio]
         ax.barh(y, [min(r, 2.45) for r in ratio], height=0.6, color=colors, edgecolor="none")
-        ax.axvline(1.0, color="#444", linewidth=1)
+        ax.axvline(1.0, color=S.NOTE, linewidth=1)
         for yy, r in zip(y, ratio):
             clipped = r > 2.45
             ax.text(min(r, 2.45) - (0.06 if clipped else -0.04), yy, f"{r:.2f}x",
                     va="center", ha="right" if clipped else "left",
-                    fontsize=7.5, color="white" if clipped else "#222")
+                    fontsize=7.5, color=S.ON_BAR if clipped else S.INK_SOFT)
         ax.set_yticks(y); ax.set_yticklabels(labels, fontsize=8)
         ax.set_xlim(0, 2.45); ax.set_xlabel("ROCm time / Vulkan time")
         ax.set_title(title, fontsize=9)
@@ -678,7 +679,7 @@ def fig_op_perf():
              "Replaying the real pp2048 graph of the 1.5B through test-backend-ops on each backend, median of the passes.\n"
              "Bars right of 1 are slower on ROCm; the flash attention bar runs off the axis at 7.05x and is labelled inside.\n"
              "With flash attention off the prefill graph sums to 1.74, against 1.86 end to end. Decode-shaped attention ties.",
-             fontsize=7, color="#444")
+             fontsize=7, color=S.NOTE)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-op-perf-hip-vs-vulkan.png"), bbox_inches="tight")
     print("fig-op-perf-hip-vs-vulkan.png")
@@ -720,7 +721,7 @@ def fig_heads():
     ax.bar(x - w/2, [h[1] for h in rows], w, color=S.ROCM_PALE, label="before")
     ax.bar(x + w/2, [h[2] for h in rows], w, color=S.ROCM, label="after")
     for xi, h in zip(x, rows):
-        ax.text(xi + w/2, h[2] + 8, f"{h[1]/h[2]:.1f}x", ha="center", fontsize=7.5, color="#222")
+        ax.text(xi + w/2, h[2] + 8, f"{h[1]/h[2]:.1f}x", ha="center", fontsize=7.5, color=S.INK_SOFT)
     ax.set_xticks(x); ax.set_xticklabels([h[0] for h in rows], fontsize=7.5)
     ax.set_ylabel("flash-attention op, ms (pp2048)")
     ax.set_title("The kernel: 3.4 to 4.4 times faster", fontsize=9)
@@ -731,7 +732,7 @@ def fig_heads():
     gain = [(h[4] / h[3] - 1) * 100 for h in HEADS]
     ax.bar(x, gain, 0.55, color=S.ROCM)
     for xi, g, h in zip(x, gain, HEADS):
-        ax.text(xi, g + 1, f"+{g:.0f} %\n{h[3]:.0f} to {h[4]:.0f}", ha="center", fontsize=7, color="#222")
+        ax.text(xi, g + 1, f"+{g:.0f} %\n{h[3]:.0f} to {h[4]:.0f}", ha="center", fontsize=7, color=S.INK_SOFT)
     ax.set_xticks(x); ax.set_xticklabels([h[0] for h in HEADS], fontsize=6.8)
     ax.set_ylabel("pp2048 gain, percent, -fa on")
     ax.set_ylim(0, 54)
@@ -740,7 +741,7 @@ def fig_heads():
     fig.text(0.01, -0.06,
              "Same board, builds interleaved, final rows. The 14B models have 40 heads over 8 KV heads and take the 32-column tile\n"
              "without GQA sharing; the MoE and the 27B spend their prefill in matmuls, so a 3.5x faster kernel moves them 6 to 10 percent.",
-             fontsize=7, color="#444")
+             fontsize=7, color=S.NOTE)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-fa-heads.png"), bbox_inches="tight")
     print("fig-fa-heads.png")
@@ -755,12 +756,12 @@ def fig_spill():
     ax.bar(x, vg, 0.62, color=[S.AMBER if s[2] else S.TEAL for s in SPILL], label="VGPRs used")
     ax.bar(x, sp, 0.62, bottom=vg, color=S.AMBER_PALE, edgecolor=S.AMBER, linewidth=0.6,
            hatch="///", label="VGPRs spilled")
-    ax.axhline(256, color="#444", linewidth=1, linestyle="--")
-    ax.text(len(SPILL) - 0.45, 268, "256 VGPR budget", fontsize=7, ha="right", color="#444")
+    ax.axhline(256, color=S.NOTE, linewidth=1, linestyle="--")
+    ax.text(len(SPILL) - 0.45, 268, "256 VGPR budget", fontsize=7, ha="right", color=S.NOTE)
     for xi, s in zip(x, SPILL):
         if s[2]:
             ax.text(xi, s[1] + s[2] + 24, f"+{s[2]}\n{s[3]} B/lane", ha="center",
-                    fontsize=7, color="#222")
+                    fontsize=7, color=S.INK_SOFT)
     ax.set_xticks(x); ax.set_xticklabels([s[0] for s in SPILL], fontsize=7.5)
     ax.set_ylabel("registers per lane")
     ax.set_ylim(0, 1000)
@@ -778,9 +779,9 @@ def fig_spill():
         ax2.plot(ds, off, "-^", color=S.GREY_MID, ms=4.5, label="-fa off (either build)")
         ax2.plot(ds, base_on, "--s", color=S.ROCM_MID, ms=5, label="unpatched, -fa on")
         for d, v in zip(ds, fix_on):
-            ax2.text(d, v + 9, f"{v:.0f}", fontsize=7, ha="center", color="#222")
+            ax2.text(d, v + 9, f"{v:.0f}", fontsize=7, ha="center", color=S.INK_SOFT)
         for d, v in zip(ds, base_on):
-            ax2.text(d, v - 17, f"{v:.0f}", fontsize=7, ha="center", color="#444")
+            ax2.text(d, v - 17, f"{v:.0f}", fontsize=7, ha="center", color=S.NOTE)
         ax2.set_xlabel("tokens of context already present")
         ax2.set_ylabel("prefill tokens/s (pp2048)")
         ax2.set_xticks(ds); ax2.set_ylim(0, max(fix_on) * 1.25)
@@ -791,7 +792,7 @@ def fig_spill():
                "each half2 into two floats and the kernel spills to scratch on every inner iteration.")
     if SPILL_DEPTH:
         caption = "Left: " + caption + " Right: what removing it buys."
-    fig.text(0.01, -0.05, caption, fontsize=7, color="#444")
+    fig.text(0.01, -0.05, caption, fontsize=7, color=S.NOTE)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-rdna1-fattn-spill.png"), bbox_inches="tight")
     print("fig-rdna1-fattn-spill.png")
@@ -811,15 +812,15 @@ MMVQ = [  # label -> (four patches, + RDNA2 table, + v_sad_u8 + type-aware table
 def fig_mmvq():
     fig, ax = plt.subplots(figsize=(9.6, 3.7))
     x = np.arange(len(MMVQ)); w = 0.12
-    cols = [("four patches", "#FECACA", 1), ("+ RDNA2 matvec table", "#FCA5A5", 2),
-            ("+ v_sad_u8, type-aware table", "#F87171", 3), ("+ float q4_K matvec", "#EF4444", 4),
-            ("+ float q6_K, q8_0", "#DC2626", 5), ("+ q5_K, IQ types, experts (patch 5)", "#991B1B", 6)]
+    cols = [("four patches", S.REDS[0], 1), ("+ RDNA2 matvec table", S.REDS[1], 2),
+            ("+ v_sad_u8, type-aware table", S.REDS[2], 3), ("+ float q4_K matvec", S.REDS[3], 4),
+            ("+ float q6_K, q8_0", S.REDS[4], 5), ("+ q5_K, IQ types, experts (patch 5)", S.REDS[5], 6)]
     for k, (name, col, idx) in enumerate(cols):
         vals = [m[idx] if m[idx] is not None else 0 for m in MMVQ]
         ax.bar(x + (k - 2.5) * w, vals, w, color=col, label=name)
         for xi, m in zip(x, MMVQ):
             if m[idx] is not None:
-                ax.text(xi + (k - 2.5) * w, m[idx] + 2, f"{m[idx]:.0f}", ha="center", fontsize=5.8, color="#222")
+                ax.text(xi + (k - 2.5) * w, m[idx] + 2, f"{m[idx]:.0f}", ha="center", fontsize=5.8, color=S.INK_SOFT)
     ax.scatter(x + 3.6 * w, [m[7] for m in MMVQ], marker="_", s=260, color=S.VULKAN, linewidths=2.4, label="Vulkan", zorder=3)
     for xi, m in zip(x, MMVQ):
         ax.text(xi + 3.6 * w, m[7] + 2, f"{m[7]:.0f}", ha="center", fontsize=6.8, color=S.VULKAN)
@@ -833,7 +834,7 @@ def fig_mmvq():
              "RDNA1 was not in the matrix-vector parameter table and ran the generic entry, four warps per row with a barrier. The last three\n"
              "steps replace the emulated int8 dot with float activations: q4_K, then q6_K and q8_0, then q5_K and the IQ2/IQ3 types with the MoE's\n"
              "experts. A bar is missing where a model was not in that A/B. Gates bit-identical through the first three; the float kernels match the CPU.",
-             fontsize=7, color="#444")
+             fontsize=7, color=S.NOTE)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "fig-mmvq-decode.png"), bbox_inches="tight")
     print("fig-mmvq-decode.png")

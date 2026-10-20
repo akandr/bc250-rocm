@@ -21,6 +21,7 @@ os.makedirs(OUT, exist_ok=True)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import figstyle as S
 S.apply()
+OUT = S.out(OUT)
 # ROCm only: time inside kernels in ROCm's red, the part outside any kernel in amber
 DARK, MID, ACC = S.ROCM, S.AMBER, S.INK
 
