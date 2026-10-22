@@ -1,0 +1,22 @@
+[23:37:53] === one dispatch per invocation, x10
+[23:37:54]   single_a01 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:54]   single_a02 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:54]   single_a03 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:55]   single_a04 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:55]   single_a05 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:55]   single_a06 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:55]   single_a07 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:56]   single_a08 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:56]   single_a09 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:56]   single_a10 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:56] === three dispatches per invocation, x3
+[23:37:57]   triple_1 dispatches=3 rc=0 0:ok 1:ok 2:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:57]   triple_2 dispatches=3 rc=0 0:ok 1:ok 2:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:58]   triple_3 dispatches=3 rc=0 0:ok 1:ok 2:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:58] === one dispatch per invocation, x5
+[23:37:58]   single_b1 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:59]   single_b2 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:59]   single_b3 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:59]   single_b4 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:59]   single_b5 dispatches=1 rc=0 0:ok  RESULT: total_wrong=0 -> ALL CORRECT
+[23:37:59] single-dispatch invocations with wrong elements: 0/15; triple invocations with wrong elements: 0/3; amdgpu fault/failure lines: 0

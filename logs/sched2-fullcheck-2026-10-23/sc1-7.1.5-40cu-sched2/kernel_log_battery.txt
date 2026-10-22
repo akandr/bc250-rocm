@@ -1,0 +1,35 @@
+paź 23 00:04:11 bc250 kernel: amdgpu 0000:01:00.0: failed to write reg 28b4 wait reg 28c6
+paź 23 00:04:24 bc250 kernel: amdgpu 0000:01:00.0: failed to write reg 1a6f4 wait reg 1a706
+paź 23 00:04:37 bc250 kernel: amdgpu 0000:01:00.0: failed to write reg 28b4 wait reg 28c6
+paź 23 00:06:02 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:06:06 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:06:06 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:06:06 bc250 kernel: amdgpu: Failed to quiesce KFD
+paź 23 00:06:10 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:06:14 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:06:14 bc250 kernel: amdgpu: Resetting wave fronts (nocpsch) on dev 00000000178219bd
+paź 23 00:08:12 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:08:16 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:08:16 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:08:16 bc250 kernel: amdgpu: Failed to quiesce KFD
+paź 23 00:08:20 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:08:24 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:08:24 bc250 kernel: amdgpu: Resetting wave fronts (nocpsch) on dev 00000000178219bd
+paź 23 00:10:22 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:10:26 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:10:26 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:10:26 bc250 kernel: amdgpu: Failed to quiesce KFD
+paź 23 00:10:30 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:10:34 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:10:34 bc250 kernel: amdgpu: Resetting wave fronts (nocpsch) on dev 00000000178219bd
+paź 23 00:12:32 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:12:36 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:12:36 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:12:36 bc250 kernel: amdgpu: Failed to quiesce KFD
+paź 23 00:12:40 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:12:44 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:12:44 bc250 kernel: amdgpu: Resetting wave fronts (nocpsch) on dev 00000000178219bd
+paź 23 00:14:42 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:14:46 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:14:46 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:14:46 bc250 kernel: amdgpu: Failed to quiesce KFD

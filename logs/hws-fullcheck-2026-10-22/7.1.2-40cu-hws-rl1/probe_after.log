@@ -1,0 +1,8 @@
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=3 ===
+HSA_ENABLE_SDMA=(unset)
+iter 0: sync=92.7 ms  wrong=0/8388608  ok
+iter 1: sync=94.4 ms  wrong=1111868/8388608  MISMATCH
+   first mismatch at index 0: got 0, want -2109779631
+iter 2: sync=54.1 ms  wrong=108736/8388608  MISMATCH
+   first mismatch at index 1132348: got 0, want -2109779631
+RESULT: total_wrong=1220604 -> COMPUTE PRODUCES WRONG RESULTS

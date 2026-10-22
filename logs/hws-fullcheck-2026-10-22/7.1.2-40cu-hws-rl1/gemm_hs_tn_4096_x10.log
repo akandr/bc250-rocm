@@ -1,0 +1,13 @@
+rocblas 5.1.1.f322e9a-dirty, device AMD BC-250 (gfx1013:xnack-), 20 CUs
+type=hs op=tn N=4096 iters=10 ref_cpu_s=6.6 max_abs_ref=240
+iter   0 sync=0    93.43ms wrong=0 unwritten=0 first_bad=-1
+iter   1 sync=0    62.08ms wrong=0 unwritten=0 first_bad=-1
+iter   2 sync=0    62.06ms wrong=0 unwritten=0 first_bad=-1
+iter   3 sync=0    59.16ms wrong=0 unwritten=0 first_bad=-1
+iter   4 sync=0    59.30ms wrong=0 unwritten=0 first_bad=-1
+iter   5 sync=0    61.46ms wrong=0 unwritten=0 first_bad=-1
+iter   6 sync=0    60.09ms wrong=0 unwritten=0 first_bad=-1
+iter   7 sync=0    61.18ms wrong=0 unwritten=0 first_bad=-1
+iter   8 sync=0    59.80ms wrong=0 unwritten=0 first_bad=-1
+iter   9 sync=0    60.83ms wrong=0 unwritten=0 first_bad=-1
+DONE type=hs op=tn N=4096 iters=10 elements_checked=167772160 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT

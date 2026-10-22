@@ -1,0 +1,8 @@
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=3 ===
+HSA_ENABLE_SDMA=(unset)
+iter 0: sync=92.5 ms  wrong=0/8388608  ok
+iter 1: sync=94.3 ms  wrong=0/8388608  ok
+Memory access fault by GPU node-1 (Agent handle: 0x55b7bdc475e0) on address 0x7f1cee006000. Reason: Page not present or supervisor privilege.
+Failed to fetch queues snapshot.
+GPU core dump failed
+timeout: monitowane polecenie zrobiło zrzut pamięci

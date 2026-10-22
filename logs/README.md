@@ -207,6 +207,9 @@ The flush fixes in the module, the rare fault, and why a GPU reset takes the hos
 | [`ftrace`](ftrace/) | Function-tracer captures of the wedge |
 | [`gpu-recovery-cost-2026-08-21`](gpu-recovery-cost-2026-08-21/) | What `amdgpu.gpu_recovery=0` costs |
 | [`gpu-reset-fatal-2026-08-21`](gpu-reset-fatal-2026-08-21/) | A GPU reset kills this board, with or without a fault |
+| [`hws-fullcheck-2026-10-22`](hws-fullcheck-2026-10-22/) | Correctness with checks that can fail: rocBLAS with every element checked, and the probe across runlist-rebuild settings in 14 boots |
+| [`probe-dispatch-2026-10-22`](probe-dispatch-2026-10-22/) | One dispatch or three: the probe's failure without the runlist rebuild needs a second dispatch |
+| [`sched2-fullcheck-2026-10-23`](sched2-fullcheck-2026-10-23/) | The software-scheduler rows of the CU-by-scheduler table on the same stack as the hardware rows |
 | [`journal-retro-2026-08-20`](journal-retro-2026-08-20/) | What the persistent journal shows that dmesg could not |
 | [`kernel-7.1.5`](kernel-7.1.5/) | First test on kernel 7.1.5, July 2026 |
 | [`kernel-718-2026-08-19`](kernel-718-2026-08-19/) | Kernel 7.1.8 with the full patch set |

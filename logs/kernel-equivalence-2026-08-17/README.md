@@ -7,7 +7,13 @@ a kernel and differ only in a boot argument.
 `inv47.log` and `result.txt` in each directory hold the same battery: the bare
 compute probe at 4096, 16384 and 32768 blocks (up to 8.4M threads), the native
 rocBLAS SGEMM sweep from N=256 to 4096, a wikitext perplexity gate against the
-8.9442 reference, a sustained N=4096 for 50 iterations, and a dmesg fault count.
+8.9442 reference, a sustained N=4096 for 50 iterations, and a dmesg fault count. The battery script,
+`inv47_full.sh`, was later recovered from the board unchanged (last modified 16 August 23:04:12,
+the second the 7.1.5-40cu-hws log starts). Its fault count greps
+`memory access fault|preemption time out|ring.*timeout`, which does not match the kernel's
+`[gfxhub] page fault` message, so a zero count does not rule out a GPU page fault. Its SGEMM
+check is the two-element `sgemm_iter` (see `patches/sgemm_iter.cpp`); the full-output rerun of
+these cells is in `../hws-fullcheck-2026-10-22/`.
 
 ## Is the kernel version the ingredient?
 
@@ -20,7 +26,8 @@ indistinguishable:
 | `6.18.9-40cu-hws` | 6.18.9 | every check clean, perplexity 8.9442 |
 
 Probe correct at all three sizes on both, SGEMM clean at all five sizes on both,
-sustained GEMM clean on both, zero dmesg faults on both. A third kernel, 6.18.16,
+sustained GEMM clean on both, and the battery's fault count zero on both (a count that cannot see
+a GPU page fault, see above). A third kernel, 6.18.16,
 was later added in `../recipe-e2e-2026-08-17/` with the same outcome.
 
 ## Is the wedge about CU count or about the scheduler?

@@ -36,7 +36,7 @@ Vulkan ([which backend](#which-backend-to-use-and-why-rocm-at-all)).
 |---|---|---|
 | amdgpu / KFD compute | works with a patched module | TLB flush fixes (anrp, GabriWar) and the 40-CU unlock (duggasco), [step 1](#1-kernel-module) |
 | llama.cpp (ROCm backend) | works, results match Vulkan | thirteen small patches, [step 7](#7-llamacpp) |
-| rocBLAS | works with a native gfx1013 build | [step 4](#4-native-gfx1013-rocblas-711) |
+| rocBLAS | works with a native gfx1013 build | every output element of fp32, fp64, fp16 and fp16-in/fp32-compute GEMM matched a CPU reference, N=256 to 8192 ([`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/)); [step 4](#4-native-gfx1013-rocblas-711) |
 | HIP runtime (ROCm 7.1.1) | works with a one-table comgr fix | [step 5](#5-comgr-vgpr-fix); a rebuilt ROCr is optional, [step 6](#6-install-both-ahead-of-the-system-libraries) |
 | fp16 compute | correct by default | the Fedora 43 toolchain bug does not exist on Fedora 44 |
 | PyTorch | works when built from source for gfx1013 | Fedora's package and the pytorch.org wheel lack gfx1013 kernels |
@@ -106,7 +106,11 @@ packet, which times out on this chip; the per-VMID lookup it falls back to finds
 hardware scheduling, which is why the runlist rebuild below is needed. The
 [`patches/amdgpu-flush-pasid-mmio.patch`](patches/amdgpu-flush-pasid-mmio.patch) is the same line hardcoded. The runlist-rebuild flush is GabriWar's, runtime parameter included
 ([GabriWar/bc250-rocm-working](https://github.com/GabriWar/bc250-rocm-working)); this repository
-extended it to the SVM map side behind a bitmask. Each script refuses to run if its anchor has moved; the one porting trap is
+extended it to the SVM map side behind a bitmask. The bypass alone is not enough: without the rebuild
+the bare probe returned wrong elements with no error on all eight boots tested, from its second dispatch
+on, and with the rebuild on map and unmap it was correct on all ten
+([`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/), [`logs/probe-dispatch-2026-10-22/`](logs/probe-dispatch-2026-10-22/)).
+Each script refuses to run if its anchor has moved; the one porting trap is
 that the 40-CU hunk belongs inside the definition of `gfx_v10_0_get_cu_info`, not its forward
 declaration, or the board boots at 24 CU. Then build the module alone against the installed
 `kernel-devel` and install it, here for the running kernel:
@@ -1209,7 +1213,7 @@ or are limits to work within.
 |---|---|---|
 | A GPU reset takes the host down: MODE1 and MODE2 have no implementation on this chip and report success anyway | `amdgpu.gpu_recovery=0`; after a fault, reboot | open ([`logs/reset-smu-gc-2026-09-14/`](logs/reset-smu-gc-2026-09-14/), [`logs/reset-honest-2026-09-15/`](logs/reset-honest-2026-09-15/)) |
 | A rare GPU page fault under sustained load escalates to a preemption timeout, after which the GPU is unusable until a reboot while still enumerating normally ([`logs/fault-usability-2026-08-24/`](logs/fault-usability-2026-08-24/)); Vulkan on the same board kept working | reboot | open: it ended two Fedora 43 soaks after about 190 and 254 rounds ([`logs/soak-crash-2026-08-20/`](logs/soak-crash-2026-08-20/)), did not appear in 152 rounds on kernel 7.2.5, and was caught once more under deep-context decode, with no reset and the host up ([`logs/fault-caught-2026-09-22/`](logs/fault-caught-2026-09-22/)) |
-| Freed and reallocated GPU memory faults without the runlist flush | `amdgpu.bc250_flush_by_runlist=3` | worked around in the module; verified again on Fedora 44 (on: clean, off: faults) |
+| Freed and reallocated GPU memory faults without the runlist flush, and without it the bare probe also returns wrong elements silently | `amdgpu.bc250_flush_by_runlist=3` | worked around in the module; verified again on Fedora 44 (on: clean, off: faults), and for the probe in 19 boots ([`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/), [`logs/probe-dispatch-2026-10-22/`](logs/probe-dispatch-2026-10-22/)) |
 | PASID TLB flush covers nothing under hardware scheduling | `amdgpu.bc250_flush_pasid_kiq=0` | worked around in the module |
 | Software scheduler wedges sustained compute | leave `sched_policy` unset | understood |
 | rocBLAS and PyTorch ship no gfx1013 kernels | build them ([step 4](#4-native-gfx1013-rocblas-711)) | not upstream at the time of writing; [rocm-libraries PR #8838](https://github.com/ROCm/rocm-libraries/pull/8838) proposes the rocBLAS half, so check its current state before trusting this line |

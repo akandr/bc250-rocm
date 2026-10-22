@@ -1,0 +1,7 @@
+=== compute_probe gfx1013:xnack- nblocks=32768 (8388608 threads) inner=6000 iters=3 ===
+HSA_ENABLE_SDMA=0
+iter 0: sync=92.5 ms  wrong=0/8388608  ok
+iter 1: sync=54.1 ms  wrong=2613248/8388608  MISMATCH
+   first mismatch at index 0: got 0, want -2109779631
+double free or corruption (out)
+timeout: monitowane polecenie zrobiło zrzut pamięci

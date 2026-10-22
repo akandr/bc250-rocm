@@ -1,0 +1,31 @@
+date: 2026-10-22T22:58:16+02:00
+kernel: 7.1.5-100.fc43.x86_64
+cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.5-100.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 ttm.pages_limit=4194304 mitigations=off amdgpu.gpu_recovery=0 rhgb quiet amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=0 amdgpu.bc250_cc_write_mode=3
+amdgpu.bc250_flush_pasid_kiq=0
+amdgpu.bc250_flush_by_runlist=0
+amdgpu.bc250_cc_write_mode=3
+amdgpu.sched_policy=0
+amdgpu.gpu_recovery=0
+kfd simd_count 80 (2 SIMDs per CU)
+rocblas: 	librocblas.so.5 => /opt/bc250-rocm/lib64/librocblas.so.5 (0x00007eff93600000)
+HSA_ENABLE_SDMA=0
+[22:58:16] === bare probe, every element
+[22:58:17]   nblocks=4096 rc=0 RESULT: total_wrong=0 -> ALL CORRECT
+[22:58:17]   nblocks=16384 rc=0 RESULT: total_wrong=0 -> ALL CORRECT
+[22:58:18]   nblocks=32768 rc=134 NO RESULT (hang)
+[22:58:18] === rocBLAS GEMM, every element, output NaN-filled before each call
+[22:58:19]   s nn 256 10 rc=0 DONE type=s op=nn N=256 iters=10 elements_checked=655360 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1500Mhz
+[22:58:19]   s nn 512 10 rc=0 DONE type=s op=nn N=512 iters=10 elements_checked=2621440 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1000Mhz
+[22:58:19]   s nn 1024 10 rc=0 DONE type=s op=nn N=1024 iters=10 elements_checked=10485760 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1000Mhz
+[22:58:20]   s nn 2048 10 rc=0 DONE type=s op=nn N=2048 iters=10 elements_checked=41943040 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1000Mhz
+[22:58:28]   s nn 4096 10 rc=0 DONE type=s op=nn N=4096 iters=10 elements_checked=167772160 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1500Mhz
+[22:58:36]   s tn 4096 10 rc=0 DONE type=s op=tn N=4096 iters=10 elements_checked=167772160 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1500Mhz
+[22:58:45]   hs tn 4096 10 rc=0 DONE type=hs op=tn N=4096 iters=10 elements_checked=167772160 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1500Mhz
+[22:58:46]   d nn 2048 10 rc=0 DONE type=d op=nn N=2048 iters=10 elements_checked=41943040 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1500Mhz
+[22:58:46] === sustained, every element of every iteration
+[22:59:06]   s nn 4096 200 rc=0 DONE type=s op=nn N=4096 iters=200 elements_checked=3355443200 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1500Mhz
+[22:59:35]   hs tn 4096 200 rc=0 DONE type=hs op=tn N=4096 iters=200 elements_checked=3355443200 bad_iters=0 wrong=0 unwritten=0 ALL_ELEMENTS_CORRECT sclk=1500Mhz
+[22:59:35] === bare probe after the battery
+[22:59:35]   rc=3 RESULT: total_wrong=1287868 -> COMPUTE PRODUCES WRONG RESULTS
+[22:59:35] kernel log lines during the battery: 0, amdgpu fault/failure lines among them: 0
+[22:59:35] probes correct: 2/4, gemm runs all elements correct: 10/10

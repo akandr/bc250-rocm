@@ -1,0 +1,5 @@
+dmesg delta lines: 0
+fault/failure lines: 0
+runs all correct: 66
+runs failed (the 4 negative controls must be among them): 4
+runs started: 70

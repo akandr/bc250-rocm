@@ -9,7 +9,7 @@ reported as impossible. Each directory is one rung and holds `rung.log` (the
 run), `sgemm.log`, `ppl.log`, `tbo.log` (the churn test) and a full `dmesg`.
 
 All five came up at 40 CU with `flush_pasid_uses_kiq=0`, and the sustained
-N=4096 GEMM completed with no wrong results and no preemption timeouts on each,
+N=4096 GEMM completed with no wrong results on each,
 which is what retired the coupling claim.
 
 Note the boot arguments in each `rung.log`: these rungs ran with

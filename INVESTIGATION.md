@@ -237,8 +237,8 @@ The notes below test that claim.
 What the single label "broken compute queue" turned out to cover, on this board, is a set of
 distinct problems with distinct causes, most of them in software:
 
-- a TLB-invalidation defect that produced silent wrong results, fixed by correcting the PASID
-  flush
+- a TLB-invalidation defect that produced silent wrong results, worked around by bypassing the KIQ
+  flush packet and rebuilding the runlist on map and unmap; the bypass alone is not enough
 - a wedge under sustained compute that belongs to the software-scheduling eviction path, avoided
   by not setting `amdgpu.sched_policy=2`, which was itself adopted here as a workaround for the
   first problem
@@ -313,7 +313,7 @@ x50, dmesg counters, a health check), and everything else identical:
 
 | cell | flush | scheduling | result (2 boots each) |
 |---|---|---|---|
-| A | false | hardware (default) | clean both boots (and a third pilot): probes 3/3 correct, both GEMMs complete correct, zero preemption timeouts, board responsive |
+| A | false | hardware (default) | clean both boots (and a third pilot): probes 3/3 correct, both GEMMs complete correct, no kernel-log errors, board responsive |
 | B | false | 2 (software) | probes hang 3/3, both GEMMs wedge, 19 `cp queue preemption time out` per boot, queue degraded |
 | C | true | hardware (default) | board lost mid-battery, both boots (the KIQ-flush freeze; recovered by power cycle) |
 | D | true | 2 (software) | the historical configuration: probes mostly pass, sustained N=4096 wedges or faults on both boots |
@@ -344,12 +344,19 @@ scheduler policy, all four cells on kernel 7.1.5 with the same module, one boot 
 
 | CUs | scheduling | compute probe | SGEMM N=256 | `preemption time out` in dmesg |
 |---|---|---|---|---|
-| 40 | hardware (default) | correct, 3 of 3 sizes | clean | 0 |
-| 24 | hardware (default) | correct, 3 of 3 sizes | clean | 0 |
+| 40 | hardware (default) | correct, 3 of 3 sizes | clean | not printed under this scheduler |
+| 24 | hardware (default) | correct, 3 of 3 sizes | clean | not printed under this scheduler |
 | 40 | `sched_policy=2` | hangs, both sizes tried | wedges | 10 |
 | 24 | `sched_policy=2` | hangs at the larger size, smaller completes then hangs at exit | wedges | 9 |
 
 Both hardware-scheduling rows are clean and both software-scheduling rows wedge, at either CU
+count. These four cells were not one stack throughout, and the hardware rows' SGEMM checked two
+elements; the whole table was rerun on Fedora 44 with the KIQ bypass and the runlist rebuild in
+every cell, every element checked and the kernel log searched for both schedulers' messages
+([`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/) for the hardware rows,
+[`logs/sched2-fullcheck-2026-10-23/`](logs/sched2-fullcheck-2026-10-23/) for policy 2), with the same
+outcome: correct with no kernel-log line at 40 and 24 CU under hardware scheduling, and under
+`sched_policy=2` every probe hung, both GEMMs wedged and 18 preemption timeouts were logged at either
 count. At 24 CU with hardware scheduling the board even passes the full battery, perplexity
 included, at 8.9442. The historical "24 CU wedges" observations were `sched_policy=2`
 measurements that happened to be taken at 24 CU, and the CU count carried the blame. The same
@@ -422,9 +429,14 @@ with the patches from the caveats ([`logs/bench-fixed-2026-08/`](logs/bench-fixe
 | SGEMM N=8192 x20 sustained | wedge / occasional corruption | correct, 4.6 TFLOP/s |
 | 10 rapid single-GEMM processes | queue degradation, stalls | clean, though the 10/10 is a count from the day and no log here records it |
 | streaming-read probe, 1 and 2 GB | abort at 1 GB, wedge at 2 GB | `fails=0/10` at 2 GB, the size the shipped capture records |
-| compute probe, 8.4M threads | failed on 4/4 boots (July, policy 2) | correct on every run since, see below |
-| compute probe sweep 1M to 16.7M | wrong results / faults / hangs | correct on every run since, see below |
+| compute probe, 8.4M threads | failed on 4/4 boots (July, policy 2) | correct on every run since with the runlist rebuild, see below; with the KIQ bypass alone it returns wrong elements from its second dispatch on, on every boot ([`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/), [`logs/probe-dispatch-2026-10-22/`](logs/probe-dispatch-2026-10-22/)) |
+| compute probe sweep 1M to 16.7M | wrong results / faults / hangs | correct on every run since with the runlist rebuild, see below |
+| rocBLAS GEMM, every element checked | not tested | correct: fp32, fp64, fp16 and fp16-in/fp32-compute, A normal and transposed, N=256 to 8192, and 200 iterations at N=4096, about 10.7 billion elements, output NaN-filled before every call ([`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/)) |
 | HIP process exit | freeze risk | clean exits throughout |
+
+The SGEMM rows above use `sgemm_iter`, which checks two elements of an output buffer reused across
+iterations, so after the first iteration they show that the queue stays live rather than that every
+result is right; the full-output row is the correctness evidence for rocBLAS.
 
 The two probe rows read "17/17 in a counterbalanced A/B" and "30/30 across the two benchmark
 boots" until 27 August, and neither denominator can be produced from what is shipped: the probe
@@ -2080,6 +2092,19 @@ Credit for the `flush_pasid_uses_kiq = false` idea belongs to **anrp** and **aho
 these tests seem to add is that it also removes the silent wrong results in an A/B comparison. That
 is an n=1 hardware result, so independent reproduction or refutation would be valuable.
 
+That A/B ran under `sched_policy=2`. Under hardware scheduling the change alone does not remove
+them. On the Fedora 44 stack with the bypass and no runlist rebuild, in eight boots (7.1.5 and 7.2.5,
+SDMA on or off), all 19 three-dispatch probe invocations at 8.4M threads failed after a correct first
+dispatch: 17 returned wrong elements with no error, the first one again holding its pre-kernel value
+0, eight of them then aborting with glibc's "double free or corruption", and 2 took a GPU page fault.
+All 45 one-dispatch invocations were correct; the August factorial's probes also made one dispatch
+each, though with a different build on the Fedora 43 stack, so these runs do not settle what it had ([`logs/probe-dispatch-2026-10-22/`](logs/probe-dispatch-2026-10-22/)).
+With the rebuild on map and unmap the probe was correct in all ten boots tested (7.1.5 at 40 and 24
+CU, 7.1.8, 7.2.5). With the rebuild on unmap
+only, 7.1.5 was correct on four boots, 7.2.5 took one GPU page fault, and 7.1.2 with the earlier
+rebuild returned wrong elements. All runs and the boot-by-boot table are in
+[`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/).
+
 One qualification was attached here originally and no longer holds. It read that the patched runs
 above came from a boot where the module happened to come up at 40 CU, that the same patch more often
 left the board at 24 CU where even a trivial dispatch wedges, and that the correct flush and a
@@ -2123,8 +2148,9 @@ was measured with the stock flush and `sched_policy=2`, both of which the workin
 changes. Mesa's decision to route around the compute queue remains sound for a driver that has to
 work on unpatched systems.
 
-**Where this lands now:** under the working configuration (corrected flush at 40 CU, hardware
-scheduling) the silent wrong results were not observed at all: every shipped probe
+**Where this lands now:** under the working configuration (corrected flush and runlist rebuild at
+40 CU, hardware scheduling) the silent wrong results were not observed at all; without the rebuild
+they return on every boot from the probe's second dispatch on ([`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/)): every shipped probe
 run on this configuration reports `ALL CORRECT`, 105 of the 107 results in these logs and
 thirty-three of the thirty-four at the old failing size of 8.4M threads, the two exceptions being a
 stock-flush run and a deliberate override trap and not this configuration, with two isolated
@@ -2401,15 +2427,14 @@ the current patch set and booting it, with the correctness fix genuinely enabled
 hold at once. And 24 CU is not a wedged state either: booted with the unlock disabled
 (`simd_count 48`) and the corrected flush active, the bare compute probe is correct at 4096, 16384
 and 32768 blocks, and the native rocBLAS SGEMM runs ten clean iterations at every size from 256 to
-4096, the N=256 case being the one this section says wedged. No preemption timeouts appear in
-dmesg. Measured on five kernels spanning the whole range from the earlier work to the
+4096, the N=256 case being the one this section says wedged. Measured on five kernels spanning the whole range from the earlier work to the
 current one (6.18.9, 6.18.16, 6.19.14, 7.0.13, 7.1.2), each module-only, `dracut`-installed, with
 the boot arguments verified before booting:
 
 | check | result with `flush_pasid_uses_kiq = false` |
 |---|---|
 | CU count | `simd_count 80`, that is 40 CU, on all five kernels |
-| sustained GEMM | N=4096 at about 30 ms per iteration, no wrong results, no preemption timeouts anywhere. Within this ladder it is 20 iterations on 6.18.9, 6.18.16 and 6.19.14 and 30 on 7.0.13 and 7.1.2. A 50-iteration sustained run does exist for 6.18.9, in [`logs/kernel-equivalence-2026-08-17/`](logs/kernel-equivalence-2026-08-17/) four days later, and the old wording merged the two campaigns |
+| sustained GEMM | N=4096 at about 30 ms per iteration, no wrong results, every run completed. Within this ladder it is 20 iterations on 6.18.9, 6.18.16 and 6.19.14 and 30 on 7.0.13 and 7.1.2. A 50-iteration sustained run does exist for 6.18.9, in [`logs/kernel-equivalence-2026-08-17/`](logs/kernel-equivalence-2026-08-17/) four days later, and the old wording merged the two campaigns |
 | bare compute probe at 8.4M threads | correct on 7.0.13 and 7.1.2 in this ladder, and on 6.18.9 and 6.18.16 in later boots ([`logs/kernel-equivalence-2026-08-17/`](logs/kernel-equivalence-2026-08-17/), [`logs/recipe-e2e-2026-08-17/`](logs/recipe-e2e-2026-08-17/)); not run on 6.19.14 (the size that returned 525,308 wrong results with the flush left on) |
 
 Three controls make that readable. The module parameter only exists in the patched module, so its
@@ -3042,7 +3067,7 @@ wrong, are in [`logs/torch-pristine-2026-08-20/`](logs/torch-pristine-2026-08-20
 
 | defect | fix or workaround | status |
 |---|---|---|
-| PASID TLB flush covers nothing under hardware scheduling: silent wrong results, KIQ freeze | `amdgpu.bc250_flush_pasid_kiq=0` | fixed here, not upstream |
+| PASID TLB flush covers nothing under hardware scheduling: silent wrong results, KIQ freeze | `amdgpu.bc250_flush_pasid_kiq=0` stops the freeze; `amdgpu.bc250_flush_by_runlist=3` does the invalidation, and without it the probe returns wrong elements ([`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/)) | fixed here, not upstream |
 | Software-scheduler eviction path wedges sustained compute | do not set `amdgpu.sched_policy=2` | understood; 2x2 factorial at both CU counts |
 | Allocation reuse on the KFD SVM paths faults after free and realloc | `amdgpu.bc250_flush_by_runlist=3` | fixed here; costs less than run-to-run noise. Lighter replacements tested and rejected: MMIO and SDMA invalidation of the assigned VMID (the request latches, the ACK never sets), rewriting its page-table base, and a rebuild filtered to one PASID ([`logs/tlb-alt-2026-09-15/`](logs/tlb-alt-2026-09-15/)) |
 | rocBLAS ships no gfx1013 code objects | native build (PR #8838 approach) | fixed by building. Whether the pull request has landed is a question for the pull request, not for this table |
@@ -3822,7 +3847,11 @@ carries no such paths.
 | [`patches/ocl_compute_probe.c`](patches/ocl_compute_probe.c) | OpenCL port of the probe (graphics-queue comparison via RustiCL) |
 | [`patches/ocl_vecadd.c`](patches/ocl_vecadd.c) | Minimal OpenCL vector add, a smoke test that the graphics-queue compute path works at all before running the larger probe against it |
 | [`patches/sgemm_sweep.cpp`](patches/sgemm_sweep.cpp) | Native gfx1013 rocBLAS SGEMM sweep with CPU check and timing |
-| [`patches/sgemm_iter.cpp`](patches/sgemm_iter.cpp) | Leak-free single-process SGEMM probe (one allocation, per-iteration check) used for the eviction trace |
+| [`patches/sgemm_iter.cpp`](patches/sgemm_iter.cpp) | Leak-free single-process SGEMM probe (one allocation, two elements of a reused buffer checked per iteration, so a liveness test after the first) used for the eviction trace |
+| [`patches/rocblas_fullcheck.cpp`](patches/rocblas_fullcheck.cpp) | rocBLAS GEMM with every output element checked at every iteration: output NaN-filled before each call, exact comparison against a CPU reference on integer inputs, negative controls that must fail |
+| [`scripts/sched2_boot.sh`](scripts/sched2_boot.sh), [`scripts/sched2.conf`](scripts/sched2.conf) | The `sched_policy=2` cells of the CU-by-scheduler table on the Fedora 44 stack, with short timeouts; results in [`logs/sched2-fullcheck-2026-10-23/`](logs/sched2-fullcheck-2026-10-23/) |
+| [`scripts/probe_dispatch_boot.sh`](scripts/probe_dispatch_boot.sh), [`scripts/probe_dispatch.conf`](scripts/probe_dispatch.conf) | The probe at 8.4M threads with one and with three dispatches per invocation, with and without the runlist rebuild; results in [`logs/probe-dispatch-2026-10-22/`](logs/probe-dispatch-2026-10-22/) |
+| [`scripts/rocblas_fullcheck.sh`](scripts/rocblas_fullcheck.sh), [`scripts/hws_fullcheck_boot.sh`](scripts/hws_fullcheck_boot.sh), [`scripts/hws_fullcheck_orchestrate.sh`](scripts/hws_fullcheck_orchestrate.sh), [`scripts/hws_fullcheck_ab.conf`](scripts/hws_fullcheck_ab.conf) | The full-output rocBLAS battery, the per-boot probe and GEMM battery with a kernel-log search for both schedulers' failure messages, and the boot switcher with its runlist-by-SDMA boot list; results in [`logs/hws-fullcheck-2026-10-22/`](logs/hws-fullcheck-2026-10-22/) |
 | [`patches/rocblas_probe.c`](patches/rocblas_probe.c) | Standalone rocBLAS SGEMM availability/correctness test |
 | [`scripts/build_patched_amdgpu.sh`](scripts/build_patched_amdgpu.sh) | Build the patched amdgpu module (module-only) |
 | [`scripts/build_rocblas_gfx1013.sh`](scripts/build_rocblas_gfx1013.sh) | Build a native gfx1013 rocBLAS on Fedora system ROCm |

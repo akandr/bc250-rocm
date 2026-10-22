@@ -5,6 +5,9 @@
 //   /usr/lib64/rocm/llvm/bin/clang++ -x hip --offload-arch=gfx1013 -O2 sgemm_iter.cpp \
 //       -o sgemm_iter -I<rocblas-install>/include -L<rocblas-install>/lib -lrocblas
 // Run: LD_LIBRARY_PATH=<rocblas-install>/lib ./sgemm_iter <N> <iterations>
+// Checks two output elements after each iteration. dC is reused and not cleared, so after the
+// first iteration a dropped store would leave the previous correct value and go undetected: the
+// later iterations test liveness, not correctness. The bare probe (compute_probe.c) checks every element.
 #include <rocblas/rocblas.h>
 #include <hip/hip_runtime.h>
 #include <vector>

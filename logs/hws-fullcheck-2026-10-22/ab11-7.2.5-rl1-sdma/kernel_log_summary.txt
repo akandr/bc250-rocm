@@ -1,0 +1,14 @@
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          WALKER_ERROR: 0x0
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          MAPPING_ERROR: 0x0
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          WALKER_ERROR: 0x0
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          MAPPING_ERROR: 0x0
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)

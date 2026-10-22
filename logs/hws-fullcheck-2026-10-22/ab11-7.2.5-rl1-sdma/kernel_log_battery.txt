@@ -1,0 +1,45 @@
+paź 22 23:06:16 bc250 kernel: gmc_v10_0_process_interrupt: 22 callbacks suppressed
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee006000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00841051
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          Faulty UTCL2 client ID: TCP (0x8)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          MORE_FAULTS: 0x1
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          WALKER_ERROR: 0x0
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          PERMISSION_FAULTS: 0x5
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          MAPPING_ERROR: 0x0
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          RW: 0x1
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee007000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: GCVM_L2_PROTECTION_FAULT_STATUS:0x00841051
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          Faulty UTCL2 client ID: TCP (0x8)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          MORE_FAULTS: 0x1
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          WALKER_ERROR: 0x0
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          PERMISSION_FAULTS: 0x5
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          MAPPING_ERROR: 0x0
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:          RW: 0x1
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee004000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee004000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee006000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee007000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee009000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee003000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee004000 from client 0x1b (UTCL2)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:26)
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:  Process compute_probe pid 1508 thread compute_probe pid 1508
+paź 22 23:06:16 bc250 kernel: amdgpu 0000:01:00.0:   in page starting at address 0x00007f1cee005000 from client 0x1b (UTCL2)

@@ -10,7 +10,7 @@ summary with one row per boot.
 
 | cell | `flush_pasid_uses_kiq` | `sched_policy` | outcome |
 |---|---|---|---|
-| A | false (corrected) | default, hardware | clean both boots: probes 3/3, both GEMMs complete, 0 preemption timeouts |
+| A | false (corrected) | default, hardware | clean both boots: probes 3/3, both GEMMs complete, no kernel-log errors |
 | B | false (corrected) | 2 (software) | probes hang 3/3, both GEMMs wedge, 19 preemption timeouts, queue degraded |
 | C | true (stock) | default, hardware | board lost mid-battery on both boots, the KIQ-flush freeze |
 | D | true (stock) | 2 (software) | the historical configuration: probes mostly pass, sustained N=4096 wedges or faults |

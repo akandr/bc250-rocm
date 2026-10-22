@@ -1,0 +1,27 @@
+paź 23 00:18:17 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:18:21 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:18:21 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:18:25 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:18:29 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:18:29 bc250 kernel: amdgpu: Resetting wave fronts (nocpsch) on dev 00000000032cb0b6
+paź 23 00:20:27 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:20:31 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:20:31 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:20:35 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:20:39 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:20:39 bc250 kernel: amdgpu: Resetting wave fronts (nocpsch) on dev 00000000032cb0b6
+paź 23 00:22:37 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:22:41 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:22:41 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:22:45 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:22:49 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:22:49 bc250 kernel: amdgpu: Resetting wave fronts (nocpsch) on dev 00000000032cb0b6
+paź 23 00:24:47 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:24:51 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:24:51 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues
+paź 23 00:24:55 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:24:59 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:24:59 bc250 kernel: amdgpu: Resetting wave fronts (nocpsch) on dev 00000000032cb0b6
+paź 23 00:26:57 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:27:01 bc250 kernel: amdgpu: cp queue preemption time out.
+paź 23 00:27:01 bc250 kernel: amdgpu 0000:01:00.0: Failed to evict process queues

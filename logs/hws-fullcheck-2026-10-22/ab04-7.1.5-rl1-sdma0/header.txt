@@ -1,0 +1,11 @@
+date: 2026-10-22T22:47:39+02:00
+kernel: 7.1.5-100.fc43.x86_64
+cmdline: BOOT_IMAGE=(hd0,gpt2)/vmlinuz-7.1.5-100.fc43.x86_64 root=UUID=2f69acf9-5d80-461c-9f68-2bf833696893 ro rootflags=subvol=root-f44 ttm.pages_limit=4194304 mitigations=off amdgpu.gpu_recovery=0 rhgb quiet amdgpu.bc250_flush_pasid_kiq=0 amdgpu.bc250_flush_by_runlist=1 amdgpu.bc250_cc_write_mode=3
+amdgpu.bc250_flush_pasid_kiq=0
+amdgpu.bc250_flush_by_runlist=1
+amdgpu.bc250_cc_write_mode=3
+amdgpu.sched_policy=0
+amdgpu.gpu_recovery=0
+kfd simd_count 80 (2 SIMDs per CU)
+rocblas: 	librocblas.so.5 => /opt/bc250-rocm/lib64/librocblas.so.5 (0x00007fc429a00000)
+HSA_ENABLE_SDMA=0
