@@ -1290,7 +1290,7 @@ can be traced back to the run that produced it. [`logs/README.md`](logs/README.m
 ## Archive
 
 A snapshot of this repository is archived on Zenodo:
-[doi:10.5281/zenodo.23568913](https://doi.org/10.5281/zenodo.23568913).
+[doi:10.5281/zenodo.23602989](https://doi.org/10.5281/zenodo.23602989).
 
 ## Author and license
 
