@@ -4017,10 +4017,8 @@ carries no such paths.
   verified here (it exposes the dedicated compute queues and runs llama.cpp correctly, a few
   percent faster).
 - [github.com/akandr/bc250](https://github.com/akandr/bc250): the related BC-250 Vulkan setup.
-- [Preprint on Zenodo](https://doi.org/10.5281/zenodo.21364833): the write-up of these notes as a
-  single paper (doi:10.5281/zenodo.21364833). The currently published version predates the working
-  configuration and still carries the entanglement and firmware-limit conclusions that the
-  sections above correct.
+- [Preprint on Zenodo](https://doi.org/10.5281/zenodo.23628520): the write-up of these notes as a
+  single paper.
 
 ## Author and license
 

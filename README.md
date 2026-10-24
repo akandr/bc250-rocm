@@ -1284,8 +1284,8 @@ can be traced back to the run that produced it. [`logs/README.md`](logs/README.m
 - [Mesa MR !33116](https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33116) by Ivan Avdeev
   (w23), a community contributor: disables the gfx1013 compute queue in RADV.
 - [akandr/bc250](https://github.com/akandr/bc250): the board itself and its Vulkan setup.
-- [Preprint on Zenodo](https://doi.org/10.5281/zenodo.21364833). It predates both working
-  configurations described here, and several of its conclusions have since been withdrawn.
+- [Preprint on Zenodo](https://doi.org/10.5281/zenodo.23628520): the write-up of this work as a
+  single paper.
 
 ## Archive
 
