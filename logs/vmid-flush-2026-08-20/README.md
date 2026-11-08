@@ -1,11 +1,11 @@
-Can a VMID-level flush replace the runlist rebuild? No, and the reason is
-interesting.
+Can a VMID-level flush replace the runlist rebuild? No, for a reason that bears
+on the mechanism.
 
 Background: the gfx10 PASID flush matches no VMID on this ASIC and silently does
 nothing (`../pasid-diagnosis-2026-08-19/`), so the allocation-reuse
 defect needed a runlist rebuild. GabriWar asked whether there is a lighter fix
 than rebuilding everything. Two candidates were implemented behind a runtime
-parameter and tested against a workload that actually discriminates, a model
+parameter and tested against a workload that discriminates, a model
 load, since the earlier `seq_probe` passes at `runlist=0` and cannot tell the
 cells apart.
 
@@ -16,25 +16,25 @@ cells apart.
 | 0 | 2, KFD VMIDs only | times out (rc 124) | 421 s |
 | 0 | 1, all VMIDs 1-15 | aborts (rc 134) | 213 s |
 
-The control behaves as it must: with no flush the load aborts, so the test can
+The control behaves as required: with no flush the load aborts, so the test can
 distinguish a working fix from a broken one. Neither VMID variant is one.
 Restricting the flush to the range the KFD owns, via
 `adev->vm_manager.first_kfd_vmid`, was the better-reasoned candidate and it fails
-too, more slowly, not more successfully. The all-VMID variant also
+too, only more slowly. The all-VMID variant also
 rebooted the board twice across these sessions.
 
 **What this says about the mechanism.** The runlist rebuild is not a heavyweight
-way of invalidating a TLB. GabriWar's patch says so plainly in its own comment,
+way of invalidating a TLB. GabriWar's patch says so in its own comment,
 that the scheduler preempts the queues, rebuilds the runlist and reassigns
 VMIDs, and that appears to be the operative part: what fixes the stale translation is the reassignment, not the
 invalidation. That is why no amount of direct invalidation substitutes for it,
 and it means a lighter fix would have to trigger reassignment instead of flush
-harder. That reframes the question instead of answering it.
+harder. This changes the question rather than answering it.
 
-One thing to know when reading `log`, noted 26 August. It ends on the header
+A note on `log`, added 26 August. It ends on the header
 "repeat the two that matter, order reversed" with nothing under it. That repeat
 produced no output: the run was cut short, most likely by one of the reboots the
-all-VMID variant caused, which this page mentions above. So the four rows are one
+all-VMID variant caused, which this page mentions above. The four rows are therefore one
 pass each and there is no reversed-order confirmation, which matters for the two
 that abort at 24 and 213 seconds, not for the control.
 

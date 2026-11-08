@@ -32,7 +32,7 @@ Here the sign reverses and the margin is larger: on ROCm at 8192, flash attentio
 ## The rule
 
 - Long prompt, short answer, and repeated prefill of a growing context: `-fa off` is much faster.
-- Generation-heavy work at depth: `-fa on`, and on ROCm it is not close.
+- Generation-heavy work at depth: `-fa on`, on ROCm by a wide margin.
 - Flash attention also keeps the KV cache smaller, so turning it off costs usable context. The ceilings in
   [`../fedora44-ceilings-2026-09-16/`](../fedora44-ceilings-2026-09-16/) were measured with it on.
 
@@ -40,7 +40,7 @@ Here the sign reverses and the margin is larger: on ROCm at 8192, flash attentio
 
 The ROCm gates with `-fa off` read 8.9597 on the 1.5B and 9.1448 on the 8B, against 8.9442 and 9.1117 with
 it on. The paths accumulate in a different order, so the values differ in the third decimal; both are
-correct answers, and the fp16 defect this repository chased produced errors orders of magnitude larger.
+correct answers, and the fp16 defect this repository investigated produced errors orders of magnitude larger.
 Anyone gating on an exact value has to gate per flag.
 
 ## Also measured here

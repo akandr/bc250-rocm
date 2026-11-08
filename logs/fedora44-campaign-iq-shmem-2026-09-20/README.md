@@ -38,9 +38,9 @@ the same script and models four hours earlier:
 | deepseek-r1-14B | 1.006 | 1.007 | 1.000 / 1.003 |
 | qwen3-14B | 1.003 | 1.007 | 1.001 / 1.002 |
 | qwen3.6-35B MoE | 1.000 | 0.998 | 0.998 / 1.001 |
-| qwen3.8-27B | 1.001 | **1.019** | 1.000 / 1.001 |
+| qwen3.8-27B | 1.001 | 1.019 | 1.000 / 1.001 |
 
-One row moves and it is the one the patch is for: the 27B's decode, 14.80 to 15.09 t/s. Everything else
+Only the row the patch targets moves: the 27B's decode, 14.80 to 15.09 t/s. Everything else
 is inside 0.7 percent, which is what the patch predicts, since its kernel only touches the three IQ
 types and the q4_K, q5_K, q6_K and q8_0 kernels come out of the compiler instruction for instruction
 identical to the eight-patch build. The MoE does not move because the staging is confined to ordinary matrix-vector
@@ -68,10 +68,10 @@ r1 hip 277.5 279.6 279.7      r2 hip 268.0 267.6 270.7      r3 hip 277.3 279.5 2
 r4 hip 245.0 279.5 279.5      r5 hip 237.6 276.2 279.4
 ```
 
-against Vulkan at 394.6 to 394.8 in every one of the same fifteen. So the row sits at about 279 with an
+against Vulkan at 394.6 to 394.8 in every one of the same fifteen. The row therefore sits at about 279 with an
 occasional excursion 3 to 15 percent below it, the board was at 59 C throughout, and the low mode is not
 the build. Pooling two campaigns puts the median back at 277.4. The cause of the excursion was not
-chased; the earlier campaigns show the same row at 4.2 and 4.6 percent spread, so it is not new.
+investigated; the earlier campaigns show the same row at 4.2 and 4.6 percent spread, so it is not new.
 
 The MoE's decode spread of 7.1 percent is smaller than the 12.7 percent the previous campaign recorded on
 that row. Every Vulkan figure reproduces the twelve earlier campaigns within 0.5 percent.

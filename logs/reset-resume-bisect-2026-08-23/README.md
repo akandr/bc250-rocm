@@ -8,7 +8,7 @@ and captured over netconsole.
 ## Why instrumentation was needed
 
 The host stalls after a GPU reset. Every earlier capture ended at the same place
-with nothing to say why, and the two obvious suspects were cleared: the reset
+with nothing to say why, and the two main suspects were cleared: the reset
 method, MODE1 and MODE2 alike, and the 40-CU unlock, which the board dies without.
 Dynamic debug reaches into the SMU resume and no further, because the path beyond
 has no `pr_debug` to enable. The only remaining route was to add prints.
@@ -25,25 +25,25 @@ has no `pr_debug` to enable. The only remaining route was to add prints.
     bc250-40cu-enable: mode=3 se=1 sh=1 ...
     clocksource: Watchdog remote CPU 10 read timed out
 
-The SMU block is entered, resumes, and **returns 0**. The GFX block is then
-entered and **never returns**: there is no matching "block 6 <gfx_v10_0>
+The SMU block is entered, resumes, and returns 0. The GFX block is then
+entered and never returns: there is no matching "block 6 <gfx_v10_0>
 returned" line, and no "phase2 complete". The host stalls with the call
 outstanding.
 
-So the stall is not merely "after SMU" as previously recorded. It is inside
+The stall is therefore not only "after SMU" as previously recorded. It is inside
 `gfx_v10_0`'s resume callback, which does not come back.
 
 ## What that rules in and out
 
 The 40-CU unlock prints from `gfx_v10_0_get_cu_info()` during that callback, and
 it is the last thing heard. But the unlock is already cleared as the cause:
-booting at `bc250_cc_write_mode=0`, with no unlock lines at all, the board dies
-the same way. So the hang is elsewhere in the GFX resume, after or independent of
+booting at `bc250_cc_write_mode=0`, with no unlock lines, the board dies
+the same way. The hang is therefore elsewhere in the GFX resume, after or independent of
 the shader-array configuration.
 
 That is consistent with everything else known about this board. The compute
 queue, the CP and its preemption behaviour are where this hardware has misbehaved
-since July, and a GFX resume that never returns sits squarely in that territory.
+since July, and a GFX resume that never returns falls in the same area.
 
 ## The probe
 

@@ -7,7 +7,7 @@ wrote them all to one place, so the first pass's six runs are in
 [`../fp16-mechanism-2026-08-23/three_gaps_log`](../fp16-mechanism-2026-08-23/three_gaps_log)
 under a directory named for a different question.
 
-## Why it was worth testing
+## Why it was tested
 
 Decode at depth varies between processes and not within one, so the variable is
 in per-process setup. CPU pinning, memory state and queue placement have each
@@ -20,15 +20,15 @@ per-process by definition, it changes every run, and it had never been varied.
     aslr off:  17.29  17.66  17.44     spread 0.37
     aslr on :  16.78  19.01  16.27     spread 2.74
 
-A sevenfold difference in spread, with the means barely moving. Exactly what a
-real cause of the variance would look like.
+The spread differs sevenfold and the means stay close, which is the pattern a
+real cause of the variance would produce.
 
 ## Confirmation, eight runs per arm, alternated
 
     aslr off: mean 17.35  sd 1.44  spread 4.44  cv 8.3 percent
     aslr on : mean 17.39  sd 0.87  spread 2.48  cv 5.0 percent
 
-The effect does not merely fail to replicate, it reverses. With eight runs per
+The effect does not replicate; it reverses. With eight runs per
 arm the ASLR-off arm is the wider one, by a variance ratio of 2.74 in the
 opposite direction to the prediction, and the means are 0.04 t/s apart.
 
@@ -40,18 +40,18 @@ converge.
 ## Result
 
 Address space randomisation joins CPU pinning, memory state and queue placement
-as eliminated. Four of the obvious things that differ per process do not explain
-the variance, and the clue that it lives in per-process setup still stands.
+as eliminated. Four of the things that differ per process do not explain
+the variance, and the indication that it lies in per-process setup still stands.
 
 ## The pattern this makes three of
 
-Three effects on this board have now looked convincing at small n and evaporated
+Three effects on this board have now looked convincing at small n and disappeared
 or reversed when resampled: a graph-capture comparison that returned differences
 of opposite sign under two careful designs, a memory-compaction effect that went
 from a variance ratio of 7.32 at six runs per arm to 1.16 at twelve, and this
 one, sevenfold at three runs per arm and reversed at eight.
 
-That is no longer a caution to repeat, it is a measured property of this
-measurement. On this board, a variance effect at three to six samples per arm
-should be treated as noise until resampled, whatever its apparent size, and the
-practice of writing the prediction down first is what keeps that honest.
+This is now a measured property of this measurement, not only a caution. On this
+board, a variance effect at three to six samples per arm should be treated as
+noise until resampled, whatever its apparent size, and writing the prediction
+down first is what keeps that check reliable.

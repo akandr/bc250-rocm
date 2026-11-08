@@ -33,30 +33,30 @@ The prediction is falsified. The board does not need wall-clock time.
 ## What that leaves, and it is sharper than what it replaces
 
 The prints that let the sequence run further in the earlier cycle were placed
-*between* the register read and the register write inside `kiq_setting`. A sleep
-*before* the whole function does nothing. So what helped was not elapsed time but
+between the register read and the register write inside `kiq_setting`. A sleep
+before the whole function does nothing. What helped was therefore not elapsed time but
 something occurring between the two MMIO accesses.
 
-A `dev_warn` on this setup is not a quiet operation: it goes through printk to
+On this setup a `dev_warn` goes through printk to
 netconsole, which writes to the network device and sends a UDP packet. That is
 bus activity and interrupt work interleaved between two GPU register accesses.
 
-So the working reading was: intervening activity between the accesses helps, plain
+The working reading was that intervening activity between the accesses helps and plain
 elapsed time does not. That was tested directly the same night, by putting the
-knob between the read and the write, and it fell apart
+knob between the read and the write, and it was refuted
 ([`../reset-kiq-gap-2026-08-24/`](../reset-kiq-gap-2026-08-24/)). The arm with a
-print between the accesses printed nothing at all, so the read had not returned
+print between the accesses printed nothing, so the read had not returned
 and the instrument sat downstream of the stall. Looking again at the prints that
 helped, they bracket the read instead of sitting between the accesses, so the one
 that could matter is the one before it, and the build described on this page
-carried two prints a few instructions ahead of that read without helping. Which
-leaves the question that should have come first: every configuration here has been
+carried two prints a few instructions ahead of that read without helping. That
+leaves the question that should have been asked first: every configuration here has been
 run once, and if the stopping point wanders between identical runs then none of
-these captures is measuring placement at all.
+these captures is measuring placement.
 
-## Why a falsified prediction here is worth the cycle
+## What a falsified prediction here shows
 
-The obvious fix for a device that needs settling is a delay, and it would have
+The usual fix for a device that needs settling is a delay, and it would have
 been easy to propose one on the strength of the timing sensitivity alone. It does not work. The
 negative also redirects the search from duration to interleaving, which the
 earlier evidence supports better in hindsight.

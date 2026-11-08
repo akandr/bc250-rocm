@@ -9,7 +9,7 @@ prediction was written first and is in `prediction.txt`; raw counts in `runs.txt
 This repository already records that bypassing the pool "changes nothing", judged
 on perplexity. Perplexity is a coarse instrument here: it moves for many reasons
 and compresses the thing of interest into one number. Counting the zeroed GEMMs
-is far sharper, and it turned out to matter.
+is more precise, and here the difference matters.
 
 ## Result
 
@@ -19,7 +19,7 @@ is far sharper, and it turned out to matter.
 | `GGML_CUDA_NO_POOL=1` | 3, 3, 3, 3, 3 | 37/73/109 every time | 14.1344 every time |
 | single batch, ub 2048 | 0, 0, 0, 0, 0 | none | 7.2768 every time |
 
-With the pool disabled the defect is perfectly deterministic: exactly three
+With the pool disabled the defect is deterministic: exactly three
 zeros, exactly at calls 37, 73 and 109, which are the first fp16 GEMM of the
 second, third and fourth batches, and an identical perplexity five times over.
 
@@ -41,8 +41,8 @@ only stops them wandering.
 
 Before this run the batch-boundary model had been recorded here as "exactly one zero per
 batch after the first", on the strength of several runs that all showed three at
-ubatch 512. That was luck: with the pool enabled the count varies, and one of the
-runs in this very session showed seven. The model is correct, but only with the
+ubatch 512. Those runs happened to agree: with the pool enabled the count varies,
+and one of the runs in this session showed seven. The model is correct, but only with the
 pool disabled; with it enabled the count is a distribution around it.
 
 The ubatch prediction test that appeared to confirm the model exactly, none, one,
@@ -52,7 +52,7 @@ than it looked.
 
 ## What survives untouched
 
-The single-batch workaround. Five runs at ubatch 2048 give no zeros at all and an
+The single-batch workaround. Five runs at ubatch 2048 give no zeros and an
 identical 7.2768, against an f32 reference of 7.2672. That claim is now on five
 samples, not three, which is more than anything else on this page rests on.
 

@@ -8,8 +8,8 @@ Ten runs of the 8B at a primed depth of 16128 in each arm, one boot:
 | graph capture disabled | 15.19 | 2.45 | 16.1 percent | 10.03 to 19.18 |
 | graph capture enabled | 17.80 | 1.16 | 6.5 percent | 15.87 to 19.37 |
 
-So the flag costs about 15 percent of throughput and multiplies the spread by
-two and a half. That matters beyond the flag itself: a decode-variance
+The flag costs about 15 percent of throughput and multiplies the spread by
+two and a half. This affects more than the flag: a decode-variance
 comparison across three models had used it on one model and not the others,
 which makes that comparison unusable. See the README.
 

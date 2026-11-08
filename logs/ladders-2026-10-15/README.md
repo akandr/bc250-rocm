@@ -44,19 +44,19 @@ Medians of three passes, tokens per second.
 | as shipped / Vulkan | 0.984 | 1.011 | 1.024 | 1.013 | 1.051 |
 | with the fix / Vulkan | 1.020 | 1.038 | 1.045 | 1.001 | 1.047 |
 
-**ROCm decodes the 8B ahead of Vulkan from 4096 tokens on**, where on the 1.5B it is level: as shipped by
+ROCm decodes the 8B ahead of Vulkan from 4096 tokens on, where on the 1.5B it is level: as shipped by
 1 to 5 percent, with the option and its fix by 4 to 5 percent, and 2 percent behind at an empty context
 as shipped. At 16384 and 24576 the ROCm arms throttled: three refills of a 16k or 24k context are three
 prefills back to back, and the clock samples sit at 1000 MHz for 30 to 40 percent of the run on both ROCm
 arms (31 to 40 of 114 at 16384, 59 to 79 of about 205 at 24576) against the loading seconds only on Vulkan
 (7 to 9 of 169 and 202). The spreads say the same, up to 2.3 on the ROCm arms there and under 0.1 on Vulkan.
-The option's row falling to parity at 16384 is this and not the option.
+The option's row falls to parity at 16384 for this reason, not because of the option.
 
 **Phase 2**, the same two depths with `-r 1` after three idle minutes per arm, three passes, every run
 at 1500 MHz once loaded (six to eleven samples at 1000 MHz, the load): ROCm 30.71, 30.75, 30.71 at 16384 and
 28.00, 27.99, 28.00 at 24576; with the fix 31.44, 31.44, 31.41 and 28.59, 28.35, 28.54; Vulkan 29.32, 29.29,
-29.43 and 26.14, 26.11, 26.19. Medians 30.71 / 31.44 / 29.32 and 28.00 / 28.54 / 26.14, so **1.05 and 1.07
-times Vulkan as shipped, 1.07 and 1.09 with the fix**: the lead grows with depth, and the dip to parity in the
+29.43 and 26.14, 26.11, 26.19. Medians 30.71 / 31.44 / 29.32 and 28.00 / 28.54 / 26.14, so 1.05 and 1.07
+times Vulkan as shipped, 1.07 and 1.09 with the fix: the lead grows with depth, and the dip to parity in the
 three-pass run was the clock.
 
 **B. Prefill, qwen2.5-1.5B:**
@@ -70,7 +70,7 @@ three-pass run was the clock.
 | 24576 | 501.5 | 452.1 | 521.4 | 1.109 | 0.962 |
 | 30720 | 426.7 | 386.5 | 443.8 | 1.104 | 0.962 |
 
-**On the 1.5B ROCm leads stock Vulkan by 6 to 12 percent behind a filled context**, against 1.4 to 2.3
+On the 1.5B ROCm leads stock Vulkan by 6 to 12 percent behind a filled context, against 1.4 to 2.3
 times on the 8B, and trails Vulkan with #28507 by 4 percent at every depth, where on the 8B it is level.
 No clock drop at any depth: a 30720-token fill takes the 1.5B under a minute. The 8B's lead is therefore
 mostly the model's attention share, and the flash-attention patch that produces it matters less the

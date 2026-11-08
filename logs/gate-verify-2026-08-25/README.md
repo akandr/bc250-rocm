@@ -17,13 +17,13 @@ restored by hand. That is the number this repository quotes more often than any
 other, and it had been checked against captured logs, not produced since
 22 August.
 
-The two arms agreeing is also a result, and a confirming one instead of a null.
+The agreement of the two arms is also a result, a confirmation rather than a null.
 The fp16 defect is documented as hitting the first fp16 GEMM of each batch on
 models that carry F16 value weights, and as never arising on models whose value
 weights are quantized. This 1.5B is Q4_K throughout, so it should be on the
-unaffected side, and it is: switching the compute type changes nothing at all.
-The defect's scope is narrower than "fp16 is broken here", and this is the check
-that shows it from the safe side, not the failing one.
+unaffected side, and it is: switching the compute type changes nothing.
+The defect's scope is narrower than "fp16 is broken here", and this check shows
+it from the unaffected side.
 
 Run in the same spirit as [`../reproduce-verify-2026-08-25/`](../reproduce-verify-2026-08-25/)
 and [`../rocm-only-verify-2026-08-25/`](../rocm-only-verify-2026-08-25/): claims

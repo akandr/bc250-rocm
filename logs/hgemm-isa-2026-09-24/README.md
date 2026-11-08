@@ -12,14 +12,14 @@ this page is therefore against the wrong denominator; the measured rates themsel
 An earlier revision of README.md explained rocBLAS HGEMM running at roughly SGEMM speed
 (4698 against 4593 GFLOP/s at N=8192, against a measured packed-fp16 ceiling of 14400) by
 saying that Tensile does not emit `v_pk_fma_f16` for this target. That was an inference from
-two timings. Nobody had looked at the ISA. This directory is the look, and it refutes the
-explanation.
+two timings. The ISA had not been examined. This directory examines it, and the result refutes
+the explanation.
 
 ## What was done
 
 `rocblas_bench` was run under `strace -f -e trace=openat` against the native gfx1013 rocBLAS
-in `build-restored-2026-08-20`, to record which Tensile code objects the library actually
-opens instead of which ones exist. Those objects were then disassembled with
+in `build-restored-2026-08-20`, to record which Tensile code objects the library
+opens, as opposed to which ones exist. Those objects were then disassembled with
 `llvm-objdump -d --mcpu=gfx1013` and the vector-instruction mix counted.
 
 ## Result
@@ -27,12 +27,12 @@ opens instead of which ones exist. Those objects were then disassembled with
 `selected_objects.txt`: the fp16 path opens exactly one code object,
 `TensileLibrary_Type_HH_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx1013.hsaco`.
 
-`instruction_mix.txt`: that object contains **720 `v_pk_fma_f16`** and no `v_fma_mix_f32`.
+`instruction_mix.txt`: that object contains 720 `v_pk_fma_f16` and no `v_fma_mix_f32`.
 The packed instruction is emitted, and it is in the object the library loads. An excerpt of
 the surrounding code is in `pk_fma_f16_excerpt.txt`.
 
 The four `HH_HPA` objects, the fp32-accumulate variants, use `v_fma_mix_f32` instead and
-carry no `v_pk_fma_f16` at all. Those are not the objects HGEMM opens, so they do not explain
+carry no `v_pk_fma_f16`. Those are not the objects HGEMM opens, so they do not explain
 the timing either.
 
 | code object | `v_pk_fma_f16` | `v_fma_mix_f32` | `v_fmac_f32` |
@@ -71,10 +71,10 @@ Tool versions in `tool_versions.txt`. The benchmark itself is
 `v_pk_fma_f16` and left open why HGEMM is then no faster than SGEMM. Hardware counters answer it
 ([`logs/hw-counters-2026-09-25/`](../hw-counters-2026-09-25/)). At N=8192 HGEMM retires 9,294,512,128
 VALU instructions against SGEMM's 18,288,607,232, almost exactly half and within 8 percent of the
-minimum its precision allows, so the packed instruction is not only shipped and loaded but actually
-issued. Its shared-memory traffic does not halve with it: LDS instructions fall only from 3,422,748,672
-to 1,946,484,736, so arithmetic per LDS access goes *down*, 5.34 to 4.78, and the wall-clock rate does
-not move. Packed math removes arithmetic from a kernel whose limit is not arithmetic. The small
-fallback tiles noted below are the mechanism, and the hand-written kernel is the control: it issues
+minimum its precision allows, so the packed instruction is issued as well as shipped and
+loaded. Its shared-memory traffic does not halve with it: LDS instructions fall only from 3,422,748,672
+to 1,946,484,736, so arithmetic per LDS access goes down, 5.34 to 4.78, and the wall-clock rate does
+not move. Packed math reduces the arithmetic of a kernel that is not limited by arithmetic. The
+small fallback tiles noted above are the mechanism, and the hand-written kernel is the control: it issues
 more instructions than HGEMM and keeps fewer waves resident, and is 1.9 times faster, on 17.34 VALU
 instructions per LDS instruction.

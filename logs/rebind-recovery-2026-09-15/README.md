@@ -22,6 +22,6 @@ and within two seconds `clocksource: Watchdog remote CPU n read timed out`. That
 the reset defect in [`../reset-kiq-repeat-2026-08-24/`](../reset-kiq-repeat-2026-08-24/): initialising
 a GC block that was never reset hangs the first register access.
 
-So a driver reload is not a recovery path on this chip. It is the same operation as the no-op reset,
+A driver reload is therefore not a recovery path on this chip. It is the same operation as the no-op reset,
 re-initialising live hardware, reached from a different direction, and it fails even on a healthy GPU.
 Unbinding alone is harmless.

@@ -1,15 +1,15 @@
 # The campaign with ggml-cuda's multi-stream optimisation turned on, 2026-09-24
 
 > **Correction, 2 October 2026.** The speeds here stand, but "safe to recommend unconditionally" below
-> does not: as shipped, the option computes wrong tokens, word salad on qwen3-8B and qwen3-14B, because
+> does not: as shipped, the option computes wrong tokens, incoherent text on qwen3-8B and qwen3-14B, because
 > the Q branch overwrites `attn_norm` while the K and V projections on the other streams still read it.
 > The perplexity gates checked here cannot see it.
 > [`logs/graphopt-correctness-2026-10-02/`](../graphopt-correctness-2026-10-02/) has the evidence and a
 > fix that keeps the speed.
 
 [`logs/graph-opt-2026-09-24/`](../graph-opt-2026-09-24/) found that `GGML_CUDA_GRAPH_OPT=1`, which is
-off by default, is worth about ten percent of decode on the 1.5B in an A/B. An A/B is not a campaign,
-so this is the campaign. **This is the campaign the front page shows.**
+off by default, is worth about ten percent of decode on the 1.5B in an A/B. This is the full campaign
+with the option as a third arm, and it is the campaign the front page shows.
 
 [`scripts/campaign_graphopt.sh`](../../scripts/campaign_graphopt.sh) is
 [`scripts/campaign_split_f44.sh`](../../scripts/campaign_split_f44.sh) with a third arm added and
@@ -19,7 +19,7 @@ rounds, `-mmp 0 -ngl 99 -fa on`, `HSA_ENABLE_SDMA=0`. Run twice, 13:12 to 13:52 
 The two runs are pooled, so each figure is the median of eighteen samples; `log` is the first and
 `second/log` the second.
 
-**The method is unchanged from the previous campaign, and it shows.** The as-shipped arm reproduces
+The method is unchanged from the previous campaign. The as-shipped arm reproduces
 [`logs/fedora44-campaign-experts-2026-09-21/`](../fedora44-campaign-experts-2026-09-21/) across the
 board: the 1.5B at 196.7 against 197.6, the MoE's prefill at 588.8 against 589.9, the 27B at 102.9
 against 102.4, and every Vulkan figure within 0.3 percent. That is the control for the third arm.
@@ -44,25 +44,25 @@ against 102.4, and every Vulkan figure within 0.3 percent. That is the control f
 | qwen3.6-35B-A3B MoE IQ2_M | 0.82 | 0.81 | 0.994 |
 | qwen3.8-27B UD-IQ3_XXS | 0.86 | 0.86 | 0.998 |
 
-**Decode against Vulkan moves from 0.81 to 0.99 up to 0.81 to 1.01**, and the two smallest models cross
+Decode against Vulkan moves from 0.81 to 0.99 up to 0.81 to 1.01, and the two smallest models reach
 it: the 1.5B draws level at 213.1 against 212.3, and the 8B goes ahead at 39.5 against 39.0. With
-prefill already ahead on those two, **the 8B is now faster than Vulkan on both halves**.
+prefill already ahead on the larger of the two, the 8B is now faster than Vulkan at both prefill and decode.
 
-**Prefill does not move at all**, 1798.5 against 1798.6 on the 1.5B and within 0.1 percent on every
-other model. That is the expected shape: prefill runs few long kernels that already fill sixteen
+Prefill does not move, 1798.5 against 1798.6 on the 1.5B and within 0.1 percent on every
+other model. That is expected: prefill runs few long kernels that already fill sixteen
 compute units, so there is nothing for a second stream to do.
 
 ## The two that do not move are the two with nothing to launch
 
-The MoE reads 0.994 and the 27B 0.998, and **both are noise, not small losses**. Their sample
+The MoE reads 0.994 and the 27B 0.998, and both are within noise, not small losses. Their sample
 ranges overlap between the arms, 68.23 to 71.60 against 68.41 to 71.17 on the MoE and 15.04 to 15.19
-against 15.01 to 15.15 on the 27B, where the 1.5B's ranges do not touch at all, 192.81 to 198.10 against
+against 15.01 to 15.15 on the 27B, where the 1.5B's ranges do not overlap, 192.81 to 198.10 against
 206.64 to 213.58.
 
-These are exactly the two models where `llama-bench -v` shows the optimiser launching **no streams**:
+These are the two models where `llama-bench -v` shows the optimiser launching no streams:
 the MoE identifies 70 fork regions and launches none, because one region whose branches write to
 overlapping memory disables every region in the graph
-([`logs/graph-opt-2026-09-24/`](../graph-opt-2026-09-24/)). So the option gains where it runs and costs
+([`logs/graph-opt-2026-09-24/`](../graph-opt-2026-09-24/)). The option therefore gains where it runs and costs
 nothing where it does not, which is the result that makes it safe to recommend unconditionally.
 
 ## What this does not change

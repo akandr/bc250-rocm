@@ -1,7 +1,7 @@
 # Two upstream Vulkan patches tested on this board, 2026-09-17
 
-Both are open, unmerged llama.cpp pull requests whose authors report measurements taken on a BC-250, which
-makes them worth checking here instead of reading:
+Both are open, unmerged llama.cpp pull requests whose authors report measurements taken on a BC-250, so
+they were checked here rather than taken from the descriptions:
 
 - [#28507](https://github.com/ggml-org/llama.cpp/pull/28507), "vulkan: enable FA shmem staging on AMD RDNA
   (scalar path)". Flash attention stages K and V through shared memory; the gate was NVIDIA-only when it was
@@ -35,7 +35,7 @@ into a larger one rather than changing which backend to use for long contexts.
 
 ## Reading
 
-The flash-attention change is a large win at depth on this board, and it grows with depth exactly as its
+The flash-attention change is a large gain at depth on this board, and it grows with depth as its
 author reported on their own BC-250: they measured +12 percent at depth 0, +34 at 4096 and +50 at 8192 on a
 different model, against +2.8, +35 and +64 here. Prefill at depth is where the ROCm and Vulkan backends are
 furthest apart, so this widens that gap instead of closing it.
@@ -44,4 +44,4 @@ The mixture-of-experts gate shows nothing here, which is not evidence against it
 with 9 to 64 routed tokens, and `llama-bench` decodes one sequence at a time. Testing it properly needs a
 batched harness, which was not run.
 
-Neither patch is merged upstream. #28507 had no review at all at the time of this test.
+Neither patch is merged upstream. #28507 had no review at the time of this test.

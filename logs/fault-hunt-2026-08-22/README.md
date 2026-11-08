@@ -32,7 +32,7 @@ write, followed by `GPU reset begin!. Source: 4`.
 
 ## What the absence means
 
-Less than it might. The earlier figure of five fatal resets across twenty
+Less than it might seem. The earlier figure of five fatal resets across twenty
 retained boots came from days of varied work: long soaks, model loads at several
 sizes, PyTorch, allocation churn, deliberate A/B batteries. The hunt ran one
 workload repeatedly, decode at a primed depth of 16128 on the 8B. Two hundred
@@ -41,13 +41,13 @@ not uniform across workloads, and that whatever accumulates before a fault is
 not something this particular loop accumulates.
 
 It is consistent with the finding from the deliberate probes, that a page fault
-needs more than a busy GPU to escalate. Both point at the ingredient being
-something about long, varied sessions instead of sustained load alone.
+needs more than a busy GPU to escalate. Both point to
+something about long, varied sessions rather than sustained load alone.
 
 ## Status of the mitigation
 
-Untested when this was written, and both halves of that were settled within two
-days, added 26 August. The escalation was reproduced deliberately the same
+Untested when this was written; both halves were settled within two days
+(added 26 August). The escalation was reproduced deliberately the same
 evening, by calling the guarded path through a module parameter instead of waiting for a fault to
 reach it, which killed the board at the driver default and
 returned harmlessly with `gpu_recovery=0`

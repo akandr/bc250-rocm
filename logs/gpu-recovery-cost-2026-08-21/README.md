@@ -18,21 +18,20 @@ parameter existed, that is within about 2.7 percent on prefill and 2.5 percent o
 decode, inside the run-to-run spread this measurement has shown throughout. The
 parameter does not cost throughput.
 
-A note on that baseline, since four write-ups here lean on it. The decode half is
+Four write-ups here use that baseline. The decode half is
 captured: `../bench-fixed-2026-08/recipe_q15.log` reads tg64 113.50 plus or minus
 0.72. The prefill half is not. No file in this repository records a pp512 of
 805.53; the same invocation that gives 113.50 reads 805.61, and 805.53 appears
-only in prose and in one log line quoting it as a reference. The obvious guess is
-that 805.61 was mistranscribed, but that is a guess, and this loop has already
-once stated a guessed provenance as fact, so it stays a guess. Nothing here turns
-on it either way: against 805.61 the prefill gap is 2.71 percent instead of 2.70.
+only in prose and in one log line quoting it as a reference. 805.61 may have been
+mistranscribed, but that is not established, and it is not stated here as fact.
+Nothing here depends on it: against 805.61 the prefill gap is 2.71 percent instead of 2.70.
 
-## Why this directory exists at all
+## Why this directory exists
 
 An earlier version of the reset write-up quoted 798.83 and 799.03 prefill with
 112.88 and 112.83 decode for the same check. Those numbers were taken by hand
 over ssh and never saved, so they appeared in prose with no artifact behind them,
-which is the exact defect the figure audit was built to catch. The audit missed
+which is the defect the figure audit was built to catch. The audit missed
 them because it only reads the two top-level documents, not the READMEs inside
 log directories, and it now reads both. The figures above replace them and the
 raw output is beside this file.

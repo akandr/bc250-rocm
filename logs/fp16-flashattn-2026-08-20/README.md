@@ -14,7 +14,7 @@ completes the 2x2. Two rounds of all four cells, 8B at context 2048 over two chu
 | off | f32 | 9.1404 | 9.1404 |
 | off | f16 | 15.1725 | 11.5830 |
 
-The defect is present with flash attention off just as with it on, so it does not
+The defect is present with flash attention off as with it on, so it does not
 belong to that path. The f32 controls are bit-identical within each setting, and
 the small difference between the two f32 values (9.0975 against 9.1404) is the
 two attention implementations differing slightly, not the defect.

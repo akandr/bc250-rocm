@@ -3,8 +3,8 @@
 Every throughput figure in this repository was taken with `HSA_ENABLE_SDMA=0`, which was forced by a
 defect, not chosen. The defect is fixed, and the headline checks have been repeated with SDMA on
 without moving: throughput measured ABBA, the correctness gates, Vulkan, the allocation-churn sweep and
-decode at depth. The endurance runs had not been, and an hours-long run is where a copy engine that was
-quietly wrong would show up.
+decode at depth. The endurance runs had not been, and an hours-long run is where an unnoticed error in the
+copy engine would show.
 
 [`scripts/soak_thirteen_sdma.sh`](../../scripts/soak_thirteen_sdma.sh), three hours, 02:36 to 05:46,
 same boot and build as the eight-hour run that preceded it
@@ -27,12 +27,12 @@ Throughput, medians over the rounds of each model:
 | qwen3.6-35B-A3B MoE IQ2_M | 594.76 | 0.7 % | 71.72 | 1.0 % |
 | qwen3.8-27B UD-IQ3_XXS | 103.38 | 2.1 % | 15.18 | 0.5 % |
 
-**The gates are unchanged, so SDMA is not quietly wrong**, which is what this run was for: four
+The gates are unchanged, so SDMA does not corrupt results unnoticed, which is what this run tested: four
 perplexity values over 58 evaluations, each the same figure the SDMA-off soak returned.
 
-Throughput is a different matter and this run is where it surfaced. Three of the four models read the
+Throughput differs, and this run is where that showed. Three of the four models read the
 same as the eight-hour SDMA-off soak to three figures. The 1.5B reads 183.61 against 196.99. That is
-two blocked runs instead of an interleaved comparison, so it was measured properly afterwards and it
+two blocked runs instead of an interleaved comparison, so it was measured interleaved afterwards, and it
 holds: [`logs/sdma-decode-cost-2026-09-22/`](../sdma-decode-cost-2026-09-22/).
 
 ## Files

@@ -18,8 +18,8 @@ Neither reset method amdgpu offers for this chip reaches the hardware.
   `ppt_funcs->mode2_reset` only if it exists. `cyan_skillfish_ppt_funcs` has none, so `ret` stays 0.
 
 Both then log `GPU reset succeeded, trying to resume`, and the driver re-initialises a GPU that
-was never reset. The earlier captures already carried the evidence without it being read that
-way. MODE1 goes from `GPU psp mode1 reset` to `GPU reset succeeded` in 95 microseconds
+was never reset. The earlier captures already contained this evidence, though it was not read
+that way. MODE1 goes from `GPU psp mode1 reset` to `GPU reset succeeded` in 95 microseconds
 ([`../reset-path-2026-08-24/path-kfd_rep1.log`](../reset-path-2026-08-24/path-kfd_rep1.log)), MODE2
 in 160 ([`../reset-netconsole-2026-08-23/mode2.log`](../reset-netconsole-2026-08-23/mode2.log)).
 And the 40-CU unlock prints a register it rewrites, `SPI`, which reads `0x00000007` at boot and is
@@ -42,7 +42,7 @@ The PMFW header for this chip, `smu_v11_8_ppsmc.h`, defines `PPSMC_MSG_InitiateG
 [`scripts/apply_smu_gc_reset.py`](../../scripts/apply_smu_gc_reset.py) maps it and adds a
 `mode2_reset` that sends it behind a runtime parameter.
 
-- `smu2e-sync_rep1.log` is **not** an arm of this experiment. The patched module had been installed
+- `smu2e-sync_rep1.log` is not an arm of this experiment. The patched module had been installed
   but the board had not been rebooted into it, so the parameter write failed silently and the
   trial ran the production module. It is kept as a same-day control: the no-op MODE2, `SPI`
   reading `0x1f`, and the usual watchdog stall.
@@ -57,7 +57,7 @@ The function advertises `flr bus` in `reset_method`, and `nv_asic_reset_method()
 `AMD_RESET_METHOD_PCI`, which calls `pci_reset_function()`.
 
 - `pci-flr_rep1.log`: the FLR is issued and the function never comes back. `not ready ... after
-  FLR` doubles up to 65535 ms, then `ASIC reset failed with error, -25`. **The host survived**,
+  FLR` doubles up to 65535 ms, then `ASIC reset failed with error, -25`. The host survived,
   which no earlier reset attempt on this board did.
 - `pci-flr_rep2.log`: same boot, second trigger, `device lost from bus!`, `ret = -19`, host still
   up. This is the aftermath of rep1, not a second FLR.
@@ -71,8 +71,8 @@ pulsing bit 6 of `BRIDGE_CONTROL` on the bridge 00:08.1, left both 01:00.0 and 0
 
 The reset defect is not a stall in bringing up a freshly reset GPU. On this chip the driver has
 no reset to perform, reports success anyway, and then reinitialises live hardware, which is where
-the first GC register access stops returning. That also explains the intermittency and the
-failure of every settle delay: nothing was settling.
+the first GC register access stops returning. That also explains the intermittency and why
+every settle delay failed: there was nothing to settle.
 
 Of the two primitives tried, one does not exist in the firmware and the other removes the
 function from the bus until power-off while keeping the host alive. `amdgpu.gpu_recovery=0`

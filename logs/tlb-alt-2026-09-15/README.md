@@ -6,7 +6,7 @@ kernel 7.1.8, front-page configuration, `gpu_recovery=0`. Every arm is a runtime
 `amdgpu.bc250_tlb_alt`, replacing the runlist rebuild at the sites `bc250_flush_by_runlist`
 selects.
 
-## Why this was worth another look
+## Why this was re-examined
 
 [`../vmid-flush-2026-08-20/`](../vmid-flush-2026-08-20/) concluded that direct invalidation cannot
 substitute for the rebuild. Its candidates called `gmc_v10_0_flush_gpu_tlb()`, which sends the
@@ -61,8 +61,8 @@ acknowledged, on 100 of 100 calls.
 | g4 | MMIO, matched VMID (3:2) | never acknowledged, 100 of 100; process wedged to the cap and was killed (rc 137), 34 kernel queue events |
 
 So the discriminator works on this stack, and neither direct route replaces the rebuild. MMIO is
-never acknowledged and wedges the queue path. The SDMA jobs complete and the fault arrives on
-schedule anyway. Whether the SDMA poll saw an acknowledgement or gave up is not shown by job
+never acknowledged and wedges the queue path. The SDMA jobs complete and the fault still arrives
+at the same point. Whether the SDMA poll saw an acknowledgement or gave up is not shown by job
 completion; the readback added in v2 measures that, below, and finds the bit clear.
 
 ## Round 3: rebuild for one PASID only
@@ -95,7 +95,7 @@ VMID, through the route AMD recommends, completes and does not help.
 1. The full churn completed on its own in 9 m 49 s with no fault and no new kernel events, 1386
    filtered rebuilds for PASID 23 (`mode5/log`, `mode5/churn600.log`).
 2. The perplexity gate that followed, a new process (PASID 26) loading with `--no-mmap`, hit
-   `Queue preemption failed for queue with doorbell_id: 80004020` on its very first filtered
+   `Queue preemption failed for queue with doorbell_id: 80004020` on its first filtered
    rebuild, and every rebuild after it returned -62, every four seconds, for the rest of the boot.
    The gate timed out, and the production arm that followed ran on a wedged GPU, so the battery
    was stopped. The kernel log is `mode5/kernel_wedge_boot.txt`, recovered from the persistent
@@ -112,7 +112,7 @@ Why is not known: firmware handling of the PASID filter on this MEC, or a queue 
 not yet in a state the filtered unmap expects, are both possible. The production rebuild with the
 dynamic filter stays the recommendation.
 
-A side effect worth having: this is a quick, reliable way to put a queue into the
+A useful side effect: this is a quick, reliable way to put a queue into the
 `check_preemption_failed` state that natural faults end in, which the per-queue reset experiment
 needs.
 
@@ -154,7 +154,7 @@ every call dumped (`tbo3/ptb_dump_mode6.txt`, `ptb_dump_mode7.txt`): 88 and 73 r
 page-table base, each read back correctly, the last 74 microseconds before the fault. So the rewrite
 happened on the right context and did not help.
 
-The readbacks (`tbo3/g4` to `g8` `.inv.txt`) say more than the outcomes. The request register latches
+The readbacks (`tbo3/g4` to `g8` `.inv.txt`) are more informative than the outcomes. The request register latches
 exactly what is written (`wrote=0x00fa0100 req_readback=0x00fa0100`), and the ACK bit for VMID 8
 stays clear for the whole 2 ms poll, on both engines, with or without safe mode and with the
 semaphore held. The request is accepted into the register and never processed. The

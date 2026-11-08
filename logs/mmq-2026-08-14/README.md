@@ -20,7 +20,7 @@ on; the rest was llama.cpp's ordinary output. The trim is in the history rather
 than the working tree, so a reader who wants the discarded lines can recover them
 from the commit that removed them.
 
-The pattern is that it is the *first* such multiply in a graph execution, one
+The affected multiply is the first such multiply in a graph execution, one
 of 36, and that it follows unrelated work. It is not reproducible in a
 standalone program issuing the same shape, and a later cross-check in PyTorch
 on the same rocBLAS could not reproduce it either, which points at the calling
@@ -31,12 +31,11 @@ pattern, not at the library or the silicon. The practical avoidance is
 
 `long_truth-stats.txt` and `long_mmq-stats.txt` are a clean run and a faulting
 run of the same graph, 5790 comparable tensor records each, so they can be
-compared position by position. Where 5790 comes from, added 26 August because
-recovering it took longer than stating it: each file holds 6330 `STATS` records,
+compared position by position. Where 5790 comes from (added 26 August): each file holds 6330 `STATS` records,
 of which 540 are `PERMUTE`, and a permute carries its source's data rather than producing any, so
 excluding them leaves 5790. Every record is positionally
 identical in name, operation and element count between the two files, which is
-what makes the position-by-position comparison legitimate in the first place. The faulting run contains four zeroed
+what makes the position-by-position comparison legitimate. The faulting run contains four zeroed
 `Vcur-0 MUL_MAT` records.
 
 Taking the flash attention that follows each zeroed tensor, against the same
@@ -48,7 +47,7 @@ position in the clean run:
 Two cautions for anyone recomputing this. Compare by graph position and not by the first occurrence
 of a tensor name in the file: the first
 `FLASH_ATTN_EXT` in each dump is not the one downstream of the zeroed tensor,
-and comparing those two gives a misleading 0 percent. And the top-level README
+and comparing those two gives a misleading 0 percent. Second, the top-level README
 previously quoted 225 and 44 percent for these; neither follows from these
 files, and both were corrected to the numbers above.
 
@@ -59,9 +58,9 @@ forward passes of 36 each. The zeroed ones sit at indices 36, 72, 108 and 144,
 which is the first record of passes two, three, four and five. Pass one is
 clean and no other projection in any pass is affected.
 
-So within a run the defect is not intermittent but deterministic after the
-first pass: the first value projection of every pass after the first comes back
-empty. Whether a given run shows it at all still varies, which is what the
+Within a run the defect is therefore deterministic after the
+first pass, not intermittent: the first value projection of every pass after the first comes back
+empty. Whether a given run shows it still varies, which is what the
 perplexity arms measure.
 
 Produced by a build carrying the per-tensor statistics hook described in the write-up (`GGML_DEBUG_STATS=1` against a patched `common/debug.cpp`), one line per tensor per run; diff two positionally.

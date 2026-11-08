@@ -23,9 +23,9 @@ pinned at 1500 MHz.
 | driver | queue families reported |
 |---|---|
 | stock 26.1.8 | one graphics family (1 queue), plus a sparse-binding family |
-| patched | the same, **plus a compute family with 4 queues** |
+| patched | the same, plus a compute family with 4 queues |
 
-So the queues are real and enumerable; upstream is hiding them instead of the hardware lacking them.
+The queues exist and enumerate: upstream hides them, and the hardware does not lack them.
 
 ## Effect on llama.cpp: about one percent
 
@@ -42,12 +42,12 @@ The qwen3-8B perplexity gate is 9.1388 on both drivers, bit-identical.
 
 ## Reading
 
-Small and only on the small model. That fits what each patch does: llama.cpp submits its work on one queue,
-so exposing three more changes nothing by itself, and the dot-product rewrite only pays where the quantized
+The effect is small and only on the small model. That fits what each patch does: llama.cpp submits its work on one queue,
+so exposing three more changes nothing by itself, and the dot-product rewrite only helps where the quantized
 vector path dominates, which on the 8B it does not at these shapes. The 1.5B gain of 1.0 and 1.7 percent is
 outside the run-to-run spread here, both drivers being repeatable to about 0.1 percent, but it is small
 enough that it should be repeated on another board before being called a result.
 
-Neither patch is a reason to leave the distribution driver on its own. The compute-queue one is worth
-knowing about for a different reason: it shows the queues enumerate on Mesa 26.1.8 with a 7.2.5 kernel,
+Neither patch on its own is a reason to replace the distribution driver. The compute-queue one matters
+for another reason: it shows the queues enumerate on Mesa 26.1.8 with a 7.2.5 kernel,
 which is the prerequisite for anything that wants to use them, and the correctness gate did not move.

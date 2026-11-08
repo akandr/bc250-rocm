@@ -39,8 +39,8 @@ measures prefill in its own invocation, puts its pp512 at 81.2 against 72.8, 11.
 
 Its experts are 81 percent of its bytes and they do not come through this path: `ggml_cuda_mul_mat_id`
 sends them to `ggml_cuda_mul_mat_q` with an `ids` tensor. That looked like the largest prefill item left,
-and it is not, for a reason worth writing down before anyone implements the indirection. The model has
-**256 experts and uses 8 per token**, so a 512-token batch spreads 4096 (token, expert) pairs over 256
+and it is not, for the following reason. The model has
+256 experts and uses 8 per token, so a 512-token batch spreads 4096 (token, expert) pairs over 256
 experts: sixteen tokens each, against a weight matrix of 512 rows. A 512 x 16 matmul is matvec-shaped,
 not GEMM-shaped; this kernel needs 256 columns to beat MMQ and would run a 128-column tile eleven
 twelfths empty. Even at 2048 tokens it is 64 columns per expert. MMQ's `ids` path, which packs the

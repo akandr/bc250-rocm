@@ -19,21 +19,21 @@ hand from the 7.1.5 tree.
 | dmesg faults | 0 | 0 |
 
 Both gates are bit-identical and throughput is within the run-to-run spread this
-board shows anyway. So 7.1.8 behaves exactly as 7.1.5 does, which extends the
+board shows anyway. So 7.1.8 behaves the same as 7.1.5, which extends the
 kernel-independence finding to a fifth release and corroborates the report
 independently.
 
-Two notes for anyone repeating this. The SGEMM sweep rows in the log read "see
+Two notes on repeating this. The SGEMM sweep rows in the log read "see
 log" because the harness could not parse that probe's output; the gates and
 throughput carry the comparison and the sweep adds nothing here. More
 importantly, the 7.1.8 boot entry inherited `amdgpu.sched_policy=2` from an older
 default, which had to be removed before measuring: that setting wedges sustained
-compute, and testing a new kernel under it would have reproduced this project's
-original mistake exactly.
+compute, and testing a new kernel under it would have repeated this project's
+original mistake.
 
 Porting note: 7.1.8's `kernel-devel` does not ship `amdgpu_trace.h`, so the
 module build fails on a trace include until the headers are copied in from the
-source tree. And the 40-CU hunk must go inside the *definition* of
+source tree. And the 40-CU hunk must go inside the definition of
 `gfx_v10_0_get_cu_info`, not the forward declaration that appears earlier in the
 file; a first attempt landed it in `gfx10_kiq_set_resources`, compiled cleanly,
 and booted at 24 CU.

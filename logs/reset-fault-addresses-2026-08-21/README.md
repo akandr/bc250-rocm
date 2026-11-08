@@ -1,4 +1,4 @@
-# Where the faults that kill the board land, 2026-08-21
+# Where the faults that take the board down occur, 2026-08-21
 
 Extracted from the persistent journal with `scripts/journal_retro_sweep.sh` and
 the detail lines collected in `fault_details.txt`.
@@ -33,8 +33,8 @@ Boots -13 and -2 are separate events on different days, with different PIDs and
 different PASIDs, and their fault addresses share their entire low 32 bits:
 `0xffff9000` and `0xffffa000` in both. The high bits, which are what address
 space randomisation moves, differ. Two independent faults landing on the same
-two pages of a 4 GiB-aligned region is not what a random wild pointer looks
-like.
+two pages of a 4 GiB-aligned region is not what a random wild pointer would
+produce.
 
 Boot -1 also sits at a 4 GiB boundary, 20 KB from the start of its region instead of 24 to 28 KB from the end.
 
@@ -44,7 +44,7 @@ different failure that also ended in a reset.
 
 ## What this does not establish
 
-Which allocation those pages belong to. The obvious check, mapping the offsets
+Which allocation those pages belong to. The direct check, mapping the offsets
 back onto `/proc/<pid>/maps`, does not work: the faults come from processes that
 no longer exist, address space layout is randomised between runs, and in a
 process with multi-gigabyte mappings almost any offset falls inside one, so

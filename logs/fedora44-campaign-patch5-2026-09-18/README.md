@@ -22,7 +22,7 @@ Medians of nine samples:
 
 Ratios of medians against the four-patch campaign
 ([`logs/fedora44-campaign-final-2026-09-18/`](../fedora44-campaign-final-2026-09-18/)), decode: 1.5B
-**1.294**, 8B 0.983, deepseek-14B **1.187**, qwen3-14B **1.182**, MoE **1.570**, 27B **1.448**; prefill
+1.294, 8B 0.983, deepseek-14B 1.187, qwen3-14B 1.182, MoE 1.570, 27B 1.448; prefill
 1.000 to 1.002 everywhere; Vulkan 0.998 to 1.001. Against the first form of patch 5
 ([`logs/fedora44-campaign-five-patches-2026-09-18/`](../fedora44-campaign-five-patches-2026-09-18/)) the
 only movement is the 8B, 37.3 to 38.4, which the type-aware entry was made for; the 8B's decode spread

@@ -19,21 +19,21 @@ the reset, PSP, SMU.
 
 It also shows the CPU number is incidental. The earlier captures named CPU 10,
 this one names CPU 4. That is whichever CPU the timekeeping watchdog happened to
-poll, not a fixed culprit.
+poll, not a fixed cause.
 
 ## The suspect this raises
 
 The 40-CU unlock is a patch carried by this repository. It writes
 `CC_GC_SHADER_ARRAY_CONFIG` and an SPI register on each shader array, and the
 resume path reapplies it. Being the last thing logged before the stall does not
-make it the cause, but it is testable and it is ours: booting with
+make it the cause, but it is testable, and the patch is carried here: booting with
 `amdgpu.bc250_cc_write_mode=0` disables it, and a reset that then survives would
 implicate it directly.
 
 That test was run, and cleared it: booted at `bc250_cc_write_mode=0`, with the
 unlock never applied, the board dies at the same point in the same way
-([`../reset-ccwrite-2026-08-23/`](../reset-ccwrite-2026-08-23/)). Being last in
-the log was all it was.
+([`../reset-ccwrite-2026-08-23/`](../reset-ccwrite-2026-08-23/)). It was only the
+last line in the log.
 
 ## One capture
 

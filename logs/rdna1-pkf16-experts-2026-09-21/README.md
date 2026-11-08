@@ -1,8 +1,8 @@
 # The mixture-of-experts prefill, off MMQ at last, 2026-09-21
 
 After the tile change ([`logs/rdna1-pkf16-tile-2026-09-20/`](../rdna1-pkf16-tile-2026-09-20/)) the MoE
-was the only model still nowhere near Vulkan on prefill, at 0.83, and a kernel trace said why: **60.8
-percent of its prefill was MMQ on the experts**, which the packed-fp16 GEMM never saw because MUL_MAT_ID
+was the only model still far behind Vulkan on prefill, at 0.83, and a kernel trace showed why: 60.8
+percent of its prefill was MMQ on the experts, which the packed-fp16 GEMM never saw because MUL_MAT_ID
 reaches `ggml_cuda_mul_mat_id` and the GEMM's hook is in `ggml_cuda_mul_mat`
 ([`trace-moe-pp512-eleven-patches.txt`](trace-moe-pp512-eleven-patches.txt)):
 
@@ -41,7 +41,7 @@ interleaved inside one build, qwen3.6-35B-A3B:
 | 512 | 379.3 | 555.7 | **588.5** | 549.7 | 1.55 |
 | 2048 | 370.8 | 544.0 | **574.9** | 536.3 | 1.55 |
 
-32 wins at every batch, which is what the two arguments above predict between them. pp512 goes from 379
+32 is fastest at every batch, as the two arguments above predict between them. pp512 goes from 379
 to 588 against Vulkan's 457, so this model now prefills 1.29 times faster than Vulkan, not 0.83
 times.
 
@@ -49,7 +49,7 @@ times.
 
 For the same reason it did when the kernel first shipped on the dense path. MMQ quantises the
 activations to eight bits; the experts here are IQ2_XXS and IQ3_XXS, far narrower than that, so fp16
-activations are the better trade and the loss from accumulating in fp16 does not catch up with it. Six
+activations lose less precision, and the loss from accumulating in fp16 does not offset that gain. Six
 chunks of `wiki.test.raw` at context 512 ([`gates-log`](gates-log)):
 
 | | expert GEMM | MMQ |
@@ -59,7 +59,7 @@ chunks of `wiki.test.raw` at context 512 ([`gates-log`](gates-log)):
 Greedy text over 64 tokens is identical, and `test-backend-ops` passes 865/865 MUL_MAT_ID cases at all
 three column widths.
 
-## The bug worth recording
+## A bug in the first version
 
 The first version failed 24 of the 865 cases, at one shape, for some routings and not others. The A-tile
 loader puts one thread on each row, so a block has exactly BM threads, which means BN / TN must equal
@@ -72,5 +72,5 @@ and for TN being even, so the next tile cannot be declared wrong silently.
 
 `bn-*.jsonl` are the three column widths against MMQ, `gates-log` the perplexity and text run,
 `text-moe-expert-gemm.txt` the generation, and `trace-moe-pp512-eleven-patches.txt` the kernel trace that
-sized the opportunity. [`scripts/pkf16_expert_bn_sweep.sh`](../../scripts/pkf16_expert_bn_sweep.sh) is
+measured the experts' share. [`scripts/pkf16_expert_bn_sweep.sh`](../../scripts/pkf16_expert_bn_sweep.sh) is
 the sweep.

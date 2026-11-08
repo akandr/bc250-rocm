@@ -25,7 +25,7 @@ before the dumps, using the perplexity configuration known to show the defect:
 
     1057.5494  91.3845  10.0103  10.0103  10.0103  115.8450
 
-Four distinct values, three of six correct. So the defect is live in that build
+Four distinct values, three of six correct. The defect is therefore live in that build
 and the instrument is what removes it.
 
 One earlier attempt at the longer prompt is kept in the log as a reminder: 9000
@@ -38,12 +38,12 @@ behaviour until the runs are known to have succeeded.
 
 `llama-eval-callback` installs a callback that synchronises and copies every
 tensor to the host after each operation. Under that, the graph is fully
-deterministic on a build that otherwise produces four different answers. So the
-corruption depends on something in how the work is executed, not on the
+deterministic on a build that otherwise produces four different answers. The
+corruption therefore depends on something in how the work is executed, not on the
 arithmetic it performs.
 
-The obvious reading of that, written here first, was that serialising
-execution removes the defect. It does not, and the direct test says so
+The first reading of that, given here earlier, was that serialising
+execution removes the defect. A direct test shows that it does not
 (`sync_probe_log`, harness `scripts/kqv_sync_probe.sh`). A four-line patch
 synchronises the stream after every node and copies nothing, behind an
 environment variable so both arms come from one binary:
@@ -55,11 +55,11 @@ environment variable so both arms come from one binary:
 
 Identical hit rate. The probe is confirmed to have run, by a counter it prints,
 and it costs no measurable time, median 13 seconds in both arms, which suggests
-the pipeline was not deep enough for serialisation to change much anyway.
+the pipeline was not deep enough for serialisation to change much.
 
 An earlier version of this run reached the same answer with no proof the probe
-executed, and its two arms also matched on time. That is not a result worth
-keeping, and it was repeated with the counter, not believed.
+executed, and its two arms also matched on time. That run is not used; it was
+repeated with the counter.
 
 This is a second piece of evidence against reading the defect as an fp16
 accumulation gap. A precision gap is a property of the arithmetic. It would
@@ -72,7 +72,7 @@ It does not locate the divergence, which was the original aim, and that aim now
 looks unreachable by this route: any instrument fine-grained enough to see the
 first differing tensor appears to be coarse enough to suppress what it is
 looking for. A lighter probe, checksumming a single tensor without synchronising
-the whole graph, would be the next thing to try.
+the whole graph, was not tried.
 
 It also does not by itself separate synchronisation from the rest of what the
 callback changes.
@@ -91,15 +91,15 @@ arm, alternated:
 
 The defect is fully present without graph capture. The arm with capture disabled
 happens to have fewer correct runs and more distinct wrong values, but three of
-six against one of six is nothing at this sample size and should not be read as
+six against one of six is not distinguishable at this sample size and should not be read as
 the flag making it worse.
 
 ## Fusion is not it either
 
 Reading `ggml-backend.cpp` shows exactly what setting an eval callback
-changes, and it is two things instead of one. The scheduler stops submitting
+changes, and it changes two things. The scheduler stops submitting
 each split as a single graph and instead submits one node at a time through
-`ggml_graph_view`, synchronising between each. So no node ever sees its
+`ggml_graph_view`, synchronising between each. No node therefore sees its
 successors, and cross-node fusion cannot happen.
 
 Synchronisation was already eliminated. Fusion is eliminated here, by a switch
@@ -129,7 +129,7 @@ the pass criterion was therefore wrong for that arm. It does shift it, but not
 nearly that far (`fusion_reference_log`, harness
 `scripts/kqv_fusion_reference.sh`). On the patched build, where the defect
 cannot occur, four runs with fusion on return 10.0204 and four with it refused
-return 10.0176, each value repeated identically. So fusion moves the correct
+return 10.0176, each value repeated identically. Fusion therefore moves the correct
 answer by about 0.003, while 9.9968 sits 0.014 away from where the unpatched arm
 should land. It is a mild corruption and not a correct result, which also
 shows the defect has a range of severities and not only a catastrophic mode.
@@ -142,25 +142,24 @@ every result back to the host and discarding it (`hostcopy_probe_log`, harness
 eight at 10.0103 against three of eight. The probe is confirmed to have run, by
 a counter present in all eight arm B logs and none of arm A.
 
-That confirmation needed rescuing on 25 August, because the shipped log appears
+That confirmation was re-checked on 25 August, because the shipped log appears
 to contradict it. `hostcopy_probe_log` reports "launches seen 0" for both arms,
 which reads as the probe never executing and would leave this elimination
 unsupported. It is a harness fault: the probe prints `BC250COPY copies=N` while
 the harness grepped for `BC250COPY launches=`, so the field was always its
-fallback zero. The per-run logs on the board still held the real answer four days
+fallback zero. The per-run logs on the board still held the counter lines four days
 later, and they are unambiguous: the counter line is in all eight arm B logs and
 in none of the eight arm A logs. Recovered into
 [`hostcopy_counter_evidence.txt`](hostcopy_counter_evidence.txt) so the claim can
 be checked without the board, and the extraction is fixed in the harness.
 
-Worth stating what nearly happened. This page argues that a null result means
-nothing until the instrument is shown capable of a positive one, and it withdrew
-its own headline finding on exactly that ground. The proof that this probe ran
-was itself unverifiable from what shipped, for four days, in the directory making
-that argument.
+This page argues that a null result means nothing until the instrument is shown
+capable of a positive one, and it withdrew its own headline finding on that
+ground; for four days the proof that this probe ran could not be verified from
+what shipped either.
 
-That is five candidates eliminated, and when every mechanism for an effect is
-ruled out the next thing to doubt is the effect. It does not hold up doubting.
+With five candidates eliminated, the next thing to examine was the effect itself,
+and it did not hold up.
 
 `llama-eval-callback` and `llama-perplexity` are different programs running
 different amounts of work, and the failure rate scales with the amount
@@ -174,11 +173,11 @@ even the chunks-1 arm. Six byte-identical dumps from a workload with a low
 per-run failure probability is a likely outcome, not evidence that the callback
 suppressed anything.
 
-So the finding this directory was built around, that instrumentation makes the
+The finding this directory was built around, that instrumentation makes the
 defect disappear, is withdrawn. The five mechanism experiments were eliminating
 an effect that was probably never there.
 
-## What was actually established
+## What was established
 
 The eliminations still stand as facts about the defect, since each ran on the
 perplexity workload where the defect is common, and each shows the defect
@@ -194,8 +193,7 @@ to measure it.
 
 A control was run for this. On the same unpatched build, immediately before the
 dumps, the perplexity configuration returned four distinct values in six runs.
-But that control established the defect was live in the *build*, not in the
-*workload the instrument was running*. Those are different things and only the
-second one licenses the conclusion. The general form is the one this work keeps
-meeting: before believing a negative result, establish that the instrument, in
-the configuration it was actually used in, could have produced a positive one.
+But that control established the defect was live in the build, not in the
+workload the instrument was running. Only the second supports the conclusion.
+The general lesson, which recurs in this work: before believing a negative result, establish that the instrument, in
+the configuration it was used in, could have produced a positive one.

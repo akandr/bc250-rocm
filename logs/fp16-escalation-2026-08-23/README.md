@@ -32,12 +32,11 @@ weight sums are internally consistent too: calls 258 and 330 are both `Vcur-5`
 and report 91141.5 and 91141.4 for the same weight, while their activations
 differ as different tokens should.
 
-So escalation is the same failure applied to every call in the batch, not a
+Escalation is therefore the same failure applied to every call in the batch, not a
 propagation of bad data. The defect is wholly on the output side, at every scale
 it has been observed.
 
-The scale of this particular run, which `calls.txt` records and this page had not
-quoted: 109 of 432 calls returned zero, and the perplexity came out at 189.2381.
+The scale of this run, recorded in `calls.txt`: 109 of 432 calls returned zero, and the perplexity came out at 189.2381.
 That is the three-chunk configuration, so it sits far above the one-chunk runs
 that return three zeros of 144 and a perplexity near 14, and it is the clearest
 single measurement of how far the defect escalates with workload size.

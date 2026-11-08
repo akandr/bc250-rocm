@@ -23,7 +23,7 @@ kernel writing far outside its allocation.
     RW: 0x1
 
 Client, permission code and direction all match the faults that have killed this
-board. So the fault itself is easy to cause.
+board. The fault itself is therefore easy to cause.
 
 ## The escalation does not
 
@@ -45,17 +45,16 @@ driver reclaimed it without needing to reset anything.
 ## What that means
 
 The mitigation is untested here. The parameter guards a path that none of these
-probes takes, so running them proves nothing about it either way, and it would
-have been easy to mistake "board survived with `gpu_recovery=0`" for a
-confirmation. The control at the driver default survived identically, which is
-what shows the parameter was never exercised.
+probes takes, so running them shows nothing about it either way, and "board survived with
+`gpu_recovery=0`" is not a confirmation. The control at the driver default
+survived identically, which shows the parameter was never exercised.
 
 It also narrows what the fatal chain needs. A page fault alone does not cause it,
 not even one raised by a process holding many kernels in flight. Something about
 the real events makes the subsequent queue preemption time out, and none of
 these four reproduces it. The natural events all arose during long inference runs
-that had been going for minutes to hours, so accumulated state, not the
-fault alone looks like the missing ingredient.
+that had been going for minutes to hours, so accumulated state, rather than the
+fault alone, looks like the missing factor.
 
 The fault hunt remains the only route to testing the mitigation, and it now runs
 under the parameter.
@@ -66,7 +65,7 @@ requirement for a fault, not by catching one: a module parameter that calls
 ([`../kfd-reset-probe-2026-08-22/`](../kfd-reset-probe-2026-08-22/)). What remained
 untested was the thing this page was trying to reach, a real fault under the
 parameter, and whether the machine is still usable after one it declines to
-reset. That was caught two days later: the host stays up, the GPU is unusable
+reset. A real fault was caught two days later: the host stays up, the GPU is unusable
 until reboot and still enumerates normally, and every subsequent GPU process dies
 ([`../fault-usability-2026-08-24/`](../fault-usability-2026-08-24/)), which is one
 fault observed once instead of a rate.

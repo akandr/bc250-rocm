@@ -32,5 +32,5 @@ one of those dips.
 This is with the board's stock cooling in its usual position. The package default policy, which allows 2000
 MHz at a fixed 1000 mV, overheats far harder and oscillates continuously
 ([`../fedora44-benchmarks-2026-09-15/clock-corrected/`](../fedora44-benchmarks-2026-09-15/clock-corrected/)).
-Better cooling is the obvious lever; it is out of scope here, so these temperatures are the operating
+Better cooling would change this; it is out of scope here, so these temperatures are the operating
 condition every other measurement in this repository was taken under.

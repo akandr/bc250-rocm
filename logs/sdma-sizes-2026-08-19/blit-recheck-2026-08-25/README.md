@@ -14,7 +14,7 @@ per size, best of. The relevant rows:
 | 1 GiB | 151.05 | 147.41 | 6.48 ms |
 | 2 GiB | 149.59 | 146.16 | 12.96 ms |
 
-So the blit path reaches about 110 GB/s at 16 MiB and about 150 from 512 MiB
+The blit path therefore reaches about 110 GB/s at 16 MiB and about 150 from 512 MiB
 upward. The old "124 to 152" is closer to the large-transfer band than to the
 size it was attached to. The four times ratio the parent's table reports is
 unaffected: 110 against SDMA's 30 GB/s at 16 MiB is the same factor the copy
@@ -22,7 +22,7 @@ counts show independently.
 
 The probe reports pinned transfers as a time, not a rate. At 2 GiB,
 12.96 ms is near 166 GB/s, so the sibling page's "152 GB/s from
-pinned memory" was doubly wrong: 152 is the pageable column, and pinned is
+pinned memory" was wrong in two ways: 152 is the pageable column, and pinned is
 faster than that.
 
 `state.txt` records the kernel, the SDMA firmware checksum and the recovery

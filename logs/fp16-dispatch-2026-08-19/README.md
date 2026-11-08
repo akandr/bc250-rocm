@@ -11,11 +11,11 @@ only the first returns zeros. The trigger stays positional.
 
 **Does instrumentation suppress it?** No. A single run with `ROCBLAS_LAYER=6`
 returned 9.5672 where this configuration usually returns 16 to 21, which looked
-like the defect being perturbed by tracing. Alternated four runs per arm, it
-dissolves: without logging 18.1127, 19.3402, 19.3402, 18.2958; with logging
+like the defect being perturbed by tracing. With four alternated runs per arm, the effect
+disappears: without logging 18.1127, 19.3402, 19.3402, 18.2958; with logging
 12.3296, 17.3015, 17.0125, 20.2471. The means overlap and the single low reading
-was one sample from a wide distribution. Worth recording because the opposite
-conclusion was one run away.
+was one sample from a wide distribution. The opposite conclusion rested on one
+run.
 
 **Is llama.cpp passing a corrupt alpha or beta?** No. Two separate traces
 suggested it might be: rocBLAS's bench layer prints `alpha` and `beta` as
@@ -35,10 +35,10 @@ call and a clean one, with the operands intact on device
 directory does ship its capture. But the sentence above reads as though the hex
 were observed here, and it was not kept.
 
-Both misleading readings have the same cause, and it is a trap worth naming for
-anyone reading these traces: `__half2float` is a device function, and calling it
-on the host to format a value for printing yields garbage while looking like a
-measurement. The raw bit pattern is the thing to print.
+Both misleading readings have the same cause, which applies to anyone reading
+these traces: `__half2float` is a device function, and calling it
+on the host to format a value for printing yields a meaningless value that looks
+like a measurement. Print the raw bit pattern instead.
 
 What remains: 36 parameter-identical calls to the same kernel with correct
 arguments, of which the first in each graph execution returns exactly zero. The

@@ -9,7 +9,7 @@ Where the stock arm returns wrong results at the larger sizes, this one does
 not, which is the A/B behind the claim that the flush change fixes the silent
 corruption.
 
-One caveat that the top-level README now states in full: this run came from a
+A caveat, stated in full in the top-level README: this run came from a
 boot where the patched module happened to come up at 40 CU. At the time that
 looked like luck, and the explanation offered for it has since been retracted.
 The 24-CU boots were a misapplied unlock patch, and 24 CU is not a wedged state

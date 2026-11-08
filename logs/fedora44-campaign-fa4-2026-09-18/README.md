@@ -37,12 +37,12 @@ Ratio of medians, this campaign over the 15 September one:
 | qwen3.6-35B MoE | **1.047** | 1.014 | 0.999 | 0.996 |
 | qwen3.8-27B | **1.025** | 1.004 | 1.000 | 0.999 |
 
-**The Vulkan build did not change between the two campaigns, and its twelve figures reproduce to within
-0.4 percent, ten of them to within 0.1.** That is the control: the two sessions are comparable, and the
-ROCm prefill differences are the patch. Decode is unchanged everywhere, within 2 percent.
+The Vulkan build did not change between the two campaigns, and its twelve figures reproduce to within
+0.4 percent, ten of them to within 0.1. That is the control: the two sessions are comparable, and the
+ROCm prefill differences come from the patch. Decode is unchanged everywhere, within 2 percent.
 
 The prefill gains at pp512 are smaller than at pp2048 (16 and 14 percent on the D=128 models against 37
-and 38) because attention is a smaller share of a 512-token prompt. And two models gained nothing:
+and 38) because attention is a smaller share of a 512-token prompt. Two models gained nothing:
 deepseek-r1-14B and qwen3-14B, both at 0.3 percent, inside the spread. Those are the two whose
 head-count ratio is not a power of two: 40 query heads over 8 KV heads, a ratio of 5. llama.cpp's
 flash-attention dispatch chooses `ncols2`, the number of query heads a tile shares a KV head across,

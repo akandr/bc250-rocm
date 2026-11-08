@@ -1,7 +1,7 @@
 # Double buffering the tiles: a wave of occupancy for nothing, 2026-09-20
 
 [`logs/round13-2026-09-20/`](../round13-2026-09-20/) showed the prefill GEMM is no longer bound by its
-arithmetic, so the next thing to try was the standard remedy for a load-bound tile loop: fetch stage
+arithmetic, so the standard remedy for a load-bound tile loop was tried next: fetch stage
 k+1's weight and activation tiles into a second shared-memory buffer while stage k's arithmetic runs.
 `GGML_RDNA1_PKF16_DBUF` selects it at run time, one binary for both arms
 ([`scripts/round14.sh`](../../scripts/round14.sh), `log`):
@@ -17,7 +17,7 @@ prefetching is 149.3 against 125.7 with it. (That model's readings wander betwee
 127.4, which is the board warming through a four-minute sequence; the comparison that matters is best
 against best, and the campaign has it at 151.5.)
 
-`-Rpass-analysis=kernel-resource-usage` says why, and it is the usual trade:
+`-Rpass-analysis=kernel-resource-usage` shows the cause, a trade between shared memory and occupancy:
 
 | | shared memory | occupancy | VGPRs |
 |---|---|---|---|

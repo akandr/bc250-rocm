@@ -18,11 +18,11 @@ RDNA2 matrix-vector table (one wave per row for every type) plus the `v_sad_u8` 
 | qwen3.6-35B-A3B MoE IQ2_M | 304.0 | 457.7 | **55.6** | 87.0 |
 | qwen3.8-27B UD-IQ3_XXS | 71.2 | 105.0 | **11.4** | 17.6 |
 
-Against the four-patch campaign, decode: 1.5B **1.286**, 8B **0.957**, deepseek-14B **1.178**, qwen3-14B
-**1.178**, MoE **1.601**, 27B **1.450**; prefill 1.000 to 1.002 on every row, as it should be for a change
+Against the four-patch campaign, decode: 1.5B 1.286, 8B 0.957, deepseek-14B 1.178, qwen3-14B
+1.178, MoE 1.601, 27B 1.450; prefill 1.000 to 1.002 on every row, as expected for a change
 that touches only the matrix-vector kernel; every Vulkan row 0.999 to 1.001.
 
-**One regression, and it is informative.** qwen3-8B Q8_0 loses 4 percent of decode, with spreads of 2.6
+**One regression.** qwen3-8B Q8_0 loses 4 percent of decode, with spreads of 2.6
 percent, so it is real. Q8_0's `vec_dot` is short and its matvec is memory-bound; one wave per row
 starves it where the K-quants, whose `vec_dot` is long, are kept busy. That is the same distinction
 llama.cpp's RDNA4 table already draws with its per-type whitelist. The second form of the patch gives

@@ -11,14 +11,14 @@ size, and that it is not the tile table. This is the cause and a fix.
 ## The cause
 
 `V_DOT2_F32_F16_AVAILABLE` in `ggml/src/ggml-cuda/common.cuh` is defined for RDNA2, RDNA3, RDNA4,
-gfx906 and CDNA. **RDNA1 is not on that list**, correctly: gfx1010 and gfx1013 have no
+gfx906 and CDNA. RDNA1 is not on that list, correctly: gfx1010 and gfx1013 have no
 `v_dot2_f32_f16`, which LLVM's `FeatureISAVersion10_1_3` confirms and `hipcc` enforces
 ([`logs/gfx1013-dot-isa-2026-09-17/`](../gfx1013-dot-isa-2026-09-17/)). Without it,
 `ggml_cuda_mad(float &, half2, half2)` takes the fallback that unpacks each `half2` into two floats
 and issues two separate FMAs.
 
 In the tile flash-attention kernel that fallback sits in the innermost KQ accumulation loop, and it
-doubles the live values there. The D=128 kernel then overruns the 256-VGPR budget badly
+doubles the live values there. The D=128 kernel then overruns the 256-VGPR budget
 (`kernel-resource-usage.log`):
 
 | arch | VGPRs | VGPRs spilled | scratch bytes/lane | occupancy waves/SIMD |
@@ -29,10 +29,10 @@ doubles the live values there. The D=128 kernel then overruns the 256-VGPR budge
 | gfx1100 (RDNA3) | 125 | 0 | 0 | 6 |
 
 Every inner iteration goes through scratch memory. That is why the deficit is uniform in batch size,
-not a cliff, and why swapping the tile table changed almost nothing: the generic table
+with no threshold, and why swapping the tile table changed almost nothing: the generic table
 spills too.
 
-**gfx1010 spills identically, so this is RDNA1-wide and not a BC-250 quirk.** Anyone with an RX 5000
+gfx1010 spills identically, so this is RDNA1-wide and not a property of the BC-250. Anyone with an RX 5000
 card can reproduce the resource numbers with `hipcc` alone, no BC-250 required.
 
 ## The fix
@@ -41,7 +41,7 @@ card can reproduce the resource numbers with `hipcc` alone, no BC-250 required.
 an RDNA1 tile-configuration table, selected ahead of the shared RDNA one on both the host and the
 device side, that doubles `nthreads` to 512 and cuts `nbatch_fa` to 32 for the two D=128 rows
 prefill uses. Everything else falls through to the existing RDNA table. That halves the columns each
-warp carries and brings the kernel to 211 VGPRs with **no spill and no scratch**.
+warp carries and brings the kernel to 211 VGPRs with no spill and no scratch.
 
 The change is scoped to RDNA1 deliberately. Applied to the shared RDNA table it would also retune
 RDNA2, RDNA3 and RDNA4, which do not spill and were presumably tuned as they stand; nothing here
@@ -68,21 +68,21 @@ on rows added to the same RDNA1 table:
 | 256 | 8, 4, 2 | 256/128/64, 4, 32, 64 | 254 to 392 down to 0 to 69 |
 | 512 | 32, 16 | 512, 2, 32, 128 | 940 down to 63 to 67 |
 
-The wider `nbatch_K` was the lever at both sizes (64 left D=512 at about 600, 32 made it worse), and
+The wider `nbatch_K` made the difference at both sizes (64 left D=512 at about 600, 32 made it worse), and
 `nbatch_fa` below 32 does not compile. Neither size reaches zero the way D=128 did: D=256 and D=512
 carry two and four times the per-column state, and a few dozen registers of spill remain on the
 prefill instances, with the `oob_check` variants and the no-GQA `ncols2 = 1` variant still at 200 to
 380. [`scripts/apply_rdna1_fattn_rows.py`](../../scripts/apply_rdna1_fattn_rows.py) writes the rows
 into a tree that already carries patch 4, and the regenerated patch file includes them. What the
-residual costs is a measurement, not a compile result:
+residual costs is measured here rather than taken from the compiler's report:
 [`scripts/fa_bighead_ab.sh`](../../scripts/fa_bighead_ab.sh) runs the three models against both
 builds, and its results follow below.
 
 ## Result
 
-**Prefill up 37 percent, decode unchanged, and the kernel goes from 7.05x Vulkan to 1.62x** with the
+Prefill up 37 percent, decode unchanged, and the kernel goes from 7.05x Vulkan to 1.62x with the
 first row 64; with the final one (`nbatch_K = 128`, below) the op reads 16854 and 16869 us in two passes
-(`depth-final.log`), **parity with Vulkan's 16260**, from 114673 three days earlier. `nbatch_K = 256` does
+(`depth-final.log`), parity with Vulkan's 16260, from 114673 three days earlier. `nbatch_K = 256` does
 not compile, so 128 is where this row ends.
 
 | | before | after | |
@@ -123,15 +123,15 @@ fills memory, and the spread does not depend on the build.
 
 Gates: MoE 6.4064 before, 6.3752 after (0.5 percent lower); 27B 6.2509 before, 6.2513 after. The 27B
 is as close to unchanged as reordered accumulation gets. The MoE shift is three times the size of the
-D=128 shifts, so the same command was run on Vulkan: **6.3991**. The unpatched build sits 0.1 percent
+D=128 shifts, so the same command was run on Vulkan: 6.3991. The unpatched build sits 0.1 percent
 above Vulkan and the patched one 0.4 percent below it. That is a larger move than the D=128 rows
 produced, still an order of magnitude below anything a wrong kernel has ever produced on this board
 (the garbled decode of August read as a perplexity of 8.9425 against a correct 8.9442, which is why
-decode text is checked separately), and it lands on the other side of the reference instead of
-further from it in the same direction. It is reported as what it is: a 0.5 percent shift from
+decode text is checked separately), and it falls on the other side of the reference instead of
+further from it in the same direction. It is a 0.5 percent shift from
 reordered accumulation on a model whose attention runs 3.5 times faster, not a bit-identical gate.
 The 27B on Vulkan reads 6.2857, so both HIP builds sit 0.55 percent below it and the patch did not
-move that model at all. Decode text on the MoE with the new build, whose decode-shaped D=256 rows
+move that model. Decode text on the MoE with the new build, whose decode-shaped D=256 rows
 also changed: the model answers `The capital of France is` by opening a reasoning block, `Here's a
 thinking process: 2. Identify Key Information: The question is asking for the capital city of
 France.`, coherent and on topic, which is what a garbled attention kernel does not produce.
@@ -151,7 +151,7 @@ compiling configuration that brings that instance under about 115 spilled regist
 columns carries its own K and V. The 32-column `<32,1>` instance, by contrast, is clean under every
 candidate.
 
-So the fix for these models is dispatch, not tuning. `launch_fattn_tile_switch_ncols1` picks 64 columns
+The fix for these models is therefore in the dispatch, not in the tuning. `launch_fattn_tile_switch_ncols1` picks 64 columns
 on HIP whenever `Q->ne[1] > 32/ncols2`; the patch adds, in that host-side branch, a check gated on
 `GGML_CUDA_CC_IS_RDNA1(cc) && ncols2 == 1` that keeps such models at 32 columns. The same rebuild moved
 row 64 to `nbatch_K = 128`, which leaves `<64,1>` where it was but halves the register use of the GQA
@@ -185,8 +185,8 @@ flash-attention path (217.0 and 143.5) and at 78 percent of Vulkan with llama.cp
 qwen3-14B's first-pass pp512 on the new build, 80.01 with a spread of 1.18, came directly after that
 model's pp2048 run on the other build and is the throttling signature seen before; the second pass reads
 98.33 with a spread of 0.34 and matches deepseek's gain. The gains are smaller than the GQA models' 37
-percent because a 32-column tile does half the work per K and V load of a 64-column one; they are gains
-where there were none. The `nbatch_K = 128` row is worth a further 2 to 3 percent on the D=128 GQA
+percent because a 32-column tile does half the work per K and V load of a 64-column one; they are still gains
+on models that had none. The `nbatch_K = 128` row is worth a further 2 to 3 percent on the D=128 GQA
 models on top of the earlier measurements.
 
 ## Against depth, and the flash-attention trade inverts
@@ -203,16 +203,16 @@ both builds and both `-fa` settings at every point, three passes, medians
 | 8192 | 117.3 | 64.9 | **157.4** |
 
 The `-fa on` figures are tight: the unpatched arm repeats to 0.1 percent at every depth and the patched
-arm to 0.3, 2.1 and 1.5 percent. So with the patch, flash attention is the faster prefill setting at
+arm to 0.3, 2.1 and 1.5 percent. With the patch, flash attention is the faster prefill setting at
 every depth, by 5, 18 and 34 percent, where before the patch it was the slower one by 20, 40 and 45.
-The trade this repository documented in
-[`logs/flash-attention-tradeoff-2026-09-17/`](../flash-attention-tradeoff-2026-09-17/) is gone on
-ROCm: `-fa on` is now the right setting for prefill as well as decode.
+The trade-off this repository documented in
+[`logs/flash-attention-tradeoff-2026-09-17/`](../flash-attention-tradeoff-2026-09-17/) no longer
+exists on ROCm: `-fa on` is now the faster setting for prefill as well as decode.
 
-**A control that only half passed.** The `-fa off` arms run identical code in both builds, so they
+**A control that passed only in part.** The `-fa off` arms run identical code in both builds, so they
 should agree, and at depth 0 they do (within 0.8 percent in every pass). At 4096 and 8192 they
-disagree by 7 to 10 percent in passes 1 and 2 and agree in pass 3. Pass 1 overlapped compiler jobs I
-was running on the board, which heat the package the GPU throttles on (the edge sensor fell from 81
+disagree by 7 to 10 percent in passes 1 and 2 and agree in pass 3. Pass 1 overlapped compiler jobs
+running on the board, which heat the package the GPU throttles on (the edge sensor fell from 81
 to 59 C once they were killed); pass 2 did not, and the pattern is that the arm which runs first
 after a heavy `-fa on` point reads low. That is an ordering effect the harness did not randomise.
 The `-fa off` column above is therefore the pooled median of all six readings per depth, 243.47, 165.44
@@ -233,8 +233,8 @@ size is expected; a systematic bias would not change sign between models. Decode
 separately, because perplexity is computed over batched prefill and misses the decode kernel that
 garbled for months on this board: the patched build answers `The capital of France is` with `Paris`.
 
-This is a smaller check than the repository's usual bit-identical gate, and it is the honest one to
-report: the patch changes arithmetic order by construction, so bit-identical results were never
+This is a smaller check than the repository's usual bit-identical gate, and it is the one that
+applies: the patch changes arithmetic order by construction, so bit-identical results were never
 available.
 
 ## Files

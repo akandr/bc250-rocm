@@ -1,6 +1,6 @@
 Re-measurement of the arm that shows why two gates are needed: with the gfx1013
-entry removed from llama.cpp's RDNA1 macro, perplexity looks healthy while
-generation returns garbage.
+entry removed from llama.cpp's RDNA1 macro, perplexity looks normal while
+generation returns garbled text.
 
 The write-up had cited a perplexity of 8.9425 for that arm, and an audit found
 the figure was backed by no surviving log, on the board or in this repository.

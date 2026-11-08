@@ -28,9 +28,9 @@ how often each is zeroed:
 | `Vcur-6` to `Vcur-25` | 3 of 12 |
 | `Vcur-26` to `Vcur-35` | 2 of 12 |
 
-The count never rises with layer index. That is what a cascade that always begins
-at a batch start and then survives for a variable length looks like, read as a
-survival curve, not as a list of positions:
+The count never rises with layer index. Read as a survival curve rather than a list
+of positions, it matches a cascade that always begins at a batch start and then
+survives for a variable length:
 
 - nine of the twelve batches lose their first call
 - five of those nine recover immediately, at layer 1
@@ -38,9 +38,9 @@ survival curve, not as a list of positions:
 - one more ends before layer 26
 - two run to the end of the batch
 
-So the primary event is at the boundary, and everything after it is that event
+The primary event is therefore at the boundary, and everything after it is that event
 persisting. The failure is not distributed across the batch; it starts at the
-front and lives for a while.
+front and persists for a variable number of calls.
 
 ## Why this is a better description than the previous one
 

@@ -5,7 +5,7 @@ that the 1.5B returns 8.9442 on three of three runs with mapping enabled. Those
 runs were never kept, and no captured gate anywhere in this repository ran with
 mapping on, so the claim had no artifact and nothing else covered it.
 
-Measured, not caveated, nine days later, on the configuration the README
+Measured nine days later, on the configuration the README
 now recommends:
 
 | load mode | run | perplexity |
@@ -21,8 +21,8 @@ right and now has evidence behind it.
 
 The control matters more than the repeats here. The reference value 8.9442 is
 quoted throughout this repository from runs taken on other days and other
-kernels, so comparing against it alone would have left the door open to the two
-arms differing for some other reason. Running both in one sitting closes that.
+kernels, so comparing against it alone would have left open that the two arms
+differ for some other reason. Running both in one session rules that out.
 
 Same configuration as every other gate in this work except the load mode:
 qwen2.5-1.5B Q4_K_M, context 4096, eight wikitext chunks, flash attention on,

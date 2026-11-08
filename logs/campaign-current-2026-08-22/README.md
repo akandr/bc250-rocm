@@ -10,11 +10,11 @@ The five-model throughput table and the four-model correctness gates on the fron
 page were measured before three changes: the microcode substitution, the kernel
 move, and the recovery parameter. Each was checked against a subset at the time,
 the parameter against the 1.5B only, but the tables themselves had never been
-reproduced end to end on the stack the README now recommends. They are the part
-of this repository a visitor reads first.
+reproduced end to end on the stack the README now recommends. They are the first
+tables on the front page.
 
 Same models, same flags, same two backends as the original, so the numbers are
-comparable, not merely fresh.
+directly comparable.
 
 ## Throughput, against the published table
 
@@ -26,14 +26,14 @@ comparable, not merely fresh.
 | qwen3-14B Q4_K_M | 97.4 to 97.88 | 202.8 to 202.77 | 21.5 to 21.52 | 34.2 to 34.11 |
 | qwen3.6-35B-A3B MoE IQ2_M | 287.6 to 289.83 | 455.4 to 458.19 | 34.3 to 33.58 | 86.5 to 86.26 |
 
-Eighteen of the twenty cells land within 3 percent, and most within one. Two move
+Eighteen of the twenty cells are within 3 percent, and most within one. Two move
 more: 8B decode by 7.2 percent and the MoE decode by 2.1 percent, both downward.
 
 The 8B is the model this repository has repeatedly documented as the noisy one.
 Its pooled figure across eleven prior invocations is a mean of 37.34 with a
 standard deviation of 1.20 and a range of 35.40 to 39.20, so 36.39 sits inside
-that spread and slightly below its mean. It is not a regression, and the
-published 39.2 was a good sample, not a tight figure, which the front page
+that spread and slightly below its mean. It is not a regression; the
+published 39.2 was a high sample rather than a precise figure, as the front page
 already says.
 
 ## Correctness gates, bit-identical
@@ -47,7 +47,7 @@ already says.
 
 All eight values reproduce exactly, on both backends, on a stack whose microcode,
 kernel and driver parameters have all changed since they were first recorded.
-That is a stronger statement than the throughput table: perplexity is sensitive
-to any change in arithmetic, and none of these changes moved it at all.
+This is stronger evidence than the throughput table: perplexity is sensitive
+to any change in arithmetic, and none of these changes moved it.
 
 No GPU faults, preemption failures or resets occurred during the campaign.

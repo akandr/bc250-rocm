@@ -4,7 +4,7 @@ With fp16 compute the GEMM result goes to a pool temporary, not straight
 to the destination tensor, which made buffer reuse a natural suspect, and would
 have connected this defect to the allocation-reuse family that the driver patches
 address. The tree carries two hooks from that earlier work, so it could be tested
-directly instead of argued about.
+directly.
 
 Three rounds, arms alternated, 8B at context 2048 over two chunks. The correct
 value with f32 compute is 9.0975:
@@ -16,14 +16,14 @@ value with f32 compute is 9.0975:
 | `GGML_CUDA_POOL_NOREUSE=1` | not runnable | not runnable | not runnable | - |
 
 Bypassing the pool entirely and allocating directly makes no difference: both
-arms sit in the same band and both are nowhere near the reference.
+arms sit in the same band and both are far from the reference.
 
 The third arm is not a result. Holding every pool buffer forever exhausts memory
 on a 14 GiB board running an 8.24 GiB model, and all three attempts aborted in
 `ggml_cuda_pool_leg::alloc`. It is reported so the blank row is not mistaken for
 a finding.
 
-So the destination buffer's provenance is not the trigger. Combined with the
+The destination buffer's provenance is therefore not the trigger. Combined with the
 other eliminations, what remains is that 36 parameter-identical calls go to the
 same kernel with correct arguments and correct destinations, and the first one in
 each graph execution returns exactly zero.

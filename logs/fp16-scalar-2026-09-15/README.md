@@ -10,7 +10,7 @@ today are in the fp16 section of [INVESTIGATION.md](../../INVESTIGATION.md).
 
 ## 1. Scalars
 
-The idea: a kernel receiving alpha = 0 and beta = 0 would produce exactly the recorded failure,
+Hypothesis: a kernel receiving alpha = 0 and beta = 0 would produce exactly the recorded failure,
 and Tensile kernels take their scalars as launch arguments.
 
 - **Device pointer mode** (`BC250_PTRMODE_DEVICE=1`): the same GEMM through `rocblas_gemm_ex` with
@@ -21,8 +21,8 @@ and Tensile kernels take their scalars as launch arguments.
   (`f16_stamp_beta0.sums.txt`): position 37 sums to exactly 0 over a buffer stamped beforehand, so
   the kernel ran and wrote.
 - **Stamped output with beta 1** (`BC250_BETA1=1`, `f16_stamp_beta1.sums.txt`): position 37 sums to
-  555008, which is exactly the stamp (0x3c3c as half is 1.05859375, times 524288). So the output was
-  beta times C with nothing added. This is weaker evidence than it looks: with a stamp of about 1.06
+  555008, which is exactly the stamp (0x3c3c as half is 1.05859375, times 524288). The output was therefore
+  beta times C with nothing added. This is weaker evidence than it appears: with a stamp of about 1.06
   the absolute sum measures the signed sum of the product, which can cancel, and neighbouring calls
   differ from the stamp by only -1892 and +831. It is consistent with a zero product and would not
   establish one on its own; the beta-0 exact zero is the strong observation.
@@ -68,7 +68,7 @@ An earlier mask test using hexadecimal values (`AMD_LOG_MASK=0x80` and so on) is
 every one produced the same 335 lines as mask 0, so the runtime evidently did not parse them, and
 those runs tested nothing.
 
-What it shows. The defect is removed by ROCclr's API-call trace and by nothing else tried. It is not
+Result. The defect is removed by ROCclr's API-call trace and by nothing else tried. It is not
 the volume or cost of logging: the kernel-argument trace prints more lines, 108578 against 94482,
 and leaves the defect intact, and both take the same 28 seconds of wall time. It is not slowness
 before the GEMM (sleeps of 100 us to 10 ms), not waiting for the stream, not serialising launches,
@@ -76,7 +76,7 @@ not the dispatch mode, not interrupts, not a pointer lookup on the GEMM's buffer
 runlist flush. Something the HIP API trace wrapper does on every API call changes the result. The
 wrapper in the current `rocm-systems` source formats each call's arguments and its duration, and
 nothing in that formatting has an evident side effect, but that source is newer than the 6.4.2
-library on the board, so this is not settled by reading.
+library on the board, so reading it does not settle this.
 
 Which API call's tracing matters was not established by this section; section 4 below takes that
 further with an `LD_PRELOAD` shim.
@@ -85,7 +85,7 @@ further with an `LD_PRELOAD` shim.
 
 (Superseded by section 5: the cause is a toolchain helper linked into rocBLAS, not the runtime.)
 
-It is a reproducible handle on a defect that until now had none. The practical rule does not change:
+It is a reproducible handle on a defect that until then had none: a way to switch it off. The practical rule does not change:
 `GGML_CUDA_CUBLAS_COMPUTE_TYPE=f32` avoids the path at no measurable cost.
 
 ## 4. Narrowing the trace effect (same day, later)
@@ -97,7 +97,7 @@ Its call counts for one chunk: `hipMemcpyAsync` 8007, `hipEventSynchronize` 7980
 7976, `hipGetDevice` 5910, `hipGetLastError` 5497, `hipLaunchKernel` 4275, `hipStreamSynchronize` 220,
 `hipMalloc`/`hipFree` 153, and `hipExtModuleLaunchKernel` 144, one per fp16 GEMM, which is how rocBLAS
 launches its Tensile kernels. Printing a line to stderr on every call of a family changes nothing for
-any family, nor for all of them together, 49189 lines (`shim_family_sweep.txt`). So it is not the
+any family, nor for all of them together, 49189 lines (`shim_family_sweep.txt`). It is therefore not the
 trace's output, or anything else that happens at the API boundary as seen from outside the runtime,
 that removes the defect; it is something the runtime does internally when that log category is on.
 
@@ -112,7 +112,7 @@ zeros at 37, 73 and 109 every time, and with solution 621 forced the API trace s
 differing in launch geometry, but it is also what an ignored index would produce, so this shows that
 no forced solution escapes the defect, not that each kernel was exercised.
 
-**Where this leaves it** (as written before section 5, which supersedes it). Every externally controllable variable tested has been eliminated: scalars,
+**State at this point** (as written before section 5, which supersedes it). Every externally controllable variable tested has been eliminated: scalars,
 their transport, launch errors, kernel choice, delays, stream synchronisation, launch serialisation,
 dispatch mode, interrupts, pointer attribute queries, host threads, and the runlist flush. What
 removes the defect is internal to the HIP 6.4.2 runtime and switched on by its API log category. The
@@ -128,7 +128,7 @@ environment variables.
 
 ## 5. Bisecting the trace inside the runtime, and the root cause
 
-**Update, same day: the cause is found and it is not in the runtime.** See
+Update, same day: the cause was found, and it is not in the runtime. See
 [`../fp16-root-cause-2026-09-15/`](../fp16-root-cause-2026-09-15/). The half-precision conversion
 helpers linked into the native rocBLAS read the wrong register, so rocBLAS sometimes reads alpha as
 zero and hands Tensile a K=0 problem. The readings above that point into the HIP runtime ("internal
@@ -153,4 +153,4 @@ trace per function. The rebuilt library reproduces both the defect and its suppr
   three times at one chunk (7.2768) and at two chunks gives 9.1117, the correct fp16 value;
   `tcache_count=1` zeroes all 144 fp16 GEMMs (perplexity 6627258.6969). Perturbing freed memory
   (`MALLOC_PERTURB_`) and `mxfast=0` change nothing. The tcache knob made the defect switchable in a
-  program with no llama.cpp in it, which is what exposed the chain on the root-cause page.
+  program with no llama.cpp in it, which led to the chain described on the root-cause page.

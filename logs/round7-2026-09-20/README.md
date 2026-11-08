@@ -38,14 +38,14 @@ memory is the difference between that and 1.43 to 1.62.
 | qwen3-8B Q8_0 | 265 | 261 | 264 | 264 |
 
 The MoE gains only what its q4_K and q6_K tensors are worth, four percent of its bytes; its experts are
-IQ2 and IQ3, which this kernel does not handle yet. Q8_0 was measured and removed from the predicate: on
+IQ2 and IQ3, which this kernel did not handle at this stage. Q8_0 was measured and removed from the predicate: on
 the 8B it read 112 against MMQ's 265 at pp512, because that type's int8 `vec_dot` is short and the matmul
-is close to memory bound, so there is nothing for the arithmetic to win back. Decode is untouched, the
+is close to memory bound, so faster arithmetic has nothing to recover. Decode is untouched, the
 kernel only takes batches of 256 tokens and up.
 
 ## Correctness
 
-The honest statement first: `test-backend-ops -o MUL_MAT` has exactly **one** case that this kernel can
+`test-backend-ops -o MUL_MAT` has exactly one case that this kernel can
 take (n >= 64 and m >= 512 at the time of the run), so its 657 passes say almost nothing here. The
 evidence is the model-level checks, which run prefill at batch 512 through q4_K and q6_K weights,
 including the q6_K output head over the whole vocabulary
@@ -65,7 +65,7 @@ large.
 
 ## The batch threshold
 
-At 128 tokens the kernel is 22 percent *behind* MMQ on the 1.5B (542 against 690): 128 columns is one
+At 128 tokens the kernel is 22 percent behind MMQ on the 1.5B (542 against 690): 128 columns is one
 BN tile, so the whole matmul is as many blocks as the weight matrix has 128-row strips, which does not
 fill 40 CUs. At 512 it is 36 percent ahead. The predicate therefore requires 256 tokens, and also 512
 rows, since 256-row matrices lose for the same reason.

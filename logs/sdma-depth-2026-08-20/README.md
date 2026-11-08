@@ -11,12 +11,12 @@ it can, that constant needed checking instead of assuming.
 Paired by ABBA round the difference is -0.80 t/s with a standard deviation of
 0.66, so the arms overlap and nothing here separates them.
 
-The reason this was run alternated is worth writing down. A first attempt compared
+It was run alternated for this reason. A first attempt compared
 one run of each arm and got 15.45 against 19.33, a 25 percent gap that looks
 decisive. It is not: this measurement has a documented range of 10.03 to 19.18 on
 a single unchanged configuration, so a single sample per arm cannot separate
-anything. The alternated version dissolves it, as it should have been expected
-to.
+the arms. The alternated version shows no separation, as should have been
+expected.
 
 With this, the constant is re-tested where it matters: throughput, the
 correctness gates on two models, Vulkan, allocation churn and now decode at

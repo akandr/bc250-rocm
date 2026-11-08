@@ -15,7 +15,7 @@ exactly. No log for the table's numbers exists anywhere under `logs/`.
 ## Result
 
 Same probe, with the clock sampled from `pp_dpm_sclk` four times a second throughout and a sustained
-GPU load before the timed kernels. **The clock held 1500 MHz for 142 of 147 samples**
+GPU load before the timed kernels. The clock held 1500 MHz for 142 of 147 samples
 (`clock_trace_head.txt`, `alu_clock_verified.log`).
 
 | instruction | cycles per instruction | rate | against fp32 |
@@ -47,7 +47,7 @@ clock estimate at 0.57 GHz against today's 6.52 at 0.85, a ratio of 1.49 in both
 measurement already warns that "the first kernel of a process runs before the clock has ramped, which
 made fp32 look like half rate until a warm-up was added". The warm-up that was added was not enough.
 
-**So rocBLAS SGEMM is not at the machine's limit.** 4.61 TFLOP/s against 6.52 is 71 percent, where the
+**rocBLAS SGEMM is not at the machine's limit.** 4.61 TFLOP/s against 6.52 is 71 percent, where the
 old pair made it 97 percent of 4.74. The claim that "the fp32 figure is the board's real ceiling, and
 rocBLAS is already at it" does not hold up.
 
@@ -64,7 +64,7 @@ percent, where the old numbers gave 32 percent of 14.40. The hand-written packed
 ([`logs/pkf16-vs-rocblas-2026-09-25/`](../pkf16-vs-rocblas-2026-09-25/)) reaches 8.91, which is 68
 percent of the corrected ceiling, not 62 percent of the old one, and is still 1.9 times
 rocBLAS. That comparison was measured directly between the two kernels and does not depend on the
-ceiling at all.
+ceiling.
 
 The int8 figure is unchanged at 2.08 Tmac/s, and its cycle count is identical across all runs.
 
@@ -73,7 +73,7 @@ The int8 figure is unchanged at 2.08 Tmac/s, and its cycle count is identical ac
 Neither the September run nor the first two runs today were wrong about cycles; they were wrong about
 what clock the board was at when the rate was computed. This is the third time a clock policy has put
 a wrong number on this page, after the Fedora 44 comparison and the qwen3-14B prefill spread. The
-check that catches it is cheap: sample `pp_dpm_sclk` during the measurement and report the residency
+check that catches it is simple: sample `pp_dpm_sclk` during the measurement and report the residency
 beside the result, which this log does.
 
 ## Reproducing

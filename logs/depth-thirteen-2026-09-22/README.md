@@ -1,16 +1,16 @@
-# Depth on the thirteen-patch build, and a measurement trap, 2026-09-22
+# Depth on the thirteen-patch build, and a measurement pitfall, 2026-09-22
 
 Three front-page tables described earlier builds: the qwen2.5-1.5B decode ladder was the three-patch
 build, the six-model decode-at-4096 table the seven-patch build, and the qwen3-8B prefill-at-depth
 table the four-patch build. Six patches have landed since the newest of them, one of which replaced
-every prefill matmul. This re-measures them, and the first attempt got it wrong in a way worth
-recording, because the same mistake is available to anyone comparing two backends against depth.
+every prefill matmul. This re-measures them. The first attempt was wrong, and the same mistake is
+available to anyone comparing two backends against depth, so it is recorded here.
 
-## The trap: `-d 0,4096,8192` is not the same measurement as three invocations
+## The pitfall: `-d 0,4096,8192` is not the same measurement as three invocations
 
 `llama-bench` takes a list of depths and prints a row for each, which is faster than invoking it once
-per depth and looks equivalent. It is not. **A reading taken inside a list can be up to 22 percent
-below the same reading taken alone**, unpredictably, on either backend, at some points and not others.
+per depth and looks equivalent. It is not. A reading taken inside a list can be up to 22 percent
+below the same reading taken alone, unpredictably, on either backend, at some points and not others.
 
 Same boot, same builds, the two forms an hour apart (`log` is the list form, `log-followup` the
 per-invocation form):
@@ -32,13 +32,13 @@ are also the tight ones. Six passes of the 1.5B at 4096 give Vulkan 179.35 to 17
 to 176.82; the list form gave Vulkan 139.79, 140.00, 153.59, 144.83 and 179.31 for the same quantity.
 
 The September tables gave each depth its own invocation, so every Vulkan figure in them
-reproduces here and the list-form sweep appeared to contradict them. **Everything below is the
-per-invocation form.** The list-form sweep is kept as `log` because it is the evidence for the trap,
+reproduces here and the list-form sweep appeared to contradict them. Everything below uses the
+per-invocation form. The list-form sweep is kept as `log` because it is the evidence for the list-form effect,
 and its cross-backend rows should not be read as results.
 
-No mechanism is offered here. The obvious guess, that a list sizes the context for its deepest point
-and everything shallower then pays for it, is consistent with the worst cases being the shallow points
-of long lists, but it is not tested and it does not obviously explain the 27B, whose list had two
+No mechanism is offered here. One possible explanation, that a list sizes the context for its deepest point
+and everything shallower then incurs its cost, is consistent with the worst cases being the shallow points
+of long lists, but it is not tested and it does not clearly explain the 27B, whose list had two
 entries.
 
 ## Prefill against depth
@@ -51,11 +51,11 @@ qwen3-8B Q8_0, `-p 2048 -n 0`, `-fa on`, one invocation per point, three passes,
 | 4096 | **300.52** | 217.46 | **1.38** | 219.7 |
 | 8192 | **214.55** | 143.76 | **1.49** | 184.5 |
 
-**ROCm now prefills faster than Vulkan at every depth measured**, where the four-patch build was 0.73
+ROCm now prefills faster than Vulkan at every depth measured, where the four-patch build was 0.73
 at depth 0 and only reached parity at 4096. Vulkan reproduces
 [`logs/vulkan-fa-staging-2026-09-17/`](../vulkan-fa-staging-2026-09-17/) to three figures at all three
-points, 366.82, 217.01 and 143.51 there against 367.02, 217.46 and 143.76 here, which is what makes the
-ROCm column readable: the reference did not move.
+points, 366.82, 217.01 and 143.51 there against 367.02, 217.46 and 143.76 here, so the reference did
+not move and the ROCm column is comparable.
 
 Two qualifications. Vulkan's depth-0 figure is the first pass, which ran before anything else; passes
 two and three read 311.9, each with a within-invocation spread of 48, and each followed a depth-8192
@@ -74,8 +74,8 @@ point, one invocation each, say otherwise:
 | `tg32` at depth 0 | 15.06 | 17.59 | 0.857 |
 | `tg32` at 4096 | 14.53 | 17.20 | 0.845 |
 
-Unchanged from the seven-patch measurement within the spread of either. There was no regression; there
-was a list.
+Unchanged from the seven-patch measurement within the spread of either. There was no regression; the
+difference came from the list form.
 
 ## The decode ladder
 
@@ -92,9 +92,9 @@ temperature recorded at each one (`log-perinvocation`, section H):
 | 24576 | **123.15** | 120.72 | **1.020** | 76.2 | 0.991 |
 | 30720 | **112.61** | 111.13 | **1.013** | 70.2 | 0.998 |
 
-The thirteen-patch build is 1.60 to 1.68 times the three-patch one at every depth, and it **draws level
-with Vulkan by 8192 and stays 1 to 2 percent ahead through 30720**. The last column is why that is
-readable: the Vulkan arm was re-measured in the same run and returns between 0.983 and 0.999 of the
+The thirteen-patch build is 1.60 to 1.68 times the three-patch one at every depth, and it draws level
+with Vulkan by 8192 and stays 1 to 2 percent ahead through 30720. The last column supports that
+comparison: the Vulkan arm was re-measured in the same run and returns between 0.983 and 0.999 of the
 September ladder, so the reference did not move.
 
 ## Decode at a filled 4096-token cache, all six models
@@ -121,9 +121,9 @@ publishing a point taken through one.
 
 ## Files
 
-`log` is the list-form sweep, kept as the evidence for the trap; its cross-backend rows are not
+`log` is the list-form sweep, kept as the evidence for the list-form effect; its cross-backend rows are not
 results. `log-followup` is the first per-invocation run, sections D (prefill at depth), E (the 27B) and
 F (the 1.5B at 4096, six passes). It stopped part-way through a further section, which is written up in
 [`logs/fault-caught-2026-09-22/`](../fault-caught-2026-09-22/): it provoked the fault this repository
-has been chasing since August. `log-perinvocation` is the ladder and the six-model table above, run
+has been investigating since August. `log-perinvocation` is the ladder and the six-model table above, run
 after the reboot that followed.

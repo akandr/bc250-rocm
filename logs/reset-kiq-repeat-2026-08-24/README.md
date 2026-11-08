@@ -20,10 +20,10 @@ days, and each came from one run: that the device needed settling time, that
 intervening bus activity between two register accesses helped, and that where the
 prints sat was what moved the stopping point. The first was falsified by an
 `msleep` that changed nothing at 50 or 500 milliseconds. The second was falsified
-by a probe that printed nothing at all, because it sat downstream of the read it
+by a probe that printed nothing, because it sat downstream of the read it
 was meant to measure.
 
-What had never been done was running the same thing twice. This campaign is four
+The same configuration had never been run twice. This campaign is four
 configurations, three repetitions each, against one module, with only runtime
 parameters differing between arms:
 
@@ -68,18 +68,18 @@ The read returned, four steps ran, and the stall moved to
 ## What that decides
 
 The claim under test was that the build determines where the sequence stops. One
-counterexample is enough, and D rep2 is it. `predictions.txt` registered the
+counterexample is enough, and D rep2 is one. `predictions.txt` registered the
 consequence before the data: the stopping point is not determined by the build,
 every placement conclusion drawn so far is unsupported, and the right description
 of this defect is a race instead of a bad access.
 
-It also explains the run of 23 August without appealing to prints at all. That run
+It also explains the run of 23 August without appealing to prints. That run
 reached step 7 and stalled in `gfx_v10_0_kiq_init_register()`, which is where
-D rep2 stalled with no extra prints anywhere. The build was not what let it get
-further. It was a run that happened to get further, and it became a mechanism
-because it was the only run of that build.
+D rep2 stalled with no extra prints anywhere. The build did not make it go
+further: the run happened to go further, and was read as a mechanism because it
+was the only run of that build.
 
-So the description that survives is: after a reset, MMIO accesses to the GC block
+The description that remains is: after a reset, MMIO accesses to the GC block
 intermittently do not complete, and where the sequence stops varies between
 identical runs. On this sample the read completes about one time in twelve, which
 is a first rate on a small sample and not a measured one.
@@ -105,5 +105,4 @@ the same evidence. C rep1 is the demonstration: its capture ends on the 40-CU
 unlock, without the watchdog line every other trial carries, although the reset
 fired and ran the same way. Every localisation in this investigation has the form
 "this line printed and nothing after it did", which assumes delivery. Repetition
-is what separates the two, and the next probe numbers its lines so that a gap
-reads as a gap.
+is what separates the two.

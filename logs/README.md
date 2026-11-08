@@ -15,10 +15,10 @@ The headline table, the decode and prefill ladders, and every intermediate campa
 | [`campaign-current-2026-08-22`](campaign-current-2026-08-22/) | The headline campaign, re-run on the current configuration |
 | [`campaign-graphopt-2026-09-24`](campaign-graphopt-2026-09-24/) | The campaign with ggml-cuda's multi-stream optimisation turned on |
 | [`campaign-rerun-2026-08-18`](campaign-rerun-2026-08-18/) | The ROCm arms of the 12 August campaign repeated on the stack of 18 August |
-| [`depthcheck-2026-10-16`](depthcheck-2026-10-16/) | A needle in a 32k, 64k and 128k haystack: right and identical on both backends to 64k, garbage on both at 128k |
+| [`depthcheck-2026-10-16`](depthcheck-2026-10-16/) | A needle in a 32k, 64k and 128k haystack: right and identical on both backends to 64k, incoherent on both at 128k |
 | [`depth-graphopt-2026-09-24`](depth-graphopt-2026-09-24/) | The decode ladder with the multi-stream option |
 | [`depth-graphopt-fix-2026-10-10`](depth-graphopt-fix-2026-10-10/) | The decode ladder with the multi-stream option's fix: no cost at any depth, ahead of Vulkan from 4096 |
-| [`depth-thirteen-2026-09-22`](depth-thirteen-2026-09-22/) | Depth on the thirteen-patch build, and a measurement trap |
+| [`depth-thirteen-2026-09-22`](depth-thirteen-2026-09-22/) | Depth on the thirteen-patch build, and a measurement pitfall |
 | [`fedora44-benchmarks-2026-09-15`](fedora44-benchmarks-2026-09-15/) | Benchmarks on the default Fedora 44 configuration |
 | [`fedora44-campaign-experts-2026-09-21`](fedora44-campaign-experts-2026-09-21/) | The campaign on the twelve-patch build |
 | [`fedora44-campaign-f32mv-2026-09-18`](fedora44-campaign-f32mv-2026-09-18/) | The split throughput campaign with the float-activation matvec |
@@ -77,7 +77,7 @@ Perplexity gates, generated text, and the defects they caught.
 | [`kqv-ladder-2026-08-21`](kqv-ladder-2026-08-21/) | The KQV context ladder, reproduced |
 | [`kqv-periodicity-2026-08-21`](kqv-periodicity-2026-08-21/) | Is the KQV corruption periodic across processes? No |
 | [`kqv-remeasure-2026-08-18`](kqv-remeasure-2026-08-18/) | The KQV-precision figures re-measured, after the originals were found to have no log |
-| [`macro-remeasure-2026-08-18`](macro-remeasure-2026-08-18/) | Without gfx1013 in the RDNA1 macro, perplexity looks healthy while generation returns garbage |
+| [`macro-remeasure-2026-08-18`](macro-remeasure-2026-08-18/) | Without gfx1013 in the RDNA1 macro, perplexity looks plausible while generation is wrong |
 | [`once-checked-2026-08-17`](once-checked-2026-08-17/) | Re-measuring the once-checked capability claims |
 | [`rebuild-check-2026-10-10`](rebuild-check-2026-10-10/) | The thirteen published patches rebuild the measured build: same options, same greedy replies, same speed |
 
@@ -94,7 +94,7 @@ Each patch's measurements, per-operation replays, kernel traces and dispatch cos
 | [`first-rep-graphs-2026-09-25`](first-rep-graphs-2026-09-25/) | The slow first repetition is HIP graph instantiation |
 | [`floor-vs-vulkan-2026-09-23`](floor-vs-vulkan-2026-09-23/) | Vulkan's dispatch floor, and what it does to the explanation of the MoE's decode gap |
 | [`fusion-value-2026-09-23`](fusion-value-2026-09-23/) | What kernel fusion is already worth here, and where the rest of the floor is |
-| [`gfx1013-dot-isa-2026-09-17`](gfx1013-dot-isa-2026-09-17/) | What the RDNA1 macro actually buys the integer dot product |
+| [`gfx1013-dot-isa-2026-09-17`](gfx1013-dot-isa-2026-09-17/) | What the RDNA1 macro changes for the integer dot product |
 | [`kerntrace-2026-09-19`](kerntrace-2026-09-19/) | Where a decoded token's time goes: kernel traces of real runs |
 | [`knobs-2026-09-21`](knobs-2026-09-21/) | The runtime knobs, measured again on the thirteen-patch build |
 | [`llamacpp-master-recheck-2026-09-14`](llamacpp-master-recheck-2026-09-14/) | llama.cpp master against the three patches |
@@ -113,13 +113,13 @@ Each patch's measurements, per-operation replays, kernel traces and dispatch cos
 | [`rdna1-pkf16-thresholds-2026-09-21`](rdna1-pkf16-thresholds-2026-09-21/) | The GEMM's admission threshold, measured again at the new tile |
 | [`rdna1-pkf16-tile-2026-09-20`](rdna1-pkf16-tile-2026-09-20/) | The prefill GEMM's tile was tuned on the wrong thing |
 | [`round10-2026-09-20`](round10-2026-09-20/) | The IQ types and q5_K in the prefill GEMM |
-| [`round11-2026-09-20`](round11-2026-09-20/) | q8_0 in the prefill GEMM, measured properly this time |
+| [`round11-2026-09-20`](round11-2026-09-20/) | q8_0 in the prefill GEMM, remeasured |
 | [`round12-2026-09-20`](round12-2026-09-20/) | What prefill is made of now |
 | [`round13-2026-09-20`](round13-2026-09-20/) | How often the f16 accumulators need promoting, and what that says about the kernel |
 | [`round14-2026-09-20`](round14-2026-09-20/) | Double buffering the tiles: a wave of occupancy for nothing |
 | [`round2-2026-09-19`](round2-2026-09-19/) | Round two after the seven patches: runtime knobs, the 8B's q8_0 kernel, the launch gaps |
 | [`round3-2026-09-19`](round3-2026-09-19/) | Round three: the hardware queue count, the 8B settled, one more D=256 row |
-| [`round4-2026-09-19`](round4-2026-09-19/) | What prefill actually runs, and a null result about switching it |
+| [`round4-2026-09-19`](round4-2026-09-19/) | What prefill runs, and a null result about switching it |
 | [`round5-2026-09-19`](round5-2026-09-19/) | Dequantise and multiply with rocBLAS instead of MMQ |
 | [`round6-2026-09-19`](round6-2026-09-19/) | The packed-fp16 GEMM inside llama.cpp: correct, faster per kernel, slower per model |
 | [`round7-2026-09-20`](round7-2026-09-20/) | The packed-fp16 GEMM, dequantising inside the kernel: 36 percent of the 1.5B's prefill |
@@ -142,7 +142,7 @@ GEMM, training, ALU and memory ceilings, hardware counters, porting CUDA.
 
 | directory | what it holds |
 |---|---|
-| [`alu-rates-2026-09-19`](alu-rates-2026-09-19/) | What the arithmetic units actually deliver on gfx1013, and what that says about prefill |
+| [`alu-rates-2026-09-19`](alu-rates-2026-09-19/) | What the arithmetic units deliver on gfx1013, and what that says about prefill |
 | [`alu-rates-recheck-2026-09-25`](alu-rates-recheck-2026-09-25/) | The ALU ceilings were measured below the clock cap, and packed fp16 is 2x fp32, not 3x |
 | [`hgemm-isa-2026-09-24`](hgemm-isa-2026-09-24/) | Does Tensile emit `v_pk_fma_f16` for gfx1013? Yes. |
 | [`hipify-cuda-2026-09-24`](hipify-cuda-2026-09-24/) | Porting a CUDA program to this board, and what it costs |
@@ -157,7 +157,7 @@ GEMM, training, ALU and memory ceilings, hardware counters, porting CUDA.
 | [`torch-pristine-2026-08-20`](torch-pristine-2026-08-20/) | The stock PyTorch ROCm wheel on a fresh install: aborts, no gfx101x Tensile library |
 | [`torch-probe-2026-08-19`](torch-probe-2026-08-19/) | The eleven-operation PyTorch probe on both builds |
 | [`torch-recheck-2026-08-22`](torch-recheck-2026-08-22/) | PyTorch training, re-checked on the current configuration |
-| [`torch-rocblas-bench-2026-09-24`](torch-rocblas-bench-2026-09-24/) | What PyTorch and rocBLAS actually deliver here, against the board's own ceilings |
+| [`torch-rocblas-bench-2026-09-24`](torch-rocblas-bench-2026-09-24/) | What PyTorch and rocBLAS deliver here, against the board's own ceilings |
 | [`torch-train-2026-08-19`](torch-train-2026-08-19/) | The 50-step PyTorch training loop against its CPU reference, twice |
 
 ## Setup, system and method
@@ -206,7 +206,7 @@ The flush fixes in the module, the rare fault, and why a GPU reset takes the hos
 | [`flush-cost-2026-08-18`](flush-cost-2026-08-18/) | What the runlist-rebuild flush costs, and the faults without it, toggled within one boot |
 | [`ftrace`](ftrace/) | Function-tracer captures of the wedge |
 | [`gpu-recovery-cost-2026-08-21`](gpu-recovery-cost-2026-08-21/) | What `amdgpu.gpu_recovery=0` costs |
-| [`gpu-reset-fatal-2026-08-21`](gpu-reset-fatal-2026-08-21/) | A GPU reset kills this board, with or without a fault |
+| [`gpu-reset-fatal-2026-08-21`](gpu-reset-fatal-2026-08-21/) | A GPU reset takes this board down, with or without a fault |
 | [`hws-fullcheck-2026-10-22`](hws-fullcheck-2026-10-22/) | Correctness with checks that can fail: rocBLAS with every element checked, and the probe across runlist-rebuild settings in 14 boots |
 | [`probe-dispatch-2026-10-22`](probe-dispatch-2026-10-22/) | One dispatch or three: the probe's failure without the runlist rebuild needs a second dispatch |
 | [`sched2-fullcheck-2026-10-23`](sched2-fullcheck-2026-10-23/) | The software-scheduler rows of the CU-by-scheduler table on the same stack as the hardware rows |
@@ -226,8 +226,8 @@ The flush fixes in the module, the rare fault, and why a GPU reset takes the hos
 | [`reset-cp-bisect-2026-08-23`](reset-cp-bisect-2026-08-23/) | The reset hangs in the KIQ resume |
 | [`reset-cp-resume-2026-08-23`](reset-cp-resume-2026-08-23/) | The reset stall is in the Command Processor resume |
 | [`reset-dyndbg-2026-08-23`](reset-dyndbg-2026-08-23/) | Dynamic debug does not reach past the stall |
-| [`reset-fault-addresses-2026-08-21`](reset-fault-addresses-2026-08-21/) | Where the faults that kill the board land |
-| [`reset-honest-2026-09-15`](reset-honest-2026-09-15/) | Honest resets, the recovery default, and a gfx10 per-queue reset |
+| [`reset-fault-addresses-2026-08-21`](reset-fault-addresses-2026-08-21/) | Where the faults that take the board down occur |
+| [`reset-honest-2026-09-15`](reset-honest-2026-09-15/) | Resets that fail visibly, the recovery default, and a gfx10 per-queue reset |
 | [`reset-kiq-bisect-2026-08-23`](reset-kiq-bisect-2026-08-23/) | Inside the KIQ resume, and the stall moves when you add prints |
 | [`reset-kiq-gap-2026-08-24`](reset-kiq-gap-2026-08-24/) | The gap probe answers a different question than the one it was built for |
 | [`reset-kiq-repeat-2026-08-24`](reset-kiq-repeat-2026-08-24/) | The reset stall is a race, and three earlier readings were single runs of it |
@@ -252,7 +252,7 @@ The copy engine: the microcode fix and what enabling it costs.
 
 | directory | what it holds |
 |---|---|
-| [`sdma-copy-inventory-2026-09-25`](sdma-copy-inventory-2026-09-25/) | What a decode actually copies, and why that does not explain the SDMA cost |
+| [`sdma-copy-inventory-2026-09-25`](sdma-copy-inventory-2026-09-25/) | What a decode copies, and why that does not explain the SDMA cost |
 | [`sdma-decode-cost-2026-09-22`](sdma-decode-cost-2026-09-22/) | Enabling SDMA costs the small model 5 percent of decode |
 | [`sdma-depth-2026-08-20`](sdma-depth-2026-08-20/) | Decode at depth with SDMA enabled against disabled, alternated |
 | [`sdma-firmware-2026-08-19`](sdma-firmware-2026-08-19/) | SDMA works with the navi12 microcode |
@@ -277,7 +277,7 @@ Hours-long runs over several models.
 
 ## Fedora 43's zeroed fp16 GEMM
 
-A toolchain defect in Fedora 43's ROCm compiler-rt, hunted down to its root cause.
+A toolchain defect in Fedora 43's ROCm compiler-rt, traced to its root cause.
 
 | directory | what it holds |
 |---|---|

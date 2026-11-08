@@ -25,9 +25,9 @@ rounds and the same one a single gate returns today, so the number is stable
 across builds, boots and months, not merely within one run.
 
 The PyTorch arm is the new part. Fourteen training loops, each 50 Adam steps
-over a three-layer network, returned an identical final loss every time. That
-matters more than the value itself: it means the training path is not just
-working but deterministic across an eight-hour period that also included
+over a three-layer network, returned an identical final loss every time. The
+identical loss shows the training path is deterministic, not only working,
+across an eight-hour period that also included
 hundreds of large allocations and forty-two churn sweeps.
 
 `churn_1.log` and `churn_42.log` are the first and last churn sweeps, kept as

@@ -1,7 +1,7 @@
 # Kernel equivalence and the CU-by-scheduler factorial, 2026-08-17
 
 Two questions, one battery. Each directory is one boot, named for what was
-actually configured, not for the kernel alone, since several boots share
+configured, not for the kernel alone, since several boots share
 a kernel and differ only in a boot argument.
 
 `inv47.log` and `result.txt` in each directory hold the same battery: the bare
@@ -51,7 +51,7 @@ boot above: probes hang at every size and SGEMM wedges at N=256. That run was
 stopped before the battery reached its dmesg fault count, so unlike the four
 cells above it has no timeout figure; `result.txt` and `inv47.log` hold what it
 did capture. It is kept because it shows the effect is not specific to one kernel,
-but note that it is a different kernel from the four factorial cells and should
+but it is a different kernel from the four factorial cells and should
 not be read as a fifth cell of that table.
 
 A stray copy removed on 26 August: this directory also held

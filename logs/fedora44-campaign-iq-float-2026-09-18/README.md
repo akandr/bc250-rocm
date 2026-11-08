@@ -40,7 +40,7 @@ three-patch build three days earlier
 
 The two models made of the new types move and nothing else does: the MoE, whose experts are IQ2_XXS and
 IQ3_XXS and whose attention is Q5_K, gains 20 percent of decode; the 27B, IQ3_S and IQ3_XXS with a Q5_K
-output head, gains 30. Prefill is unchanged to a tenth of a percent everywhere, as it should be for a
+output head, gains 30. Prefill is unchanged to a tenth of a percent everywhere, as expected for a
 single-column kernel. The four models with no new type read between 0.3 percent up and 2.5 percent down;
 the 14B models' 2.5 percent is inside the 3.6 to 6.1 percent decode spread they show from campaign to
 campaign, on a board that had been under continuous GPU load for four hours when this one started, and

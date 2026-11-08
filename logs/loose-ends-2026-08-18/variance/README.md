@@ -19,11 +19,11 @@ order (first five 17.41, last five 17.91).
 
 ## What this settles
 
-**The spread is real and intrinsic, not an artifact of one bad boot.** A 4.3
+The spread is real and intrinsic, not an artifact of one bad boot. A 4.3
 percent coefficient of variation over ten runs is far outside anything else
 measured on this board.
 
-**It is specific to decode at depth, not to the model or the board.** Prefill
+It is specific to decode at depth, not to the model or the board. Prefill
 is stable everywhere, including on this same model:
 
     1.5B prefill, 43 soak rounds     0.3 percent spread
@@ -32,17 +32,17 @@ is stable everywhere, including on this same model:
     8B   prefill, 26 soak rounds     1.1 percent
     8B   decode at depth, 10 runs    15 percent
 
-**The historical 12.9 is not from this distribution.** It sits 6.3 standard
+The historical 12.9 is not from this distribution. It sits 6.3 standard
 deviations below this boot's mean, so whatever produced it was a different
 condition, not the low tail of ordinary noise. The companion test in
 `../history/` looks for that condition.
 
 ## The likely reason it is decode and not prefill
 
-Decode at depth on this model is close to the memory ceiling: the top-level
-README measures it at about 80 percent of the board's 402 GiB/s, the highest
+Decode at depth on this model is close to the memory ceiling: INVESTIGATION.md
+measures it at about 80 percent of the board's 402 GiB/s, the highest
 utilisation of any model tested. Prefill is arithmetic-bound and sits nowhere
 near that limit. A workload running at four fifths of the achievable bandwidth
 has little headroom to absorb anything else touching memory, which is a
 plausible reason for it to be the one measurement that moves. That is an
-inference from the utilisation figures instead of a demonstration.
+inference from the utilisation figures, not a demonstration.

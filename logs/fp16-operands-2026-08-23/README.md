@@ -4,10 +4,10 @@ Generated with instrumentation already in the tree, on one perplexity chunk at
 context 2048, ubatch 512, fp16 compute. Raw lines in `calls.txt`, which prints
 them under the markers `BC250PTR`, `BC250DEV` and `BC250TEMP`.
 
-Two notes on reading it, added 26 August. This line used to name the switches as
+Two notes on reading it, added 26 August. An earlier version named the switches as
 `BC250_PTR`, `BC250_DEVCHECK` and `BC250_TEMP`. Only the last of those exists as
 an environment variable in any shipped script; the other two appear nowhere, and
-the capture prints the undescored marker names above. The instrumentation was in
+the capture prints the marker names above, without underscores. The instrumentation was in
 the working tree, not in a harness, and that tree is not shipped, so the
 markers are what can be checked. And the call indices below, 1, 36, 37, 38 and
 73, are not in `calls.txt`: it records tensor names in order, and the indices are
@@ -19,7 +19,7 @@ it, and they are a reading of the capture, not a field in it.
 
 The defect is one zeroed fp16 GEMM per evaluated batch after the first. The
 question is what differs between the call that works and the call that does not.
-The natural candidates are the arguments and the operands.
+The candidates examined are the arguments and the operands.
 
 ## Neither differs
 
@@ -32,7 +32,7 @@ value projection, and their arguments are byte-identical:
 
 Same pointers, same alignments, same shape.
 
-And the operands are intact as the shader cores themselves see them, summed on
+The operands are also intact as the shader cores see them, summed on
 device instead of read back through the host:
 
 | call | outcome | weight abs sum | activations abs sum |
@@ -44,12 +44,12 @@ device instead of read back through the host:
 | 73 | **zero** | 84296.1 | 17059.3 |
 
 The weight sum at the zeroed calls is identical to the clean call's, to six
-figures, and the activations are healthy and of the expected magnitude. Good
-inputs, and the GEMM leaves exactly zero in its output temporary.
+figures, and the activations are healthy and of the expected magnitude. The
+inputs are correct, and the GEMM leaves exactly zero in its output temporary.
 
 ## The instrument could have said otherwise
 
-Two checks, because a negative from an instrument is worth nothing unless it
+Two checks, because a negative result from an instrument means nothing unless it
 could have produced a positive. The device-side sums are non-zero for every call
 including the zeroed ones, so the probe reports non-zero when non-zero is there.
 And the defect survives the instrumentation: perplexity is 14.1344 with the
@@ -58,11 +58,10 @@ positions 37, 73 and 109.
 
 ## What is left
 
-Not the arguments, not the operands, not graph capture, not the batch size beyond
-its effect on batch count. The same call with the same pointers and the same
+The arguments, the operands, graph capture and the batch size (beyond its effect
+on batch count) are ruled out. The same call with the same pointers and the same
 input data returns a correct result in the first batch and nothing in later ones.
 
-That is a statement about execution and not about data, and it narrows to
-whatever the batch boundary changes underneath an otherwise identical dispatch.
-The output temporary's address is the obvious next thing to record, since
-`BC250_TEMP` currently reports only its contents.
+The difference is therefore in execution, not in data: something the batch
+boundary changes underneath an otherwise identical dispatch. The output
+temporary's address was not recorded; `BC250_TEMP` reports only its contents.

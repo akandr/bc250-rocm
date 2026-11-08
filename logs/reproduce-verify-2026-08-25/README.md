@@ -7,16 +7,15 @@ arguments and the module path it ran against.
 
 ## Why run it again
 
-Two earlier verifications exist, on 19 and 22 August. This one was worth doing for
-a reason those did not have: the intervening week put a dozen instrumented amdgpu
-builds on this board and took them off again, chasing the reset defect, and the
+Two earlier verifications exist, on 19 and 22 August. Since then, a dozen instrumented amdgpu
+builds went onto this board and off again during work on the reset defect, and the
 last of those rebuilds was restored by hand. A reproducer that passed before that
 churn is not evidence that it passes after it.
 
-It also follows a pass in which trying to re-run a probe, not read about it
+It also follows a re-run of a probe, rather than a reading of its log, which
 found that the environment behind the PyTorch section no longer exists
-([the note in the companion](../../INVESTIGATION.md)). That is the kind of thing
-only execution finds, so the other shipped path deserved the same treatment.
+([the note in the companion](../../INVESTIGATION.md)). Only running a path finds
+that, so the other shipped path was run as well.
 
 ## Result: every stage passes
 
@@ -36,9 +35,9 @@ only execution finds, so the other shipped path deserved the same treatment.
     RESULT: total_wrong=0 -> ALL CORRECT                        <- small kernel
     RESULT: total_wrong=0 -> ALL CORRECT                        <- large kernel
 
-The `ROCBLAS FAIL` line is the point of stage 2 instead of a failure of it: the
+The `ROCBLAS FAIL` line is the expected outcome of stage 2, not a failure of it: the
 system rocBLAS has no gfx1013 code objects and aborts, which is the defect the
-native build exists to answer.
+native build addresses.
 
-So the unlock survived the rebuilds, the native library is still the one being
+The unlock survived the rebuilds, the native library is still the one being
 loaded, and both compute queues still return correct results.

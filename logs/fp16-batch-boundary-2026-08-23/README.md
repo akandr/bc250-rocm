@@ -10,10 +10,10 @@ ship the same log file.
 Two things in this repository could not both be the whole story. The zeros land
 on the first fp16 GEMM of every graph execution after the first, which reads
 naturally as capture behaving differently from replay. But it is also recorded,
-from six runs per arm on 18 August, that HIP graph capture is not involved at
-all: the defect is as present with capture off as with it on.
+from six runs per arm on 18 August, that HIP graph capture is not
+involved: the defect is as present with capture off as with it on.
 
-Counting the zeros directly with capture disabled settles which reading survives.
+Counting the zeros directly with capture disabled shows which reading holds.
 
 ## Result: capture is irrelevant, to the digit
 
@@ -22,14 +22,14 @@ Counting the zeros directly with capture disabled settles which reading survives
 | on | 144 | 3 | 37, 73, 109 | 14.1344 |
 | off | 144 | 3 | 37, 73, 109 | 14.1344 |
 
-Not merely similar. The same number of calls, the same three positions, and a
-perplexity identical to four decimals. Whatever produces the zeros does not care
+The two arms match exactly: the same number of calls, the same three positions, and a
+perplexity identical to four decimals. Whatever produces the zeros does not depend on
 whether the work went through a captured graph.
 
-So the capture-versus-replay reading was wrong, and the 18 August result stands
+The capture-versus-replay reading was therefore wrong, and the 18 August result stands
 without qualification.
 
-## What the positions actually mean
+## What the positions mean
 
 One perplexity chunk at context 2048 is evaluated in ubatches of 512, so four
 batches, and 144 calls over four batches is 36 per batch. Positions 37, 73 and
@@ -37,13 +37,13 @@ batches, and 144 calls over four batches is 36 per batch. Positions 37, 73 and
 first batch is not zero.
 
 The defect is therefore tied to the batch boundary: the first fp16 GEMM after a
-batch that has already run returns zero, and the very first batch of a process
-is clean. That is a sharper statement than the one it replaces and it points
-somewhere different, at whatever is reused or rebound between batches, not at graph machinery.
+batch that has already run returns zero, and the first batch of a process
+is clean. That is more specific than the statement it replaces, and it points
+at whatever is reused or rebound between batches rather than at the graph machinery.
 
 ## An aside
 
 Both arms returned 14.1344 exactly. Runs at two chunks have repeatedly returned
 different values from each other, so the defect is not always non-deterministic;
-at this size it reproduces exactly. What varies with workload size is something
-this has not pinned down.
+at this size it reproduces exactly. What varies with workload size is not
+established here.

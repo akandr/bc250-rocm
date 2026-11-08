@@ -36,26 +36,26 @@ time, so this is a stall and not packet loss.
 
 ## What that changes
 
-**The RLC is not implicated, and neither is any particular register.** The read
+The RLC is not implicated, and neither is any particular register. The read
 that hangs is the first GC register access after the reset. In the driver's
 own path that was `mmRLC_CP_SCHEDULERS`; give the probe an earlier access and the
 stall moves to that instead. Every localisation below the GFX resume should be read
 as "the first access this build happens to make", not as naming a register.
 
-**The device is present and the link is up.** Config space reads return
+The device is present and the link is up. Config space reads return
 `0x13fe1002`, the AMD vendor id with this part's device id, and a command word of
 `0x0407` with memory space and bus mastering enabled. Whatever fails, it is not the
 device having fallen off the bus, which would also have made the reset's own
 success messages impossible.
 
-**It is not the indirect register path.** `rmmio_size` is 524288 bytes and the two
+It is not the indirect register path. `rmmio_size` is 524288 bytes and the two
 offsets are dword indices, so the scheduler register sits at byte 0x3B2A8 and
 `GRBM_STATUS` at 0x8010, both inside the mapped window. amdgpu therefore takes the
 direct path, a plain `readl` on the BAR, not the PCIE index/data pair that
 serialises on `adev->pcie_idx_lock`. A spinlock held by another stuck CPU had been
-a live explanation for a CPU that stops answering, and it is not this.
+a possible explanation for a CPU that stops answering; it is ruled out.
 
-So what is left is narrow: after a MODE1 reset on this part, a plain load to the
+What remains is narrow: after a MODE1 reset on this part, a plain load to the
 mapped GC aperture intermittently never completes, while config space stays
 responsive. The CPU that issued it stops answering, which is what the clocksource
 watchdog is reporting.
@@ -70,8 +70,8 @@ capture before it was committed. Five subsequent trials did not reproduce it.
 It is recorded here as an observation without evidence, not as a finding. It is
 consistent with the intermittency measured elsewhere, roughly one run in twelve
 getting an access through, and one unreproduced run out of six is what that rate
-predicts. But nothing here rests on it, and if the aperture's reachability turns
-out to matter, it needs collecting again instead of citing.
+predicts. Nothing here rests on it, and if the aperture's reachability matters,
+it has to be collected again before it can be cited.
 
 ## The other path, and an assumption retired
 
@@ -80,8 +80,8 @@ Everything above was triggered through debugfs, which enters by
 The resets that take this board down under load enter by
 `amdgpu_amdkfd_gpu_reset()` with `AMDGPU_RESET_SRC_HWS` and log `Source: 4`. That
 the two fail the same way had been assumed since the bisect began, and the whole
-localisation depends on it: if they diverge, all of this describes a reset nobody
-cares about.
+localisation depends on it: if they diverge, all of this describes a reset other than
+the one that takes the board down.
 
 The same module carries a parameter that calls the KFD path directly, so the arm
 only needed a boot with `amdgpu.gpu_recovery` at the driver default, since the
@@ -111,8 +111,8 @@ The KFD arm's own words, with the guard reporting that it will proceed:
     clocksource: Watchdog remote CPU 8 read timed out
 
 Two entry points, two reset sources, eight trials, one failure. The localisation
-collected through debugfs describes the reset that actually takes this board down,
-and that is an observation now instead of an assumption.
+collected through debugfs describes the reset that takes this board down, and that
+is now observed rather than assumed.
 
 What it does not make observable is the fault that requests the reset in the
 first place. These are still deliberate resets on an idle GPU; what a real fault

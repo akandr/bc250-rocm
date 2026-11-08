@@ -18,8 +18,8 @@ backends ([`scripts/correctness_table.sh`](../../scripts/correctness_table.sh), 
 | qwen3.6-35B-A3B MoE IQ2_M | 5.1820 | 5.1975 | 5.1887 | -0.0067 |
 | qwen3.8-27B UD-IQ3_XXS | 5.2938 | 5.3385 | 5.2899 | +0.0039 |
 
-**Every Vulkan figure reproduces the August measurement to four decimals.** That is why the
-comparison readable: the reference did not move, so the ROCm column's movement is the patches and
+Every Vulkan figure reproduces the August measurement to four decimals. That makes the comparison
+readable: the reference did not move, so the ROCm column's movement comes from the patches and
 nothing else.
 
 Four models improved and two are slightly worse, and the split is the one the patches predict. The four

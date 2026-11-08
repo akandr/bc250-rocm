@@ -32,9 +32,9 @@ Medians of nine samples:
 
 The two codebook models are the ones the new decoders were for and the only ones that move: the 27B by
 11.5 percent and the MoE by 4.2. Decode is unchanged everywhere within its spread; the 8B's tg64 reads 4
-percent under the previous campaign, which is the session-to-session wander that
-[`logs/round3-2026-09-19/`](../round3-2026-09-19/) measured directly on that model, not anything
-this build does, since nothing in the change touches q8_0 or decode.
+percent under the previous campaign, which is the session-to-session variation that
+[`logs/round3-2026-09-19/`](../round3-2026-09-19/) measured directly on that model rather than an
+effect of this build, since nothing in the change touches q8_0 or decode.
 
 Prefill against Vulkan is 0.68 to 0.77 across the six models, where the three-patch build was 0.44 to
 0.66. Every Vulkan row reproduces the ten earlier campaigns within 0.5 percent.

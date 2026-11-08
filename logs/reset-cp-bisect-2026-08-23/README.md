@@ -16,8 +16,8 @@ was written before the run and is in `prediction.txt`.
 `gfx_v10_0_kiq_resume()` is entered and never returns. No `kiq_resume returned`
 line, no `before kcq_resume`, nothing further.
 
-So the host stall after a GPU reset is the Kernel Interface Queue failing to
-resume.
+The host stall after a GPU reset is therefore the Kernel Interface Queue failing
+to resume.
 
 ## The prediction
 
@@ -38,10 +38,10 @@ because a PASID flush issued through the KIQ froze this board; the fix is to sto
 using the KIQ for that flush. Now a GPU reset is found to hang because the KIQ
 cannot be brought back.
 
-Two defects, one queue. That is a much tighter connection than "both are in the
-CP", which was as far as the previous cycle could go. It is still not proof of a
+Two defects involve one queue. That is a much tighter connection than "both are
+in the CP", which was as far as the previous cycle went. It is still not proof of a
 single root cause: a queue that misbehaves when flushed through and a queue that
-cannot be re-initialised after a reset could be two faults in one block. But any
+cannot be re-initialised after a reset could be two faults in one block. Any
 account of this hardware now has to explain the KIQ.
 
 ## Scope
@@ -52,7 +52,7 @@ instrumented it.
 
 ## One capture
 
-One triggered reset. This page carries the load-bearing step of the whole reset
+One triggered reset. This page carries the central step of the reset
 chain, that `gfx_v10_0_kiq_resume()` is entered and never returns, and it rests
 on a single netconsole capture where that was the last line to arrive. Netconsole
 is UDP with no retransmission, so an absent line can mean a stall or a lost

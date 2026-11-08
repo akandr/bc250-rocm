@@ -37,7 +37,7 @@ and over the three-patch build three days earlier
 | qwen3.6-35B MoE | 1.001 | **1.028** | 1.050 | **1.709** | 1.001 / 0.996 |
 | qwen3.8-27B | 1.001 | 1.000 | 1.026 | 1.455 | 1.000 / 0.999 |
 
-Prefill does not move, as it should not: the kernel is single-column only. Decode moves where the models
+Prefill does not change, as expected: the kernel is single-column only. Decode moves where the models
 have q6_K tensors: the 1.5B's output head and its `ffn_down` are q6_K and it gains 10 percent on top of the
 q4_K kernel's; the two 14Bs, whose Q4_K_M mixes carry q6_K on part of the attention and FFN weights, gain 5
 and 6; the MoE's IQ2_M mix keeps a few q6_K tensors and gains 3. The Q8_0 8B is flat to a tenth of a

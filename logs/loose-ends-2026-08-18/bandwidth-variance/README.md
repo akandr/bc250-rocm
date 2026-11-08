@@ -6,7 +6,7 @@ mean 6.66 t/s, sd 0.78, coefficient of variation 11.7 percent, the most variable
 of the three. That refutes the bandwidth-headroom explanation the README
 previously offered as an inference.
 
-That share read 42 percent here until 26 August, which is deepseek-r1-14B's
+Until 26 August this page gave the share as 42 percent, which is deepseek-r1-14B's
 share and not this model's. These runs are qwen3-14B Q4_K_M, whose 8.63 GiB at
 21.5 t/s is 46 percent of the 402 GiB/s ceiling, and 46 is the figure the
 companion uses in all three places it makes this comparison.

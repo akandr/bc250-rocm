@@ -11,7 +11,7 @@ alternated within each round so linear drift cancels.
 | 3 | 19.69 | 17.12 | +2.57 |
 
 Mean difference +2.13 t/s with sd 0.38, the same sign in three rounds of three,
-so disabling graph capture is about 13 percent **faster** at this depth.
+so disabling graph capture is about 13 percent faster at this depth.
 
 The blocked version of the same comparison, ten runs of one arm followed by ten
 of the other, reported the opposite: disabling capture 15 percent slower. Both
@@ -31,7 +31,7 @@ each, graph capture on throughout so the flag is not in play.
 Variability does not rise with bandwidth utilisation: the middle model is again
 the most variable. The blocked version of this comparison had produced a
 monotone ordering (2.8, 5.1, 6.6 percent) that looked like support for the
-bandwidth explanation, and it does not hold up rotating the order. The
+bandwidth explanation, and it does not hold when the order is rotated. The
 explanation stays untested and unsupported.
 
 Clock and temperature are sampled per run. The 1.5B holds 1500 MHz while the two

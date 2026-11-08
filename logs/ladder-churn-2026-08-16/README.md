@@ -8,7 +8,7 @@ these runs replace it. All results below replicate that earlier pass.
 Each directory holds:
 
 - `config.txt`: kernel release, the `amdgpu.bc250_flush_by_runlist` value in
-  force, whether the map-side hook is present in the module that actually
+  force, whether the map-side hook is present in the module that
   loaded, and the SIMD count read from the KFD topology
 - `result.txt`: exit code, elapsed seconds, whether the sweep completed, fault
   count, and the verdict
@@ -37,12 +37,12 @@ defect, and it equally fits a sweep that needs longer on those kernels.
 No 6.18 kernel had been measured with the fix present, so nothing distinguished
 the two readings.
 
-The pair settles it. Same kernel, same board, same boot arguments, same module
+The pair separates them. Same kernel, same board, same boot arguments, same module
 source including the unconditional 40-CU unlock. The only differences are the
 map-side hook in the module and the runlist value. Without them the sweep does
 not finish in 1500 s; with them it finishes in 590 s.
 
-The healthy runtime is also telling: 590 s here, 591 s on 7.1.5, 592 s on
+The healthy runtime also bears on this: 590 s here, 591 s on 7.1.5, 592 s on
 6.19.14. The timeout carried about 2.5 times the headroom a healthy sweep needs,
 on the same kernel that stalled, which rules out the timeout being too short.
 
@@ -52,8 +52,8 @@ differently, not two separate problems.
 ## Reading the SIMD count
 
 The unlock is a module parameter, `bc250_cc_write_mode`, and
-`/etc/modprobe.d/bc250-40cu.conf` sets it to 3 from inside the initramfs. So a
-kernel command line with no mention of it still boots with the unlock active,
+`/etc/modprobe.d/bc250-40cu.conf` sets it to 3 from inside the initramfs. A
+kernel command line with no mention of it therefore still boots with the unlock active,
 and the cmdline alone cannot confirm the state either way. The SIMD count is
 the check. Read it across all KFD topology nodes and take the maximum:
 

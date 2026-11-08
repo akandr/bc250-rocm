@@ -9,9 +9,9 @@ offered, that Tensile does not emit `v_pk_fma_f16` for gfx1013, was wrong and wa
 it was published ([`logs/hgemm-isa-2026-09-24/`](../hgemm-isa-2026-09-24/)): the code object HGEMM
 loads carries 720 of them. That left the gap real and its cause open.
 
-The question a retraction does not answer is whether the gap belongs to the library or to the
-machine. This answers it: a straightforward hand-written packed-fp16 GEMM, on the same board at the
-same clock, is **1.9 times rocBLAS HGEMM at N=8192**, at the same accuracy.
+The retraction left open whether the gap belongs to the library or to the machine. Here a
+straightforward hand-written packed-fp16 GEMM, on the same board at the same clock, is 1.9 times
+rocBLAS HGEMM at N=8192, at the same accuracy.
 
 ## Result
 
@@ -30,7 +30,7 @@ accuracy check.
 | 4096 | 4514.6 | 3.3e-02 | 7660 | 1.8e-02 | **1.70** |
 | 8192 | 4671.8 | 2.5e-02 | 8910 | 3.5e-03 | **1.91** |
 
-The hand-written kernel reaches **8.9 TFLOP/s, 62 percent of the 14.4 TFLOP/s packed-fp16 ceiling**,
+The hand-written kernel reaches 8.9 TFLOP/s, 62 percent of the 14.4 TFLOP/s packed-fp16 ceiling,
 where rocBLAS reaches 32 percent. Three runs of it at N=8192 read 8.94, 8.95 and 8.91 TFLOP/s, so the
 figure reproduces to better than half a percent. The first two are in `pkf16_vs_rocblas.txt`, before
 the accuracy check was added; the third is `pk_run3.txt` and is the column above.
@@ -47,12 +47,12 @@ not to characterise either kernel.
 shapes. An LDS-staged tile GEMM, tiles into shared memory, accumulators held as `__half2`, one
 `v_pk_fma_f16` per two outputs. No double buffering, no assembly, no per-shape tuning: one tile
 geometry (BM 128, BN 128, BK 32, TM 8, TN 16) for every size. It is not a better GEMM than Tensile
-could write; it is the least a packed-fp16 kernel can be.
+could write; it is a minimal packed-fp16 kernel.
 
 ## A correction to how the earlier disassembly was done
 
 The 24 September disassembly was taken from `build-restored-2026-08-20`, which is the ROCm 6.4.2-era
-rocBLAS. That build no longer loads at all on this system: it needs `libamdhip64.so.6` and the board
+rocBLAS. That build no longer loads on this system: it needs `libamdhip64.so.6` and the board
 carries `.so.7`. The `strace` that identified the loaded object captured basenames only, so the file
 that was disassembled was never shown to be the file in use.
 
@@ -60,20 +60,20 @@ Redone here with full paths (`tensile_objects_opened.txt`). Two installs are in 
 the timed run above loaded `/opt/bc250-rocm/lib64/librocblas.so.5`, which is what the recipe installs,
 and the traced run loaded `/home/akandr/rb711/install/lib64` through `LD_LIBRARY_PATH`. Their gfx1013
 HH objects are byte-identical, md5 `cc7443b90911`. Its gfx1013 HH object carries the same 720 `v_pk_fma_f16` and no
-`v_fma_mix_f32` (`hh_object_across_builds.txt`), so the retraction stands. The evidence behind it
-did not, until now.
+`v_fma_mix_f32` (`hh_object_across_builds.txt`), so the retraction stands; before this check, the
+evidence behind it did not.
 
 ## What this does and does not settle
 
 Settled: the 3x is in rocBLAS's kernel for this target. The instruction is emitted, the hardware
 sustains 8.9 TFLOP/s through it, and an untuned kernel gets most of the way there.
 
-The library ships no tuned solutions for this target at all: all 54 of its gfx1013 Tensile files are
+The library ships no tuned solutions for this target: all 54 of its gfx1013 Tensile files are
 `fallback` (`tensile_gfx1013_files.txt`), and both precisions land on small macro tiles at workgroup
 16x16.
 
-**It is the tile, and it is not occupancy.** Reading the resource usage out of both kernels
-(`kernel_resources.txt`) rules the obvious alternative out, because the faster kernel is the one with
+It is the tile, not occupancy. Reading the resource usage out of both kernels
+(`kernel_resources.txt`) rules out occupancy, because the faster kernel is the one with
 the worse occupancy:
 
 | | rocBLAS `MT64x128x8` | hand-written |
@@ -87,7 +87,7 @@ the worse occupancy:
 | register spills | none | none |
 
 The hand-written kernel asks for 1.6 times the registers and 5.7 times the shared memory, so fewer of
-its waves fit on a SIMD, and it is still 1.9 times faster. What it buys with those registers is a
+its waves fit on a SIMD, and it is still 1.9 times faster. What it gains with those registers is a
 thread tile of 128 outputs against 32, so every value read from shared memory is reused four times as
 often, and a K step that does 32 MACs per staged byte against 21.3.
 
@@ -95,7 +95,7 @@ That is what an untuned fallback tile costs on this part: Tensile's default has 
 architectures it has never seen, and a tile that small leaves the arithmetic units waiting on LDS.
 Neither kernel spills.
 
-**The distance left to the ceiling is not tile choice either.** Sweeping the hand-written kernel's
+The distance left to the ceiling is not tile choice either. Sweeping the hand-written kernel's
 geometry at N=8192 puts the shipped configuration at the top of nine tried, and every perturbation
 loses (`tile_sweep.txt`, `tilesweep.sh`):
 
@@ -116,7 +116,7 @@ winner and are still a third slower, because 25.6 KB of shared memory per workgr
 occupancy than the extra reuse returns. Halving the depth to BK 16 is worst of all and, unexpectedly,
 needs 208 registers, not 113.
 
-So the tile explains the gap between rocBLAS and this kernel, and does not explain the gap between
+The tile therefore explains the gap between rocBLAS and this kernel, and does not explain the gap between
 this kernel and the ceiling. What is left is what this kernel does not do: no double buffering, no
 attention to LDS bank behaviour, no instruction scheduling beyond what the compiler chooses. Two
 caveats on that. Nine configurations around one point is a local search instead of a proof that no
@@ -142,10 +142,10 @@ GPU, so build first and measure afterwards.
 
 **The script did not reproduce this page, 25 September 2026.** `scripts/pk_gemm_square.cpp` shipped
 with `BK` defaulting to 16 while the comment at the top of that same file, and `tile_sweep.txt` below,
-both give 32. Anyone running it got 2.31 TFLOP/s at N=8192, not the 8.90 on this page. Rebuilt
+both give 32. Running it gave 2.31 TFLOP/s at N=8192, not the 8.90 on this page. Rebuilt
 with `BK` 32 it returns 123.557 ms and 8.90 TFLOP/s, matching what is published here, so the figures
 stand; the default is now 32. `tile_sweep.txt` also headed its last column `TFLOPs` while holding
 milliseconds, which is corrected. Hardware counters on both builds
 ([`logs/hw-counters-2026-09-25/`](../hw-counters-2026-09-25/)) show why the two differ: they issue the
-identical 671,088,640 LDS instructions and BK 32 issues 22 percent *more* arithmetic, but it uses 136
+identical 671,088,640 LDS instructions and BK 32 issues 22 percent more arithmetic, but it uses 136
 VGPRs against 208, which keeps 274 and not 154 wave-cycles resident per busy cycle.

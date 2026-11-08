@@ -35,7 +35,7 @@ Readings:
   | unset ([`kqv-master-noenv/`](kqv-master-noenv/)) | 9.9850 x4 | 88.3441, 89.2649, 89.2649, 10.0008 |
 
   The first row was run with the variable set out of habit and cannot show the defect, since f32
-  compute forces the GEMM that 0002 protects to f32 anyway. The second is the real test: without
+  compute forces the GEMM that 0002 protects to f32 anyway. The second is the test: without
   the patch three of four runs are corrupt and no two agree with the patched value. Upstream
   #28576 does not cover this path on gfx1013. The front page's recommended variable masks the
   defect as a side effect.

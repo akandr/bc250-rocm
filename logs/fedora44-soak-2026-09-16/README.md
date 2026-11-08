@@ -34,7 +34,7 @@ for about half an hour; the 8B gate loads 8.24 GiB with `--no-mmap` and could no
 kernel fault lines in the whole boot, no core dumps in that window, and the same gate run three times
 immediately afterwards returned 9.1117 each time (`run1.log` to `run3.log`).
 
-Two harness faults this exposed, both fixed in the script: the gate output was not saved, so the
+This exposed two harness faults, both fixed in the script: the gate output was not saved, so the
 failures left no evidence of their own, and nothing recorded what else was using the GPU. The script now
 writes `gate15_N.log` and `gate8_N.log` per round and logs other GPU users at the start.
 

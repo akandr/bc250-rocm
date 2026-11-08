@@ -16,7 +16,7 @@ each graph exported with `-fa on`, a 2048-token batch and then one token at a 40
 | qwen3.6-35B MoE | 16 / 2, 256 | 98333 | 30246 | **3.25** | 62 | 71 | 0.88 |
 | qwen3.8-27B | 24 / 4, 256 | 147243 | 62651 | **2.35** | 90 | 89 | 1.00 |
 
-Two remainders, then, and they are different kernels.
+That leaves two remainders, in different kernels.
 
 **Prefill, D=256.** The MoE's and the 27B's tile kernels still spill (51 to 68 registers after the patch's
 rows, against zero for D=128) and sit at 2.3 and 3.3 times Vulkan. On the MoE that is 10 attention
@@ -33,7 +33,7 @@ directory shows the 1 x 4 and 4 x 2 instances still spilling about 240 registers
 5 times Vulkan's time on the 8B and the 14B models at a 2048-token context, while the 1.5B, whose tile
 is the one row that came out clean, is 2.7 times faster than Vulkan. `llama-bench`'s `tg64` runs at an
 empty context, so none of this shows on the front-page table; it is the mechanism behind the
-decode-at-depth curves, where ROCm falls away from Vulkan faster than the KV traffic alone explains. The
+decode-at-depth curves, where ROCm falls behind Vulkan faster than the KV traffic alone explains. The
 experiment that follows (`fa-decode`, [`scripts/apply_rdna1_fa_vec_decode.py`](../../scripts/apply_rdna1_fa_vec_decode.py))
 routes one-token attention on RDNA1 to the vector kernel regardless of the GQA ratio and measures both
 the op and decode at depth 4096.
@@ -56,12 +56,12 @@ and `tg32` at a 4096-token depth and at an empty context, `-fa on`, two passes (
 | qwen3.6-35B MoE, D=256 | 8, 1 x 8 | **55** | 141 | 63.6 / 63.9 | 60.6 / 62.5 | 63.8 (3.4) / 38.0 (5.2) | 46.8 (11.8) / 64.8 |
 | qwen3.8-27B, D=256 | 6, 1 x 2 | **84** | 148 | 14.1 / 14.1 | 13.9 / 13.8 | 13.3 / 14.3 | 14.3 / 14.2 |
 
-The two 14B models, whose tile is the 1 x 1 instance, gain 2.9 times on the op and **42 percent of decode
-at depth 4096** (17.7 and 18.2 to 25.3 and 25.6 tokens per second), and nothing at an empty context, as
+The two 14B models, whose tile is the 1 x 1 instance, gain 2.9 times on the op and 42 percent of decode
+at depth 4096 (17.7 and 18.2 to 25.3 and 25.6 tokens per second), and nothing at an empty context, as
 the front-page table would predict. Every other model is better on the tile it had: the 8B's 1 x 4 tile,
 spilling as it does, still beats the vector kernel by 1.6 times and the model loses 13 percent at depth
-on it; the 1.5B is level; the D=256 models are 1.8 to 2.6 times slower on the vector kernel. So the rule
-in the final form is the narrow one: RDNA1, one token, the GQA optimisation applicable but its
+on it; the 1.5B is level; the D=256 models are 1.8 to 2.6 times slower on the vector kernel. The rule
+in the final form is therefore the narrow one: RDNA1, one token, the GQA optimisation applicable but its
 power-of-two part equal to one, which is when the tile would have been 1 x 1. The 8B's 163 us against
 Vulkan's 69 remains, and it is a tile-row problem (the D=128 ncols 4 instance spills 240 registers),
 not a kernel-choice one. The empty-context MoE readings with 5 to 12 percent spreads are the throttle
@@ -69,13 +69,13 @@ after the D=4096 run before them, not the kernels.
 
 The final form (`fa-vec-final/`): the rule as stated, no switch. `FLASH_ATTN_EXT` against the CPU 1368 of
 1368; the one-token op on the 14B models 166 and 160 us, on the 8B 159 (tile, unchanged), on the 1.5B 47;
-`tg32`, two passes: deepseek-r1-14B **25.8 / 25.7** at depth 4096 and 31.3 / 31.3 at an empty context,
+`tg32`, two passes: deepseek-r1-14B 25.8 / 25.7 at depth 4096 and 31.3 / 31.3 at an empty context,
 the 8B 31.3 / 30.7 and 36.1 / 35.7, both where the experiment build had them.
 
 ## Experiment J: the D=256 tile rows (`fa-d256/`, `sweep256.log`)
 
 The second compile-time sweep of D=256 rows (`sweep256.log`): no 32-column instance reaches zero spill at
-any geometry tried, but two things stand out. The 16-column instances `8x2` and `2x8` compile clean at
+any geometry tried, but two results are useful. The 16-column instances `8x2` and `2x8` compile clean at
 512 threads, occupancy 2, `nbatch_K` 64 (177 VGPRs, occupancy 5), and the 32-column row `256:2:32:64`
 brings the MoE's `4x8` instance from 52 spilled registers to 5. [`scripts/apply_rdna1_fa_d256.py`](../../scripts/apply_rdna1_fa_d256.py)
 sets the ncols-16 and ncols-32 rows and adds a run-time switch that caps D=256 prefill at 16 columns
@@ -100,7 +100,7 @@ one build three times; the two-directory A/B is in `fa-d256-2/`.
 
 The end-to-end A/B done properly (`fa-d256-2/`): `build-hip-fa3` is the same tree as `build-hip-gdn` with the
 ncols-32 row set to `256:2:32:64` and no cap, each binary from its own directory. `FLASH_ATTN_EXT` against
-the CPU 1303 of 1303. The 2048-token op: MoE 99369 to **48007** us, 27B 147581 to **84483** (the vector
+the CPU 1303 of 1303. The 2048-token op: MoE 99369 to 48007 us, 27B 147581 to 84483 (the vector
 choice for one token is in both builds now, so the one-token figures are 55 and 85 on both). `llama-bench`
 `-p 512,2048`, three repetitions, two passes:
 
@@ -109,7 +109,7 @@ choice for one token is in both builds now, so the one-token figures are 55 and 
 | qwen3.6-35B MoE | 294.6 / 297.4 | 297.4 / 297.1 | 299.0 / 299.3 | **305.8 / 305.5** | **+2.2 %** at pp2048 |
 | qwen3.8-27B | 71.2 / 71.2 | 71.8 / 71.5 | 66.0 (4.6) / 65.0 (2.0) | 63.9 (3.6) / 64.7 (3.4) | +0.6 % at pp512; pp2048 inside its spread |
 
-Less than the halved op suggests, and for a reason that is worth stating: `llama-bench` prefills 2048
+The gain is less than the halved op suggests: `llama-bench` prefills 2048
 tokens in four micro-batches of 512, so the attention it runs is four 512-query instances against a
 growing cache, about six tenths of the single 2048 x 2048 instance the replay times, and attention is a
 tenth of the MoE's pass to begin with. The row stays: it is an exact kernel-geometry change with a
@@ -144,5 +144,5 @@ I and K together, every model's one-token attention is at or ahead of Vulkan's:
 | qwen3.8-27B | 85 | 89 |
 
 The 14B models are the exception at 1.8 times; theirs is the vector kernel now, which is where the ratio-5
-head geometry lands without a GQA tile, and further work there means a tile row for `1x1` that does not
+head geometry has no GQA tile, and improving it would need a tile row for `1x1` that does not
 spill, which the D=128 sweep did not find.

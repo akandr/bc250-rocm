@@ -34,7 +34,7 @@ Perplexity, with the repaired rocBLAS from the root-cause page and no other chan
 Throughput, qwen2.5-1.5B Q4_K_M, `llama-bench -p 512 -n 64 -r 3`, run in the order previous build,
 `-mf16c`, previous, `-mf16c`: pp512 806.36 and 808.20 against 807.99 and 807.61 t/s, tg64 113.69 and
 113.72 against 113.67 and 113.60. No difference. This model takes neither the rocBLAS path nor the
-f16 clamp and fill paths, so it shows the flag costs nothing elsewhere instead of measuring those
+f16 clamp and fill paths, so it shows the flag costs nothing on other paths; it does not measure those
 paths.
 
 ## A second symptom: f16 CLAMP

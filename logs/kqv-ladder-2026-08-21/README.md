@@ -30,7 +30,7 @@ re-measurement to four decimals, 11.0631 against 11.0631.
 
 **The defect is not absent at short context.** The earlier table said ctx 1024 is
 "correct, 8/8 bit-identical". Here two of three runs are correct and the third
-returns 708.4671, which is not a small deviation. The same happens at 2048. What
+returns 708.4671. The same happens at 2048. What
 changes with context is not whether the defect occurs but how badly and how
 often, and a table row reading "correct" at 1024 states something stronger than
 the data supports.
@@ -40,7 +40,7 @@ as 8.1616 here, and the 4096 range of 180 to 3764 comes out as 211 to 8234. The
 patched arm reproduces exactly while the unpatched arm does not, which is what
 one would expect of a corrupting defect whose magnitude varies, but it means the
 earlier specific numbers belong to a configuration that cannot now be
-identified. They should be replaced by these instead of defended.
+identified. These figures replace them.
 
 ## An observation that was tested and did not hold
 
@@ -53,10 +53,10 @@ The pattern here was chance.
 
 That run also shows the rate above is unreliable. Three samples per rung gave two
 correct in three at context 2048; twelve samples give three correct in twelve.
-Pooled, five in fifteen are correct at that context, so the defect strikes about
+Pooled, five in fifteen are correct at that context, so the defect occurs in about
 two runs in three. Read the table above as showing that the defect reaches every
 context tested, which is the part that holds, and not as an estimate of how often.
 
-Note that at ctx 4096 all three runs are wrong, 224.8 and 211.9 as well as
+At ctx 4096 all three runs are wrong, 224.8 and 211.9 as well as
 8234.2, against a correct 11.06. So "correct then catastrophic" describes the
-two shorter rungs only, and even there it is not the pattern it looked like.
+two shorter rungs only, and even there it does not describe the runs accurately.

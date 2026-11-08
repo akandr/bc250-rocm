@@ -10,9 +10,8 @@ caused it. Every "no faults in dmesg" statement in this work that covers a run
 ending in a reset was therefore reading an empty buffer.
 
 The board keeps a persistent journal, 491 MB covering twenty boots back to
-17 August, so those runs can be re-examined, not merely doubted. That is
-what this directory is: the same question asked of an instrument that could
-actually have answered it.
+17 August, so those runs can be re-examined. This directory asks the same
+question of an instrument that could have answered it.
 
 ## Result
 
@@ -28,7 +27,7 @@ resets. `boot_sweep.txt` holds the full listing.
 | -2 | 7.1.8 | recommended | page fault, preemption failure, 3 runlist flush failures, reset |
 | -1 | 7.1.8 | recommended | page fault, preemption failure, runlist flush failure, reset, SIGBUS |
 
-Boot -16 is not a surprise and not a defect report: that boot deliberately
+Boot -16 is expected and not a defect report: that boot deliberately
 carried `amdgpu.sched_policy=2`, which this work already documents as wedging
 sustained compute, and the timeouts are the documented behaviour of the arm.
 
@@ -54,11 +53,11 @@ kernel trail, as one occurrence in 254 rounds. Both figures were artifacts of
 the instrument. Against the journal the count is five fatal resets in twenty
 retained boots, two of them carrying the SIGBUS signature. The rate per unit of
 work cannot be recovered, since the retained boots are not a uniform sample of
-campaign activity and some were short or idle, so the honest statement is a
+campaign activity and some were short or idle, so the result is stated as a
 count over boots, not a frequency.
 
-The direction of the correction is what matters: the defect is more common than
-this work has been saying, and it was undercounted for a mechanical reason instead of a statistical one.
+The correction goes in one direction: the defect is more common than this work
+had reported, and it was undercounted for a mechanical reason, not a statistical one.
 
 ## Caveat on timestamps
 
@@ -77,9 +76,8 @@ out of eighteen retained, because the journal rotates and the oldest of the six
 boots listed above have aged out.
 
 Two deliberate GPU resets were triggered on 21 August while testing whether a
-reset is survivable at all. They do not inflate any later count, because they
+reset is survivable. They do not inflate any later count, because they
 killed the board before the kernel logged anything, so they leave no trace in
-the journal at all. The effect of running this sweep now is therefore to
+the journal. The effect of running this sweep now is therefore to
 undercount rather than to overcount, and the number above should be read as
-what was observed in that window, not as a rate anyone can reproduce on
-demand.
+what was observed in that window, not as a reproducible rate.

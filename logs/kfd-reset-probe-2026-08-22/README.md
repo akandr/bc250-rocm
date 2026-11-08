@@ -16,7 +16,7 @@ for the same reason: the guarded path could not be reached on demand.
   calling `amdgpu_device_gpu_recover()` directly and bypassing the guard, so it
   killed the board at both settings and proved nothing.
 
-The path does not need a fault to be entered. It needs a caller.
+Entering the path needs a caller, not a fault.
 
 ## The probe
 
@@ -25,8 +25,8 @@ function the fatal resets go through, added to `amdgpu_amdkfd.c` and built into
 the module already carrying this board's four patches. It prints what the guard
 decided before calling. `patch_excerpt.txt` holds the code.
 
-One correction along the way, recorded because the first version looked like it
-worked. The device pointer was captured inside `amdgpu_amdkfd_gpu_reset()`
+One correction, recorded because the first version appeared to
+work. The device pointer was captured inside `amdgpu_amdkfd_gpu_reset()`
 itself, which is the function the probe exists to call, so it was never set and
 every write returned `no device recorded yet`. Capturing it in
 `amdgpu_amdkfd_device_init()` instead fixed it.
@@ -40,7 +40,7 @@ Same call, same module, two values of the parameter:
 | `0` | `should_recover=0` | the call returned immediately, no reset was logged, the board stayed up |
 | `-1`, the driver default | reset proceeded | the board died, exactly as the fatal events do, with nothing surviving in the journal |
 
-The surviving arm's own words, from `probe_evidence.txt`:
+The surviving arm's log lines, from `probe_evidence.txt`:
 
     amdgpu: BC250KFDRESET: calling amdgpu_amdkfd_gpu_reset, gpu_recovery=0, should_recover=0
     amdgpu: BC250KFDRESET: returned
@@ -57,13 +57,12 @@ from a wedged queue, not from a parameter write is not something this
 probe can show. The expectation is a dead process and a wedged GPU on a live
 host.
 
-That expectation was met and is no longer one, added 26 August. A natural fault
+Added 26 August: the expectation was met. A natural fault
 arrived under the parameter on 24 August, hours after this page was last edited:
 the host survived, the GPU never recovered, every subsequent GPU process died,
 and the device still enumerated and reported 14 GiB free until the board was
-rebooted ([`../fault-usability-2026-08-24/`](../fault-usability-2026-08-24/)). So
-the gap this section names is closed, and closed in the direction it predicted,
-which matters on the page that predicted it.
+rebooted ([`../fault-usability-2026-08-24/`](../fault-usability-2026-08-24/)). The
+gap this section names is closed, in the direction it predicted.
 
 Also unchanged: why the page fault happens in the first place. This addresses the
 consequence, not the cause.
@@ -75,7 +74,7 @@ the surviving arm's two lines; the arm that killed the board left nothing,
 because at the time the only instrument was the journal and the board stops
 writing to disk before it stops running. That phrasing, "nothing surviving in the
 journal", is the same instrument error corrected elsewhere in this repository,
-and it should be read as saying nothing and not as a finding.
+and it should be read as an absence of evidence, not as a finding.
 
 ## A gap this page makes visible
 
@@ -83,9 +82,9 @@ Everything since, the whole bisect from the resume callback down to a single MMI
 read in `gfx_v10_0_kiq_setting()`, was triggered through debugfs, which enters by
 `amdgpu_device_gpu_recover()` with `AMDGPU_RESET_SRC_USER`. The fatal events
 enter through `amdgpu_amdkfd_gpu_reset()` with `AMDGPU_RESET_SRC_HWS`, which is
-the path this probe drives. That the two fail identically is an assumption, and a
-load-bearing one: if they diverge, the localisation describes the deliberate
-reset instead of the one that actually takes the board down under load.
+the path this probe drives. That the two fail identically is an assumption the
+localisation depends on: if they diverge, the localisation describes the deliberate
+reset instead of the one that takes the board down under load.
 
 That has since been tested, and the paths converge
 ([`../reset-path-2026-08-24/`](../reset-path-2026-08-24/)). Driving this same

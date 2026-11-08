@@ -1,7 +1,7 @@
 # The per-op replay faults the GPU, and it is the harness, 2026-09-21
 
 A soak started on 21 September reported ten kernel fault lines already present in the current boot. They
-were not the rare fault this repository has been chasing. They were one event, all ten lines at the same
+were not the rare fault this repository has been investigating. They were one event, all ten lines at the same
 second on 20 September, and they came from the tool used to compare backends operation by operation.
 
 ## The event
@@ -38,21 +38,21 @@ The replay names the operation as it dies
 
 That is the mixture-of-experts router gather: eight indices into a 256-row table. In the correctness
 path the harness fills an index tensor with values that are in range. In the perf path it does not, and
-`get_rows` does not bound them, because in a real graph they are always valid. So the shader reads from
+`get_rows` does not bound them, because in a real graph they are always valid. The shader therefore reads from
 wherever the random index points. Vulkan's replay of the same file runs to the end, presumably because
 its out-of-range reads happen to land in mapped memory; that is luck, not a difference in correctness.
 
 ## What to do about it
 
-Nothing in llama.cpp: the operation is right and the graphs it is given are right. The lesson is about
-the measurement. **A graph containing `GET_ROWS` or `MUL_MAT_ID` cannot be replayed to the end on ROCm
-with `test-backend-ops perf --test-file`,** so check that a replay finished before reading its numbers.
+Nothing in llama.cpp: the operation is right and the graphs it is given are right. The problem is in
+the measurement. A graph containing `GET_ROWS` or `MUL_MAT_ID` cannot be replayed to the end on ROCm
+with `test-backend-ops perf --test-file`, so check that a replay finished before reading its numbers.
 The pp512 replay of this model measures 75 operations before it aborts where Vulkan measures 119; the
 one-token replay in [`logs/moe-decode-2026-09-20/`](../moe-decode-2026-09-20/) runs to the end and its
 comparison is complete.
 
-The practical consequence for this repository is smaller than it looks, because the fault lines it
-leaves in the journal are indistinguishable at a glance from the ones the real defect leaves. A soak
+The practical consequence for this repository: the fault lines it leaves in the journal are
+indistinguishable at a glance from the ones the rare defect leaves. A soak
 that counts fault lines will count these too. Any such count taken on a boot where a per-op replay has
 run needs this subtracted first.
 

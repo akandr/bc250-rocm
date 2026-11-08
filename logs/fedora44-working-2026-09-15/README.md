@@ -9,8 +9,8 @@ were taken before anyone checked the GPU clock: the Fedora 44 upgrade had replac
 configuration with the package default, which overheats this board and makes it oscillate between 1000 and
 2000 MHz. Re-measured at the same clock policy, the two systems are within 2 percent of each other on every
 model and both backends ([`../fedora44-benchmarks-2026-09-15/clock-corrected/`](../fedora44-benchmarks-2026-09-15/clock-corrected/)).
-The section is kept because it is what the alternated boots recorded, and because it shows how convincing a
-clock difference looks: five boots, tight spreads, and a control for SELinux mode.
+The section is kept because it is what the alternated boots recorded, and because it shows how consistent a
+clock difference can look: five boots, tight spreads, and a control for SELinux mode.
 
 Same board, same kernel (7.1.8-100.fc43 with the production amdgpu module and arguments), the Fedora
 44 copy described on the earlier page, and llama.cpp 7ba604f with the three patches built against ROCm
@@ -41,12 +41,12 @@ The build finished in about 50 minutes with 56 gfx1013 files in the Tensile libr
 build, but these are the correct `%xmm0` variant from Fedora 44's clang 20 runtime, so
 [`../fp16-root-cause-2026-09-15/`](../fp16-root-cause-2026-09-15/) does not apply.
 
-**The build was repeated from a clean clone on 16 September**, following the README steps with no manual
+The build was repeated from a clean clone on 16 September, following the README steps with no manual
 intervention, after the script was extended to generate the msgpack config itself and to check for
 `/dev/shm` (`clean_rebuild_verify.txt`). It produced 56 gfx1013 files and a library that returns the 8B
 gate value 9.1117. Its `TensileLibrary_lazy_gfx1013.dat` is byte-identical to the first build's; the code
-object differs, which is expected since build paths are embedded in it. So this part of the recipe is
-reproducible, which the Fedora 43 rocBLAS build never was.
+object differs, which is expected since build paths are embedded in it. This part of the recipe is
+therefore reproducible; the Fedora 43 rocBLAS build never was.
 
 ## Fix 2: comgr's gfx10 VGPR count
 
@@ -100,7 +100,7 @@ Within each OS the rounds agree to within 1 t/s across boots, so the differences
 variation, and SELinux mode is not the cause either. Both controls held, and the conclusion was still wrong:
 the `bench/*.env` files record `dpm=auto` and `oberon=active` on every boot, which looked like the same
 clock policy on both sides and was not. What they do not record is the governor's configuration file or the
-clock actually reached under load. An 8B `pp512` of 178.61 +/- 12.89 measured immediately after the op suite
+clock reached under load. An 8B `pp512` of 178.61 +/- 12.89 measured immediately after the op suite
 is left out as a warm-machine outlier.
 
 ## What this changes

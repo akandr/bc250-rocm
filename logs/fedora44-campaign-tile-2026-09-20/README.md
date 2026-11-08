@@ -37,8 +37,8 @@ the same script and models four hours earlier:
 | qwen3.6-35B MoE | **1.107** | 0.998 | 1.000 / 1.000 |
 | qwen3.8-27B | **1.261** | 1.000 | 1.000 / 1.000 |
 
-Prefill moves everywhere the GEMM runs and decode does not move at all, which is what a change to the
-prefill tile should do. The 8B is the exception on prefill because its weights are q8_0, which the GEMM
+Prefill moves everywhere the GEMM runs and decode does not move, as expected of a change to the
+prefill tile. The 8B is the exception on prefill because its weights are q8_0, which the GEMM
 deliberately leaves to MMQ; its 0.980 on decode sits inside a 6.7 percent spread on that row. ROCm
 prefill now runs at 0.94 to 0.98 of Vulkan on the four models the GEMM covers fully, 0.83 on the MoE
 whose experts are still MMQ's, and 0.71 on the q8_0 8B. Before the tile change those six read 0.68 to

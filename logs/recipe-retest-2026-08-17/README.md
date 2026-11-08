@@ -24,14 +24,14 @@ shipped perplexity harness in this repository passes `--no-mmap`, so no captured
 gate anywhere runs with mapping enabled. The recipe change stands on the 14B
 loads and on the throughput work that has used mapping ever since without
 incident; the specific bit-identical perplexity claim stands on a run that was
-not kept. Note the flag situation:
+not kept. On the flags:
 `--mmap` and `--no-mmap` are deprecated in current llama.cpp in favour of
 `--load-mode`, and `--mmap 1` is rejected because the deprecated flag is a
 boolean. The three failing runs in `log` with rc=1 are that argument error, not
 a load failure; the corrected runs are in this README.
 
 **One benchmark per invocation.** The recipe warned that multi-size sweeps
-reallocate between tests and can trip the load-time fault mid-run. A single
+reallocate between tests and can trigger the load-time fault mid-run. A single
 invocation sweeping pp128, pp512, pp1024, pp2048, tg32 and tg64 completes all
 six rows, with zero faults in dmesg.
 

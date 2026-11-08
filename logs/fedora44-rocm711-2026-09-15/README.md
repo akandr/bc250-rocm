@@ -5,8 +5,8 @@ gfx1013 rocBLAS 7.1.1 and a one-row-per-device comgr correction make this stack 
 faster. The flash-attention failure below is comgr reporting 256 VGPRs for gfx10 devices.
 
 Fedora 44 was tried because its ROCm toolchain has correct half-precision helpers
-([`../fp16-root-cause-2026-09-15/`](../fp16-root-cause-2026-09-15/)). **Out of the box it runs no model
-on this board.** The system rocBLAS 7.1.1 fails every GEMM, f32 included, and HIP 7.1.1 trips an
+([`../fp16-root-cause-2026-09-15/`](../fp16-root-cause-2026-09-15/)). As installed, it runs no model
+on this board. The system rocBLAS 7.1.1 fails every GEMM, f32 included, and HIP 7.1.1 fails an
 assertion in llama.cpp's flash-attention path.
 
 ## Setup

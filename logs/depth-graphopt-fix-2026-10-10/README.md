@@ -30,11 +30,11 @@ the median of the three passes' `llama-bench` means.
 | 24576 | 122.9 | 127.8 | 121.0 | 1.02 | **1.06** |
 | 30720 | 112.3 | 116.3 | 111.3 | 1.01 | **1.04** |
 
-**The fix costs nothing at any depth.** In the same build, the option with the fix reads 0.9999 to
-1.0031 of the option without it, and is ahead in 11 of 18 paired comparisons, which is what chance
-gives.
+The fix costs nothing at any depth. In the same build, the option with the fix reads 0.9999 to
+1.0031 of the option without it, and is ahead in 11 of 18 paired comparisons, consistent with
+chance.
 
-**With the fixed option ROCm decodes faster than Vulkan at every depth from 4096 to 30720**, by 4.4 to
+With the fixed option ROCm decodes faster than Vulkan at every depth from 4096 to 30720, by 4.4 to
 6.8 percent, in 15 of 15 paired comparisons. At an empty context the two are level, 0.995. The option is
 worth 1.073 at depth 0 and 1.035 at 30720. Without it ROCm is level with Vulkan from 4096 on, 0.98 to
 1.02, and 7 percent behind at depth 0.

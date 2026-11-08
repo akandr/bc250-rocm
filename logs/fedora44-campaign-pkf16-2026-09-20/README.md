@@ -33,7 +33,7 @@ Medians of nine samples:
 
 The models whose weights the kernel covers gain 35 to 51 percent of prefill; the MoE gains the 3.6
 percent its dense q4_K and q6_K tensors are worth, and the 27B, which is IQ3_S, IQ3_XXS and IQ4_XS
-throughout, is unchanged to three decimal places. Decode does not move on any model, as it should not:
+throughout, is unchanged to three decimal places. Decode does not move on any model, as expected:
 the kernel only takes batches of 256 tokens and up. Every Vulkan row reproduces the nine earlier
 campaigns within 0.5 percent.
 

@@ -31,13 +31,13 @@ resident system memory limit`, 33510 lines of it in that boot (`svm_limit.txt`),
 inside `libhsa-runtime64.so`, which does not handle the failed mapping.
 
 Booting Fedora 43 an hour later, with `ollama` stopped and 12 GiB free, qwen3-14B at depth 16384 fails there
-too, with the same kernel message. So the August figure of 7.3 t/s is not reproducible on the system that
+too, with the same kernel message. The August figure of 7.3 t/s is therefore not reproducible on the system that
 produced it, and the difference is not between the two distributions. What changed since August is not
 established; the KFD limit depends on resident system memory, so anything holding memory at the time shifts
 it.
 
 qwen2.5-1.5B at 131072 was not retested on Fedora 43: the attempt ran after the 14B failure in the same
-boot, and the runtime then reported no ROCm device at all. That is the one recorded case here of a failure
+boot, and the runtime then reported no ROCm device. That is the one recorded case here of a failure
 affecting a later process. Killing the stuck benchmark restored the GPU without a reboot, which separates
 this from the page-fault wedge, where a reboot is the only way back.
 
@@ -59,7 +59,7 @@ directly:
 
 13422 MiB is 63/64 of 15196 MiB minus 1.5 GiB, so the arithmetic matches. Reading it immediately after the
 qwen3-14B failure at depth 16384 shows the ceiling being hit exactly: `System mem used 13412M out of
-13422M`. The `ttm.pages_limit=4194304` boot argument this repository uses raises the *other* counter, to
+13422M`. The `ttm.pages_limit=4194304` boot argument this repository uses raises the other counter, to
 16384 MiB, and cannot help here: the SVM path charges system memory only. `HSA_XNACK=1` would skip the
 charge entirely, but `kfd_process_xnack_mode()` refuses XNACK for every GC 10.1.x part, so it is not
 available on gfx1013.
@@ -78,7 +78,7 @@ this is the same call path.
 | qwen3-14B, depth 16384 | segfault after about 30 s | no crash; still running when a 1800 s timeout killed it, `System mem used 14636M out of 13422M` |
 | qwen2.5-1.5B, depth 131072 | segfault | no crash; still running when a 3000 s timeout killed it |
 
-So the flag converts the crash into a run that does not finish: past the limit the working set no longer
-fits in 14.8 GiB and the machine swaps. The limit is protecting something real, and it is left at its
+The flag therefore converts the crash into a run that does not finish: past the limit the working set no longer
+fits in 14.8 GiB and the machine swaps. The limit therefore serves a purpose, and it is left at its
 default here. The accounting released correctly after every run, crash or timeout, `System mem used 0M`, so
 a failed run does not leak the budget.

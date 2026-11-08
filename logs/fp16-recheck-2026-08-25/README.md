@@ -19,11 +19,11 @@ defect arm is wrong both times and wrong by a different amount each time.
 Five `f16` values now exist for this configuration across two dates: 17.1068,
 14.7398 and 21.4429 on 22 August, and 18.0833 and 19.3402 today. All five differ,
 spanning 14.7398 to 21.4429, against an `f32` arm that has never moved off
-9.0975. The non-determinism is not a small perturbation of a wrong answer; the
+9.0975. The non-determinism is large: the
 spread between wrong runs is larger than the gap between the correct answer and
 the nearest wrong one.
 
-That matters for anyone reading the defect table. A single `f16` measurement would
+A single `f16` measurement would
 look like a fixed accuracy penalty, and it is not one. There is no fp16 number to
 quote for this path, only a distribution of wrong ones.
 

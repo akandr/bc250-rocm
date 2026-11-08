@@ -8,7 +8,7 @@ Twelve consecutive identical runs of the unpatched build produced nine distinct
 perplexities, but with exact repeats: the correct 10.0103 three times and a wrong
 115.8450 twice, to four decimals. Accumulated rounding error does not reproduce a
 wrong answer exactly, so something appeared to be selecting between a small set
-of behaviours, and kernel selection was the obvious candidate.
+of behaviours, and kernel selection was the first candidate.
 
 ## Method
 
@@ -26,11 +26,10 @@ are identical across every pair, correct against wrong and correct against
 correct alike, while the perplexities are 10.0103, 91.3845, 172.3724 and
 1057.5494.
 
-How much of that a reader can check, noted 25 August. Two of the eight signature
-files were kept, `sig_2.txt` and `sig_3.txt`, and they are the load-bearing pair:
-run 2 is wrong at 91.3845 and run 3 is correct at 10.0103. Masking alpha and beta
-makes them identical, which is the comparison the conclusion rests on, and it
-reproduces here. "Identical across every pair" cannot be re-derived from what
+What a reader can check, noted 25 August: two of the eight signature files were
+kept, `sig_2.txt` and `sig_3.txt`, and the conclusion rests on that pair: run 2 is
+wrong at 91.3845 and run 3 is correct at 10.0103. Masking alpha and beta makes them
+identical, and that comparison reproduces here. "Identical across every pair" cannot be re-derived from what
 shipped, because the other six files were not kept.
 
 The harness did not do that comparison either, and its own log says so: it ends
@@ -54,19 +53,19 @@ checked directly.
 | 7 | 10.0103 | 448 | 8 |
 | 8 | 1057.5494 | 448 | 8 |
 
-So rocBLAS is asked for exactly the same thing every time and does not always
+rocBLAS is therefore asked for exactly the same thing every time and does not always
 return the same answer. Kernel selection at the library interface is not the
-mechanism, and the variation lives below that interface: in how the GEMM
+mechanism, and the variation is below that interface: in how the GEMM
 executes, or in data that has already diverged before it is called.
 
-## A trap this run set, and how it was avoided
+## A confound in this run, and how it was avoided
 
-The first comparison appeared to find the mechanism immediately. The correct run
+The first comparison appeared to find the mechanism. The correct run
 passed `--alpha 28.125` to the fp16 GEMMs and the wrong run passed
-`--alpha -0.0220947`, which looks exactly like a corrupted scalar explaining a
+`--alpha -0.0220947`, which looks like a corrupted scalar explaining a
 corrupted result.
 
-It is not. Checking alpha against the outcome across all eight runs breaks it:
+Checking alpha against the outcome across all eight runs rules that out:
 
 | run | perplexity | logged f16 alpha |
 |---|---|---|
@@ -81,14 +80,14 @@ It is not. Checking alpha against the outcome across all eight runs breaks it:
 
 The value differs in all eight runs, including the three correct ones, and the
 two runs that agree to four decimals on 91.3845 disagree on alpha. A scalar of
-2800 actually applied to that GEMM could not produce a correct perplexity. So
-the logged scalars are being misread, not misapplied, most likely the
+2800, if applied to that GEMM, could not produce a correct perplexity. The
+logged scalars are therefore being misread, not misapplied, most likely the
 logging layer printing a half-precision alpha as a float; `beta` behaves the same
 way, and the value 28.125 appears as run 3's alpha and run 4's beta, which is
 what reading the same uninitialised location twice would look like. Masking both
 scalars makes every trace identical.
 
-This is worth writing down as an observation about `ROCBLAS_LAYER=2` on this
+This is an observation about `ROCBLAS_LAYER=2` on this
 version, not about the defect: the alpha and beta printed for fp16
 `gemm_batched_ex` calls should not be trusted.
 

@@ -1,7 +1,7 @@
 # Closing the remaining loose ends, 2026-08-18
 
-Four things this repository left open or under-explained. Each is investigated
-here, not left as a caveat.
+Four things this repository left open or insufficiently explained, each investigated
+here.
 
 ## 1. The 8B decode variance
 
@@ -17,7 +17,7 @@ Earlier work narrowed the SDMA failure to one step: ROCclr asks the runtime for
 an async copy above 16384 bytes, the runtime routes it to SDMA, and the
 completion signal never fires while no trap interrupt is dispatched. What was
 not known is whether the engine consumed the packet and failed to signal, or
-never advanced at all. `sdma-mqd/` samples the KFD queue descriptors during a
+never advanced. `sdma-mqd/` samples the KFD queue descriptors during a
 hanging copy to separate those.
 
 ## 3. Endurance on the current stack
@@ -30,10 +30,10 @@ every third round so it covers the paths the earlier soaks never touched.
 ## 4. The zeroed fp16 GEMM
 
 Still open, and not reproducible in a standalone program or in PyTorch on the
-same rocBLAS. `fp16-graphs/` tests an angle never tried: every observation of
+same rocBLAS. `fp16-graphs/` tests something not tried before: every observation of
 this defect comes from a run with HIP graph capture enabled, so the arms compare
 graphs on against graphs off, with the f32 compute type as a control and a
-quantized-value model that should never take the path at all.
+quantized-value model that should never take the path.
 
 Results and what they change are in the sections of the top-level README that
 each item belongs to; this directory holds the raw runs.
@@ -50,8 +50,8 @@ running the identical measurement on a model at 29 percent of the memory ceiling
 instead of 80: coefficient of variation 0.6 percent against 4.3, a factor of 6.7
 in the predicted direction.
 
-That explanation did not survive the same day and this page should not be read
-without the sequel. The comparison here presents each model in a block, all runs
+That explanation was withdrawn the same day; read this page together with the
+sequel. The comparison here presents each model in a block, all runs
 of one before any of the next, so anything drifting over the hour it took is not
 separated from the model. Rotating the model order instead gives 0.7, 6.0 and
 4.6 percent at 29, 46 and 80 percent of the ceiling, which is not monotone: the
@@ -65,7 +65,7 @@ mechanism.
 A correction came out of this. The 12.9 figure previously quoted for this model
 exists in no shipped log; it was taken interactively and never captured. The
 range from captured evidence is 16.21 to 18.71, and `history/` shows that prior
-heavy work, the obvious explanation for a low outlier, does not reproduce it.
+heavy work, a likely explanation for a low outlier, does not reproduce it.
 
 **2. The SDMA completion path: narrowed to the submission end.** The queue
 descriptor is byte-identical throughout a hanging copy, against a control
@@ -73,7 +73,7 @@ showing descriptors change substantially during real work. So the queue never
 advances, and the failure is between the runtime handing over the copy and the
 queue being rung instead of the engine completing work and failing to signal.
 
-**3. Endurance on the current stack: nothing moved.** 42 rounds over eight
+**3. Endurance on the current stack: no drift.** 42 rounds over eight
 hours four minutes on the configuration this document now recommends. One
 distinct perplexity value across every round, 8.9442; prefill spread 0.35
 percent; 42 of 42 churn sweeps clean; zero GPU faults. The fourteen PyTorch

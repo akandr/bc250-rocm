@@ -14,14 +14,14 @@ built into a separate directory, leaving the measured binary alone.
 | gfx1013 | native gfx1013 build | 9.0975, 9.0975 | **17.3015, 13.9642** |
 | gfx1010 (override) | system, real gfx1010 objects | 9.0975, 9.0975 | **9.1117, 9.1117** |
 
-Under the override the fp16 arm is correct *and* bit-identical across runs. The
+Under the override the fp16 arm is correct and bit-identical across runs. The
 small gap from the f32 value, 9.1117 against 9.0975, is ordinary half-precision
 arithmetic, not the defect: when the defect fires on this model and
 context it produces something in the mid teens to low twenties, not 9.11.
 
-That range used to read "14 to 23", and a correction on 25 August replaced it
+An earlier version gave this range as "14 to 23", and a correction on 25 August replaced it
 with "13.9642 to 21.4429, and no reading of 23 exists". That correction was wrong
-in both directions and is withdrawn here the same day. Pooling every wrong
+in both directions and was withdrawn the same day. Pooling every wrong
 reading on record for the 8B at context 2048 over two chunks gives ten distinct
 values from 11.5415 to 23.4547, so 23 does exist, in
 [`../fp16-library-2026-08-20/`](../fp16-library-2026-08-20/), and the floor is
@@ -29,11 +29,11 @@ lower than either version said. The original "14 to 23" had the top right.
 Split by binary, since the two are not one series. On the ordinary gfx1013-only
 build the wrong readings run 13.9642 to 23.4547; on the dual-architecture build
 this page and [`../fp16-arch-2026-08-22/`](../fp16-arch-2026-08-22/) use, 11.5415
-to 18.2958. The point the sentence is making survives every version of the range:
+to 18.2958. Under every version of the range the point holds:
 every wrong reading is at least half again the correct answer, and 9.1117 is
 0.16 percent from it.
 
-**The obvious objection, and why it does not apply.** This repository documents
+**An objection, and why it does not apply.** This repository documents
 elsewhere that running a gfx1013-built binary under
 `HSA_OVERRIDE_GFX_VERSION=10.1.0` makes its kernels silently do nothing: the code
 object no longer matches, the launch is skipped, the output buffer keeps whatever
@@ -53,7 +53,7 @@ would separate them, gfx1010 identity with the native library on the path, is no
 runnable: the native build's Tensile library directory contains gfx1013 code
 only, so under a gfx1010 identity it has nothing to dispatch and both compute
 types fail. The complementary cell, gfx1013 with the system library, aborts with
-`CUBLAS_STATUS_INTERNAL_ERROR`, so the native build exists at all. Both
+`CUBLAS_STATUS_INTERNAL_ERROR`, which is why the native build exists. Both
 blocked cells are recorded instead of left as gaps.
 
 **What it does establish.** The defect is not inherent to llama.cpp's fp16 cuBLAS

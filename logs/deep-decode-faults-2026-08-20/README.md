@@ -1,6 +1,6 @@
 Thirty deep-decode runs hunting a second instance of the ROCr AQL SIGBUS. It did
-not appear. Something else did, and the way it was nearly missed matters more
-than the fault itself.
+not appear. A different fault did, and how nearly it was missed is the main
+finding.
 
 **The SIGBUS did not reproduce.** Twenty-seven consecutive clean runs of the 8B
 at a primed depth of 16128, decode rates in the usual band. The earlier estimate
@@ -19,8 +19,8 @@ detail:
 Roughly four minutes later the board rebooted, so this fault class does not stop
 at the process.
 
-**The part worth carrying forward.** `dmesg` logged nothing. Not the fault, not
-the reboot. Every fault count in this repository is a `dmesg | grep -c "memory
+**What the kernel log missed.** `dmesg` logged neither the fault nor the
+reboot. Every fault count in this repository is a `dmesg | grep -c "memory
 access fault"` and would have reported zero for this run, which is what the
 harness did report. The runtime sees faults the kernel log does not, so "zero
 faults in dmesg" is a weaker statement than it has been treated as throughout
@@ -32,14 +32,14 @@ otherwise describes as clean at this depth. Twenty-eight, not the thirty the run
 was designed as: the log records runs up to 28 and the reboot ended the script
 there, so runs 29 and 30 never happened.
 
-**Two corrections to this page, 26 August.** It used to name the aborting frame as
+**Two corrections to this page, 26 August.** An earlier version named the aborting frame as
 `rocr::core::Runtime::VMFaultHandler`, "called from the runtime's async event
 loop". `abort-backtrace.txt`, cited here as carrying the detail, is
 `coredumpctl info` output: process metadata and a module list, with no stack
-frames at all, and that function name appears nowhere else in this repository.
+frames, and that function name appears nowhere else in this repository.
 The comparison it was making is still available without it, since the two failures
 differ in signal and in what reports them, but the frame itself was not observed.
-Worth contrasting with the SIGBUS it was being compared against, where the
+In contrast, for the SIGBUS it was being compared against, the
 equivalent file holds thirty-seven frames and does name
 `rocr::AMD::AqlQueue::StoreRelaxed` and its callers
 ([`../loose-ends-2026-08-18/graphflag/sigbus-backtrace.txt`](../loose-ends-2026-08-18/graphflag/sigbus-backtrace.txt)).

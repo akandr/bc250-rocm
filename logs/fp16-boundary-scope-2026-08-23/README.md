@@ -14,7 +14,7 @@ the first batch of the second chunk, separates them.
 
 ## What happened instead
 
-The premise did not survive. Six runs at two chunks:
+The premise did not hold. Six runs at two chunks:
 
 | run | zeros | positions |
 |---|---|---|
@@ -34,7 +34,7 @@ identical runs.
 
 The previous cycle concluded that the memory pool causes the defect's
 non-determinism. That is too general. What the evidence supports is narrower:
-with the pool disabled, the defect is deterministic **at one chunk**. At two
+with the pool disabled, the defect is deterministic at one chunk. At two
 chunks it is not, pool or no pool, so the pool cannot be the whole explanation
 for the variability.
 
@@ -46,9 +46,9 @@ those, runs diverge, and when they do it is as a contiguous cascade starting at
 
 Two batch starts are consistently clean: 145 and 217. That 145 is clean is what
 a per-chunk reset would predict, since it is the first batch of the second
-chunk, exactly as call 1 is the first batch of the first. But 217 is also clean
-and no per-chunk reading predicts that, so the tidy model does not hold up
-either. The honest position is that the simple one-zero-per-batch rule holds at
+chunk, as call 1 is the first batch of the first. But 217 is also clean
+and no per-chunk reading predicts that, so the per-chunk model does not hold
+either. What can be said is that the simple one-zero-per-batch rule holds at
 one chunk and breaks at two, in a way not yet described.
 
 ## Why this matters more than it looks

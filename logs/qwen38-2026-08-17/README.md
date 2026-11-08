@@ -27,8 +27,8 @@ look like the defects documented elsewhere in this repo and are not.
 | ROCm | 62.6 | 69.2 | 7.84 | 6.2487 |
 | Vulkan | 93.1 | 97.9 | 17.18 | 6.2651 |
 
-The two backends agree on perplexity to 0.26 percent, which is the check worth
-having: a backend producing fast nonsense looks identical in the rate columns.
+The two backends agree on perplexity to 0.26 percent, which is the check that
+matters: a backend producing fast nonsense looks identical in the rate columns.
 
 Prompt processing scales to 16384 (59.2, 49.1, 41.4 t/s at 4k, 8k, 16k) and
 fails at 32768 with `failed to create context`, an allocation refused before any
@@ -37,7 +37,7 @@ then decoding runs out of memory, so the decode ceiling is 8192. That
 distinction is measured in `../context-ceilings-2026-08-17/`.
 
 The 1.5B anchor came out at 807.9 t/s prefill on ROCm and 1844.3 on Vulkan,
-within a percent of the published campaign numbers, which is what makes the
+within a percent of the published campaign numbers, which makes the
 27B numbers comparable to the rest of the document.
 
 Collected by `llama-bench` and `llama-perplexity` invocations on the qwen3.8 27B model, the same call shapes used elsewhere here.

@@ -7,8 +7,8 @@ configuration: kernel 7.1.8, navi12 SDMA microcode, `amdgpu.gpu_recovery=0`.
 
 The throughput table, the correctness gates, the reproducer, PyTorch training and
 the open defects had each been re-checked on the current configuration. These
-five had not. The board is now kept powered off between runs, so instead of powering it up each time
-one of them occurred to me, they were collected into a
+five had not. The board is now kept powered off between runs, so instead of powering it up for each
+one, they were collected into a
 single script and a single window of about twenty-five minutes.
 
 ## Results
@@ -25,24 +25,24 @@ single script and a single window of about twenty-five minutes.
 | ROCm while Vulkan runs | 806.1 | INVESTIGATION | 805.74 | -0.04 percent |
 | Vulkan while ROCm runs | 1843.0 | INVESTIGATION | 1842.52 | -0.03 percent |
 
-Eight of the nine land within a few percent and several to the second decimal.
+Eight of the nine are within a few percent and several to the second decimal.
 No faults, preemption failures or resets during the window.
 
 The "where" column was added on 25 August, because six of these nine are not
-front-page claims at all. "ladder" is the context ladder in `INVESTIGATION.md`,
+front-page claims. "ladder" is the context ladder in `INVESTIGATION.md`,
 decode of 32 tokens with the cache primed to just under the stated size, and the
 two concurrency figures are in that document as well. Only the bandwidth, the
 DGEMM share and the 27B prefill are on the front page.
 
-That mattered most for the deepseek row, where the mislabel had a trap in it. The
+That mattered most for the deepseek row, where the mislabel was misleading. The
 front page does carry a 12.6, in the context-ceiling table, and it is a different
 model measured differently: qwen3-14B, decode of 8 tokens. The two figures are
 equal by coincidence. A reader checking "front page: 12.6" would have landed on
 that cell and compared a 32-token deepseek run against an 8-token qwen3 one. The
-comparison actually made here is the right one, deepseek against the deepseek
+comparison made here is the right one, deepseek against the deepseek
 ladder at the same token count, and it stands; the label was what was wrong.
 
-One residual mismatch, small and stated, not corrected. The ladder primes
+One small residual mismatch, not corrected: the ladder primes
 "to just under the stated size" while this run passed the size to `-d` directly,
 so the depths differ by whatever margin the ladder used.
 
@@ -61,6 +61,6 @@ is reported as a single sample, not as a new figure.
 The claim that a stock PyTorch wheel aborts at its first library-dispatched
 operation. The only stock virtual environment on this board had 56 gfx1013
 Tensile files grafted into it during earlier work, and mistaking it for pristine
-has already produced one withdrawn result here. Verifying that claim honestly
+has already produced one withdrawn result here. Verifying that claim
 needs a fresh install into a clean environment, which is a download instead of a
 measurement, and it was left out rather than done against a contaminated one.

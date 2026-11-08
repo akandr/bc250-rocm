@@ -8,12 +8,12 @@ models. The 27B, released after most of this work, is unaffected:
 |---|---|---|---|
 | qwen3.8-27B IQ3_XXS | 6.2487 | 6.2509 | 1.000 |
 
-So the affected set is still just qwen3-8B and qwen3-14B, against qwen2.5-1.5B,
+So the affected set is still only qwen3-8B and qwen3-14B, against qwen2.5-1.5B,
 deepseek-r1-14B, the 35B MoE and now the 27B unaffected. Being a qwen3-lineage
 dense model is not sufficient, since the 27B is one and is clean.
 
-Two other models on the board could not be tested, and the reason is worth
-recording so it is not mistaken for a board defect. Both fail to load, in
+Two other models on the board could not be tested; the reason is recorded so
+it is not mistaken for a board defect. Both fail to load, in
 llama.cpp, not on the GPU: `gemma4` reports `wrong number of tensors;
 expected 2131, got 720`, and `qwen3.5-9b` reports `qwen35.rope.dimension_sections
 has wrong array length; expected 4, got 3`. Both are format mismatches against
@@ -21,20 +21,20 @@ this build, which is pinned at master 7ba604f.
 
 **Allocation churn with SDMA enabled.** Eight alternated runs, seven clean. The
 one failing run is recorded in `log` as `fails=3`, and it occurred with SDMA
-*disabled*, the historical configuration. Wall time is identical across arms at
+disabled, the historical configuration. Wall time is identical across arms at
 18 to 20 seconds. Nothing in this points at SDMA, but an intermittent tolerance
 exceedance is new and had not appeared in the earlier soaks.
 
-Read that with a caveat added on 25 August. This section used to call the failure
+A caveat added on 25 August: This section used to call the failure
 "marginal, not a fault" on the strength of one error line,
 `MUL_MAT ERR = 0.000563463 > 0.000500000` on `q4_1, m=16, n=1, k=256`, thirteen
 percent over tolerance. That line is in no captured file; the harness recorded
 only the count. Three cases failed in that run and only one was written down, so
-whether the other two were also marginal is not known, and "marginal" was a
-description of a third of the evidence. The figure is kept above as what was seen instead of
-removed, but the characterisation is withdrawn. A harness that
-reports a failure count without the failures is the thing to fix here, and
-`scripts/fault_count.sh` is the pattern for it.
+whether the other two were also marginal is not known, and "marginal"
+described only a third of the evidence. The figure is kept above as what was seen instead of
+removed, but the characterisation is withdrawn. The harness
+reported a failure count without the failures;
+`scripts/fault_count.sh` is the pattern for recording them.
 
 **Context ceiling with SDMA enabled** was attempted here as one run per arm,
 giving 15.45 against 19.33, and that comparison is discarded: this measurement

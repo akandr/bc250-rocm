@@ -1,4 +1,4 @@
-# What the RDNA1 macro actually buys the integer dot product, 2026-09-17
+# What the RDNA1 macro changes for the integer dot product, 2026-09-17
 
 llama.cpp patch 3 ([`patches/llamacpp/0003-gfx1013-rdna1-macro.patch`](../../patches/llamacpp/0003-gfx1013-rdna1-macro.patch))
 adds `__gfx1013__` to the device-side `RDNA1` macro in `ggml/src/ggml-cuda/vendors/hip.h`. It is worth
@@ -17,7 +17,7 @@ counts.
 
 ## Result
 
-**gfx1013 has no `v_dot4_i32_i8`, so the emulation is the right path and not a workaround.**
+gfx1013 has no `v_dot4_i32_i8`, so the emulation is the right path and not a workaround.
 
     error: '__builtin_amdgcn_sdot4' needs target feature dot1-insts
 
@@ -25,7 +25,7 @@ which matches LLVM: `FeatureISAVersion10_1_3` in `llvm/lib/Target/AMDGPU/AMDGPU.
 `FeatureBVHRayTracingInsts` and `FeatureMSAALoadInsts` to the common 10.1 set, while gfx1011 and
 gfx1012 add `FeatureDot1Insts` and its siblings. gfx1013 belongs on gfx1010's path.
 
-**But the emulation is only about 20 percent cheaper per dot, not several times cheaper.**
+The emulation is only about 20 percent cheaper per dot, not several times cheaper.
 
 | arm | vector ALU instructions |
 |---|---|

@@ -13,8 +13,8 @@ path.
     fp16 compute:  5.9756, 5.9756, 5.9756, 5.9756
     f32  compute:  5.9756, 5.9756
 
-Six runs, one value, bit-identical, and the compute type makes no difference at
-all. The claim holds.
+Six runs, one value, bit-identical, and the compute type makes no
+difference. The claim holds.
 
 ## 2. The bandwidth explanation for the 8B decode variance, demonstrated
 
@@ -29,13 +29,16 @@ should be stable under the identical measurement.
 | qwen3-8B Q8_0 | 80 percent | 10 | 17.66 | 0.76 | 4.3 percent | 15.4 percent |
 
 The coefficient of variation differs by a factor of 6.7 in the predicted
-direction, on the same board, same depth, same measurement, same session. The
-explanation is no longer an inference.
+direction, on the same board, same depth, same measurement, same session. This
+was read at the time as making the explanation no longer an inference. It was
+withdrawn the same day, when the model order was rotated each round and the
+result was not monotone:
+[`../../counterbalanced-2026-08-18/`](../../counterbalanced-2026-08-18/).
 
 ## 3. The fp16 defect with flash attention off
 
 Graph capture had already been ruled out. Flash attention off changes the graph
-shape entirely and is the other obvious structural difference.
+shape entirely and is the other main structural difference.
 
     fp16, flash attention on:   19.34, 17.83, 18.30, 20.25, 20.25, 18.30
     fp16, flash attention off:  14.09, 17.93, 15.33, 14.88

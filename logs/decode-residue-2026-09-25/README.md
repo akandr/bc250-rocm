@@ -6,8 +6,8 @@ It named the missing measurement as well, a HIP API timeline beside the dispatch
 run, which needed a profiler this board did not have until
 [`logs/hw-counters-2026-09-25/`](../hw-counters-2026-09-25/).
 
-That measurement is still not possible, for a reason worth knowing, and the question turned out not
-to need it anyway.
+That measurement is still not possible, for the reason below, and the question can be answered
+without it.
 
 ## The HIP API timeline is still out of reach
 
@@ -19,13 +19,13 @@ that does work. Getting the host side would mean rebuilding clr as well as ROCR.
 
 ## Tracing cannot measure the gaps between kernels either
 
-Which matters more, because the gaps are the quantity in question. On the 1.5B a traced token runs
-19.4 ms against 5.4 ms untraced, and essentially the whole difference lands between the kernels:
+This matters more, because the gaps are the quantity in question. On the 1.5B a traced token runs
+19.4 ms against 5.4 ms untraced, and almost the whole difference falls between the kernels:
 the gap sums to 14.9 ms a token where the real non-kernel time is 0.66 ms. The instrument inflates
 what it is being asked to measure by more than twenty times.
 
 This repository already assumed as much, in the sentence "that is tracing overhead between kernels,
-not inside them". It holds, and it is now measured instead of assumed. It also means the
+not inside them". It holds, and it is now measured rather than assumed. It also means the
 answer has to come from arithmetic on untraced runs, not from reading a traced timeline.
 
 ## The residue, measured
@@ -36,11 +36,11 @@ residue is the subtraction. `-p 0 -n 64 -r 1` traced, `-r 5` untraced.
 
 | model | token, untraced | inside kernels | residue | share | dispatches a token | residue a dispatch |
 |---|---|---|---|---|---|---|
-| qwen2.5-1.5B | 5.440 ms | 4.783 ms | 0.657 ms | 12.1 % | 369 | **1.78 us** |
-| qwen3.6-35B MoE | 14.826 ms | 12.629 ms | 2.197 ms | 14.8 % | 1298 | **1.69 us** |
+| qwen2.5-1.5B | 5.440 ms | 4.783 ms | 0.657 ms | 12.1 % | 369 | 1.78 us |
+| qwen3.6-35B MoE | 14.826 ms | 12.629 ms | 2.197 ms | 14.8 % | 1298 | 1.69 us |
 
 Two models whose dispatch counts differ by 3.5 times give the same cost per dispatch to within six
-percent. So the residue is: **per-dispatch overhead, about 1.7 microseconds of it.**
+percent. The residue is therefore per-dispatch overhead, about 1.7 microseconds a dispatch.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../../figures/dark/decode-residue.png">
@@ -50,8 +50,8 @@ percent. So the residue is: **per-dispatch overhead, about 1.7 microseconds of i
 The estimate this repository already carried,
 [`logs/moe-decode-2026-09-20/`](../moe-decode-2026-09-20/)'s "at the measured 1.78 us a dispatch",
 was taken from a separate dispatch microbenchmark and applied to the models by multiplication. It
-is right, which was not obvious: the same arithmetic predicted 2.31 ms for the MoE
-against the 1.81 ms that was actually outside its kernels, and that discrepancy is what left the
+is correct, which was not evident before: the same arithmetic predicted 2.31 ms for the MoE
+against the 1.81 ms that was outside its kernels, and that discrepancy is what left the
 question open. Measured directly on both models here, the per-dispatch figure and the residue agree.
 
 ## What it is not
@@ -73,12 +73,12 @@ The residue is `untraced token − traced kernel time`, so it assumes tracing do
 kernels themselves, only the space between them. Two instruments agreeing supports that without
 proving it: on the 1.5B `kerntrace` reads 12.76 us a dispatch over 23985 dispatches and rocprofv3
 reads 12.86 us over 12177, 0.8 percent apart, having nothing in common but the hardware. If kernels
-are inflated at all then the residue is larger than stated, not smaller.
+are inflated, the residue is larger than stated, not smaller.
 
-## Two traps this run fell into, both silent
+## Two silent errors in this run
 
 A profiled run that crashes leaves `llama-bench` holding `/dev/kfd` and its memory. The next
-rocprofv3 then attaches to nothing, writes no files, and **exits zero**. An early reading here was
+rocprofv3 then attaches to nothing, writes no files, and exits zero. An early reading here was
 taken in that state and had kernel time 23 percent high, 376.52 ms against the 306.09 ms the same
 command gives from a clean machine. Every run in the table above kills survivors and drops caches
 first.

@@ -34,8 +34,8 @@ Two arms were run before the design was found to be wrong.
 
 **Arm 3**, a `dev_warn` between the accesses, the arm meant as the positive
 control, ended identically: no `BC250GAP` line of any kind, no step marker, and
-the same watchdog timeout. Not "the print did not help" but "the print never
-happened".
+the same watchdog timeout. The print did not fail to help; it never
+ran.
 
 ## Why that matters more than the result
 
@@ -43,26 +43,26 @@ The gap sits after the register read. If nothing printed, the read did not
 return, so the sequence never reached the gap and no arm of this experiment could
 have measured anything. The instrument was placed downstream of the stall.
 
-That also breaks the reading it was built to test. The three prints that let the
+That also invalidates the reading it was built to test. The three prints that let the
 earlier run continue do not sit between the read and the write; they bracket it.
 `1a before RREG32` precedes the read, `1b read returned` follows it, `1c write
 complete` follows the write. Only `1b` is between the two accesses, and by the
-time `1b` could run the read has already succeeded. So the print that could
-plausibly matter is the one before the read, not the one between.
+time `1b` could run the read has already succeeded. The print that could
+plausibly matter is therefore the one before the read, not the one between.
 
-The obvious repair, putting the activity before the read, is not obviously right
+Putting the activity before the read instead is not clearly right
 either. The settle-delay build carried two `dev_warn` calls immediately before
 the call to `gfx_v10_0_kiq_setting()`, a few instructions ahead of the read, and
 the read still did not return. Prints immediately before the read helped in one
 build and did not in another.
 
-Which leaves a possibility that has not been tested and should have been first.
+That leaves a possibility that had not been tested and should have been tested first.
 Every configuration so far has been run once. If the stopping point varies
-between identical runs, then none of these single captures is measuring
-placement at all, and the whole account of prints helping is an account of noise.
+between identical runs, then none of these single captures measures
+placement, and the account of prints helping is an account of noise.
 Repetition comes before any further placement.
 
-That repetition was run, and it is noise:
+That repetition was run, and the variation is noise:
 [`../reset-kiq-repeat-2026-08-24/`](../reset-kiq-repeat-2026-08-24/) shows the
 stopping point moving between identical runs, so the placement account is
 withdrawn.

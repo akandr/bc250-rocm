@@ -41,8 +41,8 @@ Ratios of medians over [`logs/fedora44-campaign-q8-2026-09-20/`](../fedora44-cam
 | qwen3.6-35B MoE | **1.565** | 1.004 | 1.001 / 1.001 |
 | qwen3.8-27B | 1.000 | 1.004 | 1.000 / 1.000 |
 
-The MoE moves and nothing else does by more than 1.5 percent, which is what a patch that only touches
-MUL_MAT_ID should do; the MoE is the only one of the six with experts. Decode does not move at all.
+The MoE moves and nothing else does by more than 1.5 percent, as expected of a patch that touches only
+MUL_MAT_ID; the MoE is the only one of the six with experts. Decode does not move.
 
 ## Against the three-patch build
 

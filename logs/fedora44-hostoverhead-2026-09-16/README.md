@@ -35,8 +35,8 @@ Tracing the calls themselves over a shorter run, `-n 32` (`f4*_ioctl.txt.gz`):
 | `AMDKFD_IOC_CREATE_EVENT` / `DESTROY_EVENT` | 143 each | 82 each |
 | memory map/unmap/alloc/free | 76 to 79 each | 73 each |
 
-So ROCm 6.4.2's runtime enters the kernel about eleven times as often waiting for GPU completion signals,
-for the same work at the same rate. The memory-management calls are the same in both. Three runtime knobs
+ROCm 6.4.2's runtime therefore enters the kernel about eleven times as often waiting for GPU completion signals,
+for the same work at the same rate. The memory-management calls are the same in both. Three runtime settings
 were tried on Fedora 43 and none of them changes it: `ROC_ACTIVE_WAIT_TIMEOUT=0` and `=100000` leave the
 figures untouched, and `HSA_ENABLE_INTERRUPT=0` moves the cost from system to user time (7.58 s user, 2.90 s
 system) without reducing the total.
@@ -52,8 +52,8 @@ Fedora 45's `rocm-runtime-7.2.1-4.fc45` extracted beside the system one and sele
 Throughput is unchanged: pp512 784.7, 793.3, 793.6 against the system library's 784.3, 793.0, 793.0, and
 tg64 117.6, 117.8, 116.9 against 116.6, 117.1, 116.6.
 
-It does **not** fix the crash at a context depth past the KFD memory limit
+It does not fix the crash at a context depth past the KFD memory limit
 ([`../fedora44-ceilings-2026-09-16/`](../fedora44-ceilings-2026-09-16/)): qwen3-14B at depth 16384 still
 dies with `segfault at 20 ... in libhsa-runtime64.so`, the same fault address as the system library. So
 the upstream scratch-allocation fix of February 2026 either is not in this build or is not the path being
-taken here. Whatever the fix for that crash is, it is not "use a newer ROCm runtime".
+taken here. A newer ROCm runtime alone does not fix that crash.

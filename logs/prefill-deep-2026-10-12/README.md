@@ -36,17 +36,17 @@ Medians of the three passes, tokens per second (`phase1/log`, `phase2/log`):
 | 16384 | 171.8 | 84.1 | 176.5 | 2.04 | 0.97 |
 | 24576 | 134.6 | 58.9 | 135.3 | 2.29 | 0.99 |
 
-**ROCm's lead over stock Vulkan grows with context, 1.06 to 2.29 times, and against Vulkan carrying #28507
-it is level at every depth, 0.97 to 1.04.**
+ROCm's lead over stock Vulkan grows with context, 1.06 to 2.29 times, and against Vulkan carrying #28507
+it is level at every depth, 0.97 to 1.04.
 
-**The September figure at 8192 was low.** The thirteen-patch build read 231.6 ± 21.6, 209.2 ± 4.5 and
+The September figure at 8192 was low. The thirteen-patch build read 231.6 ± 21.6, 209.2 ± 4.5 and
 214.6 ± 13.4 there on 22 September (`log-followup`, section D), and the front page carried the median,
 214.6. The nine invocations of 12 October read 246.42 to 246.60, spreads under 0.1, at edge temperatures
 of 65 to 76 °C and a clock that never left 1500 MHz once the model was loaded. The Vulkan arms reproduce
 September within a few percent, 143.2 against 143.8 and 242.4 against 236.1, so the correction is to the
 ROCm point alone: 1.72 times stock Vulkan at 8192, not 1.49, and level with #28507 rather than behind it.
 
-**At 24576 every arm throttles.** Every run has six to nine clock samples at 1000 MHz, the seconds before
+At 24576 every arm throttles. Every run has six to nine clock samples at 1000 MHz, the seconds before
 the model is loaded, and at 8192 and 16384 that is all of them. At 24576 the ROCm runs have 51 to 59 of
 133 to 138 samples at 1000 MHz, the Vulkan runs 35 to 37 of 200 to 203, and the #28507 runs 26 to 34 of
 111 to 119. The governor logged `GPU overheated, throttling` at 19:48, during the first 24576 point, and silences later

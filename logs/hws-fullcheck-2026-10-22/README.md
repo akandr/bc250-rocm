@@ -3,7 +3,7 @@
 Fedora 44 user space (ROCm 7.1.1, the native gfx1013 rocBLAS in `/opt/bc250-rocm`), hardware
 scheduling and the KIQ bypass (`amdgpu.bc250_flush_pasid_kiq=0`) throughout. Every directory is one
 boot; `header.txt` records the kernel, the command line, the module parameters, the KFD SIMD count
-(two per CU) and the rocBLAS library actually loaded.
+(two per CU) and the rocBLAS library loaded.
 
 Earlier correctness evidence rested partly on checks that could not see the failure: the SGEMM
 programs check two elements of an output buffer reused across iterations, and several kernel-log

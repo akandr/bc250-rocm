@@ -39,7 +39,7 @@ first and last rounds of each model sit inside those ranges, and the widest sing
 prefill at 2.28 percent, is the model that fills memory and carried a comparable spread in every
 earlier measurement.
 
-**Four perplexity values, 152 evaluations, one number each.** That is the part worth stating plainly.
+Four perplexity values, 152 evaluations, one number each.
 The expert-path GEMM changes the arithmetic of a mixture-of-experts model's prefill and the shared-memory
 codebook changes where the 27B's matvec reads its tables; if either were occasionally wrong, a gate
 repeated 38 times is where it would show.

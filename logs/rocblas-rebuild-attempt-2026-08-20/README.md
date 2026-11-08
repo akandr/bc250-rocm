@@ -1,8 +1,7 @@
 An attempt to rebuild the native gfx1013 rocBLAS, to test whether the zeroed fp16
 GEMM is systematic in a gfx1013 Tensile build or an artifact of the one build
-everything has been measured against. **Not completed**, and stopped
-deliberately, not abandoned; this records how far it got so it can be
-resumed.
+everything has been measured against. Not completed; it was stopped
+deliberately, and this records how far it got.
 
 **Why it matters.** Driving the board as gfx1010 makes the defect vanish, but
 that changes device identity and library together and the separating cell cannot
@@ -30,7 +29,7 @@ Tensile and rocBLAS C++ enums (`AMDGPU.hpp`, `PlaceholderLibrary.hpp`,
 the original build and lived only inside the build tree, so they are not
 recoverable from the source on the board.
 
-**The Tensile source on the board carries broken gfx1013 edits.** Looking at
+The Tensile source on the board carries broken gfx1013 edits. In
 `Tensile/Source/lib/include/Tensile/AMDGPU.hpp` in the local Tensile checkout,
 the two gfx1013 additions are not valid C++:
 
@@ -41,19 +40,19 @@ the two gfx1013 additions are not valid C++:
 
 The first is the comma operator, so every gfx1012 device reports itself as
 "gfx1013" and the first string is discarded. The second passes a string literal
-where `std::string::find` expects a position, which does not compile at all.
+where `std::string::find` expects a position, which does not compile.
 There is no `gfx1013` entry in the `Processor` enum, and
-`PlaceholderLibrary.hpp` has no gfx1013 case whatever.
+`PlaceholderLibrary.hpp` has no gfx1013 case.
 
-These are not being "fixed" here, because the first line may encode an intent instead of a slip:
+These are not changed here, because the first line may encode an intent rather than a slip:
 mapping gfx1013 onto gfx1012's kernel logic while labelling
-the generated files gfx1013 is a coherent hack if you only ever build for this
-one target, and the library that resulted does work. Guessing at that intent and
-writing a different patch would produce a different library, which is exactly
-what this experiment is trying to hold constant. `tensile-broken-edits.txt`
+the generated files gfx1013 is a coherent workaround if only this one target is
+ever built, and the resulting library does work. Guessing at that intent and
+writing a different patch would produce a different library, which is what this
+experiment is trying to hold constant. `tensile-broken-edits.txt`
 records the lines verbatim.
 
-**Worth stating plainly:** the native rocBLAS on this board is therefore not
+The native rocBLAS on this board is therefore not
 currently reproducible from what the board holds. The build needs edits that
 were made by hand, and the copy of them that survives does not compile, so the
 ones that produced the working library are lost. The library itself is intact

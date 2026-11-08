@@ -91,10 +91,10 @@ the range:
 
 The qwen3-14B gate is 6.4547 on 26.1.8 and 6.4548 on 25.3.4.
 
-**This overturns the Mesa reading on the benchmark page.** The two drivers perform the same here, within a
+This overturns the Mesa reading on the benchmark page. The two drivers perform the same here, within a
 few percent and inside each other's spread, and the bimodal prefill on the 8B and 14B happens under both.
-So the Vulkan differences between the Fedora 43 and Fedora 44 pages, the 1.5B rising from 1844 to 2415
-t/s and qwen3-14B prefill falling from about 199 to about 148, are not caused by the Mesa version.
+The Vulkan differences between the Fedora 43 and Fedora 44 pages, the 1.5B rising from 1844 to 2415
+t/s and qwen3-14B prefill falling from about 199 to about 148, are therefore not caused by the Mesa version.
 
 The llama.cpp binary is not the cause either: the Fedora 43 Vulkan build and the Fedora 44 one, run on
 Fedora 44 against both drivers, give the same figures in all four combinations

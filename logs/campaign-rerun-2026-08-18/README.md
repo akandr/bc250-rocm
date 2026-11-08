@@ -12,8 +12,8 @@ models.
 
 The 8B looked like an exception and is not. Its decode rate read 36.30 here, and
 36.40 to 38.34 across the sibling runs of the same afternoon, against 39.20 in the
-campaign, which was chased through two hypotheses,
-both wrong. The map-side runlist flush was ruled out by toggling it live
+campaign. Two explanations were tested and both
+were wrong. The map-side runlist flush was ruled out by toggling it live
 (`../flush-cost-2026-08-18/`). The debug instrumentation added to the memory
 pool's hot path since the campaign was ruled out by building a clean tree at the
 campaign commit with only the three shipped patches: the clean build reads 36.40
@@ -25,11 +25,11 @@ Pooling every independent invocation of this measurement on record gives mean
 1.6 standard deviations above that mean, which is an ordinary sample, not a different regime. There
 was no regression to explain.
 
-What the chase did surface is worth more than the non-result. `llama-bench`
+The investigation did find one thing. `llama-bench`
 prints an error bar computed across repetitions inside one invocation, and for
 this model that bar has a median of 0.43 while the spread across invocations is
-1.20, about three times larger. The campaign's own `39.20 +/- 0.17` is a good
-example of a figure that looks far more precise than it is.
+1.20, about three times larger. The campaign's own `39.20 +/- 0.17` looks far more
+precise than it is.
 
 The small model reproduces the campaign closely in both builds (pp512 807.60 and
 807.40 against 806, tg64 113.72 and 113.51 against 113.5), so the campaign
@@ -38,7 +38,7 @@ itself is reproducible; only the noisiest model looked otherwise.
 One arm of this re-run tested nothing and is reported so it is not mistaken for
 a result: `GGML_CUDA_FORCE_CUBLAS` is a compile-time `#ifdef` in this version,
 not an environment variable, so setting it in the harness had no effect and the
-"forced-BLAS" figure here is just the default path measured a second time. The
+"forced-BLAS" figure here is the default path measured a second time. The
 936 t/s figure in the write-up came from a build compiled with that macro and is
 not re-verified by this run.
 
@@ -53,7 +53,7 @@ both hypotheses for that failing.
 
 Amended on 25 August. That correction originally went on to explain the 35.40
 quoted lower down as a later number, the minimum of a series measured on
-21 August. That explanation is wrong, and the repository's own history says so:
+21 August. That explanation is wrong: according to the repository's history,
 this page carried "35.40 to 39.20" in the first commit, dated 19 August, two days
 before the series in question was run. What is true is narrower. No captured file
 anywhere holds a 35.40 for this measurement, so where it came from is not

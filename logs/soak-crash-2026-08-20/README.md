@@ -24,8 +24,8 @@ it, which is the result the soak was run to get.
 ## The crash
 
 Round 254 took the board down. It was an SDMA-enabled round, and it failed five
-seconds in, during the prefill benchmark. The kernel trail is complete and the
-order matters:
+seconds in, during the prefill benchmark. The kernel trail is complete, in this
+order:
 
     22:14:48  [gfxhub] page fault, vmid 8, pasid 2460, address 0x00007fa800005000
               client TCP (0x8), PERMISSION_FAULTS 0x5, MORE_FAULTS 0x1, three times
@@ -51,7 +51,7 @@ process's AQL queue mapping away underneath a store that is already in flight.
 The faulting frame is `rocr::AMD::AqlQueue::StoreRelaxed`, reached through
 `ggml_cuda_op_add` inside graph evaluation. SIGBUS, not SIGSEGV was
 already noted in the write-up as suggesting a mapping that exists but cannot be
-backed, and that reading is exactly right.
+backed, and that reading is correct.
 
 ## A methods correction this forces
 
@@ -63,7 +63,7 @@ from. Every place this work has said "no fault in dmesg" about a run that ended
 in a reboot was reading an empty buffer and reporting it as a clean result.
 That is a stronger version of the runtime-versus-kernel blind spot already
 recorded in `deep-decode-faults-2026-08-20/`, and it has the same fix: name the
-instrument, and check that the instrument could have seen the thing.
+instrument, and check that the instrument could have seen the event.
 
 ## What it does not settle
 
@@ -72,7 +72,7 @@ about 127 rounds that passed, so the crash is not evidence against the
 microcode substitution. What can be said is narrower: one hard failure in 254
 rounds of sustained mixed load, and the failure mode is the same
 preemption-timeout family that the compute-queue defect has shown since July,
-now observed reaching all the way to a reboot.
+now observed reaching a reboot.
 
 Raw material: `journal_fault_window.txt` is the kernel and coredump lines across
 the failure, `stack_llama_bench.txt` the faulting thread, `soak_log` every round.

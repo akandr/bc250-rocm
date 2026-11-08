@@ -12,8 +12,8 @@ the front-page build (`trace-*.txt`, `trace-*.bench`).
 | qwen2.5-1.5B tg64 | 23985 | 310.9 ms | 439.4 ms | 71 % |
 | qwen3.8-27B tg64 | 111667 | 4354 ms | 5324 ms | 82 % |
 
-**The last column is not the idle time of an ordinary run, and an earlier version of this page read it
-that way.** The tracer slows the run it measures: `trace-*.bench` records what `llama-bench` reported
+The last column is not the idle time of an ordinary run; an earlier version of this page read it that
+way. The tracer slows the run it measures: `trace-*.bench` records what `llama-bench` reported
 while being traced, 162.38 t/s on the 1.5B and 12.61 t/s on the 27B, against about 198 and 14.8 for the
 same build untraced. That 15 to 18 percent is the same size as the shortfall in the table, so most of
 it is the cost of interposing every dispatch, not a gap the GPU would see on its own. Taking the
@@ -35,7 +35,7 @@ Kernel time by class, decode:
 | gated delta net | | | 48.7 ms | 1.1 % |
 | everything else | 0.2 ms | | 138 ms | 3.2 % |
 
-So on both models the matrix-vector kernels are 84 to 92 percent of the kernel time, and no other class
+On both models the matrix-vector kernels are 84 to 92 percent of the kernel time, and no other class
 reaches 8 percent. Read together with the note above, that places the decode gap against Vulkan in the
 matvec kernels themselves, not in the spaces between dispatches: there is little room between
 dispatches to recover. Four attempts to close it on the two codebook models are in
@@ -44,4 +44,4 @@ dispatches to recover. Four attempts to close it on the two codebook models are 
 The prefill traces (`trace-*-pp.txt`) list every kernel twice, once under its demangled name and once
 under the mangled one with identical counts; the MMQ GEMM is the run at 78 percent of the 1.5B's
 (doubled) kernel time and flash attention 3 percent, which matches the op-replay picture of prefill. The
-double counting was not chased.
+double counting was not investigated.

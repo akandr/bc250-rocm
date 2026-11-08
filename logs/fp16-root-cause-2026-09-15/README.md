@@ -1,11 +1,11 @@
 # The zeroed fp16 GEMM: root cause and fix, 2026-09-15
 
-**The defect is a toolchain ABI mismatch, not a gfx1013 kernel, runtime or silicon problem.** The
+The defect is a toolchain ABI mismatch, not a gfx1013 kernel, runtime or silicon problem. The
 native rocBLAS built on this board statically contains `__extendhfsf2` and `__truncsfhf2` from
 Fedora 43's ROCm compiler-rt, compiled for the pre-`_Float16` convention that passes a half value
 in an integer register. The ROCm clang 19 code calling them passes and expects the value in `%xmm0`,
-as the x86-64 psABI specifies for `_Float16`. So every half-to-float conversion in the library
-converts whatever happens to be in `%edi`. When that garbage converts to zero, rocBLAS decides alpha
+as the x86-64 psABI specifies for `_Float16`. Every half-to-float conversion in the library therefore
+converts whatever is in `%edi`. When that value converts to zero, rocBLAS decides alpha
 is zero, rewrites the GEMM as a K=0 problem, and returns exactly zero.
 
 Replacing the two helpers with the F16C instruction for the same conversion
@@ -19,7 +19,7 @@ Minimal reproducer [`patches/gemm_fp16_min.cpp`](../../patches/gemm_fp16_min.cpp
 1. **A trigger that makes it deterministic.** glibc's per-thread allocation cache changes what earlier
    code leaves in registers. With `GLIBC_TUNABLES=glibc.malloc.tcache_count=1` every fp16 GEMM returns
    all 524288 elements zero; with `tcache_count=0` none do (`minimal_repro_matrix.txt`, rows "orig").
-   This is what made the chain below observable at all; found through the investigation in
+   This made the chain below observable; found through the investigation in
    [`../fp16-scalar-2026-09-15/`](../fp16-scalar-2026-09-15/).
 2. **Tensile receives a K=0 problem.** With `TENSILE_DB=0x42` Tensile prints the problem key and the
    packed kernel arguments: `Object key: 1024, 512, 0` and `size_3: 0` in the bad state against
@@ -75,10 +75,10 @@ broken builtins.
 Two further points from a second search the same day. Fedora's own system compiler-rt carried a
 patch for the same detection bug from 17.0.0~rc3-2 (August 2023, "Fix FLOAT16 detection"), prompted
 by the rocFFT report, but `rocm-compilersupport` for ROCm 6.4 never took an equivalent; ROCm's LLVM
-fork has the upstream fix from `rocm-7.0.0`, and no 6.x tag has it. And the later Fedora branches are
+fork has the upstream fix from `rocm-7.0.0`, and no 6.x tag has it. The later Fedora branches are
 correct: disassembling the `rocm-clang-runtime-devel` RPMs from Koji, `__extendhfsf2` reads `%edi` in
 19-14.rocm6.4.2.fc43 and `%xmm0` in 20-12.rocm7.1.1.fc44, 22-14.rocm7.2.1.fc45 and 23-3.rocm7.14.0.fc46
-(`fedora_builds_extendhfsf2.txt`, checked by hand here). So the problem is specific to Fedora 43's
+(`fedora_builds_extendhfsf2.txt`, checked by hand here). The problem is therefore specific to Fedora 43's
 ROCm 6.4.2 toolchain.
 
 ## The fix, measured

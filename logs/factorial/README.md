@@ -24,5 +24,5 @@ All eight boots here were at 40 CU. A later measurement crossed CU count with
 scheduler policy instead and found the wedge tracks the policy at 24 CU as well
 as 40, which is in `../kernel-equivalence-2026-08-17/`.
 
-Two boots per cell is thin for a board this variable, so this is the pattern
-that held across these boots, not a settled law.
+Two boots per cell is few for a board this variable, so this is the pattern
+that held across these boots, not an established rule.

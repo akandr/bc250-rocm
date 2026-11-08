@@ -2,7 +2,7 @@ Two constants that had never been varied in any measurement in this repository:
 every correctness gate used one text file, and nearly every throughput figure
 came from one benchmark tool.
 
-**Corpus.** The ROCm-versus-Vulkan agreement is the backbone of the correctness
+**Corpus.** The ROCm-versus-Vulkan agreement is the main support of the correctness
 argument and had only ever been tested on `wiki.test.raw`. Repeated on a
 different slice of the same text and on concatenated C++ source, which is a
 large distribution shift (perplexity around 2.6 against around 10):
@@ -33,11 +33,11 @@ configuration:
 | `llama-cli` generation | 115.00 | 0.44 |
 
 The means agree to 0.3 percent, so the benchmark tool is not introducing a bias.
-Worth noting separately: `llama-cli` is markedly steadier across the same three
+`llama-cli` is markedly steadier across the same three
 runs, which is consistent with the finding elsewhere here that `llama-bench`
 figures carry more spread than their printed error bars suggest.
 
-One harness note. `llama-cli` prints its rate with a comma decimal separator
+`llama-cli` prints its rate with a comma decimal separator
 under this locale, so the first pass of this script extracted nothing from it and
 the arm looked like a failure. The numbers above were recovered from the same
 logs; nothing was re-run.

@@ -41,7 +41,7 @@ the same script and models an hour earlier:
 | qwen3.6-35B MoE | 1.000 | 0.999 | 0.999 / 0.999 |
 | qwen3.8-27B | 0.999 | 0.997 | 1.000 / 1.000 |
 
-One row moves and it is the one the patch is for. The 8B's 1.018 on decode is the same row recovering
+Only one row moves, the one the patch targets. The 8B's 1.018 on decode is the same row recovering
 from a low sample in the previous campaign, not an effect of a prefill-only change.
 
 ## Against the three-patch build
@@ -71,7 +71,7 @@ Max minus min over the eighteen samples, as a percentage of the median:
 | qwen3.6-35B MoE | 1.3 | 6.6 | 1.8 | 2.4 |
 | qwen3.8-27B | 0.8 | 2.6 | 0.1 | 0.2 |
 
-The wide ROCm figures are one artefact, and it is the same one every time: the first of the three samples
+The wide ROCm figures are one artefact, the same every time: the first of the three samples
 `llama-bench` takes after loading a model often reads low, and the second and third do not. The 1.5B's
 prefill is the clearest case, at 1767, 1762, 1761, 1629, 1451 and 1660 for the six first samples against
 1743 to 1799 for the other twelve; the 8B's decode reads 35.2, 34.7, 37.8, 37.7, 38.2, 37.8 for its

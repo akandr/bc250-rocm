@@ -20,9 +20,10 @@ the journal to say why. The second half was an instrument limit instead of a
 fact: the board stops flushing to disk, so the journal ends mid-sentence. It says
 nothing about what the kernel was doing. Netconsole has no such limit.
 
-## What actually happens
+## What happens
 
-The reset succeeds. Under the default method:
+The driver reports the reset as successful; a later capture showed that no reset reaches the hardware
+([`../reset-smu-gc-2026-09-14/`](../reset-smu-gc-2026-09-14/)). Under the default method:
 
     GPU reset begin!. Source:  5
     failed to suspend display audio
@@ -41,14 +42,14 @@ The GPU resets, the driver reports success, PSP and SMU come back, and the 40-CU
 unlock is reapplied to all four shader arrays. Then a CPU stops answering and the
 machine is gone.
 
-So the defect is not that the GPU cannot be reset. It is that resetting the GPU
+The defect is therefore not that the GPU cannot be reset. It is that resetting the GPU
 on this APU wedges the host. The last thing the kernel says is a clocksource
 watchdog timeout on a remote CPU, which is a CPU-side stall, not a GPU error.
 
 ## The reset method is not the cause
 
 MODE1 resets the whole chip, including memory controllers the host shares, which
-made it a plausible culprit. MODE2 is the lighter reset APUs normally use, so it
+made it a plausible cause. MODE2 is the lighter reset APUs normally use, so it
 was tried with `amdgpu.reset_method=3`:
 
     GPU reset begin!. Source:  5
@@ -69,10 +70,10 @@ The mitigation is unaffected and still correct: `amdgpu.gpu_recovery=0` stops th
 reset being requested, which is confirmed separately. But the reason it is needed
 is different from what this repository has been saying. A reader would have
 concluded the GPU cannot be reset on this hardware. What the evidence shows is
-that it can, cleanly, and that the host does not hold up the operation.
+that it can, cleanly, and that the host does not survive the operation.
 
-"GPU reset hangs the host on gfx1013" is a specific claim, and it is not obviously a BC-250
-quirk: nothing here is board-specific, so any Cyan Skillfish APU may do it.
+"GPU reset hangs the host on gfx1013" is a specific claim, and it is not clearly specific to the
+BC-250: nothing here is board-specific, so any Cyan Skillfish APU may do it.
 
 ## What is still unknown
 

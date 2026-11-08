@@ -5,7 +5,7 @@ amdkfd fixes that 7.2.y carries, including the TLB flush added after MES queue e
 board's remaining open defects are all kernel-side. The question was whether any of that removes the need
 for the runlist-rebuild flush.
 
-**It does not.** The board behaves exactly as on 7.1.8.
+It does not. The board behaves exactly as on 7.1.8.
 
 ## Building it
 
@@ -49,4 +49,4 @@ kernel-independence finding instead of changing it. The amdkfd difference betwee
 in the source, six `kfd_flush_tlb` call sites in 7.2.5's queue manager against four in 7.1.8, and it makes
 no difference here: the flush this board needs is the runlist rebuild, and nothing upstream provides it.
 
-The gates being identical across a kernel change is also a useful control on the gates themselves.
+The gates being identical across a kernel change also serves as a control on the gates themselves.

@@ -8,15 +8,15 @@ toggling the runtime-writable parameter within one boot so nothing else differs.
 | 0 (off) | - | - | aborts, `HSA_STATUS_ERROR_MEMORY_APERTURE_VIOLATION` |
 | 3 again | 239.40 | 37.42 | completes |
 
-Two results. The flush is doing real work: with it off the same benchmark that
+Two results. The flush is needed here: with it off the same benchmark that
 runs fine either side of it aborts with an aperture violation, which is the
 allocation-reuse defect, demonstrated here by a single-variable change in one
 boot, not across boots.
 
-And the map-side bit is free. The gap between the two settings that both work is
+The map-side bit costs nothing measurable. The gap between the two settings that both work is
 smaller than the gap between the two measurements of the identical setting
 (36.60 and 37.42 at the same value of 3), so its cost is below run-to-run noise
-and cannot be quantified from this. The map-side bit was the suspect for an 8B
+and cannot be quantified from this. The map-side bit had been suspected of causing an 8B
 decode change of about 8 percent seen between the campaign of 2026-08-12 and
 today, and it is ruled out.
 

@@ -46,7 +46,7 @@ oberon governor at 1500 MHz, kernel 7.2.5, Fedora 44, `HSA_ENABLE_SDMA=0`. No fa
   [`logs/ladders-2026-10-15/`](../ladders-2026-10-15/) (ROCm as shipped, ROCm with `GGML_CUDA_GRAPH_OPT=1` and
   its fix, Vulkan), the no-depth-cache `llama-bench`, `-r 1` after three idle minutes, three passes. The first
   ROCm run at 30720 filled the context and aborted at an allocation (`ggml-cuda.cu:111`, SIGABRT, no kernel
-  fault, nothing leaked), so the script stopped as designed and `d2/` finished the job: passes 2 and 3 at 28672
+  fault, nothing leaked), so the script stopped as designed and `d2/` completed the remaining runs: passes 2 and 3 at 28672
   on all arms, then 30720 on Vulkan alone. 32704 was not tried.
 
 **The incident, and a rule.** The first B attempt (its runs are in `a/` as `B_p1_ds14_*`) tried deepseek-14B
@@ -74,7 +74,7 @@ reboot before measuring on a board that has run ollama since boot.
 | 3 | 122.68 | 51.03 | 122.97 |
 | **median** | **122.7** | **51.1** | **123.0** |
 
-**2.40 times stock Vulkan, 1.00 of Vulkan with #28507**, continuing the ladder (1.39, 1.72, 2.04, 2.29 at
+2.40 times stock Vulkan, 1.00 of Vulkan with #28507, continuing the ladder (1.39, 1.72, 2.04, 2.29 at
 4096 to 24576). As at 24576, the fill throttles: 21 to 27 of about 105 clock samples at 1000 MHz on ROCm
 against the loading seconds only on the Vulkan arms (15 to 16 of about 100 and 185), and the governor logged
 an overheat during the second ROCm run. The ROCm figure is a floor.
@@ -88,11 +88,11 @@ an overheat during the second ROCm run. The ROCm figure is a floor.
 | 3 | 26.83 | 26.73 | 25.02 |
 | **median** | **26.83** | **27.34** | **25.02** |
 
-**1.07 times Vulkan as shipped and 1.09 with the option and its fix**, the same two ratios as at 24576 in that
+1.07 times Vulkan as shipped and 1.09 with the option and its fix, the same two ratios as at 24576 in that
 ladder's phase 2. The as-shipped arm ran at 1500 MHz once loaded (9 to 15 samples at 1000 MHz, the load) and
 Vulkan too (9 of 156); the option's arm throttled during its fill in all three passes (18 to 22 of about 85,
 and the governor logged its overheat line in the first), so its figure is a floor. Behind 30720 ROCm does not
-hold the 8B at all with the model in pinned host memory: the fill completes and the next allocation fails,
+hold the 8B with the model in pinned host memory: the fill completes and the next allocation fails,
 `ggml-cuda.cu:111`, abort. Vulkan decodes there at 24.47, 24.39, 24.54 (median 24.5).
 
 ### B and C. Decode, tg64 behind cached tokens, ROCm as shipped / Vulkan
@@ -127,19 +127,19 @@ The 27B rows pool B and C2, six runs each. Its ROCm side reads 14.66 to 14.70 at
 16384 in all of them, rest or no rest. Its Vulkan side at 8192 splits into two levels, 15.17, 15.21, 15.83 and
 16.92, 16.94, 16.96, with the same 10 to 11 loading samples at 1000 MHz in both groups, so it is not the
 clock; the median, 16.4, is between them and the ratio is 0.87 to 0.97 depending on which level Vulkan
-lands on. At 16384 both arms throttle from the fill itself, 16 to 21 samples at 1000 MHz on ROCm and 16 to
-31 on Vulkan after a five-minute rest as after a 90-second one, and the figures are stable all the same
+reaches. At 16384 both arms throttle from the fill itself, 16 to 21 samples at 1000 MHz on ROCm and 16 to
+31 on Vulkan after a five-minute rest as after a 90-second one, and the figures are stable nonetheless
 (Vulkan 16.44 to 16.48 across six runs).
 
-**Two shapes.** The MoE keeps the same distance at every depth, 0.81 to 0.82: its decode is bound by the
+Two patterns. The MoE keeps the same distance at every depth, 0.81 to 0.82: its decode is bound by the
 quantised matrix-vector work on the active experts, which does not grow with the context, and the ROCm
-side of that is the matvec gap the front page describes. The dense models fall away as the cache grows:
+side of that is the matvec gap the front page describes. The dense models fall behind as the cache grows:
 both 14Bs go from 0.93 at an empty context to 0.80 at 8192 and about two thirds at 16384, qwen3-14B to
-0.56 at 24576, and the 27B drops the same way between 8192 and 16384, 0.90 to 0.66. The drop between 8192 and 16384 is the large one, a third of the ROCm speed against a sixth
+0.56 at 24576, and the 27B drops the same way between 8192 and 16384, 0.90 to 0.66. The largest drop is between 8192 and 16384, a third of the ROCm speed against a sixth
 of Vulkan's, and it reproduces to the tenth across four passes (deepseek-14B at 16384: 15.03, 14.99, 14.97,
 15.02). The 8B, the same head size and GQA ratio 4 instead of 5, does not have it (1.05 at 16384, cold).
-Where the time goes on the 14Bs at depth is not measured here; it is the next thing to profile with
-rocprofv3, attention over a long cache being the only part of the token that grows.
+Where the time goes on the 14Bs at depth is not measured here; attention over a long cache is the only
+part of the token that grows with it.
 
 Every value in this directory is a median of runs that reproduce to a few tenths; the per-run clock
 histograms are in the `clk_*` files and the raw `llama-bench` tables in `raw_*`.

@@ -17,7 +17,7 @@ again. Traced with [`scripts/kerntrace.cpp`](../../scripts/kerntrace.cpp) on the
 | everything else | | 4 % |
 
 MMQ has not disappeared and should not: the `Kcur` and `Vcur` projections are 256 rows, below the
-kernel's threshold, so they keep the faster path. Flash attention grows with the prompt, as it must.
+kernel's threshold, so they keep the faster path. Flash attention grows with the prompt, as expected.
 
 ## qwen3.8-27B
 
@@ -36,4 +36,4 @@ and the gated delta net, both of which had their own rounds of work
 of this model's prefill and are not worth further effort. And whatever is left of the gap to RADV is in
 the GEMM itself: per matmul at 2048 tokens it is at parity to 30 percent behind, `ffn_gate` 12077 against
 11573 microseconds, `ffn_down` 14427 against 10386, `Qcur` 2475 against 1790. Rounds thirteen and
-fourteen tried the two obvious remedies on it, and both came back negative.
+fourteen tried the two most direct remedies on it, and both came back negative.

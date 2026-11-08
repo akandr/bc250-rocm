@@ -9,13 +9,13 @@ before the run and is kept in `prediction.txt`.
 A GPU reset succeeds on this board and the host then stalls. The last driver line
 before the silence was the 40-CU unlock being reapplied to all four shader arrays
 during resume. That patch is carried by this repository, so if it were the cause
-the finding would need saying loudly.
+the finding would have to be reported prominently.
 
 ## Result: cleared
 
 Booted with the unlock disabled, confirmed by the log carrying no
 `bc250-40cu-enable` lines and the KFD reporting `active_cu_number 24` instead of
-40, the board dies exactly as before:
+40, the board fails exactly as before:
 
     GPU reset begin!. Source:  5
     failed to suspend display audio
@@ -27,7 +27,7 @@ Booted with the unlock disabled, confirmed by the log carrying no
     SMU is resumed successfully!
     clocksource: Watchdog remote CPU 6 read timed out
 
-No unlock lines, same ending. The unlock's position in the earlier captures was
+There are no unlock lines and the ending is the same. The unlock's position in the earlier captures was
 incidental: it was the last thing that happened to print.
 
 ## What this narrows
@@ -35,16 +35,16 @@ incidental: it was the last thing that happened to print.
 The stall now sits between `SMU is resumed successfully!` and whatever the resume
 path does next, with nothing of ours in between. Three captures now agree on the
 shape and disagree on the CPU named, 10, 4 and 6, confirming that number is
-whichever CPU the timekeeping watchdog polled, not a fixed culprit.
+whichever CPU the timekeeping watchdog polled, not a fixed cause.
 
 The board was returned to `bc250_cc_write_mode=3` afterwards and verified at 40
 CUs with the unlock reapplied.
 
-## Note on what a negative here is worth
+## What a negative result here shows
 
-This clears a suspect instead of finding one, and it clears one that would have
-been embarrassing to leave unexamined, since it was our own patch and it sat in
-exactly the place a cause would sit. The remaining resume path after SMU is
+This clears a suspect rather than finding a cause. The suspect had to be checked
+because it was this repository's own patch and it sat in exactly the place a cause
+would sit. The remaining resume path after SMU is
 upstream code.
 
 ## One capture

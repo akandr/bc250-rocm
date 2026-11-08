@@ -8,8 +8,8 @@ thirteen patches rebuild it had not been checked.
 
 ## Result
 
-**One patch did not apply as published. With it regenerated, the rebuild computes what the measured
-build computes, at the same speed.**
+One patch did not apply as published. With it regenerated, the rebuild computes what the measured
+build computes, at the same speed.
 
 - Patch 0008 carried one line of the working tree's debug output in the context of its second hunk,
   `if (getenv("BC250_PATH")) fprintf(...)`, which upstream does not have, so `git am` stopped there. The

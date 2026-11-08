@@ -14,14 +14,14 @@ GPU clock policy 1500 MHz, timers stopped, `log`.
 | `GGML_CUDA_DISABLE_GRAPHS=1` | 916.5 / 916.3 | 185.7 / 185.6 | 71.7 / 71.1 | 14.38 / 14.37 |
 | both | 918.3 / 918.4 | 185.9 / 185.6 | 71.7 / 71.9 | 14.30 / 14.42 |
 | `HIP_FORCE_DEV_KERNARG=1` | 912.5 / 914.4 | 184.2 / 183.5 | 71.5 / 71.9 | 14.21 / 14.30 |
-| **`GPU_MAX_HW_QUEUES=1`** | 921.3 / 921.6 | **197.2 / 197.4** | 71.5 / 72.7 | 14.20 / 14.45 |
+| `GPU_MAX_HW_QUEUES=1` | 921.3 / 921.6 | 197.2 / 197.4 | 71.5 / 72.7 | 14.20 / 14.45 |
 
-One knob moves anything: with the HIP runtime confined to one hardware queue the 1.5B decodes **7.3
-percent faster**, both passes, spreads 1.1 and 1.5, and prefills 1 percent faster; the 27B, whose token is
+One setting changes anything: with the HIP runtime confined to one hardware queue the 1.5B decodes 7.3
+percent faster, both passes, spreads 1.1 and 1.5, and prefills 1 percent faster; the 27B, whose token is
 fourteen times longer, reads within its noise. HIP spreads streams over up to four hardware queues by
-default; llama.cpp uses one stream, and on this board something about the extra queues costs a small
-model's short token. Graphs off is worth 1 percent on the 1.5B, the opposite sign of what graphs are
-for; polled signals and device-side kernel arguments do nothing. The queue knob is measured across the
+default; llama.cpp uses one stream, and on this board the extra queues slow a small model's short
+token, for a reason not identified here. Graphs off is worth 1 percent on the 1.5B, the opposite sign of what graphs are
+for; polled signals and device-side kernel arguments do nothing. The queue setting is measured across the
 models in round three.
 
 ## The q8_0 float kernel and the 8B
@@ -29,7 +29,7 @@ models in round three.
 Since patch 5 the Q8_0 8B's tg64 has read 3 to 4 percent below the three-patch campaign. A variant
 build with Q8_0 taken back out of the float matvec, interleaved with the final build, three passes:
 final 28.8 (spread 2.6, a throttled first reading) / 37.4 / 36.2, variant 36.1 / 35.1 / 35.0. The variant is
-the slower one where both are clean, so the float kernel is not the loss; round three puts the
+the slower one where both are clean, so the float kernel does not cause the loss; round three puts the
 three-patch build itself against the final one on this model.
 
 ## The gaps between kernels

@@ -17,15 +17,15 @@ Both runs are identical in every measured quantity, and differ only in wall time
 The quoted per-step agreement of 1.8e-5 is confirmed. So is the identical final
 loss, which is what the eight-hour soak's fourteen training rounds were checking.
 
-The last two rows are worth reading together, and the write-up had been quoting
-only the favourable one. The script compares parameters as well as losses, with a
+The last two rows belong together; the write-up had been quoting only the
+favourable one. The script compares parameters as well as losses, with a
 1e-3 threshold, and after fifty steps the accumulated parameter difference is
 9.3e-3, so its built-in check reports disagreement. That is what fifty steps of
 accumulated floating-point difference between two backends looks like, not a defect, and the losses
 staying within 1.8e-5 of each other throughout is the
-evidence for that reading. But the failing verdict should be stated instead of left out.
+evidence for that reading. The failing verdict is stated here rather than left out.
 
-Determinism is separately clear: the two runs agree to every digit printed,
+The runs are also deterministic: the two runs agree to every digit printed,
 including the parameter difference.
 
 Run by invoking `patches/pytorch/torch_train.py` directly under the source build, twice, with `HSA_ENABLE_SDMA=0` and the native rocBLAS on `LD_LIBRARY_PATH`.

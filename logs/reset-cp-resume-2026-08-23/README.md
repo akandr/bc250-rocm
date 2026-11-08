@@ -22,7 +22,7 @@ netconsole.
 it, so that was always the last line before. `gfx_v10_0_rlc_resume()`
 returns 0. `gfx_v10_0_cp_resume()` is entered and never returns.
 
-So the stall is in the Command Processor resume.
+The stall is therefore in the Command Processor resume.
 
 ## How the resume lines are told from boot lines
 
@@ -34,24 +34,24 @@ from the journal for resume output, which is what the distinction guards against
 
 ## The instrument was verified before it was trusted
 
-The first attempt captured two lines and no reset output at all, because
+The first attempt captured two lines and no reset output, because
 netconsole had been armed while the board was still finishing its boot. Rather
 than read that as a result, the run was repeated with a live check: a marker
 written to `/dev/kmsg` and confirmed to arrive at the listener before triggering
 anything. The trace above is from the verified run.
 
-## What it connects to, and what that is worth
+## What it connects to, and how much that shows
 
 The CP is where this board has misbehaved since July: `cp queue preemption time
 out`, the compute-queue defect that made Mesa disable the gfx1013 compute queue,
 and the preemption failure that precedes the runlist rebuild returning -62.
 A CP resume that never returns is in the same component.
 
-That is suggestive and no more. Sharing a component is not sharing a root cause,
+That is suggestive only. Sharing a component is not sharing a root cause,
 and nothing here shows these are one defect, not several in the same
-place. It is recorded as a connection worth following, not as a conclusion.
+place. It is recorded as a connection, not as a conclusion.
 
-This page's own result still stands and was narrowed instead of overturned:
+This page's result stands and was later narrowed:
 inside `cp_resume` the stall is in the KIQ resume
 ([`../reset-cp-bisect-2026-08-23/`](../reset-cp-bisect-2026-08-23/)), and within
 that it is not any fixed instruction but the first GC register access after the

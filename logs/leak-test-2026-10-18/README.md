@@ -43,8 +43,8 @@ the Vulkan exit, the Vulkan SIGKILL and a ROCm exit with mmap on, ollama's way o
 | Vulkan with mmap, SIGKILL | 13036 | 13045 | 0 |
 | ROCm with mmap, normal exit | 13045 | 13044 | 0 |
 
-**`llama-bench` gives everything back however it ends**, on either backend, with or without mmap, killed or
-not, and so does a run that never gets its context. **ollama's runner does not**: one load of a 1.75 GiB
+`llama-bench` gives everything back however it ends, on either backend, with or without mmap, killed or
+not, and so does a run that never gets its context. ollama's runner does not: one load of a 1.75 GiB
 model and its unload left about 1.5 GiB of system memory unaccounted for, with KFD at zero, GTT back at
 12 MiB, the TTM pool empty and no runner process left, and the overnight 8B call (9.6 GiB on the GPU) matches
 the 10 GiB missing both mornings. The second cycle in the same ollama session cost nothing more, so it is
@@ -54,7 +54,7 @@ is not identified here; its own Vulkan ggml build and its way of mapping the mod
 
 The 2026-10-17 afternoon drop, 13 GiB gone right after a ROCm abort with a core dump, is not reproduced by
 anything above: a context-creation failure returns cleanly, and an 8B abort after the fill on 2026-10-18
-(`ladders-rest-2026-10-17/d/`) leaked nothing. One observation, no mechanism.
+(`ladders-rest-2026-10-17/d/`) leaked nothing. This is one observation, with no mechanism identified.
 
 Practical consequence for this board: check `MemAvailable` before a measurement, and if ollama has loaded a
 model since the last boot, reboot first. The campaign scripts here now log it at the start of every run.

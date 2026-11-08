@@ -8,7 +8,7 @@ models as the three-patch campaign
 ([`logs/fedora44-benchmarks-2026-09-15/clock-corrected/`](../fedora44-benchmarks-2026-09-15/clock-corrected/))
 and as the intermediate four-patch one two hours earlier
 ([`logs/fedora44-campaign-fa4-2026-09-18/`](../fedora44-campaign-fa4-2026-09-18/)). The build is llama.cpp
-7ba604f with the four patches as committed, which is to say the RDNA1 flash-attention patch in its final
+7ba604f with the four patches as committed, with the RDNA1 flash-attention patch in its final
 form: rows for D=128, 256 and 512, and the dispatch check for models without a power-of-two head ratio
 ([`logs/rdna1-fattn-spill-2026-09-17/`](../rdna1-fattn-spill-2026-09-17/)). It was the campaign the front
 page showed until the first form of patch 5 replaced it
@@ -39,14 +39,14 @@ Ratios of medians:
 | qwen3.8-27B | **1.025** | 1.004 | 0.999 | 1.001 / 0.999 |
 
 The Vulkan build did not change across the three campaigns and its rows reproduce to within 0.4 percent
-in all of them, so the three sessions are comparable and the ROCm differences are the patch. Decode is
+in all of them, so the three sessions are comparable and the ROCm differences come from the patch. Decode is
 unchanged throughout, within 1.5 percent.
 
 The column against the intermediate build isolates the last two changes, the dispatch check and the
-wider `nbatch_K` on row 64: the two 14B models, which the intermediate build had not moved at all,
+wider `nbatch_K` on row 64: the two 14B models, which the intermediate build had not moved,
 gain 4 percent at pp512 (and 9 to 11 at pp2048, in the spill directory's `ab14b.log`), and the D=128
 GQA models gain a further half percent at pp512 (2 to 3 percent at pp2048). The MoE and the 27B are
-untouched by those changes, as they should be: their rows did not change.
+unaffected by those changes, as expected: their rows did not change.
 
 ## Spread
 
@@ -56,11 +56,11 @@ widest this time), ROCm decode 0.5 to 6.2 (the 8B, as usual), Vulkan prefill 0.0
 
 ## Background services
 
-Checked after the fact, because a scraper timer turned out to fire every 50 minutes: `services-audit.txt`
+Checked after the fact, because a scraper timer was found to fire every 50 minutes: `services-audit.txt`
 lists every timer and cron job that ran inside a measurement window, with its cumulative CPU time. None
 touches the GPU, `ollama` never started, and the busiest of them used 16 CPU-seconds over the board's 16
-hours of uptime. The Vulkan rows reproducing to 0.4 percent across three sessions is the empirical side of
-the same statement.
+hours of uptime. The Vulkan rows reproducing to 0.4 percent across three sessions supports the same
+conclusion.
 
 ## Files
 

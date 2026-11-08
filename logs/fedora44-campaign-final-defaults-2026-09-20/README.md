@@ -6,7 +6,7 @@ starting value: the f32 promotion stays at every stage
 ([`logs/round14-2026-09-20/`](../round14-2026-09-20/)), and q8_0 is excluded
 ([`logs/round11-2026-09-20/`](../round11-2026-09-20/)). This campaign is the same script and models on a
 build with exactly those defaults, to confirm that the front page's numbers describe what the patch
-actually ships.
+ships.
 
 | model | ROCm pp512 | Vulkan pp512 | ROCm tg64 | Vulkan tg64 |
 |---|---|---|---|---|
@@ -22,5 +22,5 @@ within 0.3 percent, so the front page stands as written.
 
 `round15-log` also contains a quick check taken immediately after the build that reads the 14B at 125
 and the 1.5B at 1224, both low. Its MMQ control is low by the same margin (96.3 against the campaign's
-99, 905 against 915), which is what a warm board looks like; the campaign that follows it, nine samples
+99, 905 against 915), consistent with a warm board; the campaign that follows it, nine samples
 per model alternating with Vulkan, is the measurement.

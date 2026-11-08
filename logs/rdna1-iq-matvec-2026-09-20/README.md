@@ -3,8 +3,8 @@
 Decode on the two models built from the IQ types was the largest end-to-end gap left: the 27B at 0.84 of
 Vulkan and the MoE at 0.82, where every other model sits between 0.93 and 0.99
 ([`logs/fedora44-campaign-final-defaults-2026-09-20/`](../fedora44-campaign-final-defaults-2026-09-20/)).
-This is what was tried, in the order it was tried, with the four failures kept because each one says
-something about what the kernel is actually limited by. The fifth and sixth were made a day later, and
+This is what was tried, in the order it was tried, with the four failures kept because each one bears
+on what limits the kernel. The fifth and sixth were made a day later, and
 the sixth overturned the reading the first five had settled on; they are at the end.
 
 ## Where the models sit
@@ -25,9 +25,9 @@ part of its weights are read per token.
 
 The q8_0 model reads at 79 percent of the board's peak and comes within 1.3 percent of Vulkan, so the
 matvec can be memory-bound when the weights are cheap to decode. The 27B reads at 41 percent of peak
-against the 14B models' 67 to 69, which looks like a great deal of headroom, but per value decoded it is
-only 23 percent behind them. Its problem is that 3.5 bits a value means more values to decode per byte
-of model, and Vulkan decodes them 19 percent faster than we do.
+against the 14B models' 67 to 69, which suggests a large margin, but per value decoded it is
+only 23 percent behind them. The difference is that 3.5 bits a value means more values to decode per
+byte of model, and Vulkan decodes them 19 percent faster than this kernel.
 
 ## The instruction mix
 
@@ -35,7 +35,7 @@ of model, and Vulkan decodes them 19 percent faster than we do.
 ([`isa-mix-shipped.log`](isa-mix-shipped.log), from [`scripts/isa_mix.py`](../../scripts/isa_mix.py)).
 Vector ALU instructions in the whole kernel body divided by its fused multiply-adds, for the variant
 with bias/gate fusion. The absolute figure is inflated by prologue, epilogue and the 64-bit address
-arithmetic every variant shares, so it is the comparison between types that carries the meaning:
+arithmetic every variant shares, so only the comparison between types is meaningful:
 
 | type | VALU per FMA | of which conversion and sign |
 |---|---|---|
@@ -55,13 +55,14 @@ whose address comes from bytes that were themselves just loaded.
 All four were run as run-time switches inside one build, so each arm uses the same binary and the same
 `libggml-hip.so`; arms alternate within a round and the figures are medians of three rounds of three
 samples. Spreads are given with each table. The switches were a scaffold and are not in the shipped
-kernel: three of the four arms lost, and the one that won is now the only behaviour, so
+kernel: three of the four arms were slower, and the faster one is now the only behaviour, so
 [`patches/llamacpp/0009-rdna1-iq-matvec-shmem-codebook.patch`](../../patches/llamacpp/0009-rdna1-iq-matvec-shmem-codebook.patch)
-carries no environment variables at all.
+carries no environment variables.
 
 ### 1. The codebook in packed fp16: 15 percent slower
 
-The board's `v_pk_fma_f16` rate is three times its `v_fma_f32` rate, so the codebooks were converted to
+The board's `v_pk_fma_f16` rate was then taken to be three times its `v_fma_f32` rate (twice, measured
+at the capped clock: [`../alu-rates-recheck-2026-09-25/`](../alu-rates-recheck-2026-09-25/)), so the codebooks were converted to
 half2 pairs by a small init kernel, the four sign bits of a group made to index a table of xor masks,
 and the sixteen products accumulated in one half2 promoted to f32 once per superblock. Grid bytes reach
 62, so entries were stored divided by 64, exactly, and the scale folded back into the block scale. All
@@ -91,8 +92,8 @@ leave room for 8, 12 or 16.
 | qwen3.6-35B MoE tg64 | 69.90 | 69.94 | 69.94 | 61.35 |
 
 Spread 0.1 to 2.1 percent. A floor of 8 changes no register count and so changes nothing. Above that the
-compiler buys waves with scratch: 104 bytes a thread at 12 and 176 at 16 for iq3_s with fusion. Waves
-bought that way are worth less than the spills cost, by a wide margin.
+compiler gains waves by spilling to scratch: 104 bytes a thread at 12 and 176 at 16 for iq3_s with
+fusion. The extra waves are worth much less than the spills cost.
 
 ### 3. Rows per block: two is already the best of one, two and four
 
@@ -103,9 +104,9 @@ Each 32-lane block covers two rows, so the sixteen activations a thread loads ar
 | qwen3.8-27B tg64 | 10.14 | 14.86 | 14.43 |
 | qwen3.6-35B MoE tg64 | 69.93 | 70.05 | 68.10 |
 
-Spread 0.1 to 0.7 percent. Halving the sharing costs 32 percent on the 27B, which says activation
+Spread 0.1 to 0.7 percent. Halving the sharing costs 32 percent on the 27B, so activation
 traffic matters a great deal; doubling it costs 3 percent, because the extra live state costs more
-waves than the saved traffic is worth. The shipped value sits on top of the curve.
+waves than the saved traffic is worth. The shipped value is the best of the three.
 
 ### 4. The codebook in shared memory: 1.8 percent, and kept
 
@@ -113,8 +114,8 @@ ggml-vulkan's IQ matvec shaders call `init_iq_shmem` before their loop, which co
 shared memory so that every lookup is an LDS read, not a global gather
 (`ggml/src/ggml-vulkan/vulkan-shaders/types.glsl`). Ours gathered from global memory. A 32-lane block
 copies 512 dwords, 256 for iq3_xxs, in sixteen loads per thread, and then performs about eighty lookups
-per thread on a 5120-column matrix, so the copy pays for itself many times over. Alongside it, the four
-codebook indices a thread needs was consecutive bytes at an even offset, as are iq3_s's two
+per thread on a 5120-column matrix, so the copy is amortised over many lookups. Alongside it, the four
+codebook indices a thread needs are consecutive bytes at an even offset, as are iq3_s's two
 sign bytes, so three 16-bit loads replace six 8-bit ones.
 
 | model | shipped | 16-bit loads | shared memory | both |
@@ -124,7 +125,7 @@ sign bytes, so three 16-bit loads replace six 8-bit ones.
 
 Spread 0.2 to 0.8 percent. Neither half helps alone and the pair helps only the dense model: staging
 costs one copy per block, and the expert-id path launches a block per used expert, which covers too few
-superblocks to earn it back. Confining the staging to ordinary matrix-vector products fixes that:
+superblocks to recover that cost. Confining the staging to ordinary matrix-vector products fixes that:
 
 | model | shipped | both, expert path excluded |
 |---|---|---|
@@ -148,7 +149,7 @@ have since reversed when the parameter changed, so this one was measured again o
 
 Spread at most 1.2 percent. The staging did move it: one row per block was 32 percent behind on the 27B
 before and is 15 percent behind now, and on the MoE it went from level to 2.3 percent ahead. But no
-single value wins everywhere, so two rows stays. One row is worth 2.2 percent on the 1.5B and 2.3 on the
+single value is best everywhere, so two rows stays. One row is worth 2.2 percent on the 1.5B and 2.3 on the
 MoE and costs the 27B 15, which is what halving the sharing of the activations should do on the model
 with the longest rows, K of 5120 against 1536 and 2048. A rule on K would capture that, and it is not
 taken here: it would be fitted to three models.
@@ -157,9 +158,9 @@ taken here: it would be fitted to three models.
 
 Attempt 1 put the half2 codebook and the sign masks in global memory and lost 15 percent, and the
 reading at the time was that it paid for a second dependent global load per entry and up to twenty-two
-registers. Patch 9 then gave the block a shared-memory codebook, so the obvious repair was to stage the
+registers. Patch 9 then gave the block a shared-memory codebook, so the next attempt staged the
 half2 form there instead: no global tables, no init kernel, no second global load, the conversion done
-once while staging. It is worse, not better (`h2-in-lds/`):
+once while staging. It is worse (`h2-in-lds/`):
 
 | model | codebook as bytes | as half2 in shared memory | ratio |
 |---|---|---|---|
@@ -167,10 +168,10 @@ once while staging. It is worse, not better (`h2-in-lds/`):
 | qwen3.6-35B MoE tg64 | 69.89 | 70.14 | 1.004 |
 
 Spread 0.3 to 1.3 percent. The MoE does not move because its codebook work all arrives through the
-expert path, which does not stage, so the switch cannot reach it; that is a useful control on the
+expert path, which does not stage, so the switch cannot reach it, which makes it a control on the
 switch. The 27B loses 18.6 percent where the global version lost 15.
 
-The registers say why, and they say the first reading was wrong
+The register counts explain it, and show that the first reading was wrong
 ([`h2-in-lds/isa-registers.log`](h2-in-lds/isa-registers.log)):
 
 | kernel | bytes | half2 | waves per SIMD |
@@ -181,10 +182,10 @@ The registers say why, and they say the first reading was wrong
 | iq3_xxs, fused | 73 | 84 | 14 to 12 |
 
 The packed form costs 8 to 19 registers with the tables in shared memory, against 8 to 22 with them in
-global. **The registers were never the tables.** They are the live state the packed form needs, the
+global. The extra registers were not the tables. They are the live state the packed form needs, the
 eight half2 activations and the accumulator carried across the row loop, and moving a table does not
-touch that. So this closes the direction instead of one implementation of it: the arithmetic saving is
-real, the kernel is register-limited, and on this kernel the second always beats the first.
+touch that. This rules out the direction, not only one implementation of it: the arithmetic saving is
+real, but the kernel is register-limited, and on this kernel the register cost always outweighs the saving.
 
 ## 6. Eight live activations instead of sixteen: 16 percent slower, and it overturns the reading
 
@@ -193,7 +194,7 @@ ggml-vulkan's shader holds eight activations at a time where ours holds sixteen,
 structural difference left, so this splits the superblock into halves: each half reads only the two
 codebook entries and the one sign byte it needs, and the two float4 of activations it multiplies.
 
-The registers fall a long way, further than expected ([`halves/isa-registers.log`](halves/isa-registers.log)):
+The register counts fall more than expected ([`halves/isa-registers.log`](halves/isa-registers.log)):
 
 | kernel | sixteen | eight | waves per SIMD |
 |---|---|---|---|
@@ -211,38 +212,37 @@ And it is slower (`halves/`):
 | qwen3.6-35B MoE tg64 | 69.01 | 68.29 | 0.990 |
 
 Spread 0.2 to 1.2 percent. Two more waves per SIMD on iq3_s and five on iq3_xxs, and sixteen percent
-worse. **So the kernel is not register-limited either**, and the reading after five attempts was wrong.
+worse. So the kernel is not register-limited either, and the reading after five attempts was wrong.
 What halving the activations also did was double the block header reads: `d`, the scale byte, `qh` and
 the sign bytes are now fetched once per eight values instead of once per sixteen.
 
 ## What the six together say
 
-One sign runs through all six, and it is neither instructions nor registers. **Every change that added
-memory operations lost, and the only change that removed one won.** Packed fp16 in global memory added a
+The common factor in all six is neither instructions nor registers: every change that added
+memory operations was slower, and the only change that removed one was faster. Packed fp16 in global memory added a
 dependent load per entry and lost 15 percent; the same in shared memory lost 19; forcing occupancy
-bought waves with spills and lost up to 64; one row per block doubled the activation traffic and lost
+gained waves through spills and lost up to 64; one row per block doubled the activation traffic and lost
 15; eight live activations doubled the header reads and lost 16, while handing back up to five waves per
 SIMD. The one that shipped removed a dependent global load per group and gained 1.8 percent. Instruction
 count moved the wrong way twice and register count once.
 
-The count predicts the sign but not the size, and the two points that bracket it are worth writing down
-before anyone spends another day here. Counting memory operations per row per sixteen values, the
+The count predicts the sign but not the size, and two points bracket it. Counting memory operations per row per sixteen values, the
 shipped kernel issues twelve: six weight loads, four codebook reads from shared memory, and two of the
 four activation vectors, which two rows share. Patch 9 took that from fifteen to twelve, and the global
 loads among them from thirteen to six, for 1.8 percent. Attempt 6 took it from twelve to eighteen and
 cost 16. So the response is real, strongly asymmetric, and nowhere near linear: more than halving the
-global loads bought under two percent.
+global loads gained under two percent.
 
-That prices the one direction left. ggml-vulkan reads its block header once per thirty-two values where
+That gives an estimate for the one remaining direction. ggml-vulkan reads its block header once per thirty-two values where
 this reads it once per sixteen, and restructuring to match would take the count from twelve to ten and a
 half, a twelve percent cut. Against patch 9's twenty percent cut for 1.8 percent, that is worth about
-one percent, for a rewrite of all three type branches and the loop around them. It is not taken, and
-this arithmetic is the reason, not fatigue after six attempts.
+one percent, for a rewrite of all three type branches and the loop around them. It is not taken, for
+this reason.
 
 The remaining distance to Vulkan on the 27B, about 17 percent, is in the matvec kernel itself and not
 between dispatches; see the correction at the top of
-[`logs/kerntrace-2026-09-19/`](../kerntrace-2026-09-19/), where the apparent 18 percent launch gap turned
-out to be the tracer's own overhead.
+[`logs/kerntrace-2026-09-19/`](../kerntrace-2026-09-19/), where the apparent 18 percent launch gap was
+the tracer's own overhead.
 
 ## Correctness
 

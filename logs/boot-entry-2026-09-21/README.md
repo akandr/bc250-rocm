@@ -13,18 +13,18 @@ wrong one.
 | `amdgpu.gpu_recovery` | 0 | 0 |
 | `amdgpu.bc250_cc_write_mode` | 3 | 3 |
 
-Both of the differences matter, and both are in this page's own known-issues table. Without
+Both differences are in the main README's known-issues table. Without
 `bc250_flush_by_runlist=3`, freed and reallocated GPU memory faults. And `sched_policy=2` selects the
-software scheduler, which wedges sustained compute; the table says to leave it unset. So a single plain
-reboot put the board into a configuration that is documented to fail under exactly the load that was
-about to be started.
+software scheduler, which wedges sustained compute; the table says to leave it unset. A single plain
+reboot therefore put the board into a configuration documented to fail under the load that was about
+to be started.
 
 Six of the nine entries carry the same wrong arguments, because they predate the recipe and were never
 cleaned up. `grubby --set-default-index=0` fixed it and the next boot came up correct
 ([`cmdline-after-fix.txt`](cmdline-after-fix.txt), [`grubby-entries.txt`](grubby-entries.txt)).
 
-The lesson is small and cheap, and the tool for it already existed: [`reproduce.sh`](../../reproduce.sh)
+The check already existed: [`reproduce.sh`](../../reproduce.sh)
 reads both `bc250_flush_by_runlist` and `sched_policy` and would have refused this configuration in its
-first few lines. **Run it after any reboot, before trusting a measurement taken on that boot.** Nothing in this repository was measured on the wrong entry, because the check was made
-before the soak started, but the only reason the check happened is that a fault count was being read at
-the same time.
+first few lines. Run it after any reboot, before trusting a measurement taken on that boot. Nothing in
+this repository was measured on the wrong entry, because the check was made before the soak started,
+but the check was made only because a fault count was being read at the same time.

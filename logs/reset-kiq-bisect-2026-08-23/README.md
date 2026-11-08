@@ -32,7 +32,7 @@ inside `kiq_setting`:
     (nothing further, so gfx_v10_0_kiq_init_register never returns)
 
 The same code, the same trigger, and the failure point moved. In run 2 the
-register read that run 1 apparently died on returns a value, 0x5850c0c8, and the
+register read that run 1 apparently stopped at returns a value, 0x5850c0c8, and the
 write completes.
 
 ## What that means
@@ -43,7 +43,7 @@ sequence gets six steps further before stopping. That is the signature of a
 device that needs time to settle after a reset, not of a single broken
 access.
 
-So the honest statement is: the KIQ initialisation sequence stalls somewhere
+The statement the data support is: the KIQ initialisation sequence stalls somewhere
 inside it, the exact point depends on timing, and slowing the sequence down moves
 the failure later. Run 2's last unreturned call, `gfx_v10_0_kiq_init_register()`,
 is where it stopped that time, not where it always stops.
@@ -64,18 +64,18 @@ evidence, and it is recorded as unresolved and not as a hit.
 ## What this opens
 
 If the device needs time to settle, a delay before the KIQ initialisation may
-avoid the stall entirely. That is a testable fix, not another
-localisation, and it is the obvious next step.
+avoid the stall entirely. That is a testable fix rather than another
+localisation.
 
 ## What happened next, added 25 August
 
 Both halves of this page were overtaken and neither survives as written. The
-settle hypothesis was tested directly and refused: an explicit `msleep()` of
+settle hypothesis was tested directly and rejected: an explicit `msleep()` of
 50 ms and then 500 ms before the KIQ initialisation changes nothing, and the
 stall happens as before
-([`../reset-settle-delay-2026-08-24/`](../reset-settle-delay-2026-08-24/)). So the
+([`../reset-settle-delay-2026-08-24/`](../reset-settle-delay-2026-08-24/)). The
 delay each print costs is not what moved the failure point.
-What did was repetition. Every configuration on this page was run once, and
+Run-to-run variation is. Every configuration on this page was run once, and
 running them repeatedly shows the stopping point varies between identical runs,
 so these two captures are two samples of a race instead of two placements
 ([`../reset-kiq-repeat-2026-08-24/`](../reset-kiq-repeat-2026-08-24/)). The

@@ -10,8 +10,8 @@ Same script, rounds and models as every campaign before it. The build is llama.c
 patches as committed: the three small ones, the flash-attention patch with the rows of experiments J and K
 and the one-token vector rule of experiment I, the matrix-vector patch, the transposed concat and the
 gated delta net's lanes ([`logs/rdna1-fattn-remainder-2026-09-19/`](../rdna1-fattn-remainder-2026-09-19/),
-[`logs/rdna1-gdn-concat-2026-09-19/`](../rdna1-gdn-concat-2026-09-19/)). **This is the campaign the front
-page shows.** Medians of nine samples, from [`scripts/campaign_medians.py`](../../scripts/campaign_medians.py)
+[`logs/rdna1-gdn-concat-2026-09-19/`](../rdna1-gdn-concat-2026-09-19/)). This was the campaign the front
+page showed at the time. Medians of nine samples, from [`scripts/campaign_medians.py`](../../scripts/campaign_medians.py)
 on `log`:
 
 | model | ROCm pp512 | Vulkan pp512 | ROCm tg64 | Vulkan tg64 |
@@ -38,7 +38,7 @@ three-patch build ([`logs/fedora44-benchmarks-2026-09-15/clock-corrected/`](../f
 | qwen3.6-35B MoE | **1.037** | 1.003 | 1.088 | 2.051 | 1.001 / 0.992 |
 | qwen3.8-27B | **1.023** | 0.997 | 1.049 | 1.888 | 1.001 / 0.998 |
 
-The two patches for the hybrid models' prefill show where they should: the MoE's pp512 gains 3.7
+The two patches for the hybrid models' prefill show where expected: the MoE's pp512 gains 3.7
 percent and the 27B's 2.3, and nothing else's prefill moves. The 14B models' decode gains 6 to 7 percent
 at an empty context from the one-token vector rule: their attention tile was the spilling `1 x 1`
 instance even over the 256-key padded block a fresh context has, and the vector kernel is cheaper there

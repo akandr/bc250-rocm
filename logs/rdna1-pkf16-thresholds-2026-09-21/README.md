@@ -29,7 +29,7 @@ everywhere except at 256. Medians of three rounds of three samples,
 
 Reading down the 128-token row: admitting the GEMM there is worth 1.21 times on the 1.5B, 1.08 on the
 MoE and 1.24 on the 27B, where the old measurement had it 22 percent behind. Reading the 64 and 32 rows:
-admitting it there costs 8 to 10 percent at 64 and a third to a half at 32. So the crossover has moved
+admitting it there costs 8 to 10 percent at 64 and a third to a half at 32. The crossover has therefore moved
 from between 128 and 512 to between 64 and 128, and the threshold becomes 128.
 
 Nothing at 256 tokens or above changes, which the last row of each model shows and which is why the
@@ -42,8 +42,8 @@ never binds on them either.
 The first `test-backend-ops -o MUL_MAT` run after the build that lowered the threshold reported FAIL.
 Thirty-two runs since have not: twelve at each threshold and eight before that, all 1186/1186, with no
 individual case ever named. The change adds no code path to the kernel, only widens which shapes reach
-it, and the same thirty-two runs cover both settings. It is recorded here because it happened, not
-because it is understood; if it recurs the note is the starting point.
+it, and the same thirty-two runs cover both settings. It is recorded because it happened; it is
+not understood.
 
 ## Files
 

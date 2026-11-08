@@ -10,7 +10,7 @@ Two attempts to vary it, both blocked, and both recorded because the blocks are
 themselves informative:
 
 **System rocBLAS with `HSA_OVERRIDE_GFX_VERSION=10.1.0`.** The override changes
-the device identity for everything, not just rocBLAS, and this llama.cpp is built
+the device identity for everything, not only rocBLAS, and this llama.cpp is built
 with `AMDGPU_TARGETS=gfx1013` only. Its own kernels then fail to load with
 `invalid device function` before any GEMM is reached. Inconclusive by
 construction.
@@ -18,7 +18,7 @@ construction.
 **System rocBLAS with no override.** Both compute types abort immediately with
 `CUBLAS_STATUS_INTERNAL_ERROR`, which is the documented behaviour of that library
 on real inference shapes and the reason the native build exists. It cannot
-service the workload at all, so it cannot host the comparison.
+service the workload, so it cannot host the comparison.
 
 For reference, the native library in the same session behaves as always: f32
 returns 9.0975 twice, bit-identical, and f16 returns 23.4547 and 13.9642.

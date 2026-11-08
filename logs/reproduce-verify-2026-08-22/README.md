@@ -28,7 +28,7 @@ those changes says nothing about the configuration the README now recommends.
 
 Exit status 0.
 
-So the recipe as written still produces a working stack on a board carrying all
+The recipe as written therefore still produces a working stack on a board carrying all
 of this year's changes, and the failure modes the reproducer asserts, the system
-library aborting and gfx1013 being absent from it, are still true instead of having quietly been
-fixed underneath.
+library aborting and gfx1013 being absent from it, are still true and have not been
+fixed in the packages since.

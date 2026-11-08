@@ -16,13 +16,13 @@ Medians of nine samples:
 | qwen3.8-27B UD-IQ3_XXS | 71.2 | 105.1 | 11.0 | 17.6 |
 
 Decode against the previous campaign
-([`logs/fedora44-campaign-patch5-2026-09-18/`](../fedora44-campaign-patch5-2026-09-18/)): 1.5B **1.150**,
-8B 0.978, deepseek-14B **1.143**, qwen3-14B **1.153**, MoE 1.040, 27B **0.961**; prefill 0.994 to 1.000;
+([`logs/fedora44-campaign-patch5-2026-09-18/`](../fedora44-campaign-patch5-2026-09-18/)): 1.5B 1.150,
+8B 0.978, deepseek-14B 1.143, qwen3-14B 1.153, MoE 1.040, 27B 0.961; prefill 0.994 to 1.000;
 Vulkan 1.000 to 1.002. Against three patches, decode: 1.5B 1.51, 8B 0.96, deepseek-14B 1.36, qwen3-14B
 1.37, MoE 1.65, 27B 1.40. The three q4_K models are where the float kernel runs, and they move by what
 its A/B predicted.
 
-**The 27B loses 4 percent, and it is the long-K row.** IQ3_XXS never reaches the float kernel; the one
+The 27B loses 4 percent because of the long-K row. IQ3_XXS never reaches the float kernel; the one
 change it sees between the two campaigns is the long-K row, which gave four warps to every non-simple
 type with K >= 8192, IQ types included. Their `vec_dot` is long enough that one wave per row was the
 better geometry, as experiment A had shown for the MoE. The row is restricted to the K-quants in the next

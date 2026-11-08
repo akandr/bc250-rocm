@@ -3,7 +3,7 @@
 Patch 8's tile, 128 weight rows by 128 columns of tokens, came from a standalone prototype measured at
 2048 tokens ([`logs/pk-gemm-prototype-2026-09-19/`](../pk-gemm-prototype-2026-09-19/)). In the backend
 it is the wrong shape, and by a wide margin. Halving the column tile to 64 is worth 1.07 to 1.55 times
-prefill at every batch size from 256 to 2048 on every model measured, and changes no results at all.
+prefill at every batch size from 256 to 2048 on every model measured, and changes no results.
 
 ## Why 128 columns is wrong here
 
@@ -40,7 +40,7 @@ pp512, medians of three rounds of three samples with the arms interleaved inside
 As ratios of the shipped tile: 1.43, 1.28, 1.11 and 1.26. Spread 0.0 to 3.7 percent except the 1.5B's
 128x64 at 6.8. Narrowing the column tile further to 32 helps the 1.5B and the MoE and hurts the other
 two, and narrowing the row tile instead is worse everywhere; 64 by 128, which keeps the wide column tile
-and halves the rows, is much worse everywhere, which is the same story from the other side.
+and halves the rows, is much worse everywhere, consistent with the same explanation.
 
 ## It is not a small-batch effect
 
@@ -59,8 +59,8 @@ Two models at four batch sizes, medians of two rounds of two samples:
 
 128 by 64 is ahead at every batch on both models. The margin narrows as the batch grows, from 1.32 to
 1.55 times at 256 to 1.07 to 1.27 at 2048, but it never reverses, so no batch-dependent rule is needed
-and the tile changes. The prototype's preference for 128 columns at 2048 tokens did not survive
-the move into the backend, where the kernel shares the machine with everything else in the graph.
+and the tile changes. The prototype's preference for 128 columns at 2048 tokens did not hold
+in the backend, where the kernel shares the machine with everything else in the graph.
 
 ## It changes no results
 
@@ -74,7 +74,7 @@ context 512 ([`gates-log`](gates-log)):
 | qwen3.8-27B | 6.2737 | 6.2737 |
 | qwen3.6-35B MoE | 6.2473 | 6.2473 |
 
-That is what the arithmetic predicts, not a lucky agreement: with the f32 promotion at every
+The arithmetic predicts this: with the f32 promotion at every
 stage, each output element sums the same 32 products in fp16 in the same order, and the tile only
 decides which thread owns which output. `test-backend-ops` passes 1186/1186 MUL_MAT cases and greedy
 text is coherent on both models checked ([`text-1.5b.txt`](text-1.5b.txt), [`text-27b.txt`](text-27b.txt)).
@@ -107,11 +107,11 @@ took over its q4_K weights, which is already shipped, so q8_0 joins the others;
 
 The f32 promotion interval and the tile prefetch were also chosen at 128 by 128, where prefetching cost
 a wave of occupancy and 19 percent on the 14B ([`logs/round14-2026-09-20/`](../round14-2026-09-20/)). At
-128 by 64 all six combinations of promotion 1, 2 or 4 with prefetch on or off land within 0.5 percent of
+128 by 64 all six combinations of promotion 1, 2 or 4 with prefetch on or off fall within 0.5 percent of
 each other on the 1.5B and the 27B (`promote-*.jsonl`), so the shipped values stay where they are and
 prefetching no longer hurts: its doubled shared memory is 26624 bytes instead of 34816, which the
-smaller tile can afford. Nothing to change, but it closes the question at the new tile instead of
-leaving it answered for the old one.
+smaller tile can afford. No change follows, but the question is now answered at the new tile and not
+only at the old one.
 
 ## Files
 

@@ -15,11 +15,11 @@ defect and the wedge still reproduced.
 | `rocblas_sgemm.log` | native rocBLAS SGEMM on the same boot |
 | `dmesg_faults.log` | the kernel side |
 
-**Read the boot arguments before reading the conclusion.** This test carried
+The boot arguments qualify the conclusion. This test carried
 `amdgpu.sched_policy=2`, which was standard practice here at the time. That
 setting is now known to be what makes sustained compute wedge, on this kernel
 and on 6.18.9 alike, so the failures recorded here belong to the
 software-scheduling path, not to the kernel version. With hardware
-scheduling the same workloads run clean on this kernel. The top-level README
+scheduling the same workloads run clean on this kernel. INVESTIGATION.md
 sets this out under "A working configuration" and in the correction at the end
 of Observation 2.

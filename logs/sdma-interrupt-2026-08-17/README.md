@@ -34,7 +34,7 @@ is what the staging reading predicts: ROCr does that copy itself and the engine
 is never involved. The 16385-byte copy hangs, also without one.
 
 **The SDMA user queue is created.** During the hang the probe process holds
-three KFD queues, one of them type 1 (SDMA), 1 MiB. So the queue exists and the
+three KFD queues, one of them type 1 (SDMA), 1 MiB. The queue exists and the
 work is submitted to it; nothing comes back.
 
 **The kernel's own SDMA ring is untouched** by the probe
@@ -46,17 +46,17 @@ ring, and confirms the two paths are separate.
 
 The hypothesis their patch describes as the one that survived, that the console
 firmware leaves interrupt-handler rings 1 and 2 alive so an interrupt routed
-there disappears without trace, is **not supported on this board**: `ih_rings.txt`
+there disappears without trace, is not supported on this board: `ih_rings.txt`
 shows ring 1 and ring 2 with `base=0x00000000 cntl=0x00000000`, cleanly zeroed.
 Their patch also predicts two "Fence fallback timer expired on ring sdma0" lines
 on every boot; there are none here.
 
-So the defect is narrower than "SDMA is broken". The engine runs, its interrupt
+The defect is therefore narrower than "SDMA is broken". The engine runs, its interrupt
 reaches the driver for kernel-submitted work, the interrupt-handler rings are
 configured as Linux expects, and the user-mode queue is created. What fails is
 specifically work submitted through the ROCr user-mode SDMA queue above the
 16384-byte threshold: it never completes and never signals. The follow-up below
-identifies what that threshold actually is, and it is not a staging-buffer size.
+identifies what that threshold is, and it is not a staging-buffer size.
 
 This is one board and one instrumented boot, and it does not identify a cause.
 It removes one hypothesis and narrows where the next one has to look.
@@ -64,7 +64,7 @@ It removes one hypothesis and narrows where the next one has to look.
 
 ## Follow-up: which path the threshold switches between
 
-`angles/` holds a second round that asked what actually changes at 16384 bytes.
+`angles/` holds a second round that asked what changes at 16384 bytes.
 
 `angles/trace_16384_works.txt` and `angles/trace_16385_hangs.txt` are
 `AMD_LOG_LEVEL=4` traces of the same program at each size. Below the threshold
@@ -95,7 +95,7 @@ both are serviced by blit compute kernels and never reach SDMA.
 `angles/trace_1mib_sdma_off.txt` is the workaround traced. With
 `HSA_ENABLE_SDMA=0` the runtime makes the identical `HSA Async Copy on
 copy_engine=0x1` call for a 1 MiB copy, with identical engine masks, and it
-completes. So the difference is not in ROCclr's path selection but in what
+completes. The difference is therefore not in ROCclr's path selection but in what
 services that copy underneath it.
 
 
@@ -121,26 +121,26 @@ otherwise never finishes loading runs at 119.3 t/s and returns perplexity
 repetitions each puts it level with `HSA_ENABLE_SDMA=0` (117.6 and 118.0 against
 118.1 and 119.7).
 
-None of those six figures is captured, noted 26 August. What this directory
+None of those six figures was captured (noted 26 August). What this directory
 ships for the knob is `blit-knob/knob.txt`, the boundary table above, and the
 three traces; no benchmark or perplexity output from the run described in this
 paragraph was kept, so the throughputs and the 8.9442 are recollections of it.
 The boundary result they are attached to does not depend on them, and it is the
-one this page is cited for. The reference perplexity itself is well captured
+one this page is cited for. The reference perplexity itself is captured
 elsewhere; what is missing is a run of it in this configuration.
 
-It is not the better workaround, though. `HSA_ENABLE_SDMA=0` has no ceiling to
+It is not the better workaround. `HSA_ENABLE_SDMA=0` has no ceiling to
 get wrong, while this knob only covers copies below whatever value is set and a
 single larger one falls back to SDMA and hangs. Its value is as evidence: a
 second, independent way of forcing the blit path produces the same result.
 
-Neither workaround is needed now, noted 26 August. Two days after this run, the
+Neither workaround is needed now (noted 26 August). Two days after this run, the
 board's own `cyan_skillfish2` SDMA microcode was replaced with the navi12 blobs
 that `linux-firmware` already ships, and every transfer completes: the full sweep
 runs 4 KiB to 2 GiB with zero faults where 16385 bytes previously never returned
-([`../sdma-firmware-2026-08-19/`](../sdma-firmware-2026-08-19/)). So the threshold
+([`../sdma-firmware-2026-08-19/`](../sdma-firmware-2026-08-19/)). The threshold
 measured here, and the trap instrumentation showing no interrupt arriving above
-it, are properties of the wrong firmware, not of the board or the engine.
+it, are therefore properties of the wrong firmware, not of the board or the engine.
 The measurements stand; the framing of SDMA as broken does not.
 
 `knob.txt` also lists the other copy-related runtime variables found in

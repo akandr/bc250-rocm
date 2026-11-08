@@ -33,8 +33,8 @@ which needed three corrections.
 **Build flags dominate it.** The build line documented in the probe's own source
 carries no optimisation flag. That build runs 6.85 ms per sweep at 2.4 GFLOP/s.
 The same source with `-O2` runs 0.19 ms per sweep at 87.7 GFLOP/s, a 36-fold
-difference, with identical results. Neither is wrong, but a reader taking the
-first as an FP64 capability figure would be badly misled.
+difference, with identical results. Neither is wrong, but the first is not an
+FP64 capability figure.
 
 **Its "effective GB/s" is not memory throughput.** The optimised build reports
 877 GB/s, above the board's measured 432 GB/s DRAM ceiling. The figure counts
@@ -48,7 +48,7 @@ at 2 thousand, 20 thousand, 200 thousand), and Jacobi on a 2048-wide grid needs
 on the order of the grid width squared to converge, since information moves one
 cell per sweep.
 
-A note on testing this: the shipped binary hardcodes 2000 iterations and ignores
+The shipped binary hardcodes 2000 iterations and ignores
 any command-line argument, so a first attempt to vary the count produced three
 identical results and looked like a defect. The convergence figures above come
 from a rebuild that reads the argument.
@@ -59,5 +59,5 @@ An earlier revision of the top-level README recorded `/health` in 12 seconds and
 97.9 tokens/s from a single unlogged run. Re-measured here: 8 seconds and 114.6
 tokens/s, the latter consistent with the 113 to 119 the command-line tools give
 for the same model on the same configuration. The completion text is the same
-one quoted in the README, so the earlier run was real; only its numbers were
-never captured.
+one quoted in the README, so the earlier run took place; only its numbers were
+not captured.

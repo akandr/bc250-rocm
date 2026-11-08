@@ -11,17 +11,17 @@ Evidence in `fault_journal.txt`, `fault_summary.txt`, `hunt_log.txt`,
 ## The result
 
 A natural fault arrived after about 190 rounds and four and a half hours. The
-chain is the one this repository has documented since the August soak, and the
-doorbell is even the same:
+chain is the one this repository has documented since the August soak, with the
+same doorbell:
 
     14:46:39  [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:1722), three times
     14:46:43  Queue preemption failed for queue with doorbell_id: 80004018
     14:46:43  BC-250: runlist rebuild flush failed (-62)
 
-And then the thing the parameter exists for. **No `GPU reset begin`. Not one**, in
+No `GPU reset begin` line appears, not one, in
 a boot that went on to log 1193 preemption failures and 1074 runlist rebuild
-failures over the following hour. `amdgpu.gpu_recovery=0` did what reading the
-driver said it would, observed for the first time against a real fault instead of
+failures over the following hour. `amdgpu.gpu_recovery=0` did what the driver
+source indicated it would, observed for the first time against a real fault instead of
 a parameter write. The host stayed up: ssh answering, journal writing, uptime
 unbroken.
 
@@ -34,17 +34,16 @@ path:
 | step | healthy control | after the fault |
 |---|---|---|
 | a reset happened at all | 0 reset lines | 0 reset lines |
-| kernel still sees the device | present, bus mastering on | **identical** |
-| runtime enumerates it, reports free memory | ROCm0, 13605 MiB free | **ROCm0, 14072 MiB free** |
-| fresh process runs a kernel, answer correct | `total_wrong=0 -> ALL CORRECT` | **timed out, no verdict** |
-| real workload returns the right perplexity | `PPL = 8.4240` | **timed out, no estimate** |
+| kernel still sees the device | present, bus mastering on | identical |
+| runtime enumerates it, reports free memory | ROCm0, 13605 MiB free | ROCm0, 14072 MiB free |
+| fresh process runs a kernel, answer correct | `total_wrong=0 -> ALL CORRECT` | timed out, no verdict |
+| real workload returns the right perplexity | `PPL = 8.4240` | timed out, no estimate |
 
-Usability survives to enumeration and dies at execution. That is a worse shape
-than it sounds, because the three surviving steps are exactly the ones an
-administrator would check. The device is on the bus, the runtime finds it, and it
-cheerfully reports 14 GiB free, which is *more* than the healthy control reported
-because nothing can allocate any more. Anything that looks at the GPU says it is
-fine. Nothing that uses it works.
+Usability survives to enumeration and fails at execution. The three steps that
+survive are the ones an administrator would check: the device is on the bus, the
+runtime finds it, and it reports 14 GiB free, which is more than the healthy control
+reported because nothing can allocate any more. Every check that only inspects the
+GPU reports it healthy; nothing that uses it works.
 
 The coredumps say the same from the other side. Every GPU process after the fault
 died, over the hour before the hunt was stopped:
@@ -63,24 +62,23 @@ The last one segfaulted inside `libamdhip64` itself.
 
 This repository has been telling readers that `gpu_recovery=0` leaves "a dead
 process and a wedged GPU on a live host". That was an expectation, labelled as
-one. It is right in shape and it understates the cost in two ways worth stating
-plainly to anyone running one of these boards.
+one. It is right in shape and it understates the cost in two ways.
 
 It is not one dead process. It is every GPU process from then on, indefinitely,
-until the machine is rebooted. And the wedged GPU is not obviously wedged: it
-enumerates, reports memory, and passes every check short of actually running
+until the machine is rebooted. And the wedged GPU does not look wedged: it
+enumerates, reports memory, and passes every check short of running
 something.
 
-So the parameter is still worth setting, because a live host with a dead GPU is
-recoverable by a reboot at a time of your choosing and a hung host is not. But it
-buys a clean shutdown, not continued service.
+The parameter is still worth setting, because a live host with a dead GPU can be
+rebooted at a chosen time and a hung host cannot. What it provides is a clean
+shutdown, not continued service.
 
-Whether the GPU can be recovered without rebooting is not answered here, and the
-distinction is worth keeping: nothing was tried. The obvious candidate, unloading
+Whether the GPU can be recovered without rebooting is not answered here, because
+nothing was tried. The first candidate, unloading
 and reloading `amdgpu`, was not attempted, partly because the state was being
-preserved for the battery and partly because it did not occur to me until
+preserved for the battery and partly because it was not considered until
 afterwards. Deliberately resetting the device is not a candidate, since that is
-the defect described elsewhere in this repository and hangs the host. So "needs a
+the defect described elsewhere in this repository and hangs the host. "Needs a
 reboot" is what was done, not what was shown to be necessary.
 
 ## One fault
@@ -90,22 +88,22 @@ one board, on 24 August, and the parts of it that are counts, not observations, 
 failures and the seven dead processes, are
 counts from that one event and not rates.
 
-Saying so matters more here than usual, because this repository has had to
-withdraw three separate conclusions that looked convincing at small n and reversed
-on resampling, and one more, the reset stall's stopping point, that turned out to
-be a race read from single captures. The shape of this result is unambiguous, and
+This matters here because this repository has
+withdrawn three separate conclusions that looked convincing at small n and reversed
+on resampling, and one more, the reset stall's stopping point, that was
+a race read from single captures. The shape of this result is unambiguous, and
 the fault chain matches the August soak line for line including the doorbell, so
 it is not likely to be noise. But whether every fault leaves the machine in this
-state, or whether some leave it worse or better, is untested, and a second fault
-is the obvious thing to want.
+state, or whether some leave it worse or better, is untested; it would take a second fault
+to test it.
 
 ## A reboot restores it completely
 
-Worth stating because it bounds the damage. After the state was captured, the board
+This bounds the damage. After the state was captured, the board
 was rebooted normally, from the live host, without a power cycle. It came back with
 the 40-CU unlock applied to all four shader arrays, no faults in the new boot's
 journal, and the small model benchmarking at pp512 805.94 and tg32 112.77 against
-the 806 and 113.5 this repository records for a healthy board. So the wedge is a
+the 806 and 113.5 this repository records for a healthy board. The wedge is therefore a
 state the driver and hardware get into, not damage, and the recovery is an ordinary
 reboot. That is the value of the parameter: it converts a hung machine into
 one that can be rebooted deliberately.
@@ -116,7 +114,7 @@ one that can be rebooted deliberately.
 
 Faults are rare: held, one in roughly 190 rounds. The registered wording also said
 that rotating shapes instead of repeating one was "an attempt to improve on that
-and may not", and it is worth scoring that honestly in both directions. The
+and may not", and that part is scored here in both directions. The
 previous hunt ran 255 iterations of a single `llama-bench` shape with SDMA off and
 caught nothing; this one caught a fault in about 190 rounds of the soak
 composition with SDMA alternating. That is one event against one previous null, so
@@ -131,8 +129,8 @@ Host survives and the device stays on the bus: held.
 
 Steps 3 to 5 were registered with no confident prediction, and the recorded
 expectation was "a dead process and a wedged GPU on a live host", which the
-prediction noted would mean step 3 or 4 failing. That disjunction resolved
-cleanly: step 3 passed and step 4 failed. So the expectation was right about
+prediction noted would mean step 3 or 4 failing. It resolved
+as: step 3 passed and step 4 failed. The expectation was right about
 roughly where usability would break and wrong about the cost, since it is every
 process instead of one, and it said nothing about the wedge being invisible to
 enumeration, which is the part most likely to mislead someone running one of these
@@ -154,12 +152,12 @@ The hunt did not detect its own fault. It logged eight rounds as "clean" after
 journal delta and never looks at process exit status. Then, restarting the
 service at 15:42 to fix an unrelated logging bug, it re-baselined the journal
 count to the already-elevated value, which destroyed the delta the detection
-depended on. Whether the pre-restart script would have caught it is unresolved
-and is not worth guessing about; both defects are real regardless.
+depended on. Whether the pre-restart script would have caught it is unresolved;
+both defects are real regardless.
 
 The fault was found by reading the round output by hand during a review pass, not
 by the instrument built to find it. The state was frozen at 15:56 and the battery
-run against it, so there is a result at all.
+run against it, which is why there is a result.
 
 ## What this journal says about every other fault count here
 
@@ -169,7 +167,7 @@ this directory rather than reading it.
 `fault_journal.txt` is the only captured journal of a real fault on the current
 stack, so it is the only thing that can test a fault-counting pattern. Most
 harnesses in this repository count with `memory access fault|preemption time out`.
-Against this journal that pattern matches **nothing**: the fault produced three
+Against this journal that pattern matches nothing: the fault produced three
 `[gfxhub] page fault (src_id:...)` lines and thirty-three
 `Queue preemption failed`, and neither string is in the pattern.
 
@@ -177,10 +175,10 @@ The pattern is not arbitrary; it matched the older stack, where the kernel
 printed `amdgpu: cp queue preemption time out.` (still visible in
 [`../inference/rocm_decode_fails.log`](../inference/rocm_decode_fails.log) and the
 rocBLAS sweeps). The message changed and the harnesses did not. `memory access
-fault` never matched a kernel log here at all; it is a string the ROCr runtime
+fault` never matched a kernel log here; it is a string the ROCr runtime
 prints to a process.
 
-So a "dmesg faults: 0" line in a harness written for the current stack means the
+A "dmesg faults: 0" line in a harness written for the current stack means the
 pattern found nothing, not that nothing happened, and for a page fault it could
 not have found anything. That does not overturn a result, since no conclusion in
 this repository rests on such a zero, but it does mean those zeros are not

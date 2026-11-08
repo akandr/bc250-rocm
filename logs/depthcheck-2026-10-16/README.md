@@ -15,7 +15,7 @@ tokens, `-fa on`, `-c` 2048 above the prompt, on ROCm `build-hip-pkf16` and Vulk
 7ba604f; the two outputs are compared byte for byte.
 
 The tool is `llama-completion`, the classic CLI, built out of tree against each build's own libraries. Two
-traps on the way: the server-based `llama-cli` of this tree caps its slot at the model's training context
+tool limitations: the server-based `llama-cli` of this tree caps its slot at the model's training context
 ("the slot context (67584) exceeds the training context of the model (32768) - capping"), so a 64k prompt
 is rejected whatever `-c` says, and `llama-perplexity -c 65536` dies with `std::bad_alloc`, since it keeps
 the logits of the whole window (65536 × 151936 floats). Those first attempts are the `needle_*_*.err` and
@@ -31,19 +31,19 @@ use, the build reproduced the campaign's 1.5B greedy reply verbatim and its spee
 |---|---|---|---|
 | 32k (above the trained length) | lantern-742 | lantern-742 | identical |
 | 64k | lantern-742 | lantern-742 | identical |
-| 128k | garbage | garbage, different | differ |
+| 128k | incoherent | incoherent, different | differ |
 
-**Up to twice its trained length the 1.5B still finds the fact at the start of the prompt, and ROCm and
-Vulkan produce the same reply byte for byte** (`lantern-742`, then end of text; the prompts were 30940
+Up to twice its trained length the 1.5B still finds the fact at the start of the prompt, and ROCm and
+Vulkan produce the same reply byte for byte (`lantern-742`, then end of text; the prompts were 30940
 and 60158 tokens, and 32 was only the generation cap). At four times, both backends produce unrelated text,
-and different text, which is what two numerically different implementations do once the model itself has
-left the range its positional encoding was trained for. So the context ceilings are capacity figures: the
+and different text, which is what two numerically different implementations do once the model has
+left the range its positional encoding was trained for. The context ceilings are therefore capacity figures: the
 1080k the 1.5B can hold on ROCm is not 1080k it can use, and the useful range ends somewhere between 64k
 and 128k for this model, on either backend.
 
 ## What this does not say
 
-One model, one fact, one position. No perplexity at these windows (see the trap above), no YaRN or other
+One model, one fact, one position. No perplexity at these windows (see the limitation above), no YaRN or other
 rope scaling, which is how a 32k model is meant to be run beyond 32k. The 128k row says nothing about
 which backend is "more right"; neither is.
 

@@ -1,13 +1,13 @@
 # Hardware performance counters on gfx1013, 2026-09-25
 
-Until now nothing in this repository has read a hardware performance counter. Kernel timings came
+Before this, nothing in this repository read a hardware performance counter. Kernel timings came
 from `scripts/kerntrace.cpp` over roctracer, arithmetic rates from `clock64()` inside the kernel, and
 the front page recorded that `rocprof` is not packaged for Fedora and was therefore not tried. This
 directory is the attempt, what it took to make it work, and what it measured.
 
 Two separate things had to be fixed, and each fails silently.
 
-## 1. Fedora's ROCm has no profiler handshake at all
+## 1. Fedora's ROCm has no profiler handshake
 
 `libhsa-runtime64.so` on this board has no `rocprofiler_register_*` symbols, and neither does
 `libamdhip64.so`. ROCR-Runtime's build calls `find_package(rocprofiler-register)` and turns the
@@ -30,10 +30,10 @@ for 89 counters. `metrics.cpp` looks the agent name up in a map keyed by those l
 so the bare `gfx10` entry is a key like any other, not a wildcard, and `gfx1013` matches
 nothing and gets no counters. gfx1011 and gfx1012 are missing in the same way. llama.cpp's RDNA1
 macro has the same shape, gfx1010 and gfx1012 listed and gfx1013 not. The other tables that cost
-this board something differ: the MMVQ table has no RDNA1 entry at all, the comgr VGPR table was
+this board something differ: the MMVQ table has no RDNA1 entry, the comgr VGPR table was
 wrong for every gfx10 device alike, and Tensile has only fallback solutions for gfx1013.
 
-Adding `gfx1013` beside every `gfx1010` gives all 89 counters. `aqlprofile`, which actually programs
+Adding `gfx1013` beside every `gfx1010` gives all 89 counters. `aqlprofile`, which programs
 them, needs no change: it dispatches on a name prefix, `{"gfx10", GFX10_GPU_ID}` matched with
 `rfind(name, 0) == 0`, so gfx1013 already selects its generic gfx10 command builder.
 
@@ -58,12 +58,12 @@ Exactly 8203 per wave at every size: the 8192 FMAs the compiler emitted, plus th
 that set the accumulators up and reduce them. `SQ_INSTS_SALU` reads 259 per wave against the 128 loop
 trips the ISA shows. For the SQ block the gfx1010 mapping is correct.
 
-**It is not correct for every block.** `GL2C_HIT_sum` reads exactly 0 on a tiled GEMM, an impossible
+It is not correct for every block. `GL2C_HIT_sum` reads exactly 0 on a tiled GEMM, an impossible
 0 percent L2 hit rate, while `GL2C_MISS_sum` returns a plausible number; `FETCH_SIZE`, which is built
 out of the `GL2C_EA_RDREQ_*` counters, reports 5266 GiB fetched in 440 ms, which would be 11.9 TB/s
 on a board that streams 432 GB/s (`pkgemm_l2/`, `pkgemm_fetch/`). Those are in this directory as the
 evidence that they are wrong. Nothing in this repository uses an L2 or fetch-size counter on gfx1013,
-and nobody else should without validating it first.
+and none should be used without validating it first.
 
 Two further limits. The hardware refuses more counters than it has slots, with
 `Request exceeds the capabilities of the hardware to collect`, and rocprofv3 then aborts on the first
@@ -102,27 +102,26 @@ domain, so it survives both the clock and the profiler's serialization.
 
 [`logs/hgemm-isa-2026-09-24/`](../hgemm-isa-2026-09-24/) established from the disassembly that
 Tensile does emit `v_pk_fma_f16` for this target, and left open why HGEMM is then no faster than
-SGEMM. The counters show the instructions are not merely present in the binary but actually issued:
+SGEMM. The counters show the instructions are issued, not only present in the binary:
 HGEMM retires 9.29e9 VALU instructions where SGEMM retires 18.29e9, almost exactly half, both within
 8 percent of their precision's minimum. What does not halve with them is the traffic through shared
 memory, which falls only from 3.42e9 to 1.95e9 instructions, so arithmetic per LDS access drops from
-5.34 to 4.78 and the wall-clock rate does not move. Packed math removes arithmetic from a kernel
-whose limit is not arithmetic.
+5.34 to 4.78 and the wall-clock rate does not move. Packed math reduces the arithmetic of a kernel
+that is not limited by arithmetic.
 
-That is consistent with the hand-written kernel, which issues *more* instructions than rocBLAS HGEMM
-(11.63e9 against 9.29e9, 35 percent above its own minimum) and keeps *half* as many waves resident,
+That is consistent with the hand-written kernel, which issues more instructions than rocBLAS HGEMM
+(11.63e9 against 9.29e9, 35 percent above its own minimum) and keeps half as many waves resident,
 and is still 1.9 times faster. It does 17.34 VALU instructions per LDS instruction where rocBLAS does
 4.78, from staging deeper tiles into shared memory and holding more accumulators per thread.
 
-The two tile depths of the same kernel isolate the other half of the story. BK 32 and BK 16 issue the
-identical 671,088,640 LDS instructions, and BK 32 issues 22 percent *more* arithmetic, yet BK 32 is
+The two tile depths of the same kernel isolate the other factor. BK 32 and BK 16 issue the
+identical 671,088,640 LDS instructions, and BK 32 issues 22 percent more arithmetic, yet BK 32 is
 3.8 times faster. The difference is register pressure: 136 VGPRs against 208, which keeps 274
 instead of 154 wave-cycles resident per busy cycle, and cuts waiting from 12.47 to 2.73 million
 cycles per
 wave. Neither build spills to scratch.
 
-Bank conflicts are not what separates them either, and the direction is the wrong way round for
-them to be. `SQC_LDS_BANK_CONFLICT / SQC_LDS_IDX_ACTIVE` is 805306368 over 2684354560 for BK 32, and
+Bank conflicts do not separate them either, and the difference goes the opposite way. `SQC_LDS_BANK_CONFLICT / SQC_LDS_IDX_ACTIVE` is 805306368 over 2684354560 for BK 32, and
 268435456 over 2147483648 for BK 16: exactly 30.00 and 12.50 percent, fixed fractions, not noise.
 The faster build conflicts nearly two and a half times as often. Waiting on LDS is 0.0155
 cycles per LDS instruction on BK 16, which is where `SQ_WAIT_INST_LDS` was collected
@@ -140,15 +139,14 @@ so the timings of these runs mean nothing; the instruction counts do.
 | prefill | 1426 | 35,574,732,520 | `mmf16_rdna1_gemm` | 85.6 % | 13.89 |
 
 Decode is one kernel doing almost all of the arithmetic at 64.87 VALU instructions per LDS
-instruction, which is to say it barely touches shared memory at all. Nothing about decode is going to
-be improved by the tiling arguments above; it is a bandwidth problem, which is what this repository
-has said.
+instruction, so it makes little use of shared memory. The tiling arguments above do not apply to
+decode, which is bandwidth-bound, as this repository has stated.
 
-Prefill is the interesting one. `mmf16_rdna1_gemm` is the packed-fp16 GEMM this repository added
+Prefill is different. `mmf16_rdna1_gemm` is the packed-fp16 GEMM this repository added
 (`scripts/apply_rdna1_pkf16.py`), and it reaches 13.89 VALU instructions per LDS instruction. That is
 most of the way from rocBLAS HGEMM's 4.78 to the 17.34 of the standalone prototype at BK 32, and the
-remaining distance is a measurement of how much is still on the table in the shipped kernel rather
-than an argument that it is there. `mul_mat_q`, the int8 path, reads 31.26, so its arithmetic per LDS
+remaining distance is a measured estimate of what the shipped kernel could still gain, not an argument
+for it. `mul_mat_q`, the int8 path, reads 31.26, so its arithmetic per LDS
 access is not what limits it.
 
 ### An int8 benchmark in this repository was measuring the scalar unit
@@ -168,11 +166,11 @@ integer chain does not: the compiler moved the whole dot product to the scalar u
 
 Seeding every chain from the lane index puts the emulation back in vector registers, where it
 compiles to `v_mul_i32_i24_sdwa` and `v_add3_u32`. It then costs 196,630 VALU instructions for the
-131,072 int8 multiply-accumulates a wave performs, **1.50 vector instructions per mac**.
+131,072 int8 multiply-accumulates a wave performs, 1.50 vector instructions per mac.
 
 The conclusion that row supported does not change. Every VALU instruction on this chip costs the same
 (below), so 1.50 instructions per mac puts emulated int8 at about two thirds of the fp32 FMA rate in
-macs per second, far below packed fp16, which is what the repository has said. But the number was
+macs per second, far below packed fp16, as the repository has stated. But the number was
 reached by timing the wrong execution unit, and `scripts/alu_cycles.cpp` is corrected.
 
 ### The ALU ceilings hold, measured a second way
@@ -208,7 +206,7 @@ are the clock-independent statement and 13.02 stands.
     hipcc -O3 --offload-arch=gfx1013 scripts/counter_validate.cpp -o counter_validate -lamdhip64
     rocprofv3 --pmc SQ_WAVES SQ_INSTS_VALU -- ./counter_validate 2560
 
-`SQ_WAVES` must read 2560 and `SQ_INSTS_VALU` 8203 per wave before anything else here is worth
-reading. `scripts/counter_summary.py` prints the tables above from the CSVs, and
+`SQ_WAVES` must read 2560 and `SQ_INSTS_VALU` 8203 per wave before any other result here can be
+trusted. `scripts/counter_summary.py` prints the tables above from the CSVs, and
 `scripts/make_counter_figures.py` draws `figures/counter-validation.png`, `figures/counter-gemm.png`
 and `figures/counter-scalarised.png` from them.

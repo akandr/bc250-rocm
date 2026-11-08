@@ -20,5 +20,5 @@ the board; nothing here was re-measured and no harness was re-run.
 The last three were found only when the figure audit was widened past the README
 to cover patch headers and working notes, which is where they are cited.
 
-Two further figures had no surviving artifact at all and were re-measured
-instead, not left cited from memory: see `../macro-remeasure-2026-08-18/`.
+Two further figures had no surviving artifact and were re-measured
+instead of being cited from memory: see `../macro-remeasure-2026-08-18/`.

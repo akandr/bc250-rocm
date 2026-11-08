@@ -8,8 +8,8 @@ Generated with `BC250_TEMP` on the exact baseline, `GGML_CUDA_NO_POOL=1`, contex
 
 Everything established about this defect came from qwen3-8B: the batch-boundary
 model, the determinism under `NO_POOL`, the single-batch workaround. A pattern
-seen on one model is one model's pattern until shown otherwise, and the write-up
-had begun generalising.
+seen on one model cannot be assumed for others, and the write-up
+had begun to generalise it.
 
 qwen3-14B is the other model the defect is documented to affect. Its layer count
 differs, so the calls per batch should differ, but the structure should not.
@@ -36,10 +36,10 @@ workaround, with a residual error against f32 of 0.13 percent on both models.
 
 ## The 1.5B is clean for a different reason than "clean" suggests
 
-qwen2.5-1.5B Q4_K_M records **zero GEMM calls** through this path. Its perplexity
+qwen2.5-1.5B Q4_K_M records zero GEMM calls through this path. Its perplexity
 is fine, 8.3567, but not because the model resists the defect: it never reaches
-the fp16 cuBLAS path at all, which this repository documents separately for
-Q4_K models. The instrument saw nothing because there was nothing to see.
+the fp16 cuBLAS path, which this repository documents separately for
+Q4_K models. The instrument recorded nothing because no call reached it.
 
 That distinction was written into the prediction beforehand, because reading "the
 1.5B is clean" as evidence about the defect would be the same mistake this work
@@ -51,7 +51,7 @@ The batch-boundary model is a property of the defect and not of one model.
 Anything built on it now rests on two models with different shapes, and the two
 agree on structure, determinism, workaround and residual error.
 
-One input to the residual had no captured artifact, and now does. `runs.txt` holds
+One input to the residual had no captured artifact until the re-run below. `runs.txt` holds
 the fp16 runs and the single-batch value 6.3539, and the first model's f32
 reference 7.2672 is in
 [`../fp16-pool-2026-08-19/f32ref.log`](../fp16-pool-2026-08-19/f32ref.log), but the

@@ -1,12 +1,12 @@
-# What a decode actually copies, and why that does not explain the SDMA cost, 2026-09-25
+# What a decode copies, and why that does not explain the SDMA cost, 2026-09-25
 
 ## The question
 
 Leaving SDMA enabled costs the qwen2.5-1.5B about 5 percent of decode and costs the 8B, the 27B and
-the MoE nothing ([`logs/sdma-decode-cost-2026-09-22/`](../sdma-decode-cost-2026-09-22/)). The natural
-explanation is transfer size: this board's SDMA engine beats the blit path just above 16 KiB and is
+the MoE nothing ([`logs/sdma-decode-cost-2026-09-22/`](../sdma-decode-cost-2026-09-22/)). The first
+explanation to check is transfer size: this board's SDMA engine beats the blit path just above 16 KiB and is
 about four times slower at 16 MiB ([`logs/sdma-sizes-2026-08-19/`](../sdma-sizes-2026-08-19/)), so a
-workload whose copies land in the wrong band would pay for the engine. That explanation predicts the
+workload whose copies fall in the wrong band would lose time on the engine. That explanation predicts the
 1.5B's copies sit somewhere the 8B's do not.
 
 ## What a decode copies
@@ -21,16 +21,16 @@ on (`inventory.txt`, `copy.sh`):
 | qwen3-8B Q8_0 | 8432 | 36 MiB, once, at load | 399.7 ms | 416.0 ms | 1.0 % |
 | qwen3.6-35B-A3B MoE | 11540 | 62.8 MiB, once, at load | 535.4 ms | 550.4 ms | 1.5 % |
 
-**The prediction fails twice over.**
+The prediction fails on two counts.
 
 Setting aside the single large upload at model load, every copy a decode issues is tiny. On the 1.5B
 the largest is 6144 bytes, and the distribution is 1130 copies of zero bytes, 150 of 6144, 130 each of
 4 and 8, 65 of 512 and 56 of 1024. Nothing reaches 16384 bytes, which is the point below which ROCclr
-does not use the SDMA engine at all. There is no band for the copies to land in.
+does not use the SDMA engine. No copy falls in the band where SDMA would be used.
 
 And the cost of enabling SDMA is the same everywhere. The extra copy time is 1.0 to 1.5 percent of the
-token on all three models, including the two that show no end-to-end effect whatever. If copy time
-were the mechanism, the 8B should pay most: it moves eight times the copy time of the 1.5B and spends
+token on all three models, including the two that show no end-to-end effect. If copy time
+were the mechanism, the 8B should be affected most: it moves eight times the copy time of the 1.5B and spends
 a larger share of its token inside copies.
 
 So the 5 percent on the 1.5B is not the size distribution and not the copy time. Enabling the engine
@@ -38,12 +38,11 @@ costs something that is not the copies themselves.
 
 ## What that leaves
 
-One observation worth recording instead of interpreting. Of the 1690 copies in a 1.5B decode, 1130
+One observation, recorded without interpretation. Of the 1690 copies in a 1.5B decode, 1130
 carry a size of zero and account for 47 of the 48.6 ms of device copy time, about 42 microseconds
 each. Whether those are genuine zero-length transfers, a synchronisation carried on the copy path, or
 an artefact of how the size is reported for some operations, this page does not establish. They are
-the largest single item in the copy accounting on every model measured, and they are where a next
-attempt should look.
+the largest single item in the copy accounting on every model measured.
 
 ## Caveat on the numbers
 

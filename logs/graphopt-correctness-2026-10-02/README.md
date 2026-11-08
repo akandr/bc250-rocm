@@ -15,8 +15,8 @@ build, `build-hip-pkf16`, every reply hashed, with every other GPU user stopped 
 
 | model | default | graphs disabled | `GGML_CUDA_GRAPH_OPT=1` |
 |---|---|---|---|
-| qwen3-14B Q4_K_M | 3 of 3 identical, `679a50d9` | 2 of 2 identical to the default | 3 of 3 different, all word salad |
-| qwen3-8B Q8_0 | 3 of 3 identical, `90b056d9` | 2 of 2 identical to the default | 3 of 3 different, all word salad |
+| qwen3-14B Q4_K_M | 3 of 3 identical, `679a50d9` | 2 of 2 identical to the default | 3 of 3 different, all incoherent |
+| qwen3-8B Q8_0 | 3 of 3 identical, `90b056d9` | 2 of 2 identical to the default | 3 of 3 different, all incoherent |
 | qwen2.5-1.5B Q4_K_M | 3 of 3 identical, `7033302a` | 3 of 3 identical to the default | 3 of 3 different, all leaving the default at the second token |
 
 The default reply begins *Okay, so I need to explain what a GPU compute queue is and why a driver bug
@@ -77,9 +77,9 @@ The instrumented build, the same prompt (`mechanism.log`, `mechanism-replies/`):
 
 | model | default | `GRAPH_OPT=1` | `GRAPH_OPT=1` with the dependencies |
 |---|---|---|---|
-| qwen3-8B Q8_0 | `90b056d9` | 2 runs, 2 different word salads | 3 of 3 `90b056d9` |
-| qwen3-14B Q4_K_M | `679a50d9` | word salad | 3 of 3 `679a50d9` |
-| qwen2.5-1.5B Q4_K_M | `7033302a` | 23 bytes of garbage | `7033302a` |
+| qwen3-8B Q8_0 | `90b056d9` | 2 runs, 2 different incoherent replies | 3 of 3 `90b056d9` |
+| qwen3-14B Q4_K_M | `679a50d9` | incoherent text | 3 of 3 `679a50d9` |
+| qwen2.5-1.5B Q4_K_M | `7033302a` | 23 bytes of unreadable output | `7033302a` |
 | deepseek-r1-14B Q4_K_M | 2 of 2 `96357da6` | 2 runs, 2 different coherent replies, neither the default | 2 of 2 `96357da6` |
 
 ## The dependencies fix it and keep the speed

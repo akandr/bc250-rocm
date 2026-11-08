@@ -15,13 +15,13 @@ The small q4_K model gains 5 to 10 percent; everything else loses 30 to 60. Deco
 1.5B (182 against 185) and reads higher on the MoE, where the MMQ arm was throttled. The gates move
 slightly, as an f16 multiply should: 8.9582 against 8.9498 on the 1.5B, 9.1633 against 9.1273 on the 8B.
 
-The trace of the 1.5B's pp512 says what the build actually runs: 386 dispatches of a Tensile kernel
+The trace of the 1.5B's pp512 shows what the build runs: 386 dispatches of a Tensile kernel
 (`Cijk_Alik_Bljk_HB_MT64x64x8_...`), 958 ms, 90 percent of the kernel time, plus 193 `convert_unary`
-dequantisations at 47 us. Against MMQ's 386 dispatches and 1060 ms for the same work. So on the one
-model where it wins it wins by running a 10-percent-faster kernel, not by a different order of
+dequantisations at 47 us. MMQ takes 386 dispatches and 1060 ms for the same work. On the one
+model where it is faster, the gain comes from a 10-percent-faster kernel, not from a different order of
 magnitude, and on the larger models rocBLAS's HGEMM for these shapes is far worse than MMQ.
 
-The useful conclusion is the negative one, and it is what sent the investigation to the arithmetic
+The result is negative, and it led the investigation to the arithmetic
 rates ([`logs/alu-rates-2026-09-19/`](../alu-rates-2026-09-19/)): swapping emulated int8 for rocBLAS's
 f16 GEMM does not close a 2x gap, because that Tensile kernel reaches about 3 TFLOP/s where the chip's
 packed-fp16 ceiling is 14.4.

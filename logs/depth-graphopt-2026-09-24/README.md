@@ -6,8 +6,8 @@
 > fix, and [`logs/depth-graphopt-fix-2026-10-10/`](../depth-graphopt-fix-2026-10-10/) this ladder with the
 > fix, which keeps the speed at every depth.
 
-The front page's decode-at-depth table was measured before `GGML_CUDA_GRAPH_OPT=1` existed in this
-repository's vocabulary ([`logs/graph-opt-2026-09-24/`](../graph-opt-2026-09-24/)), and decode at depth
+The front page's decode-at-depth table was measured before `GGML_CUDA_GRAPH_OPT=1` had been tested in this
+repository ([`logs/graph-opt-2026-09-24/`](../graph-opt-2026-09-24/)), and decode at depth
 is where ROCm had already drawn level, so the published row understated the build. This is the same
 ladder with a third arm.
 
@@ -19,7 +19,7 @@ between points, because deep decode run back to back reaches 93 C in six minutes
 drops the clock by 28 percent in a way that reads as a clean measurement of a slower machine. Two
 passes, qwen2.5-1.5B, on `build-hip-pkf16` against `build-vk-f44`.
 
-**Neither pass throttled and neither faulted**, and the as-shipped arm reproduces the published row:
+Neither pass throttled and neither faulted, and the as-shipped arm reproduces the published row:
 195.0, 176.8, 163.1, 141.1, 123.0, 112.4 against the front page's 197.2, 176.5, 163.0, 141.3, 123.2,
 112.6.
 
@@ -34,16 +34,16 @@ passes, qwen2.5-1.5B, on `build-hip-pkf16` against `build-vk-f44`.
 | 24576 | 123.0 | **127.6** | 120.6 | 1.02 | **1.06** | 1.037 |
 | 30720 | 112.4 | **116.2** | 110.9 | 1.01 | **1.05** | 1.033 |
 
-**With the option on, ROCm decodes faster than Vulkan at every depth from 4096 to 30720**, by 4 to 7
+With the option on, ROCm decodes faster than Vulkan at every depth from 4096 to 30720, by 4 to 7
 percent, and is within one percent at an empty context. Without it the same build is level, 0.99 to
 1.02, from 4096 onwards and 8 percent behind at depth 0.
 
-The option is worth most at depth 0, 1.076, and least at 30720, 1.033, which is the shape to expect: as
+The option is worth most at depth 0, 1.076, and least at 30720, 1.033, which is the expected shape: as
 the context fills, more of the token goes into attention over a longer cache and less into the layer
 work whose independent branches the optimiser can overlap.
 
-Twelve paired comparisons, two passes at six depths: **the option wins 12 of 12**, and the option arm
-beats Vulkan in **10 of 12**, the two exceptions being both passes at depth 0.
+Twelve paired comparisons, two passes at six depths: the option is faster in 12 of 12, and the option arm
+is faster than Vulkan in 10 of 12, the two exceptions being both passes at depth 0.
 
 ## What this does not say
 
@@ -52,7 +52,7 @@ means, not three. The effect is 3 to 8 percent and every one of the twelve pairs
 which is why it is reported at this size; a one or two percent effect would not be.
 
 One model. The ladder is the 1.5B because that is the model the front page's depth table tracks. The
-option launches no streams at all on the MoE and the 27B
+option launches no streams on the MoE and the 27B
 ([`logs/graph-opt-2026-09-24/`](../graph-opt-2026-09-24/)), so their depth behaviour will not have
 moved, and that was not re-measured here.
 

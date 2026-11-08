@@ -1,6 +1,6 @@
 Streaming-read memory bandwidth, measured from `patches/membw.cpp` as shipped.
 
-This exists because of a gap the figure audit could not see. The 432 GB/s ceiling
+This measurement fills a gap the figure audit could not see. The 432 GB/s ceiling
 is used throughout the write-up to compute what share of available bandwidth each
 model's decode uses, and it appeared in no measurement log: only as a reference
 inside another log directory's README. The audit script matches figures with two

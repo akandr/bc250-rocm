@@ -19,6 +19,6 @@ Headline results, all reproduced later:
   flush from the kernel command line, including the flush-off control that faults
 
 The inference numbers here are the ones the top-level README describes as the
-unpatched path, notably the conservative `-fa off -ub 8` configuration that is
+unpatched path, including the conservative `-fa off -ub 8` configuration that is
 perplexity-exact but slow. Anything quoted as a current inference rate comes
 from the fixed-stack campaign instead.

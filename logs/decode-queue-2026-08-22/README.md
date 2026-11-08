@@ -12,19 +12,19 @@ compute MQD, and which had never been recorded alongside the rate.
 
 Ten runs of the 8B at a primed depth of 16128, with the MQD captured mid-run.
 
-## The trap, and the pre-registration that avoided it
+## The confound, and the pre-registration that avoided it
 
-The first six runs looked like a hit. Of 1024 dwords in the descriptor, 60
+The first six runs appeared to show an effect. Of 1024 dwords in the descriptor, 60
 differed between runs, and four of those were monotone with the rate. One in
 particular, dword 135 at offset 0x021c, took exactly two values and split
 perfectly: the three slowest runs carried the top bit, the three fastest did not.
 
-That is worth nothing on its own, and the arithmetic says why. For a field with
+On its own that is not evidence, as the arithmetic shows. For a field with
 two values splitting three and three, the chance of aligning with any given
 ordering is one in twenty, so about three of the sixty varying dwords should look
 monotone by luck. Four did.
 
-So the prediction was written down before the remaining four runs were looked at,
+The prediction was therefore written down before the remaining four runs were looked at,
 and is kept in `prediction.txt`: if the bit means anything, runs carrying it will
 be slower.
 
@@ -44,6 +44,6 @@ see what was compared but cannot re-derive the split. Both are consistent with t
 table: run 9 is listed as not carrying the bit, and both retained captures hold the
 same value at offset 0x021c with no top bit set. The other eight were not saved.
 
-Queue placement joins CPU pinning and memory state as an eliminated candidate.
-The clue that survives is unchanged: the variance lives in per-process setup, and
-three of the obvious things that differ per process are now ruled out.
+Queue placement is eliminated, like CPU pinning and memory state. What remains
+is unchanged: the variance is in per-process setup, and three of the likely
+differences between processes are now ruled out.

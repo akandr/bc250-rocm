@@ -3,7 +3,7 @@
 Each model pushed until it fails, on ROCm under the working configuration.
 Measurement is `llama-bench -p 0 -n 8 -d <depth>`: prime the cache to a depth,
 then decode 8 tokens. That exercises the KV allocation and long-context decode,
-which is what actually runs out, not prefill throughput.
+which is what runs out, not prefill throughput.
 
 The column headings are the requested context, not the primed depth. The harness
 asked for a context and primed to 256 tokens below it, so the 16384 column was
@@ -16,12 +16,11 @@ The 14B rows were run with `GGML_CUDA_DISABLE_GRAPHS=1`, since HIP graph
 instantiation fails at a primed depth of 12000 for reasons unrelated to context
 size (described in the top-level README).
 
-That sentence used to read "fails on that model", which overstates what is known.
+An earlier version said "fails on that model", which overstated what is known.
 The 14B here is qwen3-14B, and nothing was measured on qwen3-14B to establish the
 limit: the one captured failure is deepseek-r1-14B in
 [`../context-2026-08-14/`](../context-2026-08-14/). The flag was set here as a
-precaution carried over from that model, which is a reasonable thing to do and a
-different thing from having tested it.
+precaution carried over from that model; it was not tested on this one.
 
 ## Results
 
@@ -34,10 +33,10 @@ different thing from having tested it.
 
 Tokens per second. Blank means not run at that size.
 
-The 8B cell at 24576 previously read `fails`. No run at that context survives
+An earlier version gave `fails` for the 8B cell at 24576. No run at that context survives
 anywhere in this repository: the campaign log enumerates 8192, 16384 and 32768
 for that model and nothing between, and no capture in any directory mentions
-that size. Blanked instead of kept, since the legend above already means "not
+that size. The cell is now blank, since the legend above already means "not
 run" and the ceiling stated below rests on the 32768 failure, which is captured.
 
 The 1.5B row differs from the published context ladder (96.3, 85.5, 67.7)
@@ -46,10 +45,10 @@ Decode rate depends on the count, so the two are not interchangeable; these
 were re-measured at 8 tokens in `consistent-tg8/` so the whole table is one
 measurement.
 
-The 27B fails at 16384 here while processing a 16384-token *prompt* works at
+The 27B fails at 16384 here while processing a 16384-token prompt works at
 41.4 t/s (`../qwen38-2026-08-17/`). Generation needs the whole cache resident
 alongside 11.09 GiB of weights; prompt processing does not hold as much live at
-once. A column about decode has to use the decode measurement.
+once. The table reports decode, so it uses the decode measurement.
 
 ## The two failure modes, both memory
 
@@ -63,9 +62,8 @@ failed, exceeds resident system memory limit` (captured in
 The 8B at 32768 and the 1.5B at 262144 fail this way, and so does the 27B at
 16384.
 
-So the mode is not a property of the model. The 27B produces both, the backend
-abort at 16384 and the refused allocation at 32768, which is what should be
-expected if the difference is only how far the allocation gets before the board
+The mode is therefore not a property of the model. The 27B produces both, the backend
+abort at 16384 and the refused allocation at 32768, as expected if the difference is only how far the allocation gets before the board
 runs out. An earlier version of this section assigned each model one mode. The 1.5B reached this
 point only after three and a half hours of priming.
 
@@ -77,7 +75,7 @@ campaign recorded zero GPU faults in dmesg.
 The 8B at 16384 is a range because two runs on different boots returned 12.9
 and 16.6. That spread is wider than anything else measured here.
 
-Since this page was written, that 12.9 has been characterised and it is not part
+Since this page was written, that 12.9 has been characterised: it is not part
 of the same distribution: ten runs at this depth on one boot span 16.21 to 18.71,
 and 12.9 sits 6.3 standard deviations below their mean, so it came from a
 different condition, not the low tail of ordinary noise

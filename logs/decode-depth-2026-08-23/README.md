@@ -11,7 +11,7 @@ two directories ship the same log file.
 Four per-process candidates for the decode variance are eliminated: CPU pinning,
 memory state, queue placement and address randomisation. Nothing had asked
 whether the variance depends on how much cache is primed. If it grew with depth
-that would point at where the KV cache lands; if flat, the cache is not involved.
+that would point at where the KV cache is placed; if flat, the cache is not involved.
 
 Five runs at each of three depths, 8B.
 
@@ -34,12 +34,11 @@ Only at 16128 does the spread itself grow, 0.97 to 1.66. That is a variance rati
 of 2.93 on 4 and 4 degrees of freedom, against a two-tailed 5 percent critical
 value near 9.6. It is not significant at five runs per depth.
 
-So the honest answer is that this does not demonstrate a depth dependence. It is
+This does not demonstrate a depth dependence. It is
 consistent with one at the deepest point and equally consistent with the same
 absolute spread throughout. Given that three effects on this board have already
 looked convincing at small n and reversed on resampling, the
-coefficient-of-variation trend is exactly the kind of thing that should not be reported as a
-finding.
+coefficient-of-variation trend is not reported as a finding.
 
 What it does add: the absolute spread at 2048 and 8192 is the same, which is
 mild evidence against the cache size mattering over that range.

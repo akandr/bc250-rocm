@@ -23,28 +23,28 @@ builds interleaved, two passes:
 
 | model | GENERIC (baseline) | RDNA2 table | |
 |---|---|---|---|
-| qwen2.5-1.5B Q4_K_M | 112.75 / 112.83 | **142.48 / 142.33** | **+26 %** |
+| qwen2.5-1.5B Q4_K_M | 112.75 / 112.83 | 142.48 / 142.33 | +26 % |
 | qwen3-8B Q8_0 | 34.79 / 29.04 | 36.18 / 36.46 | +4 % |
-| qwen3-14B Q4_K_M | 20.34 / 20.52 | **23.32 / 23.45** | **+14 %** |
-| qwen3.6-35B MoE IQ2_M | 33.24 / 33.56 | **44.60 / 48.71** | **+34 to +45 %** |
+| qwen3-14B Q4_K_M | 20.34 / 20.52 | 23.32 / 23.45 | +14 % |
+| qwen3.6-35B MoE IQ2_M | 33.24 / 33.56 | 44.60 / 48.71 | +34 to +45 % |
 
 The 8B baseline's second pass, 29.04 with a spread of 1.38, is a throttle reading; its first pass is the
 one to compare. The MoE's new-build readings carry spreads of 9.3 and 6.7 inside each run, so its gain is
 large and not yet precise. The 8B, whose decode already tied Vulkan, gains least.
 
 The 1.5B's n=1 matmul shapes replayed through `test-backend-ops` (`ops-build-hip-*.log`), us per op,
-baseline then RDNA2 table: `q4_K[1536,1536]` 18.19 to **14.52**; `q4_K[1536,8960]` (gate/up) 72.79 to
-**47.02**; the `q6_K[1536,151936]` output head 1217.7 to **807.7**; `q4_K[8960,1536]` (down) 49.59 to
+baseline then RDNA2 table: `q4_K[1536,1536]` 18.19 to 14.52; `q4_K[1536,8960]` (gate/up) 72.79 to
+47.02; the `q6_K[1536,151936]` output head 1217.7 to 807.7; `q4_K[8960,1536]` (down) 49.59 to
 51.02 and `q6_K[8960,1536]` 57.26 to 60.64. One wave per row wins wherever K is 1536 and loses 3 to 6
-percent where K is 8960, where four cooperating warps split the long reduction well; a row for long K is
-the obvious follow-up and is not done here.
+percent where K is 8960, where four cooperating warps split the long reduction well; a separate row for
+long K is not part of this experiment.
 
-The 1.5B perplexity gate is **bit-identical**, 8.9498 on both builds, as it should be: the change moves
+The 1.5B perplexity gate is bit-identical, 8.9498 on both builds, as expected: the change moves
 work between threads and changes no arithmetic. Decode text: `Paris`.
 
 ## Experiment B: the activation sums (`sad-ab.log`)
 
-Half of the emulated dot products in the q4_K and q5_K matvec are not weight-times-activation at all:
+Half of the emulated dot products in the q4_K and q5_K matvec are not weight-times-activation:
 `ggml_cuda_dp4a(0x01010101, u, acc)` sums four int8 activation values for the block-minimum term, and on
 RDNA1 it costs the full six-instruction emulation. `v_sad_u8` sums four unsigned bytes in one instruction;
 XOR with `0x80808080` turns two's-complement bytes into biased unsigned ones and the bias comes off once.
@@ -56,9 +56,9 @@ built it on top of experiment A and ran the same A/B:
 
 | model | RDNA2 table | RDNA2 table + `v_sad_u8` | |
 |---|---|---|---|
-| qwen2.5-1.5B Q4_K_M | 125.06 (spread 28.9) / 141.17 | **146.02 / 145.67** | +3 % |
+| qwen2.5-1.5B Q4_K_M | 125.06 (spread 28.9) / 141.17 | 146.02 / 145.67 | +3 % |
 | qwen3-8B Q8_0 | 33.39 (3.3) / 31.85 (5.3) | 36.26 / 36.22 | 8B has no q4_K sites; its baseline readings here are throttle noise, the table A/B read 36.2 to 36.5 |
-| qwen3-14B Q4_K_M | 23.51 / 23.41 | **23.75 / 24.03** | +1.5 to 2.5 % |
+| qwen3-14B Q4_K_M | 23.51 / 23.41 | 23.75 / 24.03 | +1.5 to 2.5 % |
 | qwen3.6-35B MoE IQ2_M | 51.56 / 53.52 | 51.89 / 52.40 | unchanged, IQ2 has no such site |
 
 Per-op on the 1.5B: `q4_K[1536,1536]` 14.54 to 14.09 us, gate/up 47.33 to 45.41, down 51.17 to 49.55. The
@@ -72,7 +72,7 @@ Against the four-patch build: decode 1.5B 112.8 to 145.8, qwen3-14B 20.4 to 23.9
 cheaper instruction sequence on RDNA1 than the four `v_mul_i32_i24` it already uses; what remains after
 these two changes is the 1.9x instruction count against a native `v_dot4`, and closing that means a
 float-activation kernel, which is new work. The long-K shapes (`ffn_down`, K = 8960) lose 3 to 6 percent
-to the one-wave-per-row geometry and would want a row of their own.
+to the one-wave-per-row geometry and would need a row of their own.
 
 ## Experiment C: the table made type-aware (`table2-ab.log`)
 
@@ -86,7 +86,7 @@ Q5_0, Q5_1 and Q8_0. `tg128`, first form against final, builds interleaved:
 | model | first form | type-aware | |
 |---|---|---|---|
 | qwen2.5-1.5B Q4_K_M | 145.21 / 145.21 | 145.75 / 146.31 | unchanged |
-| qwen3-8B Q8_0 | 30.16 (spread 1.4) / 32.43 (2.5) | **36.35 / 36.80** | back to the four-warp figure |
+| qwen3-8B Q8_0 | 30.16 (spread 1.4) / 32.43 (2.5) | 36.35 / 36.80 | back to the four-warp figure |
 | qwen3-14B Q4_K_M | 22.65 (2.1) / 23.86 | 24.04 / 22.41 (2.0) | unchanged, one throttled reading on each side |
 | qwen3.6-35B MoE IQ2_M | 41.21 (4.1) / 52.10 | 52.19 / 52.04 | unchanged |
 
@@ -100,7 +100,7 @@ The one-wave geometry lost 3 to 6 percent on the K = 8960 `ffn_down` shapes. The
 `small_k` template variant; [`scripts/apply_rdna1_longk.py`](../../scripts/apply_rdna1_longk.py) adds its
 mirror, `long_k`, set on the RDNA1 entry when K >= 8192, under which `calc_nwarps` returns four for the
 K-quant and IQ types so the long row is split across warps again. Per op on the 1.5B, type-aware table
-against it with `long_k`: `q4_K[8960,1536]` 49.59 to **47.36** us, `q6_K[8960,1536]` 60.68 to **57.29**,
+against it with `long_k`: `q4_K[8960,1536]` 49.59 to 47.36 us, `q6_K[8960,1536]` 60.68 to 57.29,
 below where the four-warp generic entry had them (49.5 and 57.3), and the short-K shapes unchanged. End
 to end, `tg128`: 1.5B 145.2 / 146.1 to 146.6 / 146.8, qwen3-14B 24.0 to 23.9, the 8B and the MoE within
 noise. Half a percent to one percent, exact, gate 8.9498 bit-identical, decode `Paris`. It stays, with
@@ -133,13 +133,13 @@ MMVQ build and this one (`greedy-mmvq.txt`, `greedy-f32mv.txt`).
 
 | model | MMVQ, final table | float activations | |
 |---|---|---|---|
-| qwen2.5-1.5B Q4_K_M | 145.45 / 145.65 | **168.21 / 168.57** | **+16 %** |
-| qwen3-14B Q4_K_M | 19.56 (throttled) / 23.85 | **28.90 / 28.68** | **+21 %** |
+| qwen2.5-1.5B Q4_K_M | 145.45 / 145.65 | 168.21 / 168.57 | +16 % |
+| qwen3-14B Q4_K_M | 19.56 (throttled) / 23.85 | 28.90 / 28.68 | +21 % |
 | qwen3-8B Q8_0 | 30.5 / 32.3 (throttled) | 35.4 / 36.3 | not covered, Q8_0 |
 | qwen3.6-35B MoE IQ2_M | 53.36 / 53.70 | 48.9 (spread 6.8) / 53.28 | not covered, IQ2 |
 
-Per op on the 1.5B: `q4_K[1536,256]` 9.52 to **5.06** us, `q4_K[1536,1536]` 13.99 to **8.49**,
-`q4_K[8960,1536]` 47.31 to **34.98**, `q4_K[1536,8960]` 45.43 to **31.86**; the q6_K shapes are untouched
+Per op on the 1.5B: `q4_K[1536,256]` 9.52 to 5.06 us, `q4_K[1536,1536]` 13.99 to 8.49,
+`q4_K[8960,1536]` 47.31 to 34.98, `q4_K[1536,8960]` 45.43 to 31.86; the q6_K shapes are untouched
 and are the next candidates. Against Vulkan's per-op figures the q4_K matvec is now within 10 to 15
 percent instead of 1.5 to 1.9 times slower.
 
@@ -178,9 +178,9 @@ Per op, the 1.5B graph's single-column shapes, int8 build, this build, and Vulka
 
 | shape | int8 MMVQ | float q4_K only | float q4_K, q6_K, q8_0 | Vulkan |
 |---|---|---|---|---|
-| `q6_K[1536,256]` (V projection) | 10.24 | 10.24 | **4.95** | 6.43 |
-| `q6_K[8960,1536]` (`ffn_down`) | 57.41 | 57.41 | **40.07** | 40.31 |
-| `q6_K[1536,151936]` (output head) | 745.71 | 745.71 | **543.69** | 582.61 |
+| `q6_K[1536,256]` (V projection) | 10.24 | 10.24 | 4.95 | 6.43 |
+| `q6_K[8960,1536]` (`ffn_down`) | 57.41 | 57.41 | 40.07 | 40.31 |
+| `q6_K[1536,151936]` (output head) | 745.71 | 745.71 | 543.69 | 582.61 |
 | `q4_K[1536,8960]` (`ffn_gate`) | 44.89 | 31.64 | 31.64 | 41.91 |
 
 The q6_K shapes land at or ahead of Vulkan's, as the q4_K ones had. `tg128`, `-fa on`, builds
@@ -188,29 +188,29 @@ interleaved, two passes, the int8 build (final table, long-K row, `v_sad_u8`) ag
 
 | model | int8 MMVQ | float q4_K only (experiment E) | float q4_K, q6_K, q8_0 | |
 |---|---|---|---|---|
-| qwen2.5-1.5B Q4_K_M | 145.74 / 145.79 | 168.2 / 168.6 | **180.82 / 181.94** | **+24 %** over int8, +8 over q4_K only |
-| qwen3-14B Q4_K_M | 21.80 (1.5) / 22.35 (2.0) | 28.9 / 28.7 | **30.38 / 30.41** | +5 % over q4_K only |
+| qwen2.5-1.5B Q4_K_M | 145.74 / 145.79 | 168.2 / 168.6 | 180.82 / 181.94 | +24 % over int8, +8 over q4_K only |
+| qwen3-14B Q4_K_M | 21.80 (1.5) / 22.35 (2.0) | 28.9 / 28.7 | 30.38 / 30.41 | +5 % over q4_K only |
 | qwen3-8B Q8_0 | 31.77 (5.9) / 29.02 (throttled) | 35.4 / 36.3 | 36.80 / 36.66 | the campaign below says flat |
-| qwen3.6-35B MoE IQ2_M | 52.86 / 52.43 | 53.4 / 53.3 | **55.09 / 55.71** | +5 %, the mix's few q6_K tensors |
+| qwen3.6-35B MoE IQ2_M | 52.86 / 52.43 | 53.4 / 53.3 | 55.09 / 55.71 | +5 %, the mix's few q6_K tensors |
 
 The campaign on this build ([`logs/fedora44-campaign-float-all-2026-09-18/`](../fedora44-campaign-float-all-2026-09-18/))
-puts it at nine samples per model: tg64 1.5B 176.8 to **194.6**, deepseek-r1-14B 29.2 to **31.0**, qwen3-14B
-29.8 to **31.3**, MoE 57.0 to 58.6, the 8B 37.6 to 37.6, prefill unchanged everywhere. The Q8_0 8B's
+puts it at nine samples per model: tg64 1.5B 176.8 to 194.6, deepseek-r1-14B 29.2 to 31.0, qwen3-14B
+29.8 to 31.3, MoE 57.0 to 58.6, the 8B 37.6 to 37.6, prefill unchanged everywhere. The Q8_0 8B's
 matvec was already reading memory at about 310 GB/s in the int8 form. Per op, on the 8B's own graph
 replayed later on the int8 build, the final float build and Vulkan (`ops-8b/`, medians of two passes):
 
 | op | type | weights | int8 MMVQ | float | Vulkan | |
 |---|---|---|---|---|---|---|
-| `Kcur` | q8_0 | [4096,1024] | 19.0 | **14.2** | 24.6 | 1.34x |
+| `Kcur` | q8_0 | [4096,1024] | 19.0 | 14.2 | 24.6 | 1.34x |
 | `Qcur` | q8_0 | [4096,4096] | 56.8 | 53.1 | 53.0 | 1.07x |
 | `ffn_down` | q8_0 | [12288,4096] | 155.3 | 147.5 | 157.8 | 1.05x |
 | `ffn_gate` | q8_0 | [4096,12288] | 151.2 | 154.4 | 161.9 | 0.98x |
-| output head | q8_0 | [4096,151936] | 2147.9 | **1881.9** | 1845.3 | 1.14x |
+| output head | q8_0 | [4096,151936] | 2147.9 | 1881.9 | 1845.3 | 1.14x |
 | `Vcur` | f16 | [4096,1024] | 39.6 | 39.3 | 39.6 | not a quantized matvec |
 
 The large shapes are within 2 percent of Vulkan's either way and the two projections that gain are a
-few percent of the token, so the campaign reads flat. The kernel stays for q8_0: it is exact to
-the same tests and it is the Vulkan figure per op. What the decode gap consisted of after this experiment
+few percent of the token, so the campaign reads flat. The kernel stays for q8_0: it passes
+the same tests and matches the Vulkan figure per op. What the decode gap consisted of after this experiment
 was the IQ2 and IQ3 types, which the MoE and the 27B are made of; experiment G is those.
 
 ## Experiment G: q5_K, the IQ types, and the experts (`f32iq/`)
@@ -235,23 +235,23 @@ replay (`f32iq/ops-*-f32mv.log`, `ops-*-f32iq-v1.log`, `ops-*-vk.log`, us per op
 
 | model, op | type | weights | float q4/q6/q8 | + q5_K, IQ, experts | Vulkan | |
 |---|---|---|---|---|---|---|
-| 27B `attn_output` | iq3_s | [6144,5120] | 116.3 | **84.1** | 99.2 | 1.38x |
-| 27B `ffn_down` | iq3_s | [17408,5120] | 305.5 | **224.7** | 179.7 | 1.36x |
-| 27B `ffn_up` | iq3_s | [5120,17408] | 304.4 | **208.8** | 178.0 | 1.46x |
-| 27B `node_13` | iq3_s | [5120,10240] | 187.2 | **131.9** | 117.3 | 1.42x |
-| 27B `ffn_gate` | iq3_xxs | [5120,17408] | 295.8 | **196.5** | 157.3 | 1.51x |
-| 27B `z` | iq3_xxs | [5120,6144] | 112.8 | **77.0** | 88.1 | 1.46x |
-| 27B output head | q5_K | [5120,248320] | 3004.2 | **2546.7** | 2538.3 | 1.18x |
-| 27B `Qcur_full` | iq4_xs | [5120,12288] | 100.8 | 172.6 | 153.8 | **0.58x** |
-| 27B `linear_attn_out` | iq4_xs | [6144,5120] | 56.3 | 89.8 | 80.5 | **0.63x** |
-| 27B `Vcur` | iq4_xs | [5120,1024] | 15.7 | 25.3 | 22.2 | **0.62x** |
-| MoE `ffn_moe_gate`, 8 experts | iq2_xxs | [2048,512] x256 | 35.4 | **22.3** | 20.8 | 1.58x |
-| MoE `ffn_moe_down`, 8 experts | iq3_xxs | [512,2048] x256 | 67.1 | **31.1** | 25.9 | 2.16x |
+| 27B `attn_output` | iq3_s | [6144,5120] | 116.3 | 84.1 | 99.2 | 1.38x |
+| 27B `ffn_down` | iq3_s | [17408,5120] | 305.5 | 224.7 | 179.7 | 1.36x |
+| 27B `ffn_up` | iq3_s | [5120,17408] | 304.4 | 208.8 | 178.0 | 1.46x |
+| 27B `node_13` | iq3_s | [5120,10240] | 187.2 | 131.9 | 117.3 | 1.42x |
+| 27B `ffn_gate` | iq3_xxs | [5120,17408] | 295.8 | 196.5 | 157.3 | 1.51x |
+| 27B `z` | iq3_xxs | [5120,6144] | 112.8 | 77.0 | 88.1 | 1.46x |
+| 27B output head | q5_K | [5120,248320] | 3004.2 | 2546.7 | 2538.3 | 1.18x |
+| 27B `Qcur_full` | iq4_xs | [5120,12288] | 100.8 | 172.6 | 153.8 | 0.58x |
+| 27B `linear_attn_out` | iq4_xs | [6144,5120] | 56.3 | 89.8 | 80.5 | 0.63x |
+| 27B `Vcur` | iq4_xs | [5120,1024] | 15.7 | 25.3 | 22.2 | 0.62x |
+| MoE `ffn_moe_gate`, 8 experts | iq2_xxs | [2048,512] x256 | 35.4 | 22.3 | 20.8 | 1.58x |
+| MoE `ffn_moe_down`, 8 experts | iq3_xxs | [512,2048] x256 | 67.1 | 31.1 | 25.9 | 2.16x |
 | MoE `ffn_moe_down`, 8 experts | iq4_xs | [512,2048] x256 | 34.6 | 31.8 | 32.3 | 1.09x |
-| MoE `attn_output` | q5_K | [4096,2048] | 34.7 | **25.6** | 21.2 | 1.36x |
-| MoE `node_13` | q5_K | [2048,8192] | 53.2 | **41.4** | 54.6 | 1.29x |
-| MoE `z` | q5_K | [2048,4096] | 32.2 | **23.1** | 20.9 | 1.39x |
-| MoE `ffn_gate` | q5_K | [2048,512] | 11.2 | **6.6** | 7.0 | 1.70x |
+| MoE `attn_output` | q5_K | [4096,2048] | 34.7 | 25.6 | 21.2 | 1.36x |
+| MoE `node_13` | q5_K | [2048,8192] | 53.2 | 41.4 | 54.6 | 1.29x |
+| MoE `z` | q5_K | [2048,4096] | 32.2 | 23.1 | 20.9 | 1.39x |
+| MoE `ffn_gate` | q5_K | [2048,512] | 11.2 | 6.6 | 7.0 | 1.70x |
 
 IQ3_S, IQ3_XXS, IQ2_XXS and q5_K land where the earlier types did, and the experts' `down` projection
 halves. (Corrected 24 September: this sentence and the one below said the covered shapes land between
@@ -261,7 +261,7 @@ out, and the upper end is 25 percent, not 30.) IQ4_XS is the exception: on the 2
 the float kernel is 0.6 times the int8 one, and Vulkan's own iq4_xs matvec is as slow as the float
 kernel, so this is the formulation and not the port.
 
-Averaging the per-shape rows by type makes that sharper, because the kernel is the same code for all
+Averaging the per-shape rows by type shows this more clearly, because the kernel is the same code for all
 of them and only the decode differs:
 
 | type | shapes | float kernel against int8 |
@@ -271,24 +271,24 @@ of them and only the decode differs:
 | IQ3_S | 4 | 1.40x |
 | q5_K | 5 | 1.38x |
 | q8_0 | 5 | 1.12x |
-| **IQ4_XS** | 4 | **0.73x** |
+| IQ4_XS | 4 | 0.73x |
 
-Every type the float kernel covers gains except IQ4_XS, and it is the only one that loses. One kernel,
-one difference: what it costs to turn that type's bytes into floats against what it costs to turn them
+Every type the float kernel covers gains except IQ4_XS, which loses. The kernel is the same code, so the
+difference is what it costs to turn that type's bytes into floats against what it costs to turn them
 into int8 operands. For IQ4_XS the int8 side is a byte-permute lookup, which is as cheap as unpacking
-gets, so the float path has nothing to win back. Whether some third formulation would beat both is a
-question about kernel design instead of one this measurement can answer. MMVQ's iq4_xs `vec_dot` is
+can be, so the float path has nothing to gain. Whether some third formulation would beat both is a
+kernel-design question this measurement cannot answer. MMVQ's iq4_xs `vec_dot` is
 unusually cheap, a
 byte-permute table lookup that turns four nibbles into eight int8 values and two dot products per
 four bytes, and even emulated that does not lose enough to make float unpacking worth it; the mixed-in `MUL_MAT_ID` case gains 9 percent because the int8 expert path was
-slow, not because the float one is fast. So IQ4_XS came back out for the second build; the 27B's
+slow, not because the float one is fast. IQ4_XS was therefore removed for the second build; the 27B's
 `Qcur_full`, `linear_attn_out` and `Vcur` return to the int8 kernel, about 115 us a layer. `tg128`,
 `-fa on`, builds interleaved, two passes, the first IQ build:
 
 | model | float q4/q6/q8 | + q5_K, IQ, experts (with iq4_xs) | |
 |---|---|---|---|
-| qwen3.8-27B IQ3_XXS | 10.88 / 11.30 | **13.59 / 13.48** | **+22 %** |
-| qwen3.6-35B MoE IQ2_M | 56.36 / 55.13 | **65.88 / 66.27** | **+18 %** |
+| qwen3.8-27B IQ3_XXS | 10.88 / 11.30 | 13.59 / 13.48 | +22 % |
+| qwen3.6-35B MoE IQ2_M | 56.36 / 55.13 | 65.88 / 66.27 | +18 % |
 | qwen2.5-1.5B Q4_K_M (control) | 180.65 / 180.77 | 180.03 / 180.40 | unchanged, no new type |
 
 Greedy text over 64 tokens: the MoE identical token for token to the previous build
@@ -305,14 +305,14 @@ same A/B:
 
 | model | float q4/q6/q8 | + q5_K, IQ2_XXS, IQ3_XXS, IQ3_S, experts | |
 |---|---|---|---|
-| qwen3.8-27B IQ3_XXS | 10.92 / 11.26 | **14.45 / 13.43** | **+26 %** |
-| qwen3.6-35B MoE IQ2_M | 55.93 / 56.44 | 51.98 (spread 5.9, throttled) / **65.93** | **+17 %** on the clean pass |
+| qwen3.8-27B IQ3_XXS | 10.92 / 11.26 | 14.45 / 13.43 | +26 % |
+| qwen3.6-35B MoE IQ2_M | 55.93 / 56.44 | 51.98 (spread 5.9, throttled) / 65.93 | +17 % on the clean pass |
 | qwen2.5-1.5B Q4_K_M (control) | 180.01 / 180.73 | 180.66 / 180.87 | unchanged |
 
 The MoE's greedy text is again identical to the previous build's (`text-qwen3.6-35b-a3b-iq2m-build-hip-f32iq-v2.txt`),
 the 27B's diverges at the same near-tie token as before (`text-qwen3.8-27b-iq3xxs-build-hip-f32iq-v2.txt`).
 The campaign on this build ([`logs/fedora44-campaign-iq-float-2026-09-18/`](../fedora44-campaign-iq-float-2026-09-18/))
-puts it at nine samples per model: tg64 27B 11.4 to **14.9**, MoE 58.6 to **70.1**, the other four within their
+puts it at nine samples per model: tg64 27B 11.4 to 14.9, MoE 58.6 to 70.1, the other four within their
 spreads, prefill unchanged everywhere. Against the three-patch build the MoE's decode has doubled (34.3
 to 70.1) and the 27B's is 1.9 times (7.9 to 14.9); against Vulkan they now stand at 0.81 and 0.85 instead
 of 0.39 and 0.45.
@@ -331,7 +331,7 @@ carry both a one-token and a 2048-token instance of every op, so the same replay
 | op | shape | 27B ROCm | 27B Vulkan | MoE ROCm | MoE Vulkan |
 |---|---|---|---|---|---|
 | `GATED_DELTA_NET`, one token | [6144,129] / [4096,129] | 20.3 | 24.0 | 11.4 | 18.6 |
-| `GATED_DELTA_NET`, 2048 tokens | [6144,2176] / [4096,2176] | **19929** | 4342 | **10087** | 2916 |
+| `GATED_DELTA_NET`, 2048 tokens | [6144,2176] / [4096,2176] | 19929 | 4342 | 10087 | 2916 |
 | `CONCAT` conv input, 2048 tokens | [2051,10240] / [2051,8192] | 10563 | 20115 | 8292 | 15914 |
 | `SSM_CONV`, 2048 tokens | [10240,2048] / [8192,2048] | 888 | 778 | 741 | 605 |
 | `RMS_NORM` on heads, 2048 tokens | [128,48,2048] / [128,32,2048] | 793 | 2079 | 530 | 1388 |

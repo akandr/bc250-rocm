@@ -15,8 +15,8 @@ Decode, medians of three rounds of three samples with the arms interleaved insid
 | qwen3.6-35B MoE | 69.49 | 69.43 | 69.65 | 69.61 |
 | qwen3.8-27B | 14.99 | 14.94 | 15.00 | 14.98 |
 
-As ratios of the default: 0.992 to 1.002 across all twelve cells, with spreads up to 1.6 percent. **None
-of them is worth setting now**, and that is a change of result, not a confirmation.
+As ratios of the default: 0.992 to 1.002 across all twelve cells, with spreads up to 1.6 percent. None
+of them is worth setting now; for one of them that reverses the earlier result.
 
 ## The one that used to matter
 
@@ -25,7 +25,7 @@ of them is worth setting now**, and that is a change of result, not a confirmati
 four queues a quarter of the dispatches carried a 5 to 20 microsecond gap that one queue removed. The
 front page carried it as a small-model tuning note.
 
-It is now worth nothing, slightly less than nothing on the same model. The build it was measured on ran
+It now gives no gain, and on the same model a slight loss. The build it was measured on ran
 MMQ for prefill and a different matvec for decode; the 1.5B's decode has gone from 180 to 194 in the
 meantime and its dispatch mix with it. Whatever produced that gap pattern is not in the current mix. The
 front-page note has been rewritten to say so instead of deleted, because a reader who finds the old

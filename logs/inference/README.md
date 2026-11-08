@@ -19,4 +19,4 @@ Two of the conclusions drawn from these have since been retracted in the
 top-level README. The load-time failures were the allocation-reuse defect and
 are fixed by the runlist flush. The "loads hang on every boot" reading in the
 same period was a harness mistake, a newer llama.cpp CLI ignoring `-no-cnv` and
-spinning on a closed stdin; the loads had in fact completed.
+spinning on a closed stdin; the loads had completed.

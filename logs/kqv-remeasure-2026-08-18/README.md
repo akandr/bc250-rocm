@@ -20,7 +20,7 @@ The two workaround figures reproduce to four decimals, and the patch itself is
 confirmed by the restored rows: with the line back, the arm that read 4199
 reads 11.0631.
 
-The corrupted figure does not reproduce as a value, and that is the finding instead of a failure.
+The corrupted figure does not reproduce as a value, and that is itself the finding.
 Running the same arm without `GGML_CUDA_NO_VMM` gives
 624.13 instead of 4199.41, so the corrupted magnitude spans more than an order
 of magnitude across three observations (276.29 recorded earlier, 624.13 and
@@ -29,7 +29,7 @@ it were a property of the defect was misleading; what is stable is that the
 defect is catastrophic, not how catastrophic.
 
 `GGML_CUDA_NO_VMM` makes no difference to any correct arm (11.0631 either way),
-so that constant is inert for the conclusion.
+so that setting does not affect the conclusion.
 
 The Vulkan reference sits 0.17 percent from the cited value, which is a build
 difference: the original used a separate Vulkan tree and this used the current

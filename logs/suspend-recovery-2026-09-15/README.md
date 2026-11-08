@@ -16,7 +16,7 @@ The platform offers no S3. `/sys/power/state` lists `freeze mem disk`, `mem_slee
   back.
 
 Each was tried once, so this is one capture per arm, not a rate, which is enough to rule
-the path out for remote use but not to characterise it. So s2idle does not return on this board even
+the path out for remote use but not to characterise it. s2idle therefore does not return on this board even
 without the GPU driver, and whether that is the
 platform failing to wake or the Realtek NIC failing to resume cannot be told apart without a local
 console. Either way it is not usable as a remote recovery. S4 (a 16 GiB swapfile exists) would power

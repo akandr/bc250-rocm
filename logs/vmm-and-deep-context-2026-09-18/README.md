@@ -2,7 +2,7 @@
 
 The recipe builds llama.cpp with `GGML_HIP_NO_VMM=ON`. Whether that was still necessary on ROCm 7.1.1
 and kernel 7.2.5 had not been checked, and a working VMM pool would change how the backend allocates and
-possibly where deep contexts stop. So: a second build of the same tree with `GGML_HIP_NO_VMM=OFF`
+possibly where deep contexts stop. This run measures a second build of the same tree with `GGML_HIP_NO_VMM=OFF`
 (`build-hip-vmm`, `vmm-configure.log`), measured against the four-patch production build on the default
 boot, Fedora 44, kernel 7.2.5, clock 1500 MHz, `ollama` stopped. The whole sequence is `log`.
 

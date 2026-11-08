@@ -1,6 +1,6 @@
 # The rare fault, caught with the mitigation in place, 2026-09-22
 
-This repository has been chasing one fault since August. It appears about once in 200 rounds of mixed
+This repository has tracked one fault since August. It appears about once in 200 rounds of mixed
 load, and on Fedora 43 it ended two soaks by taking the host down with it. The chain was reconstructed
 afterwards from `journalctl -b -1`: a gfxhub page fault, then a queue preemption that timed out, then
 this repository's own runlist rebuild returning -62, then a GPU reset, and only then a SIGBUS as the
@@ -32,13 +32,13 @@ the chain running with the parameter in place on a current kernel. It happened h
     amdgpu 0000:01:00.0:          RW: 0x1
 
 Four faults in one second, on two adjacent pages, `0x7fb9ffffd000` and `0x7fb9ffffe000`. TCP client,
-permission code 0x5, write direction: **the same signature as the August event and as the deliberate
-fault probe**, and the same doorbell, `80004018`, that the August soak died on. One PASID, one VMID.
+permission code 0x5, write direction: the same signature as the August event and as the deliberate
+fault probe, and the same doorbell, `80004018`, that the August soak died on. One PASID, one VMID.
 
 Four seconds later the preemption fails, and where August logged `GPU reset begin` this logs
-**`GPU recovery disabled.`** The parameter did what the driver source says it does, observed against a
+`GPU recovery disabled.` The parameter did what the driver source says it does, observed against a
 real fault on a current kernel for the first time. The preemption then fails again every four seconds
-for twenty-four minutes, until the faulting process finally goes away.
+for twenty-four minutes, until the faulting process goes away.
 
 ## What survived
 
@@ -58,8 +58,8 @@ A battery run against the frozen state ([`scripts/wedge_battery.sh`](../../scrip
 | `llama-bench` on ROCm, the model Vulkan had just run | **aborts**, `ggml-cuda.cu:111: ROCm error` |
 
 Enumeration passes, execution does not, and it fails two ways: the small probes hang and the large one
-aborts cleanly. That reproduces the August reading, that the wedge is invisible to every check short of
-running something. The Vulkan row is new and it is the useful part.
+aborts cleanly. That reproduces the August reading: the wedge is invisible to every check short of
+running something. The Vulkan row is new.
 
 Each ROCm attempt provoked more of the same: the fault-line count went from 633 to 1041 across the
 battery, so the preemption loop is re-armed by every process that tries to use the compute queue rather
@@ -67,7 +67,7 @@ than being a single stuck retry.
 
 ## The wedge is confined to the compute queue
 
-**Vulkan was unaffected for the whole twenty-four minutes.** Two decode runs completed at full speed
+Vulkan was unaffected for the whole twenty-four minutes. Two decode runs completed at full speed
 while the preemption loop was still printing every four seconds, at 06:26:25 and 06:34:27 in
 [`logs/depth-thirteen-2026-09-22/`](../depth-thirteen-2026-09-22/), and the battery reproduced it
 afterwards at 212.54 t/s against the 212.4 this board measures healthy.
@@ -75,9 +75,9 @@ afterwards at 212.54 t/s against the 212.4 this board measures healthy.
 August recorded that every GPU process died, seven of them. That is not what happened here, and the
 difference is which queue the work goes to. The wedge is on one doorbell, `80004018`, belonging to a
 compute queue; ROCm has nothing else to use, while RADV routes everything through the graphics queue
-because Mesa disables the compute-only queue on this chip. The failure is therefore contained inside
-exactly the hardware path Mesa refuses to touch, which is a cleaner statement of the boundary than
-anything measured here before.
+because Mesa disables the compute-only queue on this chip. The failure is therefore contained in
+the hardware path Mesa disables, which states the boundary more precisely than anything measured here
+before.
 
 Two cautions. This is one event: whether every instance of this fault spares Vulkan is untested. And
 Vulkan being unaffected says the graphics queue keeps working, not that the fault could not have been
@@ -87,31 +87,31 @@ provoked from it.
 
 `SIGKILL` did not remove the faulting process for several minutes; it stayed in state `R`, burning a
 core and holding `/dev/kfd`, while the preemption loop continued. It went away on its own at about
-06:49, and the preemption messages stopped in the same second. So the loop is the driver retrying
-against a queue belonging to a process that cannot be torn down, and it ends when the teardown finally
+06:49, and the preemption messages stopped in the same second. The loop is therefore the driver retrying
+against a queue belonging to a process that cannot be torn down, and it ends when the teardown
 completes, not on a timeout.
 
 ## What provoked it
 
 The sweep that was running repeats qwen2.5-1.5B decode at a primed context, one `llama-bench`
 invocation per point, alternating depth 16384 and 24576. It survived two full passes and faulted about
-one second into the third, and eight hours of soak at depth 0 the same night provoked nothing at all
+one second into the third, and eight hours of soak at depth 0 the same night provoked nothing
 ([`logs/soak-thirteen-2026-09-22/`](../soak-thirteen-2026-09-22/)).
 
-**The loop was then run again and did not reproduce it.** Eight invocations on a fresh boot, including
+The loop was then run again and did not reproduce it. Eight invocations on a fresh boot, including
 the fifth, which is where it faulted before ([`logs/fault-repro-2026-09-22/`](../fault-repro-2026-09-22/)),
 and then three hours of it against a shallow control at the same duty cycle: 122 invocations at these
 two depths, 124 at depth 0, no fault line in either arm
 ([`logs/depth-soak-2026-09-22/`](../depth-soak-2026-09-22/)). That does not make the fault rarer than
-the one-in-200 it has always been, and 122 invocations of one narrow workload is a weaker test than it
-sounds, but it closes the specific hypothesis that these depths are a reproducer.
+the one-in-200 it has always been, and 122 invocations of one narrow workload is a limited test, but it
+rules out the specific hypothesis that these depths are a reproducer.
 
-**And one piece of the circumstantial case has been withdrawn.** An earlier revision of this page
+One piece of the circumstantial case has been withdrawn. An earlier revision of this page
 offered a third fact in support: that the sweep before the fault had produced two dropouts of about 28
-percent at exactly these two depths and nowhere else. Those dropouts were caught in the act during the
-repeat and they are the GPU governor throttling the shader clock from 1500 to 1000 MHz at 93 C, four
-seconds after it logs `GPU overheated, throttling`. They say the board gets hot doing this, not that
-the fault was coming.
+percent at exactly these two depths and nowhere else. Those dropouts were observed during the
+repeat: they are the GPU governor throttling the shader clock from 1500 to 1000 MHz at 93 C, four
+seconds after it logs `GPU overheated, throttling`. They show that the board gets hot under this load,
+not that the fault was imminent.
 
 One thing the timestamps cannot settle either way: the fault is logged one second after the previous
 invocation reported its result, so it belongs either to the new process starting or to the previous one

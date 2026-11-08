@@ -2,8 +2,8 @@ Are the three llama.cpp patches still needed, and do they still apply?
 
 Everything in this repository is measured at master 7ba604f (2026-08-09). The
 write-up previously claimed the patches were "still needed against current
-master", which is a claim about a moving target that nothing was checking. This
-is the check, and it should be repeated, not trusted.
+master", a claim about a moving target that nothing was checking. This is that
+check; repeat it rather than rely on it.
 
 Checked 2026-08-19 against upstream master ee4c505, 174 commits later, in a
 detached worktree so the measurement tree was untouched:
@@ -17,7 +17,7 @@ detached worktree so the measurement tree was untouched:
 All three sites are unchanged, so all three are still needed. Line numbers have
 moved by a few lines in each file, which the patches absorb.
 
-Note the non-HIP branch beside the `prop.integrated` line still carries
+The non-HIP branch beside the `prop.integrated` line still carries
 upstream's own comment about corrupted output on integrated GPUs, which is the
 precedent that patch 0001 applies to the HIP branch.
 
@@ -31,5 +31,5 @@ network to redo. What can be verified offline is consistent with it: the shipped
 patches target `ggml/src/ggml-cuda/ggml-cuda.cu`, `src/llama-graph.cpp` and
 `ggml/src/ggml-cuda/vendors/hip.h` at hunks starting on lines 302, 2608 and 229,
 against the upstream sites reported here as 305, 2627 and 232, which is the line
-drift the paragraph above describes. The page's own instruction, to repeat this, not trust it, is
-the right reading and now has a reason attached.
+drift the paragraph above describes. The missing capture is a
+further reason to repeat this check rather than rely on it.

@@ -29,7 +29,7 @@ them, because six instantiations of the same matvec are otherwise indistinguisha
 Matrix-vector work is 70 percent of it, as on the other models, but the split inside that is not what the
 model's name suggests: the q5_K attention projections are 26 percent and the IQ2/IQ3 experts 23. The
 output head is one 915 us kernel a token, 7.4 percent on its own. Every IQ instantiation here is
-unstaged, which is right: this model's codebook work all arrives through MUL_MAT_ID, the one path patch 9
+unstaged, as intended: this model's codebook work all arrives through MUL_MAT_ID, the one path patch 9
 deliberately leaves alone.
 
 ## Per op, ROCm is not behind
@@ -50,21 +50,21 @@ Vulkan. The largest, the output head, is 955 us against 921, four percent behind
 
 The sum is not a token and must not be read as one: each replayed op carries its own submission
 overhead, and the export keeps one instance of each unique op, so a shape that occurs in forty layers
-counts once. The ARGSORT row is a decoy for a second reason: the export lists graph nodes, and in the
+counts once. The ARGSORT row is misleading for a second reason: the export lists graph nodes, and in the
 real graph llama.cpp fuses the expert selection into `topk_moe_cuda`, so no argsort kernel
-appears in the trace at all.
+appears in the trace.
 
 > **Corrected 2026-09-23.** This page went on to read that sum as "ROCm is at or ahead of Vulkan on
 > every shape it contains, so no kernel is slow". That does not hold, for two reasons, and
 > [`logs/moe-kernels-reweighted-2026-09-23/`](../moe-kernels-reweighted-2026-09-23/) works both
-> through. **ROCm is faster on 30 of the 63 shapes and slower on 33**, median ratio 1.024, so "every
+> through. ROCm is faster on 30 of the 63 shapes and slower on 33, median ratio 1.024, so "every
 > shape" was never true in either direction. And the 88-microsecond margin in the sum above is
-> produced by **one artifact row**: Vulkan's `MUL_MAT shared_expert_gate-0`, a 1x1 output, replays at
+> produced by one artifact row: Vulkan's `MUL_MAT shared_expert_gate-0`, a 1x1 output, replays at
 > 131.71 us, where the real graph dispatches that shape as `MUL_MAT_VEC f32 m=1 n=1 k=2048` at 4.26 us,
 > forty times a token. Correcting that row alone turns the sum from 0.943 to 1.028 against ROCm.
-> The sign is not scattered either: splitting the replayed matmuls by what the weights are, **ROCm is
-> slower on 9 of the 10 quantised ones**, median ratio 1.078, and faster on all 3 f32 ones, median
-> 0.820. So this is the same quantised-matvec gap as the 27B's, not anything new. How many
+> The sign is not scattered either: splitting the replayed matmuls by what the weights are, ROCm is
+> slower on 9 of the 10 quantised ones, median ratio 1.078, and faster on all 3 f32 ones, median
+> 0.820. This is therefore the same quantised-matvec gap as the 27B's, not anything new. How many
 > microseconds of the deficit that is worth cannot be stated: ROCm and Vulkan do not issue the same
 > matmul dispatches here, 437.7 matvec dispatches a token against 511, because ROCm fuses the expert
 > gate/up pair that Vulkan runs separately. A kernel deficit does exist and this replay was hiding it;
@@ -78,7 +78,7 @@ appears in the trace at all.
 | qwen3.6-35B MoE | 1298 | 9.3 us | 14.2 ms | 2.31 ms, **16.3 %** |
 | qwen3.8-27B | 1745 | 39.0 us | 66 ms | 3.11 ms, **4.7 %** |
 
-The 27B issues more dispatches than the MoE and cares least, because its kernels are four times longer.
+The 27B issues more dispatches than the MoE and is least affected, because its kernels are four times longer.
 The MoE has the shortest kernels of the three and is the most exposed.
 
 That last column was an assumption when this was written, at a round one microsecond a dispatch. It has
@@ -86,22 +86,22 @@ since been measured on this board and it is 1.78 microseconds by a fit, or 2.03 
 ([`logs/dispatch-floor-2026-09-22/`](../dispatch-floor-2026-09-22/)), so the column is recomputed above
 and the MoE's share of its token comes out at 16.3 percent against a deficit of 17.2.
 
-That coincidence was read as the answer to the question this page left open, and it is not.
+That coincidence was taken as the answer to the question this page left open; it is not.
 [`logs/floor-vs-vulkan-2026-09-23/`](../floor-vs-vulkan-2026-09-23/) measured Vulkan's floor, which is
-the **larger** of the two, and counted Vulkan's dispatches, which are 1423 a token against ROCm's 1298.
+the larger of the two, and counted Vulkan's dispatches, which are 1423 a token against ROCm's 1298.
 ROCm dispatches less often and more cheaply than the backend that beats it. The 16.3 percent above also
 cannot be charged on top of the kernels: the trace on this page puts 775.832 ms of kernel time in 64
-tokens, 12.12 ms of a 13.93 ms token, so only 1.81 ms of the token is outside a kernel at all. **The
-deficit is not the dispatch floor**, and where it is remains open.
+tokens, 12.12 ms of a 13.93 ms token, so only 1.81 ms of the token is outside a kernel. The
+deficit is not the dispatch floor, and where it is remains open.
 
 ## HIP graphs do not close that gap here
 
 The same trace with `GGML_CUDA_DISABLE_GRAPHS=1` ([`trace-moe-tg-graphs-off.txt`](trace-moe-tg-graphs-off.txt)):
 the same 83060 dispatches, and the 2 to 5 us gap bin holds 199.2 ms with graphs on against 203.9 ms with
-them off. **Graph replay is not reducing the per-dispatch gap on this board at all.** Whatever that gap
-is, it is not host-side launch cost, because removing host-side launch cost is what graph replay does.
+them off. Graph replay does not reduce the per-dispatch gap on this board. The gap
+is therefore not host-side launch cost, because removing host-side launch cost is what graph replay does.
 
-Whether that costs anything end to end is a smaller and messier question, and three measurements of it
+Whether that costs anything end to end is a smaller question, and three measurements of it
 disagree, so no setting is recommended here. An interleaved A/B of three rounds read graphs-off 2.8
 percent ahead on the 1.5B, 1.8 on the MoE and 0.5 on the 27B. A second A/B of five rounds, with the arm
 order reversed on alternate rounds, read 1.9 and 2.2 percent, but with the 1.5B's rounds split three to
@@ -115,7 +115,7 @@ two, not five to nothing:
 | 4 | 0.991 | 1.016 |
 | 5 | 1.021 | 1.022 |
 
-And a whole campaign with graphs disabled ([`campaign-nograph/`](campaign-nograph/)) reads every model
+A whole campaign with graphs disabled ([`campaign-nograph/`](campaign-nograph/)) reads every model
 within 0.4 percent of the campaign with them on
 ([`logs/fedora44-campaign-iq-shmem-2026-09-20/`](../fedora44-campaign-iq-shmem-2026-09-20/)): 1.004 on
 the 1.5B, 1.002 on the MoE, 1.004 on the 27B, and 0.996 to 0.997 on the three that go the other way.
@@ -128,8 +128,8 @@ The trace finding above stands on its own and does not depend on it.
 
 ## Prefill is more than half MMQ on the experts
 
-The same tool on `-p 512 -n 0` ([`trace-moe-pp512.txt`](trace-moe-pp512.txt)). Prefill traces honestly
-where decode does not: `llama-bench` reported 339.06 t/s while being traced against 340.4 in the
+The same tool on `-p 512 -n 0` ([`trace-moe-pp512.txt`](trace-moe-pp512.txt)). Tracing does not distort prefill
+as it does decode: `llama-bench` reported 339.06 t/s while being traced against 340.4 in the
 campaign, because the kernels are large and few. 4006 dispatches, 3040 ms of kernel time:
 
 | dispatches | ms | share | avg us | kernel |
@@ -142,15 +142,15 @@ campaign, because the kernels are large and few. 4006 dispatches, 3040 ms of ker
 | 200 | 61.6 | 2.0 % | 308.2 | rocBLAS SGEMM (Tensile) |
 | 6 | 34.7 | 1.1 % | 5781.8 | MMQ, iq4_xs, expert path |
 
-**MMQ on the expert path is 56.3 percent of this model's prefill**, because patch 8's GEMM hooks
+MMQ on the expert path is 56.3 percent of this model's prefill, because patch 8's GEMM hooks
 `ggml_cuda_mul_mat` and the experts arrive through `ggml_cuda_mul_mat_id`. That is why patch 8 was worth
 only 8 percent here against 47 to 51 on the dense 14B models.
 
-Extending the GEMM to that path is the largest single item left in the project, and it is worth less
-than it first looks, for two reasons. The shape is wrong for the tile: `ffn_moe_gate` is
+Extending the GEMM to that path is the largest single remaining item, and it is worth less
+than it first appears, for two reasons. The shape is wrong for the tile: `ffn_moe_gate` is
 `iq2_xxs[2048,512,256]`, 256 experts of 512 rows, and at pp512 each expert sees about 16 of the 512
 tokens (512 tokens times 8 experts used, spread over 256 experts), 64 at pp2048. Patch 8's kernel needs
-256 tokens before a 128-wide column tile pays, which is exactly the predicate it ships with, so the
+256 tokens before a 128-wide column tile is faster, which is the predicate it ships with, so the
 expert path would need a thin-column variant instead of the existing one. And the gap to close is
 smaller here than elsewhere: replaying the pp2048 graph, ROCm's MMQ is 1.36 times Vulkan on
 `ffn_moe_gate` and 1.21 to 1.23 on the two `ffn_moe_down` shapes, where the dense shapes on the same

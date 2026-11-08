@@ -3,8 +3,8 @@
 When a deep context pushes pinned system memory past the KFD limit (13422 MiB here), the kernel returns
 `-ENOMEM` and the process dies with `segfault at 20 ... in libhsa-runtime64.so.1.18.0` instead of an
 error ([`logs/fedora44-ceilings-2026-09-16/`](../fedora44-ceilings-2026-09-16/)). That page matched the
-symptom to rocm-systems PR #2850, merged February 2026 and absent from ROCm 7.1.1, and said so was a match
-on the symptom, not a proof. This is the proof, the fix ported and tested, and the second bug it
+symptom to rocm-systems PR #2850, merged February 2026 and absent from ROCm 7.1.1, and said that it was a match
+on the symptom, not a proof. This page has the proof, the fix ported and tested, and the second bug it
 uncovers.
 
 ## The crash, named
@@ -23,7 +23,7 @@ fails at the memory limit the guard releases a null base.
 ## Reproducing it exactly
 
 `rocr_limit_probe.cpp`, which fills memory with `hipMalloc` in 512 MiB steps and then creates a stream,
-does **not** reach this path: with the stock runtime the stream still comes up (`probe-stock.log`), so
+does not reach this path: with the stock runtime the stream still comes up (`probe-stock.log`), so
 the queue's scratch is not what fails first when only plain allocations are outstanding. The September
 command does: `llama-bench -m qwen3-14b.gguf -ngl 99 -fa on -p 0 -n 64 -d 16384 -r 2`, the 14B with a
 16384-token context, which fills the context and then dies (`14b-d16384-stock.log`, exit 139, `segfault
@@ -44,7 +44,7 @@ With the patched runtime the same command no longer crashes in ROCr. Some of the
 null pointer plus eight. `eu-addr2line` on that address named `amd::ReleaseExtObjectsCommand`'s
 destructor at `command.hpp:1465`, and the first version of this page reported that; it was wrong. The
 address is the target of identical-code folding and the symbol it carries is whichever of the folded
-bodies the linker kept. A debugger with the runtime's debuginfo loaded gives the real frames
+bodies the linker kept. A debugger with the runtime's debuginfo loaded gives the actual frames
 (`relink-r1.log` to `r6.log`, six runs out of six):
 
     #0 amd::HostQueue::Thread::Release()          rocclr/platform/commandqueue.hpp:187
@@ -103,8 +103,8 @@ has the identical two lines as of this date, so unlike the first null this one i
 `0002-hip-graph-capture-null-stream.patch` returns `hipErrorOutOfMemory` there, which is what a failed
 stream creation reports elsewhere in HIP and what makes `hipGraphInstantiate` return an error llama.cpp
 can print; `build_clr_fixed3.sh` builds the library with both patches (`hiplib3`), and `clrfix3-r1.log` to
-`r3.log` are the same three-run check on it: **three runs of three end in `ggml-cuda.cu:110: ROCm error`
-and `abort()`**, the outcome the ROCr fix was for, in the configuration (gdb, installed ROCr) that had
+`r3.log` are the same three-run check on it: three runs of three end in `ggml-cuda.cu:110: ROCm error`
+and `abort()`, the outcome the ROCr fix was for, in the configuration (gdb, installed ROCr) that had
 faulted six times of six. Two null checks, one already upstream and one not, and the crash at the
 memory limit is a reported error on this board.
 

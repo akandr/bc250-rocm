@@ -7,9 +7,9 @@ stopped.
 
 ROCm prefilled far behind Vulkan at this point, the qwen3-8B at 198.2 tokens/s against 367.5 at
 pp2048 with flash attention on ([`../flash-attention-tradeoff-2026-09-17/`](../flash-attention-tradeoff-2026-09-17/)),
-and until now nothing said which operation carried that. The replay below uses the qwen2.5-1.5B's
+and no measurement had yet shown which operation carried that. The replay below uses the qwen2.5-1.5B's
 graph. `test-export-graph-ops` writes out the real graph of a pp2048 prefill (no
-weights needed), and `test-backend-ops perf --test-file` replays exactly those shapes on each
+weights needed), and `test-backend-ops perf --test-file` replays those shapes on each
 backend, so the two are compared on what the model runs, not on a synthetic grid. Both
 backends run inside one pass and the pass is repeated. Exported twice, once with `-fa off` and once
 with `-fa on`, because the two configurations run different graphs.
@@ -23,7 +23,7 @@ with `-fa on`, because the two configurations run different graphs.
 
 Summed over the prefill shapes, excluding the output head (llama.cpp computes logits only for the
 last token, so the graph's full-batch `[151936,2048]` case is not work a real prefill does), HIP
-spends 89.2 ms against Vulkan's 51.2 ms, a ratio of **1.74**, so within the graph the whole deficit is
+spends 89.2 ms against Vulkan's 51.2 ms, a ratio of 1.74, so within the graph the whole deficit is
 in the matmuls. An earlier revision set this against an end-to-end ratio of 367/197 = 1.86 and called
 the two in agreement, but those are the qwen3-8B's figures with `-fa on`, not this graph's, and no
 end-to-end `-fa off` pair for the 1.5B was taken that day. The op-level result stands without an
@@ -42,7 +42,7 @@ Both the quantized path and the f16 attention path are slow, so this is not one 
 | `q6_K[1536,256] x f32[1536,2048]` | 824 | 455 | 1.81 |
 | `q4_K[1536,256] x f32[1536,2048]` | 756 | 413 | 1.83 |
 
-The ROCm side wins on the memory-bound elementwise work, by a wide margin on the broadcast shapes:
+The ROCm side is faster on the memory-bound elementwise work, by a wide margin on the broadcast shapes:
 `ADD[1536,2048] + f32[1536,1]` 92.9 against 210.9 us and the matching `MUL` 92.8 against 210.7, both
 0.44; `ADD[256,2048]` 0.49; `GET_ROWS` and the large `ADD` 0.75. `SWIGLU`, `SET_ROWS` and the large
 `SOFT_MAX` are within a few percent either way. `ROPE` (1.64) and `RMS_NORM` (1.29) go the other way,
@@ -50,7 +50,7 @@ but they are 199 and 126 us against matmuls of 20000.
 
 ## Result with `-fa on`: the flash-attention kernel is seven times slower
 
-This is the larger finding, and it is specific to batched flash attention.
+This is the larger effect, and it is specific to batched flash attention.
 
 | shape | HIP us | Vulkan us | ratio |
 |---|---|---|---|
@@ -63,11 +63,11 @@ decode-shaped case is at parity, so this is the batched kernel and not flash att
 
 It is also worse than ROCm's own non-flash path: the KQ and KQV matmuls it replaces total 16.3 ms
 with `-fa off`, so turning flash attention on costs ROCm seven times what it saves. On Vulkan the
-same switch goes from 10.2 ms to 16.3 ms, a mild loss. That is the kernel-level cause of the trade
+same switch goes from 10.2 ms to 16.3 ms, a mild loss. That is the kernel-level cause of the trade-off
 this repository already measured end to end in
 [`logs/flash-attention-tradeoff-2026-09-17/`](../flash-attention-tradeoff-2026-09-17/), where ROCm
 prefill is much faster with `-fa off` while decode is much faster with `-fa on`. The decode side of
-that trade is not explained by these numbers, since decode-shaped flash attention is at parity here.
+that trade-off is not explained by these numbers, since decode-shaped flash attention is at parity here.
 
 The `-fa on` matmul picture is unchanged: median 1.80 over 7 cases, 0.75 for the rest.
 
@@ -85,7 +85,7 @@ with the micro-batch. It does not. One graph export per micro-batch, same KV len
 | 2048 | 114664 | 16249 | 7.06 | 56.0 | 7.9 |
 
 Both backends scale linearly and ROCm's cost per token is flat, if anything falling slightly with
-batch. The kernel is uniformly about seven times slower instead of falling off a cliff at some
+batch. The kernel is uniformly about seven times slower, with no sharp drop at any
 tile size.
 
 ### And it is not the wrong tile table either
@@ -100,7 +100,7 @@ AMD table instead, on both the host and the device side (`fa-tile-config-ab.log`
 | RDNA table (production) | 114674 us | 114533 us |
 | generic AMD table | 111329 us | 111267 us |
 
-**2.9 percent, reproducible, and nowhere near seven times.** The tile table is not the cause, so this
+2.9 percent, reproducible, and far from seven times. The tile table is not the cause, so this
 is not a configuration that can be corrected by routing gfx1013 elsewhere in the existing tables.
 The source change was reverted. What does make the HIP tile kernel slow here is still open.
 
@@ -136,19 +136,19 @@ they were separated on 18 September with [`hgemm_attn.cpp`](hgemm_attn.cpp), whi
 strided-batched fp16 GEMM the KQ op needs, twelve heads at m=4096, n=2048, k=128, straight to rocBLAS
 (`hgemm-attn.log`). With f32 accumulation, which is what the KQV-precision patch asks for, the library
 call alone takes 7.29 ms of the 8.09 ms op: rocBLAS is 90 percent of the KQ time, at 3.5 TFLOP/s,
-against Vulkan's 4.40 ms for the whole op. With f16 accumulation it is 5.54 ms. So the f16 half of the
-`-fa off` gap is Tensile throughput at these shapes, not llama.cpp's surrounding work. The KQV shape
-does not compare cleanly: issued plainly it takes 8.63 ms, longer than llama.cpp's whole 8.21 ms op, so
+against Vulkan's 4.40 ms for the whole op. With f16 accumulation it is 5.54 ms. The f16 half of the
+`-fa off` gap is therefore Tensile throughput at these shapes, not llama.cpp's surrounding work. The KQV shape
+does not compare cleanly: issued directly it takes 8.63 ms, longer than llama.cpp's whole 8.21 ms op, so
 llama.cpp issues that one in a different layout. Since the flash-attention fix made `-fa on` the faster
 prefill setting, this path matters less than it did when these numbers were first taken.
 
 The flash-attention half was resolved the same evening: the kernel spills 569 registers on RDNA1
 and a retuned tile configuration recovers most of it
 ([`logs/rdna1-fattn-spill-2026-09-17/`](../rdna1-fattn-spill-2026-09-17/)). The same register
-check was then pointed at the quantized matmul kernels, and they do not spill: MMQ sits at 242
+check was then applied to the quantized matmul kernels, and they do not spill: MMQ sits at 242
 VGPRs on gfx1013 against 233 on gfx1030 with no scratch on either, and MMVQ at 30 to 125 with
 occupancy 8 to 20. Vulkan on this board has no hardware help either, since RADV reports every
 `integerDotProduct*Accelerated` property false and `llama-bench` prints `matrix cores: none`, `int
-dot: 0`; its q4_K matvec shader unpacks nibbles and runs float `fma` chains. So the 1.7 to 2.0x on
-quantized matmuls is a difference of kernel formulation between the two backends, HIP's emulated
+dot: 0`; its q4_K matvec shader unpacks nibbles and runs float `fma` chains. The 1.7 to 2.0x on
+quantized matmuls is therefore a difference of kernel formulation between the two backends, HIP's emulated
 int8 dot product against Vulkan's float arithmetic, and not something a configuration table fixes.

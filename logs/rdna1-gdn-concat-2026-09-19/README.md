@@ -3,7 +3,7 @@
 Experiment G ([`logs/rdna1-mmvq-2026-09-18/`](../rdna1-mmvq-2026-09-18/)) ended with two prefill ops on the
 Qwen3.5-family hybrids, the qwen3.6-35B MoE and the qwen3.8-27B, that stood out per op: `GATED_DELTA_NET`
 at 2048 tokens 3.4 to 4.6 times slower than Vulkan's, and the `CONCAT` that builds the causal conv's
-input slow on both backends. This directory is both, measured on the board and fixed.
+input slow on both backends. This directory measures both on the board and fixes them.
 
 ## The gated delta net: lanes per column
 
@@ -47,7 +47,7 @@ occupancy at 139 registers costs less than the halving of the wave count gains. 
 one-column-per-wave form is the fastest on both, since a single iteration is all there is and the wider
 reductions are cheap next to the launch. The patch therefore keeps 32 lanes at one token and uses 8
 above it, which is Vulkan's choice and within 1.4 times of it on the 27B; the MoE's extra gain from 4
-lanes is 30 layers times 2 ms, under one percent of its pp2048, and is left on the table instead of
+lanes is 30 layers times 2 ms, under one percent of its pp2048, and is not taken, to avoid
 adding a head-count rule from two data points.
 
 ## The concat with a transposed source
@@ -85,7 +85,7 @@ against the experiment build with 8 lanes and the concat path (`log`):
 | qwen3.6-35B MoE | tg64 | 67.5 / 66.9 | 66.8 / 67.4 | unchanged |
 
 The 27B's pp2048 readings carry 2 to 4 percent spreads within a run on both builds, which is the board
-warming through the three repetitions of a 30-second prefill; its pp512 gain is the clean figure. The
+warming through the three repetitions of a 30-second prefill; its pp512 gain is the reliable figure. The
 27B's greedy text is identical token for token between the builds (`text-27b-*.txt`).
 
 ## The final form
@@ -103,10 +103,10 @@ and tg64 in one invocation each, three repetitions, two passes:
 The MoE's perplexity over three 2048-token chunks (`wiki.test.raw`, `-c 2048`) is where the two changes
 separate. The reference build reads 6.7545; the final build 6.7804; the final build with
 `GGML_GDN_LANES=0`, that is the upstream lane geometry and only the concat path active, 6.7545 again, to
-the digit. So the concat is the exact copy it should be and the 0.4 percent belongs to the gated delta
+the digit. The concat is therefore an exact copy, and the 0.4 percent comes from the gated delta
 net's changed reduction order, four partial sums of sixteen instead of one of thirty-two, compounding
 through a 2048-step recurrence. Vulkan, which runs the same op with 8 lanes, reads 6.8171 on the same
-text, 0.9 percent above both HIP builds; the three sit within one percent of each other, which is where
-the flash-attention patch's reorderings landed too. The tg64 readings of the MoE carry 4 to 6 percent
+text, 0.9 percent above both HIP builds; the three sit within one percent of each other, as the
+flash-attention patch's reorderings did too. The tg64 readings of the MoE carry 4 to 6 percent
 spreads here because each follows a pp512 in the same invocation, the artefact the campaign script
 avoids; the campaign's own figure for this build is on the front page.

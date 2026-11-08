@@ -1,5 +1,5 @@
-The native gfx1013 rocBLAS was destroyed and then reconstructed. Recorded because
-the recovery route is useful to know and the mistake is worth not repeating.
+The native gfx1013 rocBLAS was destroyed and then reconstructed. Recorded for
+the recovery route, and so that the mistake is not repeated.
 
 **What happened.** Preparing to rebuild rocBLAS to test whether the fp16 defect
 is systematic in a gfx1013 Tensile build, the existing `build` directory was
@@ -24,7 +24,7 @@ elsewhere, so the reconstruction can be checked against them. The reconstruction
 is installed at the canonical path and `restored-state.txt` records its size, md5
 and file count.
 
-This paragraph also gave the 8B f16 arm as 15.4864, "inside the defect's usual
+An earlier version of this paragraph also gave the 8B f16 arm as 15.4864, "inside the defect's usual
 range". That reading exists in no captured file anywhere, here or elsewhere, so
 it has been dropped, not kept as a bare assertion. It is plausible, since
 the range on record for that arm is 14.7398 to 21.4429
@@ -33,7 +33,7 @@ value moves by half is not evidence of an exact reconstruction in any case. The
 two f32 gates are, and they are what the claim now rests on.
 
 **Two lessons.** A symlink is not a backup, and a build system that writes to a
-fixed relative path will follow one. And the accident surfaced something else:
+fixed relative path will follow one. The accident also exposed something else:
 the only reason the Tensile kernels survived is that a wheel believed to be
 pristine had them grafted in, which is itself a correction to a figure this
 repository had published (see `../torch-probe-2026-08-19/`).
